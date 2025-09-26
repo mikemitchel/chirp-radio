@@ -1,6 +1,6 @@
-import '../frontend/src/app/[lang]/index.css';
-import '../frontend/src/app/[lang]/style-guide.css';
-import '../frontend/src/app/[lang]/accessibility.css';
+import '../src/app/index.css';
+import '../src/app/style-guide.css';
+import '../src/app/accessibility.css';
 
 const withTheme = (Story, context) => {
   if (typeof document !== 'undefined') {
