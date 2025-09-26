@@ -1,0 +1,29 @@
+/* CrProfileEditForm.css */
+
+/* Component uses global form classes from index.css */
+
+/* Image Cropper Integration - component-specific overrides only */
+.cr-image-cropper {
+  width: 100%;
+}
+
+/* Override CrImageCropper titles for profile context */
+.cr-image-cropper .cr-image-cropper__title {
+  display: none; /* Hide the main title since we have our own label */
+}
+
+.cr-image-cropper .cr-image-cropper__subtitle {
+  font: var(--cr-nav-support);
+  font-weight: 500;
+  color: var(--cr-ink);
+  margin-bottom: var(--cr-space-2);
+}
+
+/* Adjust image cropper spacing in profile context */
+.cr-image-cropper .cr-image-cropper__images {
+  margin-bottom: var(--cr-space-4);
+}
+
+.cr-image-cropper .cr-image-cropper__upload-section {
+  margin-top: var(--cr-space-4);
+}

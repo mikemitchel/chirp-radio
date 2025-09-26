@@ -1,0 +1,32 @@
+/* CrMobileHeader.css */
+
+.cr-mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--cr-space-6) var(--cr-space-6) var(--cr-space-4);
+  position: relative;
+  z-index: 3;
+  background-color: var(--cr-paper);
+}
+
+.cr-mobile-header__logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 60px;
+  width: auto;
+}
+
+.cr-mobile-header__logo-image {
+  height: 60px;
+  width: auto;
+}
+
+.cr-mobile-header__page-title {
+  font: var(--cr-nav1);
+  color: var(--cr-ink);
+  text-align: center;
+  flex: 1;
+}

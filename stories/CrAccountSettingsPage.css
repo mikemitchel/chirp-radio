@@ -1,0 +1,200 @@
+/* CrAccountSettingsPage.css */
+
+.cr-account-settings-page {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--cr-paper);
+  color: var(--cr-ink);
+  font-family: var(--cr-font-source-sans);
+}
+
+.cr-account-settings-page__content {
+  max-width: 100%;
+  padding: var(--cr-space-4);
+  margin: 0 auto;
+}
+
+/* Header */
+.cr-account-settings-page__title {
+  font: var(--cr-title-lg);
+  color: var(--cr-ink);
+  margin: 0 0 var(--cr-space-6) 0;
+  font-weight: bold;
+}
+
+/* Settings Section */
+.cr-account-settings-page__settings {
+  margin-bottom: var(--cr-space-8);
+}
+
+.cr-account-settings-page__setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--cr-space-4) 0;
+  border-bottom: 1px solid var(--cr-default-200);
+}
+
+.cr-account-settings-page__setting:first-child {
+  padding-top: 0;
+}
+
+.cr-account-settings-page__setting-info {
+  display: flex;
+  align-items: baseline;
+  gap: var(--cr-space-1);
+}
+
+.cr-account-settings-page__setting-label {
+  font: var(--cr-body-bold);
+  color: var(--cr-ink);
+  font-weight: bold;
+}
+
+.cr-account-settings-page__setting-unit {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+}
+
+.cr-account-settings-page__setting-control {
+  display: flex;
+  align-items: center;
+}
+
+/* Account Section */
+.cr-account-settings-page__account-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--cr-space-4) 0;
+  border-bottom: 1px solid var(--cr-default-200);
+  margin-bottom: var(--cr-space-6);
+}
+
+.cr-account-settings-page__account-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-1);
+}
+
+.cr-account-settings-page__account-label {
+  font: var(--cr-body-bold);
+  color: var(--cr-ink);
+  font-weight: bold;
+}
+
+.cr-account-settings-page__user-email {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+}
+
+.cr-account-settings-page__account-action {
+  flex-shrink: 0;
+}
+
+/* Sign Up Section */
+.cr-account-settings-page__signup-section {
+  margin-bottom: var(--cr-space-8);
+}
+
+.cr-account-settings-page__signup-title {
+  font: var(--cr-body-bold);
+  color: var(--cr-ink);
+  margin: 0 0 var(--cr-space-4) 0;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.cr-account-settings-page__signup-description,
+.cr-account-settings-page__signup-cta {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  line-height: 1.4;
+  margin: 0 0 var(--cr-space-4) 0;
+}
+
+.cr-account-settings-page__signup-benefits {
+  list-style: disc;
+  padding-left: var(--cr-space-5);
+  margin: 0 0 var(--cr-space-4) 0;
+}
+
+.cr-account-settings-page__signup-benefits li {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  line-height: 1.4;
+  margin-bottom: var(--cr-space-2);
+}
+
+.cr-account-settings-page__signup-benefits li:last-child {
+  margin-bottom: 0;
+}
+
+/* App Section */
+.cr-account-settings-page__app-section {
+  margin-bottom: var(--cr-space-8);
+  padding-top: var(--cr-space-6);
+  border-top: 1px solid var(--cr-default-200);
+}
+
+.cr-account-settings-page__app-title {
+  font: var(--cr-body-bold);
+  color: var(--cr-ink);
+  margin: 0 0 var(--cr-space-4) 0;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.cr-account-settings-page__app-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cr-space-3);
+  align-items: flex-start;
+}
+
+/* Footer Links */
+.cr-account-settings-page__footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-2);
+  padding-top: var(--cr-space-6);
+  border-top: 1px solid var(--cr-default-200);
+  align-items: flex-start;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .cr-account-settings-page__content {
+    padding: var(--cr-space-3);
+  }
+
+  .cr-account-settings-page__setting {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--cr-space-3);
+  }
+
+  .cr-account-settings-page__setting-control {
+    align-self: flex-end;
+  }
+
+  .cr-account-settings-page__account-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--cr-space-3);
+  }
+
+  .cr-account-settings-page__account-action {
+    align-self: flex-end;
+  }
+
+  .cr-account-settings-page__app-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cr-account-settings-page__app-actions .cr-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

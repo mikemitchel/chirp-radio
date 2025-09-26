@@ -1,0 +1,85 @@
+/* CrBreadcrumb.css */
+
+.cr-breadcrumb {
+  width: 100%;
+}
+
+.cr-breadcrumb__content {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-1); /* 4px gap */
+}
+
+/* Logo styling */
+.cr-breadcrumb__logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cr-breadcrumb__logo .cr-logo {
+  width: auto;
+  height: 26px; /* Small logo for breadcrumb */
+}
+
+/* Items container */
+.cr-breadcrumb__items {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2); /* 8px gap between items and separators */
+  flex-wrap: wrap;
+}
+
+/* Individual breadcrumb item */
+.cr-breadcrumb__item {
+  display: flex;
+  align-items: center;
+}
+
+/* Clickable breadcrumb links */
+.cr-breadcrumb__link {
+  font: var(--cr-nav-support); /* Changed to nav-support: 500 14px/1 Roboto */
+  color: var(--cr-secondary-700); /* Blue link color */
+  text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  line-height: 1.5;
+}
+
+.cr-breadcrumb__link:hover {
+  color: var(--cr-secondary-500); /* Lighter blue on hover */
+}
+
+/* Current page (non-clickable) */
+.cr-breadcrumb__current {
+  font: var(--cr-nav-support); /* Changed to nav-support: 500 14px/1 Roboto */
+  color: var(--cr-ink); /* Default text color */
+  line-height: 1.5;
+}
+
+/* Separator */
+.cr-breadcrumb__separator {
+  font: var(--cr-nav-support); /* Changed to nav-support */
+  color: var(--cr-default-700); /* Muted separator color */
+  line-height: 1.5;
+  padding: 0 var(--cr-space-1); /* Small padding around separator */
+  user-select: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .cr-breadcrumb__content {
+    gap: var(--cr-space-1);
+  }
+  
+  .cr-breadcrumb__items {
+    gap: var(--cr-space-1);
+  }
+  
+  .cr-breadcrumb__logo .cr-logo {
+    height: 20px; /* Smaller logo on mobile */
+  }
+}

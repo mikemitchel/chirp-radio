@@ -1,0 +1,55 @@
+/* CrTopBanner.css */
+.cr-top-banner {
+  background-color: var(--cr-paper);
+  border-bottom: 1px solid var(--cr-border);
+  padding: var(--cr-space-1) var(--cr-space-6); /* 4px 24px - matches Figma spacing */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cr-space-1); /* Small gap for flex wrapping */
+  flex-wrap: wrap;
+  min-height: 40px; /* Ensure consistent height */
+  box-sizing: border-box;
+}
+
+.cr-top-banner__left {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2); /* 8px gap - matches Figma */
+  flex-shrink: 0;
+}
+
+.cr-top-banner__right {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-3); /* 12px gap - matches Figma */
+  flex-shrink: 1;
+  min-width: 0; /* Allow content to shrink/truncate */
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .cr-top-banner {
+    padding: var(--cr-space-1) var(--cr-space-4); /* Reduce horizontal padding */
+    gap: var(--cr-space-2);
+  }
+  
+  .cr-top-banner__left,
+  .cr-top-banner__right {
+    gap: var(--cr-space-2); /* Tighter gaps on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .cr-top-banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--cr-space-2);
+    min-height: auto;
+  }
+  
+  .cr-top-banner__left,
+  .cr-top-banner__right {
+    justify-content: center;
+  }
+}

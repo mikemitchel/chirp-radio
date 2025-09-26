@@ -1,0 +1,50 @@
+/* CrPageHeader.css */
+
+.cr-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-2);
+  margin-bottom: var(--cr-space-6);
+  width: 100%;
+}
+
+.cr-page-header__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-2);
+}
+
+.cr-page-header__eyebrow {
+  font: var(--cr-title-eyebrow);
+  color: var(--cr-ink);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.cr-page-header__title {
+  font: var(--cr-title-2xl);
+  color: var(--cr-ink);
+  margin: 0;
+  letter-spacing: -0.05em;
+}
+
+.cr-page-header__action {
+    align-self: center;
+}
+
+/* Header layout for larger screens */
+@media (min-width: 768px) {
+  .cr-page-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .cr-page-header__text {
+    flex: 1;
+  }
+  
+  .cr-page-header__action {
+    align-self: center;
+  }
+}

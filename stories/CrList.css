@@ -1,0 +1,16 @@
+/* CrList.css */
+
+.cr-rating-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--cr-space-2);
+  overflow: hidden;
+  background-color: var(--cr-paper);
+  border: 1px solid var(--cr-default-300);
+}
+
+.cr-rating-card__list {
+  padding: var(--cr-space-4) var(--cr-space-4);
+  display: flex;
+  flex-direction: column;
+}

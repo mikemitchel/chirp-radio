@@ -1,0 +1,46 @@
+/* CrDonateAmount.css - Streamlined */
+
+.cr-donate-amount__title {
+  font: var(--cr-title-md);
+  margin-bottom: var(--cr-space-4);
+}
+
+.cr-donate-amount__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5vw, 1fr));
+  gap: var(--cr-space-2);
+  margin-bottom: var(--cr-space-4);
+}
+
+/* Other amount section - below the grid */
+.cr-donate-amount__other-section {
+  margin-top: var(--cr-space-4);
+}
+
+.cr-donate-amount__label {
+  display: block;
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  margin-bottom: var(--cr-space-2);
+}
+
+.cr-donate-amount__custom-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-1);
+  width: 50%;
+}
+
+.cr-donate-amount__dollar-sign {
+  font: var(--cr-btn-text-md);
+  color: var(--cr-ink);
+}
+
+.cr-donate-amount__custom-input {
+  border: none;
+  background: transparent;
+  font: var(--cr-btn-text-md);
+  color: var(--cr-ink);
+  flex: 1;
+  padding: 0;
+}

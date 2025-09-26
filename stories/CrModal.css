@@ -1,0 +1,246 @@
+/* CrModal.css */
+
+/* Modal container - removed backdrop styles since CrScrim handles that */
+.cr-modal {
+  border-radius: var(--cr-space-2);
+  border: 1px solid var(--cr-default-300);
+  box-shadow: 
+    0px 10px 10px 0px rgba(0, 0, 0, 0.22),
+    0px 14px 28px 0px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalSlideIn 0.2s ease-out forwards;
+  transform-origin: center;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Modal sizes */
+.cr-modal--small {
+  max-width: 400px;
+}
+
+.cr-modal--large {
+  max-width: 720px;
+}
+
+/* Header section - add bottom margin for proper spacing */
+.cr-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: var(--cr-space-6) var(--cr-space-6) 0 var(--cr-space-6);
+  margin-bottom: var(--cr-space-8); /* 32px spacing to content */
+  gap: var(--cr-space-6);
+}
+
+.cr-modal__header-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cr-space-6);
+  flex: 1;
+  min-width: 0;
+  min-height: var(--cr-space-11);
+  padding: var(--cr-space-4) 0;
+}
+
+.cr-modal__title-section {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.cr-modal__title {
+  font: var(--cr-title-lg);
+  color: var(--cr-ink);
+  margin: 0;
+  text-transform: capitalize;
+  line-height: 1;
+}
+
+.cr-modal__dj-info {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+/* Close button container - updated for CrMenuButton */
+.cr-modal__close {
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* CrMenuButton close button styling overrides */
+.cr-modal__close-button {
+  /* Custom styling for modal close button */
+  color: var(--cr-default-500) !important;
+}
+
+.cr-modal__close-button:hover:not(:disabled) {
+  color: var(--cr-ink) !important;
+}
+
+.cr-modal__close-button .cr-menu-button__icon {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  transition: background-color 0.2s ease;
+}
+
+.cr-modal__close-button:hover:not(:disabled) .cr-menu-button__icon {
+  background-color: var(--cr-default-200) !important;
+}
+
+.cr-modal__close-button .cr-menu-button__icon svg {
+  width: var(--cr-space-6) !important;
+  height: var(--cr-space-6) !important;
+  color: inherit;
+}
+
+/* Content area - keep padding-top at 0 since header handles spacing */
+.cr-modal__content {
+  padding: var(--cr-space-6);
+  padding-top: 0;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Form styles - using CSS variables only */
+.cr-modal .cr-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-6);
+}
+
+.cr-modal .cr-modal-form__description {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.cr-modal .cr-modal-form__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-xs);
+}
+
+.cr-modal .cr-modal-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--cr-space-4);
+}
+
+.cr-modal .cr-modal-form__actions--two-buttons {
+  justify-content: space-between;
+}
+
+/* Form field styles - inherit from index.css and use variables */
+.cr-modal .form-group {
+  margin-bottom: var(--cr-space-4);
+}
+
+.cr-modal .form-label {
+  display: block;
+  margin-bottom: var(--cr-space-3);
+  font: var(--cr-nav-support);
+  font-weight: 500;
+  color: var(--cr-ink);
+}
+
+.cr-modal .form-input,
+.cr-modal .form-textarea {
+  width: 100%;
+  padding: var(--cr-space-3) var(--cr-space-4);
+  border: 1px solid var(--cr-default-300);
+  border-radius: var(--cr-space-2);
+  font: var(--cr-body-reg);
+  background-color: var(--cr-paper);
+  color: var(--cr-ink);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cr-modal .form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.cr-modal .form-input:focus,
+.cr-modal .form-textarea:focus {
+  outline: none;
+  border-color: var(--cr-primary-500);
+  box-shadow: 0 0 0 3px var(--cr-primary-100);
+}
+
+/* Background-specific styles */
+.cr-modal.cr-bg-textured {
+  background-color: var(--cr-paper);
+  color: var(--cr-ink);
+}
+
+.cr-modal.cr-bg-natural-d100 {
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+  background-repeat: repeat;
+  background-blend-mode: multiply;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .cr-modal {
+  background-color: var(--cr-default-900);
+  border-color: var(--cr-default-700);
+  color: var(--cr-paper);
+}
+
+[data-theme="dark"] .cr-modal.cr-bg-natural-d100 {
+  background-image: none; /* Remove texture in dark mode for better readability */
+}
+
+[data-theme="dark"] .cr-modal__title {
+  color: var(--cr-paper);
+}
+
+[data-theme="dark"] .cr-modal .form-input,
+[data-theme="dark"] .cr-modal .form-textarea {
+  background-color: var(--cr-default-800);
+  border-color: var(--cr-default-600);
+  color: var(--cr-paper);
+}
+
+[data-theme="dark"] .cr-modal .form-label {
+  color: var(--cr-paper);
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .cr-modal {
+    max-width: calc(100vw - var(--cr-space-8));
+    max-height: calc(100vh - var(--cr-space-8));
+  }
+  
+  .cr-modal__header {
+    padding: var(--cr-space-4) var(--cr-space-4) 0 var(--cr-space-4);
+    margin-bottom: var(--cr-space-6);
+  }
+  
+  .cr-modal__content {
+    padding: var(--cr-space-4);
+    padding-top: 0;
+  }
+}

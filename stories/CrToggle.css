@@ -1,0 +1,136 @@
+/* CrToggle.css */
+
+.cr-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cr-space-2);
+}
+
+.cr-toggle__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.cr-toggle__track {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  background-color: var(--cr-default-300);
+  border-radius: 100px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.cr-toggle__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background-color: var(--cr-paper);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Size variants */
+.cr-toggle--small .cr-toggle__track {
+  width: 36px;
+  height: 20px;
+}
+
+.cr-toggle--small .cr-toggle__thumb {
+  width: 16px;
+  height: 16px;
+}
+
+.cr-toggle--medium .cr-toggle__track {
+  width: 44px;
+  height: 24px;
+}
+
+.cr-toggle--medium .cr-toggle__thumb {
+  width: 20px;
+  height: 20px;
+}
+
+.cr-toggle--large .cr-toggle__track {
+  width: 52px;
+  height: 28px;
+}
+
+.cr-toggle--large .cr-toggle__thumb {
+  width: 24px;
+  height: 24px;
+}
+
+/* Labels for all variants */
+.cr-toggle__label {
+  font: var(--cr-nav2);
+  color: var(--cr-default-500);
+  transition: color 0.2s ease;
+  user-select: none;
+}
+
+/* Boolean variant - highlight active label based on checked state */
+.cr-toggle--boolean.cr-toggle--checked .cr-toggle__label--right {
+  color: var(--cr-ink);
+  font-weight: 600;
+}
+
+.cr-toggle--boolean:not(.cr-toggle--checked) .cr-toggle__label--left {
+  color: var(--cr-ink);
+  font-weight: 600;
+}
+
+/* Selection variant - highlight active label based on checked state */
+.cr-toggle--selection.cr-toggle--checked .cr-toggle__label--left {
+  color: var(--cr-ink);
+  font-weight: 600;
+}
+
+.cr-toggle--selection:not(.cr-toggle--checked) .cr-toggle__label--right {
+  color: var(--cr-ink);
+  font-weight: 600;
+}
+
+/* Checked state - different behavior based on variant */
+.cr-toggle--boolean.cr-toggle--checked .cr-toggle__track {
+  background-color: var(--cr-support-success-fg);
+}
+
+.cr-toggle--selection.cr-toggle--checked .cr-toggle__track {
+  background-color: var(--cr-default-300); /* Same as unchecked, just thumb moves */
+}
+
+.cr-toggle--small.cr-toggle--checked .cr-toggle__thumb {
+  transform: translateX(16px);
+}
+
+.cr-toggle--medium.cr-toggle--checked .cr-toggle__thumb {
+  transform: translateX(20px);
+}
+
+.cr-toggle--large.cr-toggle--checked .cr-toggle__thumb {
+  transform: translateX(24px);
+}
+
+/* Disabled state */
+.cr-toggle--disabled .cr-toggle__track {
+  cursor: not-allowed;
+  background-color: var(--cr-default-100);
+}
+
+.cr-toggle--boolean.cr-toggle--disabled.cr-toggle--checked .cr-toggle__track {
+  background-color: var(--cr-default-300);
+}
+
+.cr-toggle--selection.cr-toggle--disabled .cr-toggle__track {
+  background-color: var(--cr-default-100);
+}
+
+.cr-toggle--disabled .cr-toggle__label {
+  color: var(--cr-default-400);
+}

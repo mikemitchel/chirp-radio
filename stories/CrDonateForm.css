@@ -1,0 +1,156 @@
+/* CrDonateForm.css */
+
+.cr-donate-form {
+  width: 100%;
+  max-width: 800px;
+  background: var(--cr-paper);
+  color: var(--cr-ink);
+}
+
+.cr-donate-form__description {
+  margin-bottom: var(--cr-space-8);
+}
+
+.cr-donate-form__description p {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.cr-donate-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-8);
+}
+
+.cr-donate-form__section {
+  width: 100%;
+}
+
+/* DEDICATION CHECKBOX - CENTERED */
+.cr-donate-form__dedication {
+  margin: var(--cr-space-4) 0;
+}
+
+.cr-donate-form__dedication .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-3);
+  margin-bottom: 0;
+}
+
+/* SUBMIT SECTION */
+.cr-donate-form__submit {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--cr-space-4);
+}
+
+/* SECTION TITLES */
+.cr-donate-form__section-title {
+  font: var(--cr-title-lg);
+  color: var(--cr-ink);
+  margin-bottom: var(--cr-space-3);
+}
+
+.cr-donate-form__section-title-large {
+  font: var(--cr-title-2xl);
+  color: var(--cr-ink);
+  margin-bottom: var(--cr-space-3);
+}
+
+/* ADDITIONAL SECTIONS */
+.cr-donate-form__company-matching,
+.cr-donate-form__vinyl-circle,
+.cr-donate-form__switch-section {
+  margin-top: var(--cr-space-10);
+  padding-top: var(--cr-space-6);
+  border-top: 1px solid var(--cr-default-300);
+}
+
+.cr-donate-form__section-description {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  line-height: 1.5;
+  margin-bottom: var(--cr-space-4);
+}
+
+.cr-donate-form__section-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* EMPLOYER CHECK SECTION - CENTERED */
+.cr-donate-form__employer-check {
+  margin-top: var(--cr-space-4);
+}
+
+.cr-donate-form__employer-input-group {
+  display: flex;
+  gap: var(--cr-space-3);
+  align-items: center;
+  margin-top: var(--cr-space-3);
+}
+
+.cr-donate-form__employer-input-group .form-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.cr-donate-form__employer-input-group .cr-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .cr-donate-form {
+    padding: var(--cr-space-4);
+  }
+  
+  .cr-donate-form__form {
+    gap: var(--cr-space-6);
+  }
+  
+  .cr-donate-form__submit {
+    justify-content: stretch;
+  }
+  
+  .cr-donate-form__submit .cr-btn {
+    width: 100%;
+  }
+  
+  .cr-donate-form__section-action {
+    justify-content: stretch;
+  }
+  
+  .cr-donate-form__section-action .cr-btn {
+    width: 100%;
+  }
+  
+  .cr-donate-form__employer-input-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .cr-donate-form__employer-input-group .cr-btn {
+    width: 100%;
+  }
+  
+  .cr-donate-form__company-matching,
+  .cr-donate-form__vinyl-circle,
+  .cr-donate-form__switch-section {
+    margin-top: var(--cr-space-8);
+    padding-top: var(--cr-space-4);
+  }
+}
+
+@media (prefers-contrast: high) {
+  .cr-donate-form__company-matching,
+  .cr-donate-form__vinyl-circle,
+  .cr-donate-form__switch-section {
+    border-top-width: 2px;
+    border-color: currentColor;
+  }
+}

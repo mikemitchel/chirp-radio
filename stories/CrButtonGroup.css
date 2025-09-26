@@ -1,0 +1,59 @@
+/* CrButtonGroup.css - Simplified */
+
+/* ============================================ */
+/* === EXISTING DJ SCHEDULE STYLES (unchanged) === */
+/* ============================================ */
+
+.cr-dj-schedule-tab {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cr-dj-schedule-tab__button {
+  width: 100%;
+  transition: all 0.3s ease;
+  box-shadow: 0px 0px 0px 0px rgba(17, 119, 163, 0);
+}
+
+.cr-dj-schedule-tab:not(.cr-dj-schedule-tab--active):not(.cr-dj-schedule-tab--today) .cr-dj-schedule-tab__button:hover {
+  box-shadow: 0px 0px 0px 4px rgba(17, 119, 163, 0.5);
+}
+
+/* Override CrButton solid secondary color for active state */
+.cr-dj-schedule-tab--active .cr-btn {
+  background-color: var(--cr-secondary-700);
+  border-color: var(--cr-secondary-700);
+}
+
+/* Today state - use accent color */
+.cr-dj-schedule-tab--today .cr-btn {
+  background-color: var(--cr-accent-500);
+  border-color: var(--cr-accent-500);
+  color: var(--cr-ink);
+}
+
+/* ============================================ */
+/* === GENERIC BUTTON GROUP STYLES === */
+/* ============================================ */
+
+.cr-button-group {
+  display: flex;
+  gap: var(--cr-space-2);
+}
+
+.cr-button-group--vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.cr-button-group--horizontal {
+  flex-direction: row;
+  align-items: center;
+}
+
+.cr-button-group__option {
+  transition: all 0.15s ease;
+}

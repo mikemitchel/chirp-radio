@@ -1,0 +1,240 @@
+/* CrShoppingCart.css */
+
+/* ============================================ */
+/* === CSS CUSTOM PROPERTIES === */
+/* ============================================ */
+
+.cr-shopping-cart {
+  /* Layout properties */
+  --cr-cart-border: 1px solid var(--cr-ink);
+  --cr-cart-bg: var(--cr-paper);
+  --cr-cart-padding: var(--cr-space-12);
+  --cr-cart-gap: var(--cr-space-6);
+  --cr-cart-item-gap: var(--cr-space-3);
+  
+  /* Colors */
+  --cr-cart-text-color: var(--cr-ink);
+  --cr-cart-divider-color: var(--cr-default-700);
+  --cr-cart-spacer-color: transparent;
+}
+
+/* ============================================ */
+/* === BASE CART STYLES === */
+/* ============================================ */
+
+.cr-shopping-cart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-cart-gap);
+  padding: var(--cr-cart-padding);
+  background-color: var(--cr-cart-bg);
+  border: var(--cr-cart-border);
+  color: var(--cr-cart-text-color);
+  /* Increased width to prevent button clipping */
+  min-width: 600px;
+  max-width: 800px;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* ============================================ */
+/* === HEADER STYLES === */
+/* ============================================ */
+
+.cr-shopping-cart__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  line-height: 0;
+}
+
+.cr-shopping-cart__title {
+  font: var(--cr-title-xl); 
+  font-weight: normal;
+  color: var(--cr-cart-text-color);
+  margin: 0;
+  line-height: 1;
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+
+/* Cart icon in header - now using CrCartIcon component */
+.cr-shopping-cart__icon {
+  color: var(--cr-cart-text-color);
+  /* CrCartIcon handles its own sizing and badge positioning */
+}
+
+/* ============================================ */
+/* === ITEMS STYLES === */
+/* ============================================ */
+
+.cr-shopping-cart__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Individual items handle their own spacing */
+  width: 100%;
+}
+
+.cr-shopping-cart__empty {
+  text-align: center;
+  color: var(--cr-default-500);
+  font: var(--cr-body-reg);
+  padding: var(--cr-space-8) var(--cr-space-4);
+}
+
+.cr-shopping-cart__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-cart-item-gap);
+  width: 100%;
+  margin-bottom: var(--cr-cart-gap); /* 24px gap between items */
+  font-family: var(--cr-font-antonio);
+  line-height: 0;
+  color: var(--cr-cart-text-color);
+}
+
+.cr-shopping-cart__item:last-child {
+  margin-bottom: 0;
+}
+
+.cr-shopping-cart__item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cr-shopping-cart__item-name {
+  font: var(--cr-title-xs); /* Antonio Bold 18px, weight 600 */
+  color: var(--cr-cart-text-color);
+  line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cr-shopping-cart__item-price {
+  font: var(--cr-title-xs); /* Antonio Bold 18px, weight 600 */
+  color: var(--cr-cart-text-color);
+  line-height: 1;
+  text-align: right;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cr-shopping-cart__item-details {
+  font: var(--cr-title-2xs); /* Antonio Bold 16px, weight 700 */
+  color: var(--cr-cart-text-color);
+  line-height: 1;
+  width: 100%;
+}
+
+/* ============================================ */
+/* === DIVIDER STYLES === */
+/* ============================================ */
+
+.cr-shopping-cart__divider {
+  background-color: var(--cr-cart-divider-color);
+  width: 100%;
+  height: 4px;
+  flex-shrink: 0;
+  border: none;
+  margin: 0;
+}
+
+/* ============================================ */
+/* === TOTAL STYLES === */
+/* ============================================ */
+
+.cr-shopping-cart__total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-family: var(--cr-font-antonio);
+  font-weight: 600;
+  line-height: 0;
+  color: var(--cr-cart-text-color);
+  letter-spacing: -1px;
+}
+
+.cr-shopping-cart__total-label {
+  font: var(--cr-title-sm); /* Antonio Bold 21px, weight 600 */
+  line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cr-shopping-cart__total-price {
+  font: var(--cr-title-lg); /* Antonio Bold 28px, weight 600 */
+  line-height: 1;
+  text-align: right;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ============================================ */
+/* === SPACER STYLES === */
+/* ============================================ */
+
+.cr-shopping-cart__spacer {
+  background-color: var(--cr-cart-spacer-color);
+  width: 100%;
+  height: var(--cr-space-3);
+  flex-shrink: 0;
+}
+
+/* ============================================ */
+/* === ACTIONS STYLES === */
+/* ============================================ */
+
+.cr-shopping-cart__actions {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--cr-space-8);
+}
+
+/* Let CrButton handle all its own styling - no overrides */
+
+/* ============================================ */
+/* === RESPONSIVE STYLES === */
+/* ============================================ */
+
+@media (max-width: 768px) {
+  .cr-shopping-cart {
+    --cr-cart-padding: var(--cr-space-8);
+    --cr-cart-gap: var(--cr-space-5);
+    /* Remove min-width constraint on mobile */
+    min-width: unset;
+    max-width: unset;
+  }
+
+  .cr-shopping-cart__actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--cr-space-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .cr-shopping-cart {
+    --cr-cart-padding: var(--cr-space-6);
+    --cr-cart-gap: var(--cr-space-4);
+  }
+
+  .cr-shopping-cart__item-header {
+    flex-wrap: wrap;
+  }
+
+  .cr-shopping-cart__item-name,
+  .cr-shopping-cart__item-price {
+    font-size: 16px;
+  }
+
+  .cr-shopping-cart__item-details {
+    font-size: 14px;
+  }
+}

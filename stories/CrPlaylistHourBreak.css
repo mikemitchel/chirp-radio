@@ -1,0 +1,81 @@
+/* CrPlaylistHourBreak.css */
+
+.cr-playlist-hour-break {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2);
+  padding: var(--cr-space-4) 0;
+}
+
+.cr-playlist-hour-break__chevron {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--cr-ink);
+  transition: transform 0.3s ease;
+  transform: rotate(180deg); /* Points up when open */
+}
+
+.cr-playlist-hour-break__chevron svg {
+  width: 20px;
+  height: 20px;
+}
+
+.cr-playlist-hour-break__chevron--collapsed {
+  transform: rotate(0deg); /* Points down when collapsed */
+}
+
+.cr-playlist-hour-break__time {
+  font: var(--cr-player-dj);
+  color: var(--cr-ink);
+  flex-shrink: 0;
+}
+
+.cr-playlist-hour-break__separator {
+  font: var(--cr-player-dj);
+  color: var(--cr-ink);
+  flex-shrink: 0;
+}
+
+.cr-playlist-hour-break__dj-link {
+  font: var(--cr-player-dj);
+  color: var(--cr-ink);
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.cr-playlist-hour-break__dj-link:hover {
+  color: var(--cr-primary-500);
+  text-decoration: underline;
+}
+
+.cr-playlist-hour-break__show-name {
+  font: var(--cr-player-label);
+  color: var(--cr-ink);
+  flex-shrink: 0;
+}
+
+.cr-playlist-hour-break__line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--cr-default-300);
+  margin-left: var(--cr-space-2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cr-playlist-hour-break {
+    padding: var(--cr-space-3) 0;
+    flex-wrap: wrap;
+  }
+  
+  .cr-playlist-hour-break__line {
+    width: 100%;
+    margin-left: 0;
+    margin-top: var(--cr-space-2);
+  }
+}

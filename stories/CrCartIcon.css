@@ -1,0 +1,153 @@
+/* CrCartIcon.css */
+
+/* ============================================ */
+/* === BASE ICON STYLES === */
+/* ============================================ */
+
+.cr-cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cart-icon-size, 36px);
+  height: var(--cart-icon-size, 36px);
+  color: currentColor;
+  cursor: pointer;
+}
+
+/* Make it focusable when interactive */
+.cr-cart-icon[role="button"] {
+  border-radius: var(--cr-space-1);
+  transition: background-color 0.15s ease;
+}
+
+.cr-cart-icon[role="button"]:hover {
+  background-color: var(--cr-default-100);
+}
+
+.cr-cart-icon[role="button"]:focus-visible {
+  outline: 2px solid var(--cr-primary-500);
+  outline-offset: 2px;
+}
+
+/* ============================================ */
+/* === SVG ICON STYLES === */
+/* ============================================ */
+
+.cr-cart-icon__svg {
+  width: 100%;
+  height: 100%;
+  color: currentColor;
+}
+
+/* ============================================ */
+/* === BADGE STYLES === */
+/* ============================================ */
+
+.cr-cart-icon__badge {
+  position: absolute;
+  
+  /* Badge positioning - matches CrMainNav positioning */
+  top: 33.33%; /* 12px from 36px total height */
+  right: 22.22%; /* 8px from 36px total width */
+  
+  /* Badge styling */
+  background-color: transparent;
+  color: currentColor;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  
+  /* Layout */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+}
+
+/* ============================================ */
+/* === SIZE VARIANTS === */
+/* ============================================ */
+
+/* Small icon (24px) */
+.cr-cart-icon[style*="--cart-icon-size: 24px"] .cr-cart-icon__badge {
+  top: 25%; /* 6px from 24px total */
+  right: 16.67%; /* 4px from 24px total */
+  font-size: 10px;
+  line-height: 14px;
+  min-width: 14px;
+  height: 14px;
+}
+
+/* Medium icon (48px) */
+.cr-cart-icon[style*="--cart-icon-size: 48px"] .cr-cart-icon__badge {
+  top: 37.5%; /* 18px from 48px total */
+  right: 25%; /* 12px from 48px total */
+  font-size: 16px;
+  line-height: 22px;
+  min-width: 22px;
+  height: 22px;
+}
+
+/* Large icon (60px) */
+.cr-cart-icon[style*="--cart-icon-size: 60px"] .cr-cart-icon__badge {
+  top: 44%; /* Position in the open area of the cart */
+  left: 50%; /* Center horizontally */
+  right: auto; /* Override right positioning for large icons */
+  transform: translateX(-50%); /* Perfect horizontal centering */
+  font-family: var(--cr-font-antonio);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1;
+  min-width: auto;
+  height: auto;
+  background-color: transparent;
+}
+
+/* ============================================ */
+/* === DARK MODE === */
+/* ============================================ */
+
+[data-theme="dark"] .cr-cart-icon[role="button"]:hover {
+  background-color: var(--cr-default-700);
+}
+
+/* ============================================ */
+/* === RESPONSIVE === */
+/* ============================================ */
+
+@media (max-width: 768px) {
+  /* Scale badge font size down on mobile */
+  .cr-cart-icon__badge {
+    font-size: 12px;
+    line-height: 16px;
+    min-width: 16px;
+    height: 16px;
+  }
+  
+  /* Large icon mobile adjustments */
+  .cr-cart-icon[style*="--cart-icon-size: 60px"] .cr-cart-icon__badge,
+  .cr-cart-icon[style*="--cart-icon-size: 48px"] .cr-cart-icon__badge {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further scale down on smallest screens */
+  .cr-cart-icon__badge {
+    font-size: 10px;
+    line-height: 14px;
+    min-width: 14px;
+    height: 14px;
+  }
+  
+  /* Large icon smallest screen adjustments */
+  .cr-cart-icon[style*="--cart-icon-size: 60px"] .cr-cart-icon__badge {
+    font-size: 12px;
+  }
+}

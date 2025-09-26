@@ -1,0 +1,282 @@
+/* CrButton.css */
+
+/* ============================================ */
+/* === BASE BUTTON STYLES === */
+/* ============================================ */
+
+.cr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cr-space-1);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  box-sizing: border-box;
+  white-space: nowrap;
+  background: transparent;
+  transition: all 0.15s ease;
+  font-family: var(--cr-font-antonio);
+  vertical-align: top;
+  baseline-shift: 0;
+  color: var(--btn-color);
+}
+
+.cr-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ============================================ */
+/* === BUTTON SIZES === */
+/* ============================================ */
+
+.cr-btn--large {
+  padding: var(--cr-space-1) var(--cr-space-1) calc(var(--cr-space-1) + 2px);
+  font: var(--cr-btn-txt-lg);
+  height: 34px;
+  border-radius: var(--cr-space-1);
+  --btn-hover-radius: calc(var(--cr-space-1)/2);
+  --btn-hover-shadow: var(--cr-space-1);
+}
+
+.cr-btn--medium {
+  padding: var(--cr-space-1) var(--cr-space-1) calc(var(--cr-space-1) + 2px);
+  font: var(--cr-btn-text-md);
+  height: 30px;
+  border-radius: 3px;
+  --btn-hover-radius: calc(var(--cr-space-1)/2);
+  --btn-hover-shadow: var(--cr-space-1);
+}
+
+.cr-btn--small {
+  padding: var(--cr-space-1) var(--cr-space-1) calc(var(--cr-space-1) + 2px);
+  font: var(--cr-btn-text-sm);
+  height: 26px;
+  border-radius: 3px;
+  --btn-hover-radius: calc(var(--cr-space-1)/2);
+  --btn-hover-shadow: var(--cr-space-1);
+}
+
+.cr-btn--xsmall {
+  padding: var(--cr-space-1) var(--cr-space-2);
+  font: var(--cr-nav-support);
+  height: 20px;
+  border-radius: 10px;
+  text-transform: none;
+  letter-spacing: normal;
+  --btn-hover-radius: var(--cr-space-3);
+  --btn-hover-shadow: calc(var(--cr-space-1)/2);
+}
+
+/* ============================================ */
+/* === DYNAMIC PADDING BASED ON ICON PRESENCE === */
+/* ============================================ */
+
+/* When no left icon, add more left padding */
+.cr-btn--large:not(:has(.cr-btn__icon--left)) {
+  padding-left: var(--cr-space-4);
+}
+
+.cr-btn--medium:not(:has(.cr-btn__icon--left)) {
+  padding-left: var(--cr-space-4);
+}
+
+.cr-btn--small:not(:has(.cr-btn__icon--left)) {
+  padding-left: var(--cr-space-4);
+}
+
+/* When no right icon, add more right padding */
+.cr-btn--large:not(:has(.cr-btn__icon--right)) {
+  padding-right: var(--cr-space-4);
+}
+
+.cr-btn--medium:not(:has(.cr-btn__icon--right)) {
+  padding-right: var(--cr-space-4);
+}
+
+.cr-btn--small:not(:has(.cr-btn__icon--right)) {
+  padding-right: var(--cr-space-4);
+}
+
+/* XSM Text buttons use different typography */
+.cr-btn--xsmall.cr-btn--text {
+  font: var(--cr-btn-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: calc(var(--cr-space-1)/2) var(--cr-space-1);
+  box-shadow: none;
+  gap: calc(var(--cr-space-1)/2);
+}
+
+.cr-btn--xsmall.cr-btn--text:hover:not(:disabled) {
+  box-shadow: none;
+}
+
+/* Underline positioned 2px below text */
+.cr-btn--xsmall.cr-btn--text .cr-btn__text {
+  position: relative;
+  line-height: 1;
+}
+
+.cr-btn--xsmall.cr-btn--text .cr-btn__text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 2px);
+  height: 2px;
+  background-color: var(--btn-color);
+  transition: height 0.15s ease;
+}
+
+.cr-btn--xsmall.cr-btn--text:hover:not(:disabled) .cr-btn__text::after {
+  height: 4px;
+}
+
+/* ============================================ */
+/* === COLOR VARIANTS === */
+/* ============================================ */
+
+.cr-btn--primary {
+  --btn-color: var(--cr-primary-700);
+  --btn-border: var(--cr-primary-500);
+}
+
+.cr-btn--secondary {
+  --btn-color: var(--cr-secondary-700);
+  --btn-border: var(--cr-secondary-500);
+}
+
+.cr-btn--default {
+  --btn-color: var(--cr-ink);
+  --btn-border: var(--cr-default-500);
+}
+
+.cr-btn--light {
+  --btn-color: var(--cr-paper);
+  --btn-border: var(--cr-default-300);
+}
+
+/* ============================================ */
+/* === BUTTON VARIANTS === */
+/* ============================================ */
+
+/* Solid Buttons */
+.cr-btn--solid {
+  background-color: var(--btn-color);
+  color: var(--cr-paper); /* Override base color for solid buttons */
+  box-shadow: 0 0 0 1px var(--btn-border);
+}
+
+.cr-btn--solid:hover:not(:disabled) {
+  border-radius: var(--btn-hover-radius);
+  box-shadow: 0 0 0 var(--btn-hover-shadow) var(--btn-border);
+}
+
+/* Light solid is special case */
+.cr-btn--solid.cr-btn--light {
+  background-color: var(--cr-paper);
+  color: var(--cr-ink); /* Override for light solid buttons */
+}
+
+/* Outline Buttons */
+.cr-btn--outline {
+  background-color: transparent;
+  box-shadow: 0 0 0 calc(var(--cr-space-1)/4) var(--btn-color);
+}
+
+.cr-btn--outline:hover:not(:disabled) {
+  border-radius: var(--btn-hover-radius);
+  box-shadow: 0 0 0 var(--btn-hover-shadow) var(--btn-color);
+}
+
+/* Text Buttons */
+.cr-btn--text {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.cr-btn--text:hover:not(:disabled) {
+  box-shadow: none;
+}
+
+/* Text button underlines for small, medium, and large - spans entire button width */
+.cr-btn--text.cr-btn--small::after,
+.cr-btn--text.cr-btn--medium::after,
+.cr-btn--text.cr-btn--large::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 2px);
+  height: 2px;
+  background-color: var(--btn-color);
+  transition: height 0.15s ease;
+}
+
+.cr-btn--text.cr-btn--small:hover:not(:disabled)::after,
+.cr-btn--text.cr-btn--medium:hover:not(:disabled)::after,
+.cr-btn--text.cr-btn--large:hover:not(:disabled)::after {
+  height: 8px;
+}
+
+/* ============================================ */
+/* === BUTTON ICONS === */
+/* ============================================ */
+
+.cr-btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  height: 100%;
+}
+
+.cr-btn__icon--left {
+  margin-right: var(--cr-space-1);
+}
+
+.cr-btn__icon--right {
+  margin-left: var(--cr-space-1);
+}
+
+/* Icon sizes by button size */
+.cr-btn--large .cr-btn__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.cr-btn--medium .cr-btn__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.cr-btn--small .cr-btn__icon svg {
+  width: var(--cr-space-5);
+  height: var(--cr-space-5);
+}
+
+.cr-btn--xsmall .cr-btn__icon svg {
+  width: var(--cr-space-4);
+  height: var(--cr-space-4);
+}
+
+/* Icon styling */
+.cr-btn__icon svg {
+  display: block;
+  vertical-align: top;
+  flex-shrink: 0;
+}
+
+/* XSM text buttons - only right icon allowed */
+.cr-btn--xsmall.cr-btn--text .cr-btn__icon--left {
+  display: none;
+}
+
+.cr-btn__text {
+  line-height: 1;
+}

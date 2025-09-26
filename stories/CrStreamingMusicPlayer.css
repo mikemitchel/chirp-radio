@@ -1,0 +1,482 @@
+/* CrStreamingMusicPlayer.css */
+
+/* Base player styles */
+.cr-player {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  transition: opacity 0.5s ease-in-out;
+  border-radius: var(--cr-space-1);
+  overflow: hidden;
+}
+
+/* Loading state - hide content until first load when auto-fetching */
+.cr-player--loading.cr-player--auto-fetch .cr-player__mobile-content,
+.cr-player--loading.cr-player--auto-fetch .cr-player__content {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Loaded state - show content with smooth fade-in */
+.cr-player--auto-fetch .cr-player__mobile-content,
+.cr-player--auto-fetch .cr-player__content {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.cr-player--loading .cr-player__album-art,
+.cr-player--loading .cr-player__album-art-large,
+.cr-player--loading .cr-player__mobile-thumbnail {
+  opacity: 0.7;
+}
+
+/* Background and blur effects */
+.cr-player__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  filter: blur(24px);
+  opacity: 0.75;
+  transition: opacity 0.5s ease-in-out, background-image 0s ease-in-out 0.5s;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* NEW: Color overlay layer for better text readability */
+.cr-player__color-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.75); /* White overlay for light mode */
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Dark mode - Component Support - use dark overlay */
+[data-theme="dark"] .cr-player__color-overlay {
+  background-color: rgba(0, 0, 0, 0.75); /* Dark overlay for dark mode */
+}
+
+/* Dark mode - Support Component - make fallback logo white */
+[data-theme="dark"] .cr-player__album-fallback .cr-logo {
+  filter: brightness(0) invert(1);
+}
+
+.cr-player__blur-box {
+  position: absolute;
+  backdrop-filter: blur(24px);
+  background-color: rgba(250, 250, 250, 0.85); /* Back to original Figma value */
+  z-index: 2; /* Increased from 1 to 2 to be above color overlay */
+}
+
+.cr-player > *:not(.cr-player__background, .cr-player__color-overlay, .cr-player__blur-box) {
+  position: relative;
+  z-index: 3; /* Increased from 2 to 3 */
+}
+
+/* Play/Pause Button - Using Figma SVGs */
+.cr-player__play-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  flex-shrink: 0;
+  color: var(--cr-ink);
+  position: relative;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.cr-player__play-button:hover {
+  transform: scale(1.05);
+}
+
+.cr-player__play-button:active {
+  transform: scale(0.95);
+}
+
+/* Menu Button */
+.cr-player__menu-button {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2);
+}
+
+.cr-player__menu-button--reverse {
+  flex-direction: row-reverse;
+}
+
+.cr-player__menu-text {
+  font: var(--cr-nav-support);
+  color: var(--cr-default-700);
+}
+
+.cr-player__menu-icon-container {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: var(--cr-default-100);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 3px 8px;
+}
+
+.cr-player__menu-dot {
+  width: var(--cr-space-xs);
+  height: var(--cr-space-xs);
+  border-radius: 50%;
+  background-color: var(--cr-default-700);
+}
+
+/* 60px Logo for mobile player */
+.cr-logo--60px {
+  height: 60px;
+  width: auto;
+}
+
+/* Fallback logo styling */
+.cr-logo--fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Album art fallback container */
+.cr-player__album-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cr-paper);
+  border-radius: inherit;
+}
+
+.cr-player__album-fallback .cr-logo {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+}
+
+.cr-player__album-fallback .cr-logo__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* LOCAL Chip Positioning */
+.cr-player__album-container {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.cr-player__local-chip {
+  position: absolute;
+  top: var(--cr-space-2); /* 8px from top */
+  left: var(--cr-space-2); /* 8px from left */
+  z-index: 10;
+}
+
+/* Larger chip for mobile large album art */
+.cr-player__local-chip--large {
+  top: var(--cr-space-3); /* 12px from top for larger album */
+  left: var(--cr-space-3); /* 12px from left for larger album */
+}
+
+/* Tiny chip for mobile thumbnail */
+.cr-player__local-chip--tiny {
+  top: var(--cr-space-1); /* 4px from top for small thumbnail */
+  left: var(--cr-space-1); /* 4px from left for small thumbnail */
+  transform: scale(0.8); /* Make chip smaller for tiny thumbnail */
+}
+
+/* Full Player Layout - EXACT FIGMA DIMENSIONS */
+.cr-player--full-player .cr-player__full {
+  width: 480px;
+  min-width: 480px;
+  position: relative;
+  background: white;
+  border-radius: var(--cr-space-1);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.cr-player--full-player .cr-player__blur-box {
+  width: 480px;
+  height: 100px;
+  left: 0;
+  top: 0;
+}
+
+.cr-player--full-player .cr-player__content {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-4); /* 16px - gap-4 */
+  position: relative;
+  z-index: 3;
+  padding: 0 var(--cr-space-5) 0 0; /* pr-5 = 20px */
+  height: 100px;
+  box-sizing: border-box;
+}
+
+.cr-player--full-player .cr-player__album-art {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.cr-player--full-player .cr-player__track-info-container {
+  flex: 1;
+  min-width: 0;
+  width: 240px; /* w-60 from Figma */
+}
+
+/* Slim Player Layout */
+.cr-player--slim-player .cr-player__slim {
+  width: 480px;
+  min-width: 480px;
+  position: relative;
+  background: white;
+  border-radius: var(--cr-space-1);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.cr-player--slim-player .cr-player__blur-box {
+  width: 480px;
+  height: 80px;
+  left: 0;
+  top: 0;
+}
+
+.cr-player--slim-player .cr-player__content {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-4);
+  position: relative;
+  z-index: 3;
+  padding: 0 var(--cr-space-3) 0 0;
+  height: 80px;
+  box-sizing: border-box;
+}
+
+.cr-player--slim-player .cr-player__album-art {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.cr-player--slim-player .cr-player__track-info-container {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Mobile Player Layout */
+.cr-player--mobile-player {
+  width: 100%;
+  height: 100vh;
+}
+
+.cr-player--mobile-player .cr-player__mobile {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Background fills entire mobile player */
+.cr-player--mobile-player .cr-player__background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+.cr-player--mobile-player .cr-player__color-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+/* Single content container - back to overflow hidden */
+.cr-player--mobile-player .cr-player__mobile-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  z-index: 3;
+  background-color: transparent;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* DJ Info */
+.cr-player--mobile-player .cr-player__dj-info {
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Album art container - viewport-based sizing, no drop shadow */
+.cr-player--mobile-player .cr-player__album-large {
+  position: relative;
+  width: 75vw; /* 75% of viewport width */
+  height: 75vw; /* Keep it square */
+  min-width: 300px; /* Add back min-width */
+  min-height: 300px; /* Add back min-height */
+  max-width: 500px; /* Cap at reasonable size */
+  max-height: 500px; /* Cap at reasonable size */
+  margin: var(--cr-space-6) auto 0; /* 24px top, centered horizontally */
+  flex-shrink: 0; /* Don't allow shrinking */
+}
+
+.cr-player--mobile-player .cr-player__album-art-large {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* Always fill container, crop if needed, even if pixelated */
+  object-position: center;
+  border-radius: var(--cr-space-1);
+  display: block; /* Ensure it's treated as block element */
+  /* Removed box-shadow */
+}
+
+/* Ensure fallback album art also fills completely */
+.cr-player--mobile-player .cr-player__album-fallback {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Track info container with 12px inset from album art edges */
+.cr-player--mobile-player .cr-player__track-info-container {
+  width: calc(75vw - calc(var(--cr-space-3) * 2)); /* Album width minus 24px total (12px each side) */
+  max-width: calc(500px - calc(var(--cr-space-3) * 2)); /* Album max-width minus 24px */
+  flex-shrink: 0;
+  margin-top: var(--cr-space-6); /* 24px above track info */
+  margin-left: auto; /* Center horizontally */
+  margin-right: auto; /* Center horizontally */
+}
+
+/* Left-aligned track info for mobile player */
+.cr-player__track-info-container--left-aligned {
+  text-align: left !important;
+}
+
+/* Controls - 24px below track info */
+.cr-player--mobile-player .cr-player__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: var(--cr-space-6); /* 24px above controls */
+  background-color: transparent;
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+}
+
+/* Loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Ensure text contrast on all backgrounds */
+.cr-player__content,
+.cr-player__mobile-content,
+.cr-player__mobile-header,
+.cr-player__dj-info,
+.cr-player__controls {
+  color: var(--cr-ink);
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+  .cr-player--full-player .cr-player__full,
+  .cr-player--slim-player .cr-player__slim {
+    width: 100vw !important;
+    width: 460px !important;
+    max-width: 460px !important;
+    min-width: 460px !important;
+  }
+  
+  .cr-player--full-player .cr-player__blur-box,
+  .cr-player--slim-player .cr-player__blur-box {
+    width: 100% !important;
+  }
+}
+
+/* Height-based responsive adjustments for mobile player */
+@media (max-height: 900px) and (orientation: portrait) {
+  .cr-player--mobile-player .cr-player__album-large {
+    margin-top: var(--cr-space-4); /* Reduce from 24px to 16px */
+  }
+  
+  .cr-player--mobile-player .cr-player__track-info-container {
+    margin-top: var(--cr-space-4); /* Reduce from 24px to 16px */
+  }
+  
+  .cr-player--mobile-player .cr-player__controls {
+    margin-top: var(--cr-space-4); /* Reduce from 24px to 16px */
+  }
+}
+
+@media (max-height: 700px) and (orientation: portrait) {
+  .cr-player--mobile-player .cr-player__album-large {
+    margin-top: var(--cr-space-3); /* Reduce to 12px */
+  }
+  
+  .cr-player--mobile-player .cr-player__track-info-container {
+    margin-top: var(--cr-space-3); /* Reduce to 12px */
+  }
+  
+  .cr-player--mobile-player .cr-player__controls {
+    margin-top: var(--cr-space-3); /* Reduce to 12px */
+  }
+}
+
+@media (max-height: 600px) and (orientation: portrait) {
+  .cr-player--mobile-player .cr-player__album-large {
+    margin-top: var(--cr-space-2); /* Reduce to 8px */
+  }
+  
+  .cr-player--mobile-player .cr-player__track-info-container {
+    margin-top: var(--cr-space-2); /* Reduce to 8px */
+  }
+  
+  .cr-player--mobile-player .cr-player__controls {
+    margin-top: var(--cr-space-2); /* Reduce to 8px */
+  }
+}

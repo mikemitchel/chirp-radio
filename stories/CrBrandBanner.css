@@ -1,0 +1,77 @@
+/* CrBrandBanner.css */
+
+/* Base header styling */
+.cr-logo-banner {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--cr-space-3) var(--cr-space-6); /* 12px 24px */
+  background-color: var(--cr-primary-500); /* Default: Red background */
+}
+
+/* Dark mode Component Support */
+[data-theme="dark"] .cr-logo-banner {
+  background-color: var(--cr-default-300); /* Dark gray background */
+}
+
+/* Container layout - responsive by default */
+.cr-logo-banner__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  gap: var(--cr-space-4); /* 16px gap */
+}
+
+/* Logo container */
+.cr-logo-banner__logo-container {
+  flex: 0 0 auto;
+  height: 80px;
+  width: 400px;
+  display: flex;
+  align-items: center;
+}
+
+/* Player container */
+.cr-logo-banner__player-container {
+  flex: 0 0 auto;
+  width: 480px;
+  min-width: 480px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  /* Switch to stacked layout on smaller screens */
+  .cr-logo-banner__container {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--cr-space-6); /* 24px gap */
+  }
+  
+  .cr-logo-banner__logo-container {
+    width: 100%;
+    max-width: 400px;
+    justify-content: center;
+  }
+  
+  .cr-logo-banner__player-container {
+    width: 100%;
+    max-width: 480px;
+  }
+}
+
+@media (max-width: 520px) {
+  /* Tighten spacing on very small screens */
+  .cr-logo-banner {
+    padding: var(--cr-space-3) var(--cr-space-2); /* 12px 8px */
+  }
+  
+  .cr-logo-banner__logo-container {
+    max-width: 100%;
+  }
+  
+  .cr-logo-banner__player-container {
+    max-width: 100%;
+  }
+}

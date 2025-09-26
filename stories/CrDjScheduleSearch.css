@@ -1,0 +1,130 @@
+/* CrDjScheduleSearch.css */
+
+.cr-dj-schedule-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--cr-space-4);
+  position: relative;
+}
+
+.cr-dj-schedule-search__wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 300px;
+}
+
+.cr-dj-schedule-search__input {
+  width: 100%;
+  padding: var(--cr-space-2) 40px var(--cr-space-2) var(--cr-space-3);
+  font: var(--cr-btn-text-sm);
+  border: 2px solid var(--cr-default-300);
+  border-radius: var(--cr-space-1);
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  background-color: var(--cr-paper);
+  color: var(--cr-ink);
+}
+
+.cr-dj-schedule-search__clear {
+  position: absolute;
+  right: var(--cr-space-2);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--cr-space-1);
+  transition: opacity 0.2s ease;
+  color: var(--cr-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cr-dj-schedule-search__clear:hover {
+  opacity: 0.7;
+}
+
+.cr-dj-schedule-search__results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--cr-paper);
+  border: 2px solid var(--cr-secondary-500);
+  border-top: none;
+  border-radius: 0 0 var(--cr-space-1) var(--cr-space-1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.cr-dj-schedule-search__result {
+  padding: var(--cr-space-3);
+  cursor: pointer;
+  border-bottom: 1px solid var(--cr-default-100);
+  transition: background 0.2s ease;
+}
+
+.cr-dj-schedule-search__result:hover {
+  background: var(--cr-secondary-100);
+}
+
+.cr-dj-schedule-search__result:last-child {
+  border-bottom: none;
+}
+
+.cr-dj-schedule-search__result-dj {
+  font: var(--cr-btn-text-sm);
+  font-weight: 600;
+  color: var(--cr-ink);
+}
+
+.cr-dj-schedule-search__result-show {
+  font: var(--cr-nav-support);
+  color: var(--cr-default-700);
+  margin-top: var(--cr-space-1);
+}
+
+.cr-dj-schedule-search__result-time {
+  font: var(--cr-nav-support);
+  color: var(--cr-ink);
+  margin-top: var(--cr-space-1);
+  background: var(--cr-secondary-100);
+  width: fit-content;
+  padding: 2px var(--cr-space-2);
+  border-radius: 20px;
+}
+
+.cr-dj-schedule-search__no-results {
+  padding: var(--cr-space-3);
+  text-align: center;
+  color: var(--cr-default-500);
+  font-style: italic;
+  font: var(--cr-body-sm);
+}
+
+.cr-dj-schedule-search__timezone {
+  font: var(--cr-body-xs);
+  color: var(--cr-ink);
+  margin-left: auto;
+}
+
+@media (max-width: 820px) {
+  .cr-dj-schedule-search {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--cr-space-2);
+  }
+
+  .cr-dj-schedule-search__wrapper {
+    max-width: none;
+  }
+
+  .cr-dj-schedule-search__timezone {
+    text-align: center;
+    margin-left: 0;
+  }
+}

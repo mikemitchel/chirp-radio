@@ -1,0 +1,138 @@
+/* CrStoreItemCard.css */
+
+/* ============================================ */
+/* === CSS CUSTOM PROPERTIES === */
+/* ============================================ */
+
+.cr-store-item-card {
+  /* Layout properties from Figma */
+  --cr-store-item-card-gap: var(--cr-space-6); /* 24px gap between image and details */
+  --cr-store-item-card-details-gap: var(--cr-space-3); /* 12px gap in details */
+  
+  /* Colors - using CSS variables only */
+  --cr-store-item-card-text-color: var(--cr-ink);
+  --cr-store-item-card-price-color: var(--cr-ink);
+}
+
+/* ============================================ */
+/* === BASE STORE ITEM CARD STYLES === */
+/* ============================================ */
+
+.cr-store-item-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-store-item-card-gap);
+  width: 100%;
+  color: var(--cr-store-item-card-text-color);
+  position: relative;
+}
+
+/* Clickable variant */
+.cr-store-item-card--clickable {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: var(--cr-space-2);
+  padding: var(--cr-space-2);
+  margin: calc(var(--cr-space-2) * -1);
+}
+
+.cr-store-item-card--clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cr-store-item-card--clickable:active {
+  transform: translateY(0);
+}
+
+/* ============================================ */
+/* === IMAGE STYLES === */
+/* ============================================ */
+
+.cr-store-item-card__image-container {
+  width: 100%;
+  height: 480px; /* Fixed height from Figma */
+  position: relative;
+  overflow: hidden;
+  border-radius: 0; /* No border radius in Figma */
+}
+
+.cr-store-item-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ============================================ */
+/* === DETAILS STYLES === */
+/* ============================================ */
+
+.cr-store-item-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-store-item-card-details-gap);
+  width: 100%;
+}
+
+.cr-store-item-card__name {
+  font: var(--cr-title-xs); /* Antonio Bold 18px, weight 600 */
+  color: var(--cr-store-item-card-text-color);
+  margin: 0;
+  line-height: 1.2; /* Increased from 1 to allow for descenders */
+  min-height: 24px; /* Ensure enough height for descenders */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px; /* From Figma */
+}
+
+.cr-store-item-card__price-chip-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cr-store-item-card__price {
+  font: var(--cr-body-reg); /* Roboto Serif Regular 16px */
+  color: var(--cr-store-item-card-price-color);
+  line-height: 1.4;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ============================================ */
+/* === RESPONSIVE STYLES === */
+/* ============================================ */
+
+@media (max-width: 768px) {
+  .cr-store-item-card__image-container {
+    height: 300px; /* Smaller on mobile */
+  }
+  
+  .cr-store-item-card__name {
+    max-width: none; /* Allow full width on mobile */
+    white-space: normal; /* Allow wrapping on mobile */
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.2; /* Add some line height for wrapped text */
+  }
+  
+  .cr-store-item-card__price-chip-row {
+    flex-wrap: wrap;
+    gap: var(--cr-space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .cr-store-item-card {
+    --cr-store-item-card-gap: var(--cr-space-4);
+    --cr-store-item-card-details-gap: var(--cr-space-2);
+  }
+  
+  .cr-store-item-card__image-container {
+    height: 250px;
+  }
+}

@@ -1,0 +1,283 @@
+/* CrSidebar.css */
+
+/* Backdrop overlay */
+.cr-sidebar__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Base sidebar styling */
+.cr-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 274px;
+  height: 100vh;
+  background-color: var(--cr-paper);
+  backdrop-filter: blur(8px);
+  opacity: 0.95;
+  z-index: 1000;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cr-sidebar--open {
+  transform: translateX(0);
+}
+
+/* MOBILE VERSION */
+.cr-sidebar--mobile {
+  width: 95%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  transform: none;
+}
+
+.cr-sidebar--mobile.cr-sidebar--open {
+  display: flex;
+}
+
+.cr-sidebar--mobile.cr-sidebar--closed {
+  display: none;
+}
+
+/* Content container */
+.cr-sidebar__content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--cr-space-12);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.cr-sidebar--mobile .cr-sidebar__content {
+  padding: 0;
+}
+
+/* Close button container - positioned for CrMenuButton */
+.cr-sidebar--mobile .cr-sidebar__close-button {
+  position: absolute;
+  top: 42px;
+  right: -12px;
+  z-index: 1001;
+}
+
+/* Header and Logo */
+.cr-sidebar__header {
+  margin-bottom: var(--cr-space-6);
+}
+
+.cr-sidebar__logo-section {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-3);
+  cursor: pointer;
+  margin-bottom: var(--cr-space-4);
+}
+
+.cr-sidebar__logo-section .cr-logo {
+  width: auto;
+  height: 60px;
+}
+
+.cr-sidebar--mobile .cr-sidebar__logo-section {
+  height: 60px;
+  margin-top: 72px;
+}
+
+.cr-sidebar__home-text {
+  font: var(--cr-nav3);
+  color: var(--cr-ink);
+  text-transform: uppercase;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.cr-sidebar__logo-section:hover .cr-sidebar__home-text {
+  color: var(--cr-primary-500);
+}
+
+/* Mobile sections */
+.cr-sidebar__mobile-sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-6);
+  margin: 36px 0 var(--cr-space-6) 0;
+  width: 100%;
+}
+
+.cr-sidebar__mobile-nav-item {
+  font: var(--cr-nav1);
+  color: var(--cr-ink);
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  line-height: 1;
+  width: 100%;
+  display: block;
+}
+
+.cr-sidebar__mobile-nav-item:hover {
+  color: var(--cr-primary-500);
+}
+
+.cr-sidebar__mobile-listen-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-5);
+  margin-bottom: var(--cr-space-6);
+  width: 100%;
+}
+
+/* Dividers */
+.cr-sidebar__divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--cr-primary-500);
+  margin: var(--cr-space-4) 0;
+}
+
+/* Navigation */
+.cr-sidebar__main-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-2);
+}
+
+.cr-sidebar__nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-2);
+}
+
+.cr-sidebar__nav-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-2);
+}
+
+/* Navigation button styles */
+.cr-sidebar__nav-title,
+.cr-sidebar__nav-item,
+.cr-sidebar__nav-subtitle {
+  color: var(--cr-ink);
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  line-height: 1;
+}
+
+.cr-sidebar__nav-title:hover,
+.cr-sidebar__nav-item:hover,
+.cr-sidebar__nav-subtitle:hover {
+  color: var(--cr-primary-500);
+}
+
+.cr-sidebar__nav-title {
+  font: var(--cr-nav1);
+  margin-bottom: var(--cr-space-1);
+}
+
+.cr-sidebar__nav-item {
+  font: var(--cr-nav2);
+}
+
+.cr-sidebar__nav-subtitle {
+  font: var(--cr-nav3);
+  text-transform: uppercase;
+  margin-top: var(--cr-space-1);
+}
+
+/* Button sections */
+.cr-sidebar__donate-section,
+.cr-sidebar__request-section {
+  margin: var(--cr-space-4) 0;
+}
+
+.cr-sidebar__donate-section .cr-btn,
+.cr-sidebar__request-section .cr-btn,
+.cr-sidebar:not(.cr-sidebar--mobile) .cr-btn {
+  width: 100%;
+  justify-content: center;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Mobile sidebar keeps existing button styling */
+.cr-sidebar--mobile .cr-btn:not(.cr-sidebar__footer .cr-btn) {
+  width: 100%;
+}
+
+/* Mobile padding for sections */
+.cr-sidebar--mobile .cr-sidebar__logo-section, 
+.cr-sidebar--mobile .cr-sidebar__mobile-sections, 
+.cr-sidebar--mobile .cr-sidebar__mobile-listen-section, 
+.cr-sidebar--mobile .cr-sidebar__donate-section, 
+.cr-sidebar--mobile .cr-sidebar__request-section {
+  padding: 0 var(--cr-space-10);
+}
+
+/* Footer styles */
+.cr-sidebar__footer {
+  margin-top: auto;
+  padding-top: var(--cr-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.cr-sidebar--mobile .cr-sidebar__footer {
+  padding: 0 var(--cr-space-10) var(--cr-space-6);
+}
+
+.cr-sidebar__footer-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--cr-ink);
+  transition: color 0.2s ease;
+}
+
+.cr-sidebar__footer-logo:hover {
+  color: var(--cr-primary-500);
+}
+
+.cr-sidebar__footer-logo .cr-logo {
+  height: 24px;
+  width: auto;
+}
+
+.cr-sidebar__footer-url {
+  font: var(--cr-nav3);
+  text-transform: uppercase;
+  font-weight: 600;
+}
