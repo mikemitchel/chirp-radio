@@ -1,6 +1,6 @@
-import '../src/app/index.css';
-import '../src/app/style-guide.css';
-import '../src/app/accessibility.css';
+import '../src/index.css';
+import '../src/style-guide.css';
+import '../src/accessibility.css';
 
 const withTheme = (Story, context) => {
   if (typeof document !== 'undefined') {

@@ -11,11 +11,11 @@ export default function CrLogo({
   // Map variants to their corresponding SVG files
   const getLogoSrc = (variant) => {
     const logoMap = {
-      'horizontal': '../frontend/src/assets/chirp-logos/CHIRP_Logo_FM URL_horizontal.svg',
-      'horizontal-reversed': '../frontend/src/assets/chirp-logos/CHIRP_Logo_FM URL_horizontal-reversed.svg',
-      'vertical': '../frontend/src/assets/chirp-logos/CHIRP_Logo_FM URL_vertical.svg', 
-      'record': '../frontend/src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg',
-      'bird': '../frontend/src/assets/chirp-logos/CHIRP-bird.svg'
+      'horizontal': '../src/assets/chirp-logos/CHIRP_Logo_FM URL_horizontal.svg',
+      'horizontal-reversed': '../src/assets/chirp-logos/CHIRP_Logo_FM URL_horizontal-reversed.svg',
+      'vertical': '../src/assets/chirp-logos/CHIRP_Logo_FM URL_vertical.svg', 
+      'record': '../src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg',
+      'bird': '../src/assets/chirp-logos/CHIRP-bird.svg'
     };
     return logoMap[variant] || logoMap['horizontal'];
   };

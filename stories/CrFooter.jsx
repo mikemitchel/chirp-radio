@@ -1,9 +1,9 @@
 // CrFooter.jsx
 import React from 'react';
 import CrSocialIcon from './CrSocialIcon';
-import chirpFilmFest from '../frontend/src/assets/chirp-logos/chirp-film-fest.jpg';
-import firstTimeLogo from '../frontend/src/assets/chirp-logos/FirstTimeLogo.png';
-import callibrityLogo from '../frontend/src/assets/callibrity-logo/Callibrity-Plum.svg';
+import chirpFilmFest from '../src/assets/chirp-logos/chirp-film-fest.jpg';
+import firstTimeLogo from '../src/assets/chirp-logos/FirstTimeLogo.png';
+import callibrityLogo from '../src/assets/callibrity-logo/Callibrity-Plum.svg';
 import './CrFooter.css';
 
 const CrFooter = ({ 
