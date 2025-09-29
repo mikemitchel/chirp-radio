@@ -1,0 +1,103 @@
+/* CrAnnouncement.css */
+
+.cr-announcement {
+  width: 100%;
+  padding: var(--cr-space-8);
+  position: relative;
+}
+
+/* Override colors only for accent (yellow) background - prevent dark mode changes */
+.cr-announcement.cr-bg-natural-a500 {
+  --cr-ink: #18181b;
+  --cr-paper: #fafafa;
+  --cr-default-100: #F4F4F5;
+  --cr-default-300: #D4D4D8;
+  --cr-default-500: #7B7B84;
+  --cr-default-700: #4D4D56;
+  --cr-default-900: #3F3F46;
+  --cr-primary-500: #EA1C2C;
+  --cr-primary-700: #C41B28;
+  --cr-secondary-500: #41B6E6;
+  --cr-secondary-700: #15769E;
+}
+
+/* s100 and d100 backgrounds allow normal dark mode changes - no overrides needed */
+
+/* ============================================ */
+/* === CONTENT AREA === */
+/* ============================================ */
+
+.cr-announcement__content {
+  margin-bottom: var(--cr-space-6);
+}
+
+.cr-announcement__headline {
+  font: var(--cr-title-xl);
+  font-family: var(--cr-font-antonio), serif;
+  color: var(--cr-ink);
+  margin-bottom: var(--cr-space-4);
+}
+
+.cr-announcement__body {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  margin-bottom: var(--cr-space-4);
+}
+
+.cr-announcement__link-wrapper {
+  margin-bottom: var(--cr-space-6);
+}
+
+/* ============================================ */
+/* === BUTTONS === */
+/* ============================================ */
+
+.cr-announcement__buttons {
+  display: flex;
+  gap: var(--cr-space-4);
+  flex-wrap: wrap;
+}
+
+.cr-announcement__icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* ============================================ */
+/* === DONATION BAR === */
+/* ============================================ */
+
+.cr-announcement__donation {
+  margin-top: var(--cr-space-6);
+}
+
+/* ============================================ */
+/* === VARIANT STYLES === */
+/* ============================================ */
+
+.cr-announcement--donation {
+  /* Donation-specific styles if needed */
+}
+
+.cr-announcement--motivation {
+  /* Motivation-specific styles if needed */
+}
+
+/* ============================================ */
+/* === RESPONSIVE === */
+/* ============================================ */
+
+@media (max-width: 768px) {
+  .cr-announcement {
+    padding: var(--cr-space-6);
+  }
+  
+  .cr-announcement__headline {
+    font: var(--cr-title-lg);
+  }
+  
+  .cr-announcement__buttons {
+    flex-direction: column;
+  }
+}

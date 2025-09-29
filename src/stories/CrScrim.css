@@ -1,0 +1,54 @@
+/* CrScrim.css */
+
+.cr-scrim {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  animation: cr-scrim-fade-in var(--cr-scrim-duration, 0.2s) ease-out forwards;
+}
+
+.cr-scrim--center {
+  align-items: center;
+  justify-content: center;
+}
+
+.cr-scrim--padding {
+  padding: var(--cr-space-4);
+}
+
+/* Animation */
+@keyframes cr-scrim-fade-in {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cr-scrim--padding {
+    padding: var(--cr-space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .cr-scrim--padding {
+    padding: var(--cr-space-1);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .cr-scrim {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .cr-scrim {
+    animation: none !important;
+  }
+}

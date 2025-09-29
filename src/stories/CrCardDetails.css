@@ -1,0 +1,154 @@
+/* CrCardDetails.css */
+
+.cr-card-details {
+  position: relative;
+  width: 100%;
+  padding: var(--cr-space-4);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background-color: var(--cr-default-100);
+}
+
+.cr-card-details__container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cr-space-3);
+  width: 100%;
+}
+
+.cr-card-details__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cr-card-details__event-row,
+.cr-card-details__article-row {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-3);
+  flex-wrap: wrap;
+}
+
+.cr-card-details__author-date {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-3);
+  flex-wrap: wrap;
+}
+
+/* Mobile layout overrides */
+.cr-card-details--mobile {
+  width: fit-content;
+}
+
+.cr-card-details--mobile .cr-card-details__container {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cr-card-details--mobile .cr-card-details__content {
+  flex-direction: column;
+}
+
+.cr-card-details--mobile .cr-card-details__event-row {
+  flex-direction: row;
+}
+
+.cr-card-details--mobile .cr-card-details__article-row {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Type-specific styling */
+.cr-card-details--event .cr-card-details__article-row {
+  display: none;
+}
+
+.cr-card-details--article .cr-card-details__event-row,
+.cr-card-details--article .cr-card-details__actions {
+  display: none;
+}
+
+/* Content elements */
+.cr-card-details__datetime,
+.cr-card-details__venue {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-1);
+}
+
+.cr-card-details__venue {
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.cr-card-details__venue:hover .cr-card-details__venue-text {
+  color: var(--cr-secondary-900);
+}
+
+.cr-card-details__datetime-text,
+.cr-card-details__venue-text,
+.cr-card-details__author,
+.cr-card-details__date {
+  font: var(--cr-title-xs);
+  color: var(--cr-ink);
+  white-space: nowrap;
+}
+
+.cr-card-details__venue-text {
+  color: var(--cr-secondary-700);
+  text-decoration: underline;
+}
+
+.cr-card-details__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.cr-card-details__icon--calendar {
+  color: var(--cr-secondary-700);
+}
+
+.cr-card-details__icon--map {
+  color: var(--cr-ink);
+}
+
+.cr-card-details__tags {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2);
+  flex-wrap: wrap;
+}
+
+.cr-card-details__actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cr-card-details .cr-btn {
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .cr-card-details {
+    padding: var(--cr-space-2) var(--cr-space-3);
+  }
+  
+  .cr-card-details__container {
+    gap: var(--cr-space-3);
+  }
+  
+  .cr-card-details__tags {
+    gap: var(--cr-space-1);
+  }
+}

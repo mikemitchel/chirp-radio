@@ -1,0 +1,101 @@
+/* CrChip.css - Streamlined */
+
+.cr-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: none;
+}
+
+/* SIZE VARIANTS */
+.cr-chip--small {
+  height: 18px;
+  border-radius: 12px;
+  padding: calc(var(--cr-space-1) / 2) var(--cr-space-2);
+}
+
+.cr-chip--medium {
+  height: 22px;
+  border-radius: 11px;
+  padding: var(--cr-space-1) var(--cr-space-2);
+}
+
+.cr-chip--large {
+  height: 26px;
+  border-radius: 16px;
+  padding: 0 var(--cr-space-3);
+}
+
+/* SQUARED MODIFIER - applies to all sizes */
+.cr-chip--squared.cr-chip--small {
+  border-radius: 2px;
+  padding: calc(var(--cr-space-1) / 2) var(--cr-space-1);
+}
+
+.cr-chip--squared.cr-chip--medium {
+  border-radius: 6px;
+  padding: var(--cr-space-1) var(--cr-space-1);
+}
+
+.cr-chip--squared.cr-chip--large {
+  border-radius: 8px;
+  padding: 0 var(--cr-space-2);
+}
+
+/* COLOR VARIANTS */
+.cr-chip--light {
+  background-color: var(--cr-secondary-100);
+  color: var(--cr-ink);
+}
+
+.cr-chip--secondary {
+  background-color: var(--cr-secondary-700);
+  color: var(--cr-paper);
+}
+
+.cr-chip--primary {
+  background-color: var(--cr-primary-500);
+  color: #ffffff; /* Static white color that doesn't change in dark mode */
+}
+
+/* TYPOGRAPHY */
+.cr-chip__text {
+  position: relative;
+  z-index: 2;
+  line-height: 1;
+  text-align: center;
+}
+
+/* Small and Medium typography */
+.cr-chip--small .cr-chip__text,
+.cr-chip--medium .cr-chip__text {
+  font: var(--cr-nav-support);
+  font-variation-settings: 'wdth' 75;
+}
+
+/* Squared chips get tighter typography */
+.cr-chip--squared .cr-chip__text {
+  font: var(--cr-nav-support);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Large chip typography */
+.cr-chip--large .cr-chip__text {
+  font-family: var(--cr-font-antonio);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 0.85;
+  text-transform: uppercase;
+  transform: translateY(-1px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

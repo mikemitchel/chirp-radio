@@ -1,0 +1,200 @@
+/* CrFooter.css - Updated */
+
+.cr-footer {
+  width: 100%;
+  padding: var(--cr-space-16) var(--cr-space-12);
+}
+
+.cr-footer__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--cr-space-8);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Universal styles for sections */
+.cr-footer__left,
+.cr-footer__right {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cr-footer__left {
+  gap: var(--cr-space-5);
+}
+
+.cr-footer__right {
+  gap: var(--cr-space-3);
+  align-items: flex-start;
+  max-width: 243px;
+  min-width: 200px;
+}
+
+/* Text styles */
+.cr-footer__copyright p,
+.cr-footer__attribution p {
+  font: var(--cr-body-sm);
+  color: var(--cr-ink);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* All links */
+.cr-footer a {
+  color: var(--cr-secondary-700);
+  font-weight: 700;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.cr-footer a:hover {
+  color: var(--cr-secondary-500);
+}
+
+.cr-footer__separator {
+  color: var(--cr-ink);
+}
+
+/* Social section */
+.cr-footer__social {
+  display: flex;
+  gap: var(--cr-space-6);
+  align-items: center;
+}
+
+/* Event images - shared button styles */
+.cr-footer__event-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  border-radius: var(--cr-space-1);
+}
+
+.cr-footer__event-image:hover {
+  transform: translateY(-2px);
+  opacity: 0.8;
+}
+
+/* Event images */
+.cr-footer__middle {
+  display: flex;
+  gap: var(--cr-space-5);
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cr-footer__event-image--film-fest { height: 50px; }
+.cr-footer__event-image--first-time { height: 55px; }
+
+.cr-footer__event-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Callibrity logo */
+.cr-footer__callibrity-logo {
+  height: 30px;
+  display: flex;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  border-radius: var(--cr-space-1);
+}
+
+.cr-footer__callibrity-logo:hover {
+  transform: translateY(-2px);
+  opacity: 0.8;
+}
+
+.cr-footer__callibrity-logo .cls-1 {
+  fill: #360d2d;
+}
+
+/* Tagline */
+.cr-footer__tagline {
+  background-color: #ffcd00;
+  color: #360d2d;
+  padding: var(--cr-space-1) var(--cr-space-3);
+  font-family: var(--cr-font-antonio);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.48px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dark mode Component Support */
+[data-theme="dark"] .cr-footer a {
+  color: var(--cr-secondary-500);
+}
+
+[data-theme="dark"] .cr-footer a:hover {
+  color: var(--cr-secondary-300);
+}
+
+[data-theme="dark"] .cr-footer__event-image--first-time img {
+  filter: brightness(0) invert(1);
+}
+
+[data-theme="dark"] .cr-footer__callibrity-logo {
+  filter: brightness(0) invert(1);
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .cr-footer__container { gap: var(--cr-space-8); }
+  .cr-footer__middle { flex-direction: column; }
+  .cr-footer__right { min-width: 180px; }
+}
+
+@media (max-width: 768px) {
+  .cr-footer { padding: var(--cr-space-8) var(--cr-space-4); }
+  .cr-footer__container {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--cr-space-8);
+    text-align: center;
+  }
+  .cr-footer__left,
+  .cr-footer__right {
+    width: 100%;
+    max-width: 480px;
+    min-width: 250px;
+    align-items: center;
+  }
+  .cr-footer__middle,
+  .cr-footer__callibrity-logo { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .cr-footer { padding: var(--cr-space-6) var(--cr-space-3); }
+  .cr-footer__container { gap: var(--cr-space-6); }
+  .cr-footer__middle { flex-direction: column; gap: var(--cr-space-4); }
+  .cr-footer__social { gap: var(--cr-space-4); }
+  .cr-footer__event-image--film-fest,
+  .cr-footer__event-image--first-time {
+    width: 100%;
+    height: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cr-footer a,
+  .cr-footer__event-image,
+  .cr-footer__callibrity-logo {
+    transition: none;
+  }
+}

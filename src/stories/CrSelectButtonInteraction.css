@@ -1,0 +1,51 @@
+.cr-select-button-interaction {
+  position: relative;
+  display: inline-block;
+}
+
+.cr-select-button-interaction__menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  margin-top: var(--cr-space-1);
+  min-width: 200px;
+  max-width: 300px;
+  width: max-content;
+  animation: cr-select-menu-fade-in 0.15s ease-out;
+  transform-origin: top left;
+}
+
+.cr-select-button-interaction__menu--closing {
+  animation: cr-select-menu-fade-out 0.15s ease-in;
+}
+
+@keyframes cr-select-menu-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cr-select-menu-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+}
+
+@media (max-width: 768px) {
+  .cr-select-button-interaction__menu {
+    left: auto;
+    right: 0;
+    min-width: 180px;
+  }
+}

@@ -1,0 +1,72 @@
+/* CrDjSchedule.css */
+
+.cr-dj-schedule {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cr-dj-schedule__sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: var(--cr-paper);
+  z-index: 100;
+  padding: var(--cr-space-2) 0;
+  border-bottom: 1px solid var(--cr-default-300);
+  margin-bottom: var(--cr-space-4);
+}
+
+.cr-dj-schedule__tabs {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--cr-space-2);
+  margin-bottom: var(--cr-space-4);
+}
+
+.cr-dj-schedule__day-label {
+  font: var(--cr-title-sm);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cr-space-4);
+  margin: 0;
+  color: var(--cr-ink);
+}
+
+.cr-dj-schedule__day-label::before,
+.cr-dj-schedule__day-label::after {
+  content: "";
+  flex: 1;
+  border-top: 2px solid var(--cr-primary-500);
+  height: 0;
+}
+
+.cr-dj-schedule__grid {
+  display: flex;
+  gap: var(--cr-space-4);
+  flex-wrap: wrap;
+}
+
+.cr-dj-schedule__column {
+  flex: 1;
+  min-width: 250px;
+}
+
+.cr-dj-schedule__bucket-title {
+  font: var(--cr-title-xs);
+  border-bottom: 1px solid var(--cr-default-300);
+  padding-bottom: var(--cr-space-1);
+  margin-bottom: var(--cr-space-3);
+  color: var(--cr-ink);
+}
+
+@media (max-width: 820px) {
+  .cr-dj-schedule__grid {
+    flex-direction: column;
+  }
+
+  .cr-dj-schedule__column {
+    width: 100%;
+  }
+}

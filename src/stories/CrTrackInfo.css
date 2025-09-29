@@ -1,0 +1,221 @@
+/* CrTrackInfo.css */
+
+.cr-track-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Update the track info content to ensure ADD button stays inline */
+.cr-track-info__content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+/* Text area takes up available space but leaves room for button */
+.cr-track-info__text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Position the ADD button absolutely to keep it inline with last text line */
+.cr-track-info__actions {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  min-width: 65px;
+  justify-content: flex-end;
+}
+
+/* Different positioning based on variant */
+.cr-track-info--full .cr-track-info__actions {
+  bottom: 0; /* Align with the last line (album/label line) */
+}
+
+.cr-track-info--minimal .cr-track-info__actions {
+  bottom: 0; /* Align with artist line (which is the last visible line in minimal) */
+}
+
+.cr-track-info--stacked .cr-track-info__actions {
+  bottom: 0; /* Align with the last line (label line) */
+}
+
+/* Scrolling elements with proper typography */
+.cr-track-info__track-scrolling {
+  display: inline-block;
+  white-space: nowrap;
+  font: var(--cr-player-song); /* 600 21px/1 Roboto */
+  color: var(--cr-ink);
+  line-height: 1.2;
+}
+
+.cr-track-info__artist-scrolling {
+  display: inline-block;
+  white-space: nowrap;
+  font: var(--cr-player-artist); /* 400 18px/1 Roboto */
+  color: var(--cr-ink);
+  line-height: 1.2;
+}
+
+/* Artist container to hold scrolling artist + fixed LOCAL chip with 12px gap */
+.cr-track-info__artist-container {
+  display: flex;
+  align-items: center;
+}
+
+.cr-track-info__local-chip-fixed {
+  flex-shrink: 0; /* Prevent chip from shrinking */
+  position: relative; /* Ensure it stays in the layout flow but doesn't scroll */
+}
+
+.cr-track-info__details-scrolling {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* Typography Styles for nested elements */
+.cr-track-info__album {
+  font: var(--cr-player-album);
+  color: var(--cr-ink);
+  line-height: 1.2;
+  display: inline;
+  white-space: nowrap;
+  font-style: italic;
+}
+
+.cr-track-info__label {
+  font: var(--cr-player-label);
+  color: var(--cr-ink);
+  line-height: 1.2;
+  display: inline;
+  white-space: nowrap;
+}
+
+.cr-track-info__separator {
+  font: var(--cr-player-label);
+  color: var(--cr-ink);
+  margin: 0 var(--cr-space-1);
+  display: inline;
+  white-space: nowrap;
+}
+
+/* Scrolling animations using dynamic scroll distance AND duration */
+.cr-track-info__artist-scrolling.has-overflow {
+  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75) infinite;
+  animation-delay: 1s;
+}
+
+.cr-track-info__track-scrolling.has-overflow {
+  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75) infinite;
+  animation-delay: 1s;
+}
+
+.cr-track-info__details-scrolling.has-overflow {
+  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75) infinite;
+  animation-delay: 1s;
+}
+
+/* SINGLE DYNAMIC ANIMATION - calculates scroll distance based on container */
+@keyframes scroll-text-bounce {
+  0%, 10% {  /* Reduced from 30% to 10% - now waits much less */
+    transform: translateX(0);
+  }
+  40%, 70% {  /* Adjusted proportionally */
+    transform: translateX(var(--scroll-distance, -50%));
+  }
+  100% { 
+    transform: translateX(0);
+  }
+}
+
+/* VARIANT: Full (default) */
+.cr-track-info--full .cr-track-info__text {
+  gap: var(--cr-space-1);
+}
+
+/* VARIANT: Minimal (just song + artist) */
+.cr-track-info--minimal .cr-track-info__text {
+  gap: var(--cr-space-1);
+}
+
+/* VARIANT: Stacked (each on own line) */
+.cr-track-info--stacked .cr-track-info__text {
+  gap: var(--cr-space-xs);
+}
+
+/* Loading states for all variants */
+.cr-track-info--loading .cr-track-info__track-scrolling,
+.cr-track-info--loading .cr-track-info__artist-scrolling,
+.cr-track-info--loading .cr-track-info__album,
+.cr-track-info--loading .cr-track-info__label {
+  opacity: 0.5;
+  background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Legacy support for existing modifiers */
+.cr-track-info--slim {
+  width: 100%;
+}
+
+.cr-track-info--slim .cr-track-info__album,
+.cr-track-info--slim .cr-track-info__label {
+  display: none;
+}
+
+.cr-track-info--mini {
+  width: 100%;
+}
+
+.cr-track-info--mini .cr-track-info__album,
+.cr-track-info--mini .cr-track-info__label {
+  display: none;
+}
+
+.cr-track-info--mini .cr-track-info__actions {
+  bottom: 22px; /* Align with artist line for mini variant */
+}
+
+.cr-track-info--mini .cr-track-info__content {
+  gap: var(--cr-space-1);
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 640px) {
+  .cr-track-info__content {
+    position: relative; /* Maintain relative positioning on mobile */
+  }
+  
+  /* On mobile, still keep button inline with last visible text */
+  .cr-track-info__actions {
+    position: absolute;
+    right: 0;
+    min-width: 60px; /* Even smaller on mobile */
+  }
+  
+  /* Adjust text container widths for mobile */
+  .cr-track-info__text > div {
+    width: calc(100vw - 200px) !important; /* Adjust for mobile viewport */
+    max-width: 200px;
+  }
+  
+  .cr-track-info__artist-container > div {
+    width: calc(100vw - 220px) !important; /* Account for LOCAL chip space */
+    max-width: 200px;
+  }
+}

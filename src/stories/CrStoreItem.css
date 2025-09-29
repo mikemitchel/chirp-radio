@@ -1,0 +1,210 @@
+/* CrStoreItem.css */
+
+/* ============================================ */
+/* === CSS CUSTOM PROPERTIES === */
+/* ============================================ */
+
+.cr-store-item {
+  /* Layout properties from Figma */
+  --cr-store-item-gap: var(--cr-space-12);
+  --cr-store-item-details-gap: var(--cr-space-6);
+  --cr-store-item-header-gap: var(--cr-space-3);
+  
+  /* Colors */
+  --cr-store-item-text-color: var(--cr-ink);
+  --cr-store-item-price-color: var(--cr-ink);
+  --cr-store-item-description-color: var(--cr-ink);
+}
+
+/* ============================================ */
+/* === BASE STORE ITEM STYLES === */
+/* ============================================ */
+
+.cr-store-item {
+  display: flex;
+  gap: var(--cr-store-item-gap);
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  color: var(--cr-store-item-text-color);
+  position: relative;
+}
+
+/* ============================================ */
+/* === IMAGE STYLES === */
+/* ============================================ */
+
+.cr-store-item__image-container {
+  flex: 0 0 480px;
+  width: 480px;
+  height: 887px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.cr-store-item__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* ============================================ */
+/* === DETAILS STYLES === */
+/* ============================================ */
+
+.cr-store-item__details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-store-item-details-gap);
+  min-width: 0; /* Prevent flex overflow */
+}
+
+.cr-store-item__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-store-item-header-gap);
+}
+
+.cr-store-item__title-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-store-item-header-gap);
+}
+
+.cr-store-item__name {
+  font: var(--cr-title-xs);
+  color: var(--cr-store-item-text-color);
+  margin: 0;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 30px;
+}
+
+.cr-store-item__price-chip-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cr-store-item__price {
+  font: var(--cr-body-reg);
+  color: var(--cr-store-item-price-color);
+  line-height: 1.4;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ============================================ */
+/* === DESCRIPTION STYLES === */
+/* ============================================ */
+
+.cr-store-item__description {
+  font: var(--cr-body-reg);
+  color: var(--cr-store-item-description-color);
+  line-height: 1.4;
+  margin: 0;
+  width: 100%;
+}
+
+/* ============================================ */
+/* === FORM STYLES === */
+/* ============================================ */
+
+.cr-store-item__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Form groups handle their own spacing */
+  width: 100%;
+  position: relative;
+  isolation: isolate; /* Create stacking context */
+}
+
+/* Form groups use existing form styling from index.css */
+.cr-store-item__form .form-group {
+  margin-bottom: var(--cr-space-4);
+  z-index: 2; /* Stack above other elements */
+  position: relative;
+}
+
+.cr-store-item__form .form-group:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================================ */
+/* === ACTIONS STYLES === */
+/* ============================================ */
+
+.cr-store-item__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--cr-space-3); /* 10px from Figma */
+  width: 100%;
+}
+
+/* ============================================ */
+/* === RESPONSIVE STYLES === */
+/* ============================================ */
+
+@media (max-width: 1024px) {
+  .cr-store-item {
+    --cr-store-item-gap: var(--cr-space-8);
+  }
+  
+  .cr-store-item__image-container {
+    flex: 0 0 400px;
+    width: 400px;
+    height: 600px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cr-store-item {
+    flex-direction: column;
+    --cr-store-item-gap: var(--cr-space-6);
+  }
+  
+  .cr-store-item__image-container {
+    flex: none;
+    width: 100%;
+    height: 400px;
+  }
+  
+  .cr-store-item__name {
+    max-width: none;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+  
+  .cr-store-item__price-chip-row {
+    flex-wrap: wrap;
+    gap: var(--cr-space-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .cr-store-item {
+    --cr-store-item-details-gap: var(--cr-space-4);
+    --cr-store-item-header-gap: var(--cr-space-2);
+  }
+  
+  .cr-store-item__image-container {
+    height: 300px;
+  }
+  
+  .cr-store-item__actions {
+    align-items: stretch;
+  }
+  
+  .cr-store-item__actions .cr-btn {
+    width: 100%;
+  }
+}

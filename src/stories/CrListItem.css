@@ -1,0 +1,37 @@
+/* CrListItem.css */
+
+.cr-rating-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cr-space-md);
+  padding: var(--cr-space-2) 0;
+  width: 100%;
+}
+
+.cr-rating-list-item__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.cr-rating-list-item__ranking {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  margin-right: var(--cr-space-1);
+}
+
+.cr-rating-list-item__song {
+  font: var(--cr-body-reg);
+  font-weight: 600;
+  color: var(--cr-ink);
+}
+
+.cr-rating-list-item__separator,
+.cr-rating-list-item__artist,
+.cr-rating-list-item__company {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+}

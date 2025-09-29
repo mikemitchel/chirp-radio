@@ -1,0 +1,55 @@
+/* CrDropdownMenu.css */
+.cr-dropdown-menu {
+  background-color: var(--cr-paper, #fafafa);
+  border-radius: 8px;
+  box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.22), 0px 14px 28px 0px rgba(0,0,0,0.25);
+  font-family: var(--cr-font-family);
+}
+
+.cr-dropdown-menu__options {
+  list-style: none;
+  margin: 0;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cr-dropdown-menu__option-wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+.cr-dropdown-menu__option {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  color: var(--cr-ink, #18181b);
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+  white-space: nowrap;
+}
+
+.cr-dropdown-menu__option:hover {
+  color: var(--cr-primary-500);
+  text-decoration: underline;
+}
+
+/* Dark theme */
+.cr-dropdown-menu--dark {
+  background-color: var(--cr-ink);
+}
+
+.cr-dropdown-menu--dark .cr-dropdown-menu__option {
+  color: var(--cr-paper);
+}
+
+.cr-dropdown-menu--dark .cr-dropdown-menu__option:hover {
+  color: var(--cr-primary-400);
+}

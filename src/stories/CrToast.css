@@ -1,0 +1,238 @@
+/* CrToast.css */
+
+/* ============================================ */
+/* === TOAST CONTAINER === */
+/* ============================================ */
+
+.cr-toast {
+  position: fixed;
+  top: var(--cr-space-6);
+  right: var(--cr-space-6);
+  max-width: 400px;
+  width: auto;
+  min-width: 280px;
+  z-index: 9999;
+  
+  /* Glass morphism effect */
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: var(--cr-space-1) solid rgba(255, 255, 255, 0.3);
+  border-color: var(--toast-border-color); /* Override with support color border */
+  border-radius: var(--cr-space-2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  /* Layout - now a flex container for content and dismiss button */
+  display: flex;
+  align-items: flex-start;
+  gap: var(--cr-space-3);
+  padding: var(--cr-space-4);
+  
+  /* Animation */
+  animation: cr-toast-slide-in 0.3s ease-out;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .cr-toast {
+  background: rgba(0, 0, 0, 0.6);
+  border-color: var(--toast-border-color-dark);
+  color: var(--cr-paper);
+}
+
+/* Toast slide-in animation */
+@keyframes cr-toast-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ============================================ */
+/* === TOAST CONTENT === */
+/* ============================================ */
+
+.cr-toast__content {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--cr-space-3);
+  flex: 1;
+  min-width: 0; /* Allow text to wrap */
+}
+
+/* Icon styling */
+.cr-toast__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--toast-icon-color);
+  margin-top: 2px; /* Align with first line of text */
+}
+
+[data-theme="dark"] .cr-toast__icon {
+  color: var(--toast-icon-color-dark);
+}
+
+.cr-toast__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Text container */
+.cr-toast__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.cr-toast__title {
+  font: var(--cr-nav-support);
+  font-weight: 600;
+  color: var(--cr-ink);
+  margin: 0;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+[data-theme="dark"] .cr-toast__title {
+  color: var(--cr-paper);
+}
+
+.cr-toast__message {
+  font: var(--cr-body-sm);
+  color: var(--cr-default-700);
+  margin: var(--cr-space-1) 0 0 0;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+[data-theme="dark"] .cr-toast__message {
+  color: var(--cr-default-300);
+}
+
+/* Link styling */
+.cr-toast__link {
+  color: var(--cr-primary-600);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.cr-toast__link:hover {
+  color: var(--cr-primary-700);
+  text-decoration: none;
+}
+
+[data-theme="dark"] .cr-toast__link {
+  color: var(--cr-primary-400);
+}
+
+[data-theme="dark"] .cr-toast__link:hover {
+  color: var(--cr-primary-300);
+}
+
+/* ============================================ */
+/* === DISMISS BUTTON === */
+/* ============================================ */
+
+.cr-toast__dismiss {
+  flex-shrink: 0;
+  margin-top: -2px; /* Align with content */
+}
+
+.cr-toast__dismiss-button {
+  /* Override some menu button styles for toast context */
+  color: var(--cr-default-500) !important;
+}
+
+.cr-toast__dismiss-button:hover:not(:disabled) {
+  color: var(--cr-default-700) !important;
+}
+
+.cr-toast__dismiss-button .cr-menu-button__icon {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.cr-toast__dismiss-button:hover:not(:disabled) .cr-menu-button__icon {
+  background-color: var(--cr-default-200) !important;
+}
+
+.cr-toast__dismiss-button .cr-menu-button__icon svg {
+  width: 18px !important;
+  height: 18px !important;
+  color: var(--cr-default-600);
+}
+
+.cr-toast__dismiss-button:hover:not(:disabled) .cr-menu-button__icon svg {
+  color: var(--cr-default-700);
+}
+
+[data-theme="dark"] .cr-toast__dismiss-button .cr-menu-button__icon svg {
+  color: var(--cr-default-400);
+}
+
+[data-theme="dark"] .cr-toast__dismiss-button:hover:not(:disabled) .cr-menu-button__icon svg {
+  color: var(--cr-default-200);
+}
+
+[data-theme="dark"] .cr-toast__dismiss-button:hover:not(:disabled) .cr-menu-button__icon {
+  background-color: var(--cr-default-700) !important;
+}
+
+/* ============================================ */
+/* === TOAST COLOR VARIANTS === */
+/* ============================================ */
+
+.cr-toast--success {
+  --toast-icon-color: var(--cr-support-success-fg); /* #067A46 */
+  --toast-border-color: var(--cr-support-success-fg);
+  --toast-icon-color-dark: var(--cr-support-success-bg); /* #D1EEC6 */
+  --toast-border-color-dark: var(--cr-support-success-bg);
+}
+
+.cr-toast--info {
+  --toast-icon-color: var(--cr-support-info-fg);
+  --toast-border-color: var(--cr-support-info-fg);
+  --toast-icon-color-dark: var(--cr-support-info-bg);
+  --toast-border-color-dark: var(--cr-support-info-bg);
+}
+
+.cr-toast--warning {
+  --toast-icon-color: var(--cr-support-warning-fg);
+  --toast-border-color: var(--cr-support-warning-fg);
+  --toast-icon-color-dark: var(--cr-support-warning-bg);
+  --toast-border-color-dark: var(--cr-support-warning-bg);
+}
+
+.cr-toast--error {
+  --toast-icon-color: var(--cr-support-error-fg);
+  --toast-border-color: var(--cr-support-error-fg);
+  --toast-icon-color-dark: var(--cr-support-error-bg);
+  --toast-border-color-dark: var(--cr-support-error-bg);
+}
+
+/* ============================================ */
+/* === RESPONSIVE DESIGN === */
+/* ============================================ */
+
+@media (max-width: 480px) {
+  .cr-toast {
+    max-width: calc(100vw - var(--cr-space-8)); /* Account for margin */
+    margin: 0 var(--cr-space-4);
+    right: var(--cr-space-4);
+    left: var(--cr-space-4);
+  }
+  
+  .cr-toast__content {
+    gap: var(--cr-space-2); /* Slightly smaller gap on mobile */
+  }
+}

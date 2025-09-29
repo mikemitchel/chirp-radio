@@ -1,0 +1,164 @@
+/* CrDonationBar.css */
+
+/* ============================================ */
+/* === BASE DONATION BAR STYLES === */
+/* ============================================ */
+
+.cr-donation-bar {
+  width: 100%;
+  height: 50px;
+  background-color: var(--cr-primary-500);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: var(--cr-space-2);
+}
+
+.cr-donation-bar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.cr-donation-bar:active {
+  transform: translateY(0);
+}
+
+/* Remove interactive styles when no click handler */
+.cr-donation-bar:not([role="button"]) {
+  cursor: default;
+}
+
+.cr-donation-bar:not([role="button"]):hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* ============================================ */
+/* === CONTAINER & LAYOUT === */
+/* ============================================ */
+
+.cr-donation-bar__container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* ============================================ */
+/* === AMOUNT DISPLAY === */
+/* ============================================ */
+
+.cr-donation-bar__current-white,
+.cr-donation-bar__current-red,
+.cr-donation-bar__target {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* White text - always visible on red background */
+.cr-donation-bar__current-white {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  padding-left: var(--cr-space-3);
+}
+
+/* Red text - inside white bar, gets clipped by bar boundaries */
+.cr-donation-bar__current-red {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  padding-left: var(--cr-space-3);
+}
+
+.cr-donation-bar__amount {
+  font: var(--cr-title-lg);
+  font-family: var(--cr-font-antonio), serif;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.02em;
+  padding-bottom: calc(var(--cr-space-1)/2)
+}
+
+.cr-donation-bar__amount--red {
+  color: var(--cr-primary-500);
+}
+
+.cr-donation-bar__amount--white {
+  color: white;
+}
+
+/* Target amount - white on red background */
+.cr-donation-bar__target .cr-donation-bar__amount {
+  color: white;
+}
+
+/* ============================================ */
+/* === PROGRESS BAR === */
+/* ============================================ */
+
+.cr-donation-bar__progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.cr-donation-bar__fill {
+  height: 100%;
+  background-color: var(--cr-paper);
+  width: 0;
+  border-radius: calc(var(--cr-space-1)/2);
+  transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fill animation */
+.cr-donation-bar__fill--animate {
+  width: var(--progress-width);
+}
+
+/* ============================================ */
+/* === ANIMATION PREFERENCES === */
+/* ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .cr-donation-bar__fill {
+    transition: none;
+  }
+  
+  .cr-donation-bar:hover {
+    transform: none;
+  }
+}
+
+/* ============================================ */
+/* === HIGH CONTRAST MODE === */
+/* ============================================ */
+
+@media (prefers-contrast: high) {
+  .cr-donation-bar {
+    border: 2px solid currentColor;
+  }
+  
+  .cr-donation-bar__fill {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Prevent dark mode color changes */
+[data-theme="dark"] .cr-donation-bar {
+  --cr-primary-500: #EA1C2C;
+  --cr-paper: #fafafa;
+}

@@ -1,0 +1,39 @@
+/* CrSocialIcon.css */
+
+.cr-social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  border-radius: var(--cr-space-1);
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cr-social-icon:hover {
+  transform: translateY(-2px);
+  opacity: 0.8;
+}
+
+.cr-social-icon__svg {
+  width: var(--cr-social-icon-size, 24px);
+  height: var(--cr-social-icon-size, 24px);
+  color: var(--cr-social-icon-color, var(--cr-ink));
+  flex-shrink: 0;
+}
+
+/* Dark mode - Component Support - make icons white on hover */
+[data-theme="dark"] .cr-social-icon:hover .cr-social-icon__svg {
+  color: #FFFFFF;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .cr-social-icon {
+    transition: none;
+  }
+}

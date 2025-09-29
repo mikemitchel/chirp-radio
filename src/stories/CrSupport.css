@@ -1,0 +1,195 @@
+/* CrSupport.css */
+
+.cr-support {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--cr-space-6); /* 24px - matches Figma spacing */
+  width: 100%;
+  padding: var(--cr-space-6); /* 24px padding around component */
+}
+
+/* Primary support text */
+.cr-support__primary-text {
+  width: 100%;
+  text-align: left;
+}
+
+.cr-support__primary-text p {
+  font: var(--cr-body-reg); /* 16px Roboto Serif Regular */
+  color: var(--cr-ink);
+  margin: 0;
+  line-height: 1.4; /* Matches Figma line height */
+}
+
+.cr-support__grant-name {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  font-weight: 400; /* Regular weight to match Figma */
+}
+
+/* Main logos container */
+.cr-support__main-logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cr-space-12); /* 48px gap between logos - matches Figma */
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+/* Individual logo container */
+.cr-support__logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* DCASE logo dimensions */
+.cr-support__logo--dcase {
+    height: auto;
+    max-width: 250px;
+  }
+
+/* Illinois Arts Council logo dimensions */
+.cr-support__logo--iac {
+  width: 200px;
+  max-height: 90px;
+}
+
+/* Logo image styling */
+.cr-support__logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Invert black logo to white in dark mode */
+[data-theme="dark"] .cr-support__logo-image {
+  filter: brightness(0) invert(1);
+}
+
+/* Additional support text */
+.cr-support__additional-text {
+  width: 100%;
+  text-align: left;
+  margin-bottom: var(--cr-space-6); /* Add 24px spacing below the text */
+}
+
+.cr-support__additional-text p {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Additional logos container */
+.cr-support__additional-logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cr-space-8); /* 32px gap between additional logos */
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.cr-support__additional-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 160px;
+  max-height: 40px;
+}
+
+.cr-support__additional-logo-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Dark mode - Component Support - invert additional logos to white */
+[data-theme="dark"] .cr-support__additional-logo-image {
+  filter: brightness(0) invert(1);
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+  .cr-support {
+    padding: var(--cr-space-4); /* 16px padding on smaller screens */
+    gap: var(--cr-space-5); /* 20px gap */
+  }
+  
+  .cr-support__main-logos {
+    gap: var(--cr-space-8); /* 32px gap between logos */
+    justify-content: center; /* Center on smaller screens */
+  }
+  
+  /* Scale down logos proportionally on smaller screens */
+  .cr-support__logo--dcase {
+    width: 320px;
+    height: 100px;
+  }
+  
+  .cr-support__logo--iac {
+    width: 221px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cr-support {
+    padding: var(--cr-space-3); /* 12px padding */
+    gap: var(--cr-space-4); /* 16px gap */
+  }
+  
+  .cr-support__main-logos {
+    gap: var(--cr-space-6); /* 24px gap */
+    flex-direction: column;
+    justify-content: center; /* Center on mobile */
+  }
+  
+  /* Further scale down on tablets */
+  .cr-support__logo--dcase {
+    width: 280px;
+    height: 87px;
+  }
+  
+  .cr-support__logo--iac {
+    width: 193px;
+    height: 105px;
+  }
+  
+  .cr-support__additional-logos {
+    gap: var(--cr-space-4); /* 16px gap for additional logos */
+    justify-content: center; /* Center on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .cr-support {
+    padding: var(--cr-space-2); /* 8px padding on mobile */
+    gap: var(--cr-space-3); /* 12px gap */
+  }
+  
+  .cr-support__main-logos {
+    gap: var(--cr-space-4); /* 16px gap */
+  }
+  
+  /* Mobile-friendly logo sizes */
+  .cr-support__logo--dcase {
+    width: 240px;
+    height: 75px;
+  }
+  
+  .cr-support__logo--iac {
+    width: 166px;
+    height: 90px;
+  }
+  
+  .cr-support__additional-logos {
+    flex-direction: column;
+    gap: var(--cr-space-3); /* 12px gap */
+  }
+}
