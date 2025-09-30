@@ -1,15 +1,12 @@
-import { useState } from "react";
-import Layout from "./layout";
+import RootLayout from "./layouts/RootLayout";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <Layout>
+      <RootLayout>
         <div>Chirp-Radio is coming here soon!!</div>
-      </Layout>
+      </RootLayout>
     </>
   );
 }
