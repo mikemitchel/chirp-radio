@@ -1,4 +1,4 @@
-// CrTypographyShowcase.jsx
+// CrTypographyShowcase.tsx
 import React from 'react';
 
 export default function CrTypographyShowcase() {

@@ -1,4 +1,4 @@
-// CrDropdownMenu.jsx
+// CrDropdownMenu.tsx
 import React from 'react';
 import './CrSelect.css';
 

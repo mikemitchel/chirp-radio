@@ -1,4 +1,4 @@
-// CrPlaylistTable.jsx
+// CrPlaylistTable.tsx
 import React, { useState, useRef, useEffect } from 'react';
 import CrPlaylistTableHeader from './CrPlaylistTableHeader';
 import CrPlaylistItem from './CrPlaylistItem';

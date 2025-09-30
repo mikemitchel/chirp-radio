@@ -1,4 +1,4 @@
-// CrCardDetails.jsx
+// CrCardDetails.tsx
 import React from 'react';
 import { PiCalendarDots, PiMapTrifold, PiArrowSquareUp } from 'react-icons/pi';
 import CrChip from './CrChip';

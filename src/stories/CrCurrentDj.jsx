@@ -1,4 +1,4 @@
-// CrCurrentDj.jsx
+// CrCurrentDj.tsx
 import React from 'react';
 import CrChip from './CrChip';
 import './CrCurrentDj.css';

@@ -1,4 +1,4 @@
-// CrTopBanner.jsx
+// CrTopBanner.tsx
 import React, { useState, useEffect } from 'react';
 import CrAccount from './CrAccount';
 import CrCurrentDj from './CrCurrentDj';

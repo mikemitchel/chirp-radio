@@ -1,4 +1,4 @@
-// CrButton.jsx
+// CrButton.tsx
 import React from 'react';
 import './CrButton.css';
 

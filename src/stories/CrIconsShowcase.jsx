@@ -1,4 +1,4 @@
-// CrIconsShowcase.jsx
+// CrIconsShowcase.tsx
 import React, { useState } from 'react';
 import { 
   PiHandHeartLight,

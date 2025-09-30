@@ -1,4 +1,4 @@
-// CrDonateAmount.jsx
+// CrDonateAmount.tsx
 import React from 'react';
 import CrButton from './CrButton';
 import './CrDonateAmount.css';

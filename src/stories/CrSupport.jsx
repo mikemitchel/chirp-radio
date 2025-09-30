@@ -1,4 +1,4 @@
-// CrSupport.jsx
+// CrSupport.tsx
 import React from 'react';
 import './CrSupport.css';
 

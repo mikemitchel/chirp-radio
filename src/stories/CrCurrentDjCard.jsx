@@ -1,4 +1,4 @@
-// CrCurrentDjCard.jsx
+// CrCurrentDjCard.tsx
 import React from 'react';
 import CrCurrentDj from './CrCurrentDj';
 import CrButton from './CrButton';

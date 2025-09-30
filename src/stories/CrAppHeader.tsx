@@ -1,9 +1,9 @@
-// CrAppHeader.jsx
-import React from 'react';
-import CrTopBanner from './CrTopBanner';
-import CrBrandBanner from './CrBrandBanner';
-import CrMainNav from './CrMainNav';
-import './CrAppHeader.css';
+// CrAppHeader.tsx
+import React from "react";
+import CrTopBanner from "./CrTopBanner";
+import CrBrandBanner from "./CrBrandBanner";
+import CrMainNav from "./CrMainNav";
+import "./CrAppHeader.css";
 
 export default function CrAppHeader({
   // TopBanner props
@@ -11,28 +11,28 @@ export default function CrAppHeader({
   isVolunteer = true,
   userName = "Johanna Dough",
   userAvatar = "https://images.unsplash.com/photo-1580489944761-15a19d654956",
-  djName = 'DJ Current',
-  showName = 'The Current Show',
+  djName = "DJ Current",
+  showName = "The Current Show",
   isOnAir = true,
-  statusText = 'On-Air',
-  
+  statusText = "On-Air",
+
   // API props for TopBanner
   autoFetch = false,
-  apiUrl = 'https://chirpradio.appspot.com/api/current_playlist',
-  
+  apiUrl = "https://chirpradio.appspot.com/api/current_playlist",
+
   // LogoBanner props (formerly SiteHeader props)
   streamingPlayerProps = {
-    variant: 'slim-player',
-    artistName: 'Dave Brubeck Quartet',
-    trackName: 'Take Five',
+    variant: "slim-player",
+    artistName: "Dave Brubeck Quartet",
+    trackName: "Take Five",
     isTrackAdded: false,
-    autoFetch: false
+    autoFetch: false,
   },
-  
+
   // MainNav props
   storeBadgeCount = 5,
   showStoreBadge = true,
-  
+
   // Event handlers
   onMenuClick,
   onListenClick,
@@ -43,9 +43,8 @@ export default function CrAppHeader({
   onWaysToGiveClick,
   onDonateClick,
   onLoginClick,
-  onVolunteerDropdown
+  onVolunteerDropdown,
 }) {
-  
   return (
     <div className="cr-app-header">
       <CrTopBanner
@@ -63,11 +62,9 @@ export default function CrAppHeader({
         onLoginClick={onLoginClick}
         onVolunteerDropdown={onVolunteerDropdown}
       />
-      
-      <CrBrandBanner
-        streamingPlayerProps={streamingPlayerProps}
-      />
-      
+
+      <CrBrandBanner streamingPlayerProps={streamingPlayerProps} />
+
       <CrMainNav
         onMenuClick={onMenuClick}
         onListenClick={onListenClick}

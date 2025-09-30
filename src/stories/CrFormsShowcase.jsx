@@ -1,4 +1,4 @@
-// CrFormsShowcase.jsx
+// CrFormsShowcase.tsx
 import React, { useState } from 'react';
 import CrButton from './CrButton';
 import CrSocialIcon from './CrSocialIcon';

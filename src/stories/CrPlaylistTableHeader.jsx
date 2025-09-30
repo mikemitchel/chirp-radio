@@ -1,4 +1,4 @@
-// CrPlaylistTableHeader.jsx
+// CrPlaylistTableHeader.tsx
 import React from 'react';
 import './CrPlaylistTableHeader.css';
 

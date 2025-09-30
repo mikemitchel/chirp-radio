@@ -1,4 +1,4 @@
-// CrMenuButton.jsx
+// CrMenuButton.tsx
 import React from 'react';
 import { PiDotsThreeOutlineVerticalFill, PiXBold } from 'react-icons/pi';
 import './CrMenuButton.css';

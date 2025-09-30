@@ -1,4 +1,4 @@
-// CrStoreItemCard.jsx
+// CrStoreItemCard.tsx
 import React from 'react';
 import CrChip from './CrChip';
 import './CrStoreItemCard.css';

@@ -1,4 +1,4 @@
-// CrColorShowcase.jsx
+// CrColorShowcase.tsx
 import React from 'react';
 
 export default function CrColorShowcase() {

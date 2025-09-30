@@ -1,4 +1,4 @@
-// CrSocialIcon.jsx
+// CrSocialIcon.tsx
 import React from 'react';
 import { 
   FaFacebookSquare, 

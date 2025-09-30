@@ -1,4 +1,4 @@
-// CrList.jsx
+// CrList.tsx
 import React from 'react';
 import CrCardBanner from './CrCardBanner';
 import CrListItem from './CrListItem';

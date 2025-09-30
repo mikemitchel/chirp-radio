@@ -1,4 +1,4 @@
-// CrStoreItem.jsx
+// CrStoreItem.tsx
 import React, { useState } from 'react';
 import CrButton from './CrButton';
 import CrChip from './CrChip';

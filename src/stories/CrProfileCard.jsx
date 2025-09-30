@@ -1,4 +1,4 @@
-// CrProfileCard.jsx
+// CrProfileCard.tsx
 import React, { useState } from 'react';
 import { PiPencilSimple, PiUser, PiHeart, PiMinus } from 'react-icons/pi';
 import CrPageHeader from './CrPageHeader';

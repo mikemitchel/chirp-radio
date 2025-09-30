@@ -1,4 +1,4 @@
-// CrTable.jsx
+// CrTable.tsx
 import React, { useState } from 'react';
 import { PiCaretUp, PiCaretDown, PiCaretUpDown } from 'react-icons/pi';
 import CrPageHeader from './CrPageHeader';

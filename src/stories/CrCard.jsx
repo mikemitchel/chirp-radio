@@ -1,4 +1,4 @@
-// CrCard.jsx
+// CrCard.tsx
 import React from 'react';
 import CrCardBanner from './CrCardBanner';
 import CrCardDetails from './CrCardDetails';

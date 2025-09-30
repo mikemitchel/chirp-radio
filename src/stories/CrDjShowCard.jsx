@@ -1,4 +1,4 @@
-// CrDjShowCard.jsx
+// CrDjShowCard.tsx
 import React from 'react';
 import CrDjOverview from './CrDjOverview';
 import './CrDjShowCard.css';

@@ -1,4 +1,4 @@
-// CrShoppingCart.jsx
+// CrShoppingCart.tsx
 import React from 'react';
 import { PiArrowRight } from 'react-icons/pi';
 import CrButton from './CrButton';

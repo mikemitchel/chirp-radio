@@ -1,4 +1,4 @@
-// CrChip.jsx
+// CrChip.tsx
 import React from 'react';
 import './CrChip.css';
 

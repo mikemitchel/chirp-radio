@@ -1,4 +1,4 @@
-// CrStreamingMusicPlayer.jsx
+// CrStreamingMusicPlayer.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import { PiPlayFill, PiPauseFill } from 'react-icons/pi';
 import CrCurrentDj from './CrCurrentDj';

@@ -1,4 +1,4 @@
-// CrDjScheduleSearch.jsx
+// CrDjScheduleSearch.tsx
 import React from 'react';
 import { PiX } from 'react-icons/pi';
 import './CrDjScheduleSearch.css';

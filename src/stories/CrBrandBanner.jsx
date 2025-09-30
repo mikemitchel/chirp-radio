@@ -1,4 +1,4 @@
-// CrBrandBanner.jsx
+// CrBrandBanner.tsx
 import React from 'react';
 import CrLogo from './CrLogo';
 import CrStreamingMusicPlayer from "./CrStreamingMusicPlayer";

@@ -1,4 +1,4 @@
-// CrImageCropper.jsx
+// CrImageCropper.tsx
 import React, { useState, useRef, useCallback } from 'react';
 import { PiUploadSimple, PiPencilSimple, PiX } from 'react-icons/pi';
 import CrButton from './CrButton';

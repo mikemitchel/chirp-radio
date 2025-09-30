@@ -1,4 +1,4 @@
-// CrSidebar.jsx
+// CrSidebar.tsx
 import React from 'react';
 import { 
   PiHandHeartLight, 

@@ -1,4 +1,4 @@
-// CrDjSchedule.jsx
+// CrDjSchedule.tsx
 import React, { useState, useEffect, useMemo } from 'react';
 import { PiX } from 'react-icons/pi';
 import CrButtonGroup from './CrButtonGroup';

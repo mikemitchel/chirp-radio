@@ -1,4 +1,4 @@
-// CrMobileAppFrame.jsx
+// CrMobileAppFrame.tsx
 import React, { useState } from 'react';
 import CrMobileHeader from './CrMobileHeader';
 import CrStreamingMusicPlayer from './CrStreamingMusicPlayer';

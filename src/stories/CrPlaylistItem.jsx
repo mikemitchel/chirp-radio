@@ -1,4 +1,4 @@
-// CrPlaylistItem.jsx
+// CrPlaylistItem.tsx
 import React from 'react';
 import CrTrackInfo from './CrTrackInfo';
 import CrButton from './CrButton';

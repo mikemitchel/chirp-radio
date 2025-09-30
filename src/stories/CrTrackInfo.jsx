@@ -1,4 +1,4 @@
-// CrTrackInfo.jsx
+// CrTrackInfo.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import { PiPlus, PiMinus } from 'react-icons/pi';
 import CrButton from './CrButton';

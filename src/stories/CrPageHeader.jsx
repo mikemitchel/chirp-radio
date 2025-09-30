@@ -1,4 +1,4 @@
-// CrPageHeader.jsx
+// CrPageHeader.tsx
 import React from 'react';
 import CrButton from './CrButton';
 import './CrPageHeader.css';

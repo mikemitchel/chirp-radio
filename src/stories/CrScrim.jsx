@@ -1,4 +1,4 @@
-// CrScrim.jsx
+// CrScrim.tsx
 import React from 'react';
 import './CrScrim.css';
 

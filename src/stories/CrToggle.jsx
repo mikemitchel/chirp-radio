@@ -1,4 +1,4 @@
-// CrToggle.jsx
+// CrToggle.tsx
 import React from 'react';
 import './CrToggle.css';
 

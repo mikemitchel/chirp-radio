@@ -1,4 +1,4 @@
-// CrModal.jsx
+// CrModal.tsx
 import React from 'react';
 import CrButton from './CrButton';
 import CrCurrentDj from './CrCurrentDj';

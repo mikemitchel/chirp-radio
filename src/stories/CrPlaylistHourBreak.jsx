@@ -1,4 +1,4 @@
-// CrPlaylistHourBreak.jsx
+// CrPlaylistHourBreak.tsx
 import React from 'react';
 import { PiCaretDown } from 'react-icons/pi';
 import './CrPlaylistHourBreak.css';

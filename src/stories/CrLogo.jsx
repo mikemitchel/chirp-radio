@@ -1,4 +1,4 @@
-// CrLogo.jsx
+// CrLogo.tsx
 import React from 'react';
 import './CrLogo.css';
 

@@ -1,4 +1,4 @@
-// CrButtonGroup.jsx - Use CrButton for all states
+// CrButtonGroup.tsx - Use CrButton for all states
 import React from 'react';
 import CrButton from './CrButton';
 import './CrButtonGroup.css';

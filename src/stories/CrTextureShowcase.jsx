@@ -1,4 +1,4 @@
-// CrTextureShowcase.jsx
+// CrTextureShowcase.tsx
 import React from 'react';
 
 export default function CrTextureShowcase() {

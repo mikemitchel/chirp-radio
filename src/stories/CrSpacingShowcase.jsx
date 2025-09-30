@@ -1,4 +1,4 @@
-// CrSpacingShowcase.jsx
+// CrSpacingShowcase.tsx
 import React from 'react';
 
 export default function CrSpacingShowcase() {

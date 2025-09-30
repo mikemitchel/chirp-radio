@@ -1,4 +1,4 @@
-// CrCardBanner.jsx
+// CrCardBanner.tsx
 import React from 'react';
 import { PiTicket, PiArrowSquareUp, PiMusicNotes, PiArrowCircleRight } from 'react-icons/pi';
 import CrButton from './CrButton';

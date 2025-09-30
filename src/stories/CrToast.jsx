@@ -1,4 +1,4 @@
-// CrToast.jsx
+// CrToast.tsx
 import React from 'react';
 import { PiMinusSquare, PiCheckSquare, PiInfo, PiWarningCircle, PiFloppyDiskLight } from 'react-icons/pi';
 import CrMenuButton from './CrMenuButton';

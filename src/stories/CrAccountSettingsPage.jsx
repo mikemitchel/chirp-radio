@@ -1,4 +1,4 @@
-// CrAccountSettingsPage.jsx
+// CrAccountSettingsPage.tsx
 import React, { useState } from 'react';
 import CrToggle from './CrToggle';
 import CrButton from './CrButton';

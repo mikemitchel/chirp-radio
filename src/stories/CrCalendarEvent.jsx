@@ -1,4 +1,4 @@
-// CrCalendarEvent.jsx
+// CrCalendarEvent.tsx
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import CrEventItem from './CrEventItem';
 import { PiCaretLeft, PiCaretRight, PiCalendarBlank } from 'react-icons/pi';

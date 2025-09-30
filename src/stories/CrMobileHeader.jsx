@@ -1,4 +1,4 @@
-// CrMobileHeader.jsx
+// CrMobileHeader.tsx
 import React from 'react';
 import CrLogo from './CrLogo';
 import CrMenuButton from './CrMenuButton';

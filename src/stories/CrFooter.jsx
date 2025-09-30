@@ -1,4 +1,4 @@
-// CrFooter.jsx
+// CrFooter.tsx
 import React from 'react';
 import CrSocialIcon from './CrSocialIcon';
 import chirpFilmFest from '../src/assets/chirp-logos/chirp-film-fest.jpg';
