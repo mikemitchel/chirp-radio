@@ -1,4 +1,4 @@
-// CrSocialIcon.stories.js
+// CrSocialIcon.stories.tsx
 import React from 'react';
 import CrSocialIcon from './CrSocialIcon';
 

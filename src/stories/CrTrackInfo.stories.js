@@ -1,4 +1,4 @@
-// CrTrackInfo.stories.js
+// CrTrackInfo.stories.tsx
 import CrTrackInfo from './CrTrackInfo';
 
 export default {

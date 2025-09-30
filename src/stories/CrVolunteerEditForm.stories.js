@@ -1,4 +1,4 @@
-// CrVolunteerEditForm.stories.js
+// CrVolunteerEditForm.stories.tsx
 import React from 'react';
 import CrVolunteerEditForm from './CrVolunteerEditForm';
 

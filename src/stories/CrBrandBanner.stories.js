@@ -1,4 +1,4 @@
-// CrBrandBanner.stories.js
+// CrBrandBanner.stories.tsx
 import CrBrandBanner from './CrBrandBanner';
 
 export default {

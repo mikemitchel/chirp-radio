@@ -1,4 +1,4 @@
-// CrCardBanner.stories.js
+// CrCardBanner.stories.tsx
 import React from 'react';
 import CrCardBanner from './CrCardBanner';
 

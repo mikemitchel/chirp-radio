@@ -1,4 +1,4 @@
-// CrCalendarEvent.stories.js
+// CrCalendarEvent.stories.tsx
 import React from 'react';
 import CrCalendarEvent from './CrCalendarEvent';
 

@@ -1,4 +1,4 @@
-// CrLogo.stories.js
+// CrLogo.stories.tsx
 import React from 'react';
 import CrLogo from './CrLogo';
 

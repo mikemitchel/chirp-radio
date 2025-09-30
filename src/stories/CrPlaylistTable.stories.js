@@ -1,4 +1,4 @@
-// CrPlaylistTable.stories.js
+// CrPlaylistTable.stories.tsx
 import React from 'react';
 import CrPlaylistTable from './CrPlaylistTable';
 

@@ -1,4 +1,4 @@
-// CrDonateForm.stories.js
+// CrDonateForm.stories.tsx
 import React from 'react';
 import CrDonateForm from './CrDonateForm';
 

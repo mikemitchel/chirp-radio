@@ -1,4 +1,4 @@
-// CrChip.stories.js
+// CrChip.stories.tsx
 import CrChip from './CrChip';
 
 export default {

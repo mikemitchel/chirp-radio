@@ -1,4 +1,4 @@
-// CrModal.stories.js
+// CrModal.stories.tsx
 import React from 'react';
 import CrModal from './CrModal';
 import CrButton from './CrButton';

@@ -1,4 +1,4 @@
-// CrImageCropper.stories.js
+// CrImageCropper.stories.tsx
 import React from 'react';
 import CrImageCropper from './CrImageCropper';
 

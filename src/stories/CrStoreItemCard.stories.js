@@ -1,4 +1,4 @@
-// CrStoreItemCard.stories.js
+// CrStoreItemCard.stories.tsx
 import React from 'react';
 import CrStoreItemCard from './CrStoreItemCard';
 

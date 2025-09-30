@@ -1,4 +1,4 @@
-// CrButtonGroup.stories.js
+// CrButtonGroup.stories.tsx
 import React from 'react';
 import CrButtonGroup from './CrButtonGroup';
 

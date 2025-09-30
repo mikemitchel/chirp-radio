@@ -1,4 +1,4 @@
-// CrAppHeader.stories.js
+// CrAppHeader.stories.tsx
 import CrAppHeader from './CrAppHeader';
 
 export default {

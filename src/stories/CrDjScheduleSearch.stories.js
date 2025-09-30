@@ -1,4 +1,4 @@
-// CrDjScheduleSearch.stories.js
+// CrDjScheduleSearch.stories.tsx
 import React from 'react';
 import CrDjScheduleSearch from './CrDjScheduleSearch';
 

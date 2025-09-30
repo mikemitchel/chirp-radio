@@ -1,4 +1,4 @@
-// CrShoppingCart.stories.js
+// CrShoppingCart.stories.tsx
 import React from 'react';
 import CrShoppingCart from './CrShoppingCart';
 

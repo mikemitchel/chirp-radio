@@ -7,7 +7,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const RootLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <CrAppHeader />
@@ -16,3 +16,5 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     </>
   );
 };
+
+export default RootLayout;

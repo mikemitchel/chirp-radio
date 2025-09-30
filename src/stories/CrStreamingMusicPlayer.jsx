@@ -205,7 +205,7 @@ export default function CrStreamingMusicPlayer({
       let albumArtUrl = nowPlaying.lastfm_urls?.large_image || 
                         nowPlaying.lastfm_urls?.med_image || 
                         nowPlaying.lastfm_urls?.sm_image || 
-                        '../src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg';
+                        '../assets/chirp-logos/CHIRP_Logo_FM URL_record.svg';
       
       // Only add timestamp if we have a valid HTTP URL (not the fallback logo)
       if (albumArtUrl && albumArtUrl.startsWith('http')) {
@@ -279,7 +279,7 @@ export default function CrStreamingMusicPlayer({
       <div className="cr-player__full">
         <div className="cr-player__background" style={{ 
           backgroundImage: shouldUseFallback(currentData.albumArt)
-            ? `url('../src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg')` 
+            ? `url('../assets/chirp-logos/CHIRP_Logo_FM URL_record.svg')` 
             : `url(${currentData.albumArt})` 
         }}/>
         <div className="cr-player__color-overlay" />
@@ -314,7 +314,7 @@ export default function CrStreamingMusicPlayer({
     <div className="cr-player__slim">
       <div className="cr-player__background" style={{ 
         backgroundImage: shouldUseFallback(currentData.albumArt)
-          ? `url('../src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg')` 
+          ? `url('../assets/chirp-logos/CHIRP_Logo_FM URL_record.svg')` 
           : `url(${currentData.albumArt})` 
       }}/>
       <div className="cr-player__color-overlay" />
@@ -349,7 +349,7 @@ export default function CrStreamingMusicPlayer({
         {/* Add the background elements that were missing */}
         <div className="cr-player__background" style={{ 
           backgroundImage: shouldUseFallback(currentData.albumArt)
-            ? `url('../src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg')` 
+            ? `url('../assets/chirp-logos/CHIRP_Logo_FM URL_record.svg')` 
             : `url(${currentData.albumArt})` 
         }}/>
         <div className="cr-player__color-overlay" />

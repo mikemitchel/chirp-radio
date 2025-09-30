@@ -1,4 +1,4 @@
-// CrPlaylistHourBreak.stories.js
+// CrPlaylistHourBreak.stories.tsx
 import React from 'react';
 import CrPlaylistHourBreak from './CrPlaylistHourBreak';
 

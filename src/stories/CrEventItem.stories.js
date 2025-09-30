@@ -1,4 +1,4 @@
-// CrEventItem.stories.js
+// CrEventItem.stories.tsx
 import React from 'react';
 import CrEventItem from './CrEventItem';
 

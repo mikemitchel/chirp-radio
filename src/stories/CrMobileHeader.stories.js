@@ -1,4 +1,4 @@
-// CrMobileHeader.stories.js
+// CrMobileHeader.stories.tsx
 import CrMobileHeader from './CrMobileHeader';
 
 export default {

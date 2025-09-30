@@ -1,4 +1,4 @@
-// CrTopBanner.stories.js
+// CrTopBanner.stories.tsx
 import CrTopBanner from './CrTopBanner';
 
 export default {

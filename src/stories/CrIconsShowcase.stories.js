@@ -1,4 +1,4 @@
-// CrIconsShowcase.stories.js
+// CrIconsShowcase.stories.tsx
 import CrIconsShowcase from './CrIconsShowcase';
 import React from 'react';
 

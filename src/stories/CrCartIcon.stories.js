@@ -1,4 +1,4 @@
-// CrCartIcon.stories.js
+// CrCartIcon.stories.tsx
 import React from 'react';
 import CrCartIcon from './CrCartIcon';
 

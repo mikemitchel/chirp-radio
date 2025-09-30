@@ -1,4 +1,4 @@
-// CrPlaylistItem.stories.js
+// CrPlaylistItem.stories.tsx
 import React from 'react';
 import CrPlaylistItem from './CrPlaylistItem';
 

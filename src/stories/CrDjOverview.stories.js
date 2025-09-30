@@ -1,4 +1,4 @@
-// CrDjOverview.stories.js
+// CrDjOverview.stories.tsx
 import React from 'react';
 import CrDjOverview from './CrDjOverview';
 

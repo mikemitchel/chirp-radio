@@ -1,4 +1,4 @@
-// CrDjShowCard.stories.js
+// CrDjShowCard.stories.tsx
 import React from 'react';
 import CrDjShowCard from './CrDjShowCard';
 

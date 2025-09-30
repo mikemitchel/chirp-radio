@@ -1,4 +1,4 @@
-// CrAnnouncement.stories.js
+// CrAnnouncement.stories.tsx
 import React from 'react';
 import CrAnnouncement from './CrAnnouncement';
 

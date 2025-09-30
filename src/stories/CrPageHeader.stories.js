@@ -1,4 +1,4 @@
-// CrPageHeader.stories.js
+// CrPageHeader.stories.tsx
 import React from 'react';
 import CrPageHeader from './CrPageHeader';
 import { PiPencilSimple, PiPlus, PiGear } from 'react-icons/pi';

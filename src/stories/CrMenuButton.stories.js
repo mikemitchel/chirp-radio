@@ -1,4 +1,4 @@
-// CrMenuButton.stories.js
+// CrMenuButton.stories.tsx
 import React from 'react';
 import CrMenuButton from './CrMenuButton';
 import { PiHeart, PiMagnifyingGlass } from 'react-icons/pi';

@@ -1,4 +1,4 @@
-// CrFormsShowcase.stories.js
+// CrFormsShowcase.stories.tsx
 import CrFormsShowcase from './CrFormsShowcase';
 import React from 'react';
 

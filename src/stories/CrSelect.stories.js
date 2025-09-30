@@ -1,4 +1,4 @@
-// CrDropdownMenu.stories.js
+// CrDropdownMenu.stories.tsx
 import CrDropdownMenu from './CrSelect';
 
 export default {

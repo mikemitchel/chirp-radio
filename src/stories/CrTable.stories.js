@@ -1,4 +1,4 @@
-// CrTable.stories.js
+// CrTable.stories.tsx
 import React from 'react';
 import CrTable from './CrTable';
 import CrButton from './CrButton';

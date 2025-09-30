@@ -1,4 +1,4 @@
-// CrMainNav.stories.js
+// CrMainNav.stories.tsx
 import CrMainNav from './CrMainNav';
 
 export default {

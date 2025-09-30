@@ -1,4 +1,4 @@
-// CrProfileCard.stories.js
+// CrProfileCard.stories.tsx
 import React from 'react';
 import CrProfileCard from './CrProfileCard';
 

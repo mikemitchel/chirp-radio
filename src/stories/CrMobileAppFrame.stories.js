@@ -1,4 +1,4 @@
-// CrMobileAppFrame.stories.js
+// CrMobileAppFrame.stories.tsx
 import React from 'react';
 import CrMobileAppFrame from './CrMobileAppFrame';
 

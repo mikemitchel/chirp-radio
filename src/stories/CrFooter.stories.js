@@ -1,4 +1,4 @@
-// CrFooter.stories.js
+// CrFooter.stories.tsx
 import React from 'react';
 import CrFooter from './CrFooter';
 

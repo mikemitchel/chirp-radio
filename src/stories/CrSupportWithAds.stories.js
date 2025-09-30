@@ -1,4 +1,4 @@
-// CrSupportWithAds.stories.js
+// CrSupportWithAds.stories.tsx
 import React from 'react';
 import CrSupportWithAds from './CrSupportWithAds';
 
@@ -78,15 +78,15 @@ docs: {
 // Sample additional logos
 const sampleLogos = [
   {
-    src: '../src/assets/support-logos/logoipsum-343.svg',
+    src: '../assets/support-logos/logoipsum-343.svg',
     alt: 'Additional Supporter 1'
   },
   {
-    src: '../src/assets/support-logos/logoipsum-360.svg',
+    src: '../assets/support-logos/logoipsum-360.svg',
     alt: 'Additional Supporter 2'
   },
   {
-    src: '../src/assets/support-logos/logoipsum-358.svg',
+    src: '../assets/support-logos/logoipsum-358.svg',
     alt: 'Additional Supporter 3'
   }
 ];

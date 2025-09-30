@@ -1,4 +1,4 @@
-// CrSpacingShowcase.stories.js
+// CrSpacingShowcase.stories.tsx
 import CrSpacingShowcase from './CrSpacingShowcase';
 import React from 'react';
 

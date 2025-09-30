@@ -1,4 +1,4 @@
-// CrToast.stories.js
+// CrToast.stories.tsx
 import React from 'react';
 import CrToast from './CrToast';
 

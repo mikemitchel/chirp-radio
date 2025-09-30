@@ -1,4 +1,4 @@
-// CrCurrentDjCard.stories.js
+// CrCurrentDjCard.stories.tsx
 import React from 'react';
 import CrCurrentDjCard from './CrCurrentDjCard';
 

@@ -1,4 +1,4 @@
-// CrTextureShowcase.stories.js
+// CrTextureShowcase.stories.tsx
 import CrTextureShowcase from './CrTextureShowcase';
 import React from 'react';
 

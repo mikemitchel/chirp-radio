@@ -1,4 +1,4 @@
-// CrSidebar.stories.js
+// CrSidebar.stories.tsx
 import React from 'react';
 import CrSidebar from './CrSidebar';
 

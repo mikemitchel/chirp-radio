@@ -1,4 +1,4 @@
-// CrAccountSettingsPage.stories.js
+// CrAccountSettingsPage.stories.tsx
 import React from 'react';
 import CrAccountSettingsPage from './CrAccountSettingsPage';
 

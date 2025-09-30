@@ -1,4 +1,4 @@
-// CrAdSpace.stories.js
+// CrAdSpace.stories.tsx
 import React from 'react';
 import CrAdSpace from './CrAdSpace';
 

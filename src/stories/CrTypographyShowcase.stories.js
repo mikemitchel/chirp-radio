@@ -1,4 +1,4 @@
-// CrTypographyShowcase.stories.js
+// CrTypographyShowcase.stories.tsx
 import CrTypographyShowcase from './CrTypographyShowcase';
 import React from 'react';
 

@@ -1,4 +1,4 @@
-// CrScrim.stories.js
+// CrScrim.stories.tsx
 import React, { useState } from 'react';
 import CrScrim from './CrScrim';
 import CrButton from './CrButton';

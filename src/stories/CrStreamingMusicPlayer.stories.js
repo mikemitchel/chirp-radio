@@ -1,4 +1,4 @@
-// CrStreamingMusicPlayer.stories.js
+// CrStreamingMusicPlayer.stories.tsx
 import CrStreamingMusicPlayer from './CrStreamingMusicPlayer';
 
 export default {

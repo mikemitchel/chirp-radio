@@ -1,4 +1,4 @@
-// CrDonationBar.stories.js
+// CrDonationBar.stories.tsx
 import React from 'react';
 import CrDonationBar from './CrDonationBar';
 

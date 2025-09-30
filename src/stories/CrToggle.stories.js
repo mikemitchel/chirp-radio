@@ -1,4 +1,4 @@
-// CrToggle.stories.js
+// CrToggle.stories.tsx
 import React, { useState } from 'react';
 import CrToggle from './CrToggle';
 

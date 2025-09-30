@@ -1,4 +1,4 @@
-// CrProfileEditForm.stories.js
+// CrProfileEditForm.stories.tsx
 import React from 'react';
 import CrProfileEditForm from './CrProfileEditForm';
 

@@ -1,4 +1,4 @@
-// CrCurrentDj.stories.js
+// CrCurrentDj.stories.tsx
 import CrCurrentDj from './CrCurrentDj';
 
 export default {
