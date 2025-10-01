@@ -23,13 +23,6 @@
   left: 0;
   right: 0;
   z-index: 10;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
-
-[data-theme="dark"] .cr-mobile-frame--landing .cr-mobile-frame__header {
-  background-color: rgba(24, 24, 27, 0.95);
 }
 
 .cr-mobile-frame--landing .cr-mobile-frame__background-player {
@@ -39,6 +32,11 @@
   width: 100vw;
   height: 100vh;
   z-index: 1;
+}
+
+/* Add padding to mobile player content to account for overlaying header */
+.cr-mobile-frame--landing .cr-player--mobile-player .cr-player__mobile-content {
+  padding-top: 100px; /* Account for fixed header height */
 }
 
 /* === INTERIOR LAYOUT === */

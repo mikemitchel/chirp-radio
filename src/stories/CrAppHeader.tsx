@@ -5,6 +5,32 @@ import CrBrandBanner from "./CrBrandBanner";
 import CrMainNav from "./CrMainNav";
 import "./CrAppHeader.css";
 
+interface CrAppHeaderProps {
+  isLoggedIn?: boolean;
+  isVolunteer?: boolean;
+  userName?: string;
+  userAvatar?: string;
+  djName?: string;
+  showName?: string;
+  isOnAir?: boolean;
+  statusText?: string;
+  autoFetch?: boolean;
+  apiUrl?: string;
+  streamingPlayerProps?: any;
+  storeBadgeCount?: number;
+  showStoreBadge?: boolean;
+  onMenuClick?: () => void;
+  onListenClick?: () => void;
+  onEventsClick?: () => void;
+  onArticlesClick?: () => void;
+  onSearchClick?: () => void;
+  onStoreClick?: () => void;
+  onWaysToGiveClick?: () => void;
+  onDonateClick?: () => void;
+  onLoginClick?: () => void;
+  onVolunteerDropdown?: () => void;
+}
+
 export default function CrAppHeader({
   // TopBanner props
   isLoggedIn = true,
@@ -44,7 +70,7 @@ export default function CrAppHeader({
   onDonateClick,
   onLoginClick,
   onVolunteerDropdown,
-}) {
+}: CrAppHeaderProps) {
   return (
     <div className="cr-app-header">
       <CrTopBanner

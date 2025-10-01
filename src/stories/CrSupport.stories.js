@@ -35,15 +35,15 @@ export default {
 // All available logos - swapped middle logo to logoipsum-360.svg
 const allLogos = [
   {
-    src: '../assets/support-logos/logoipsum-343.svg',
+    src: '/src/assets/support-logos/logoipsum-343.svg',
     alt: 'Additional Supporter 1'
   },
   {
-    src: '../assets/support-logos/logoipsum-360.svg',
+    src: '/src/assets/support-logos/logoipsum-360.svg',
     alt: 'Additional Supporter 2'
   },
   {
-    src: '../assets/support-logos/logoipsum-358.svg',
+    src: '/src/assets/support-logos/logoipsum-358.svg',
     alt: 'Additional Supporter 3'
   }
 ];

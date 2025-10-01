@@ -396,14 +396,14 @@
 }
 
 /* Title Hierarchy - Clean list style */
-.cr-title-2xl,
-.cr-title-xl,
-.cr-title-lg,
-.cr-title-md,
-.cr-title-sm,
-.cr-title-xs,
-.cr-title-2xs,
-.cr-title-eyebrow {
+.sg-section .cr-title-2xl,
+.sg-section .cr-title-xl,
+.sg-section .cr-title-lg,
+.sg-section .cr-title-md,
+.sg-section .cr-title-sm,
+.sg-section .cr-title-xs,
+.sg-section .cr-title-2xs,
+.sg-section .cr-title-eyebrow {
   padding: var(--cr-space-2) 0;
   border-bottom: 1px solid var(--cr-default-100);
   display: flex;
@@ -411,26 +411,26 @@
   justify-content: space-between;
 }
 
-.cr-title-2xl:last-child,
-.cr-title-xl:last-child,
-.cr-title-lg:last-child,
-.cr-title-md:last-child,
-.cr-title-sm:last-child,
-.cr-title-xs:last-child,
-.cr-title-2xs:last-child,
-.cr-title-eyebrow:last-child {
+.sg-section .cr-title-2xl:last-child,
+.sg-section .cr-title-xl:last-child,
+.sg-section .cr-title-lg:last-child,
+.sg-section .cr-title-md:last-child,
+.sg-section .cr-title-sm:last-child,
+.sg-section .cr-title-xs:last-child,
+.sg-section .cr-title-2xs:last-child,
+.sg-section .cr-title-eyebrow:last-child {
   border-bottom: none;
 }
 
 /* Add CSS variable info after each title */
-.cr-title-2xl::after { content: "var(--cr-title-2xl)"; }
-.cr-title-xl::after { content: "var(--cr-title-xl)"; }
-.cr-title-lg::after { content: "var(--cr-title-lg)"; }
-.cr-title-md::after { content: "var(--cr-title-md)"; }
-.cr-title-sm::after { content: "var(--cr-title-sm)"; }
-.cr-title-xs::after { content: "var(--cr-title-xs)"; }
-.cr-title-2xs::after { content: "var(--cr-title-2xs)"; }
-.cr-title-eyebrow::after { content: "var(--cr-title-eyebrow)"; }
+.sg-section .cr-title-2xl::after { content: "var(--cr-title-2xl)"; }
+.sg-section .cr-title-xl::after { content: "var(--cr-title-xl)"; }
+.sg-section .cr-title-lg::after { content: "var(--cr-title-lg)"; }
+.sg-section .cr-title-md::after { content: "var(--cr-title-md)"; }
+.sg-section .cr-title-sm::after { content: "var(--cr-title-sm)"; }
+.sg-section .cr-title-xs::after { content: "var(--cr-title-xs)"; }
+.sg-section .cr-title-2xs::after { content: "var(--cr-title-2xs)"; }
+.sg-section .cr-title-eyebrow::after { content: "var(--cr-title-eyebrow)"; }
 
 .sg-font-sample::after {
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
@@ -452,15 +452,15 @@
 }
 
 /* Navigation & Player Styles - List format */
-.cr-nav1,
-.cr-nav2,
-.cr-nav3,
-.cr-nav-support,
-.cr-player-song,
-.cr-player-artist,
-.cr-player-album,
-.cr-player-label,
-.cr-player-dj {
+.sg-section .cr-nav1,
+.sg-section .cr-nav2,
+.sg-section .cr-nav3,
+.sg-section .cr-nav-support,
+.sg-section .cr-player-song,
+.sg-section .cr-player-artist,
+.sg-section .cr-player-album,
+.sg-section .cr-player-label,
+.sg-section .cr-player-dj {
   padding: var(--cr-space-2) 0;
   border-bottom: 1px solid var(--cr-default-100);
   display: flex;
@@ -468,38 +468,38 @@
   justify-content: space-between;
 }
 
-.cr-nav1:last-child,
-.cr-nav2:last-child,
-.cr-nav3:last-child,
-.cr-nav-support:last-child,
-.cr-player-song:last-child,
-.cr-player-artist:last-child,
-.cr-player-album:last-child,
-.cr-player-label:last-child,
-.cr-player-dj:last-child {
+.sg-section .cr-nav1:last-child,
+.sg-section .cr-nav2:last-child,
+.sg-section .cr-nav3:last-child,
+.sg-section .cr-nav-support:last-child,
+.sg-section .cr-player-song:last-child,
+.sg-section .cr-player-artist:last-child,
+.sg-section .cr-player-album:last-child,
+.sg-section .cr-player-label:last-child,
+.sg-section .cr-player-dj:last-child {
   border-bottom: none;
 }
 
 /* Add variable names */
-.cr-nav1::after { content: "var(--cr-nav1)"; }
-.cr-nav2::after { content: "var(--cr-nav2)"; }
-.cr-nav3::after { content: "var(--cr-nav3)"; }
-.cr-nav-support::after { content: "var(--cr-nav-support)"; }
-.cr-player-song::after { content: "var(--cr-player-song)"; }
-.cr-player-artist::after { content: "var(--cr-player-artist)"; }
-.cr-player-album::after { content: "var(--cr-player-album)"; }
-.cr-player-label::after { content: "var(--cr-player-label)"; }
-.cr-player-dj::after { content: "var(--cr-player-dj)"; }
+.sg-section .cr-nav1::after { content: "var(--cr-nav1)"; }
+.sg-section .cr-nav2::after { content: "var(--cr-nav2)"; }
+.sg-section .cr-nav3::after { content: "var(--cr-nav3)"; }
+.sg-section .cr-nav-support::after { content: "var(--cr-nav-support)"; }
+.sg-section .cr-player-song::after { content: "var(--cr-player-song)"; }
+.sg-section .cr-player-artist::after { content: "var(--cr-player-artist)"; }
+.sg-section .cr-player-album::after { content: "var(--cr-player-album)"; }
+.sg-section .cr-player-label::after { content: "var(--cr-player-label)"; }
+.sg-section .cr-player-dj::after { content: "var(--cr-player-dj)"; }
 
-.cr-nav1::after,
-.cr-nav2::after,
-.cr-nav3::after,
-.cr-nav-support::after,
-.cr-player-song::after,
-.cr-player-artist::after,
-.cr-player-album::after,
-.cr-player-label::after,
-.cr-player-dj::after {
+.sg-section .cr-nav1::after,
+.sg-section .cr-nav2::after,
+.sg-section .cr-nav3::after,
+.sg-section .cr-nav-support::after,
+.sg-section .cr-player-song::after,
+.sg-section .cr-player-artist::after,
+.sg-section .cr-player-album::after,
+.sg-section .cr-player-label::after,
+.sg-section .cr-player-dj::after {
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   color: var(--cr-default-500);
   font-weight: normal;
@@ -752,23 +752,23 @@
   }
   
   /* Hide variable names on mobile */
-  .cr-title-2xl::after,
-  .cr-title-xl::after,
-  .cr-title-lg::after,
-  .cr-title-md::after,
-  .cr-title-sm::after,
-  .cr-title-xs::after,
-  .cr-title-2xs::after,
-  .cr-title-eyebrow::after,
-  .cr-nav1::after,
-  .cr-nav2::after,
-  .cr-nav3::after,
-  .cr-nav-support::after,
-  .cr-player-song::after,
-  .cr-player-artist::after,
-  .cr-player-album::after,
-  .cr-player-label::after,
-  .cr-player-dj::after {
+  .sg-section .cr-title-2xl::after,
+  .sg-section .cr-title-xl::after,
+  .sg-section .cr-title-lg::after,
+  .sg-section .cr-title-md::after,
+  .sg-section .cr-title-sm::after,
+  .sg-section .cr-title-xs::after,
+  .sg-section .cr-title-2xs::after,
+  .sg-section .cr-title-eyebrow::after,
+  .sg-section .cr-nav1::after,
+  .sg-section .cr-nav2::after,
+  .sg-section .cr-nav3::after,
+  .sg-section .cr-nav-support::after,
+  .sg-section .cr-player-song::after,
+  .sg-section .cr-player-artist::after,
+  .sg-section .cr-player-album::after,
+  .sg-section .cr-player-label::after,
+  .sg-section .cr-player-dj::after {
     display: none;
   }
 }

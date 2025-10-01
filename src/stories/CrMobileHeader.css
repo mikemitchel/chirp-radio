@@ -11,6 +11,10 @@
   background-color: var(--cr-paper);
 }
 
+.cr-mobile-header--transparent {
+  background-color: transparent;
+}
+
 .cr-mobile-header__logo {
   display: flex;
   align-items: center;

@@ -23,6 +23,16 @@ export default {
       control: 'text',
       description: 'Main page title'
     },
+    titleTag: {
+      control: 'select',
+      options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      description: 'HTML heading tag to use for the title'
+    },
+    titleSize: {
+      control: 'select',
+      options: ['2xl', 'xl', 'lg', 'md', 'sm', 'xs', '2xs'],
+      description: 'Typography size (applies cr-title-* class)'
+    },
     showEyebrow: {
       control: 'boolean',
       description: 'Whether to show the eyebrow text'

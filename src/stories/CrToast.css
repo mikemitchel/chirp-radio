@@ -38,7 +38,7 @@
 [data-theme="dark"] .cr-toast {
   background: rgba(0, 0, 0, 0.6);
   border-color: var(--toast-border-color-dark);
-  color: var(--cr-paper);
+  color: var(--cr-ink);
 }
 
 /* Toast slide-in animation */
@@ -101,20 +101,13 @@
   word-wrap: break-word;
 }
 
-[data-theme="dark"] .cr-toast__title {
-  color: var(--cr-paper);
-}
-
 .cr-toast__message {
   font: var(--cr-body-sm);
-  color: var(--cr-default-700);
+  color: var(--cr-ink);
+  opacity: 0.8;
   margin: var(--cr-space-1) 0 0 0;
   line-height: 1.4;
   word-wrap: break-word;
-}
-
-[data-theme="dark"] .cr-toast__message {
-  color: var(--cr-default-300);
 }
 
 /* Link styling */

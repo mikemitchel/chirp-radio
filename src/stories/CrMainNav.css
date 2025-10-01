@@ -79,8 +79,8 @@
 }
 
 .cr-main-nav__search-button svg {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 }
 
 /* Right section */
@@ -174,17 +174,12 @@
 }
 
 /* Dark mode adjustments */
-[data-theme="dark"] .cr-main-nav__nav-link {
-  color: var(--cr-paper);
-}
-
 [data-theme="dark"] .cr-main-nav__nav-link:hover {
   color: var(--cr-primary-300);
 }
 
 [data-theme="dark"] .cr-main-nav__search-button {
   background: var(--cr-default-800);
-  color: var(--cr-paper);
 }
 
 [data-theme="dark"] .cr-main-nav__search-button:hover {
@@ -192,20 +187,10 @@
   color: var(--cr-primary-300);
 }
 
-[data-theme="dark"] .cr-main-nav__store-button,
-[data-theme="dark"] .cr-main-nav__ways-button {
-  color: var(--cr-paper);
-}
-
 [data-theme="dark"] .cr-main-nav__store-button:hover,
 [data-theme="dark"] .cr-main-nav__ways-button:hover {
   color: var(--cr-primary-300);
   background-color: var(--cr-default-800);
-}
-
-[data-theme="dark"] .cr-main-nav__store-text,
-[data-theme="dark"] .cr-main-nav__ways-text {
-  color: var(--cr-paper);
 }
 
 /* Responsive behavior */

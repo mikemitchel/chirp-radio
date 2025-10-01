@@ -99,3 +99,8 @@
   align-items: center;
   justify-content: center;
 }
+
+/* Dark mode adjustments */
+[data-theme="dark"] .cr-chip--light {
+  background-color: var(--cr-secondary-300);
+}

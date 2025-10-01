@@ -117,8 +117,8 @@ export const BooleanToggle = {
 
 export const StreamingQuality = {
   render: (args) => {
-    const [isHigh, setIsHigh] = useState(true); // true = 128, false = 64
-    
+    const [isHigh, setIsHigh] = useState(true); // true = 128 (right), false = 64 (left)
+
     return React.createElement(CrToggle, {
       ...args,
       checked: isHigh,
@@ -131,8 +131,8 @@ export const StreamingQuality = {
   args: {
     checked: true,
     variant: 'selection',
-    leftLabel: '128',
-    rightLabel: '64',
+    leftLabel: '64',
+    rightLabel: '128',
     size: 'medium',
     'aria-label': 'Streaming quality selection'
   },

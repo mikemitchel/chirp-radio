@@ -22,7 +22,6 @@
 }
 
 .cr-page-header__title {
-  font: var(--cr-title-2xl);
   color: var(--cr-ink);
   margin: 0;
   letter-spacing: -0.05em;

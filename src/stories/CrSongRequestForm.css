@@ -1,0 +1,133 @@
+/* CrSongRequestForm.css */
+
+.cr-song-request-form {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--cr-space-6);
+}
+
+.cr-song-request-form__title {
+  font: var(--cr-title-xl);
+  color: var(--cr-ink);
+  margin: 0 0 var(--cr-space-3) 0;
+}
+
+.cr-song-request-form__body {
+  font: var(--cr-body-md);
+  color: var(--cr-ink-muted);
+  margin: 0 0 var(--cr-space-6) 0;
+}
+
+.cr-song-request-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-5);
+}
+
+/* Form Fields */
+.cr-song-request-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-2);
+}
+
+.cr-song-request-form__label {
+  font: var(--cr-label-md);
+  color: var(--cr-ink);
+}
+
+.cr-song-request-form__required {
+  color: var(--cr-error-500);
+}
+
+.cr-song-request-form__optional {
+  font: var(--cr-body-sm);
+  color: var(--cr-ink-muted);
+  font-weight: normal;
+}
+
+/* Input Styles */
+.cr-song-request-form__input,
+.cr-song-request-form__textarea {
+  font: var(--cr-body-md);
+  color: var(--cr-ink);
+  background-color: var(--cr-input-bg);
+  border: 2px solid var(--cr-default-300);
+  border-radius: var(--cr-radius-sm);
+  padding: var(--cr-space-3);
+  transition: border-color 0.2s ease;
+}
+
+.cr-song-request-form__input:focus,
+.cr-song-request-form__textarea:focus {
+  outline: none;
+  border-color: var(--cr-primary-500);
+}
+
+.cr-song-request-form__input::placeholder,
+.cr-song-request-form__textarea::placeholder {
+  color: var(--cr-ink-muted);
+  opacity: 0.6;
+}
+
+/* Error State */
+.cr-song-request-form__input--error {
+  border-color: var(--cr-error-500);
+}
+
+.cr-song-request-form__error {
+  font: var(--cr-body-sm);
+  color: var(--cr-error-500);
+  margin-top: calc(var(--cr-space-1) * -1);
+}
+
+/* Textarea */
+.cr-song-request-form__textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+/* Helper Row */
+.cr-song-request-form__helper-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--cr-space-2);
+  margin-top: calc(var(--cr-space-1) * -1);
+}
+
+.cr-song-request-form__helper-text {
+  font: var(--cr-body-sm);
+  color: var(--cr-ink-muted);
+}
+
+.cr-song-request-form__char-count {
+  font: var(--cr-body-sm);
+  color: var(--cr-ink-muted);
+  white-space: nowrap;
+}
+
+/* Form Actions */
+.cr-song-request-form__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--cr-space-6);
+  margin-top: var(--cr-space-4);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .cr-song-request-form {
+    padding: var(--cr-space-4);
+  }
+
+  .cr-song-request-form__actions {
+    flex-direction: column-reverse;
+  }
+
+  .cr-song-request-form__actions button {
+    width: 100%;
+  }
+}

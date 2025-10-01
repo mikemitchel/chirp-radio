@@ -6,13 +6,22 @@ import firstTimeLogo from "../assets/chirp-logos/FirstTimeLogo.png";
 import callibrityLogo from "../assets/callibrity-logo/Callibrity-Plum.svg";
 import "./CrFooter.css";
 
+interface CrFooterProps {
+  onPrivacyPolicyClick?: () => void;
+  onTermsOfServiceClick?: () => void;
+  onSitemapClick?: () => void;
+  onCallibrityClick?: () => void;
+  onSocialClick?: (platform: string) => void;
+}
+
 const CrFooter = ({
   onPrivacyPolicyClick,
   onTermsOfServiceClick,
   onSitemapClick,
   onCallibrityClick,
   onSocialClick,
-}) => {
+}: CrFooterProps) => {
+  const currentYear = new Date().getFullYear();
   const socialPlatforms = [
     "facebook",
     "instagram",
@@ -34,8 +43,42 @@ const CrFooter = ({
         <div className="cr-footer__left">
           <div className="cr-footer__copyright">
             <p>
-              ©2008–2025 Chicago Independent Radio Project. CHIRP, CHIRP Radio,
+              ©2008–{currentYear} Chicago Independent Radio Project. CHIRP, CHIRP Radio,
               and Chicago Independent Radio Project are registered trademarks.
+            </p>
+          </div>
+
+          <div className="cr-footer__attribution">
+            <p>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onPrivacyPolicyClick) onPrivacyPolicyClick();
+                }}
+              >
+                Privacy Policy
+              </a>
+              <span className="cr-footer__separator"> | </span>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onTermsOfServiceClick) onTermsOfServiceClick();
+                }}
+              >
+                Terms of Service
+              </a>
+              <span className="cr-footer__separator"> | </span>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onSitemapClick) onSitemapClick();
+                }}
+              >
+                Sitemap
+              </a>
             </p>
           </div>
 
@@ -71,39 +114,19 @@ const CrFooter = ({
           </button>
         </div>
 
-        {/* Right section - Attribution and Callibrity */}
+        {/* Right section - Callibrity */}
         <div className="cr-footer__right">
-          <div className="cr-footer__attribution">
+          <div className="cr-footer__callibrity-text">
             <p>
+              Chirp Radio web and mobile apps created by{" "}
               <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (onPrivacyPolicyClick) onPrivacyPolicyClick();
-                }}
+                href="https://callibrity.com"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Privacy Policy
+                callibrity.com
               </a>
-              <span className="cr-footer__separator"> | </span>
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (onTermsOfServiceClick) onTermsOfServiceClick();
-                }}
-              >
-                Terms of Service
-              </a>
-              <span className="cr-footer__separator"> | </span>
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (onSitemapClick) onSitemapClick();
-                }}
-              >
-                Sitemap
-              </a>
+              .
             </p>
           </div>
 

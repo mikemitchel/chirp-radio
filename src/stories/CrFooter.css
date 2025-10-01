@@ -8,10 +8,9 @@
 .cr-footer__container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--cr-space-8);
   width: 100%;
-  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -20,23 +19,24 @@
 .cr-footer__right {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 0 0 auto;
 }
 
 .cr-footer__left {
   gap: var(--cr-space-5);
+  max-width: 30vw;
 }
 
 .cr-footer__right {
   gap: var(--cr-space-3);
   align-items: flex-start;
-  max-width: 243px;
-  min-width: 200px;
+  max-width: 30vw;
 }
 
 /* Text styles */
 .cr-footer__copyright p,
-.cr-footer__attribution p {
+.cr-footer__attribution p,
+.cr-footer__callibrity-text p {
   font: var(--cr-body-sm);
   color: var(--cr-ink);
   margin: 0;

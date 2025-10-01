@@ -21,12 +21,17 @@ export default {
       control: 'text',
       description: 'Title displayed in the center of the header'
     },
+    variant: {
+      control: 'select',
+      options: ['default', 'transparent'],
+      description: 'Visual variant of the header'
+    },
     onMenuClick: {
       action: 'menu clicked',
       description: 'Callback when menu button is clicked'
     },
     onLogoClick: {
-      action: 'logo clicked', 
+      action: 'logo clicked',
       description: 'Callback when logo is clicked'
     }
   },
@@ -50,5 +55,13 @@ export const LongTitle = {
 export const ShortTitle = {
   args: {
     pageTitle: 'Home'
+  },
+};
+
+// Transparent variant
+export const Transparent = {
+  args: {
+    pageTitle: 'Page Title',
+    variant: 'transparent'
   },
 };

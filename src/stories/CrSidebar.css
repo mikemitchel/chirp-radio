@@ -142,12 +142,31 @@
   color: var(--cr-primary-500);
 }
 
-.cr-sidebar__mobile-listen-section {
+.cr-sidebar__mobile-nav {
   display: flex;
   flex-direction: column;
   gap: var(--cr-space-5);
   margin-bottom: var(--cr-space-6);
   width: 100%;
+}
+
+.cr-sidebar__mobile-nav-link {
+  font: var(--cr-nav3);
+  color: var(--cr-ink);
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  line-height: 1;
+  width: 100%;
+  display: block;
+  text-transform: uppercase;
+}
+
+.cr-sidebar__mobile-nav-link:hover {
+  color: var(--cr-primary-500);
 }
 
 /* Dividers */
@@ -234,11 +253,9 @@
 }
 
 /* Mobile padding for sections */
-.cr-sidebar--mobile .cr-sidebar__logo-section, 
-.cr-sidebar--mobile .cr-sidebar__mobile-sections, 
-.cr-sidebar--mobile .cr-sidebar__mobile-listen-section, 
-.cr-sidebar--mobile .cr-sidebar__donate-section, 
-.cr-sidebar--mobile .cr-sidebar__request-section {
+.cr-sidebar--mobile .cr-sidebar__logo-section,
+.cr-sidebar--mobile .cr-sidebar__mobile-sections,
+.cr-sidebar--mobile .cr-sidebar__mobile-nav {
   padding: 0 var(--cr-space-10);
 }
 
@@ -253,6 +270,45 @@
 
 .cr-sidebar--mobile .cr-sidebar__footer {
   padding: 0 var(--cr-space-10) var(--cr-space-6);
+}
+
+/* Mobile footer - inline layout */
+.cr-sidebar__footer--mobile {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--cr-space-4);
+}
+
+/* CHIRPRADIO.ORG button - unique styling */
+.cr-sidebar__footer-chirp {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--cr-ink);
+  transition: color 0.2s ease;
+}
+
+.cr-sidebar__footer-chirp:hover {
+  color: var(--cr-primary-500);
+}
+
+.cr-sidebar__footer-bird {
+  height: 30px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.cr-sidebar__footer-chirp-text {
+  font: var(--cr-title-sm);
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: var(--cr-secondary-500);
+  text-underline-offset: 4px;
 }
 
 .cr-sidebar__footer-logo {

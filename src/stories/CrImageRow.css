@@ -1,0 +1,16 @@
+/* CrImageRow.css */
+
+.cr-image-row {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+}
+
+.cr-image-row__image {
+  flex: 1;
+  min-width: 220px;
+  max-width: 360px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: var(--cr-radius-sm);
+}

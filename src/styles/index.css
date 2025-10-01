@@ -130,9 +130,9 @@
 
     /* === TEXTURE SYSTEM === */
     /* Real texture images */
-    --cr-texture-natural-url: url('https://assets.codepen.io/715673/natural-paper.png');
-    --cr-texture-rice-url: url('https://assets.codepen.io/715673/rice-paper-2.png');
-    --cr-texture-dust-url: url('https://assets.codepen.io/715673/green-dust-and-scratches.png');
+    --cr-texture-natural-url: url('../assets/textures/natural-paper.png');
+    --cr-texture-rice-url: url('../assets/textures/rice-paper-2.png');
+    --cr-texture-dust-url: url('../assets/textures/green-dust-and-scratches.png');
 }
 
 /* === DARK THEME === */

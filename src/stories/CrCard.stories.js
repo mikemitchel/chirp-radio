@@ -95,8 +95,28 @@ docs: {
     },
     imageAspectRatio: {
       control: 'select',
-      options: ['4:3', '16:9'],
-      description: 'Image aspect ratio (all variants)'
+      options: ['16:9', '4:3', '1:1'],
+      description: 'Image aspect ratio (non-article variants)',
+      if: { arg: 'variant', neq: 'article' }
+    },
+    articleImageAspectRatio: {
+      control: 'select',
+      options: ['16:9', '4:3', '9:16', '1:1'],
+      description: 'Image aspect ratio (article variant only)',
+      if: { arg: 'variant', eq: 'article' },
+      table: {
+        category: 'Article Layout'
+      }
+    },
+    type: {
+      control: 'select',
+      options: ['event', 'article'],
+      description: 'Card details type (default and wide variants only)'
+    },
+    bannerHeight: {
+      control: 'select',
+      options: ['narrow', 'tall'],
+      description: 'Banner height (all variants)'
     }
   },
   tags: ['autodocs']
@@ -116,7 +136,7 @@ const commonProps = {
   bannerButtonText: 'Buy Tix',
   shareButtonText: 'Share',
   continueButtonText: 'Continue Reading',
-  imageAspectRatio: '4:3'
+  imageAspectRatio: '16:9'
 };
 
 export const Default = {
@@ -155,7 +175,8 @@ export const ArticleListing = {
   args: {
     ...commonProps,
     variant: 'article',
-    imagePosition: 'none'
+    imagePosition: 'none',
+    articleImageAspectRatio: '16:9'
   },
   parameters: {
     layout: 'fullscreen'
@@ -168,7 +189,8 @@ export const ArticleDetailed = {
     variant: 'article',
     imagePosition: 'right',
     imageSize: 'large',
-    captionPosition: 'bottom'
+    captionPosition: 'bottom',
+    articleImageAspectRatio: '4:3'
   },
   parameters: {
     layout: 'fullscreen'
@@ -181,7 +203,8 @@ export const ArticleIllustrated = {
     variant: 'article',
     imagePosition: 'left',
     imageSize: 'large',
-    captionPosition: 'bottom'
+    captionPosition: 'bottom',
+    articleImageAspectRatio: '9:16'
   },
   parameters: {
     layout: 'fullscreen'
@@ -194,7 +217,8 @@ export const ArticleFeature = {
     variant: 'article',
     imagePosition: 'full',
     imageSize: 'large',
-    captionPosition: 'bottom'
+    captionPosition: 'bottom',
+    articleImageAspectRatio: '16:9'
   },
   parameters: {
     layout: 'fullscreen'
@@ -208,7 +232,8 @@ export const ArticleMini = {
     imagePosition: 'left',
     imageSize: 'small',
     captionPosition: 'bottom',
-    showMeta: true
+    showMeta: true,
+    articleImageAspectRatio: '1:1'
   },
   parameters: {
     layout: 'fullscreen'
@@ -222,7 +247,8 @@ export const ArticleMiniInline = {
     imagePosition: 'left',
     imageSize: 'small',
     captionPosition: 'overlay',
-    showMeta: true
+    showMeta: true,
+    articleImageAspectRatio: '1:1'
   },
   parameters: {
     layout: 'fullscreen'
@@ -232,12 +258,12 @@ export const ArticleMiniInline = {
 export const ArticleExamples = {
   render: () => {
     const examples = [
-      { name: 'Listing', imagePosition: 'none' },
-      { name: 'Feature', imagePosition: 'full', imageSize: 'large' },
-      { name: 'Detailed', imagePosition: 'right', imageSize: 'large' },
-      { name: 'Illustrated', imagePosition: 'left', imageSize: 'large' },
-      { name: 'Mini', imagePosition: 'left', imageSize: 'small', showMeta: true },
-      { name: 'Mini Inline', imagePosition: 'left', imageSize: 'small', showMeta: true, captionPosition: 'overlay' }
+      { name: 'Listing', imagePosition: 'none', articleImageAspectRatio: '16:9' },
+      { name: 'Feature', imagePosition: 'full', imageSize: 'large', articleImageAspectRatio: '16:9' },
+      { name: 'Detailed', imagePosition: 'right', imageSize: 'large', articleImageAspectRatio: '4:3' },
+      { name: 'Illustrated', imagePosition: 'left', imageSize: 'large', articleImageAspectRatio: '9:16' },
+      { name: 'Mini', imagePosition: 'left', imageSize: 'small', showMeta: true, articleImageAspectRatio: '1:1' },
+      { name: 'Mini Inline', imagePosition: 'left', imageSize: 'small', showMeta: true, captionPosition: 'overlay', articleImageAspectRatio: '1:1' }
     ];
 
     return React.createElement('div', {

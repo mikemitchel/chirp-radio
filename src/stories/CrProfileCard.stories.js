@@ -19,7 +19,7 @@ export default {
   argTypes: {
     state: {
       control: 'select',
-      options: ['view', 'editProfile', 'editVolunteer'],
+      options: ['view', 'editProfile', 'editVolunteer', 'loggedOut'],
       description: 'Component state'
     },
     eyebrowText: {
@@ -318,6 +318,25 @@ export const ListenerProfile = {
     return React.createElement('div', {
       style: { maxWidth: '1200px', margin: '0 auto' }
     }, React.createElement(CrProfileCard, args));
+  }
+};
+
+export const LoggedOut = {
+  args: {
+    state: 'loggedOut',
+    eyebrowText: "CHIRP Radio",
+    title: "Create Your CHIRP Account",
+    showEditButton: false,
+    maxWidth: '860px'
+  },
+  render: (args) => {
+    return React.createElement('div', {
+      style: { maxWidth: '1200px', margin: '0 auto' }
+    }, React.createElement(CrProfileCard, {
+      ...args,
+      onSignUp: () => console.log('Sign up clicked'),
+      onLogin: () => console.log('Login clicked')
+    }));
   }
 };
 

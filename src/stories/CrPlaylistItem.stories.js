@@ -56,8 +56,8 @@ export default {
     },
     variant: {
       control: 'select',
-      options: ['default', 'table'],
-      description: 'Layout variant - default (card-like) or table (row layout)'
+      options: ['default', 'table', 'card'],
+      description: 'Layout variant - default (horizontal), table (row layout), or card (vertical)'
     }
   },
   tags: ['autodocs']
@@ -65,7 +65,7 @@ export default {
 
 export const Default = {
   args: {
-    albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
+    albumArt: 'https://i.discogs.com/_PKd2Tx-U7jNurH8U1e9BQe435HV3QkMhhPDaTeCuGY/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2NjAx/NzItMTQ3MTU0NzY5/Ni01NTg4LmpwZWc.jpeg',
     albumArtAlt: 'Kind of Blue album cover',
     artistName: 'Miles Davis',
     trackName: 'So What',
@@ -81,7 +81,7 @@ export const Default = {
 
 export const TableVariant = {
   args: {
-    albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
+    albumArt: 'https://i.discogs.com/_PKd2Tx-U7jNurH8U1e9BQe435HV3QkMhhPDaTeCuGY/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2NjAx/NzItMTQ3MTU0NzY5/Ni01NTg4LmpwZWc.jpeg',
     albumArtAlt: 'Kind of Blue album cover',
     artistName: 'Miles Davis',
     trackName: 'So What',
@@ -131,7 +131,7 @@ export const TablePlaylistExample = {
   render: () => {
     const items = [
       {
-        albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
+        albumArt: 'https://i.discogs.com/_PKd2Tx-U7jNurH8U1e9BQe435HV3QkMhhPDaTeCuGY/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2NjAx/NzItMTQ3MTU0NzY5/Ni01NTg4LmpwZWc.jpeg',
         artistName: 'Miles Davis',
         trackName: 'So What',
         albumName: 'Kind of Blue',
@@ -221,7 +221,7 @@ export const PlaylistExample = {
   render: () => {
     const items = [
       {
-        albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
+        albumArt: 'https://i.discogs.com/_PKd2Tx-U7jNurH8U1e9BQe435HV3QkMhhPDaTeCuGY/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2NjAx/NzItMTQ3MTU0NzY5/Ni01NTg4LmpwZWc.jpeg',
         artistName: 'Miles Davis',
         trackName: 'So What',
         albumName: 'Kind of Blue',
@@ -273,7 +273,7 @@ export const PlaylistExample = {
 
 export const AddedTrack = {
   args: {
-    albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
+    albumArt: 'https://i.discogs.com/_PKd2Tx-U7jNurH8U1e9BQe435HV3QkMhhPDaTeCuGY/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2NjAx/NzItMTQ3MTU0NzY5/Ni01NTg4LmpwZWc.jpeg',
     albumArtAlt: 'Album cover',
     artistName: 'Miles Davis',
     trackName: 'So What',
@@ -304,7 +304,7 @@ export const NoTime = {
 
 export const LongNames = {
   args: {
-    albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
+    albumArt: 'https://i.discogs.com/_PKd2Tx-U7jNurH8U1e9BQe435HV3QkMhhPDaTeCuGY/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2NjAx/NzItMTQ3MTU0NzY5/Ni01NTg4LmpwZWc.jpeg',
     albumArtAlt: 'Album cover',
     artistName: 'The Really Long Band Name That Goes On Forever',
     trackName: 'An Extremely Long Track Title That Should Scroll',
@@ -325,6 +325,117 @@ export const Mobile = {
   parameters: {
     viewport: {
       defaultViewport: 'mobile1'
+    }
+  }
+};
+
+export const CardVariant = {
+  args: {
+    albumArt: 'https://i.discogs.com/_PKd2Tx-U7jNurH8U1e9BQe435HV3QkMhhPDaTeCuGY/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2NjAx/NzItMTQ3MTU0NzY5/Ni01NTg4LmpwZWc.jpeg',
+    albumArtAlt: 'Kind of Blue album cover',
+    artistName: 'Miles Davis',
+    trackName: 'So What',
+    albumName: 'Kind of Blue',
+    labelName: 'Columbia Records',
+    timeAgo: '2:01pm',
+    showTime: true,
+    isAdded: false,
+    isLocal: false,
+    variant: 'card'
+  }
+};
+
+export const CardVariantLocal = {
+  args: {
+    albumArt: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop',
+    albumArtAlt: 'Local artist album cover',
+    artistName: 'Chicago Local Band',
+    trackName: 'Windy City Blues',
+    albumName: 'Chicago Nights',
+    labelName: 'Independent Records',
+    timeAgo: '11:45am',
+    showTime: true,
+    isAdded: false,
+    isLocal: true,
+    variant: 'card'
+  }
+};
+
+export const CardVariantAdded = {
+  args: {
+    albumArt: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop',
+    albumArtAlt: 'Album cover',
+    artistName: 'Dave Brubeck',
+    trackName: 'Take Five',
+    albumName: 'Time Out',
+    labelName: 'Columbia Records',
+    timeAgo: '1:30pm',
+    showTime: true,
+    isAdded: true,
+    isLocal: false,
+    variant: 'card'
+  }
+};
+
+export const CardGridExample = {
+  render: () => {
+    const items = [
+      {
+        albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=400&fit=crop',
+        artistName: 'Miles Davis',
+        trackName: 'So What',
+        albumName: 'Kind of Blue',
+        labelName: 'Columbia Records',
+        timeAgo: '2:01pm'
+      },
+      {
+        albumArt: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop',
+        artistName: 'John Coltrane',
+        trackName: 'Giant Steps',
+        albumName: 'Giant Steps',
+        labelName: 'Atlantic Records',
+        timeAgo: '1:45pm',
+        isLocal: true
+      },
+      {
+        albumArt: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop',
+        artistName: 'Dave Brubeck',
+        trackName: 'Take Five',
+        albumName: 'Time Out',
+        labelName: 'Columbia Records',
+        timeAgo: '1:30pm'
+      },
+      {
+        albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=400&fit=crop',
+        artistName: 'Herbie Hancock',
+        trackName: 'Watermelon Man',
+        albumName: 'Takin\' Off',
+        labelName: 'Blue Note Records',
+        timeAgo: '1:15pm',
+        isAdded: true
+      }
+    ];
+
+    return React.createElement('div', {
+      style: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, 200px)',
+        gap: 'var(--cr-space-4)',
+        padding: 'var(--cr-space-4)'
+      }
+    }, items.map((item, index) =>
+      React.createElement(CrPlaylistItem, {
+        key: index,
+        variant: 'card',
+        ...item
+      })
+    ));
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Multiple playlist items displayed in card format, suitable for grid layouts and store-like displays.'
+      }
     }
   }
 };
