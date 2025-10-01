@@ -2,7 +2,7 @@
 .cr-current-dj {
   display: flex;
   align-items: center;
-  gap: var(--cr-space-3); 
+  gap: var(--cr-space-3);
   max-width: 100%;
   min-width: 0; /* Allow children to shrink */
 }
@@ -16,38 +16,70 @@
   max-width: 100%;
 }
 
-.cr-current-dj__name {
-  font: var(--cr-player-dj); 
-  color: var(--cr-ink);
-  white-space: nowrap;
+/* Container for DJ name with overflow */
+.cr-current-dj__name-container {
   overflow: hidden;
-  text-overflow: ellipsis;
-  flex-shrink: 0;
+  position: relative;
   max-width: 150px; /* Set a reasonable max width for DJ names */
+  flex-shrink: 0;
 }
 
+/* Scrolling DJ name element */
+.cr-current-dj__name {
+  display: inline-block;
+  white-space: nowrap;
+  font: var(--cr-player-dj);
+  color: var(--cr-ink);
+}
+
+/* Container for show name with overflow */
+.cr-current-dj__show-container {
+  overflow: hidden;
+  position: relative;
+  max-width: 200px; /* Set a reasonable max width for show names */
+  flex: 1;
+  min-width: 0;
+}
+
+/* Scrolling show name element */
 .cr-current-dj__show {
+  display: inline-block;
+  white-space: nowrap;
   font: var(--cr-player-label);
   color: var(--cr-ink);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-  min-width: 0; /* This is crucial for flex items to truncate */
-  max-width: 200px; /* Set a reasonable max width for show names */
 }
 
 .cr-current-dj__status {
   flex-shrink: 0;
 }
 
+/* Scrolling animations for overflow text */
+.cr-current-dj__name.has-overflow,
+.cr-current-dj__show.has-overflow {
+  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75) infinite;
+  animation-delay: 1s;
+}
+
+/* Dynamic scroll animation */
+@keyframes scroll-text-bounce {
+  0%, 10% {
+    transform: translateX(0);
+  }
+  40%, 70% {
+    transform: translateX(var(--scroll-distance, -50%));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 /* Alternative layout for very constrained spaces */
 @media (max-width: 480px) {
-  .cr-current-dj__name {
+  .cr-current-dj__name-container {
     max-width: 100px; /* Smaller max width on mobile */
   }
-  
-  .cr-current-dj__show {
+
+  .cr-current-dj__show-container {
     max-width: 120px; /* Smaller max width on mobile */
   }
 }
