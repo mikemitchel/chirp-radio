@@ -2,6 +2,7 @@
 import React from "react";
 import CrAppHeader from "../stories/CrAppHeader";
 import CrFooter from "../stories/CrFooter";
+import "../styles/layout.css";
 
 interface LayoutProps {
   children: React.ReactNode;

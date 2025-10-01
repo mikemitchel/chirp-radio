@@ -2,7 +2,12 @@ body {
     margin: 0;
     padding: 0;
 }
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures the body is at least the height of the viewport */
+}
 
-main {
-    min-height: 60vh;
+footer {
+    margin-top: auto; /* Pushes the footer to the bottom */
 }
