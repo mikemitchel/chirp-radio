@@ -1,34 +1,42 @@
+// https://vite.dev/config/
 /// <reference types="vitest/config" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-
-// https://vite.dev/config/
+import { ViteFaviconsPlugin } from 'vite-plugin-favicon2'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
+
 const dirname =
   typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url))
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    ViteFaviconsPlugin({
+      logo: './public/images/chirp-logos/CHIRP-bird.svg', // or use an SVG file
+      inject: true, // Injects the necessary HTML links and metadata
+      outputPath: 'assets', // Optional: specify output path relative to Vite's assets directory
+    }),
+  ],
   server: {
     proxy: {
       '/api': {
         target: 'https://chirpradio.appspot.com',
         changeOrigin: true,
-        secure: false
-      }
-    }
+        secure: false,
+      },
+    },
   },
   preview: {
     proxy: {
       '/api': {
         target: 'https://chirpradio.appspot.com',
         changeOrigin: true,
-        secure: false
-      }
-    }
+        secure: false,
+      },
+    },
   },
   test: {
     // Standard tests (non-storybook)
