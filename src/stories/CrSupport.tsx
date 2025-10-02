@@ -1,24 +1,23 @@
 // CrSupport.tsx
-import React from 'react';
-import './CrSupport.css';
+import React from 'react'
+import './CrSupport.css'
 
 interface CrSupportProps {
-  showAdditionalLogos?: boolean;
-  additionalLogos?: Array<{ src: string; alt?: string }>;
+  showAdditionalLogos?: boolean
+  additionalLogos?: Array<{ src: string; alt?: string }>
 }
 
-const CrSupport = ({
-  showAdditionalLogos,
-  additionalLogos
-}: CrSupportProps) => {
-  const logos = additionalLogos || [];
-  
+const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => {
+  const logos = additionalLogos || []
+
   return (
     <div className="cr-support">
       <div className="cr-support__primary-text">
         <p>
           <span>CHIRP is partially supported by a </span>
-          <span className="cr-support__grant-name">CityArts Grant from the City of Chicago Department of Cultural Affairs & Special Events</span>
+          <span className="cr-support__grant-name">
+            CityArts Grant from the City of Chicago Department of Cultural Affairs & Special Events
+          </span>
           <span>, as well as through funding from the </span>
           <span className="cr-support__grant-name">Illinois Arts Council</span>
           <span>.</span>
@@ -52,7 +51,7 @@ const CrSupport = ({
           <div className="cr-support__additional-logos">
             {logos.slice(0, 3).map((logo, index) => (
               <div key={index} className="cr-support__additional-logo">
-                <img 
+                <img
                   src={logo.src}
                   alt={logo.alt || `Additional supporter ${index + 1}`}
                   className="cr-support__additional-logo-image"
@@ -63,12 +62,12 @@ const CrSupport = ({
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
 CrSupport.defaultProps = {
   showAdditionalLogos: false,
-  additionalLogos: []
-};
+  additionalLogos: [],
+}
 
-export default CrSupport;
+export default CrSupport

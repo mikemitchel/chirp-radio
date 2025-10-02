@@ -1,25 +1,25 @@
 // CrDjOverview.tsx
-import React from 'react';
-import CrButton from './CrButton';
-import { PiCaretRight, PiHeadphones } from 'react-icons/pi';
-import { PiMusicNotes, PiChatCircleText } from 'react-icons/pi';
-import './CrDjOverview.css';
+import React from 'react'
+import CrButton from './CrButton'
+import { PiCaretRight, PiHeadphones } from 'react-icons/pi'
+import { PiMusicNotes, PiChatCircleText } from 'react-icons/pi'
+import './CrDjOverview.css'
 
 interface CrDjOverviewProps {
-  size?: string;
-  role?: string;
-  useOn?: string;
-  title?: string;
-  djName?: string;
-  content?: string;
-  description?: string;
-  showTime?: string;
-  imageSrc?: string;
-  onRequestClick?: () => void;
-  onMoreClick?: () => void;
-  onDjDetailsClick?: (e: any) => void;
-  isCHIRP?: boolean;
-  showTitle?: string;
+  size?: string
+  role?: string
+  useOn?: string
+  title?: string
+  djName?: string
+  content?: string
+  description?: string
+  showTime?: string
+  imageSrc?: string
+  onRequestClick?: () => void
+  onMoreClick?: () => void
+  onDjDetailsClick?: (e: any) => void
+  isCHIRP?: boolean
+  showTitle?: string
 }
 
 export default function CrDjOverview({
@@ -37,13 +37,15 @@ export default function CrDjOverview({
   onDjDetailsClick,
   // Schedule variant specific props
   isCHIRP = false,
-  showTitle
+  showTitle,
 }: CrDjOverviewProps) {
-  
   // Render different layouts based on size variant
   const renderLarge = () => (
     <div className={`cr-dj-overview cr-dj-overview--large cr-dj-overview--${useOn}`}>
-      <div className="cr-dj-overview__image" style={imageSrc ? { backgroundImage: `url(${imageSrc})` } : {}}>
+      <div
+        className="cr-dj-overview__image"
+        style={imageSrc ? { backgroundImage: `url(${imageSrc})` } : {}}
+      >
         {/* SVG Placeholder */}
       </div>
       <div className="cr-dj-overview__content">
@@ -53,9 +55,9 @@ export default function CrDjOverview({
         <div className="cr-dj-overview__description">{description}</div>
         <div className="cr-dj-overview__show-time">{showTime}</div>
         <div className="cr-dj-overview__actions">
-          <CrButton 
-            size="small" 
-            variant="outline" 
+          <CrButton
+            size="small"
+            variant="outline"
             color="secondary"
             leftIcon={<PiMusicNotes />}
             rightIcon={<PiChatCircleText />}
@@ -63,9 +65,9 @@ export default function CrDjOverview({
           >
             Request
           </CrButton>
-          <CrButton 
-            size="small" 
-            variant="solid" 
+          <CrButton
+            size="small"
+            variant="solid"
             color="default"
             rightIcon={<PiCaretRight />}
             onClick={onMoreClick}
@@ -75,20 +77,23 @@ export default function CrDjOverview({
         </div>
       </div>
     </div>
-  );
+  )
 
   const renderMedium = () => (
     <div className={`cr-dj-overview cr-dj-overview--medium cr-dj-overview--${useOn}`}>
-      <div className="cr-dj-overview__image cr-dj-overview__image--circular" style={imageSrc ? { backgroundImage: `url(${imageSrc})` } : {}}>
+      <div
+        className="cr-dj-overview__image cr-dj-overview__image--circular"
+        style={imageSrc ? { backgroundImage: `url(${imageSrc})` } : {}}
+      >
         {/* SVG Placeholder */}
       </div>
       <div className="cr-dj-overview__content">
         <div className="cr-dj-overview__dj-name">{djName}</div>
         <div className="cr-dj-overview__content-text">{content}</div>
         <div className="cr-dj-overview__show-time">{showTime}</div>
-        <CrButton 
-          size="small" 
-          variant="outline" 
+        <CrButton
+          size="small"
+          variant="outline"
           color="default"
           rightIcon={<PiCaretRight />}
           onClick={onMoreClick}
@@ -97,7 +102,7 @@ export default function CrDjOverview({
         </CrButton>
       </div>
     </div>
-  );
+  )
 
   const renderXSmall1Col = () => (
     <div className={`cr-dj-overview cr-dj-overview--xsmall-1col cr-dj-overview--${useOn}`}>
@@ -105,7 +110,7 @@ export default function CrDjOverview({
       <div className="cr-dj-overview__content-text">{content}</div>
       <div className="cr-dj-overview__show-time">{showTime}</div>
     </div>
-  );
+  )
 
   const renderXSmall2Col = () => (
     <div className={`cr-dj-overview cr-dj-overview--xsmall-2col cr-dj-overview--${useOn}`}>
@@ -113,9 +118,9 @@ export default function CrDjOverview({
       <div className="cr-dj-overview__content">
         <div className="cr-dj-overview__dj-name">{djName}</div>
         <div className="cr-dj-overview__content-text">{content}</div>
-        <CrButton 
-          size="small" 
-          variant="outline" 
+        <CrButton
+          size="small"
+          variant="outline"
           color="default"
           rightIcon={<PiCaretRight />}
           onClick={onMoreClick}
@@ -124,18 +129,18 @@ export default function CrDjOverview({
         </CrButton>
       </div>
     </div>
-  );
+  )
 
   const renderSchedule = () => (
     <div className={`cr-dj-overview cr-dj-overview--schedule cr-dj-overview--${useOn}`}>
       <div className="cr-dj-overview__show-time">{showTime}</div>
-      
+
       <div className="cr-dj-overview__body">
         {/* Only render img tag if imageSrc exists, otherwise use div with background placeholder */}
         {imageSrc ? (
-          <img 
-            className="cr-dj-overview__image cr-dj-overview__image--schedule" 
-            src={imageSrc} 
+          <img
+            className="cr-dj-overview__image cr-dj-overview__image--schedule"
+            src={imageSrc}
             alt={`${djName} avatar`}
           />
         ) : (
@@ -143,14 +148,12 @@ export default function CrDjOverview({
             {/* SVG Placeholder */}
           </div>
         )}
-        
+
         <div className="cr-dj-overview__meta">
           <div className="cr-dj-overview__dj-name">{djName}</div>
-          
-          {showTitle && (
-            <div className="cr-dj-overview__show-title">{showTitle}</div>
-          )}
-          
+
+          {showTitle && <div className="cr-dj-overview__show-title">{showTitle}</div>}
+
           {!isCHIRP && (
             <div className="cr-dj-overview__button-wrapper">
               <CrButton
@@ -167,34 +170,37 @@ export default function CrDjOverview({
         </div>
       </div>
     </div>
-  );
+  )
 
   const renderSmall = () => (
     <div className={`cr-dj-overview cr-dj-overview--small cr-dj-overview--${useOn}`}>
-      <div className="cr-dj-overview__image cr-dj-overview__image--circular cr-dj-overview__image--small" style={imageSrc ? { backgroundImage: `url(${imageSrc})` } : {}}>
+      <div
+        className="cr-dj-overview__image cr-dj-overview__image--circular cr-dj-overview__image--small"
+        style={imageSrc ? { backgroundImage: `url(${imageSrc})` } : {}}
+      >
         {/* SVG Placeholder */}
       </div>
       <div className="cr-dj-overview__content">
         <div className="cr-dj-overview__dj-name">{djName}</div>
       </div>
     </div>
-  );
+  )
 
   // Render the appropriate variant
   switch (size) {
     case 'large':
-      return renderLarge();
+      return renderLarge()
     case 'medium':
-      return renderMedium();
+      return renderMedium()
     case 'small':
-      return renderSmall();
+      return renderSmall()
     case 'xsmall-1col':
-      return renderXSmall1Col();
+      return renderXSmall1Col()
     case 'xsmall-2col':
-      return renderXSmall2Col();
+      return renderXSmall2Col()
     case 'schedule':
-      return renderSchedule();
+      return renderSchedule()
     default:
-      return renderLarge();
+      return renderLarge()
   }
 }

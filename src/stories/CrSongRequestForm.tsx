@@ -1,16 +1,16 @@
 // CrSongRequestForm.tsx
-import React, { useState } from 'react';
-import { PiPaperPlaneTilt } from 'react-icons/pi';
-import CrButton from './CrButton';
-import './CrSongRequestForm.css';
+import React, { useState } from 'react'
+import { PiPaperPlaneTilt } from 'react-icons/pi'
+import CrButton from './CrButton'
+import './CrSongRequestForm.css'
 
 interface CrSongRequestFormProps {
-  title?: string;
-  bodyContent?: string;
-  maxMessageLength?: number;
-  onCancel?: () => void;
-  onSubmit?: (data: { artist: string; songTitle: string; message?: string }) => void;
-  className?: string;
+  title?: string
+  bodyContent?: string
+  maxMessageLength?: number
+  onCancel?: () => void
+  onSubmit?: (data: { artist: string; songTitle: string; message?: string }) => void
+  className?: string
 }
 
 export default function CrSongRequestForm({
@@ -19,69 +19,67 @@ export default function CrSongRequestForm({
   maxMessageLength = 200,
   onCancel,
   onSubmit,
-  className = ''
+  className = '',
 }: CrSongRequestFormProps) {
-  const [artist, setArtist] = useState('');
-  const [songTitle, setSongTitle] = useState('');
-  const [message, setMessage] = useState('');
-  const [errors, setErrors] = useState<{ artist?: string; songTitle?: string }>({});
+  const [artist, setArtist] = useState('')
+  const [songTitle, setSongTitle] = useState('')
+  const [message, setMessage] = useState('')
+  const [errors, setErrors] = useState<{ artist?: string; songTitle?: string }>({})
 
   const handleCancel = () => {
-    setArtist('');
-    setSongTitle('');
-    setMessage('');
-    setErrors({});
-    if (onCancel) onCancel();
-  };
+    setArtist('')
+    setSongTitle('')
+    setMessage('')
+    setErrors({})
+    if (onCancel) onCancel()
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // Validation
-    const newErrors: { artist?: string; songTitle?: string } = {};
+    const newErrors: { artist?: string; songTitle?: string } = {}
 
     if (!artist.trim()) {
-      newErrors.artist = 'Artist is required';
+      newErrors.artist = 'Artist is required'
     }
 
     if (!songTitle.trim()) {
-      newErrors.songTitle = 'Song title is required';
+      newErrors.songTitle = 'Song title is required'
     }
 
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
+      setErrors(newErrors)
+      return
     }
 
     // Clear errors and submit
-    setErrors({});
+    setErrors({})
 
     if (onSubmit) {
       onSubmit({
         artist: artist.trim(),
         songTitle: songTitle.trim(),
-        message: message.trim() || undefined
-      });
+        message: message.trim() || undefined,
+      })
     }
 
     // Clear form after successful submission
-    handleCancel();
-  };
+    handleCancel()
+  }
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
+    const value = e.target.value
     if (value.length <= maxMessageLength) {
-      setMessage(value);
+      setMessage(value)
     }
-  };
+  }
 
   return (
     <div className={`cr-song-request-form ${className}`}>
       <h1 className="cr-song-request-form__title">{title}</h1>
 
-      {bodyContent && (
-        <p className="cr-song-request-form__body">{bodyContent}</p>
-      )}
+      {bodyContent && <p className="cr-song-request-form__body">{bodyContent}</p>}
 
       <form onSubmit={handleSubmit} className="cr-song-request-form__form">
         {/* Artist Input */}
@@ -97,9 +95,7 @@ export default function CrSongRequestForm({
             onChange={(e) => setArtist(e.target.value)}
             placeholder="Enter artist name"
           />
-          {errors.artist && (
-            <span className="cr-song-request-form__error">{errors.artist}</span>
-          )}
+          {errors.artist && <span className="cr-song-request-form__error">{errors.artist}</span>}
         </div>
 
         {/* Song Title Input */}
@@ -173,5 +169,5 @@ export default function CrSongRequestForm({
           - Optional manual review queue for first-time users
       */}
     </div>
-  );
+  )
 }

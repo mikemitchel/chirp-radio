@@ -1,5 +1,5 @@
 // CrMainNav.stories.tsx
-import CrMainNav from './CrMainNav';
+import CrMainNav from './CrMainNav'
 
 export default {
   title: 'Molecules/CrMainNav',
@@ -7,25 +7,26 @@ export default {
   parameters: {
     layout: 'fullscreen',
     docs: {
-  description: {
-    component: 'Built from CrMenuButton and CrButton atoms, plus the CrCartIcon atom for store badge. Main website navigation with menu toggle, nav links, search, store cart, and donation buttons. This complex navigation system may warrant Organisms category. Supports both desktop and mobile layouts. Dark mode adapts through [data-theme="dark"] CSS selectors.'
-  }
-}
+      description: {
+        component:
+          'Built from CrMenuButton and CrButton atoms, plus the CrCartIcon atom for store badge. Main website navigation with menu toggle, nav links, search, store cart, and donation buttons. This complex navigation system may warrant Organisms category. Supports both desktop and mobile layouts. Dark mode adapts through [data-theme="dark"] CSS selectors.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     variant: {
       control: { type: 'select' },
       options: ['desktop', 'mobile'],
-      description: 'Navigation variant for different layouts'
+      description: 'Navigation variant for different layouts',
     },
     storeBadgeCount: {
       control: { type: 'number', min: 0, max: 99 },
-      description: 'Number to display in store badge'
+      description: 'Number to display in store badge',
     },
     showStoreBadge: {
       control: 'boolean',
-      description: 'Whether to show the store badge'
+      description: 'Whether to show the store badge',
     },
     onMenuClick: { action: 'menu clicked' },
     onListenClick: { action: 'listen clicked' },
@@ -34,49 +35,49 @@ export default {
     onSearchClick: { action: 'search clicked' },
     onStoreClick: { action: 'store clicked' },
     onWaysToGiveClick: { action: 'ways to give clicked' },
-    onDonateClick: { action: 'donate clicked' }
+    onDonateClick: { action: 'donate clicked' },
   },
-};
+}
 
 // Default navigation
 export const Default = {
   args: {
     variant: 'desktop',
     storeBadgeCount: 5,
-    showStoreBadge: true
+    showStoreBadge: true,
   },
-};
+}
 
 // Mobile variant
 export const Mobile = {
   args: {
     variant: 'mobile',
     storeBadgeCount: 3,
-    showStoreBadge: true
+    showStoreBadge: true,
   },
   parameters: {
     viewport: {
       defaultViewport: 'mobile1',
     },
   },
-};
+}
 
 // Without store badge
 export const NoBadge = {
   args: {
     variant: 'desktop',
-    showStoreBadge: false
+    showStoreBadge: false,
   },
-};
+}
 
 // High badge count
 export const HighBadgeCount = {
   args: {
     variant: 'desktop',
     storeBadgeCount: 99,
-    showStoreBadge: true
+    showStoreBadge: true,
   },
-};
+}
 
 // With all interactions
 export const Interactive = {
@@ -91,6 +92,6 @@ export const Interactive = {
     onSearchClick: () => console.log('Search clicked'),
     onStoreClick: () => console.log('Store clicked'),
     onWaysToGiveClick: () => console.log('Ways to Give clicked'),
-    onDonateClick: () => console.log('Donate clicked')
+    onDonateClick: () => console.log('Donate clicked'),
   },
-};
+}

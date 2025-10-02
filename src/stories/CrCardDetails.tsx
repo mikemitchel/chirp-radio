@@ -1,66 +1,65 @@
 // CrCardDetails.tsx
-import React from 'react';
-import { PiCalendarDots, PiMapTrifold, PiArrowSquareUp } from 'react-icons/pi';
-import CrChip from './CrChip';
-import CrButton from './CrButton';
-import './CrCardDetails.css';
+import React from 'react'
+import { PiCalendarDots, PiMapTrifold, PiArrowSquareUp } from 'react-icons/pi'
+import CrChip from './CrChip'
+import CrButton from './CrButton'
+import './CrCardDetails.css'
 
 interface CrCardDetailsProps {
-  dateTime?: string;
-  venue?: string;
-  ageRestriction?: string;
-  authorBy?: string;
-  eventDate?: string;
-  tags?: string[];
-  device?: string;
-  type?: string;
-  onVenueClick?: () => void;
-  onShareClick?: () => void;
+  dateTime?: string
+  venue?: string
+  ageRestriction?: string
+  authorBy?: string
+  eventDate?: string
+  tags?: string[]
+  device?: string
+  type?: string
+  onVenueClick?: () => void
+  onShareClick?: () => void
 }
 
 export default function CrCardDetails({
-  dateTime = "September 30, 2025 @ 10:00pm",
-  venue = "Lincoln Hall",
-  ageRestriction = "21+",
-  authorBy = "by Sally Forth",
-  eventDate = "September 30, 2025",
-  tags = ["Hello World", "Hello World", "Hello World"],
-  device = "desktop",
-  type = "event",
+  dateTime = 'September 30, 2025 @ 10:00pm',
+  venue = 'Lincoln Hall',
+  ageRestriction = '21+',
+  authorBy = 'by Sally Forth',
+  eventDate = 'September 30, 2025',
+  tags = ['Hello World', 'Hello World', 'Hello World'],
+  device = 'desktop',
+  type = 'event',
   onVenueClick,
-  onShareClick
+  onShareClick,
 }: CrCardDetailsProps) {
-
   const componentClasses = [
     'cr-card-details',
     `cr-card-details--${device}`,
-    `cr-card-details--${type}`
-  ].filter(Boolean).join(' ');
+    `cr-card-details--${type}`,
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <div className={componentClasses}>
       <div className="cr-card-details__container">
-        
         <div className="cr-card-details__content">
-          
           <div className="cr-card-details__event-row">
             <div className="cr-card-details__datetime">
               <PiCalendarDots className="cr-card-details__icon cr-card-details__icon--calendar" />
               <span className="cr-card-details__datetime-text">{dateTime}</span>
             </div>
-            
-            <a 
+
+            <a
               href="#"
               className="cr-card-details__venue"
               onClick={(e) => {
-                e.preventDefault();
-                onVenueClick && onVenueClick();
+                e.preventDefault()
+                onVenueClick && onVenueClick()
               }}
             >
               <PiMapTrifold className="cr-card-details__icon cr-card-details__icon--map" />
               <span className="cr-card-details__venue-text">{venue}</span>
             </a>
-            
+
             {ageRestriction && (
               <CrChip variant="secondary" size="large">
                 {ageRestriction}
@@ -73,7 +72,7 @@ export default function CrCardDetails({
               <span className="cr-card-details__author">{authorBy}</span>
               <span className="cr-card-details__date">{eventDate}</span>
             </div>
-            
+
             <div className="cr-card-details__tags">
               {tags.map((tag, index) => (
                 <CrChip key={index} variant="secondary" size="medium">
@@ -82,7 +81,6 @@ export default function CrCardDetails({
               ))}
             </div>
           </div>
-          
         </div>
 
         <div className="cr-card-details__actions">
@@ -96,8 +94,7 @@ export default function CrCardDetails({
             Share
           </CrButton>
         </div>
-        
       </div>
     </div>
-  );
+  )
 }

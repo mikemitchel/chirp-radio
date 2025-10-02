@@ -1,10 +1,10 @@
 // src/layouts/MobileLayout.tsx
-import { React } from "react";
-import MobileNav from "../components/MobileNav";
+import { React } from 'react'
+import MobileNav from '../components/MobileNav'
 
 type MobileLayoutProps = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export default function MobileLayout({ children }: MobileLayoutProps) {
   return (
@@ -12,5 +12,5 @@ export default function MobileLayout({ children }: MobileLayoutProps) {
       <div className="flex-1 overflow-auto">{children}</div>
       <MobileNav />
     </div>
-  );
+  )
 }

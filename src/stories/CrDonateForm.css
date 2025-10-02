@@ -108,36 +108,36 @@
   .cr-donate-form {
     padding: var(--cr-space-4);
   }
-  
+
   .cr-donate-form__form {
     gap: var(--cr-space-6);
   }
-  
+
   .cr-donate-form__submit {
     justify-content: stretch;
   }
-  
+
   .cr-donate-form__submit .cr-btn {
     width: 100%;
   }
-  
+
   .cr-donate-form__section-action {
     justify-content: stretch;
   }
-  
+
   .cr-donate-form__section-action .cr-btn {
     width: 100%;
   }
-  
+
   .cr-donate-form__employer-input-group {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .cr-donate-form__employer-input-group .cr-btn {
     width: 100%;
   }
-  
+
   .cr-donate-form__company-matching,
   .cr-donate-form__vinyl-circle,
   .cr-donate-form__switch-section {

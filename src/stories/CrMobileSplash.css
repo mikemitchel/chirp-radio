@@ -12,7 +12,7 @@
 }
 
 /* Dark mode background */
-[data-theme="dark"] .cr-mobile-splash {
+[data-theme='dark'] .cr-mobile-splash {
   background-color: var(--cr-default-100);
 }
 

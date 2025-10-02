@@ -67,8 +67,10 @@
   color: var(--cr-ink);
   padding: var(--cr-space-2);
   border-radius: 9999px;
-  transition: color 0.15s ease, background-color 0.15s ease;
-  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.05);
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
   min-height: 32px;
   min-width: 32px;
 }
@@ -101,7 +103,9 @@
   color: var(--cr-ink);
   padding: var(--cr-space-1) var(--cr-space-2);
   border-radius: var(--cr-space-1);
-  transition: color 0.15s ease, background-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
   white-space: nowrap;
 }
 
@@ -123,7 +127,7 @@
 }
 
 /* Override CrCartIcon hover behavior in nav context */
-.cr-main-nav__store-button .cr-main-nav__store-icon[role="button"]:hover {
+.cr-main-nav__store-button .cr-main-nav__store-icon[role='button']:hover {
   background-color: transparent; /* Don't double-hover since button already handles it */
 }
 
@@ -138,7 +142,9 @@
   color: var(--cr-ink);
   padding: var(--cr-space-1) var(--cr-space-2);
   border-radius: var(--cr-space-1);
-  transition: color 0.15s ease, background-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
   white-space: nowrap;
 }
 
@@ -174,21 +180,21 @@
 }
 
 /* Dark mode adjustments */
-[data-theme="dark"] .cr-main-nav__nav-link:hover {
+[data-theme='dark'] .cr-main-nav__nav-link:hover {
   color: var(--cr-primary-300);
 }
 
-[data-theme="dark"] .cr-main-nav__search-button {
+[data-theme='dark'] .cr-main-nav__search-button {
   background: var(--cr-default-800);
 }
 
-[data-theme="dark"] .cr-main-nav__search-button:hover {
+[data-theme='dark'] .cr-main-nav__search-button:hover {
   background-color: var(--cr-default-700);
   color: var(--cr-primary-300);
 }
 
-[data-theme="dark"] .cr-main-nav__store-button:hover,
-[data-theme="dark"] .cr-main-nav__ways-button:hover {
+[data-theme='dark'] .cr-main-nav__store-button:hover,
+[data-theme='dark'] .cr-main-nav__ways-button:hover {
   color: var(--cr-primary-300);
   background-color: var(--cr-default-800);
 }
@@ -198,12 +204,12 @@
   .cr-main-nav__container {
     padding: var(--cr-space-3) var(--cr-space-4);
   }
-  
+
   .cr-main-nav__left,
   .cr-main-nav__right {
     gap: var(--cr-space-3);
   }
-  
+
   .cr-main-nav__nav-items {
     gap: var(--cr-space-3);
   }
@@ -213,12 +219,12 @@
   .cr-main-nav__container {
     padding: var(--cr-space-2) var(--cr-space-3);
   }
-  
+
   /* Hide "WAYS TO GIVE" text on mobile, keep icon */
   .cr-main-nav__ways-text {
     display: none;
   }
-  
+
   /* Hide "STORE" text on mobile, keep icon */
   .cr-main-nav__store-text {
     display: none;
@@ -230,7 +236,7 @@
   .cr-main-nav__right {
     gap: var(--cr-space-2);
   }
-  
+
   .cr-main-nav__container {
     padding: var(--cr-space-2);
   }

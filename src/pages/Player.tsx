@@ -1,23 +1,23 @@
 // src/pages/Player.tsx
-import RootLayout from "../layouts/RootLayout";
-import MobileLayout from "../layouts/MobileLayout";
-import DesktopLayout from "../layouts/DesktopLayout";
-import { useEffect, useState } from "react";
-import AudioPlayerUI from "../components/AudioControls";
+import RootLayout from '../layouts/RootLayout'
+import MobileLayout from '../layouts/MobileLayout'
+import DesktopLayout from '../layouts/DesktopLayout'
+import { useEffect, useState } from 'react'
+import AudioPlayerUI from '../components/AudioControls'
 
 export default function PlayerPage() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const update = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
+      setIsMobile(window.innerWidth < 768)
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
 
-  const Layout = isMobile ? MobileLayout : DesktopLayout;
+  const Layout = isMobile ? MobileLayout : DesktopLayout
 
   return (
     <RootLayout>
@@ -26,5 +26,5 @@ export default function PlayerPage() {
         <AudioPlayerUI />
       </Layout>
     </RootLayout>
-  );
+  )
 }

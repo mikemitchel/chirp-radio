@@ -1,17 +1,17 @@
 // CrToggle.tsx
-import React from 'react';
-import './CrToggle.css';
+import React from 'react'
+import './CrToggle.css'
 
 interface CrToggleProps {
-  checked?: boolean;
-  onChange?: (checked: boolean, event: any) => void;
-  disabled?: boolean;
-  size?: string;
-  variant?: string;
-  leftLabel?: string;
-  rightLabel?: string;
-  'aria-label'?: string;
-  id?: string;
+  checked?: boolean
+  onChange?: (checked: boolean, event: any) => void
+  disabled?: boolean
+  size?: string
+  variant?: string
+  leftLabel?: string
+  rightLabel?: string
+  'aria-label'?: string
+  id?: string
 }
 
 export default function CrToggle({
@@ -28,26 +28,24 @@ export default function CrToggle({
 }: CrToggleProps) {
   const handleChange = (event) => {
     if (!disabled && onChange) {
-      onChange(event.target.checked, event);
+      onChange(event.target.checked, event)
     }
-  };
+  }
 
   const toggleClasses = [
     'cr-toggle',
     `cr-toggle--${size}`,
     `cr-toggle--${variant}`,
     checked ? 'cr-toggle--checked' : '',
-    disabled ? 'cr-toggle--disabled' : ''
-  ].filter(Boolean).join(' ');
+    disabled ? 'cr-toggle--disabled' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <div className={toggleClasses}>
-      {leftLabel && (
-        <span className="cr-toggle__label cr-toggle__label--left">
-          {leftLabel}
-        </span>
-      )}
-      
+      {leftLabel && <span className="cr-toggle__label cr-toggle__label--left">{leftLabel}</span>}
+
       <input
         type="checkbox"
         className="cr-toggle__input"
@@ -61,12 +59,8 @@ export default function CrToggle({
       <div className="cr-toggle__track">
         <div className="cr-toggle__thumb" />
       </div>
-      
-      {rightLabel && (
-        <span className="cr-toggle__label cr-toggle__label--right">
-          {rightLabel}
-        </span>
-      )}
+
+      {rightLabel && <span className="cr-toggle__label cr-toggle__label--right">{rightLabel}</span>}
     </div>
-  );
+  )
 }

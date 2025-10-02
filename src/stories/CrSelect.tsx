@@ -1,32 +1,29 @@
 // CrDropdownMenu.tsx
-import React from 'react';
-import './CrSelect.css';
+import React from 'react'
+import './CrSelect.css'
 
 interface CrSelectProps {
-  options?: any[];
-  onSelect?: (option: any) => void;
-  theme?: string;
-  className?: string;
+  options?: any[]
+  onSelect?: (option: any) => void
+  theme?: string
+  className?: string
 }
 
 export default function CrSelect({
   options = [],
   onSelect,
-  theme = "light", // 'light' or 'dark'
-  className = ""
+  theme = 'light', // 'light' or 'dark'
+  className = '',
 }: CrSelectProps) {
-  
   const handleOptionClick = (option) => {
     if (onSelect) {
-      onSelect(option);
+      onSelect(option)
     }
-  };
+  }
 
-  const menuClasses = [
-    'cr-dropdown-menu',
-    `cr-dropdown-menu--${theme}`,
-    className
-  ].filter(Boolean).join(' ');
+  const menuClasses = ['cr-dropdown-menu', `cr-dropdown-menu--${theme}`, className]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <div className={menuClasses}>
@@ -44,5 +41,5 @@ export default function CrSelect({
         ))}
       </ul>
     </div>
-  );
+  )
 }

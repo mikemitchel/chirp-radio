@@ -1,31 +1,27 @@
 // CrBreadcrumb.tsx
-import React from 'react';
-import { PiCaretRight } from 'react-icons/pi';
-import CrLogo from './CrLogo';
-import './CrBreadcrumb.css';
+import React from 'react'
+import { PiCaretRight } from 'react-icons/pi'
+import CrLogo from './CrLogo'
+import './CrBreadcrumb.css'
 
 interface CrBreadcrumbProps {
-  items?: any[];
-  onItemClick?: (item: any) => void;
-  showLogo?: boolean;
+  items?: any[]
+  onItemClick?: (item: any) => void
+  showLogo?: boolean
 }
 
 export default function CrBreadcrumb({
   items = [],
   onItemClick,
-  showLogo = true
+  showLogo = true,
 }: CrBreadcrumbProps) {
   return (
     <nav className="cr-breadcrumb" aria-label="Breadcrumb">
       <div className="cr-breadcrumb__content">
-        
         {/* Logo */}
         {showLogo && (
           <div className="cr-breadcrumb__logo">
-            <CrLogo 
-              variant="bird"
-              reversed={false}
-            />
+            <CrLogo variant="bird" reversed={false} />
           </div>
         )}
 
@@ -33,7 +29,6 @@ export default function CrBreadcrumb({
         <div className="cr-breadcrumb__items">
           {items.map((item, index) => (
             <React.Fragment key={index}>
-              
               {/* Breadcrumb Item */}
               <div className="cr-breadcrumb__item">
                 {item.isClickable ? (
@@ -45,24 +40,16 @@ export default function CrBreadcrumb({
                     {item.label}
                   </button>
                 ) : (
-                  <span className="cr-breadcrumb__current">
-                    {item.label}
-                  </span>
+                  <span className="cr-breadcrumb__current">{item.label}</span>
                 )}
               </div>
 
               {/* Separator */}
-              {index < items.length - 1 && (
-                <div className="cr-breadcrumb__separator">
-                  /
-                </div>
-              )}
-              
+              {index < items.length - 1 && <div className="cr-breadcrumb__separator">/</div>}
             </React.Fragment>
           ))}
         </div>
-        
       </div>
     </nav>
-  );
+  )
 }

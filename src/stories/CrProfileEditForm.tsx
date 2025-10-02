@@ -1,25 +1,25 @@
 // CrProfileEditForm.tsx
-import React from 'react';
-import { PiFloppyDisk } from 'react-icons/pi';
-import CrButton from './CrButton';
-import CrSocialIcon from './CrSocialIcon';
-import CrImageCropper from './CrImageCropper';
-import './CrProfileEditForm.css';
+import React from 'react'
+import { PiFloppyDisk } from 'react-icons/pi'
+import CrButton from './CrButton'
+import CrSocialIcon from './CrSocialIcon'
+import CrImageCropper from './CrImageCropper'
+import './CrProfileEditForm.css'
 
 interface CrProfileEditFormProps {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  avatarSrc?: string;
-  socialLinks?: Array<{ platform: string; url: string }>;
-  isDJ?: boolean;
-  isVolunteer?: boolean;
-  formData?: any;
-  onChange?: (field: string, value: any) => void;
-  onImageChange?: (images: { fullImage?: string; croppedImage?: string }) => void;
-  onSave?: () => void;
-  onCancel?: () => void;
-  originalFullImage?: string;
+  firstName?: string
+  lastName?: string
+  email?: string
+  avatarSrc?: string
+  socialLinks?: Array<{ platform: string; url: string }>
+  isDJ?: boolean
+  isVolunteer?: boolean
+  formData?: any
+  onChange?: (field: string, value: any) => void
+  onImageChange?: (images: { fullImage?: string; croppedImage?: string }) => void
+  onSave?: () => void
+  onCancel?: () => void
+  originalFullImage?: string
 }
 
 export default function CrProfileEditForm({
@@ -29,11 +29,11 @@ export default function CrProfileEditForm({
   email,
   avatarSrc,
   socialLinks = [],
-  
+
   // User roles
   isDJ = false,
   isVolunteer = false,
-  
+
   // Form data and handlers
   formData = {},
   onChange,
@@ -42,39 +42,39 @@ export default function CrProfileEditForm({
   onCancel,
 
   // Image handling
-  originalFullImage
+  originalFullImage,
 }: CrProfileEditFormProps) {
   const handleInputChange = (field, value) => {
     if (onChange) {
-      onChange(field, value);
+      onChange(field, value)
     }
-  };
+  }
 
   const handleImageChangeInternal = (images) => {
     if (onImageChange) {
-      onImageChange(images);
+      onImageChange(images)
     }
-  };
+  }
 
   // ZIP code lookup for automatic city/state population
   const handleZipLookup = async (zipCode) => {
     if (zipCode && zipCode.length === 5) {
       try {
-        const response = await fetch(`https://api.zippopotam.us/us/${zipCode}`);
+        const response = await fetch(`https://api.zippopotam.us/us/${zipCode}`)
         if (response.ok) {
-          const data = await response.json();
-          const place = data.places[0];
+          const data = await response.json()
+          const place = data.places[0]
           if (place) {
-            handleInputChange('city', place['place name']);
-            handleInputChange('state', place['state abbreviation']);
-            handleInputChange('location', `${place['place name']}, ${place['state abbreviation']}`);
+            handleInputChange('city', place['place name'])
+            handleInputChange('state', place['state abbreviation'])
+            handleInputChange('location', `${place['place name']}, ${place['state abbreviation']}`)
           }
         }
       } catch (error) {
-        console.log('ZIP lookup failed:', error);
+        console.log('ZIP lookup failed:', error)
       }
     }
-  };
+  }
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
@@ -144,7 +144,7 @@ export default function CrProfileEditForm({
         <div className="form-group">
           <label className="form-label">Profile Picture</label>
           <div className="cr-image-cropper">
-            <CrImageCropper 
+            <CrImageCropper
               onImageChange={handleImageChangeInternal}
               initialFullImage={originalFullImage}
               initialCroppedImage={avatarSrc}
@@ -156,8 +156,8 @@ export default function CrProfileEditForm({
         <div className="form-group">
           <label className="form-label">Social Media Links</label>
           <div className="form-social-inputs">
-            {['facebook', 'instagram', 'twitter', 'linkedin', 'bluesky'].map(platform => {
-              const existingLink = socialLinks.find(link => link.platform === platform);
+            {['facebook', 'instagram', 'twitter', 'linkedin', 'bluesky'].map((platform) => {
+              const existingLink = socialLinks.find((link) => link.platform === platform)
               return (
                 <div key={platform} className="form-social-input-item">
                   <CrSocialIcon platform={platform} size={20} />
@@ -169,7 +169,7 @@ export default function CrProfileEditForm({
                     placeholder={`www.${platform}.com/yourusername`}
                   />
                 </div>
-              );
+              )
             })}
           </div>
         </div>
@@ -264,9 +264,9 @@ export default function CrProfileEditForm({
                   type="text"
                   value={formData.zipCode || ''}
                   onChange={(e) => {
-                    const zip = e.target.value;
-                    handleInputChange('zipCode', zip);
-                    handleZipLookup(zip);
+                    const zip = e.target.value
+                    handleInputChange('zipCode', zip)
+                    handleZipLookup(zip)
                   }}
                   placeholder="60614"
                   maxLength="5"
@@ -292,12 +292,7 @@ export default function CrProfileEditForm({
 
       {/* Form Actions */}
       <div className="form-actions">
-        <CrButton
-          size="medium"
-          variant="text"
-          color="default"
-          onClick={onCancel}
-        >
+        <CrButton size="medium" variant="text" color="default" onClick={onCancel}>
           Cancel
         </CrButton>
         <CrButton
@@ -311,5 +306,5 @@ export default function CrProfileEditForm({
         </CrButton>
       </div>
     </form>
-  );
+  )
 }

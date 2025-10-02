@@ -1,10 +1,10 @@
 // src/layouts/DesktopLayout.tsx
-import { ReactNode } from "react";
-import DesktopSidebar from "../components/DesktopSidebar";
+import { ReactNode } from 'react'
+import DesktopSidebar from '../components/DesktopSidebar'
 
 type DesktopLayoutProps = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 export default function DesktopLayout({ children }: DesktopLayoutProps) {
   return (
@@ -12,5 +12,5 @@ export default function DesktopLayout({ children }: DesktopLayoutProps) {
       <DesktopSidebar />
       <div className="flex-1 p-4 overflow-auto">{children}</div>
     </div>
-  );
+  )
 }

@@ -1,17 +1,17 @@
 // CrFooter.tsx
-import React from "react";
-import CrSocialIcon from "./CrSocialIcon";
-import chirpFilmFest from "../assets/chirp-logos/chirp-film-fest.jpg";
-import firstTimeLogo from "../assets/chirp-logos/FirstTimeLogo.png";
-import callibrityLogo from "../assets/callibrity-logo/Callibrity-Plum.svg";
-import "./CrFooter.css";
+import React from 'react'
+import CrSocialIcon from './CrSocialIcon'
+import chirpFilmFest from '../assets/chirp-logos/chirp-film-fest.jpg'
+import firstTimeLogo from '../assets/chirp-logos/FirstTimeLogo.png'
+import callibrityLogo from '../assets/callibrity-logo/Callibrity-Plum.svg'
+import './CrFooter.css'
 
 interface CrFooterProps {
-  onPrivacyPolicyClick?: () => void;
-  onTermsOfServiceClick?: () => void;
-  onSitemapClick?: () => void;
-  onCallibrityClick?: () => void;
-  onSocialClick?: (platform: string) => void;
+  onPrivacyPolicyClick?: () => void
+  onTermsOfServiceClick?: () => void
+  onSitemapClick?: () => void
+  onCallibrityClick?: () => void
+  onSocialClick?: (platform: string) => void
 }
 
 const CrFooter = ({
@@ -21,20 +21,14 @@ const CrFooter = ({
   onCallibrityClick,
   onSocialClick,
 }: CrFooterProps) => {
-  const currentYear = new Date().getFullYear();
-  const socialPlatforms = [
-    "facebook",
-    "instagram",
-    "twitter",
-    "bluesky",
-    "linkedin",
-  ];
+  const currentYear = new Date().getFullYear()
+  const socialPlatforms = ['facebook', 'instagram', 'twitter', 'bluesky', 'linkedin']
 
   const handleSocialClick = (platform) => {
     if (onSocialClick) {
-      onSocialClick(platform);
+      onSocialClick(platform)
     }
-  };
+  }
 
   return (
     <footer className="cr-footer cr-bg-textured cr-bg-rice-d100">
@@ -43,8 +37,8 @@ const CrFooter = ({
         <div className="cr-footer__left">
           <div className="cr-footer__copyright">
             <p>
-              ©2008–{currentYear} Chicago Independent Radio Project. CHIRP, CHIRP Radio,
-              and Chicago Independent Radio Project are registered trademarks.
+              ©2008–{currentYear} Chicago Independent Radio Project. CHIRP, CHIRP Radio, and
+              Chicago Independent Radio Project are registered trademarks.
             </p>
           </div>
 
@@ -53,8 +47,8 @@ const CrFooter = ({
               <a
                 href="#"
                 onClick={(e) => {
-                  e.preventDefault();
-                  if (onPrivacyPolicyClick) onPrivacyPolicyClick();
+                  e.preventDefault()
+                  if (onPrivacyPolicyClick) onPrivacyPolicyClick()
                 }}
               >
                 Privacy Policy
@@ -63,8 +57,8 @@ const CrFooter = ({
               <a
                 href="#"
                 onClick={(e) => {
-                  e.preventDefault();
-                  if (onTermsOfServiceClick) onTermsOfServiceClick();
+                  e.preventDefault()
+                  if (onTermsOfServiceClick) onTermsOfServiceClick()
                 }}
               >
                 Terms of Service
@@ -73,8 +67,8 @@ const CrFooter = ({
               <a
                 href="#"
                 onClick={(e) => {
-                  e.preventDefault();
-                  if (onSitemapClick) onSitemapClick();
+                  e.preventDefault()
+                  if (onSitemapClick) onSitemapClick()
                 }}
               >
                 Sitemap
@@ -99,7 +93,7 @@ const CrFooter = ({
         <div className="cr-footer__middle">
           <button
             className="cr-footer__event-image cr-footer__event-image--film-fest"
-            onClick={() => console.log("Film Fest image clicked")}
+            onClick={() => console.log('Film Fest image clicked')}
             aria-label="CHIRP Film Fest"
           >
             <img src={chirpFilmFest} alt="CHIRP Film Fest Logo" />
@@ -107,7 +101,7 @@ const CrFooter = ({
 
           <button
             className="cr-footer__event-image cr-footer__event-image--first-time"
-            onClick={() => console.log("First Time Listening image clicked")}
+            onClick={() => console.log('First Time Listening image clicked')}
             aria-label="First Time Listening"
           >
             <img src={firstTimeLogo} alt="First Time Listening Logo" />
@@ -118,12 +112,8 @@ const CrFooter = ({
         <div className="cr-footer__right">
           <div className="cr-footer__callibrity-text">
             <p>
-              Chirp Radio web and mobile apps created by{" "}
-              <a
-                href="https://callibrity.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              Chirp Radio web and mobile apps created by{' '}
+              <a href="https://callibrity.com" target="_blank" rel="noopener noreferrer">
                 callibrity.com
               </a>
               .
@@ -138,13 +128,11 @@ const CrFooter = ({
             <img src={callibrityLogo} alt="Callibrity Logo" />
           </button>
 
-          <div className="cr-footer__tagline">
-            Curiosity is in Our Programming
-          </div>
+          <div className="cr-footer__tagline">Curiosity is in Our Programming</div>
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}
 
-export default CrFooter;
+export default CrFooter

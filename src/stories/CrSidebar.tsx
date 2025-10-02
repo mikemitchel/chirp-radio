@@ -1,42 +1,37 @@
 // CrSidebar.tsx
-import React from 'react';
-import {
-  PiHandHeartLight,
-  PiChatCircleTextLight,
-  PiMusicNotes,
-  PiGearLight
-} from 'react-icons/pi';
-import CrButton from './CrButton';
-import CrLogo from './CrLogo';
-import CrMenuButton from './CrMenuButton';
-import './CrSidebar.css';
+import React from 'react'
+import { PiHandHeartLight, PiChatCircleTextLight, PiMusicNotes, PiGearLight } from 'react-icons/pi'
+import CrButton from './CrButton'
+import CrLogo from './CrLogo'
+import CrMenuButton from './CrMenuButton'
+import './CrSidebar.css'
 
 interface CrSidebarProps {
-  isOpen?: boolean;
-  variant?: 'web' | 'mobile';
-  onClose?: () => void;
-  onLogoClick?: () => void;
-  onHomeClick?: () => void;
-  onNowPlayingClick?: () => void;
-  onRecentPlaylistClick?: () => void;
-  onYourCollectionClick?: () => void;
-  onListenClick?: () => void;
-  onPlaylistClick?: () => void;
-  onPodcastClick?: () => void;
-  onDjsClick?: () => void;
-  onScheduleClick?: () => void;
-  onEventsClick?: () => void;
-  onArticlesClick?: () => void;
-  onDonateClick?: () => void;
-  onWaysToGiveClick?: () => void;
-  onVinylCircleClick?: () => void;
-  onShopClick?: () => void;
-  onAboutClick?: () => void;
-  onOtherWaysToListenClick?: () => void;
-  onContactClick?: () => void;
-  onBecomeVolunteerClick?: () => void;
-  onRequestClick?: () => void;
-  onAccountSettingsClick?: () => void;
+  isOpen?: boolean
+  variant?: 'web' | 'mobile'
+  onClose?: () => void
+  onLogoClick?: () => void
+  onHomeClick?: () => void
+  onNowPlayingClick?: () => void
+  onRecentPlaylistClick?: () => void
+  onYourCollectionClick?: () => void
+  onListenClick?: () => void
+  onPlaylistClick?: () => void
+  onPodcastClick?: () => void
+  onDjsClick?: () => void
+  onScheduleClick?: () => void
+  onEventsClick?: () => void
+  onArticlesClick?: () => void
+  onDonateClick?: () => void
+  onWaysToGiveClick?: () => void
+  onVinylCircleClick?: () => void
+  onShopClick?: () => void
+  onAboutClick?: () => void
+  onOtherWaysToListenClick?: () => void
+  onContactClick?: () => void
+  onBecomeVolunteerClick?: () => void
+  onRequestClick?: () => void
+  onAccountSettingsClick?: () => void
 }
 
 export default function CrSidebar({
@@ -45,12 +40,12 @@ export default function CrSidebar({
   onClose,
   onLogoClick,
   onHomeClick,
-  
+
   // Mobile-specific handlers
   onNowPlayingClick,
   onRecentPlaylistClick,
   onYourCollectionClick,
-  
+
   // Shared navigation handlers
   onListenClick,
   onPlaylistClick,
@@ -68,36 +63,28 @@ export default function CrSidebar({
   onContactClick,
   onBecomeVolunteerClick,
   onRequestClick,
-  onAccountSettingsClick
+  onAccountSettingsClick,
 }: CrSidebarProps) {
-
   if (variant === 'mobile') {
     return (
       <>
         {/* Backdrop overlay */}
         {isOpen && <div className="cr-sidebar__backdrop" onClick={onClose} />}
-        
+
         {/* Mobile Sidebar */}
-        <div className={`cr-sidebar cr-sidebar--mobile ${isOpen ? 'cr-sidebar--open' : 'cr-sidebar--closed'}`}>
+        <div
+          className={`cr-sidebar cr-sidebar--mobile ${isOpen ? 'cr-sidebar--open' : 'cr-sidebar--closed'}`}
+        >
           <div className="cr-sidebar__content">
-            
             {/* Mobile Close Button */}
             <div className="cr-sidebar__close-button">
-              <CrMenuButton
-                variant="close"
-                layout="icon-right"
-                text="CLOSE"
-                onClick={onClose}
-              />
+              <CrMenuButton variant="close" layout="icon-right" text="CLOSE" onClick={onClose} />
             </div>
-            
+
             {/* Header Section */}
             <div className="cr-sidebar__header">
               <div className="cr-sidebar__logo-section" onClick={onLogoClick}>
-                <CrLogo
-                  variant="horizontal"
-                  color="white"
-                />
+                <CrLogo variant="horizontal" color="white" />
               </div>
 
               {/* Mobile-specific top sections */}
@@ -182,18 +169,14 @@ export default function CrSidebar({
 
               {/* CHIRPRADIO.ORG link with bird logo */}
               <button className="cr-sidebar__footer-chirp" onClick={onLogoClick}>
-                <CrLogo
-                  variant="bird"
-                  color="white"
-                  className="cr-sidebar__footer-bird"
-                />
+                <CrLogo variant="bird" color="white" className="cr-sidebar__footer-bird" />
                 <span className="cr-sidebar__footer-chirp-text">Chirpradio.org</span>
               </button>
             </div>
           </div>
         </div>
       </>
-    );
+    )
   }
 
   // Web version (original)
@@ -201,26 +184,23 @@ export default function CrSidebar({
     <>
       {/* Backdrop overlay */}
       {isOpen && <div className="cr-sidebar__backdrop" />}
-      
+
       {/* Sidebar */}
       <div className={`cr-sidebar ${isOpen ? 'cr-sidebar--open' : 'cr-sidebar--closed'}`}>
         <div className="cr-sidebar__content">
-          
           {/* Header Section */}
           <div className="cr-sidebar__header">
             <div className="cr-sidebar__logo-section" onClick={onLogoClick}>
-              <CrLogo
-                variant="vertical"
-                color="white"
-              />
-              <span className="cr-sidebar__home-text" onClick={onHomeClick}>Home</span>
+              <CrLogo variant="vertical" color="white" />
+              <span className="cr-sidebar__home-text" onClick={onHomeClick}>
+                Home
+              </span>
             </div>
             <div className="cr-sidebar__divider"></div>
           </div>
 
           {/* Main Navigation */}
           <div className="cr-sidebar__main-nav">
-            
             {/* Listen Section */}
             <div className="cr-sidebar__nav-section">
               <button className="cr-sidebar__nav-title" onClick={onListenClick}>
@@ -317,5 +297,5 @@ export default function CrSidebar({
         </div>
       </div>
     </>
-  );
+  )
 }

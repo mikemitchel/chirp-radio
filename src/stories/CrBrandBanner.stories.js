@@ -1,5 +1,5 @@
 // CrBrandBanner.stories.tsx
-import CrBrandBanner from './CrBrandBanner';
+import CrBrandBanner from './CrBrandBanner'
 
 export default {
   title: 'Molecules/CrBrandBanner',
@@ -7,13 +7,14 @@ export default {
   parameters: {
     layout: 'fullscreen',
     docs: {
-  description: {
-    component: 'Built from CrLogo atom and CrStreamingMusicPlayer Template. Header banner combining CHIRP logo with embedded music player. This uses complex music player molecule - consider moving to Organisms category. Responsive layout switching between horizontal and stacked arrangements. Dark mode adapts through [data-theme="dark"] CSS selectors.'
-  }
-}
+      description: {
+        component:
+          'Built from CrLogo atom and CrStreamingMusicPlayer Template. Header banner combining CHIRP logo with embedded music player. This uses complex music player molecule - consider moving to Organisms category. Responsive layout switching between horizontal and stacked arrangements. Dark mode adapts through [data-theme="dark"] CSS selectors.',
+      },
+    },
   },
-  tags: ['autodocs']
-};
+  tags: ['autodocs'],
+}
 
 // Default header
 export const Default = {
@@ -24,10 +25,10 @@ export const Default = {
       artistName: 'Artist Name',
       albumArt: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f',
       isTrackAdded: false,
-      autoFetch: false
-    }
-  }
-};
+      autoFetch: false,
+    },
+  },
+}
 
 // Example with different player content
 export const WithCustomContent = {
@@ -38,14 +39,14 @@ export const WithCustomContent = {
       artistName: 'Dave Brubeck Quartet',
       albumArt: 'https://upload.wikimedia.org/wikipedia/en/e/e5/Time_out_album_cover.jpg',
       isTrackAdded: true,
-      autoFetch: false
-    }
+      autoFetch: false,
+    },
   },
   parameters: {
     docs: {
       description: {
-        story: 'Logo banner with custom track information and added track state.'
-      }
-    }
-  }
-};
+        story: 'Logo banner with custom track information and added track state.',
+      },
+    },
+  },
+}

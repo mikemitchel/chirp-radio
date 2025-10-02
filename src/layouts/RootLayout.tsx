@@ -1,11 +1,11 @@
 // src/layouts/RootLayout.tsx
-import React from "react";
-import CrAppHeader from "../stories/CrAppHeader";
-import CrFooter from "../stories/CrFooter";
-import "../styles/layout.css";
+import React from 'react'
+import CrAppHeader from '../stories/CrAppHeader'
+import CrFooter from '../stories/CrFooter'
+import '../styles/layout.css'
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const RootLayout: React.FC<LayoutProps> = ({ children }) => {
@@ -15,7 +15,7 @@ const RootLayout: React.FC<LayoutProps> = ({ children }) => {
       <main>{children}</main>
       <CrFooter />
     </>
-  );
-};
+  )
+}
 
-export default RootLayout;
+export default RootLayout

@@ -1,6 +1,6 @@
 // CrAdSpace.stories.tsx
-import React from 'react';
-import CrAdSpace from './CrAdSpace';
+import React from 'react'
+import CrAdSpace from './CrAdSpace'
 
 export default {
   title: 'Atoms/CrAdSpace',
@@ -9,163 +9,175 @@ export default {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible ad space component that supports multiple content types and standardized ad sizes. Includes accessibility features, impression tracking, and responsive behavior.'
-      }
-    }
+        component:
+          'A flexible ad space component that supports multiple content types and standardized ad sizes. Includes accessibility features, impression tracking, and responsive behavior.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     size: {
       control: { type: 'select' },
-      options: ['large-rectangle', 'leaderboard', 'medium-rectangle', 'mobile-banner', 'wide-skyscraper', 'custom'],
-      description: 'Predefined ad size or custom'
+      options: [
+        'large-rectangle',
+        'leaderboard',
+        'medium-rectangle',
+        'mobile-banner',
+        'wide-skyscraper',
+        'custom',
+      ],
+      description: 'Predefined ad size or custom',
     },
     contentType: {
       control: { type: 'select' },
       options: ['image', 'video', 'html', 'embed'],
-      description: 'Type of ad content to display'
+      description: 'Type of ad content to display',
     },
     customWidth: {
       control: { type: 'number', min: 100, max: 1000, step: 10 },
       description: 'Custom width in pixels (only used with size="custom")',
-      if: { arg: 'size', eq: 'custom' }
+      if: { arg: 'size', eq: 'custom' },
     },
     customHeight: {
       control: { type: 'number', min: 50, max: 800, step: 10 },
       description: 'Custom height in pixels (only used with size="custom")',
-      if: { arg: 'size', eq: 'custom' }
+      if: { arg: 'size', eq: 'custom' },
     },
     src: {
       control: 'text',
       description: 'Image or video source URL',
-      if: { arg: 'contentType', neq: 'html' }
+      if: { arg: 'contentType', neq: 'html' },
     },
     alt: {
       control: 'text',
-      description: 'Alt text for accessibility'
+      description: 'Alt text for accessibility',
     },
     href: {
       control: 'text',
-      description: 'URL to navigate to when clicked'
+      description: 'URL to navigate to when clicked',
     },
     target: {
       control: { type: 'select' },
       options: ['_blank', '_self', '_parent', '_top'],
-      description: 'Link target attribute'
+      description: 'Link target attribute',
     },
     loading: {
       control: 'boolean',
-      description: 'Show loading state'
+      description: 'Show loading state',
     },
     showLabel: {
       control: 'boolean',
-      description: 'Show size label in placeholder'
-    }
-  }
-};
+      description: 'Show size label in placeholder',
+    },
+  },
+}
 
 // Sample image for demos (placeholder service)
-const sampleImageUrl = 'https://picsum.photos/seed/ad';
+const sampleImageUrl = 'https://picsum.photos/seed/ad'
 
 // Template function
 const Template = (args) => {
-  return React.createElement('div', {
-    style: { 
-      padding: 'var(--cr-space-4)',
-      background: 'var(--cr-background)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '200px'
-    }
-  }, [
-    React.createElement(CrAdSpace, {
-      key: 'ad',
-      ...args,
-      onLoad: () => console.log('Ad loaded'),
-      onError: () => console.log('Ad error'),
-      onClick: () => console.log('Ad clicked'),
-      onImpression: () => console.log('Ad impression tracked')
-    })
-  ]);
-};
+  return React.createElement(
+    'div',
+    {
+      style: {
+        padding: 'var(--cr-space-4)',
+        background: 'var(--cr-background)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '200px',
+      },
+    },
+    [
+      React.createElement(CrAdSpace, {
+        key: 'ad',
+        ...args,
+        onLoad: () => console.log('Ad loaded'),
+        onError: () => console.log('Ad error'),
+        onClick: () => console.log('Ad clicked'),
+        onImpression: () => console.log('Ad impression tracked'),
+      }),
+    ]
+  )
+}
 
 // Standard ad sizes with placeholders
-export const LargeRectangle = Template.bind({});
+export const LargeRectangle = Template.bind({})
 LargeRectangle.args = {
   size: 'large-rectangle',
   contentType: 'image',
-  showLabel: true
-};
+  showLabel: true,
+}
 
-export const Leaderboard = Template.bind({});
+export const Leaderboard = Template.bind({})
 Leaderboard.args = {
   size: 'leaderboard',
   contentType: 'image',
-  showLabel: true
-};
+  showLabel: true,
+}
 
-export const MediumRectangle = Template.bind({});
+export const MediumRectangle = Template.bind({})
 MediumRectangle.args = {
   size: 'medium-rectangle',
   contentType: 'image',
-  showLabel: true
-};
+  showLabel: true,
+}
 
-export const MobileBanner = Template.bind({});
+export const MobileBanner = Template.bind({})
 MobileBanner.args = {
   size: 'mobile-banner',
   contentType: 'image',
-  showLabel: true
-};
+  showLabel: true,
+}
 
-export const WideSkyscraper = Template.bind({});
+export const WideSkyscraper = Template.bind({})
 WideSkyscraper.args = {
   size: 'wide-skyscraper',
   contentType: 'image',
-  showLabel: true
-};
+  showLabel: true,
+}
 
-export const CustomSize = Template.bind({});
+export const CustomSize = Template.bind({})
 CustomSize.args = {
   size: 'custom',
   customWidth: 400,
   customHeight: 300,
   contentType: 'image',
-  showLabel: true
-};
+  showLabel: true,
+}
 
 // Image ads
-export const ImageAd = Template.bind({});
+export const ImageAd = Template.bind({})
 ImageAd.args = {
   size: 'medium-rectangle',
   contentType: 'image',
   src: `${sampleImageUrl}/300/250`,
   alt: 'Sample advertisement',
   href: 'https://example.com',
-  target: '_blank'
-};
+  target: '_blank',
+}
 
-export const ImageAdLarge = Template.bind({});
+export const ImageAdLarge = Template.bind({})
 ImageAdLarge.args = {
   size: 'large-rectangle',
   contentType: 'image',
   src: `${sampleImageUrl}/336/280`,
   alt: 'Large advertisement',
-  href: 'https://example.com'
-};
+  href: 'https://example.com',
+}
 
 // Video ad
-export const VideoAd = Template.bind({});
+export const VideoAd = Template.bind({})
 VideoAd.args = {
   size: 'medium-rectangle',
   contentType: 'video',
   videoSrc: 'https://www.pexels.com/download/video/2022395/',
-  alt: 'Video advertisement'
-};
+  alt: 'Video advertisement',
+}
 
 // HTML ad
-export const HtmlAd = Template.bind({});
+export const HtmlAd = Template.bind({})
 HtmlAd.args = {
   size: 'medium-rectangle',
   contentType: 'html',
@@ -197,11 +209,11 @@ HtmlAd.args = {
       ">Learn More</button>
     </div>
   `,
-  alt: 'Interactive HTML advertisement'
-};
+  alt: 'Interactive HTML advertisement',
+}
 
 // Embed ad (simulated)
-export const EmbedAd = Template.bind({});
+export const EmbedAd = Template.bind({})
 EmbedAd.args = {
   size: 'leaderboard',
   contentType: 'embed',
@@ -224,38 +236,42 @@ EmbedAd.args = {
       </div>
     </div>
   `,
-  alt: 'Embedded advertisement'
-};
+  alt: 'Embedded advertisement',
+}
 
 // Loading state
-export const LoadingState = Template.bind({});
+export const LoadingState = Template.bind({})
 LoadingState.args = {
   size: 'medium-rectangle',
   contentType: 'image',
-  loading: true
-};
+  loading: true,
+}
 
 // Error state demo
 export const ErrorState = () => {
-  return React.createElement('div', {
-    style: { 
-      padding: 'var(--cr-space-4)',
-      background: 'var(--cr-background)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '200px'
-    }
-  }, [
-    React.createElement(CrAdSpace, {
-      key: 'ad',
-      size: 'medium-rectangle',
-      contentType: 'image',
-      src: 'https://invalid-url-to-trigger-error.jpg',
-      alt: 'Advertisement that fails to load'
-    })
-  ]);
-};
+  return React.createElement(
+    'div',
+    {
+      style: {
+        padding: 'var(--cr-space-4)',
+        background: 'var(--cr-background)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '200px',
+      },
+    },
+    [
+      React.createElement(CrAdSpace, {
+        key: 'ad',
+        size: 'medium-rectangle',
+        contentType: 'image',
+        src: 'https://invalid-url-to-trigger-error.jpg',
+        alt: 'Advertisement that fails to load',
+      }),
+    ]
+  )
+}
 
 // Multiple sizes showcase
 export const AllSizes = () => {
@@ -264,57 +280,73 @@ export const AllSizes = () => {
     { name: 'leaderboard', label: 'Leaderboard' },
     { name: 'medium-rectangle', label: 'Medium Rectangle' },
     { name: 'large-rectangle', label: 'Large Rectangle' },
-    { name: 'wide-skyscraper', label: 'Wide Skyscraper' }
-  ];
+    { name: 'wide-skyscraper', label: 'Wide Skyscraper' },
+  ]
 
-  return React.createElement('div', {
-    style: {
-      padding: 'var(--cr-space-4)',
-      background: 'var(--cr-background)',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'var(--cr-space-6)',
-      alignItems: 'center'
-    }
-  }, [
-    React.createElement('h2', { 
-      key: 'title',
-      style: { 
-        font: 'var(--cr-title-lg)',
-        color: 'var(--cr-foreground)',
-        marginBottom: 'var(--cr-space-4)'
-      }
-    }, 'Standard Ad Sizes'),
-    
-    ...sizes.map((size, index) => 
-      React.createElement('div', {
-        key: size.name,
-        style: {
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 'var(--cr-space-2)'
-        }
-      }, [
-        React.createElement('h3', {
-          key: 'label',
+  return React.createElement(
+    'div',
+    {
+      style: {
+        padding: 'var(--cr-space-4)',
+        background: 'var(--cr-background)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--cr-space-6)',
+        alignItems: 'center',
+      },
+    },
+    [
+      React.createElement(
+        'h2',
+        {
+          key: 'title',
           style: {
-            font: 'var(--cr-body-reg)',
+            font: 'var(--cr-title-lg)',
             color: 'var(--cr-foreground)',
-            margin: 0
-          }
-        }, size.label),
-        React.createElement(CrAdSpace, {
-          key: 'ad',
-          size: size.name,
-          contentType: 'image',
-          showLabel: true
-        })
-      ])
-    )
-  ]);
-};
+            marginBottom: 'var(--cr-space-4)',
+          },
+        },
+        'Standard Ad Sizes'
+      ),
+
+      ...sizes.map((size, index) =>
+        React.createElement(
+          'div',
+          {
+            key: size.name,
+            style: {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 'var(--cr-space-2)',
+            },
+          },
+          [
+            React.createElement(
+              'h3',
+              {
+                key: 'label',
+                style: {
+                  font: 'var(--cr-body-reg)',
+                  color: 'var(--cr-foreground)',
+                  margin: 0,
+                },
+              },
+              size.label
+            ),
+            React.createElement(CrAdSpace, {
+              key: 'ad',
+              size: size.name,
+              contentType: 'image',
+              showLabel: true,
+            }),
+          ]
+        )
+      ),
+    ]
+  )
+}
 
 AllSizes.parameters = {
-  layout: 'fullscreen'
-};
+  layout: 'fullscreen',
+}

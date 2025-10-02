@@ -1,20 +1,20 @@
 // CrEventItem.tsx
-import React from 'react';
-import CrButton from './CrButton';
-import { PiCalendarDots } from 'react-icons/pi';
-import './CrEventItem.css';
+import React from 'react'
+import CrButton from './CrButton'
+import { PiCalendarDots } from 'react-icons/pi'
+import './CrEventItem.css'
 
 interface CrEventItemProps {
-  eventName?: string;
-  dateTime?: string;
-  description?: string;
-  location?: string;
-  eventDetails?: string;
-  onLocationClick?: () => void;
-  onAddToCalendarClick?: () => void;
-  onMoreInfoClick?: () => void;
-  isHighlighted?: boolean;
-  className?: string;
+  eventName?: string
+  dateTime?: string
+  description?: string
+  location?: string
+  eventDetails?: string
+  onLocationClick?: () => void
+  onAddToCalendarClick?: () => void
+  onMoreInfoClick?: () => void
+  isHighlighted?: boolean
+  className?: string
 }
 
 export default function CrCalendarLineEvent({
@@ -27,14 +27,15 @@ export default function CrCalendarLineEvent({
   onAddToCalendarClick,
   onMoreInfoClick, // New: handler for "More Info" button
   isHighlighted = false,
-  className = ''
+  className = '',
 }: CrEventItemProps) {
-  
   const componentClasses = [
     'cr-calendar-line-event',
     isHighlighted ? 'cr-calendar-line-event--highlighted' : '',
-    className
-  ].filter(Boolean).join(' ');
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <div className={componentClasses}>
@@ -44,19 +45,19 @@ export default function CrCalendarLineEvent({
           <div className="cr-calendar-line-event__datetime">{dateTime}</div>
           <div className="cr-calendar-line-event__description">
             {description},{' '}
-            <a 
-              href="#" 
+            <a
+              href="#"
               className="cr-calendar-line-event__location"
               onClick={(e) => {
-                e.preventDefault();
-                onLocationClick && onLocationClick();
+                e.preventDefault()
+                onLocationClick && onLocationClick()
               }}
             >
               {location}
             </a>
           </div>
         </div>
-        
+
         <CrButton
           size="small"
           variant="outline"
@@ -67,25 +68,18 @@ export default function CrCalendarLineEvent({
           Add to Calendar
         </CrButton>
       </div>
-      
+
       <div className="cr-calendar-line-event__footer">
-        <p className="cr-calendar-line-event__details">
-          {eventDetails}
-        </p>
-        
+        <p className="cr-calendar-line-event__details">{eventDetails}</p>
+
         {onMoreInfoClick && (
           <div className="cr-calendar-line-event__more-info">
-            <CrButton
-              size="small"
-              variant="text"
-              color="default"
-              onClick={onMoreInfoClick}
-            >
+            <CrButton size="small" variant="text" color="default" onClick={onMoreInfoClick}>
               More Info
             </CrButton>
           </div>
         )}
       </div>
     </div>
-  );
+  )
 }

@@ -1,73 +1,73 @@
 // CrPreviousShows.tsx
-import React, { useState, useRef, useEffect } from 'react';
-import { PiPlayFill, PiPauseFill } from 'react-icons/pi';
-import './CrPreviousShows.css';
+import React, { useState, useRef, useEffect } from 'react'
+import { PiPlayFill, PiPauseFill } from 'react-icons/pi'
+import './CrPreviousShows.css'
 
 interface Show {
-  id: string;
-  title: string;
-  date: string;
-  duration?: string;
-  audioUrl: string;
+  id: string
+  title: string
+  date: string
+  duration?: string
+  audioUrl: string
 }
 
 interface CrPreviousShowsProps {
-  shows?: Show[];
-  className?: string;
+  shows?: Show[]
+  className?: string
 }
 
 const AudioPlayer = ({ show }: { show: Show }) => {
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
 
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    const audio = audioRef.current
+    if (!audio) return
 
-    const updateTime = () => setCurrentTime(audio.currentTime);
-    const updateDuration = () => setDuration(audio.duration);
-    const handleEnded = () => setIsPlaying(false);
+    const updateTime = () => setCurrentTime(audio.currentTime)
+    const updateDuration = () => setDuration(audio.duration)
+    const handleEnded = () => setIsPlaying(false)
 
-    audio.addEventListener('timeupdate', updateTime);
-    audio.addEventListener('loadedmetadata', updateDuration);
-    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('timeupdate', updateTime)
+    audio.addEventListener('loadedmetadata', updateDuration)
+    audio.addEventListener('ended', handleEnded)
 
     return () => {
-      audio.removeEventListener('timeupdate', updateTime);
-      audio.removeEventListener('loadedmetadata', updateDuration);
-      audio.removeEventListener('ended', handleEnded);
-    };
-  }, []);
+      audio.removeEventListener('timeupdate', updateTime)
+      audio.removeEventListener('loadedmetadata', updateDuration)
+      audio.removeEventListener('ended', handleEnded)
+    }
+  }, [])
 
   const togglePlay = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    const audio = audioRef.current
+    if (!audio) return
 
     if (isPlaying) {
-      audio.pause();
+      audio.pause()
     } else {
-      audio.play();
+      audio.play()
     }
-    setIsPlaying(!isPlaying);
-  };
+    setIsPlaying(!isPlaying)
+  }
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    const audio = audioRef.current
+    if (!audio) return
 
-    const newTime = parseFloat(e.target.value);
-    audio.currentTime = newTime;
-    setCurrentTime(newTime);
-  };
+    const newTime = parseFloat(e.target.value)
+    audio.currentTime = newTime
+    setCurrentTime(newTime)
+  }
 
   const formatTime = (time: number) => {
-    if (isNaN(time)) return '0:00';
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-  };
+    if (isNaN(time)) return '0:00'
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`
+  }
 
   return (
     <div className="cr-previous-shows__player">
@@ -88,9 +88,7 @@ const AudioPlayer = ({ show }: { show: Show }) => {
         </button>
 
         <div className="cr-previous-shows__progress-container">
-          <span className="cr-previous-shows__time">
-            {formatTime(currentTime)}
-          </span>
+          <span className="cr-previous-shows__time">{formatTime(currentTime)}</span>
 
           <input
             type="range"
@@ -102,14 +100,12 @@ const AudioPlayer = ({ show }: { show: Show }) => {
             aria-label="Seek through audio"
           />
 
-          <span className="cr-previous-shows__time">
-            {formatTime(duration)}
-          </span>
+          <span className="cr-previous-shows__time">{formatTime(duration)}</span>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default function CrPreviousShows({
   shows = [
@@ -117,16 +113,16 @@ export default function CrPreviousShows({
       id: '1',
       title: 'Morning Show',
       date: 'March 15, 2025',
-      audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+      audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
     },
     {
       id: '2',
       title: 'Evening Mix',
       date: 'March 8, 2025',
-      audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
-    }
+      audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+    },
   ],
-  className = ''
+  className = '',
 }: CrPreviousShowsProps) {
   return (
     <div className={`cr-previous-shows ${className}`}>
@@ -137,5 +133,5 @@ export default function CrPreviousShows({
         ))}
       </div>
     </div>
-  );
+  )
 }

@@ -68,12 +68,12 @@
     align-items: flex-start;
     gap: var(--cr-space-8);
   }
-  
+
   .cr-profile-card__profile-info {
     flex: 1;
     min-width: 0; /* Allow text to wrap properly */
   }
-  
+
   .cr-profile-card__avatar-container {
     justify-content: flex-end;
   }
@@ -173,7 +173,7 @@
     flex-direction: row;
     gap: var(--cr-space-12);
   }
-  
+
   .cr-profile-card__social-column {
     flex: 1;
   }
@@ -208,7 +208,7 @@
     align-items: center;
     gap: var(--cr-space-6);
   }
-  
+
   .cr-profile-card__permissions-label {
     flex-shrink: 0;
   }
@@ -556,63 +556,63 @@
   .cr-profile-card {
     padding: 0;
   }
-  
+
   .cr-profile-card__profile {
     gap: var(--cr-space-4);
     text-align: center;
   }
-  
+
   .cr-profile-card__profile-info {
     order: 2;
   }
-  
+
   .cr-profile-card__avatar-container {
     order: 1;
     justify-content: center;
   }
-  
+
   .cr-profile-card__name {
     margin: 0 0 var(--cr-space-4) 0;
   }
-  
+
   .cr-profile-card__details {
     gap: var(--cr-space-3);
   }
-  
+
   .cr-profile-card__detail-item {
     text-align: center;
   }
-  
+
   .cr-profile-card__social-columns {
     gap: var(--cr-space-4);
   }
-  
+
   .cr-profile-card__social-column {
     gap: var(--cr-space-4);
   }
-  
+
   .cr-profile-card__social-item {
     justify-content: center;
   }
-  
+
   .cr-profile-card__permissions {
     text-align: center;
   }
-  
+
   .cr-profile-card__permissions-chips {
     justify-content: center;
   }
-  
+
   .cr-profile-card__edit-tabs {
     flex-direction: column;
     gap: 0;
   }
-  
+
   .cr-profile-card__edit-tab {
     border-bottom: 1px solid var(--cr-default-300);
     border-radius: 0;
   }
-  
+
   .cr-profile-card__edit-tab:last-child {
     border-bottom: none;
   }
@@ -640,12 +640,12 @@
   .cr-profile-card__app-actions button {
     width: 100%;
   }
-  
+
   /* Hide playlist table headers on mobile */
   .cr-profile-card .cr-playlist-table-header {
     display: none;
   }
-  
+
   /* Stack playlist items vertically on mobile */
   .cr-profile-card .cr-playlist-item--table {
     flex-direction: column;
@@ -653,13 +653,13 @@
     gap: var(--cr-space-3);
     padding: var(--cr-space-4) 0;
   }
-  
+
   .cr-profile-card .cr-playlist-item__table-grid {
     width: 100%;
     flex-direction: column;
     gap: var(--cr-space-2);
   }
-  
+
   .cr-profile-card .cr-playlist-item__table-time,
   .cr-profile-card .cr-playlist-item__table-action {
     width: 100%;
@@ -673,12 +673,12 @@
     width: 100px;
     height: 100px;
   }
-  
+
   .cr-profile-card__avatar-icon {
     width: 50px;
     height: 50px;
   }
-  
+
   .cr-profile-card__social-item {
     flex-direction: column;
     gap: var(--cr-space-1);

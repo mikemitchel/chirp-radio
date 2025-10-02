@@ -1,5 +1,5 @@
 // CrTrackInfo.stories.tsx
-import CrTrackInfo from './CrTrackInfo';
+import CrTrackInfo from './CrTrackInfo'
 
 export default {
   title: 'Molecules/CrTrackInfo',
@@ -7,48 +7,49 @@ export default {
   parameters: {
     layout: 'centered',
     docs: {
-  description: {
-    component: 'Built from CrChip atom for LOCAL indicator and CrButton atoms for add/remove actions. Track information display component with artist, song, album, and label details. Supports different layouts (full, minimal, stacked) and interactive states. Handles text scrolling for overflow content. Dark mode adapts through [data-theme="dark"] CSS selectors.'
-  }
-}
+      description: {
+        component:
+          'Built from CrChip atom for LOCAL indicator and CrButton atoms for add/remove actions. Track information display component with artist, song, album, and label details. Supports different layouts (full, minimal, stacked) and interactive states. Handles text scrolling for overflow content. Dark mode adapts through [data-theme="dark"] CSS selectors.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     variant: {
       control: 'select',
       options: ['full', 'minimal', 'stacked'],
-      description: 'Layout variant for track information display'
+      description: 'Layout variant for track information display',
     },
     trackName: {
       control: 'text',
-      description: 'Name of the track/song'
+      description: 'Name of the track/song',
     },
     artistName: {
       control: 'text',
-      description: 'Name of the artist'
+      description: 'Name of the artist',
     },
     albumName: {
       control: 'text',
-      description: 'Name of the album'
+      description: 'Name of the album',
     },
     labelName: {
       control: 'text',
-      description: 'Name of the record label'
+      description: 'Name of the record label',
     },
     isAdded: {
       control: 'boolean',
-      description: 'Whether the track is added to playlist/favorites'
+      description: 'Whether the track is added to playlist/favorites',
     },
     isLocal: {
       control: 'boolean',
-      description: 'Whether to show the LOCAL chip next to artist name'
+      description: 'Whether to show the LOCAL chip next to artist name',
     },
     onToggleAdd: {
       action: 'toggled',
-      description: 'Callback when add/remove button is clicked'
-    }
+      description: 'Callback when add/remove button is clicked',
+    },
   },
-};
+}
 
 // VARIANT 1: Full (title → artist → album • label)
 export const FullVariant = {
@@ -61,7 +62,7 @@ export const FullVariant = {
     isAdded: false,
     isLocal: false,
   },
-};
+}
 
 // VARIANT 2: Minimal (title → artist)
 export const MinimalVariant = {
@@ -74,7 +75,7 @@ export const MinimalVariant = {
     isAdded: false,
     isLocal: false,
   },
-};
+}
 
 // VARIANT 3: Stacked (title → artist → album → label)
 export const StackedVariant = {
@@ -87,7 +88,7 @@ export const StackedVariant = {
     isAdded: false,
     isLocal: false,
   },
-};
+}
 
 // LOCAL ARTIST EXAMPLES
 export const LocalArtistFull = {
@@ -103,11 +104,11 @@ export const LocalArtistFull = {
   parameters: {
     docs: {
       description: {
-        story: 'Full variant with LOCAL chip showing next to artist name.'
-      }
-    }
-  }
-};
+        story: 'Full variant with LOCAL chip showing next to artist name.',
+      },
+    },
+  },
+}
 
 export const LocalArtistMinimal = {
   args: {
@@ -120,11 +121,11 @@ export const LocalArtistMinimal = {
   parameters: {
     docs: {
       description: {
-        story: 'Minimal variant with LOCAL chip - shows only track name, artist, and LOCAL chip.'
-      }
-    }
-  }
-};
+        story: 'Minimal variant with LOCAL chip - shows only track name, artist, and LOCAL chip.',
+      },
+    },
+  },
+}
 
 export const LongTitles = {
   args: {
@@ -136,7 +137,7 @@ export const LongTitles = {
     isAdded: false,
     isLocal: false,
   },
-};
+}
 
 export const LongTitlesWithLocal = {
   args: {
@@ -151,11 +152,11 @@ export const LongTitlesWithLocal = {
   parameters: {
     docs: {
       description: {
-        story: 'Shows how the LOCAL chip works with long artist names that trigger scrolling.'
-      }
-    }
-  }
-};
+        story: 'Shows how the LOCAL chip works with long artist names that trigger scrolling.',
+      },
+    },
+  },
+}
 
 export const WithoutOptionalFields = {
   args: {
@@ -167,7 +168,7 @@ export const WithoutOptionalFields = {
     isAdded: false,
     isLocal: false,
   },
-};
+}
 
 export const AddedState = {
   args: {
@@ -179,4 +180,4 @@ export const AddedState = {
     isAdded: true,
     isLocal: false,
   },
-};
+}

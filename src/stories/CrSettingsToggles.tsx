@@ -1,16 +1,16 @@
 // CrSettingsToggles.tsx
-import React, { useState } from 'react';
-import CrToggle from './CrToggle';
-import './CrSettingsToggles.css';
+import React, { useState } from 'react'
+import CrToggle from './CrToggle'
+import './CrSettingsToggles.css'
 
 interface CrSettingsTogglesProps {
-  streamingQuality?: string;
-  onStreamingQualityChange?: (quality: string) => void;
-  pushNotifications?: boolean;
-  onPushNotificationsChange?: (checked: boolean) => void;
-  darkMode?: boolean;
-  onDarkModeChange?: (checked: boolean) => void;
-  className?: string;
+  streamingQuality?: string
+  onStreamingQualityChange?: (quality: string) => void
+  pushNotifications?: boolean
+  onPushNotificationsChange?: (checked: boolean) => void
+  darkMode?: boolean
+  onDarkModeChange?: (checked: boolean) => void
+  className?: string
 }
 
 export default function CrSettingsToggles({
@@ -20,27 +20,27 @@ export default function CrSettingsToggles({
   onPushNotificationsChange,
   darkMode = false,
   onDarkModeChange,
-  className = ''
+  className = '',
 }: CrSettingsTogglesProps) {
-  const [localStreamingQuality, setLocalStreamingQuality] = useState(streamingQuality);
-  const [localPushNotifications, setLocalPushNotifications] = useState(pushNotifications);
-  const [localDarkMode, setLocalDarkMode] = useState(darkMode);
+  const [localStreamingQuality, setLocalStreamingQuality] = useState(streamingQuality)
+  const [localPushNotifications, setLocalPushNotifications] = useState(pushNotifications)
+  const [localDarkMode, setLocalDarkMode] = useState(darkMode)
 
   const handleStreamingQualityChange = (isHigh: boolean) => {
-    const quality = isHigh ? '128' : '64';
-    setLocalStreamingQuality(quality);
-    if (onStreamingQualityChange) onStreamingQualityChange(quality);
-  };
+    const quality = isHigh ? '128' : '64'
+    setLocalStreamingQuality(quality)
+    if (onStreamingQualityChange) onStreamingQualityChange(quality)
+  }
 
   const handlePushNotificationsChange = (checked: boolean) => {
-    setLocalPushNotifications(checked);
-    if (onPushNotificationsChange) onPushNotificationsChange(checked);
-  };
+    setLocalPushNotifications(checked)
+    if (onPushNotificationsChange) onPushNotificationsChange(checked)
+  }
 
   const handleDarkModeChange = (checked: boolean) => {
-    setLocalDarkMode(checked);
-    if (onDarkModeChange) onDarkModeChange(checked);
-  };
+    setLocalDarkMode(checked)
+    if (onDarkModeChange) onDarkModeChange(checked)
+  }
 
   return (
     <div className={`cr-settings-toggles ${className}`}>
@@ -99,5 +99,5 @@ export default function CrSettingsToggles({
         </div>
       </div>
     </div>
-  );
+  )
 }

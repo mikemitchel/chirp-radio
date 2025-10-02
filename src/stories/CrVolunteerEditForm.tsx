@@ -1,14 +1,14 @@
 // CrVolunteerEditForm.tsx
-import React from 'react';
-import { PiFloppyDisk } from 'react-icons/pi';
-import CrButton from './CrButton';
-import './CrVolunteerEditForm.css';
+import React from 'react'
+import { PiFloppyDisk } from 'react-icons/pi'
+import CrButton from './CrButton'
+import './CrVolunteerEditForm.css'
 
 interface CrVolunteerEditFormProps {
-  formData?: any;
-  onChange?: (field: string, value: any) => void;
-  onSave?: () => void;
-  onCancel?: () => void;
+  formData?: any
+  onChange?: (field: string, value: any) => void
+  onSave?: () => void
+  onCancel?: () => void
 }
 
 export default function CrVolunteerEditForm({
@@ -16,13 +16,13 @@ export default function CrVolunteerEditForm({
   formData = {},
   onChange,
   onSave,
-  onCancel
+  onCancel,
 }: CrVolunteerEditFormProps) {
   const handleInputChange = (field, value) => {
     if (onChange) {
-      onChange(field, value);
+      onChange(field, value)
     }
-  };
+  }
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
@@ -66,7 +66,13 @@ export default function CrVolunteerEditForm({
         {/* Volunteer Organizations */}
         <div className="form-group">
           <label className="form-label">What other organizations do you volunteer with?</label>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--cr-space-4)' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--cr-space-4)',
+            }}
+          >
             {(formData.volunteerOrgs || [{ org: '', type: '' }]).map((orgData, index) => (
               <div key={index} className="form-row">
                 <div className="form-group">
@@ -74,9 +80,12 @@ export default function CrVolunteerEditForm({
                     type="text"
                     value={orgData.org || ''}
                     onChange={(e) => {
-                      const newOrgs = [...(formData.volunteerOrgs || [])];
-                      newOrgs[index] = { ...newOrgs[index], org: e.target.value };
-                      handleInputChange('volunteerOrgs', newOrgs);
+                      const newOrgs = [...(formData.volunteerOrgs || [])]
+                      newOrgs[index] = {
+                        ...newOrgs[index],
+                        org: e.target.value,
+                      }
+                      handleInputChange('volunteerOrgs', newOrgs)
                     }}
                     placeholder="American Cancer Society"
                   />
@@ -86,9 +95,12 @@ export default function CrVolunteerEditForm({
                     type="text"
                     value={orgData.type || ''}
                     onChange={(e) => {
-                      const newOrgs = [...(formData.volunteerOrgs || [])];
-                      newOrgs[index] = { ...newOrgs[index], type: e.target.value };
-                      handleInputChange('volunteerOrgs', newOrgs);
+                      const newOrgs = [...(formData.volunteerOrgs || [])]
+                      newOrgs[index] = {
+                        ...newOrgs[index],
+                        type: e.target.value,
+                      }
+                      handleInputChange('volunteerOrgs', newOrgs)
                     }}
                     placeholder="Arts"
                   />
@@ -100,10 +112,10 @@ export default function CrVolunteerEditForm({
               variant="outline"
               color="default"
               onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                const currentOrgs = formData.volunteerOrgs || [];
-                handleInputChange('volunteerOrgs', [...currentOrgs, { org: '', type: '' }]);
+                e.preventDefault()
+                e.stopPropagation()
+                const currentOrgs = formData.volunteerOrgs || []
+                handleInputChange('volunteerOrgs', [...currentOrgs, { org: '', type: '' }])
               }}
             >
               + ADD ANOTHER
@@ -127,20 +139,29 @@ export default function CrVolunteerEditForm({
           <label className="form-label">What special skills do you have?</label>
           <div className="form-checkbox-grid">
             {[
-              'Fundraising', 'Sales', 'Other', 'Wants', 
-              'Journalism', 'Photography', 'Things', 'To',
-              'Marketing', 'Politics', 'Chirp', 'Track'
-            ].map(skill => (
+              'Fundraising',
+              'Sales',
+              'Other',
+              'Wants',
+              'Journalism',
+              'Photography',
+              'Things',
+              'To',
+              'Marketing',
+              'Politics',
+              'Chirp',
+              'Track',
+            ].map((skill) => (
               <label key={skill} className="form-checkbox-item">
                 <input
                   type="checkbox"
                   checked={formData.specialSkills?.includes(skill) || false}
                   onChange={(e) => {
-                    const currentSkills = formData.specialSkills || [];
+                    const currentSkills = formData.specialSkills || []
                     const newSkills = e.target.checked
                       ? [...currentSkills, skill]
-                      : currentSkills.filter(s => s !== skill);
-                    handleInputChange('specialSkills', newSkills);
+                      : currentSkills.filter((s) => s !== skill)
+                    handleInputChange('specialSkills', newSkills)
                   }}
                 />
                 {skill}
@@ -153,26 +174,24 @@ export default function CrVolunteerEditForm({
         <div className="form-group">
           <label className="form-label">How did you hear about CHIRP?</label>
           <div className="form-checkbox-grid">
-            {[
-              'This', 'Other', 'Wants',
-              'That', 'Things', 'To', 
-              'Something', 'Chirp', 'Track'
-            ].map(source => (
-              <label key={source} className="form-checkbox-item">
-                <input
-                  type="checkbox"
-                  checked={formData.hearAboutChirp?.includes(source) || false}
-                  onChange={(e) => {
-                    const currentSources = formData.hearAboutChirp || [];
-                    const newSources = e.target.checked
-                      ? [...currentSources, source]
-                      : currentSources.filter(s => s !== source);
-                    handleInputChange('hearAboutChirp', newSources);
-                  }}
-                />
-                {source}
-              </label>
-            ))}
+            {['This', 'Other', 'Wants', 'That', 'Things', 'To', 'Something', 'Chirp', 'Track'].map(
+              (source) => (
+                <label key={source} className="form-checkbox-item">
+                  <input
+                    type="checkbox"
+                    checked={formData.hearAboutChirp?.includes(source) || false}
+                    onChange={(e) => {
+                      const currentSources = formData.hearAboutChirp || []
+                      const newSources = e.target.checked
+                        ? [...currentSources, source]
+                        : currentSources.filter((s) => s !== source)
+                      handleInputChange('hearAboutChirp', newSources)
+                    }}
+                  />
+                  {source}
+                </label>
+              )
+            )}
           </div>
         </div>
 
@@ -181,20 +200,26 @@ export default function CrVolunteerEditForm({
           <label className="form-label">What are you interested in doing?</label>
           <div className="form-checkbox-grid">
             {[
-              'DJ', 'Content writing', 'Event planning',
-              'Marketing', 'Community radio', 'Event working',
-              'Interviews', 'Fundraising', 'Other'
-            ].map(interest => (
+              'DJ',
+              'Content writing',
+              'Event planning',
+              'Marketing',
+              'Community radio',
+              'Event working',
+              'Interviews',
+              'Fundraising',
+              'Other',
+            ].map((interest) => (
               <label key={interest} className="form-checkbox-item">
                 <input
                   type="checkbox"
                   checked={formData.interests?.includes(interest) || false}
                   onChange={(e) => {
-                    const currentInterests = formData.interests || [];
+                    const currentInterests = formData.interests || []
                     const newInterests = e.target.checked
                       ? [...currentInterests, interest]
-                      : currentInterests.filter(i => i !== interest);
-                    handleInputChange('interests', newInterests);
+                      : currentInterests.filter((i) => i !== interest)
+                    handleInputChange('interests', newInterests)
                   }}
                 />
                 {interest}
@@ -233,21 +258,25 @@ export default function CrVolunteerEditForm({
           <label className="form-label">What's your DJ availability?</label>
           <div className="form-checkbox-grid">
             {[
-              'Weekday mornings', 'Weekend mornings',
-              'Weekday day', 'Weekend day',
-              'Weekday evening', 'Weekend evening',
-              'Weekday night', 'Weekend night'
-            ].map(timeSlot => (
+              'Weekday mornings',
+              'Weekend mornings',
+              'Weekday day',
+              'Weekend day',
+              'Weekday evening',
+              'Weekend evening',
+              'Weekday night',
+              'Weekend night',
+            ].map((timeSlot) => (
               <label key={timeSlot} className="form-checkbox-item">
                 <input
                   type="checkbox"
                   checked={formData.djAvailability?.includes(timeSlot) || false}
                   onChange={(e) => {
-                    const currentAvail = formData.djAvailability || [];
+                    const currentAvail = formData.djAvailability || []
                     const newAvail = e.target.checked
                       ? [...currentAvail, timeSlot]
-                      : currentAvail.filter(a => a !== timeSlot);
-                    handleInputChange('djAvailability', newAvail);
+                      : currentAvail.filter((a) => a !== timeSlot)
+                    handleInputChange('djAvailability', newAvail)
                   }}
                 />
                 {timeSlot}
@@ -259,12 +288,7 @@ export default function CrVolunteerEditForm({
 
       {/* Form Actions */}
       <div className="form-actions">
-        <CrButton
-          size="medium"
-          variant="text"
-          color="default"
-          onClick={onCancel}
-        >
+        <CrButton size="medium" variant="text" color="default" onClick={onCancel}>
           Cancel
         </CrButton>
         <CrButton
@@ -278,5 +302,5 @@ export default function CrVolunteerEditForm({
         </CrButton>
       </div>
     </form>
-  );
+  )
 }

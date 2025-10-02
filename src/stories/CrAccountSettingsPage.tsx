@@ -1,25 +1,25 @@
 // CrAccountSettingsPage.tsx
-import React, { useState } from 'react';
-import CrSettingsToggles from './CrSettingsToggles';
-import CrButton from './CrButton';
-import { PiPaperclip, PiNotepad } from 'react-icons/pi';
-import './CrAccountSettingsPage.css';
+import React, { useState } from 'react'
+import CrSettingsToggles from './CrSettingsToggles'
+import CrButton from './CrButton'
+import { PiPaperclip, PiNotepad } from 'react-icons/pi'
+import './CrAccountSettingsPage.css'
 
 interface CrAccountSettingsPageProps {
-  isLoggedIn?: boolean;
-  userEmail?: string;
-  streamingQuality?: string;
-  onStreamingQualityChange?: (quality: string) => void;
-  pushNotifications?: boolean;
-  onPushNotificationsChange?: (checked: boolean) => void;
-  onLogin?: () => void;
-  onLogout?: () => void;
-  onSignUp?: () => void;
-  onForgotPassword?: () => void;
-  onShareApp?: () => void;
-  onLikeAppStore?: () => void;
-  onAppSupport?: () => void;
-  onTermsPrivacy?: () => void;
+  isLoggedIn?: boolean
+  userEmail?: string
+  streamingQuality?: string
+  onStreamingQualityChange?: (quality: string) => void
+  pushNotifications?: boolean
+  onPushNotificationsChange?: (checked: boolean) => void
+  onLogin?: () => void
+  onLogout?: () => void
+  onSignUp?: () => void
+  onForgotPassword?: () => void
+  onShareApp?: () => void
+  onLikeAppStore?: () => void
+  onAppSupport?: () => void
+  onTermsPrivacy?: () => void
 }
 
 export default function CrAccountSettingsPage({
@@ -39,7 +39,6 @@ export default function CrAccountSettingsPage({
   onTermsPrivacy,
   ...props
 }: CrAccountSettingsPageProps) {
-
   return (
     <div className="cr-account-settings-page" {...props}>
       <div className="cr-account-settings-page__content">
@@ -63,33 +62,18 @@ export default function CrAccountSettingsPage({
             {isLoggedIn ? (
               <span className="cr-account-settings-page__user-email">{userEmail}</span>
             ) : (
-              <CrButton
-                variant="text"
-                color="default"
-                size="xsmall"
-                onClick={onForgotPassword}
-              >
+              <CrButton variant="text" color="default" size="xsmall" onClick={onForgotPassword}>
                 forgot password
               </CrButton>
             )}
           </div>
           <div className="cr-account-settings-page__account-action">
             {isLoggedIn ? (
-              <CrButton
-                variant="outline"
-                color="default"
-                size="medium"
-                onClick={onLogout}
-              >
+              <CrButton variant="outline" color="default" size="medium" onClick={onLogout}>
                 log out
               </CrButton>
             ) : (
-              <CrButton
-                variant="solid"
-                color="primary"
-                size="medium"
-                onClick={onLogin}
-              >
+              <CrButton variant="solid" color="primary" size="medium" onClick={onLogin}>
                 log in
               </CrButton>
             )}
@@ -106,19 +90,18 @@ export default function CrAccountSettingsPage({
               A profile allows you to interact with the site in all sorts of helpful ways:
             </p>
             <ul className="cr-account-settings-page__signup-benefits">
-              <li>You can add songs to your collection that you hear across our web and mobile applications so you don't forget them</li>
+              <li>
+                You can add songs to your collection that you hear across our web and mobile
+                applications so you don't forget them
+              </li>
               <li>Your can save your information for store purchases and donations</li>
               <li>Your profile settings will be saved between your mobile and web experiences</li>
             </ul>
             <p className="cr-account-settings-page__signup-cta">
-              So create your profile today, and start getting the maximum benefit from CHIRPradio.org!
+              So create your profile today, and start getting the maximum benefit from
+              CHIRPradio.org!
             </p>
-            <CrButton
-              variant="solid"
-              color="secondary"
-              size="medium"
-              onClick={onSignUp}
-            >
+            <CrButton variant="solid" color="secondary" size="medium" onClick={onSignUp}>
               sign up
             </CrButton>
           </div>
@@ -126,24 +109,12 @@ export default function CrAccountSettingsPage({
 
         {/* App Promotion Section */}
         <div className="cr-account-settings-page__app-section">
-          <h3 className="cr-account-settings-page__app-title">
-            Like the CHIRP Radio App?
-          </h3>
+          <h3 className="cr-account-settings-page__app-title">Like the CHIRP Radio App?</h3>
           <div className="cr-account-settings-page__app-actions">
-            <CrButton
-              variant="outline"
-              color="default"
-              size="small"
-              onClick={onShareApp}
-            >
+            <CrButton variant="outline" color="default" size="small" onClick={onShareApp}>
               share app on social media
             </CrButton>
-            <CrButton
-              variant="outline"
-              color="default"
-              size="small"
-              onClick={onLikeAppStore}
-            >
+            <CrButton variant="outline" color="default" size="small" onClick={onLikeAppStore}>
               like on app store
             </CrButton>
           </div>
@@ -172,5 +143,5 @@ export default function CrAccountSettingsPage({
         </div>
       </div>
     </div>
-  );
+  )
 }

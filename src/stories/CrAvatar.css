@@ -47,6 +47,6 @@
 }
 
 /* Dark mode adjustments */
-[data-theme="dark"] .cr-avatar--logged-out {
+[data-theme='dark'] .cr-avatar--logged-out {
   background-color: var(--cr-default-900);
 }

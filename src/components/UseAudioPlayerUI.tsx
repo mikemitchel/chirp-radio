@@ -1,26 +1,19 @@
-import { useAudioPlayer } from "../hooks/useAudioPlayer";
+import { useAudioPlayer } from '../hooks/useAudioPlayer'
 
 export function AudioPlayerUI() {
-  const {
-    play,
-    pause,
-    toggle,
-    seek,
-    isPlaying,
-    currentTime,
-    duration,
-    setVolume,
-  } = useAudioPlayer({
-    src: "/audio/sample.mp3",
-    autoPlay: false,
-    volume: 0.8,
-    loop: false,
-    onEnd: () => console.log("Track finished"),
-  });
+  const { play, pause, toggle, seek, isPlaying, currentTime, duration, setVolume } = useAudioPlayer(
+    {
+      src: '/audio/sample.mp3',
+      autoPlay: false,
+      volume: 0.8,
+      loop: false,
+      onEnd: () => console.log('Track finished'),
+    }
+  )
 
   return (
     <div>
-      <button onClick={toggle}>{isPlaying ? "Pause" : "Play"}</button>
+      <button onClick={toggle}>{isPlaying ? 'Pause' : 'Play'}</button>
       <input
         type="range"
         min={0}
@@ -35,7 +28,9 @@ export function AudioPlayerUI() {
         step={0.01}
         onChange={(e) => setVolume(Number(e.target.value))}
       />
-      <span>{Math.floor(currentTime)} / {Math.floor(duration)} sec</span>
+      <span>
+        {Math.floor(currentTime)} / {Math.floor(duration)} sec
+      </span>
     </div>
-  );
+  )
 }

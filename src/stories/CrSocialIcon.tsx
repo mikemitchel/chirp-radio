@@ -1,49 +1,44 @@
 // CrSocialIcon.tsx
-import React from 'react';
-import { 
-  FaFacebookSquare, 
-  FaInstagram, 
-  FaTwitterSquare, 
-  FaLinkedin
-} from 'react-icons/fa';
-import { SiBluesky } from 'react-icons/si';
-import './CrSocialIcon.css';
+import React from 'react'
+import { FaFacebookSquare, FaInstagram, FaTwitterSquare, FaLinkedin } from 'react-icons/fa'
+import { SiBluesky } from 'react-icons/si'
+import './CrSocialIcon.css'
 
 const socialPlatforms = {
   facebook: {
     icon: FaFacebookSquare,
     color: '#1877f2',
-    label: 'Facebook'
+    label: 'Facebook',
   },
   instagram: {
     icon: FaInstagram,
     color: '#e4405f',
-    label: 'Instagram'
+    label: 'Instagram',
   },
   twitter: {
     icon: FaTwitterSquare,
     color: '#1da1f2',
-    label: 'Twitter'
+    label: 'Twitter',
   },
   bluesky: {
     icon: SiBluesky,
     color: '#00a8e8',
-    label: 'Bluesky'
+    label: 'Bluesky',
   },
   linkedin: {
     icon: FaLinkedin,
     color: '#0077b5',
-    label: 'LinkedIn'
-  }
-};
+    label: 'LinkedIn',
+  },
+}
 
 interface CrSocialIconProps {
-  platform?: string;
-  size?: number;
-  url?: string;
-  onClick?: (platform: string, url?: string) => void;
-  className?: string;
-  ariaLabel?: string;
+  platform?: string
+  size?: number
+  url?: string
+  onClick?: (platform: string, url?: string) => void
+  className?: string
+  ariaLabel?: string
 }
 
 export default function CrSocialIcon({
@@ -51,51 +46,48 @@ export default function CrSocialIcon({
   size = 24,
   url,
   onClick,
-  className = "",
+  className = '',
   ariaLabel,
   ...props
 }: CrSocialIconProps) {
-  const platformConfig = socialPlatforms[platform];
-  
+  const platformConfig = socialPlatforms[platform]
+
   if (!platformConfig) {
-    console.warn(`CrSocialIcon: Unknown platform "${platform}"`);
-    return null;
+    console.warn(`CrSocialIcon: Unknown platform "${platform}"`)
+    return null
   }
 
-  const IconComponent = platformConfig.icon;
-  
-  const componentClasses = [
-    'cr-social-icon',
-    className
-  ].filter(Boolean).join(' ');
+  const IconComponent = platformConfig.icon
+
+  const componentClasses = ['cr-social-icon', className].filter(Boolean).join(' ')
 
   const handleClick = (e) => {
     if (onClick) {
-      e.preventDefault();
-      onClick(platform, url);
+      e.preventDefault()
+      onClick(platform, url)
     }
-  };
+  }
 
   const iconElement = (
-    <IconComponent 
+    <IconComponent
       className="cr-social-icon__svg"
       size={size}
-      style={{ 
+      style={{
         '--cr-social-icon-color': platformConfig.color,
-        '--cr-social-icon-size': `${size}px`
+        '--cr-social-icon-size': `${size}px`,
       }}
     />
-  );
+  )
 
   const commonProps = {
     className: componentClasses,
     'aria-label': ariaLabel || `${platformConfig.label} social media link`,
-    ...props
-  };
+    ...props,
+  }
 
   if (url && !onClick) {
     return (
-      <a 
+      <a
         href={url.startsWith('http') ? url : `https://${url}`}
         target="_blank"
         rel="noopener noreferrer"
@@ -103,24 +95,16 @@ export default function CrSocialIcon({
       >
         {iconElement}
       </a>
-    );
+    )
   }
 
   if (onClick) {
     return (
-      <button 
-        type="button"
-        onClick={handleClick}
-        {...commonProps}
-      >
+      <button type="button" onClick={handleClick} {...commonProps}>
         {iconElement}
       </button>
-    );
+    )
   }
 
-  return (
-    <span {...commonProps}>
-      {iconElement}
-    </span>
-  );
+  return <span {...commonProps}>{iconElement}</span>
 }

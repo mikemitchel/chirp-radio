@@ -1,39 +1,39 @@
 // CrMobileAppFrame.tsx
-import React, { useState } from 'react';
-import CrMobileHeader from './CrMobileHeader';
-import CrStreamingMusicPlayer from './CrStreamingMusicPlayer';
-import CrSidebar from './CrSidebar';
-import './CrMobileAppFrame.css';
+import React, { useState } from 'react'
+import CrMobileHeader from './CrMobileHeader'
+import CrStreamingMusicPlayer from './CrStreamingMusicPlayer'
+import CrSidebar from './CrSidebar'
+import './CrMobileAppFrame.css'
 
 interface CrMobileAppFrameProps {
-  variant?: 'landing' | 'interior';
-  pageTitle?: string;
-  onLogoClick?: () => void;
-  streamingPlayerProps?: any;
-  children?: React.ReactNode;
-  contentTitle?: string;
-  contentSubtitle?: string;
-  onHomeClick?: () => void;
-  onNowPlayingClick?: () => void;
-  onRecentPlaylistClick?: () => void;
-  onYourCollectionClick?: () => void;
-  onListenClick?: () => void;
-  onPlaylistClick?: () => void;
-  onPodcastClick?: () => void;
-  onDjsClick?: () => void;
-  onScheduleClick?: () => void;
-  onEventsClick?: () => void;
-  onArticlesClick?: () => void;
-  onDonateClick?: () => void;
-  onWaysToGiveClick?: () => void;
-  onVinylCircleClick?: () => void;
-  onShopClick?: () => void;
-  onAboutClick?: () => void;
-  onOtherWaysToListenClick?: () => void;
-  onContactClick?: () => void;
-  onBecomeVolunteerClick?: () => void;
-  onRequestClick?: () => void;
-  onAccountSettingsClick?: () => void;
+  variant?: 'landing' | 'interior'
+  pageTitle?: string
+  onLogoClick?: () => void
+  streamingPlayerProps?: any
+  children?: React.ReactNode
+  contentTitle?: string
+  contentSubtitle?: string
+  onHomeClick?: () => void
+  onNowPlayingClick?: () => void
+  onRecentPlaylistClick?: () => void
+  onYourCollectionClick?: () => void
+  onListenClick?: () => void
+  onPlaylistClick?: () => void
+  onPodcastClick?: () => void
+  onDjsClick?: () => void
+  onScheduleClick?: () => void
+  onEventsClick?: () => void
+  onArticlesClick?: () => void
+  onDonateClick?: () => void
+  onWaysToGiveClick?: () => void
+  onVinylCircleClick?: () => void
+  onShopClick?: () => void
+  onAboutClick?: () => void
+  onOtherWaysToListenClick?: () => void
+  onContactClick?: () => void
+  onBecomeVolunteerClick?: () => void
+  onRequestClick?: () => void
+  onAccountSettingsClick?: () => void
 }
 
 export default function CrMobileAppFrame({
@@ -67,17 +67,17 @@ export default function CrMobileAppFrame({
   onContactClick,
   onBecomeVolunteerClick,
   onRequestClick,
-  onAccountSettingsClick
+  onAccountSettingsClick,
 }: CrMobileAppFrameProps) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const handleMenuClick = () => {
-    setIsSidebarOpen(true);
-  };
+    setIsSidebarOpen(true)
+  }
 
   const handleSidebarClose = () => {
-    setIsSidebarOpen(false);
-  };
+    setIsSidebarOpen(false)
+  }
 
   const defaultStreamingProps = {
     variant: variant === 'landing' ? 'mobile-player' : 'slim-player',
@@ -93,8 +93,8 @@ export default function CrMobileAppFrame({
     streamUrl: 'https://peridot.streamguys1.com:5185/live',
     isTrackAdded: false,
     isLocal: false,
-    ...streamingPlayerProps
-  };
+    ...streamingPlayerProps,
+  }
 
   const renderLandingLayout = () => (
     <div className="cr-mobile-frame cr-mobile-frame--landing">
@@ -107,13 +107,13 @@ export default function CrMobileAppFrame({
           variant="transparent"
         />
       </div>
-      
+
       {/* Mobile player as background - fills entire screen */}
       <div className="cr-mobile-frame__background-player">
         <CrStreamingMusicPlayer {...defaultStreamingProps} />
       </div>
     </div>
-  );
+  )
 
   const renderInteriorLayout = () => (
     <div className="cr-mobile-frame cr-mobile-frame--interior">
@@ -125,7 +125,7 @@ export default function CrMobileAppFrame({
           onLogoClick={onLogoClick}
         />
       </div>
-      
+
       {/* Main content area - scrollable between header and footer */}
       <div className="cr-mobile-frame__content">
         {children || (
@@ -136,7 +136,7 @@ export default function CrMobileAppFrame({
                 <p className="cr-mobile-frame__content-subtitle">{contentSubtitle}</p>
               )}
             </div>
-            
+
             <div className="cr-mobile-frame__content-sections">
               <div className="cr-mobile-frame__content-section">
                 <h2>Featured Content</h2>
@@ -144,43 +144,46 @@ export default function CrMobileAppFrame({
                   <p>Featured shows, playlists, or highlighted content will appear here</p>
                 </div>
               </div>
-              
+
               <div className="cr-mobile-frame__content-section">
                 <h2>Recent Shows</h2>
                 <div className="cr-mobile-frame__placeholder">
                   <p>Recent show archives and on-demand content</p>
                 </div>
               </div>
-              
+
               <div className="cr-mobile-frame__content-section">
                 <h2>Community</h2>
                 <div className="cr-mobile-frame__placeholder">
                   <p>Community updates, volunteer opportunities, and announcements</p>
                 </div>
               </div>
-              
+
               <div className="cr-mobile-frame__content-section">
                 <h2>About CHIRP</h2>
                 <div className="cr-mobile-frame__placeholder">
-                  <p>Information about Chicago Independent Radio Project, our mission, and how to get involved</p>
+                  <p>
+                    Information about Chicago Independent Radio Project, our mission, and how to get
+                    involved
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         )}
       </div>
-      
+
       {/* Slim player fixed at bottom like a footer */}
       <div className="cr-mobile-frame__footer-player">
         <CrStreamingMusicPlayer {...defaultStreamingProps} />
       </div>
     </div>
-  );
+  )
 
   return (
     <>
       {variant === 'landing' ? renderLandingLayout() : renderInteriorLayout()}
-      
+
       {/* Mobile Sidebar - renders over everything */}
       <CrSidebar
         isOpen={isSidebarOpen}
@@ -210,5 +213,5 @@ export default function CrMobileAppFrame({
         onAccountSettingsClick={onAccountSettingsClick}
       />
     </>
-  );
+  )
 }

@@ -1,15 +1,15 @@
 // CrDjScheduleSearch.tsx
-import React from 'react';
-import { PiX } from 'react-icons/pi';
-import './CrDjScheduleSearch.css';
+import React from 'react'
+import { PiX } from 'react-icons/pi'
+import './CrDjScheduleSearch.css'
 
 interface CrDjScheduleSearchProps {
-  searchQuery?: string;
-  searchResults?: any[];
-  onSearch?: (query: string) => void;
-  onClear?: () => void;
-  onResultClick?: (day: string, slug: string) => void;
-  formatTime?: (time: string) => string;
+  searchQuery?: string
+  searchResults?: any[]
+  onSearch?: (query: string) => void
+  onClear?: () => void
+  onResultClick?: (day: string, slug: string) => void
+  formatTime?: (time: string) => string
 }
 
 export default function CrDjScheduleSearch({
@@ -18,7 +18,7 @@ export default function CrDjScheduleSearch({
   onSearch,
   onClear,
   onResultClick,
-  formatTime
+  formatTime,
 }: CrDjScheduleSearchProps) {
   return (
     <div className="cr-dj-schedule-search">
@@ -30,7 +30,7 @@ export default function CrDjScheduleSearch({
           value={searchQuery}
           onChange={(e) => onSearch(e.target.value)}
         />
-        
+
         {searchQuery && (
           <button
             className="cr-dj-schedule-search__clear"
@@ -41,7 +41,7 @@ export default function CrDjScheduleSearch({
             <PiX size={16} />
           </button>
         )}
-        
+
         {searchResults.length > 0 && (
           <div className="cr-dj-schedule-search__results">
             {searchResults.map((show, index) => (
@@ -50,13 +50,9 @@ export default function CrDjScheduleSearch({
                 className="cr-dj-schedule-search__result"
                 onClick={() => onResultClick(show.day, show.slug)}
               >
-                <div className="cr-dj-schedule-search__result-dj">
-                  {show.dj.join(', ')}
-                </div>
+                <div className="cr-dj-schedule-search__result-dj">{show.dj.join(', ')}</div>
                 {show.title && (
-                  <div className="cr-dj-schedule-search__result-show">
-                    {show.title}
-                  </div>
+                  <div className="cr-dj-schedule-search__result-show">{show.title}</div>
                 )}
                 <div className="cr-dj-schedule-search__result-time">
                   {show.day} {formatTime(show.start)} — {formatTime(show.end)}
@@ -65,7 +61,7 @@ export default function CrDjScheduleSearch({
             ))}
           </div>
         )}
-        
+
         {searchQuery && searchResults.length === 0 && (
           <div className="cr-dj-schedule-search__results">
             <div className="cr-dj-schedule-search__no-results">
@@ -74,10 +70,8 @@ export default function CrDjScheduleSearch({
           </div>
         )}
       </div>
-      
-      <p className="cr-dj-schedule-search__timezone">
-        * All times displayed in Central Time
-      </p>
+
+      <p className="cr-dj-schedule-search__timezone">* All times displayed in Central Time</p>
     </div>
-  );
+  )
 }

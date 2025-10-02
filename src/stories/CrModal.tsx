@@ -1,54 +1,55 @@
 // CrModal.tsx
-import React from 'react';
-import CrButton from './CrButton';
-import CrCurrentDj from './CrCurrentDj';
-import CrMenuButton from './CrMenuButton';
-import CrScrim from './CrScrim';
-import './CrModal.css';
+import React from 'react'
+import CrButton from './CrButton'
+import CrCurrentDj from './CrCurrentDj'
+import CrMenuButton from './CrMenuButton'
+import CrScrim from './CrScrim'
+import './CrModal.css'
 
 interface CrModalProps {
-  title?: string;
-  children?: React.ReactNode;
-  showDjInfo?: boolean;
-  djName?: string;
-  showName?: string;
-  isOnAir?: boolean;
-  statusText?: string;
-  className?: string;
-  size?: string;
-  onClose?: () => void;
-  showCloseButton?: boolean;
-  scrimOpacity?: number;
-  scrimOnClick?: () => void;
-  isOpen?: boolean;
+  title?: string
+  children?: React.ReactNode
+  showDjInfo?: boolean
+  djName?: string
+  showName?: string
+  isOnAir?: boolean
+  statusText?: string
+  className?: string
+  size?: string
+  onClose?: () => void
+  showCloseButton?: boolean
+  scrimOpacity?: number
+  scrimOnClick?: () => void
+  isOpen?: boolean
 }
 
 export default function CrModal({
-  title = "Modal",
+  title = 'Modal',
   children,
   showDjInfo = false,
-  djName = "DJ Current",
-  showName = "Current Show",
+  djName = 'DJ Current',
+  showName = 'Current Show',
   isOnAir = true,
-  statusText = "On-Air",
-  className = "",
-  size = "default", // default, small, large
+  statusText = 'On-Air',
+  className = '',
+  size = 'default', // default, small, large
   onClose,
   showCloseButton = true,
   scrimOpacity = 0.5,
   scrimOnClick,
-  isOpen = false
+  isOpen = false,
 }: CrModalProps) {
-
   const modalClasses = [
     'cr-modal',
     'cr-bg-textured',
     'cr-bg-natural-d100',
     `cr-modal--${size}`,
-    className
-  ].filter(Boolean).join(' ');
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ')
 
-  if (!isOpen) return null;
+  if (!isOpen) return null
 
   return (
     <CrScrim
@@ -58,7 +59,7 @@ export default function CrModal({
       center={true}
       padding={true}
     >
-      <div 
+      <div
         className={modalClasses}
         role="dialog"
         aria-modal="true"
@@ -73,7 +74,7 @@ export default function CrModal({
                 {title}
               </h2>
             </div>
-            
+
             {/* DJ Info Section - only show when showDjInfo is true */}
             {showDjInfo && (
               <div className="cr-modal__dj-info">
@@ -86,7 +87,7 @@ export default function CrModal({
               </div>
             )}
           </div>
-          
+
           {/* Close Button - Now using CrMenuButton */}
           {showCloseButton && (
             <div className="cr-modal__close">
@@ -101,10 +102,8 @@ export default function CrModal({
         </div>
 
         {/* Modal Content */}
-        <div className="cr-modal__content">
-          {children}
-        </div>
+        <div className="cr-modal__content">{children}</div>
       </div>
     </CrScrim>
-  );
+  )
 }

@@ -1,6 +1,6 @@
 // CrPreviousShows.stories.js
-import React from 'react';
-import CrPreviousShows from './CrPreviousShows';
+import React from 'react'
+import CrPreviousShows from './CrPreviousShows'
 
 export default {
   title: 'Molecules/CrPreviousShows',
@@ -9,23 +9,24 @@ export default {
     layout: 'padded',
     docs: {
       description: {
-        component: 'Displays the previous shows from a DJ with functional audio players. Each player supports play, pause, and scrubbing through the recording.'
-      }
-    }
+        component:
+          'Displays the previous shows from a DJ with functional audio players. Each player supports play, pause, and scrubbing through the recording.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     shows: {
       control: 'object',
-      description: 'Array of show objects with title, date, and audioUrl'
-    }
-  }
-};
+      description: 'Array of show objects with title, date, and audioUrl',
+    },
+  },
+}
 
 export const Default = {
   render: (args) => React.createElement(CrPreviousShows, args),
-  args: {}
-};
+  args: {},
+}
 
 export const CustomShows = {
   render: (args) => React.createElement(CrPreviousShows, args),
@@ -35,17 +36,17 @@ export const CustomShows = {
         id: '1',
         title: 'Sunday Morning Jazz',
         date: 'March 20, 2025',
-        audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
+        audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
       },
       {
         id: '2',
         title: 'Friday Night Rock',
         date: 'March 18, 2025',
-        audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'
-      }
-    ]
-  }
-};
+        audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
+      },
+    ],
+  },
+}
 
 export const SingleShow = {
   render: (args) => React.createElement(CrPreviousShows, args),
@@ -55,8 +56,8 @@ export const SingleShow = {
         id: '1',
         title: 'Wednesday Afternoon Mix',
         date: 'March 22, 2025',
-        audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'
-      }
-    ]
-  }
-};
+        audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
+      },
+    ],
+  },
+}

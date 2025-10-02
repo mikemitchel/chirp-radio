@@ -219,7 +219,7 @@
 }
 
 /* Dark mode overlay */
-[data-theme="dark"] .cr-playlist-item__card-overlay {
+[data-theme='dark'] .cr-playlist-item__card-overlay {
   background-color: rgba(0, 0, 0, 0.75);
 }
 
@@ -307,7 +307,7 @@
   .cr-playlist-item {
     gap: var(--cr-space-3);
   }
-  
+
   /* Table variant switches to default layout on mobile */
   .cr-playlist-item--table {
     display: flex;
@@ -315,7 +315,7 @@
     gap: var(--cr-space-3);
     padding: var(--cr-space-3) 0;
   }
-  
+
   /* Hide table-specific elements */
   .cr-playlist-item--table .cr-playlist-item__table-album-art {
     display: block;
@@ -323,19 +323,19 @@
     height: 80px;
     order: 0;
   }
-  
+
   .cr-playlist-item__table-grid {
     display: none;
   }
-  
+
   .cr-playlist-item--table .cr-playlist-item__table-time {
     display: none;
   }
-  
+
   .cr-playlist-item__table-action {
     display: none;
   }
-  
+
   /* Show mobile fallback */
   .cr-playlist-item__mobile-fallback {
     display: flex;
@@ -344,7 +344,7 @@
     flex: 1;
     min-width: 0;
   }
-  
+
   .cr-playlist-item__mobile-fallback .cr-track-info--full .cr-track-info__text {
     gap: 0;
   }

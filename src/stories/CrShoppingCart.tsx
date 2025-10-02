@@ -1,40 +1,40 @@
 // CrShoppingCart.tsx
-import React from 'react';
-import { PiArrowRight } from 'react-icons/pi';
-import CrButton from './CrButton';
-import CrCartIcon from './CrCartIcon';
-import './CrShoppingCart.css';
+import React from 'react'
+import { PiArrowRight } from 'react-icons/pi'
+import CrButton from './CrButton'
+import CrCartIcon from './CrCartIcon'
+import './CrShoppingCart.css'
 
 interface CrShoppingCartProps {
   items?: Array<{
-    name: string;
-    price: number;
-    details?: string;
-    quantity?: number;
-  }>;
-  onEmptyCart?: () => void;
-  onCheckout?: () => void;
-  className?: string;
+    name: string
+    price: number
+    details?: string
+    quantity?: number
+  }>
+  onEmptyCart?: () => void
+  onCheckout?: () => void
+  className?: string
 }
 
 export default function CrShoppingCart({
   items = [],
   onEmptyCart,
   onCheckout,
-  className = ""
+  className = '',
 }: CrShoppingCartProps) {
   // Calculate totals
-  const totalItems = items.reduce((sum, item) => sum + (item.quantity || 1), 0);
-  const totalPrice = items.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+  const totalItems = items.reduce((sum, item) => sum + (item.quantity || 1), 0)
+  const totalPrice = items.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0)
 
   return (
     <div className={`cr-shopping-cart ${className}`}>
       {/* Header */}
       <div className="cr-shopping-cart__header">
         <h2 className="cr-shopping-cart__title">Your Cart</h2>
-        <CrCartIcon 
-          badgeCount={totalItems} 
-          showBadge={totalItems > 0} 
+        <CrCartIcon
+          badgeCount={totalItems}
+          showBadge={totalItems > 0}
           size="60"
           className="cr-shopping-cart__icon"
         />
@@ -43,9 +43,7 @@ export default function CrShoppingCart({
       {/* Items */}
       <div className="cr-shopping-cart__items">
         {items.length === 0 ? (
-          <div className="cr-shopping-cart__empty">
-            Your cart is empty
-          </div>
+          <div className="cr-shopping-cart__empty">Your cart is empty</div>
         ) : (
           items.map((item, index) => (
             <div key={`item-${index}`} className="cr-shopping-cart__item">
@@ -73,9 +71,7 @@ export default function CrShoppingCart({
           {/* Total */}
           <div className="cr-shopping-cart__total">
             <span className="cr-shopping-cart__total-label">TOTAL</span>
-            <span className="cr-shopping-cart__total-price">
-              ${totalPrice.toFixed(2)}
-            </span>
+            <span className="cr-shopping-cart__total-price">${totalPrice.toFixed(2)}</span>
           </div>
 
           {/* Spacer */}
@@ -83,18 +79,13 @@ export default function CrShoppingCart({
 
           {/* Actions */}
           <div className="cr-shopping-cart__actions">
-            <CrButton
-              variant="outline"
-              color="default"
-              size="medium"
-              onClick={onEmptyCart}
-            >
+            <CrButton variant="outline" color="default" size="medium" onClick={onEmptyCart}>
               Empty Cart
             </CrButton>
 
             <CrButton
               variant="solid"
-              color="primary" 
+              color="primary"
               size="medium"
               onClick={onCheckout}
               iconRight={React.createElement(PiArrowRight)}
@@ -105,5 +96,5 @@ export default function CrShoppingCart({
         </>
       )}
     </div>
-  );
+  )
 }

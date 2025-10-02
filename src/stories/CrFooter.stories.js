@@ -1,6 +1,6 @@
 // CrFooter.stories.tsx
-import React from 'react';
-import CrFooter from './CrFooter';
+import React from 'react'
+import CrFooter from './CrFooter'
 
 export default {
   title: 'Organisms/CrFooter',
@@ -8,10 +8,11 @@ export default {
   parameters: {
     layout: 'fullscreen',
     docs: {
-  description: {
-    component: 'CrFooter uses the CrSocialIcon atom for social media links. This component provides complete site footer with CHIRP branding, social media links, navigation sections, event images, and Callibrity attribution. Complex multi-section layout with responsive behavior and automatic light/dark mode logo switching. Dark mode adapts through [data-theme="dark"] CSS selectors.'
-  }
-},
+      description: {
+        component:
+          'CrFooter uses the CrSocialIcon atom for social media links. This component provides complete site footer with CHIRP branding, social media links, navigation sections, event images, and Callibrity attribution. Complex multi-section layout with responsive behavior and automatic light/dark mode logo switching. Dark mode adapts through [data-theme="dark"] CSS selectors.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -21,21 +22,22 @@ export default {
     onCallibrityClick: { action: 'callibrity clicked' },
     onSocialClick: { action: 'social clicked' },
   },
-};
+}
 
 export const Default = {
   args: {},
   render: (args) => {
-    return React.createElement(CrFooter, args);
-  }
-};
+    return React.createElement(CrFooter, args)
+  },
+}
 
 export const WithInteractions = {
   args: {},
   parameters: {
     docs: {
       description: {
-        story: 'Footer with all interaction handlers configured for testing clicks on links and social media buttons.'
+        story:
+          'Footer with all interaction handlers configured for testing clicks on links and social media buttons.',
       },
     },
   },
@@ -46,37 +48,40 @@ export const WithInteractions = {
       onSitemapClick: () => console.log('Sitemap clicked'),
       onCallibrityClick: () => console.log('Callibrity link clicked'),
       onSocialClick: (platform) => console.log(`${platform} social clicked`),
-    };
-    
-    return React.createElement(CrFooter, { ...args, ...handlers });
-  }
-};
+    }
+
+    return React.createElement(CrFooter, { ...args, ...handlers })
+  },
+}
 
 export const DarkMode = {
   args: {},
   parameters: {
-    backgrounds: { 
+    backgrounds: {
       default: 'dark',
-      values: [
-        { name: 'dark', value: '#2a2a2a' }
-      ]
+      values: [{ name: 'dark', value: '#2a2a2a' }],
     },
     docs: {
       description: {
-        story: 'Footer in dark mode showing adjusted background colors, white Callibrity logo, and textured background.'
+        story:
+          'Footer in dark mode showing adjusted background colors, white Callibrity logo, and textured background.',
       },
     },
   },
   render: (args) => {
-    return React.createElement('div', {
-      'data-theme': 'dark',
-      style: { 
-        backgroundColor: '#2a2a2a',
-        minHeight: '300px'
-      }
-    }, React.createElement(CrFooter, args));
-  }
-};
+    return React.createElement(
+      'div',
+      {
+        'data-theme': 'dark',
+        style: {
+          backgroundColor: '#2a2a2a',
+          minHeight: '300px',
+        },
+      },
+      React.createElement(CrFooter, args)
+    )
+  },
+}
 
 export const Mobile = {
   args: {},
@@ -86,11 +91,11 @@ export const Mobile = {
     },
     docs: {
       description: {
-        story: 'Footer on mobile devices with stacked layout and centered alignment.'
+        story: 'Footer on mobile devices with stacked layout and centered alignment.',
       },
     },
   },
   render: (args) => {
-    return React.createElement(CrFooter, args);
-  }
-};
+    return React.createElement(CrFooter, args)
+  },
+}

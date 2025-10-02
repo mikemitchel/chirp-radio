@@ -1,16 +1,16 @@
 // CrDjShowCard.tsx
-import React from 'react';
-import CrDjOverview from './CrDjOverview';
-import './CrDjShowCard.css';
+import React from 'react'
+import CrDjOverview from './CrDjOverview'
+import './CrDjShowCard.css'
 
 interface CrDjShowCardProps {
-  show?: any;
-  startTime?: string;
-  endTime?: string;
-  headshot?: string;
-  isCurrentShow?: boolean;
-  isHighlighted?: boolean;
-  onClick?: () => void;
+  show?: any
+  startTime?: string
+  endTime?: string
+  headshot?: string
+  isCurrentShow?: boolean
+  isHighlighted?: boolean
+  onClick?: () => void
 }
 
 export default function CrDjShowCard({
@@ -20,20 +20,22 @@ export default function CrDjShowCard({
   headshot = 'https://assets.codepen.io/715673/album-art.jpg',
   isCurrentShow = false,
   isHighlighted = false,
-  onClick
+  onClick,
 }: CrDjShowCardProps) {
   // Safety checks for show data
-  const djArray = show.dj && Array.isArray(show.dj) ? show.dj : ['Unknown DJ'];
-  const showSlug = show.slug || 'unknown-show';
-  const showTitle = show.title || null;
-  
-  const isCHIRP = djArray[0] === 'CHIRP';
-  const WrapperTag = isCHIRP ? 'div' : 'a';
-  
-  const wrapperProps = isCHIRP ? {} : {
-    href: `/djs/${showSlug}`,
-    'aria-label': `More about ${djArray.join(', ')}`
-  };
+  const djArray = show.dj && Array.isArray(show.dj) ? show.dj : ['Unknown DJ']
+  const showSlug = show.slug || 'unknown-show'
+  const showTitle = show.title || null
+
+  const isCHIRP = djArray[0] === 'CHIRP'
+  const WrapperTag = isCHIRP ? 'div' : 'a'
+
+  const wrapperProps = isCHIRP
+    ? {}
+    : {
+        href: `/djs/${showSlug}`,
+        'aria-label': `More about ${djArray.join(', ')}`,
+      }
 
   return (
     <WrapperTag
@@ -50,17 +52,13 @@ export default function CrDjShowCard({
         imageSrc={headshot}
         isCHIRP={isCHIRP}
         onDjDetailsClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
+          e.preventDefault()
+          e.stopPropagation()
           // Handle DJ details click
         }}
       />
-      
-      {isCurrentShow && (
-        <div className="cr-dj-show-card__on-air-badge">
-          On-Air
-        </div>
-      )}
+
+      {isCurrentShow && <div className="cr-dj-show-card__on-air-badge">On-Air</div>}
     </WrapperTag>
-  );
+  )
 }

@@ -155,7 +155,7 @@
 .sg-texture-info {
   display: flex;
   flex-direction: column;
-  gap: calc(var(--cr-space-1)/2);
+  gap: calc(var(--cr-space-1) / 2);
 }
 
 .sg-color-name,
@@ -223,28 +223,44 @@
 
 /* Spacing Bar Sizes */
 .sg-spacing-bar-xs,
-.sg-spacing-bar-secondary.sg-spacing-bar-xs { width: 4px; }
+.sg-spacing-bar-secondary.sg-spacing-bar-xs {
+  width: 4px;
+}
 
 .sg-spacing-bar-sm,
-.sg-spacing-bar-secondary.sg-spacing-bar-sm { width: 8px; }
+.sg-spacing-bar-secondary.sg-spacing-bar-sm {
+  width: 8px;
+}
 
 .sg-spacing-bar-3,
-.sg-spacing-bar-secondary.sg-spacing-bar-3 { width: 12px; }
+.sg-spacing-bar-secondary.sg-spacing-bar-3 {
+  width: 12px;
+}
 
 .sg-spacing-bar-md,
-.sg-spacing-bar-secondary.sg-spacing-bar-md { width: 16px; }
+.sg-spacing-bar-secondary.sg-spacing-bar-md {
+  width: 16px;
+}
 
 .sg-spacing-bar-lg,
-.sg-spacing-bar-secondary.sg-spacing-bar-lg { width: 24px; }
+.sg-spacing-bar-secondary.sg-spacing-bar-lg {
+  width: 24px;
+}
 
 .sg-spacing-bar-xl,
-.sg-spacing-bar-secondary.sg-spacing-bar-xl { width: 32px; }
+.sg-spacing-bar-secondary.sg-spacing-bar-xl {
+  width: 32px;
+}
 
 .sg-spacing-bar-2xl,
-.sg-spacing-bar-secondary.sg-spacing-bar-2xl { width: 48px; }
+.sg-spacing-bar-secondary.sg-spacing-bar-2xl {
+  width: 48px;
+}
 
 .sg-spacing-bar-3xl,
-.sg-spacing-bar-secondary.sg-spacing-bar-3xl { width: 64px; }
+.sg-spacing-bar-secondary.sg-spacing-bar-3xl {
+  width: 64px;
+}
 
 /* Spacing Values */
 .sg-spacing-value {
@@ -372,9 +388,9 @@
   font: var(--cr-nav-support);
   color: var(--cr-primary-700);
   text-decoration: none;
-  padding: calc(var(--cr-space-1)/2) var(--cr-space-2);
+  padding: calc(var(--cr-space-1) / 2) var(--cr-space-2);
   border: 1px solid var(--cr-primary-300);
-  border-radius: calc(var(--cr-space-1)/2);
+  border-radius: calc(var(--cr-space-1) / 2);
   background-color: var(--cr-paper);
   white-space: nowrap;
 }
@@ -423,14 +439,30 @@
 }
 
 /* Add CSS variable info after each title */
-.sg-section .cr-title-2xl::after { content: "var(--cr-title-2xl)"; }
-.sg-section .cr-title-xl::after { content: "var(--cr-title-xl)"; }
-.sg-section .cr-title-lg::after { content: "var(--cr-title-lg)"; }
-.sg-section .cr-title-md::after { content: "var(--cr-title-md)"; }
-.sg-section .cr-title-sm::after { content: "var(--cr-title-sm)"; }
-.sg-section .cr-title-xs::after { content: "var(--cr-title-xs)"; }
-.sg-section .cr-title-2xs::after { content: "var(--cr-title-2xs)"; }
-.sg-section .cr-title-eyebrow::after { content: "var(--cr-title-eyebrow)"; }
+.sg-section .cr-title-2xl::after {
+  content: 'var(--cr-title-2xl)';
+}
+.sg-section .cr-title-xl::after {
+  content: 'var(--cr-title-xl)';
+}
+.sg-section .cr-title-lg::after {
+  content: 'var(--cr-title-lg)';
+}
+.sg-section .cr-title-md::after {
+  content: 'var(--cr-title-md)';
+}
+.sg-section .cr-title-sm::after {
+  content: 'var(--cr-title-sm)';
+}
+.sg-section .cr-title-xs::after {
+  content: 'var(--cr-title-xs)';
+}
+.sg-section .cr-title-2xs::after {
+  content: 'var(--cr-title-2xs)';
+}
+.sg-section .cr-title-eyebrow::after {
+  content: 'var(--cr-title-eyebrow)';
+}
 
 .sg-font-sample::after {
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
@@ -481,15 +513,33 @@
 }
 
 /* Add variable names */
-.sg-section .cr-nav1::after { content: "var(--cr-nav1)"; }
-.sg-section .cr-nav2::after { content: "var(--cr-nav2)"; }
-.sg-section .cr-nav3::after { content: "var(--cr-nav3)"; }
-.sg-section .cr-nav-support::after { content: "var(--cr-nav-support)"; }
-.sg-section .cr-player-song::after { content: "var(--cr-player-song)"; }
-.sg-section .cr-player-artist::after { content: "var(--cr-player-artist)"; }
-.sg-section .cr-player-album::after { content: "var(--cr-player-album)"; }
-.sg-section .cr-player-label::after { content: "var(--cr-player-label)"; }
-.sg-section .cr-player-dj::after { content: "var(--cr-player-dj)"; }
+.sg-section .cr-nav1::after {
+  content: 'var(--cr-nav1)';
+}
+.sg-section .cr-nav2::after {
+  content: 'var(--cr-nav2)';
+}
+.sg-section .cr-nav3::after {
+  content: 'var(--cr-nav3)';
+}
+.sg-section .cr-nav-support::after {
+  content: 'var(--cr-nav-support)';
+}
+.sg-section .cr-player-song::after {
+  content: 'var(--cr-player-song)';
+}
+.sg-section .cr-player-artist::after {
+  content: 'var(--cr-player-artist)';
+}
+.sg-section .cr-player-album::after {
+  content: 'var(--cr-player-album)';
+}
+.sg-section .cr-player-label::after {
+  content: 'var(--cr-player-label)';
+}
+.sg-section .cr-player-dj::after {
+  content: 'var(--cr-player-dj)';
+}
 
 .sg-section .cr-nav1::after,
 .sg-section .cr-nav2::after,
@@ -704,7 +754,7 @@
     grid-template-columns: 1fr;
     gap: var(--cr-space-4);
   }
-  
+
   .sg-icon-controls {
     flex-direction: column;
     align-items: flex-start;
@@ -716,41 +766,41 @@
   .sg-section {
     padding: var(--cr-space-4) var(--cr-space-3);
   }
-  
+
   .sg-color-swatches,
   .sg-texture-swatches {
     gap: var(--cr-space-3);
   }
-  
+
   .sg-color-rectangle,
   .sg-texture-rectangle {
     width: 100px;
     height: 70px;
   }
-  
+
   .sg-color-swatch,
   .sg-texture-swatch {
     min-width: 100px;
   }
-  
+
   .sg-spacing-row {
     gap: var(--cr-space-2);
   }
-  
+
   .sg-spacing-label,
   .sg-spacing-label-wide {
     min-width: 60px;
   }
-  
+
   .sg-icon-demo {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .sg-icon-demo__visual {
     align-self: center;
   }
-  
+
   /* Hide variable names on mobile */
   .sg-section .cr-title-2xl::after,
   .sg-section .cr-title-xl::after,
@@ -777,31 +827,31 @@
   .sg-section {
     padding: var(--cr-space-3) var(--cr-space-2);
   }
-  
+
   .sg-color-swatches,
   .sg-texture-swatches {
     flex-direction: column;
     gap: var(--cr-space-3);
   }
-  
+
   .sg-color-rectangle,
   .sg-texture-rectangle {
     width: 80px;
     height: 60px;
   }
-  
+
   .sg-spacing-row {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--cr-space-1);
   }
-  
+
   .sg-control-group {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
   }
-  
+
   .sg-range-input,
   .sg-select-input {
     width: 100%;

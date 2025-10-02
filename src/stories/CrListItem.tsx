@@ -1,27 +1,26 @@
 // CrListItem.tsx
-import React from 'react';
-import { PiPlusSquare } from 'react-icons/pi';
-import CrButton from './CrButton';
-import './CrListItem.css';
+import React from 'react'
+import { PiPlusSquare } from 'react-icons/pi'
+import CrButton from './CrButton'
+import './CrListItem.css'
 
 interface CrListItemProps {
-  ranking?: number;
-  songName?: string;
-  artistName?: string;
-  recordCompany?: string;
-  showAddButton?: boolean;
-  onAddClick?: () => void;
+  ranking?: number
+  songName?: string
+  artistName?: string
+  recordCompany?: string
+  showAddButton?: boolean
+  onAddClick?: () => void
 }
 
 export default function CrListItem({
   ranking = 1,
-  songName = "Song Name",
-  artistName = "Artist Name",
-  recordCompany = "Record Company",
+  songName = 'Song Name',
+  artistName = 'Artist Name',
+  recordCompany = 'Record Company',
   showAddButton = true,
-  onAddClick
+  onAddClick,
 }: CrListItemProps) {
-
   return (
     <div className="cr-rating-list-item">
       <div className="cr-rating-list-item__content">
@@ -31,7 +30,7 @@ export default function CrListItem({
         <span className="cr-rating-list-item__artist">{artistName}</span>
         <span className="cr-rating-list-item__company"> ({recordCompany})</span>
       </div>
-      
+
       {showAddButton && (
         <CrButton
           size="xsmall"
@@ -44,5 +43,5 @@ export default function CrListItem({
         </CrButton>
       )}
     </div>
-  );
+  )
 }

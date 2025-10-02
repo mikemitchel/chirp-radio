@@ -1,37 +1,37 @@
 // CrSupportWithAds.tsx
-import React from 'react';
-import CrSupport from './CrSupport';
-import CrAdSpace from './CrAdSpace';
-import './CrSupportWithAds.css';
+import React from 'react'
+import CrSupport from './CrSupport'
+import CrAdSpace from './CrAdSpace'
+import './CrSupportWithAds.css'
 
 interface CrSupportWithAdsProps {
-  showAdditionalLogos?: boolean;
-  additionalLogos?: Array<{ src: string; alt?: string }>;
-  adSize?: string;
-  adContentType?: string;
-  adSrc?: string;
-  adAlt?: string;
-  adHref?: string;
-  adTarget?: string;
-  adLoading?: boolean;
-  adShowLabel?: boolean;
-  adCustomWidth?: string;
-  adCustomHeight?: string;
-  adHtmlContent?: string;
-  adVideoSrc?: string;
-  adEmbedCode?: string;
-  onAdLoad?: () => void;
-  onAdError?: () => void;
-  onAdClick?: () => void;
-  onAdImpression?: () => void;
-  className?: string;
+  showAdditionalLogos?: boolean
+  additionalLogos?: Array<{ src: string; alt?: string }>
+  adSize?: string
+  adContentType?: string
+  adSrc?: string
+  adAlt?: string
+  adHref?: string
+  adTarget?: string
+  adLoading?: boolean
+  adShowLabel?: boolean
+  adCustomWidth?: string
+  adCustomHeight?: string
+  adHtmlContent?: string
+  adVideoSrc?: string
+  adEmbedCode?: string
+  onAdLoad?: () => void
+  onAdError?: () => void
+  onAdClick?: () => void
+  onAdImpression?: () => void
+  className?: string
 }
 
 const CrSupportWithAds = ({
   // Support component props
   showAdditionalLogos = false,
   additionalLogos = [],
-  
+
   // Ad component props
   adSize = 'medium-rectangle',
   adContentType = 'image',
@@ -50,7 +50,7 @@ const CrSupportWithAds = ({
   onAdError,
   onAdClick,
   onAdImpression,
-  
+
   // Layout props
   className = '',
   ...props
@@ -59,12 +59,9 @@ const CrSupportWithAds = ({
     <div className={`cr-support-with-ads ${className}`} {...props}>
       {/* Support section - 2/3 width on web, full width on mobile (top) */}
       <div className="cr-support-with-ads__support">
-        <CrSupport
-          showAdditionalLogos={showAdditionalLogos}
-          additionalLogos={additionalLogos}
-        />
+        <CrSupport showAdditionalLogos={showAdditionalLogos} additionalLogos={additionalLogos} />
       </div>
-      
+
       {/* Ad section - 1/3 width on web, full width on mobile (bottom) */}
       <div className="cr-support-with-ads__ads">
         <CrAdSpace
@@ -88,7 +85,7 @@ const CrSupportWithAds = ({
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CrSupportWithAds;
+export default CrSupportWithAds

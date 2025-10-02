@@ -1,4 +1,4 @@
-import RootLayout from "./layouts/RootLayout";
+import RootLayout from './layouts/RootLayout'
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
         <div>Chirp-Radio is coming here soon!!</div>
       </RootLayout>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

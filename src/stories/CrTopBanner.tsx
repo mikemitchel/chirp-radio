@@ -1,97 +1,97 @@
 // CrTopBanner.tsx
-import React, { useState, useEffect } from 'react';
-import CrAccount from './CrAccount';
-import CrCurrentDj from './CrCurrentDj';
-import './CrTopBanner.css';
+import React, { useState, useEffect } from 'react'
+import CrAccount from './CrAccount'
+import CrCurrentDj from './CrCurrentDj'
+import './CrTopBanner.css'
 
 interface CrTopBannerProps {
-  isLoggedIn?: boolean;
-  isVolunteer?: boolean;
-  userName?: string;
-  userAvatar?: string;
-  showTags?: boolean;
-  tags?: string[];
-  onLoginClick?: () => void;
-  onVolunteerDropdown?: () => void;
-  djName?: string;
-  showName?: string;
-  isOnAir?: boolean;
-  statusText?: string;
-  autoFetch?: boolean;
-  apiUrl?: string;
+  isLoggedIn?: boolean
+  isVolunteer?: boolean
+  userName?: string
+  userAvatar?: string
+  showTags?: boolean
+  tags?: string[]
+  onLoginClick?: () => void
+  onVolunteerDropdown?: () => void
+  djName?: string
+  showName?: string
+  isOnAir?: boolean
+  statusText?: string
+  autoFetch?: boolean
+  apiUrl?: string
 }
 
 export default function CrTopBanner({
   // Account props
   isLoggedIn = true,
   isVolunteer = true,
-  userName = "Johanna Dough",
-  userAvatar = "https://images.unsplash.com/photo-1580489944761-15a19d654956",
+  userName = 'Johanna Dough',
+  userAvatar = 'https://images.unsplash.com/photo-1580489944761-15a19d654956',
   showTags = false, // Typically false in the banner to save space
-  tags = ["Jazz", "Blues", "Rock"],
+  tags = ['Jazz', 'Blues', 'Rock'],
   onLoginClick,
   onVolunteerDropdown,
-  
+
   // DJ/Show props
-  djName = "DJ Current",
-  showName = "The Current Show",
+  djName = 'DJ Current',
+  showName = 'The Current Show',
   isOnAir = true,
-  statusText = "On-Air",
-  
+  statusText = 'On-Air',
+
   // API props
   autoFetch = false,
-  apiUrl = 'https://chirpradio.appspot.com/api/current_playlist'
+  apiUrl = 'https://chirpradio.appspot.com/api/current_playlist',
 }: CrTopBannerProps) {
   const [apiData, setApiData] = useState({
     dj: djName,
-    show: showName
-  });
+    show: showName,
+  })
 
   // Fetch API data
   const fetchApiData = async () => {
-    if (!autoFetch) return;
-    
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}&t=${Date.now()}`;
+    if (!autoFetch) return
+
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}&t=${Date.now()}`
     try {
-      const response = await fetch(proxyUrl);
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-      
-      const data = await response.json();
-      const parsedData = JSON.parse(data.contents);
+      const response = await fetch(proxyUrl)
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+
+      const data = await response.json()
+      const parsedData = JSON.parse(data.contents)
 
       if (parsedData?.now_playing) {
-        const nowPlaying = parsedData.now_playing;
-        const dj = nowPlaying.dj?.trim() || djName;
-        const show = nowPlaying.show?.trim() || '';
+        const nowPlaying = parsedData.now_playing
+        const dj = nowPlaying.dj?.trim() || djName
+        const show = nowPlaying.show?.trim() || ''
 
         setApiData({
           dj,
-          show
-        });
+          show,
+        })
       }
     } catch (error) {
-      console.error('Error fetching API data:', error);
+      console.error('Error fetching API data:', error)
     }
-  };
+  }
 
   // Auto-fetch effect
   useEffect(() => {
     if (autoFetch) {
-      fetchApiData();
-      const interval = setInterval(fetchApiData, 15000);
-      return () => clearInterval(interval);
+      fetchApiData()
+      const interval = setInterval(fetchApiData, 15000)
+      return () => clearInterval(interval)
     }
-  }, [autoFetch, apiUrl]);
+  }, [autoFetch, apiUrl])
 
   // Update state when props change (for non-API usage)
   useEffect(() => {
     if (!autoFetch) {
       setApiData({
         dj: djName,
-        show: showName
-      });
+        show: showName,
+      })
     }
-  }, [djName, showName, autoFetch]);
+  }, [djName, showName, autoFetch])
 
   return (
     <div className="cr-top-banner">
@@ -107,7 +107,7 @@ export default function CrTopBanner({
           onVolunteerDropdown={onVolunteerDropdown}
         />
       </div>
-      
+
       <div className="cr-top-banner__right">
         <CrCurrentDj
           djName={apiData.dj}
@@ -117,5 +117,5 @@ export default function CrTopBanner({
         />
       </div>
     </div>
-  );
+  )
 }

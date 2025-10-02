@@ -56,16 +56,19 @@
 /* Scrolling animations for overflow text */
 .cr-current-dj__name.has-overflow,
 .cr-current-dj__show.has-overflow {
-  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75) infinite;
+  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75)
+    infinite;
   animation-delay: 1s;
 }
 
 /* Dynamic scroll animation */
 @keyframes scroll-text-bounce {
-  0%, 10% {
+  0%,
+  10% {
     transform: translateX(0);
   }
-  40%, 70% {
+  40%,
+  70% {
     transform: translateX(var(--scroll-distance, -50%));
   }
   100% {

@@ -106,29 +106,36 @@
 
 /* Scrolling animations using dynamic scroll distance AND duration */
 .cr-track-info__artist-scrolling.has-overflow {
-  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75) infinite;
+  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75)
+    infinite;
   animation-delay: 1s;
 }
 
 .cr-track-info__track-scrolling.has-overflow {
-  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75) infinite;
+  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75)
+    infinite;
   animation-delay: 1s;
 }
 
 .cr-track-info__details-scrolling.has-overflow {
-  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75) infinite;
+  animation: scroll-text-bounce var(--animation-duration, 15s) cubic-bezier(0.15, 0.25, 0.35, 0.75)
+    infinite;
   animation-delay: 1s;
 }
 
 /* SINGLE DYNAMIC ANIMATION - calculates scroll distance based on container */
 @keyframes scroll-text-bounce {
-  0%, 10% {  /* Reduced from 30% to 10% - now waits much less */
+  0%,
+  10% {
+    /* Reduced from 30% to 10% - now waits much less */
     transform: translateX(0);
   }
-  40%, 70% {  /* Adjusted proportionally */
+  40%,
+  70% {
+    /* Adjusted proportionally */
     transform: translateX(var(--scroll-distance, -50%));
   }
-  100% { 
+  100% {
     transform: translateX(0);
   }
 }
@@ -154,7 +161,12 @@
 .cr-track-info--loading .cr-track-info__album,
 .cr-track-info--loading .cr-track-info__label {
   opacity: 0.5;
-  background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
@@ -200,20 +212,20 @@
   .cr-track-info__content {
     position: relative; /* Maintain relative positioning on mobile */
   }
-  
+
   /* On mobile, still keep button inline with last visible text */
   .cr-track-info__actions {
     position: absolute;
     right: 0;
     min-width: 60px; /* Even smaller on mobile */
   }
-  
+
   /* Adjust text container widths for mobile */
   .cr-track-info__text > div {
     width: calc(100vw - 200px) !important; /* Adjust for mobile viewport */
     max-width: 200px;
   }
-  
+
   .cr-track-info__artist-container > div {
     width: calc(100vw - 220px) !important; /* Account for LOCAL chip space */
     max-width: 200px;

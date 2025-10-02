@@ -1,27 +1,27 @@
 // CrAdSpace.tsx
-import React, { useState, useRef, useEffect } from 'react';
-import { PiEye, PiEyeSlash } from 'react-icons/pi';
-import './CrAdSpace.css';
+import React, { useState, useRef, useEffect } from 'react'
+import { PiEye, PiEyeSlash } from 'react-icons/pi'
+import './CrAdSpace.css'
 
 interface CrAdSpaceProps {
-  size?: string;
-  customWidth?: number;
-  customHeight?: number;
-  contentType?: string;
-  src?: string;
-  alt?: string;
-  htmlContent?: string;
-  videoSrc?: string;
-  embedCode?: string;
-  href?: string;
-  target?: string;
-  className?: string;
-  loading?: boolean;
-  showLabel?: boolean;
-  onLoad?: () => void;
-  onError?: () => void;
-  onClick?: (e: any) => void;
-  onImpression?: () => void;
+  size?: string
+  customWidth?: number
+  customHeight?: number
+  contentType?: string
+  src?: string
+  alt?: string
+  htmlContent?: string
+  videoSrc?: string
+  embedCode?: string
+  href?: string
+  target?: string
+  className?: string
+  loading?: boolean
+  showLabel?: boolean
+  onLoad?: () => void
+  onError?: () => void
+  onClick?: (e: any) => void
+  onImpression?: () => void
 }
 
 const CrAdSpace = ({
@@ -45,69 +45,69 @@ const CrAdSpace = ({
   onImpression,
   ...props
 }: CrAdSpaceProps) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
-  const [impressionTracked, setImpressionTracked] = useState(false);
-  const containerRef = useRef(null);
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [hasError, setHasError] = useState(false)
+  const [impressionTracked, setImpressionTracked] = useState(false)
+  const containerRef = useRef(null)
 
   // Predefined ad sizes
   const adSizes = {
     'large-rectangle': { width: 336, height: 280, label: 'Large Rectangle' },
-    'leaderboard': { width: 728, height: 90, label: 'Leaderboard' },
+    leaderboard: { width: 728, height: 90, label: 'Leaderboard' },
     'medium-rectangle': { width: 300, height: 250, label: 'Medium Rectangle' },
     'mobile-banner': { width: 300, height: 50, label: 'Mobile Banner' },
     'wide-skyscraper': { width: 160, height: 600, label: 'Wide Skyscraper' },
-    'custom': { 
-      width: customWidth || 300, 
-      height: customHeight || 250, 
-      label: 'Custom Size' 
-    }
-  };
+    custom: {
+      width: customWidth || 300,
+      height: customHeight || 250,
+      label: 'Custom Size',
+    },
+  }
 
-  const currentSize = adSizes[size] || adSizes['large-rectangle'];
-  const isSkyscraper = size === 'wide-skyscraper';
+  const currentSize = adSizes[size] || adSizes['large-rectangle']
+  const isSkyscraper = size === 'wide-skyscraper'
 
   // Intersection Observer for impression tracking
   useEffect(() => {
-    if (!onImpression || impressionTracked) return;
+    if (!onImpression || impressionTracked) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !impressionTracked) {
-          setImpressionTracked(true);
-          onImpression();
+          setImpressionTracked(true)
+          onImpression()
         }
       },
       { threshold: 0.5 }
-    );
+    )
 
     if (containerRef.current) {
-      observer.observe(containerRef.current);
+      observer.observe(containerRef.current)
     }
 
-    return () => observer.disconnect();
-  }, [onImpression, impressionTracked]);
+    return () => observer.disconnect()
+  }, [onImpression, impressionTracked])
 
   const handleLoad = () => {
-    setIsLoaded(true);
-    setHasError(false);
-    onLoad?.();
-  };
+    setIsLoaded(true)
+    setHasError(false)
+    onLoad?.()
+  }
 
   const handleError = () => {
-    setHasError(true);
-    setIsLoaded(false);
-    onError?.();
-  };
+    setHasError(true)
+    setIsLoaded(false)
+    onError?.()
+  }
 
   const handleClick = (e) => {
-    onClick?.(e);
+    onClick?.(e)
     // If href is provided and no custom click handler prevents default
     if (href && !e.defaultPrevented) {
-      window.open(href, target);
-      e.preventDefault();
+      window.open(href, target)
+      e.preventDefault()
     }
-  };
+  }
 
   const renderContent = () => {
     if (loading) {
@@ -116,7 +116,7 @@ const CrAdSpace = ({
           <div className="cr-ad-space__loading-spinner" />
           <span className="cr-ad-space__loading-text">Loading ad...</span>
         </div>
-      );
+      )
     }
 
     if (hasError) {
@@ -125,7 +125,7 @@ const CrAdSpace = ({
           <PiEyeSlash className="cr-ad-space__error-icon" />
           <span className="cr-ad-space__error-text">Ad failed to load</span>
         </div>
-      );
+      )
     }
 
     switch (contentType) {
@@ -148,7 +148,7 @@ const CrAdSpace = ({
               {currentSize.width} × {currentSize.height}px
             </span>
           </div>
-        );
+        )
 
       case 'video':
         return videoSrc ? (
@@ -167,7 +167,7 @@ const CrAdSpace = ({
           <div className="cr-ad-space__placeholder">
             <span className="cr-ad-space__placeholder-text">Video Ad Space</span>
           </div>
-        );
+        )
 
       case 'html':
         return htmlContent ? (
@@ -180,7 +180,7 @@ const CrAdSpace = ({
           <div className="cr-ad-space__placeholder">
             <span className="cr-ad-space__placeholder-text">HTML Ad Space</span>
           </div>
-        );
+        )
 
       case 'embed':
         return embedCode ? (
@@ -198,22 +198,22 @@ const CrAdSpace = ({
           <div className="cr-ad-space__placeholder">
             <span className="cr-ad-space__placeholder-text">Embed Ad Space</span>
           </div>
-        );
+        )
 
       default:
         return (
           <div className="cr-ad-space__placeholder">
             <span className="cr-ad-space__placeholder-text">Ad Space</span>
           </div>
-        );
+        )
     }
-  };
+  }
 
   const containerStyles = {
     width: currentSize.width,
     height: currentSize.height,
-    maxWidth: '100%'
-  };
+    maxWidth: '100%',
+  }
 
   return (
     <div
@@ -226,20 +226,14 @@ const CrAdSpace = ({
       aria-label={href ? `Advertisement: ${alt}` : alt}
       {...props}
     >
-      <div className="cr-ad-space__container">
-        {renderContent()}
-      </div>
-      
+      <div className="cr-ad-space__container">{renderContent()}</div>
+
       {/* Screen reader skip link */}
-      <a 
-        href="#main-content" 
-        className="cr-ad-space__skip-link"
-        aria-label="Skip advertisement"
-      >
+      <a href="#main-content" className="cr-ad-space__skip-link" aria-label="Skip advertisement">
         Skip Ad
       </a>
     </div>
-  );
-};
+  )
+}
 
-export default CrAdSpace;
+export default CrAdSpace

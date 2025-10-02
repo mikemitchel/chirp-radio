@@ -1,97 +1,87 @@
 // CrProfileCard.tsx
-import React, { useState } from 'react';
-import { PiPencilSimple, PiUser, PiHeart, PiMinus, PiPaperclip, PiNotepad } from 'react-icons/pi';
-import CrPageHeader from './CrPageHeader';
-import CrChip from './CrChip';
-import CrButton from './CrButton';
-import CrSocialIcon from './CrSocialIcon';
-import CrTable from './CrTable';
-import CrSettingsToggles from './CrSettingsToggles';
-import CrProfileEditForm from './CrProfileEditForm';
-import CrVolunteerEditForm from './CrVolunteerEditForm';
-import './CrProfileCard.css';
+import React, { useState } from 'react'
+import { PiPencilSimple, PiUser, PiHeart, PiMinus, PiPaperclip, PiNotepad } from 'react-icons/pi'
+import CrPageHeader from './CrPageHeader'
+import CrChip from './CrChip'
+import CrButton from './CrButton'
+import CrSocialIcon from './CrSocialIcon'
+import CrTable from './CrTable'
+import CrSettingsToggles from './CrSettingsToggles'
+import CrProfileEditForm from './CrProfileEditForm'
+import CrVolunteerEditForm from './CrVolunteerEditForm'
+import './CrProfileCard.css'
 
 // Custom Saved Tracks Table Header Component
-const CrPlaylistTableHeaderSaved = ({ className = "" }) => {
+const CrPlaylistTableHeaderSaved = ({ className = '' }) => {
   return (
     <div className={`cr-playlist-table-header ${className}`}>
       <div className="cr-playlist-table-header__art"></div>
-      
+
       <div className="cr-playlist-table-header__grid">
         <div className="cr-playlist-table-header__left">
           <div className="cr-playlist-table-header__track">Title</div>
           <div className="cr-playlist-table-header__artist">Artist Name</div>
         </div>
-        
+
         <div className="cr-playlist-table-header__right">
           <div className="cr-playlist-table-header__album">Album</div>
           <div className="cr-playlist-table-header__label">Label</div>
         </div>
       </div>
-      
+
       <div className="cr-playlist-table-header__time">
         <div className="cr-playlist-table-header__time-label">Date</div>
         <div className="cr-playlist-table-header__played-label">Saved</div>
       </div>
-      
+
       <div className="cr-playlist-table-header__action">
         <div className="cr-playlist-table-header__add-label">Remove from</div>
         <div className="cr-playlist-table-header__collection-label">Collection</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 // Custom Saved Tracks Table Item Component
-const CrPlaylistItemSaved = ({ 
-  albumArt, 
-  albumArtAlt, 
-  artistName, 
-  trackName, 
-  albumName, 
-  labelName, 
-  timeAgo, 
-  isLocal = false, 
+const CrPlaylistItemSaved = ({
+  albumArt,
+  albumArtAlt,
+  artistName,
+  trackName,
+  albumName,
+  labelName,
+  timeAgo,
+  isLocal = false,
   onToggleRemove,
-  className = "" 
+  className = '',
 }) => {
   return (
     <div className={`cr-playlist-item cr-playlist-item--table ${className}`}>
       <div className="cr-playlist-item__table-album-art">
-        <img 
-          src={albumArt} 
-          alt={albumArtAlt}
-          className="cr-playlist-item__image"
-        />
+        <img src={albumArt} alt={albumArtAlt} className="cr-playlist-item__image" />
       </div>
-      
+
       <div className="cr-playlist-item__table-grid">
         <div className="cr-playlist-item__table-left">
           <div className="cr-playlist-item__table-artist">
             {artistName}
             {isLocal && (
-              <CrChip variant="primary" size="small" squared>LOCAL</CrChip>
+              <CrChip variant="primary" size="small" squared>
+                LOCAL
+              </CrChip>
             )}
           </div>
-          <div className="cr-playlist-item__table-track">
-            {trackName}
-          </div>
+          <div className="cr-playlist-item__table-track">{trackName}</div>
         </div>
-        
+
         <div className="cr-playlist-item__table-right">
-          <div className="cr-playlist-item__table-album">
-            {albumName}
-          </div>
-          <div className="cr-playlist-item__table-label">
-            {labelName}
-          </div>
+          <div className="cr-playlist-item__table-album">{albumName}</div>
+          <div className="cr-playlist-item__table-label">{labelName}</div>
         </div>
       </div>
-      
-      <div className="cr-playlist-item__table-time">
-        {timeAgo}
-      </div>
-      
+
+      <div className="cr-playlist-item__table-time">{timeAgo}</div>
+
       <div className="cr-playlist-item__table-action">
         <CrButton
           variant="text"
@@ -104,15 +94,20 @@ const CrPlaylistItemSaved = ({
         </CrButton>
       </div>
     </div>
-  );
-};
+  )
+}
 
-// Custom Saved Tracks Table Component  
-const CrPlaylistTableSaved = ({ items = [], showHeader = true, onItemRemoveClick, className = "" }) => {
+// Custom Saved Tracks Table Component
+const CrPlaylistTableSaved = ({
+  items = [],
+  showHeader = true,
+  onItemRemoveClick,
+  className = '',
+}) => {
   return (
     <div className={`cr-playlist-table ${className}`}>
       {showHeader && <CrPlaylistTableHeaderSaved />}
-      
+
       <div className="cr-playlist-table__items">
         {items.map((item, index) => (
           <CrPlaylistItemSaved
@@ -130,69 +125,69 @@ const CrPlaylistTableSaved = ({ items = [], showHeader = true, onItemRemoveClick
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
 interface CrProfileCardProps {
-  state?: 'view' | 'editProfile' | 'editVolunteer' | 'loggedOut';
-  eyebrowText?: string;
-  title?: string;
-  showEditButton?: boolean;
-  onEditClick?: () => void;
-  firstName?: string;
-  lastName?: string;
-  location?: string;
-  email?: string;
-  memberSince?: string;
-  avatarSrc?: string;
-  avatarAlt?: string;
-  socialLinks?: Array<{ platform: string; url: string }>;
-  permissions?: string[];
-  showPermissions?: boolean;
-  isVolunteer?: boolean;
-  isDJ?: boolean;
-  onStateChange?: (state: string) => void;
-  onSave?: () => void;
-  onCancel?: () => void;
-  onChange?: (field: string, value: any) => void;
-  formData?: any;
-  maxWidth?: string;
-  className?: string;
+  state?: 'view' | 'editProfile' | 'editVolunteer' | 'loggedOut'
+  eyebrowText?: string
+  title?: string
+  showEditButton?: boolean
+  onEditClick?: () => void
+  firstName?: string
+  lastName?: string
+  location?: string
+  email?: string
+  memberSince?: string
+  avatarSrc?: string
+  avatarAlt?: string
+  socialLinks?: Array<{ platform: string; url: string }>
+  permissions?: string[]
+  showPermissions?: boolean
+  isVolunteer?: boolean
+  isDJ?: boolean
+  onStateChange?: (state: string) => void
+  onSave?: () => void
+  onCancel?: () => void
+  onChange?: (field: string, value: any) => void
+  formData?: any
+  maxWidth?: string
+  className?: string
   // Account Settings props
-  streamingQuality?: string;
-  onStreamingQualityChange?: (quality: string) => void;
-  pushNotifications?: boolean;
-  onPushNotificationsChange?: (checked: boolean) => void;
-  onLogin?: () => void;
-  onLogout?: () => void;
-  onSignUp?: () => void;
-  onForgotPassword?: () => void;
-  onShareApp?: () => void;
-  onLikeAppStore?: () => void;
-  onAppSupport?: () => void;
-  onTermsPrivacy?: () => void;
+  streamingQuality?: string
+  onStreamingQualityChange?: (quality: string) => void
+  pushNotifications?: boolean
+  onPushNotificationsChange?: (checked: boolean) => void
+  onLogin?: () => void
+  onLogout?: () => void
+  onSignUp?: () => void
+  onForgotPassword?: () => void
+  onShareApp?: () => void
+  onLikeAppStore?: () => void
+  onAppSupport?: () => void
+  onTermsPrivacy?: () => void
 }
 
 export default function CrProfileCard({
   // Component state
-  state = "view", // "view" | "editProfile" | "editVolunteer" | "loggedOut"
+  state = 'view', // "view" | "editProfile" | "editVolunteer" | "loggedOut"
 
   // Header section
-  eyebrowText = "CHIRP Radio",
-  title = "Profile - Edit",
+  eyebrowText = 'CHIRP Radio',
+  title = 'Profile - Edit',
   showEditButton = true,
   onEditClick,
 
   // Profile info
-  firstName = "Person",
-  lastName = "Name",
-  location = "Chicago, Illinois",
-  email = "email@qmail.com",
-  memberSince = "September 30, 2008",
+  firstName = 'Person',
+  lastName = 'Name',
+  location = 'Chicago, Illinois',
+  email = 'email@qmail.com',
+  memberSince = 'September 30, 2008',
 
   // Avatar
   avatarSrc,
-  avatarAlt = "User avatar",
+  avatarAlt = 'User avatar',
 
   // Social links
   socialLinks = [
@@ -200,7 +195,7 @@ export default function CrProfileCard({
     { platform: 'instagram', url: 'www.instagram.com/thisguydoingstuff' },
     { platform: 'twitter', url: 'www.twitter.com/thisguytakingtrash' },
     { platform: 'linkedin', url: 'www.linkedin.com/thisguybuttonedup' },
-    { platform: 'bluesky', url: 'www.bluesky.com/thisguygettingaway' }
+    { platform: 'bluesky', url: 'www.bluesky.com/thisguygettingaway' },
   ],
 
   // Permissions
@@ -238,32 +233,30 @@ export default function CrProfileCard({
 
   // Layout
   maxWidth = '860px',
-  className = ""
+  className = '',
 }: CrProfileCardProps) {
   // Track the original full image separately from the cropped avatar
-  const [originalFullImage, setOriginalFullImage] = useState(avatarSrc);
+  const [originalFullImage, setOriginalFullImage] = useState(avatarSrc)
 
-  const componentClasses = [
-    'cr-profile-card',
-    `cr-profile-card--${state}`,
-    className
-  ].filter(Boolean).join(' ');
+  const componentClasses = ['cr-profile-card', `cr-profile-card--${state}`, className]
+    .filter(Boolean)
+    .join(' ')
 
   const handleImageChange = (images) => {
     // When new images are provided, update both the avatar and store the full image
     if (images.fullImage) {
-      setOriginalFullImage(images.fullImage);
+      setOriginalFullImage(images.fullImage)
     }
     if (onChange && images.croppedImage) {
-      onChange('avatarSrc', images.croppedImage);
+      onChange('avatarSrc', images.croppedImage)
     }
-  };
+  }
 
-  const isEditing = state === 'editProfile' || state === 'editVolunteer';
-  const showEditTabs = (isVolunteer || isDJ) && isEditing;
+  const isEditing = state === 'editProfile' || state === 'editVolunteer'
+  const showEditTabs = (isVolunteer || isDJ) && isEditing
 
   // Render logged out state
-  if (state === "loggedOut") {
+  if (state === 'loggedOut') {
     return (
       <div className={componentClasses} style={{ maxWidth }}>
         <CrPageHeader
@@ -274,9 +267,7 @@ export default function CrProfileCard({
 
         <section className="cr-profile-card__not-logged-in">
           <div className="cr-profile-card__not-logged-in-content">
-            <h2 className="cr-profile-card__not-logged-in-title">
-              Join CHIRP Radio Today
-            </h2>
+            <h2 className="cr-profile-card__not-logged-in-title">Join CHIRP Radio Today</h2>
             <p className="cr-profile-card__not-logged-in-description">
               Create a CHIRP Radio account to unlock all the features and benefits of our community.
             </p>
@@ -293,12 +284,7 @@ export default function CrProfileCard({
             </ul>
 
             <div className="cr-profile-card__not-logged-in-actions">
-              <CrButton
-                variant="solid"
-                color="secondary"
-                size="large"
-                onClick={onSignUp}
-              >
+              <CrButton variant="solid" color="secondary" size="large" onClick={onSignUp}>
                 sign up
               </CrButton>
               <div className="cr-profile-card__not-logged-in-divider">
@@ -306,23 +292,18 @@ export default function CrProfileCard({
                   Already have a CHIRP Radio account?
                 </span>
               </div>
-              <CrButton
-                variant="outline"
-                color="default"
-                size="large"
-                onClick={onLogin}
-              >
+              <CrButton variant="outline" color="default" size="large" onClick={onLogin}>
                 log in
               </CrButton>
             </div>
           </div>
         </section>
       </div>
-    );
+    )
   }
 
   // Render view state (logged in)
-  if (state === "view") {
+  if (state === 'view') {
     return (
       <div className={componentClasses} style={{ maxWidth }}>
         <CrPageHeader
@@ -336,8 +317,10 @@ export default function CrProfileCard({
 
         <section className="cr-profile-card__profile">
           <div className="cr-profile-card__profile-info">
-            <h2 className="cr-profile-card__name">{firstName} {lastName}</h2>
-            
+            <h2 className="cr-profile-card__name">
+              {firstName} {lastName}
+            </h2>
+
             <div className="cr-profile-card__details">
               <div className="cr-profile-card__detail-item">
                 <span className="cr-profile-card__detail-label">Location:</span>
@@ -348,12 +331,7 @@ export default function CrProfileCard({
                 <span className="cr-profile-card__detail-label">Email:</span>
                 <div className="cr-profile-card__detail-value-with-action">
                   <span className="cr-profile-card__detail-value">{email}</span>
-                  <CrButton
-                    variant="text"
-                    color="default"
-                    size="xsmall"
-                    onClick={onLogout}
-                  >
+                  <CrButton variant="text" color="default" size="xsmall" onClick={onLogout}>
                     log out
                   </CrButton>
                 </div>
@@ -369,11 +347,7 @@ export default function CrProfileCard({
           <div className="cr-profile-card__avatar-container">
             <div className="cr-profile-card__avatar">
               {avatarSrc ? (
-                <img 
-                  src={avatarSrc} 
-                  alt={avatarAlt}
-                  className="cr-profile-card__avatar-image"
-                />
+                <img src={avatarSrc} alt={avatarAlt} className="cr-profile-card__avatar-image" />
               ) : (
                 <div className="cr-profile-card__avatar-placeholder">
                   <svg className="cr-profile-card__avatar-icon" viewBox="0 0 100 100">
@@ -391,13 +365,9 @@ export default function CrProfileCard({
             <div className="cr-profile-card__social-column">
               {socialLinks.slice(0, Math.ceil(socialLinks.length / 2)).map((link, index) => (
                 <div key={`${link.platform}-${index}`} className="cr-profile-card__social-item">
-                  <CrSocialIcon 
-                    platform={link.platform}
-                    size={24}
-                    url={link.url}
-                  />
-                  <a 
-                    href={`https://${link.url}`} 
+                  <CrSocialIcon platform={link.platform} size={24} url={link.url} />
+                  <a
+                    href={`https://${link.url}`}
                     className="cr-profile-card__social-link"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -410,13 +380,9 @@ export default function CrProfileCard({
             <div className="cr-profile-card__social-column">
               {socialLinks.slice(Math.ceil(socialLinks.length / 2)).map((link, index) => (
                 <div key={`${link.platform}-${index}`} className="cr-profile-card__social-item">
-                  <CrSocialIcon 
-                    platform={link.platform}
-                    size={24}
-                    url={link.url}
-                  />
-                  <a 
-                    href={`https://${link.url}`} 
+                  <CrSocialIcon platform={link.platform} size={24} url={link.url} />
+                  <a
+                    href={`https://${link.url}`}
                     className="cr-profile-card__social-link"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -434,11 +400,7 @@ export default function CrProfileCard({
             <div className="cr-profile-card__permissions-label">Permissions:</div>
             <div className="cr-profile-card__permissions-chips">
               {permissions.map((permission, index) => (
-                <CrChip 
-                  key={index} 
-                  variant="light" 
-                  size="small"
-                >
+                <CrChip key={index} variant="light" size="small">
                   {permission}
                 </CrChip>
               ))}
@@ -454,13 +416,14 @@ export default function CrProfileCard({
             showEyebrow={true}
             showActionButton={false}
           />
-          
+
           <div className="cr-profile-card__playlist-table">
-            <CrPlaylistTableSaved 
+            <CrPlaylistTableSaved
               items={[
                 {
                   id: '1',
-                  albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
+                  albumArt:
+                    'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
                   albumArtAlt: 'Kind of Blue album cover',
                   artistName: 'Miles Davis',
                   trackName: 'So What',
@@ -468,11 +431,12 @@ export default function CrProfileCard({
                   labelName: 'Columbia Records',
                   timeAgo: '09/15/2024',
                   isAdded: true,
-                  isLocal: false
+                  isLocal: false,
                 },
                 {
                   id: '2',
-                  albumArt: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=200&fit=crop',
+                  albumArt:
+                    'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=200&fit=crop',
                   albumArtAlt: 'Giant Steps album cover',
                   artistName: 'John Coltrane',
                   trackName: 'Giant Steps',
@@ -480,11 +444,12 @@ export default function CrProfileCard({
                   labelName: 'Atlantic Records',
                   timeAgo: '09/12/2024',
                   isAdded: true,
-                  isLocal: true
+                  isLocal: true,
                 },
                 {
                   id: '3',
-                  albumArt: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=200&h=200&fit=crop',
+                  albumArt:
+                    'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=200&h=200&fit=crop',
                   albumArtAlt: 'Time Out album cover',
                   artistName: 'Dave Brubeck',
                   trackName: 'Take Five',
@@ -492,12 +457,12 @@ export default function CrProfileCard({
                   labelName: 'Columbia Records',
                   timeAgo: '09/08/2024',
                   isAdded: true,
-                  isLocal: false
-                }
+                  isLocal: false,
+                },
               ]}
               showHeader={true}
               onItemRemoveClick={(item, index) => {
-                console.log('Remove clicked for:', item.trackName);
+                console.log('Remove clicked for:', item.trackName)
               }}
             />
           </div>
@@ -530,20 +495,20 @@ export default function CrProfileCard({
                 key: 'date',
                 title: 'Date',
                 sortable: true,
-                width: 'medium'
+                width: 'medium',
               },
               {
                 key: 'type',
                 title: 'Type',
                 sortable: true,
-                width: 'medium'
+                width: 'medium',
               },
               {
                 key: 'amount',
                 title: 'Amount',
                 align: 'right',
                 sortable: true,
-                width: 'medium'
+                width: 'medium',
               },
               {
                 key: 'receipt',
@@ -551,30 +516,38 @@ export default function CrProfileCard({
                 align: 'center',
                 width: 'narrow',
                 render: (value, row) => {
-                  return React.createElement(CrButton, {
-                    size: 'small',
-                    variant: 'text',
-                    color: 'default',
-                    leftIcon: React.createElement('svg', {
-                      width: 16,
-                      height: 16,
-                      viewBox: '0 0 24 24',
-                      fill: 'none',
-                      stroke: 'currentColor',
-                      strokeWidth: 2
-                    }, [
-                      React.createElement('path', {
-                        key: 'download-path',
-                        d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3'
-                      })
-                    ]),
-                    onClick: () => {
-                      console.log(`Downloading receipt for donation ${row.id}`);
+                  return React.createElement(
+                    CrButton,
+                    {
+                      size: 'small',
+                      variant: 'text',
+                      color: 'default',
+                      leftIcon: React.createElement(
+                        'svg',
+                        {
+                          width: 16,
+                          height: 16,
+                          viewBox: '0 0 24 24',
+                          fill: 'none',
+                          stroke: 'currentColor',
+                          strokeWidth: 2,
+                        },
+                        [
+                          React.createElement('path', {
+                            key: 'download-path',
+                            d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3',
+                          }),
+                        ]
+                      ),
+                      onClick: () => {
+                        console.log(`Downloading receipt for donation ${row.id}`)
+                      },
+                      'aria-label': `Download receipt for ${row.amount} donation on ${row.date}`,
                     },
-                    'aria-label': `Download receipt for ${row.amount} donation on ${row.date}`
-                  }, 'Receipt');
-                }
-              }
+                    'Receipt'
+                  )
+                },
+              },
             ]}
             data={[
               {
@@ -582,29 +555,29 @@ export default function CrProfileCard({
                 date: '09/15/2024',
                 type: 'Sustaining Member',
                 amount: '$25.00',
-                receipt: ''
+                receipt: '',
               },
               {
                 id: '2',
                 date: '08/15/2024',
                 type: 'Sustaining Member',
                 amount: '$25.00',
-                receipt: ''
+                receipt: '',
               },
               {
                 id: '3',
                 date: '07/15/2024',
                 type: 'One-Time Donation',
                 amount: '$100.00',
-                receipt: ''
+                receipt: '',
               },
               {
                 id: '4',
                 date: '06/15/2024',
                 type: 'Sustaining Member',
                 amount: '$25.00',
-                receipt: ''
-              }
+                receipt: '',
+              },
             ]}
             variant="default"
             striped={true}
@@ -630,20 +603,20 @@ export default function CrProfileCard({
                 key: 'date',
                 title: 'Date',
                 sortable: true,
-                width: 'medium'
+                width: 'medium',
               },
               {
                 key: 'item',
                 title: 'Item',
                 sortable: true,
-                width: 'wide'
+                width: 'wide',
               },
               {
                 key: 'price',
                 title: 'Price',
                 align: 'right',
                 sortable: true,
-                width: 'medium'
+                width: 'medium',
               },
               {
                 key: 'status',
@@ -651,12 +624,21 @@ export default function CrProfileCard({
                 align: 'center',
                 width: 'narrow',
                 render: (value, row) => {
-                  return React.createElement(CrChip, {
-                    variant: row.status === 'Shipped' ? 'primary' : row.status === 'Delivered' ? 'success' : 'light',
-                    size: 'small'
-                  }, row.status);
-                }
-              }
+                  return React.createElement(
+                    CrChip,
+                    {
+                      variant:
+                        row.status === 'Shipped'
+                          ? 'primary'
+                          : row.status === 'Delivered'
+                            ? 'success'
+                            : 'light',
+                      size: 'small',
+                    },
+                    row.status
+                  )
+                },
+              },
             ]}
             data={[
               {
@@ -664,29 +646,29 @@ export default function CrProfileCard({
                 date: '09/10/2024',
                 item: 'CHIRP Radio T-Shirt - Medium',
                 price: '$25.00',
-                status: 'Delivered'
+                status: 'Delivered',
               },
               {
                 id: '2',
                 date: '08/22/2024',
                 item: 'CHIRP Radio Tote Bag',
                 price: '$15.00',
-                status: 'Delivered'
+                status: 'Delivered',
               },
               {
                 id: '3',
                 date: '07/05/2024',
                 item: 'CHIRP Radio Coffee Mug',
                 price: '$12.00',
-                status: 'Delivered'
+                status: 'Delivered',
               },
               {
                 id: '4',
                 date: '09/20/2024',
                 item: 'CHIRP Radio Hoodie - Large',
                 price: '$45.00',
-                status: 'Shipped'
-              }
+                status: 'Shipped',
+              },
             ]}
             variant="default"
             striped={true}
@@ -713,19 +695,19 @@ export default function CrProfileCard({
                   key: 'date',
                   title: 'Date',
                   sortable: true,
-                  width: 'medium'
+                  width: 'medium',
                 },
                 {
                   key: 'time',
                   title: 'Time',
                   sortable: true,
-                  width: 'medium'
+                  width: 'medium',
                 },
                 {
                   key: 'show',
                   title: 'Show',
                   sortable: true,
-                  width: 'wide'
+                  width: 'wide',
                 },
                 {
                   key: 'status',
@@ -733,12 +715,16 @@ export default function CrProfileCard({
                   align: 'center',
                   width: 'narrow',
                   render: (value, row) => {
-                    return React.createElement(CrChip, {
-                      variant: row.status === 'Scheduled' ? 'primary' : 'light',
-                      size: 'small'
-                    }, row.status);
-                  }
-                }
+                    return React.createElement(
+                      CrChip,
+                      {
+                        variant: row.status === 'Scheduled' ? 'primary' : 'light',
+                        size: 'small',
+                      },
+                      row.status
+                    )
+                  },
+                },
               ]}
               data={[
                 {
@@ -746,22 +732,22 @@ export default function CrProfileCard({
                   date: '09/25/2024',
                   time: '8:00 PM - 10:00 PM',
                   show: 'Underground Sounds with DJ Sarah',
-                  status: 'Scheduled'
+                  status: 'Scheduled',
                 },
                 {
                   id: '2',
                   date: '09/18/2024',
                   time: '8:00 PM - 10:00 PM',
                   show: 'Underground Sounds with DJ Sarah',
-                  status: 'Completed'
+                  status: 'Completed',
                 },
                 {
                   id: '3',
                   date: '09/11/2024',
                   time: '8:00 PM - 10:00 PM',
                   show: 'Underground Sounds with DJ Sarah',
-                  status: 'Completed'
-                }
+                  status: 'Completed',
+                },
               ]}
               variant="default"
               striped={true}
@@ -780,17 +766,13 @@ export default function CrProfileCard({
           </section>
         )}
       </div>
-    );
+    )
   }
 
   // Render edit states using extracted form components
   return (
     <div className={componentClasses} style={{ maxWidth }}>
-      <CrPageHeader
-        eyebrowText={eyebrowText}
-        title={title}
-        showActionButton={false}
-      />
+      <CrPageHeader eyebrowText={eyebrowText} title={title} showActionButton={false} />
 
       {/* Edit Tabs - only show if user is volunteer/DJ and in edit mode */}
       {showEditTabs && (
@@ -840,5 +822,5 @@ export default function CrProfileCard({
         />
       )}
     </div>
-  );
+  )
 }

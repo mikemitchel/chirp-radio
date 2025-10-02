@@ -1,416 +1,416 @@
 // CrDjSchedule.stories.tsx
-import React from 'react';
-import CrDjSchedule from './CrDjSchedule';
+import React from 'react'
+import CrDjSchedule from './CrDjSchedule'
 
 // Mock schedule data
 const mockScheduleData = {
-  "Monday": [
+  Monday: [
     {
-      "slug": "morning-classics",
-      "dj": ["Sarah Johnson"],
-      "title": "Morning Classics",
-      "start": "06:00",
-      "end": "09:00",
-      "timeOfDay": "Early"
+      slug: 'morning-classics',
+      dj: ['Sarah Johnson'],
+      title: 'Morning Classics',
+      start: '06:00',
+      end: '09:00',
+      timeOfDay: 'Early',
     },
     {
-      "slug": "chirp-automation-1",
-      "dj": ["CHIRP"],
-      "title": null,
-      "start": "09:00",
-      "end": "12:00",
-      "timeOfDay": "Daytime"
+      slug: 'chirp-automation-1',
+      dj: ['CHIRP'],
+      title: null,
+      start: '09:00',
+      end: '12:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "lunch-beats",
-      "dj": ["Mike Chen"],
-      "title": "Lunch Beats",
-      "start": "12:00",
-      "end": "14:00",
-      "timeOfDay": "Daytime"
+      slug: 'lunch-beats',
+      dj: ['Mike Chen'],
+      title: 'Lunch Beats',
+      start: '12:00',
+      end: '14:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "afternoon-mix",
-      "dj": ["Jessica Martinez"],
-      "title": "Afternoon Mix",
-      "start": "14:00",
-      "end": "17:00",
-      "timeOfDay": "Daytime"
+      slug: 'afternoon-mix',
+      dj: ['Jessica Martinez'],
+      title: 'Afternoon Mix',
+      start: '14:00',
+      end: '17:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "evening-drive",
-      "dj": ["David Thompson"],
-      "title": "Evening Drive",
-      "start": "17:00",
-      "end": "20:00",
-      "timeOfDay": "Evening"
+      slug: 'evening-drive',
+      dj: ['David Thompson'],
+      title: 'Evening Drive',
+      start: '17:00',
+      end: '20:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "night-vibes",
-      "dj": ["Alex Rivera"],
-      "title": "Night Vibes",
-      "start": "20:00",
-      "end": "23:00",
-      "timeOfDay": "Evening"
+      slug: 'night-vibes',
+      dj: ['Alex Rivera'],
+      title: 'Night Vibes',
+      start: '20:00',
+      end: '23:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "late-night-sounds",
-      "dj": ["Taylor Kim"],
-      "title": "Late Night Sounds",
-      "start": "23:00",
-      "end": "00:00",
-      "timeOfDay": "Evening"
-    }
+      slug: 'late-night-sounds',
+      dj: ['Taylor Kim'],
+      title: 'Late Night Sounds',
+      start: '23:00',
+      end: '00:00',
+      timeOfDay: 'Evening',
+    },
   ],
-  "Tuesday": [
+  Tuesday: [
     {
-      "slug": "wake-up-call",
-      "dj": ["Emma Wilson"],
-      "title": "Wake Up Call",
-      "start": "06:00",
-      "end": "09:00",
-      "timeOfDay": "Early"
+      slug: 'wake-up-call',
+      dj: ['Emma Wilson'],
+      title: 'Wake Up Call',
+      start: '06:00',
+      end: '09:00',
+      timeOfDay: 'Early',
     },
     {
-      "slug": "midday-melodies",
-      "dj": ["Chris Anderson"],
-      "title": "Midday Melodies",
-      "start": "09:00",
-      "end": "12:00",
-      "timeOfDay": "Daytime"
+      slug: 'midday-melodies',
+      dj: ['Chris Anderson'],
+      title: 'Midday Melodies',
+      start: '09:00',
+      end: '12:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "chirp-automation-2",
-      "dj": ["CHIRP"],
-      "title": null,
-      "start": "12:00",
-      "end": "14:00",
-      "timeOfDay": "Daytime"
+      slug: 'chirp-automation-2',
+      dj: ['CHIRP'],
+      title: null,
+      start: '12:00',
+      end: '14:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "indie-hour",
-      "dj": ["Jordan Lee"],
-      "title": "The Indie Hour",
-      "start": "14:00",
-      "end": "17:00",
-      "timeOfDay": "Daytime"
+      slug: 'indie-hour',
+      dj: ['Jordan Lee'],
+      title: 'The Indie Hour',
+      start: '14:00',
+      end: '17:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "rock-block",
-      "dj": ["Sam Rodriguez"],
-      "title": "Rock Block",
-      "start": "17:00",
-      "end": "20:00",
-      "timeOfDay": "Evening"
+      slug: 'rock-block',
+      dj: ['Sam Rodriguez'],
+      title: 'Rock Block',
+      start: '17:00',
+      end: '20:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "jazz-junction",
-      "dj": ["Morgan Taylor"],
-      "title": "Jazz Junction",
-      "start": "20:00",
-      "end": "23:00",
-      "timeOfDay": "Evening"
+      slug: 'jazz-junction',
+      dj: ['Morgan Taylor'],
+      title: 'Jazz Junction',
+      start: '20:00',
+      end: '23:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "midnight-mix",
-      "dj": ["Casey Brown"],
-      "title": "Midnight Mix",
-      "start": "23:00",
-      "end": "00:00",
-      "timeOfDay": "Evening"
-    }
+      slug: 'midnight-mix',
+      dj: ['Casey Brown'],
+      title: 'Midnight Mix',
+      start: '23:00',
+      end: '00:00',
+      timeOfDay: 'Evening',
+    },
   ],
-  "Wednesday": [
+  Wednesday: [
     {
-      "slug": "chirp-morning",
-      "dj": ["CHIRP"],
-      "title": null,
-      "start": "06:00",
-      "end": "09:00",
-      "timeOfDay": "Early"
+      slug: 'chirp-morning',
+      dj: ['CHIRP'],
+      title: null,
+      start: '06:00',
+      end: '09:00',
+      timeOfDay: 'Early',
     },
     {
-      "slug": "fresh-tracks",
-      "dj": ["Riley Parker"],
-      "title": "Fresh Tracks",
-      "start": "09:00",
-      "end": "12:00",
-      "timeOfDay": "Daytime"
+      slug: 'fresh-tracks',
+      dj: ['Riley Parker'],
+      title: 'Fresh Tracks',
+      start: '09:00',
+      end: '12:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "soul-sessions",
-      "dj": ["Avery Collins"],
-      "title": "Soul Sessions",
-      "start": "12:00",
-      "end": "14:00",
-      "timeOfDay": "Daytime"
+      slug: 'soul-sessions',
+      dj: ['Avery Collins'],
+      title: 'Soul Sessions',
+      start: '12:00',
+      end: '14:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "world-music-hour",
-      "dj": ["Quinn Murphy"],
-      "title": "World Music Hour",
-      "start": "14:00",
-      "end": "17:00",
-      "timeOfDay": "Daytime"
+      slug: 'world-music-hour',
+      dj: ['Quinn Murphy'],
+      title: 'World Music Hour',
+      start: '14:00',
+      end: '17:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "electric-avenue",
-      "dj": ["Cameron Scott"],
-      "title": "Electric Avenue",
-      "start": "17:00",
-      "end": "20:00",
-      "timeOfDay": "Evening"
+      slug: 'electric-avenue',
+      dj: ['Cameron Scott'],
+      title: 'Electric Avenue',
+      start: '17:00',
+      end: '20:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "underground-sounds",
-      "dj": ["Dakota Jones"],
-      "title": "Underground Sounds",
-      "start": "20:00",
-      "end": "23:00",
-      "timeOfDay": "Evening"
+      slug: 'underground-sounds',
+      dj: ['Dakota Jones'],
+      title: 'Underground Sounds',
+      start: '20:00',
+      end: '23:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "after-hours",
-      "dj": ["Skyler Davis"],
-      "title": "After Hours",
-      "start": "23:00",
-      "end": "00:00",
-      "timeOfDay": "Evening"
-    }
+      slug: 'after-hours',
+      dj: ['Skyler Davis'],
+      title: 'After Hours',
+      start: '23:00',
+      end: '00:00',
+      timeOfDay: 'Evening',
+    },
   ],
-  "Thursday": [
+  Thursday: [
     {
-      "slug": "morning-show",
-      "dj": ["Jamie Foster"],
-      "title": "The Morning Show",
-      "start": "06:00",
-      "end": "09:00",
-      "timeOfDay": "Early"
+      slug: 'morning-show',
+      dj: ['Jamie Foster'],
+      title: 'The Morning Show',
+      start: '06:00',
+      end: '09:00',
+      timeOfDay: 'Early',
     },
     {
-      "slug": "chirp-daytime",
-      "dj": ["CHIRP"],
-      "title": null,
-      "start": "09:00",
-      "end": "12:00",
-      "timeOfDay": "Daytime"
+      slug: 'chirp-daytime',
+      dj: ['CHIRP'],
+      title: null,
+      start: '09:00',
+      end: '12:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "throwback-thursday",
-      "dj": ["Peyton Clark"],
-      "title": "Throwback Thursday",
-      "start": "12:00",
-      "end": "14:00",
-      "timeOfDay": "Daytime"
+      slug: 'throwback-thursday',
+      dj: ['Peyton Clark'],
+      title: 'Throwback Thursday',
+      start: '12:00',
+      end: '14:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "acoustic-afternoon",
-      "dj": ["Reese Morgan"],
-      "title": "Acoustic Afternoon",
-      "start": "14:00",
-      "end": "17:00",
-      "timeOfDay": "Daytime"
+      slug: 'acoustic-afternoon',
+      dj: ['Reese Morgan'],
+      title: 'Acoustic Afternoon',
+      start: '14:00',
+      end: '17:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "hip-hop-hour",
-      "dj": ["Finley Brooks"],
-      "title": "Hip Hop Hour",
-      "start": "17:00",
-      "end": "20:00",
-      "timeOfDay": "Evening"
+      slug: 'hip-hop-hour',
+      dj: ['Finley Brooks'],
+      title: 'Hip Hop Hour',
+      start: '17:00',
+      end: '20:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "electronic-dreams",
-      "dj": ["Harper Reed"],
-      "title": "Electronic Dreams",
-      "start": "20:00",
-      "end": "23:00",
-      "timeOfDay": "Evening"
+      slug: 'electronic-dreams',
+      dj: ['Harper Reed'],
+      title: 'Electronic Dreams',
+      start: '20:00',
+      end: '23:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "late-shift",
-      "dj": ["Sage Mitchell"],
-      "title": "The Late Shift",
-      "start": "23:00",
-      "end": "00:00",
-      "timeOfDay": "Evening"
-    }
+      slug: 'late-shift',
+      dj: ['Sage Mitchell'],
+      title: 'The Late Shift',
+      start: '23:00',
+      end: '00:00',
+      timeOfDay: 'Evening',
+    },
   ],
-  "Friday": [
+  Friday: [
     {
-      "slug": "friday-morning",
-      "dj": ["Blake Cooper"],
-      "title": "Friday Morning Kickoff",
-      "start": "06:00",
-      "end": "09:00",
-      "timeOfDay": "Early"
+      slug: 'friday-morning',
+      dj: ['Blake Cooper'],
+      title: 'Friday Morning Kickoff',
+      start: '06:00',
+      end: '09:00',
+      timeOfDay: 'Early',
     },
     {
-      "slug": "groove-noon",
-      "dj": ["Charlie Hayes"],
-      "title": "Groove at Noon",
-      "start": "09:00",
-      "end": "12:00",
-      "timeOfDay": "Daytime"
+      slug: 'groove-noon',
+      dj: ['Charlie Hayes'],
+      title: 'Groove at Noon',
+      start: '09:00',
+      end: '12:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "chirp-afternoon",
-      "dj": ["CHIRP"],
-      "title": null,
-      "start": "12:00",
-      "end": "14:00",
-      "timeOfDay": "Daytime"
+      slug: 'chirp-afternoon',
+      dj: ['CHIRP'],
+      title: null,
+      start: '12:00',
+      end: '14:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "friday-feeling",
-      "dj": ["Drew Sanders"],
-      "title": "Friday Feeling",
-      "start": "14:00",
-      "end": "17:00",
-      "timeOfDay": "Daytime"
+      slug: 'friday-feeling',
+      dj: ['Drew Sanders'],
+      title: 'Friday Feeling',
+      start: '14:00',
+      end: '17:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "party-mix",
-      "dj": ["Emerson Gray"],
-      "title": "Party Mix",
-      "start": "17:00",
-      "end": "20:00",
-      "timeOfDay": "Evening"
+      slug: 'party-mix',
+      dj: ['Emerson Gray'],
+      title: 'Party Mix',
+      start: '17:00',
+      end: '20:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "disco-nights",
-      "dj": ["Frankie West"],
-      "title": "Disco Nights",
-      "start": "20:00",
-      "end": "23:00",
-      "timeOfDay": "Evening"
+      slug: 'disco-nights',
+      dj: ['Frankie West'],
+      title: 'Disco Nights',
+      start: '20:00',
+      end: '23:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "weekend-warmup",
-      "dj": ["Harley Stone"],
-      "title": "Weekend Warmup",
-      "start": "23:00",
-      "end": "00:00",
-      "timeOfDay": "Evening"
-    }
+      slug: 'weekend-warmup',
+      dj: ['Harley Stone'],
+      title: 'Weekend Warmup',
+      start: '23:00',
+      end: '00:00',
+      timeOfDay: 'Evening',
+    },
   ],
-  "Saturday": [
+  Saturday: [
     {
-      "slug": "saturday-morning",
-      "dj": ["Indigo Pierce"],
-      "title": "Saturday Morning",
-      "start": "06:00",
-      "end": "09:00",
-      "timeOfDay": "Early"
+      slug: 'saturday-morning',
+      dj: ['Indigo Pierce'],
+      title: 'Saturday Morning',
+      start: '06:00',
+      end: '09:00',
+      timeOfDay: 'Early',
     },
     {
-      "slug": "brunch-beats",
-      "dj": ["Jules Bennett"],
-      "title": "Brunch & Beats",
-      "start": "09:00",
-      "end": "12:00",
-      "timeOfDay": "Daytime"
+      slug: 'brunch-beats',
+      dj: ['Jules Bennett'],
+      title: 'Brunch & Beats',
+      start: '09:00',
+      end: '12:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "weekend-classics",
-      "dj": ["Kai Rivers"],
-      "title": "Weekend Classics",
-      "start": "12:00",
-      "end": "14:00",
-      "timeOfDay": "Daytime"
+      slug: 'weekend-classics',
+      dj: ['Kai Rivers'],
+      title: 'Weekend Classics',
+      start: '12:00',
+      end: '14:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "chirp-weekend",
-      "dj": ["CHIRP"],
-      "title": null,
-      "start": "14:00",
-      "end": "17:00",
-      "timeOfDay": "Daytime"
+      slug: 'chirp-weekend',
+      dj: ['CHIRP'],
+      title: null,
+      start: '14:00',
+      end: '17:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "saturday-night-special",
-      "dj": ["Logan Page"],
-      "title": "Saturday Night Special",
-      "start": "17:00",
-      "end": "20:00",
-      "timeOfDay": "Evening"
+      slug: 'saturday-night-special',
+      dj: ['Logan Page'],
+      title: 'Saturday Night Special',
+      start: '17:00',
+      end: '20:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "dance-party",
-      "dj": ["Maddox Flynn"],
-      "title": "Dance Party",
-      "start": "20:00",
-      "end": "23:00",
-      "timeOfDay": "Evening"
+      slug: 'dance-party',
+      dj: ['Maddox Flynn'],
+      title: 'Dance Party',
+      start: '20:00',
+      end: '23:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "late-night-party",
-      "dj": ["Nova Quinn"],
-      "title": "Late Night Party",
-      "start": "23:00",
-      "end": "00:00",
-      "timeOfDay": "Evening"
-    }
+      slug: 'late-night-party',
+      dj: ['Nova Quinn'],
+      title: 'Late Night Party',
+      start: '23:00',
+      end: '00:00',
+      timeOfDay: 'Evening',
+    },
   ],
-  "Sunday": [
+  Sunday: [
     {
-      "slug": "sunday-sunrise",
-      "dj": ["Ocean Blake"],
-      "title": "Sunday Sunrise",
-      "start": "06:00",
-      "end": "09:00",
-      "timeOfDay": "Early"
+      slug: 'sunday-sunrise',
+      dj: ['Ocean Blake'],
+      title: 'Sunday Sunrise',
+      start: '06:00',
+      end: '09:00',
+      timeOfDay: 'Early',
     },
     {
-      "slug": "gospel-hour",
-      "dj": ["Phoenix Carter"],
-      "title": "Gospel Hour",
-      "start": "09:00",
-      "end": "12:00",
-      "timeOfDay": "Daytime"
+      slug: 'gospel-hour',
+      dj: ['Phoenix Carter'],
+      title: 'Gospel Hour',
+      start: '09:00',
+      end: '12:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "sunday-brunch",
-      "dj": ["River Sage"],
-      "title": "Sunday Brunch",
-      "start": "12:00",
-      "end": "14:00",
-      "timeOfDay": "Daytime"
+      slug: 'sunday-brunch',
+      dj: ['River Sage'],
+      title: 'Sunday Brunch',
+      start: '12:00',
+      end: '14:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "folk-roots",
-      "dj": ["Sawyer Lane"],
-      "title": "Folk & Roots",
-      "start": "14:00",
-      "end": "17:00",
-      "timeOfDay": "Daytime"
+      slug: 'folk-roots',
+      dj: ['Sawyer Lane'],
+      title: 'Folk & Roots',
+      start: '14:00',
+      end: '17:00',
+      timeOfDay: 'Daytime',
     },
     {
-      "slug": "chirp-evening",
-      "dj": ["CHIRP"],
-      "title": null,
-      "start": "17:00",
-      "end": "20:00",
-      "timeOfDay": "Evening"
+      slug: 'chirp-evening',
+      dj: ['CHIRP'],
+      title: null,
+      start: '17:00',
+      end: '20:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "chill-sunday",
-      "dj": ["Tatum Cross"],
-      "title": "Chill Sunday",
-      "start": "20:00",
-      "end": "23:00",
-      "timeOfDay": "Evening"
+      slug: 'chill-sunday',
+      dj: ['Tatum Cross'],
+      title: 'Chill Sunday',
+      start: '20:00',
+      end: '23:00',
+      timeOfDay: 'Evening',
     },
     {
-      "slug": "sunday-wind-down",
-      "dj": ["Wren Sterling"],
-      "title": "Sunday Wind Down",
-      "start": "23:00",
-      "end": "00:00",
-      "timeOfDay": "Evening"
-    }
-  ]
-};
+      slug: 'sunday-wind-down',
+      dj: ['Wren Sterling'],
+      title: 'Sunday Wind Down',
+      start: '23:00',
+      end: '00:00',
+      timeOfDay: 'Evening',
+    },
+  ],
+}
 
 export default {
   title: 'Organisms/CrDjSchedule',
@@ -418,25 +418,26 @@ export default {
   parameters: {
     layout: 'padded',
     docs: {
-  description: {
-    component: 'CrDjSchedule uses the CrButtonGroup atom, CrDjShowCard molecule, CrDjScheduleSearch molecule, and schedule grid elements. This component provides complete DJ scheduling interface with day/week tabs, search functionality, and schedule grid display. This combination of atoms and molecules makes it a proper Organism. Supports filtering and navigation between time periods. Dark mode adapts through [data-theme="dark"] CSS selectors.'
-  }
-}
+      description: {
+        component:
+          'CrDjSchedule uses the CrButtonGroup atom, CrDjShowCard molecule, CrDjScheduleSearch molecule, and schedule grid elements. This component provides complete DJ scheduling interface with day/week tabs, search functionality, and schedule grid display. This combination of atoms and molecules makes it a proper Organism. Supports filtering and navigation between time periods. Dark mode adapts through [data-theme="dark"] CSS selectors.',
+      },
+    },
   },
-  tags: ['autodocs']
-};
+  tags: ['autodocs'],
+}
 
 export const Default = {
   args: {
-    scheduleData: mockScheduleData
-  }
-};
+    scheduleData: mockScheduleData,
+  },
+}
 
 export const FullWidth = {
   args: {
-    scheduleData: mockScheduleData
+    scheduleData: mockScheduleData,
   },
   parameters: {
-    layout: 'fullscreen'
-  }
-};
+    layout: 'fullscreen',
+  },
+}

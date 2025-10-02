@@ -66,35 +66,34 @@
 
 /* Targeted reduced motion - apply to specific component types */
 @media (prefers-reduced-motion: reduce) {
-  
   /* Buttons and interactive elements */
   .cr-btn,
   button,
-  [role="button"] {
+  [role='button'] {
     transition: none !important;
   }
-  
+
   /* Remove hover transforms */
   .cr-btn:hover,
   button:hover,
-  [role="button"]:hover {
+  [role='button']:hover {
     transform: none !important;
   }
-  
+
   /* Cards and clickable containers */
   .cr-card,
   .cr-store-item-card,
   .cr-dj-show-card,
-  [role="link"] {
+  [role='link'] {
     transition: none !important;
   }
-  
+
   .cr-card:hover,
   .cr-store-item-card:hover,
   .cr-dj-show-card:hover {
     transform: none !important;
   }
-  
+
   /* Modal and overlay animations */
   .cr-sidebar,
   .cr-sidebar__backdrop,
@@ -103,32 +102,32 @@
     transition: none !important;
     animation: none !important;
   }
-  
+
   /* Form controls */
   .cr-toggle,
   .cr-toggle__track,
   .cr-toggle__thumb {
     transition: none !important;
   }
-  
+
   /* Navigation elements */
   .cr-main-nav,
   .cr-breadcrumb {
     transition: none !important;
   }
-  
+
   /* Remove backdrop filters that can cause motion sensitivity */
   .cr-toast__content,
   .cr-mobile-frame__header {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
-  
+
   /* Progress and loading animations */
   .cr-donation-bar__fill {
     transition: none !important;
   }
-  
+
   .cr-donation-bar:hover {
     transform: none !important;
   }
@@ -139,7 +138,6 @@
 /* ============================================ */
 
 @media (prefers-contrast: high) {
-  
   /* Add borders to components for better definition */
   .cr-sidebar,
   .cr-card,
@@ -147,7 +145,7 @@
   .cr-store-item-card {
     border: 2px solid currentColor !important;
   }
-  
+
   /* Strengthen borders on interactive elements */
   .cr-store-item__select,
   input,
@@ -155,31 +153,31 @@
   select {
     border-width: 2px !important;
   }
-  
+
   /* Clickable cards get transparent border that becomes visible on hover */
   .cr-store-item-card--clickable {
     border: 2px solid transparent !important;
   }
-  
+
   .cr-store-item-card--clickable:hover {
     border-color: currentColor !important;
   }
-  
+
   /* Strengthen backdrop opacity for better contrast */
   .cr-sidebar__backdrop {
     background-color: rgba(0, 0, 0, 0.8) !important;
   }
-  
+
   /* Ensure progress bars have visible borders */
   .cr-donation-bar__fill {
     border: 1px solid currentColor !important;
   }
-  
+
   /* Card details need clearer separation */
   .cr-card-details {
     border: 1px solid var(--cr-ink) !important;
   }
-  
+
   /* Mobile frame headers need definition */
   .cr-mobile-frame--landing .cr-mobile-frame__header {
     border-bottom: 2px solid currentColor !important;
@@ -193,14 +191,14 @@
 /* Enhanced focus styles for better keyboard navigation */
 .cr-btn:focus-visible,
 button:focus-visible,
-[role="button"]:focus-visible {
+[role='button']:focus-visible {
   outline: 3px solid var(--cr-primary-500) !important;
   outline-offset: 2px !important;
 }
 
 /* Links and navigation focus */
 a:focus-visible,
-[role="link"]:focus-visible {
+[role='link']:focus-visible {
   outline: 3px solid var(--cr-secondary-500) !important;
   outline-offset: 2px !important;
 }
@@ -225,10 +223,10 @@ select:focus-visible {
 /* ============================================ */
 
 /* Ensure proper announcement for dynamic content */
-[aria-live="polite"],
-[aria-live="assertive"],
-[role="alert"],
-[role="status"] {
+[aria-live='polite'],
+[aria-live='assertive'],
+[role='alert'],
+[role='status'] {
   position: relative;
 }
 
@@ -247,14 +245,14 @@ select:focus-visible {
 /* ============================================ */
 
 /* Ensure all interactive elements are keyboard accessible */
-[tabindex="0"],
-[tabindex="-1"] {
+[tabindex='0'],
+[tabindex='-1'] {
   cursor: pointer;
 }
 
 /* Skip redundant focus on disabled elements */
 [disabled],
-[aria-disabled="true"] {
+[aria-disabled='true'] {
   cursor: not-allowed !important;
   pointer-events: none !important;
 }
@@ -265,11 +263,10 @@ select:focus-visible {
 
 /* Touch target sizing for mobile accessibility */
 @media (max-width: 768px) {
-  
   /* Ensure minimum 44px touch targets */
   .cr-btn,
   button,
-  [role="button"],
+  [role='button'],
   a,
   input,
   select,
@@ -277,7 +274,7 @@ select:focus-visible {
     min-height: 44px;
     min-width: 44px;
   }
-  
+
   /* Exception for very small UI elements that need special handling */
   .cr-btn--xsmall {
     min-height: 32px; /* Smaller but still accessible */
@@ -291,16 +288,15 @@ select:focus-visible {
 
 /* Ensure sufficient color contrast is maintained */
 @media (prefers-contrast: high) {
-  
   /* Strengthen text contrast */
   .cr-default-500 {
     color: var(--cr-default-700) !important;
   }
-  
+
   .cr-default-400 {
     color: var(--cr-default-600) !important;
   }
-  
+
   /* Ensure placeholder text is visible */
   input::placeholder,
   textarea::placeholder {

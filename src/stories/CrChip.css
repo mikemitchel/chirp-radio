@@ -101,6 +101,6 @@
 }
 
 /* Dark mode adjustments */
-[data-theme="dark"] .cr-chip--light {
+[data-theme='dark'] .cr-chip--light {
   background-color: var(--cr-secondary-300);
 }
