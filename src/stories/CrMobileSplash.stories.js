@@ -23,10 +23,6 @@ export default {
 // Static splash screen (no animation)
 export const Static = {
   render: (args) => React.createElement(CrMobileSplash, args),
-<<<<<<< Updated upstream
-  args: {},
-}
-=======
   args: {}
 };
 
@@ -45,4 +41,3 @@ export const Visible = {
     className: 'splash-animation--visible'
   }
 };
->>>>>>> Stashed changes
