@@ -1,9 +1,14 @@
 // CrBrandBanner.stories.tsx
+import React from 'react'
 import CrBrandBanner from './CrBrandBanner'
+import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 
 export default {
   title: 'Molecules/CrBrandBanner',
   component: CrBrandBanner,
+  decorators: [
+    (Story) => React.createElement(AudioPlayerProvider, null, React.createElement(Story)),
+  ],
   parameters: {
     layout: 'fullscreen',
     docs: {

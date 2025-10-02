@@ -1,9 +1,14 @@
 // CrAppHeader.stories.tsx
+import React from 'react'
 import CrAppHeader from './CrAppHeader'
+import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 
 export default {
   title: 'Organisms/CrAppHeader',
   component: CrAppHeader,
+  decorators: [
+    (Story) => React.createElement(AudioPlayerProvider, null, React.createElement(Story)),
+  ],
   parameters: {
     layout: 'fullscreen',
     docs: {

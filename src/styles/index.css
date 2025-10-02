@@ -1321,23 +1321,3 @@ input[type='radio'] {
   border-color: var(--cr-secondary-300);
   background: var(--cr-default-500);
 }
-<<<<<<< Updated upstream
-
-/* === RESPONSIVE === */
-@media (max-width: 768px) {
-  body {
-    padding: 1rem;
-  }
-
-  .theme-toggle-container {
-    bottom: 15px;
-    right: 15px;
-  }
-
-  .theme-toggle-btn {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-}
-=======
->>>>>>> Stashed changes
