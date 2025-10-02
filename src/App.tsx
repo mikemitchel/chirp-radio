@@ -11,27 +11,35 @@ function App() {
   // Apply dark mode preference on app initialization
   useEffect(() => {
     // Check both localStorage (logged in) and sessionStorage (logged out)
-    const darkMode = localStorage.getItem('chirp-dark-mode') === 'true' ||
-                     sessionStorage.getItem('chirp-dark-mode') === 'true';
-    if (darkMode) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
+    const savedMode = localStorage.getItem('chirp-dark-mode') ||
+                      sessionStorage.getItem('chirp-dark-mode') ||
+                      'device';
 
-    // Listen for storage changes (when dark mode is toggled in another component)
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'chirp-dark-mode') {
-        if (e.newValue === 'true') {
+    const applyTheme = (mode: string) => {
+      if (mode === 'device') {
+        // Follow system preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
           document.documentElement.setAttribute('data-theme', 'dark');
         } else {
           document.documentElement.removeAttribute('data-theme');
         }
+      } else if (mode === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    applyTheme(savedMode);
+
+    // Listen for system preference changes (only if mode is 'device')
+    if (savedMode === 'device') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = () => applyTheme('device');
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
   }, []);
 
   return (

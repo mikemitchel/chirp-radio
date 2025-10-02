@@ -106,7 +106,7 @@
 
 /* Checked state - different behavior based on variant */
 .cr-toggle--boolean.cr-toggle--checked .cr-toggle__track {
-  background-color: var(--cr-support-success-fg);
+  background-color: var(--cr-secondary-500);
 }
 
 .cr-toggle--selection.cr-toggle--checked .cr-toggle__track {
@@ -175,7 +175,7 @@
 }
 
 [data-theme='dark'] .cr-toggle--boolean.cr-toggle--checked .cr-toggle__track {
-  background-color: var(--cr-support-success-bg);
+  background-color: var(--cr-secondary-500);
 }
 
 [data-theme='dark'] .cr-toggle--selection .cr-toggle__track {

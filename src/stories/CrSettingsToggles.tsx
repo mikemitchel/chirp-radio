@@ -8,8 +8,8 @@ interface CrSettingsTogglesProps {
   onStreamingQualityChange?: (quality: string) => void
   pushNotifications?: boolean
   onPushNotificationsChange?: (checked: boolean) => void
-  darkMode?: boolean
-  onDarkModeChange?: (checked: boolean) => void
+  darkMode?: 'light' | 'dark' | 'device'
+  onDarkModeChange?: (mode: 'light' | 'dark' | 'device') => void
   className?: string
 }
 
@@ -18,7 +18,7 @@ export default function CrSettingsToggles({
   onStreamingQualityChange,
   pushNotifications = false,
   onPushNotificationsChange,
-  darkMode = false,
+  darkMode = 'device',
   onDarkModeChange,
   className = '',
 }: CrSettingsTogglesProps) {
@@ -50,10 +50,10 @@ export default function CrSettingsToggles({
     if (onPushNotificationsChange) onPushNotificationsChange(checked)
   }
 
-  const handleDarkModeChange = (checked: boolean) => {
-    setLocalDarkMode(checked)
+  const handleDarkModeChange = (mode: 'light' | 'dark' | 'device') => {
+    setLocalDarkMode(mode)
     if (onDarkModeChange) {
-      onDarkModeChange(checked)
+      onDarkModeChange(mode)
     }
   }
 
@@ -64,16 +64,37 @@ export default function CrSettingsToggles({
         <div className="cr-settings-toggles__setting-info">
           <span className="cr-settings-toggles__setting-label">Dark Mode</span>
         </div>
-        <div className="cr-settings-toggles__setting-control">
-          <CrToggle
-            variant="boolean"
-            leftLabel="OFF"
-            rightLabel="ON"
-            checked={localDarkMode}
-            onChange={handleDarkModeChange}
-            aria-label="Toggle dark mode"
-            size="large"
-          />
+        <div className="form-radio-group">
+          <label className="form-radio-item">
+            <input
+              type="radio"
+              name="dark-mode"
+              value="light"
+              checked={localDarkMode === 'light'}
+              onChange={() => handleDarkModeChange('light')}
+            />
+            Light
+          </label>
+          <label className="form-radio-item">
+            <input
+              type="radio"
+              name="dark-mode"
+              value="dark"
+              checked={localDarkMode === 'dark'}
+              onChange={() => handleDarkModeChange('dark')}
+            />
+            Dark
+          </label>
+          <label className="form-radio-item">
+            <input
+              type="radio"
+              name="dark-mode"
+              value="device"
+              checked={localDarkMode === 'device'}
+              onChange={() => handleDarkModeChange('device')}
+            />
+            Device
+          </label>
         </div>
       </div>
 

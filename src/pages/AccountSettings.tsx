@@ -11,10 +11,13 @@ export default function AccountSettings() {
   const getStorage = () => isLoggedIn ? localStorage : sessionStorage;
 
   // Load dark mode preference
-  const [darkMode, setDarkMode] = useState(() => {
+  const [darkMode, setDarkMode] = useState<'light' | 'dark' | 'device'>(() => {
     const storage = getStorage();
     const saved = storage.getItem('chirp-dark-mode');
-    return saved === 'true';
+    if (saved === 'light' || saved === 'dark' || saved === 'device') {
+      return saved;
+    }
+    return 'device'; // Default to device preference
   });
 
   // Load streaming quality preference
@@ -42,28 +45,58 @@ export default function AccountSettings() {
       }
 
       // Reload settings from localStorage
-      setDarkMode(localStorage.getItem('chirp-dark-mode') === 'true');
+      const savedDarkMode = localStorage.getItem('chirp-dark-mode');
+      if (savedDarkMode === 'light' || savedDarkMode === 'dark' || savedDarkMode === 'device') {
+        setDarkMode(savedDarkMode);
+      } else {
+        setDarkMode('device');
+      }
       setStreamingQuality(localStorage.getItem('chirp-streaming-quality') || '128');
     } else {
       // User logged out - load from sessionStorage (or defaults if not set)
-      setDarkMode(sessionStorage.getItem('chirp-dark-mode') === 'true');
+      const savedDarkMode = sessionStorage.getItem('chirp-dark-mode');
+      if (savedDarkMode === 'light' || savedDarkMode === 'dark' || savedDarkMode === 'device') {
+        setDarkMode(savedDarkMode);
+      } else {
+        setDarkMode('device');
+      }
       setStreamingQuality(sessionStorage.getItem('chirp-streaming-quality') || '128');
     }
   }, [isLoggedIn]);
 
   // Apply dark mode on mount and when it changes
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
+    const applyTheme = () => {
+      if (darkMode === 'device') {
+        // Follow system preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } else if (darkMode === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    };
+
+    applyTheme();
+
+    // Listen for system preference changes (only if mode is 'device')
+    if (darkMode === 'device') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = () => applyTheme();
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
     }
   }, [darkMode]);
 
-  const handleDarkModeChange = (checked: boolean) => {
-    setDarkMode(checked);
+  const handleDarkModeChange = (mode: 'light' | 'dark' | 'device') => {
+    setDarkMode(mode);
     const storage = getStorage();
-    storage.setItem('chirp-dark-mode', String(checked));
+    storage.setItem('chirp-dark-mode', mode);
   };
 
   const handleStreamingQualityChange = (quality: string) => {
