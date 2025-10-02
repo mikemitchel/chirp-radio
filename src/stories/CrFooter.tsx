@@ -1,8 +1,5 @@
 // CrFooter.tsx
 import CrSocialIcon from './CrSocialIcon'
-import chirpFilmFest from '../assets/chirp-logos/chirp-film-fest.jpg'
-import firstTimeLogo from '../assets/chirp-logos/FirstTimeLogo.png'
-import callibrityLogo from '../assets/callibrity-logo/Callibrity-Plum.svg'
 import './CrFooter.css'
 
 interface CrFooterProps {
@@ -95,7 +92,7 @@ const CrFooter = ({
             onClick={() => console.log('Film Fest image clicked')}
             aria-label="CHIRP Film Fest"
           >
-            <img src={chirpFilmFest} alt="CHIRP Film Fest Logo" />
+            <img src="/images/chirp-logos/chirp-film-fest.jpg" alt="CHIRP Film Fest Logo" />
           </button>
 
           <button
@@ -103,7 +100,7 @@ const CrFooter = ({
             onClick={() => console.log('First Time Listening image clicked')}
             aria-label="First Time Listening"
           >
-            <img src={firstTimeLogo} alt="First Time Listening Logo" />
+            <img src="/images/chirp-logos/FirstTimeLogo.png" alt="First Time Listening Logo" />
           </button>
         </div>
 
@@ -124,7 +121,7 @@ const CrFooter = ({
             onClick={onCallibrityClick}
             aria-label="Visit Callibrity website"
           >
-            <img src={callibrityLogo} alt="Callibrity Logo" />
+            <img src="/images/callibrity-logo/Callibrity-Plum.svg" alt="Callibrity Logo" />
           </button>
 
           <div className="cr-footer__tagline">Curiosity is in Our Programming</div>

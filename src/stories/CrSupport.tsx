@@ -28,7 +28,7 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
         <div className="cr-support__logo cr-support__logo--dcase">
           <img
             className="cr-support__logo-image"
-            src="/src/assets/support-logos/DCASE-HORIZ-COLOR.png"
+            src="/images/support-logos/DCASE-HORIZ-COLOR.png"
             alt="Chicago Department of Cultural Affairs & Special Events"
           />
         </div>
@@ -36,7 +36,7 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
         <div className="cr-support__logo cr-support__logo--iac">
           <img
             className="cr-support__logo-image"
-            src="/src/assets/support-logos/Blk and Green IAC Logo.png"
+            src="/images/support-logos/Blk and Green IAC Logo.png"
             alt="Illinois Arts Council"
           />
         </div>

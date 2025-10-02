@@ -21,6 +21,15 @@ export default defineConfig({
       }
     }
   },
+  preview: {
+    proxy: {
+      '/api': {
+        target: 'https://chirpradio.appspot.com',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  },
   test: {
     // Standard tests (non-storybook)
     globals: true,

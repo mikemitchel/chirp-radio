@@ -7,11 +7,8 @@ import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 
 // Preload now playing data and cache it
 const preloadNowPlayingData = async () => {
-  // In development, use Vite proxy. In production, use direct API URL
-  const isDevelopment = import.meta.env.DEV
-  const fetchUrl = isDevelopment
-    ? `/api/current_playlist?t=${Date.now()}`
-    : `https://chirpradio.appspot.com/api/current_playlist?t=${Date.now()}`
+  // Always use proxy path to avoid CORS issues
+  const fetchUrl = `/api/current_playlist?t=${Date.now()}`
 
   try {
     const response = await fetch(fetchUrl)

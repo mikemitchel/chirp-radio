@@ -248,7 +248,7 @@ export default function CrStreamingMusicPlayer({
           className="cr-player__background"
           style={{
             backgroundImage: shouldUseFallback(currentData.albumArt)
-              ? `url('/src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
+              ? `url('/images/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
               : `url(${currentData.albumArt})`,
           }}
         />
@@ -283,7 +283,7 @@ export default function CrStreamingMusicPlayer({
           className="cr-player__background"
           style={{
             backgroundImage: shouldUseFallback(currentData.albumArt)
-              ? `url('/src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
+              ? `url('/images/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
               : `url(${currentData.albumArt})`,
           }}
         />
@@ -318,7 +318,7 @@ export default function CrStreamingMusicPlayer({
           className="cr-player__background"
           style={{
             backgroundImage: shouldUseFallback(currentData.albumArt)
-              ? `url('/src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
+              ? `url('/images/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
               : `url(${currentData.albumArt})`,
           }}
         />
