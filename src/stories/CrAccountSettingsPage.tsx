@@ -1,5 +1,4 @@
 // CrAccountSettingsPage.tsx
-import React, { useState } from 'react'
 import CrSettingsToggles from './CrSettingsToggles'
 import CrButton from './CrButton'
 import { PiPaperclip, PiNotepad } from 'react-icons/pi'
@@ -61,9 +60,7 @@ export default function CrAccountSettingsPage({
         {/* Account Section */}
         <div className="cr-account-settings-page__account-section">
           <span className="cr-account-settings-page__account-label">Account</span>
-          {isLoggedIn && (
-            <span className="cr-account-settings-page__user-email">{userEmail}</span>
-          )}
+          {isLoggedIn && <span className="cr-account-settings-page__user-email">{userEmail}</span>}
           <div className="cr-account-settings-page__account-action">
             {isLoggedIn ? (
               <CrButton variant="outline" color="default" size="medium" onClick={onLogout}>

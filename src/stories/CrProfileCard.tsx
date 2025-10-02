@@ -1,15 +1,15 @@
 // CrProfileCard.tsx
 import React, { useState } from 'react'
-import { PiPencilSimple, PiUser, PiHeart, PiMinus, PiPaperclip, PiNotepad } from 'react-icons/pi'
-import CrPageHeader from './CrPageHeader'
-import CrChip from './CrChip'
+import { PiHeart, PiMinus, PiPencilSimple, PiUser } from 'react-icons/pi'
 import CrButton from './CrButton'
+import CrChip from './CrChip'
+import CrPageHeader from './CrPageHeader'
+import './CrProfileCard.css'
+import CrProfileEditForm from './CrProfileEditForm'
+import CrSettingsToggles from './CrSettingsToggles'
 import CrSocialIcon from './CrSocialIcon'
 import CrTable from './CrTable'
-import CrSettingsToggles from './CrSettingsToggles'
-import CrProfileEditForm from './CrProfileEditForm'
 import CrVolunteerEditForm from './CrVolunteerEditForm'
-import './CrProfileCard.css'
 
 // Custom Saved Tracks Table Header Component
 const CrPlaylistTableHeaderSaved = ({ className = '' }) => {

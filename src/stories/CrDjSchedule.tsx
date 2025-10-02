@@ -1,6 +1,5 @@
 // CrDjSchedule.tsx
-import React, { useState, useEffect, useMemo } from 'react'
-import { PiX } from 'react-icons/pi'
+import React, { useState, useMemo } from 'react'
 import CrButtonGroup from './CrButtonGroup'
 import CrDjShowCard from './CrDjShowCard'
 import CrDjScheduleSearch from './CrDjScheduleSearch'

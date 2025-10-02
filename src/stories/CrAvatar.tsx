@@ -1,5 +1,4 @@
 // CrAvatar.tsx
-import React from 'react'
 import CrLogo from './CrLogo'
 import './CrAvatar.css'
 

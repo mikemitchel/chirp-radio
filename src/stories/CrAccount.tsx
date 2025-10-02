@@ -1,5 +1,4 @@
 // CrAccount.tsx
-import React from 'react'
 import CrAvatar from './CrAvatar'
 import CrChip from './CrChip'
 import CrButton from './CrButton'

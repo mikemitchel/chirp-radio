@@ -1,10 +1,9 @@
 // CrModal.tsx
 import React from 'react'
-import CrButton from './CrButton'
 import CrCurrentDj from './CrCurrentDj'
 import CrMenuButton from './CrMenuButton'
-import CrScrim from './CrScrim'
 import './CrModal.css'
+import CrScrim from './CrScrim'
 
 interface CrModalProps {
   title?: string

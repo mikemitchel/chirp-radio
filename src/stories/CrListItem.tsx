@@ -1,5 +1,4 @@
 // CrListItem.tsx
-import React from 'react'
 import { PiPlusSquare } from 'react-icons/pi'
 import CrButton from './CrButton'
 import './CrListItem.css'

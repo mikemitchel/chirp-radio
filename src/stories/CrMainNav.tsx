@@ -1,5 +1,4 @@
 // CrMainNav.tsx
-import React from 'react'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrCartIcon from './CrCartIcon'

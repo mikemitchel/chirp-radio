@@ -1,5 +1,4 @@
 // CrPlaylistTableHeader.tsx
-import React from 'react'
 import './CrPlaylistTableHeader.css'
 
 interface CrPlaylistTableHeaderProps {

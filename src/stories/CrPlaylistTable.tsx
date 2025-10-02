@@ -1,9 +1,9 @@
 // CrPlaylistTable.tsx
-import React, { useState, useRef, useEffect } from 'react'
-import CrPlaylistTableHeader from './CrPlaylistTableHeader'
-import CrPlaylistItem from './CrPlaylistItem'
+import { useRef, useState } from 'react'
 import CrPlaylistHourBreak from './CrPlaylistHourBreak'
+import CrPlaylistItem from './CrPlaylistItem'
 import './CrPlaylistTable.css'
+import CrPlaylistTableHeader from './CrPlaylistTableHeader'
 
 interface CrPlaylistTableProps {
   items?: any[]

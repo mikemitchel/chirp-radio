@@ -1,5 +1,4 @@
 // CrImageRow.tsx
-import React from 'react'
 import './CrImageRow.css'
 
 interface ImageData {

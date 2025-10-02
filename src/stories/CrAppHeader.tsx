@@ -1,5 +1,4 @@
 // CrAppHeader.tsx
-import React from 'react'
 import CrTopBanner from './CrTopBanner'
 import CrBrandBanner from './CrBrandBanner'
 import CrMainNav from './CrMainNav'

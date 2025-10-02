@@ -1,5 +1,4 @@
 // CrDjOverview.tsx
-import React from 'react'
 import CrButton from './CrButton'
 import { PiCaretRight, PiHeadphones } from 'react-icons/pi'
 import { PiMusicNotes, PiChatCircleText } from 'react-icons/pi'

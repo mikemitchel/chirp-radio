@@ -1,10 +1,9 @@
 // CrProfileEditForm.tsx
-import React from 'react'
 import { PiFloppyDisk } from 'react-icons/pi'
 import CrButton from './CrButton'
-import CrSocialIcon from './CrSocialIcon'
 import CrImageCropper from './CrImageCropper'
 import './CrProfileEditForm.css'
+import CrSocialIcon from './CrSocialIcon'
 
 interface CrProfileEditFormProps {
   firstName?: string

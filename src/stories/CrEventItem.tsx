@@ -1,5 +1,4 @@
 // CrEventItem.tsx
-import React from 'react'
 import CrButton from './CrButton'
 import { PiCalendarDots } from 'react-icons/pi'
 import './CrEventItem.css'

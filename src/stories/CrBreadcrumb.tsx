@@ -1,6 +1,5 @@
 // CrBreadcrumb.tsx
 import React from 'react'
-import { PiCaretRight } from 'react-icons/pi'
 import CrLogo from './CrLogo'
 import './CrBreadcrumb.css'
 

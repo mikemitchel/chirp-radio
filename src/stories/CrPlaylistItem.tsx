@@ -1,10 +1,9 @@
 // CrPlaylistItem.tsx
-import React from 'react'
-import CrTrackInfo from './CrTrackInfo'
+import { PiMinus, PiPlus } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
-import { PiPlus, PiMinus } from 'react-icons/pi'
 import './CrPlaylistItem.css'
+import CrTrackInfo from './CrTrackInfo'
 
 interface CrPlaylistItemProps {
   albumArt?: string

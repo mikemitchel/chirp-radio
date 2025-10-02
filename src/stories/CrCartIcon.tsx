@@ -1,5 +1,4 @@
 // CrCartIcon.tsx
-import React from 'react'
 import './CrCartIcon.css'
 
 interface CrCartIconProps {

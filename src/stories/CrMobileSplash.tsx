@@ -1,5 +1,4 @@
 // CrMobileSplash.tsx
-import React from 'react'
 import CrLogo from './CrLogo'
 import './CrMobileSplash.css'
 

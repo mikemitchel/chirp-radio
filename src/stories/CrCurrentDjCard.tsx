@@ -1,5 +1,4 @@
 // CrCurrentDjCard.tsx
-import React from 'react'
 import CrCurrentDj from './CrCurrentDj'
 import CrButton from './CrButton'
 import { PiMusicNote, PiArrowRight } from 'react-icons/pi'

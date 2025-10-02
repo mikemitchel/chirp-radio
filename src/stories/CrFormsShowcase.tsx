@@ -1,5 +1,5 @@
 // CrFormsShowcase.tsx
-import React, { useState } from 'react'
+import { useState } from 'react'
 import CrButton from './CrButton'
 import CrSocialIcon from './CrSocialIcon'
 import { PiFloppyDisk, PiMusicNotes, PiArrowRight } from 'react-icons/pi'

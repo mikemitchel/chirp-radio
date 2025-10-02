@@ -1,5 +1,4 @@
 // CrAnnouncement.tsx
-import React from 'react'
 import CrDonationBar from './CrDonationBar'
 import CrButton from './CrButton'
 import { PiHandHeartLight, PiArrowRight } from 'react-icons/pi'

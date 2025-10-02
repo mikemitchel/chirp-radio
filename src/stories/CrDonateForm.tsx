@@ -1,5 +1,5 @@
 // CrDonateForm.tsx - Only frequency selection changed
-import React, { useState } from 'react'
+import { useState } from 'react'
 import CrButtonGroup from './CrButtonGroup'
 import CrDonateAmount from './CrDonateAmount' // Keep using original CrDonateAmount
 import CrPageHeader from './CrPageHeader'

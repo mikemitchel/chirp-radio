@@ -1,5 +1,5 @@
 // CrCurrentDj.tsx
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import CrChip from './CrChip'
 import './CrCurrentDj.css'
 
@@ -34,7 +34,14 @@ export default function CrCurrentDj({
       const infoContainer = djContainer?.parentElement
       const mainContainer = infoContainer?.parentElement
 
-      if (!djNameElement || !showNameElement || !djContainer || !showContainer || !infoContainer || !mainContainer) {
+      if (
+        !djNameElement ||
+        !showNameElement ||
+        !djContainer ||
+        !showContainer ||
+        !infoContainer ||
+        !mainContainer
+      ) {
         return
       }
 

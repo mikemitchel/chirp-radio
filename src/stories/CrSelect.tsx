@@ -1,5 +1,4 @@
 // CrDropdownMenu.tsx
-import React from 'react'
 import './CrSelect.css'
 
 interface CrSelectProps {

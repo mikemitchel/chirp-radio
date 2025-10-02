@@ -1,5 +1,4 @@
 // CrLogo.tsx
-import React from 'react'
 import './CrLogo.css'
 
 interface CrLogoProps {
