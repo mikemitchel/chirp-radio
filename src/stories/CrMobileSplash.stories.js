@@ -20,8 +20,29 @@ export default {
   tags: ['autodocs'],
 }
 
-// Default splash screen
-export const Default = {
+// Static splash screen (no animation)
+export const Static = {
   render: (args) => React.createElement(CrMobileSplash, args),
+<<<<<<< Updated upstream
   args: {},
 }
+=======
+  args: {}
+};
+
+// With fade-in animation
+export const FadeIn = {
+  render: (args) => React.createElement(CrMobileSplash, args),
+  args: {
+    className: 'splash-animation--fade-in'
+  }
+};
+
+// Visible state
+export const Visible = {
+  render: (args) => React.createElement(CrMobileSplash, args),
+  args: {
+    className: 'splash-animation--visible'
+  }
+};
+>>>>>>> Stashed changes

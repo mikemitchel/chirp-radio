@@ -97,6 +97,11 @@
   height: 60px;
 }
 
+/* Dark mode - make logo white */
+[data-theme="dark"] .cr-sidebar__logo-section .cr-logo__image {
+  filter: brightness(0) invert(1);
+}
+
 .cr-sidebar--mobile .cr-sidebar__logo-section {
   height: 60px;
   margin-top: 72px;
@@ -307,8 +312,13 @@
   flex-shrink: 0;
 }
 
+/* Dark mode - make footer bird logo white */
+[data-theme="dark"] .cr-sidebar__footer-bird .cr-logo__image {
+  filter: brightness(0) invert(1);
+}
+
 .cr-sidebar__footer-chirp-text {
-  font: var(--cr-title-sm);
+  font: var(--cr-title-xs);
   text-transform: uppercase;
   text-decoration: underline;
   text-decoration-color: var(--cr-secondary-500);

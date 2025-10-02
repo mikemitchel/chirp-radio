@@ -84,18 +84,30 @@ export default function CrSidebar({
             {/* Header Section */}
             <div className="cr-sidebar__header">
               <div className="cr-sidebar__logo-section" onClick={onLogoClick}>
-                <CrLogo variant="horizontal" color="white" />
+                <CrLogo
+                  variant="horizontal"
+                  color="primary"
+                />
               </div>
 
               {/* Mobile-specific top sections */}
               <div className="cr-sidebar__mobile-sections">
-                <button className="cr-sidebar__mobile-nav-item" onClick={onNowPlayingClick}>
+                <button className="cr-sidebar__mobile-nav-item" onClick={() => {
+                  onNowPlayingClick?.();
+                  onClose?.();
+                }}>
                   Now Playing
                 </button>
-                <button className="cr-sidebar__mobile-nav-item" onClick={onRecentPlaylistClick}>
-                  Recent Playlist
+                <button className="cr-sidebar__mobile-nav-item" onClick={() => {
+                  onRecentPlaylistClick?.();
+                  onClose?.();
+                }}>
+                  Recently Played
                 </button>
-                <button className="cr-sidebar__mobile-nav-item" onClick={onYourCollectionClick}>
+                <button className="cr-sidebar__mobile-nav-item" onClick={() => {
+                  onYourCollectionClick?.();
+                  onClose?.();
+                }}>
                   Your Collection
                 </button>
               </div>
@@ -147,7 +159,10 @@ export default function CrSidebar({
                   variant="solid"
                   color="secondary"
                   leftIcon={<PiChatCircleTextLight />}
-                  onClick={onRequestClick}
+                  onClick={() => {
+                    onRequestClick?.();
+                    onClose?.();
+                  }}
                 >
                   Make a Request
                 </CrButton>
@@ -158,18 +173,25 @@ export default function CrSidebar({
             <div className="cr-sidebar__footer cr-sidebar__footer--mobile">
               {/* Account Settings button */}
               <CrButton
-                size="medium"
+                size="xsmall"
                 variant="text"
                 color="default"
                 leftIcon={<PiGearLight />}
-                onClick={onAccountSettingsClick}
+                onClick={() => {
+                  onAccountSettingsClick?.();
+                  onClose?.();
+                }}
               >
                 Account Settings
               </CrButton>
 
               {/* CHIRPRADIO.ORG link with bird logo */}
               <button className="cr-sidebar__footer-chirp" onClick={onLogoClick}>
-                <CrLogo variant="bird" color="white" className="cr-sidebar__footer-bird" />
+                <CrLogo
+                  variant="bird"
+                  color="primary"
+                  className="cr-sidebar__footer-bird"
+                />
                 <span className="cr-sidebar__footer-chirp-text">Chirpradio.org</span>
               </button>
             </div>
@@ -191,10 +213,11 @@ export default function CrSidebar({
           {/* Header Section */}
           <div className="cr-sidebar__header">
             <div className="cr-sidebar__logo-section" onClick={onLogoClick}>
-              <CrLogo variant="vertical" color="white" />
-              <span className="cr-sidebar__home-text" onClick={onHomeClick}>
-                Home
-              </span>
+              <CrLogo
+                variant="vertical"
+                color="primary"
+              />
+              <span className="cr-sidebar__home-text" onClick={onHomeClick}>Home</span>
             </div>
             <div className="cr-sidebar__divider"></div>
           </div>

@@ -12,6 +12,15 @@ const dirname =
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://chirpradio.appspot.com',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  },
   test: {
     // Standard tests (non-storybook)
     globals: true,

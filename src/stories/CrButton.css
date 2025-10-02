@@ -272,11 +272,6 @@
   flex-shrink: 0;
 }
 
-/* XSM text buttons - only right icon allowed */
-.cr-btn--xsmall.cr-btn--text .cr-btn__icon--left {
-  display: none;
-}
-
 .cr-btn__text {
   line-height: 1;
 }

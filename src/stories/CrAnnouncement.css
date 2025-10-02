@@ -23,6 +23,22 @@
 
 /* s100 and d100 backgrounds allow normal dark mode changes - no overrides needed */
 
+/* Dark backgrounds (d900, dark) need light text */
+.cr-announcement.cr-bg-natural-d900,
+.cr-announcement.cr-bg-natural-dark {
+  --cr-ink: #fafafa;
+  --cr-paper: #18181b;
+  --cr-default-100: #3F3F46;
+  --cr-default-300: #4D4D56;
+  --cr-default-500: #7B7B84;
+  --cr-default-700: #D4D4D8;
+  --cr-default-900: #F4F4F5;
+  --cr-primary-500: #EA1C2C;
+  --cr-primary-700: #C41B28;
+  --cr-secondary-500: #41B6E6;
+  --cr-secondary-700: #15769E;
+}
+
 /* ============================================ */
 /* === CONTENT AREA === */
 /* ============================================ */

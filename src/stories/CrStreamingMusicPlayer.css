@@ -101,6 +101,12 @@
   transition: all 0.2s ease;
 }
 
+/* Larger play button for mobile player variant */
+.cr-player__mobile .cr-player__play-button {
+  width: 100px;
+  height: 100px;
+}
+
 .cr-player__play-button:hover {
   transform: scale(1.05);
 }
@@ -286,8 +292,9 @@
 }
 
 .cr-player--slim-player .cr-player__track-info-container {
-  flex: 1;
+  flex: 0 1 auto;
   min-width: 0;
+  max-width: calc(100% - 120px); /* Leave room for album art and play button */
 }
 
 /* Mobile Player Layout */

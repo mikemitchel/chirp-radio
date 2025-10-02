@@ -64,9 +64,10 @@
 
 .cr-mobile-frame--interior .cr-mobile-frame__content {
   flex: 1;
-  padding: var(--cr-space-6);
-  padding-top: calc(90px + var(--cr-space-6)); /* Account for fixed header height + padding */
-  padding-bottom: calc(80px + var(--cr-space-6)); /* Account for slim player height + padding */
+  padding-top: 120px; /* Account for fixed header height */
+  padding-bottom: 80px; /* Account for slim player height */
+  padding-left: var(--cr-space-3); /* 12px horizontal margin */
+  padding-right: var(--cr-space-3); /* 12px horizontal margin */
   overflow-y: auto;
   min-height: 100vh;
   box-sizing: border-box;
@@ -176,9 +177,8 @@
 /* === RESPONSIVE ADJUSTMENTS === */
 @media (max-width: 480px) {
   .cr-mobile-frame--interior .cr-mobile-frame__content {
-    padding: var(--cr-space-4);
-    padding-top: calc(90px + var(--cr-space-4));
-    padding-bottom: calc(80px + var(--cr-space-4));
+    padding-top: 120px;
+    padding-bottom: 80px;
   }
 
   .cr-mobile-frame__content-header {
@@ -198,10 +198,6 @@
 /* Safe area handling for devices with notches */
 .cr-mobile-frame--landing .cr-mobile-frame__header {
   padding-top: env(safe-area-inset-top);
-}
-
-.cr-mobile-frame--interior .cr-mobile-frame__footer-player {
-  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* === MOBILE SIDEBAR SLIDE ANIMATION OVERRIDE === */
@@ -237,4 +233,11 @@
 
 .cr-mobile-frame--landing .cr-mobile-frame__background-player {
   z-index: 1; /* Mobile player background */
+}
+
+/* Make CrAnnouncement full-width (edge-to-edge) in interior layout */
+.cr-mobile-frame--interior .cr-mobile-frame__content .cr-announcement {
+  margin-left: calc(var(--cr-space-3) * -1); /* -12px to break out of padding */
+  margin-right: calc(var(--cr-space-3) * -1); /* -12px to break out of padding */
+  width: calc(100% + var(--cr-space-3) * 2); /* Compensate for negative margins */
 }

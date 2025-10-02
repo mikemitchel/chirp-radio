@@ -1,13 +1,14 @@
 // CrStreamingMusicPlayer.tsx
-import React, { useState, useEffect, useRef } from 'react'
-import { PiPlayFill, PiPauseFill } from 'react-icons/pi'
-import CrCurrentDj from './CrCurrentDj'
-import CrTrackInfo from './CrTrackInfo'
-import CrLogo from './CrLogo'
-import CrButton from './CrButton'
-import CrChip from './CrChip'
-import CrMobileHeader from './CrMobileHeader'
-import './CrStreamingMusicPlayer.css'
+import React, { useState, useEffect, useRef } from 'react';
+import { PiPlayFill, PiPauseFill } from 'react-icons/pi';
+import CrCurrentDj from './CrCurrentDj';
+import CrTrackInfo from './CrTrackInfo';
+import CrLogo from './CrLogo';
+import CrButton from './CrButton';
+import CrChip from './CrChip';
+import CrMobileHeader from './CrMobileHeader';
+import { useAudioPlayer } from '../contexts/AudioPlayerContext';
+import './CrStreamingMusicPlayer.css';
 
 // PlayPause button component that exactly matches the Figma design
 const PlayPauseButton = ({ isPlaying, onClick, size = 60 }) => {
@@ -158,163 +159,42 @@ export default function CrStreamingMusicPlayer({
   onMenuClick = () => {}, // Keep for potential future use
   onLogoClick = () => {}, // Keep for potential future use
 }: CrStreamingMusicPlayerProps) {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isLoading, setIsLoading] = useState(autoFetch) // Start loading if autoFetch is true
-  const [hasInitialLoad, setHasInitialLoad] = useState(!autoFetch) // Track if we've loaded data once
-  const [currentData, setCurrentData] = useState({
-    dj: djName,
-    show: showName,
-    artist: artistName,
-    track: trackName,
-    album: albumName,
-    label: labelName,
-    albumArt: albumArt,
-    isLocal: isLocal, // Use the prop value initially
-  })
-
-  const audioRef = useRef(null)
-  const lastSongRef = useRef('')
+  // Use the shared audio player context
+  const {
+    isPlaying,
+    isLoading,
+    currentData,
+    isTrackAdded: contextIsTrackAdded,
+    togglePlayPause,
+    toggleAddTrack
+  } = useAudioPlayer();
 
   // Helper function to check if album art should use fallback
   const shouldUseFallback = (albumArtUrl) => {
-    return (
-      !albumArtUrl ||
-      albumArtUrl.trim() === '' ||
-      albumArtUrl === 'null' ||
-      albumArtUrl === 'undefined' ||
-      albumArtUrl.includes('null') ||
-      !albumArtUrl.startsWith('http') ||
-      // Treat placeholder URLs as fallback cases when autoFetch is true
-      (autoFetch &&
-        (albumArtUrl.includes('codepen.io') ||
-          albumArtUrl.includes('picsum.photos') ||
-          albumArtUrl.includes('unsplash.com')))
-    )
-  }
+    return !albumArtUrl ||
+           albumArtUrl.trim() === '' ||
+           albumArtUrl === 'null' ||
+           albumArtUrl === 'undefined' ||
+           albumArtUrl.includes('null') ||
+           !albumArtUrl.startsWith('http') ||
+           // Treat placeholder URLs as fallback cases when autoFetch is true
+           (autoFetch && (
+             albumArtUrl.includes('codepen.io') ||
+             albumArtUrl.includes('picsum.photos') ||
+             albumArtUrl.includes('unsplash.com')
+           ));
+  };
 
-  // Initialize audio
-  useEffect(() => {
-    const audio = audioRef.current
-    if (audio) {
-      audio.autoplay = false
-      audio.loop = true
-      audio.volume = 1.0
-      audio.setAttribute('playsinline', 'true')
-    }
-  }, [])
-
-  // Add this useEffect to update internal state when props change
-  useEffect(() => {
-    if (!autoFetch) {
-      setCurrentData({
-        dj: djName,
-        show: showName,
-        artist: artistName,
-        track: trackName,
-        album: albumName,
-        label: labelName,
-        albumArt: albumArt,
-        isLocal: isLocal, // Use the prop value when not auto-fetching
-      })
-    }
-  }, [djName, showName, artistName, trackName, albumName, labelName, albumArt, isLocal, autoFetch])
-
-  // Fetch now playing data
-  const fetchNowPlaying = async () => {
-    if (!autoFetch) return
-
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}&t=${Date.now()}`
-    try {
-      const response = await fetch(proxyUrl)
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
-
-      const data = await response.json()
-      const parsedData = JSON.parse(data.contents)
-
-      if (!parsedData || !parsedData.now_playing) throw new Error('Invalid API response')
-
-      const nowPlaying = parsedData.now_playing
-      const artist = nowPlaying.artist?.trim() || 'Unknown Artist'
-      const track = nowPlaying.track?.trim() || 'Unknown Track'
-      const dj = nowPlaying.dj?.trim() || 'Unknown DJ'
-      const show = nowPlaying.show?.trim() || ''
-      const label = nowPlaying.label?.trim() || 'Unknown Label'
-      const album = nowPlaying.release?.trim() || 'Unknown Release'
-      const isLocal = nowPlaying.artist_is_local || false
-
-      // Handle album art URLs from API with proper fallback hierarchy
-      let albumArtUrl =
-        nowPlaying.lastfm_urls?.large_image ||
-        nowPlaying.lastfm_urls?.med_image ||
-        nowPlaying.lastfm_urls?.sm_image ||
-        '/src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg'
-
-      // Only add timestamp if we have a valid HTTP URL (not the fallback logo)
-      if (albumArtUrl && albumArtUrl.startsWith('http')) {
-        albumArtUrl += `?t=${Date.now()}`
-      }
-
-      const currentSong = `${artist} - ${track}`.toLowerCase().trim()
-
-      if (currentSong !== lastSongRef.current) {
-        setCurrentData({
-          dj,
-          show,
-          artist,
-          track,
-          album,
-          label,
-          albumArt: albumArtUrl,
-          isLocal,
-        })
-        setIsLoading(false)
-        setHasInitialLoad(true) // Mark that we've loaded at least once
-        lastSongRef.current = currentSong
-      }
-    } catch (error) {
-      console.error('Error fetching now playing data:', error)
-      setIsLoading(false) // Stop loading even on error
-      setHasInitialLoad(true) // Still mark as loaded to show fallback content
-    }
-  }
-
-  // Auto-fetch effect - only runs if autoFetch is explicitly set to true
-  useEffect(() => {
-    if (autoFetch) {
-      setIsLoading(true) // Set loading to true when we start fetching
-      setHasInitialLoad(false) // Reset initial load state
-      fetchNowPlaying()
-      const interval = setInterval(fetchNowPlaying, 15000)
-      return () => clearInterval(interval)
-    }
-  }, [autoFetch, apiUrl])
-
-  // Play/pause handler
+  // Play/pause handler using context
   const handlePlayPause = (event) => {
-    event.stopPropagation()
-    const audio = audioRef.current
-    if (!audio) return
+    event.stopPropagation();
+    togglePlayPause();
+  };
 
-    if (audio.paused) {
-      audio
-        .play()
-        .then(() => {
-          setIsPlaying(true)
-        })
-        .catch((error) => {
-          console.error('Error playing audio:', error)
-          setIsPlaying(false)
-        })
-    } else {
-      audio.pause()
-      setIsPlaying(false)
-    }
-  }
-
-  // Handle add/remove track
+  // Handle add/remove track using context
   const handleToggleAdd = () => {
-    onToggleAdd(!isTrackAdded)
-  }
+    toggleAddTrack();
+  };
 
   // Render full player variant
   const renderFullPlayer = () => {
@@ -340,7 +220,7 @@ export default function CrStreamingMusicPlayer({
               albumName={currentData.album}
               labelName={currentData.label}
               isLocal={currentData.isLocal}
-              isAdded={isTrackAdded}
+              isAdded={contextIsTrackAdded}
               onToggleAdd={handleToggleAdd}
               className={isLoading ? 'cr-track-info--loading' : ''}
             />
@@ -381,6 +261,18 @@ export default function CrStreamingMusicPlayer({
           </div>
           <PlayPauseButton isPlaying={isPlaying} onClick={handlePlayPause} />
         </div>
+        <div className="cr-player__track-info-container">
+          <CrTrackInfo
+            trackName={currentData.track}
+            artistName={currentData.artist}
+            variant="minimal"  // Use minimal variant (just song + artist)
+            isLocal={currentData.isLocal}
+            isAdded={contextIsTrackAdded}
+            onToggleAdd={handleToggleAdd}
+            className={`${isLoading ? 'cr-track-info--loading' : ''}`}
+          />
+        </div>
+        <PlayPauseButton isPlaying={isPlaying} onClick={handlePlayPause} />
       </div>
     )
   }
@@ -426,14 +318,14 @@ export default function CrStreamingMusicPlayer({
               labelName={currentData.label}
               variant="stacked"
               isLocal={currentData.isLocal}
-              isAdded={isTrackAdded}
+              isAdded={contextIsTrackAdded}
               onToggleAdd={handleToggleAdd}
               className={isLoading ? 'cr-track-info--loading' : ''}
             />
           </div>
 
           <div className="cr-player__controls">
-            <PlayPauseButton isPlaying={isPlaying} onClick={handlePlayPause} size={72} />
+            <PlayPauseButton isPlaying={isPlaying} onClick={handlePlayPause} size={100} />
           </div>
         </div>
       </div>
@@ -459,11 +351,7 @@ export default function CrStreamingMusicPlayer({
     >
       {/* Always render content, let CSS handle the fade */}
       {renderVariant()}
-
-      <audio ref={audioRef} preload="metadata" hidden>
-        <source src={streamUrl} type="audio/mpeg" />
-        <source src={streamUrl} type="audio/ogg" />
-      </audio>
+      {/* Audio element is now managed in AudioPlayerContext */}
     </div>
   )
 }
