@@ -12,6 +12,8 @@ interface CrAccountSettingsPageProps {
   onStreamingQualityChange?: (quality: string) => void
   pushNotifications?: boolean
   onPushNotificationsChange?: (checked: boolean) => void
+  darkMode?: boolean
+  onDarkModeChange?: (checked: boolean) => void
   onLogin?: () => void
   onLogout?: () => void
   onSignUp?: () => void
@@ -29,6 +31,8 @@ export default function CrAccountSettingsPage({
   onStreamingQualityChange,
   pushNotifications = false,
   onPushNotificationsChange,
+  darkMode = false,
+  onDarkModeChange,
   onLogin,
   onLogout,
   onSignUp,
@@ -42,9 +46,6 @@ export default function CrAccountSettingsPage({
   return (
     <div className="cr-account-settings-page" {...props}>
       <div className="cr-account-settings-page__content">
-        {/* Header */}
-        <h1 className="cr-account-settings-page__title">Account Settings</h1>
-
         {/* Settings Sections */}
         <div className="cr-account-settings-page__settings">
           <CrSettingsToggles
@@ -52,30 +53,31 @@ export default function CrAccountSettingsPage({
             onStreamingQualityChange={onStreamingQualityChange}
             pushNotifications={pushNotifications}
             onPushNotificationsChange={onPushNotificationsChange}
+            darkMode={darkMode}
+            onDarkModeChange={onDarkModeChange}
           />
         </div>
 
         {/* Account Section */}
         <div className="cr-account-settings-page__account-section">
-          <div className="cr-account-settings-page__account-header">
-            <span className="cr-account-settings-page__account-label">Account</span>
-            {isLoggedIn ? (
-              <span className="cr-account-settings-page__user-email">{userEmail}</span>
-            ) : (
-              <CrButton variant="text" color="default" size="xsmall" onClick={onForgotPassword}>
-                forgot password
-              </CrButton>
-            )}
-          </div>
+          <span className="cr-account-settings-page__account-label">Account</span>
+          {isLoggedIn && (
+            <span className="cr-account-settings-page__user-email">{userEmail}</span>
+          )}
           <div className="cr-account-settings-page__account-action">
             {isLoggedIn ? (
               <CrButton variant="outline" color="default" size="medium" onClick={onLogout}>
                 log out
               </CrButton>
             ) : (
-              <CrButton variant="solid" color="primary" size="medium" onClick={onLogin}>
-                log in
-              </CrButton>
+              <>
+                <CrButton variant="solid" color="primary" size="medium" onClick={onLogin}>
+                  log in
+                </CrButton>
+                <CrButton variant="text" color="default" size="xsmall" onClick={onForgotPassword}>
+                  forgot password
+                </CrButton>
+              </>
             )}
           </div>
         </div>
@@ -125,7 +127,7 @@ export default function CrAccountSettingsPage({
           <CrButton
             variant="text"
             color="default"
-            size="large"
+            size="small"
             leftIcon={<PiPaperclip />}
             onClick={onAppSupport}
           >
@@ -134,7 +136,7 @@ export default function CrAccountSettingsPage({
           <CrButton
             variant="text"
             color="default"
-            size="large"
+            size="small"
             leftIcon={<PiNotepad />}
             onClick={onTermsPrivacy}
           >

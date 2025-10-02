@@ -83,7 +83,7 @@
   border-top: 1px solid var(--cr-border);
   display: flex;
   justify-content: center;
-  padding: var(--cr-space-2);
+  padding: var(--cr-space-1);
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 

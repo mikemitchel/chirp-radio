@@ -42,6 +42,12 @@ export default function CrToggle({
     .filter(Boolean)
     .join(' ')
 
+  const handleTrackClick = () => {
+    if (!disabled && onChange) {
+      onChange(!checked, { target: { checked: !checked } })
+    }
+  }
+
   return (
     <div className={toggleClasses}>
       {leftLabel && <span className="cr-toggle__label cr-toggle__label--left">{leftLabel}</span>}
@@ -56,7 +62,7 @@ export default function CrToggle({
         id={id}
         {...props}
       />
-      <div className="cr-toggle__track">
+      <div className="cr-toggle__track" onClick={handleTrackClick}>
         <div className="cr-toggle__thumb" />
       </div>
 

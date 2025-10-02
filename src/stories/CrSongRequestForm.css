@@ -122,12 +122,4 @@
   .cr-song-request-form {
     padding: var(--cr-space-4);
   }
-
-  .cr-song-request-form__actions {
-    flex-direction: column-reverse;
-  }
-
-  .cr-song-request-form__actions button {
-    width: 100%;
-  }
 }

@@ -1,5 +1,5 @@
 // CrSettingsToggles.tsx
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import CrToggle from './CrToggle'
 import './CrSettingsToggles.css'
 
@@ -26,6 +26,19 @@ export default function CrSettingsToggles({
   const [localPushNotifications, setLocalPushNotifications] = useState(pushNotifications)
   const [localDarkMode, setLocalDarkMode] = useState(darkMode)
 
+  // Sync props with local state when they change
+  useEffect(() => {
+    setLocalDarkMode(darkMode)
+  }, [darkMode])
+
+  useEffect(() => {
+    setLocalStreamingQuality(streamingQuality)
+  }, [streamingQuality])
+
+  useEffect(() => {
+    setLocalPushNotifications(pushNotifications)
+  }, [pushNotifications])
+
   const handleStreamingQualityChange = (isHigh: boolean) => {
     const quality = isHigh ? '128' : '64'
     setLocalStreamingQuality(quality)
@@ -39,7 +52,9 @@ export default function CrSettingsToggles({
 
   const handleDarkModeChange = (checked: boolean) => {
     setLocalDarkMode(checked)
-    if (onDarkModeChange) onDarkModeChange(checked)
+    if (onDarkModeChange) {
+      onDarkModeChange(checked)
+    }
   }
 
   return (
@@ -71,8 +86,8 @@ export default function CrSettingsToggles({
         <div className="cr-settings-toggles__setting-control">
           <CrToggle
             variant="selection"
-            leftLabel="64"
-            rightLabel="128"
+            leftLabel="128"
+            rightLabel="64"
             checked={localStreamingQuality === '128'}
             onChange={handleStreamingQualityChange}
             aria-label="Streaming quality selection"

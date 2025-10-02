@@ -13,14 +13,12 @@
   gap: var(--cr-space-3);
   flex: 1;
   min-width: 0; /* Allow text truncation */
-  max-width: 100%;
 }
 
 /* Container for DJ name with overflow */
 .cr-current-dj__name-container {
   overflow: hidden;
   position: relative;
-  max-width: 150px; /* Set a reasonable max width for DJ names */
   flex-shrink: 0;
 }
 
@@ -36,9 +34,7 @@
 .cr-current-dj__show-container {
   overflow: hidden;
   position: relative;
-  max-width: 200px; /* Set a reasonable max width for show names */
-  flex: 1;
-  min-width: 0;
+  flex-shrink: 0;
 }
 
 /* Scrolling show name element */
@@ -76,13 +72,3 @@
   }
 }
 
-/* Alternative layout for very constrained spaces */
-@media (max-width: 480px) {
-  .cr-current-dj__name-container {
-    max-width: 100px; /* Smaller max width on mobile */
-  }
-
-  .cr-current-dj__show-container {
-    max-width: 120px; /* Smaller max width on mobile */
-  }
-}

@@ -197,36 +197,19 @@
   color: var(--cr-ink);
 }
 
-.cr-modal.cr-bg-natural-d100 {
-  background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
-  background-repeat: repeat;
-  background-blend-mode: multiply;
-}
-
 /* Dark mode adjustments */
 [data-theme='dark'] .cr-modal {
-  background-color: var(--cr-default-900);
-  border-color: var(--cr-default-700);
-  color: var(--cr-paper);
+  background-color: var(--cr-default-100);
+  border-color: var(--cr-default-300);
+  color: var(--cr-ink);
 }
 
-[data-theme='dark'] .cr-modal.cr-bg-natural-d100 {
-  background-image: none; /* Remove texture in dark mode for better readability */
+[data-theme='dark'] .cr-modal.cr-bg-textured {
+  background-color: var(--cr-default-100);
 }
 
 [data-theme='dark'] .cr-modal__title {
-  color: var(--cr-paper);
-}
-
-[data-theme='dark'] .cr-modal .form-input,
-[data-theme='dark'] .cr-modal .form-textarea {
-  background-color: var(--cr-default-800);
-  border-color: var(--cr-default-600);
-  color: var(--cr-paper);
-}
-
-[data-theme='dark'] .cr-modal .form-label {
-  color: var(--cr-paper);
+  color: var(--cr-ink);
 }
 
 /* Responsive behavior */

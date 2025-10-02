@@ -3,6 +3,8 @@ import React from 'react';
 import CrPageHeader from '../stories/CrPageHeader';
 import CrPlaylistTable from '../stories/CrPlaylistTable';
 import CrAnnouncement from '../stories/CrAnnouncement';
+import CrButton from '../stories/CrButton';
+import { useAuth } from '../hooks/useAuth';
 
 // Sample data - all items marked as added (isAdded: true) to show "remove" button
 const sampleCollectionItems = [
@@ -69,10 +71,122 @@ const sampleCollectionItems = [
 ];
 
 export default function YourCollection() {
+  const { isLoggedIn, login } = useAuth();
+
   const handleItemRemove = (item: any, index: number) => {
     console.log('Remove item from collection:', item, index);
     // TODO: Implement remove from collection functionality
   };
+
+  const handleLogin = () => {
+    // For demo purposes, simulate login with a demo account
+    login('demo@chirpradio.org');
+  };
+
+  const handleSignUp = () => {
+    console.log('Sign up clicked from collection');
+    // TODO: Open signup modal or navigate to signup
+  };
+
+  if (!isLoggedIn) {
+    return (
+      <div className="page-content">
+        <CrPageHeader
+          eyebrowText="CHIRP Radio"
+          title="Your Collection"
+          showEyebrow={false}
+          showActionButton={false}
+          titleSize="lg"
+        />
+
+        <div style={{
+          padding: 'var(--cr-space-8) var(--cr-space-4)',
+          maxWidth: '600px',
+          margin: '0 auto'
+        }}>
+          <h2 style={{
+            font: 'var(--cr-body-bold)',
+            fontSize: '18px',
+            color: 'var(--cr-ink)',
+            marginBottom: 'var(--cr-space-4)'
+          }}>
+            Don't have a CHIRP Radio Account?
+          </h2>
+
+          <p style={{
+            font: 'var(--cr-body-reg)',
+            color: 'var(--cr-ink)',
+            lineHeight: 1.4,
+            marginBottom: 'var(--cr-space-4)'
+          }}>
+            A profile allows you to interact with the site in all sorts of helpful ways:
+          </p>
+
+          <ul style={{
+            listStyle: 'disc',
+            paddingLeft: 'var(--cr-space-5)',
+            marginBottom: 'var(--cr-space-4)'
+          }}>
+            <li style={{
+              font: 'var(--cr-body-reg)',
+              color: 'var(--cr-ink)',
+              lineHeight: 1.4,
+              marginBottom: 'var(--cr-space-2)'
+            }}>
+              You can add songs to your collection that you hear across our web and mobile applications so you don't forget them
+            </li>
+            <li style={{
+              font: 'var(--cr-body-reg)',
+              color: 'var(--cr-ink)',
+              lineHeight: 1.4,
+              marginBottom: 'var(--cr-space-2)'
+            }}>
+              You can save your information for store purchases and donations
+            </li>
+            <li style={{
+              font: 'var(--cr-body-reg)',
+              color: 'var(--cr-ink)',
+              lineHeight: 1.4
+            }}>
+              Your profile settings will be saved between your mobile and web experiences
+            </li>
+          </ul>
+
+          <p style={{
+            font: 'var(--cr-body-reg)',
+            color: 'var(--cr-ink)',
+            lineHeight: 1.4,
+            marginBottom: 'var(--cr-space-6)'
+          }}>
+            So create your profile today, and start getting the maximum benefit from CHIRPradio.org!
+          </p>
+
+          <div style={{
+            display: 'flex',
+            gap: 'var(--cr-space-4)',
+            marginBottom: 'var(--cr-space-4)'
+          }}>
+            <CrButton
+              variant="solid"
+              color="secondary"
+              size="medium"
+              onClick={handleSignUp}
+            >
+              sign up
+            </CrButton>
+            <CrButton
+              variant="outline"
+              color="default"
+              size="medium"
+              onClick={handleLogin}
+            >
+              log in
+            </CrButton>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="page-content">

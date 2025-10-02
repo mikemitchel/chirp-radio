@@ -81,7 +81,7 @@ export default function CrTrackInfo({
       checkOverflow(albumRef.current, albumContainerRef.current)
       checkOverflow(labelRef.current, labelContainerRef.current)
       checkOverflow(detailsRef.current, detailsContainerRef.current)
-    }, 200)
+    }, 400)
 
     return () => clearTimeout(timeoutId)
   }, [trackName, artistName, albumName, labelName, variant, isLocal])
@@ -122,7 +122,7 @@ export default function CrTrackInfo({
             display: 'flex',
             alignItems: 'center',
             minWidth: 0,
-            maxWidth: '100%',
+            flex: 1,
           }}
         >
           <div
@@ -131,6 +131,7 @@ export default function CrTrackInfo({
               height: '22px',
               position: 'relative',
               minWidth: 0,
+              flex: 1,
             }}
             ref={artistContainerRef}
           >
@@ -194,10 +195,10 @@ export default function CrTrackInfo({
         </div>
       </div>
 
-      {/* Artist + LOCAL - width depends on LOCAL tag presence */}
+      {/* Artist + LOCAL - accommodate ADD button width */}
       <div
         style={{
-          width: '72%', // Works for both with and without LOCAL tag
+          width: '75%',
           display: 'flex',
           alignItems: 'center',
           minWidth: 0,
@@ -209,7 +210,7 @@ export default function CrTrackInfo({
             display: 'flex',
             alignItems: 'center',
             minWidth: 0,
-            maxWidth: '100%',
+            flex: 1,
           }}
         >
           <div
@@ -218,6 +219,7 @@ export default function CrTrackInfo({
               height: '22px',
               position: 'relative',
               minWidth: 0,
+              flex: 1,
             }}
             ref={artistContainerRef}
           >
@@ -277,7 +279,7 @@ export default function CrTrackInfo({
             display: 'flex',
             alignItems: 'center',
             minWidth: 0,
-            maxWidth: '100%',
+            flex: 1,
           }}
         >
           <div
@@ -286,6 +288,7 @@ export default function CrTrackInfo({
               height: '22px',
               position: 'relative',
               minWidth: 0,
+              flex: 1,
             }}
             ref={artistContainerRef}
           >

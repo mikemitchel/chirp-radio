@@ -36,10 +36,52 @@ interface AudioPlayerProviderProps {
 
 export function AudioPlayerProvider({
   children,
-  streamUrl = 'https://peridot.streamguys1.com:5185/live',
+  streamUrl: defaultStreamUrl,
   autoFetch = false,
   apiUrl = 'https://chirpradio.appspot.com/api/current_playlist'
 }: AudioPlayerProviderProps) {
+  // Get stream URL based on quality setting
+  const getStreamUrl = () => {
+    // Check both localStorage (logged in) and sessionStorage (logged out)
+    const quality = localStorage.getItem('chirp-streaming-quality') ||
+                    sessionStorage.getItem('chirp-streaming-quality') ||
+                    '128';
+    if (quality === '64') {
+      return 'https://peridot.streamguys1.com:5180/live-64kb';
+    }
+    return defaultStreamUrl || 'https://peridot.streamguys1.com:5185/live';
+  };
+
+  const [streamUrl, setStreamUrl] = useState(getStreamUrl());
+
+  // Listen for streaming quality changes
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'chirp-streaming-quality') {
+        const newUrl = getStreamUrl();
+        if (newUrl !== streamUrl) {
+          console.log('[AudioPlayerContext] Stream URL changed to:', newUrl);
+          setStreamUrl(newUrl);
+        }
+      }
+    };
+
+    const handleQualityChange = () => {
+      const newUrl = getStreamUrl();
+      if (newUrl !== streamUrl) {
+        console.log('[AudioPlayerContext] Stream URL changed to:', newUrl);
+        setStreamUrl(newUrl);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('chirp-quality-change', handleQualityChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('chirp-quality-change', handleQualityChange);
+    };
+  }, [streamUrl]);
+
   // Check for cached data
   const getCachedData = (): TrackData | null => {
     if (autoFetch) {
@@ -83,12 +125,21 @@ export function AudioPlayerProvider({
 
   // Initialize audio element once
   useEffect(() => {
+    const wasPlaying = isPlaying;
     const audio = new Audio(streamUrl);
     audio.autoplay = false;
     audio.loop = true;
     audio.volume = 1.0;
     audio.setAttribute('playsinline', 'true');
     audioRef.current = audio;
+
+    // If audio was playing before stream change, restart it
+    if (wasPlaying) {
+      audio.play().catch(err => {
+        console.error('Error restarting audio after stream change:', err);
+        setIsPlaying(false);
+      });
+    }
 
     return () => {
       if (audioRef.current) {

@@ -143,9 +143,9 @@ export default function CrSongRequestForm({
         <div className="cr-song-request-form__actions">
           <CrButton
             type="button"
-            variant="outline"
+            variant="text"
             color="default"
-            size="large"
+            size="medium"
             onClick={handleCancel}
           >
             Cancel
@@ -154,7 +154,7 @@ export default function CrSongRequestForm({
             type="submit"
             variant="solid"
             color="secondary"
-            size="large"
+            size="medium"
             leftIcon={<PiPaperPlaneTilt />}
           >
             Send Request

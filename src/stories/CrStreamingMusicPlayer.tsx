@@ -8,6 +8,8 @@ import CrButton from './CrButton';
 import CrChip from './CrChip';
 import CrMobileHeader from './CrMobileHeader';
 import { useAudioPlayer } from '../contexts/AudioPlayerContext';
+import { useAuth } from '../hooks/useAuth';
+import LoginRequiredModal from '../components/LoginRequiredModal';
 import './CrStreamingMusicPlayer.css';
 
 // PlayPause button component that exactly matches the Figma design
@@ -169,6 +171,23 @@ export default function CrStreamingMusicPlayer({
     toggleAddTrack
   } = useAudioPlayer();
 
+  // Use auth hook to check login state
+  const { isLoggedIn, login } = useAuth();
+
+  // State for login required modal
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  // State to track if there's a pending add action (only for login, not signup)
+  const [hasPendingAdd, setHasPendingAdd] = useState(false);
+
+  // Effect to handle pending add after login
+  useEffect(() => {
+    if (isLoggedIn && hasPendingAdd) {
+      toggleAddTrack();
+      setHasPendingAdd(false);
+    }
+  }, [isLoggedIn, hasPendingAdd]);
+
   // Helper function to check if album art should use fallback
   const shouldUseFallback = (albumArtUrl) => {
     return !albumArtUrl ||
@@ -193,7 +212,32 @@ export default function CrStreamingMusicPlayer({
 
   // Handle add/remove track using context
   const handleToggleAdd = () => {
+    if (!isLoggedIn) {
+      setHasPendingAdd(true); // Mark that user wants to add this song
+      setShowLoginModal(true);
+      return;
+    }
     toggleAddTrack();
+  };
+
+  const handleLoginModalClose = () => {
+    setShowLoginModal(false);
+    setHasPendingAdd(false); // Clear pending add if modal is closed
+  };
+
+  const handleLogin = () => {
+    // For demo purposes, simulate login with a demo account
+    login('demo@chirpradio.org');
+    // The useEffect will automatically add the song after login
+    setShowLoginModal(false);
+  };
+
+  const handleSignUp = () => {
+    console.log('Sign up clicked from player');
+    // TODO: Implement actual signup flow
+    // Clear pending add for signup (as per requirements)
+    setHasPendingAdd(false);
+    setShowLoginModal(false);
   };
 
   // Render full player variant
@@ -254,25 +298,13 @@ export default function CrStreamingMusicPlayer({
               artistName={currentData.artist}
               variant="minimal" // Use minimal variant (just song + artist)
               isLocal={currentData.isLocal}
-              isAdded={isTrackAdded}
+              isAdded={contextIsTrackAdded}
               onToggleAdd={handleToggleAdd}
               className={`${isLoading ? 'cr-track-info--loading' : ''}`}
             />
           </div>
           <PlayPauseButton isPlaying={isPlaying} onClick={handlePlayPause} />
         </div>
-        <div className="cr-player__track-info-container">
-          <CrTrackInfo
-            trackName={currentData.track}
-            artistName={currentData.artist}
-            variant="minimal"  // Use minimal variant (just song + artist)
-            isLocal={currentData.isLocal}
-            isAdded={contextIsTrackAdded}
-            onToggleAdd={handleToggleAdd}
-            className={`${isLoading ? 'cr-track-info--loading' : ''}`}
-          />
-        </div>
-        <PlayPauseButton isPlaying={isPlaying} onClick={handlePlayPause} />
       </div>
     )
   }
@@ -346,12 +378,22 @@ export default function CrStreamingMusicPlayer({
   }
 
   return (
-    <div
-      className={`cr-player cr-player--${variant} ${isLoading ? 'cr-player--loading' : ''} ${autoFetch ? 'cr-player--auto-fetch' : ''}`}
-    >
-      {/* Always render content, let CSS handle the fade */}
-      {renderVariant()}
-      {/* Audio element is now managed in AudioPlayerContext */}
-    </div>
+    <>
+      <div
+        className={`cr-player cr-player--${variant} ${isLoading ? 'cr-player--loading' : ''} ${autoFetch ? 'cr-player--auto-fetch' : ''}`}
+      >
+        {/* Always render content, let CSS handle the fade */}
+        {renderVariant()}
+        {/* Audio element is now managed in AudioPlayerContext */}
+      </div>
+
+      {/* Login Required Modal */}
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={handleLoginModalClose}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+      />
+    </>
   )
 }

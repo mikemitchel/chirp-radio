@@ -50,7 +50,7 @@ export default function MobileApp() {
   const hasShownSplash = sessionStorage.getItem('chirp-splash-shown') === 'true';
 
   const [showSplash, setShowSplash] = useState(!hasShownSplash);
-  const [splashAnimationState, setSplashAnimationState] = useState<'fade-in' | 'visible' | 'fade-out' | 'hidden'>('fade-in');
+  const [splashAnimationState, setSplashAnimationState] = useState<'fade-in' | 'visible' | 'fade-out' | 'hidden'>('visible');
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -60,8 +60,9 @@ export default function MobileApp() {
       return;
     }
 
-    let fadeInTimer: NodeJS.Timeout;
-    let fadeOutTimer: NodeJS.Timeout;
+    // Navigate to Now Playing page on first load
+    navigate('/');
+
     let hideTimer: NodeJS.Timeout;
 
     // Start preloading data immediately and wait for it
@@ -70,13 +71,9 @@ export default function MobileApp() {
       const preloadPromise = preloadNowPlayingData();
 
       // Animation sequence while data loads:
-      // 1. Fade in (500ms)
-      // 2. Stay visible (1500ms minimum, but wait for data if needed)
+      // 1. Visible immediately (splash blocks content)
+      // 2. Stay visible (at least 2s, but wait for data if needed)
       // 3. Fade out (500ms)
-
-      fadeInTimer = setTimeout(() => {
-        setSplashAnimationState('visible');
-      }, 500);
 
       // Wait at least 2s for the visible state, but also wait for data
       await Promise.all([
@@ -99,8 +96,6 @@ export default function MobileApp() {
     initializeApp();
 
     return () => {
-      clearTimeout(fadeInTimer);
-      clearTimeout(fadeOutTimer);
       clearTimeout(hideTimer);
     };
   }, [hasShownSplash]);

@@ -38,7 +38,7 @@
   --cr-player-artist: 400 18px/1 var(--cr-font-roboto); /* Regular */
   --cr-player-album: 700 16px/1 var(--cr-font-roboto); /* Bold Italic */
   --cr-player-label: 300 14px/1 var(--cr-font-roboto); /* Light */
-  --cr-player-dj: 900 14px/1 var(--cr-font-roboto); /* SemiBold */
+  --cr-player-dj: 900 16px/1 var(--cr-font-roboto); /* SemiBold */
 
   /* Button Text - Antonio */
   --cr-btn-txt-lg: 600 24px/1 var(--cr-font-antonio);

@@ -219,15 +219,4 @@
     right: 0;
     min-width: 60px; /* Even smaller on mobile */
   }
-
-  /* Adjust text container widths for mobile */
-  .cr-track-info__text > div {
-    width: calc(100vw - 200px) !important; /* Adjust for mobile viewport */
-    max-width: 200px;
-  }
-
-  .cr-track-info__artist-container > div {
-    width: calc(100vw - 220px) !important; /* Account for LOCAL chip space */
-    max-width: 200px;
-  }
 }
