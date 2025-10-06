@@ -2,10 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import CrPageHeader from '../stories/CrPageHeader';
 import CrAccountSettingsPage from '../stories/CrAccountSettingsPage';
+import CrToast from '../stories/CrToast';
 import { useAuth } from '../hooks/useAuth';
 
 export default function AccountSettings() {
   const { isLoggedIn, user, login, logout } = useAuth();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   // Get the appropriate storage based on login state
   const getStorage = () => isLoggedIn ? localStorage : sessionStorage;
@@ -115,10 +118,14 @@ export default function AccountSettings() {
   const handleLogin = () => {
     // For demo purposes, simulate login with a demo account
     login('demo@chirpradio.org');
+    setToastMessage('Successfully logged in');
+    setShowToast(true);
   };
 
   const handleLogout = () => {
     logout();
+    setToastMessage('Successfully logged out');
+    setShowToast(true);
   };
 
   const handleSignUp = () => {
@@ -173,6 +180,16 @@ export default function AccountSettings() {
         onAppSupport={handleAppSupport}
         onTermsPrivacy={handleTermsPrivacy}
       />
+
+      {showToast && (
+        <CrToast
+          message={toastMessage}
+          type="success"
+          isVisible={showToast}
+          onClose={() => setShowToast(false)}
+          duration={5000}
+        />
+      )}
     </div>
   );
 }
