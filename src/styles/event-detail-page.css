@@ -1,0 +1,34 @@
+/* src/styles/event-detail-page.css */
+
+.event-detail-page {
+  width: 100%;
+}
+
+.event-detail-breadcrumb,
+.event-detail-header {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.event-detail-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.event-detail-left,
+.event-detail-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .event-detail-content {
+    grid-template-columns: 1fr;
+  }
+}

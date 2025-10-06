@@ -1,0 +1,30 @@
+/* src/styles/volunteer-resources-page.css */
+
+.volunteer-resources-page {
+  width: 100%;
+}
+
+.volunteer-resources-breadcrumb,
+.volunteer-resources-header,
+.volunteer-resources-intro,
+.volunteer-resources-content {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.volunteer-resources-general-content {
+  padding: var(--cr-space-6);
+  background-color: var(--cr-color-neutral-100);
+  border-radius: var(--cr-radius-md);
+  min-height: 400px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .volunteer-resources-general-content {
+    grid-template-columns: 1fr;
+  }
+}

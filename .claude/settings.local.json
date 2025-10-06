@@ -6,7 +6,8 @@
       "Bash(curl -o /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/src/assets/textures/rice-paper-2.png https://assets.codepen.io/715673/rice-paper-2.png)",
       "Bash(curl -o /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/src/assets/textures/green-dust-and-scratches.png https://assets.codepen.io/715673/green-dust-and-scratches.png)",
       "Bash(npx tsc:*)",
-      "WebFetch(domain:www.figma.com)"
+      "WebFetch(domain:www.figma.com)",
+      "Read(//tmp/chirp-layouts/chirp layouts/**)"
     ],
     "deny": [],
     "ask": []
