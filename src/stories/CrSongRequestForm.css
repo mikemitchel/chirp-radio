@@ -115,6 +115,7 @@
   justify-content: space-between;
   gap: var(--cr-space-6);
   margin-top: var(--cr-space-4);
+  margin-bottom: var(--cr-space-8);
 }
 
 /* Responsive */

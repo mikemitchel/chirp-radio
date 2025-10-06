@@ -17,7 +17,7 @@ export default function AccountSettings() {
     if (saved === 'light' || saved === 'dark' || saved === 'device') {
       return saved;
     }
-    return 'device'; // Default to device preference
+    return 'light'; // Default to light mode
   });
 
   // Load streaming quality preference
@@ -49,7 +49,7 @@ export default function AccountSettings() {
       if (savedDarkMode === 'light' || savedDarkMode === 'dark' || savedDarkMode === 'device') {
         setDarkMode(savedDarkMode);
       } else {
-        setDarkMode('device');
+        setDarkMode('light');
       }
       setStreamingQuality(localStorage.getItem('chirp-streaming-quality') || '128');
     } else {
@@ -58,7 +58,7 @@ export default function AccountSettings() {
       if (savedDarkMode === 'light' || savedDarkMode === 'dark' || savedDarkMode === 'device') {
         setDarkMode(savedDarkMode);
       } else {
-        setDarkMode('device');
+        setDarkMode('light');
       }
       setStreamingQuality(sessionStorage.getItem('chirp-streaming-quality') || '128');
     }

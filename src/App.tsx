@@ -34,7 +34,7 @@ function App() {
     // Check both localStorage (logged in) and sessionStorage (logged out)
     const savedMode = localStorage.getItem('chirp-dark-mode') ||
                       sessionStorage.getItem('chirp-dark-mode') ||
-                      'device';
+                      'light';
 
     const applyTheme = (mode: string) => {
       if (mode === 'device') {
