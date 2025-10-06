@@ -8,7 +8,7 @@
   /* Layout properties from Figma */
   --cr-store-item-card-gap: var(--cr-space-6); /* 24px gap between image and details */
   --cr-store-item-card-details-gap: var(--cr-space-3); /* 12px gap in details */
-  
+
   /* Colors - using CSS variables only */
   --cr-store-item-card-text-color: var(--cr-ink);
   --cr-store-item-card-price-color: var(--cr-ink);
@@ -30,7 +30,9 @@
 /* Clickable variant */
 .cr-store-item-card--clickable {
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   border-radius: var(--cr-space-2);
   padding: var(--cr-space-2);
   margin: calc(var(--cr-space-2) * -1);
@@ -111,7 +113,7 @@
   .cr-store-item-card__image-container {
     height: 300px; /* Smaller on mobile */
   }
-  
+
   .cr-store-item-card__name {
     max-width: none; /* Allow full width on mobile */
     white-space: normal; /* Allow wrapping on mobile */
@@ -119,7 +121,7 @@
     text-overflow: clip;
     line-height: 1.2; /* Add some line height for wrapped text */
   }
-  
+
   .cr-store-item-card__price-chip-row {
     flex-wrap: wrap;
     gap: var(--cr-space-2);
@@ -131,7 +133,7 @@
     --cr-store-item-card-gap: var(--cr-space-4);
     --cr-store-item-card-details-gap: var(--cr-space-2);
   }
-  
+
   .cr-store-item-card__image-container {
     height: 250px;
   }

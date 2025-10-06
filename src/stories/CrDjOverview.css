@@ -84,7 +84,10 @@
 }
 
 /* When there's a title, clamp description to 2 lines */
-.cr-dj-overview--large .cr-dj-overview__title ~ .cr-dj-overview__content > .cr-dj-overview__description {
+.cr-dj-overview--large
+  .cr-dj-overview__title
+  ~ .cr-dj-overview__content
+  > .cr-dj-overview__description {
   -webkit-line-clamp: 2;
 }
 

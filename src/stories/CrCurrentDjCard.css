@@ -73,7 +73,8 @@
 }
 
 /* Clamp to 2 lines when meta text is shown */
-.cr-current-dj-card__info:has(.cr-current-dj-card__meta:not(:empty)) .cr-current-dj-card__description {
+.cr-current-dj-card__info:has(.cr-current-dj-card__meta:not(:empty))
+  .cr-current-dj-card__description {
   -webkit-line-clamp: 2;
 }
 
@@ -96,21 +97,21 @@
     padding: 0 var(--cr-space-4) var(--cr-space-4) var(--cr-space-4);
     gap: var(--cr-space-4);
   }
-  
+
   .cr-current-dj-card__top {
     padding: var(--cr-space-4) var(--cr-space-4);
   }
-  
+
   .cr-current-dj-card__image-container {
     width: 100%;
     max-width: 160px;
     margin: 0 auto;
   }
-  
+
   .cr-current-dj-card__actions {
     flex-direction: column;
   }
-  
+
   .cr-current-dj-card__actions button {
     width: 100%;
   }
@@ -120,7 +121,7 @@
   .cr-current-dj-card__top {
     padding: var(--cr-space-3) var(--cr-space-3);
   }
-  
+
   .cr-current-dj-card__content {
     padding: 0 var(--cr-space-3) var(--cr-space-3) var(--cr-space-3);
   }

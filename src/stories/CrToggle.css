@@ -78,42 +78,76 @@
 .cr-toggle--boolean.cr-toggle--checked .cr-toggle__label--right {
   color: var(--cr-ink);
   font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: var(--cr-space-1);
 }
 
 .cr-toggle--boolean:not(.cr-toggle--checked) .cr-toggle__label--left {
   color: var(--cr-ink);
   font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: var(--cr-space-1);
 }
 
 /* Selection variant - highlight active label based on checked state */
 .cr-toggle--selection.cr-toggle--checked .cr-toggle__label--left {
   color: var(--cr-ink);
   font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: var(--cr-space-1);
 }
 
 .cr-toggle--selection:not(.cr-toggle--checked) .cr-toggle__label--right {
   color: var(--cr-ink);
   font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: var(--cr-space-1);
 }
 
 /* Checked state - different behavior based on variant */
 .cr-toggle--boolean.cr-toggle--checked .cr-toggle__track {
-  background-color: var(--cr-support-success-fg);
+  background-color: var(--cr-secondary-500);
 }
 
 .cr-toggle--selection.cr-toggle--checked .cr-toggle__track {
   background-color: var(--cr-default-300); /* Same as unchecked, just thumb moves */
 }
 
-.cr-toggle--small.cr-toggle--checked .cr-toggle__thumb {
+.cr-toggle--boolean.cr-toggle--small.cr-toggle--checked .cr-toggle__thumb {
   transform: translateX(16px);
 }
 
-.cr-toggle--medium.cr-toggle--checked .cr-toggle__thumb {
+.cr-toggle--boolean.cr-toggle--medium.cr-toggle--checked .cr-toggle__thumb {
   transform: translateX(20px);
 }
 
-.cr-toggle--large.cr-toggle--checked .cr-toggle__thumb {
+.cr-toggle--boolean.cr-toggle--large.cr-toggle--checked .cr-toggle__thumb {
+  transform: translateX(24px);
+}
+
+/* Selection variant - thumb on LEFT when checked (opposite of boolean) */
+.cr-toggle--selection.cr-toggle--small.cr-toggle--checked .cr-toggle__thumb {
+  transform: translateX(0);
+}
+
+.cr-toggle--selection.cr-toggle--medium.cr-toggle--checked .cr-toggle__thumb {
+  transform: translateX(0);
+}
+
+.cr-toggle--selection.cr-toggle--large.cr-toggle--checked .cr-toggle__thumb {
+  transform: translateX(0);
+}
+
+/* Selection variant - thumb on RIGHT when NOT checked */
+.cr-toggle--selection.cr-toggle--small:not(.cr-toggle--checked) .cr-toggle__thumb {
+  transform: translateX(16px);
+}
+
+.cr-toggle--selection.cr-toggle--medium:not(.cr-toggle--checked) .cr-toggle__thumb {
+  transform: translateX(20px);
+}
+
+.cr-toggle--selection.cr-toggle--large:not(.cr-toggle--checked) .cr-toggle__thumb {
   transform: translateX(24px);
 }
 
@@ -133,4 +167,32 @@
 
 .cr-toggle--disabled .cr-toggle__label {
   color: var(--cr-default-400);
+}
+
+/* Dark mode adjustments */
+[data-theme='dark'] .cr-toggle__track {
+  background-color: var(--cr-default-700);
+}
+
+[data-theme='dark'] .cr-toggle--boolean.cr-toggle--checked .cr-toggle__track {
+  background-color: var(--cr-secondary-500);
+}
+
+[data-theme='dark'] .cr-toggle--selection .cr-toggle__track {
+  background-color: var(--cr-default-700);
+}
+
+[data-theme='dark'] .cr-toggle__label {
+  color: var(--cr-default-700);
+}
+
+/* Active labels in dark mode should be ink */
+[data-theme='dark'] .cr-toggle--boolean.cr-toggle--checked .cr-toggle__label--right,
+[data-theme='dark'] .cr-toggle--boolean:not(.cr-toggle--checked) .cr-toggle__label--left,
+[data-theme='dark'] .cr-toggle--selection.cr-toggle--checked .cr-toggle__label--left,
+[data-theme='dark'] .cr-toggle--selection:not(.cr-toggle--checked) .cr-toggle__label--right {
+  color: var(--cr-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--cr-ink);
+  text-underline-offset: var(--cr-space-1);
 }

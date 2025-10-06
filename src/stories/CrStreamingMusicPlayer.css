@@ -43,7 +43,9 @@
   background-repeat: no-repeat;
   filter: blur(24px);
   opacity: 0.75;
-  transition: opacity 0.5s ease-in-out, background-image 0s ease-in-out 0.5s;
+  transition:
+    opacity 0.5s ease-in-out,
+    background-image 0s ease-in-out 0.5s;
   z-index: 0;
   pointer-events: none;
 }
@@ -61,12 +63,12 @@
 }
 
 /* Dark mode - Component Support - use dark overlay */
-[data-theme="dark"] .cr-player__color-overlay {
+[data-theme='dark'] .cr-player__color-overlay {
   background-color: rgba(0, 0, 0, 0.75); /* Dark overlay for dark mode */
 }
 
 /* Dark mode - Support Component - make fallback logo white */
-[data-theme="dark"] .cr-player__album-fallback .cr-logo {
+[data-theme='dark'] .cr-player__album-fallback .cr-logo {
   filter: brightness(0) invert(1);
 }
 
@@ -89,14 +91,20 @@
   justify-content: center;
   width: 60px;
   height: 60px;
+  flex-shrink: 0;
   background: transparent;
   cursor: pointer;
   border: none;
-  flex-shrink: 0;
   color: var(--cr-ink);
   position: relative;
   padding: 0;
   transition: all 0.2s ease;
+}
+
+/* Larger play button for mobile player variant */
+.cr-player__mobile .cr-player__play-button {
+  width: 100px;
+  height: 100px;
 }
 
 .cr-player__play-button:hover {
@@ -269,10 +277,10 @@
 .cr-player--slim-player .cr-player__content {
   display: flex;
   align-items: center;
-  gap: var(--cr-space-4);
+  gap: 0;
   position: relative;
   z-index: 3;
-  padding: 0 var(--cr-space-3) 0 0;
+  padding: 0 var(--cr-space-4) 0 0;
   height: 80px;
   box-sizing: border-box;
 }
@@ -283,9 +291,22 @@
   object-fit: cover;
 }
 
+.cr-player--slim-player .cr-player__album-container {
+  width: 80px;
+  flex-shrink: 0;
+}
+
 .cr-player--slim-player .cr-player__track-info-container {
   flex: 1;
   min-width: 0;
+  margin-left: var(--cr-space-3);
+}
+
+.cr-player--slim-player .cr-player__play-button {
+  width: 60px;
+  flex-shrink: 0;
+  margin-left: var(--cr-space-2);
+  margin-right: var(--cr-space-1);
 }
 
 /* Mobile Player Layout */
@@ -377,7 +398,9 @@
 
 /* Track info container with 12px inset from album art edges */
 .cr-player--mobile-player .cr-player__track-info-container {
-  width: calc(75vw - calc(var(--cr-space-3) * 2)); /* Album width minus 24px total (12px each side) */
+  width: calc(
+    75vw - calc(var(--cr-space-3) * 2)
+  ); /* Album width minus 24px total (12px each side) */
   max-width: calc(500px - calc(var(--cr-space-3) * 2)); /* Album max-width minus 24px */
   flex-shrink: 0;
   margin-top: var(--cr-space-6); /* 24px above track info */
@@ -427,11 +450,10 @@
   .cr-player--full-player .cr-player__full,
   .cr-player--slim-player .cr-player__slim {
     width: 100vw !important;
-    width: 460px !important;
-    max-width: 460px !important;
-    min-width: 460px !important;
+    min-width: 100vw !important;
+    max-width: 100vw !important;
   }
-  
+
   .cr-player--full-player .cr-player__blur-box,
   .cr-player--slim-player .cr-player__blur-box {
     width: 100% !important;
@@ -443,11 +465,11 @@
   .cr-player--mobile-player .cr-player__album-large {
     margin-top: var(--cr-space-4); /* Reduce from 24px to 16px */
   }
-  
+
   .cr-player--mobile-player .cr-player__track-info-container {
     margin-top: var(--cr-space-4); /* Reduce from 24px to 16px */
   }
-  
+
   .cr-player--mobile-player .cr-player__controls {
     margin-top: var(--cr-space-4); /* Reduce from 24px to 16px */
   }
@@ -457,11 +479,11 @@
   .cr-player--mobile-player .cr-player__album-large {
     margin-top: var(--cr-space-3); /* Reduce to 12px */
   }
-  
+
   .cr-player--mobile-player .cr-player__track-info-container {
     margin-top: var(--cr-space-3); /* Reduce to 12px */
   }
-  
+
   .cr-player--mobile-player .cr-player__controls {
     margin-top: var(--cr-space-3); /* Reduce to 12px */
   }
@@ -471,11 +493,11 @@
   .cr-player--mobile-player .cr-player__album-large {
     margin-top: var(--cr-space-2); /* Reduce to 8px */
   }
-  
+
   .cr-player--mobile-player .cr-player__track-info-container {
     margin-top: var(--cr-space-2); /* Reduce to 8px */
   }
-  
+
   .cr-player--mobile-player .cr-player__controls {
     margin-top: var(--cr-space-2); /* Reduce to 8px */
   }

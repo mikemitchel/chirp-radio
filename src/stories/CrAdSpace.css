@@ -11,11 +11,11 @@
   box-sizing: border-box;
 }
 
-.cr-ad-space[role="link"] {
+.cr-ad-space[role='link'] {
   cursor: pointer;
 }
 
-.cr-ad-space:hover[role="link"] {
+.cr-ad-space:hover[role='link'] {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -121,8 +121,12 @@
 }
 
 @keyframes cr-ad-space-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Error state */
@@ -194,19 +198,19 @@
     height: 100px !important;
     max-width: 600px;
   }
-  
+
   .cr-ad-space--wide-skyscraper .cr-ad-space__placeholder-text {
     transform: none;
     white-space: normal;
   }
-  
+
   /* Scale down leaderboard on small screens */
   .cr-ad-space--leaderboard {
     max-width: 100%;
     height: auto;
     aspect-ratio: 728 / 90;
   }
-  
+
   /* Ensure mobile banner fits */
   .cr-ad-space--mobile-banner {
     width: 100% !important;
@@ -223,34 +227,34 @@
     height: auto;
     aspect-ratio: 300 / 250;
   }
-  
+
   .cr-ad-space__placeholder {
     padding: var(--cr-space-3);
   }
-  
+
   .cr-ad-space__placeholder-text {
     font: var(--cr-body-xs);
   }
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .cr-ad-space {
+[data-theme='dark'] .cr-ad-space {
   background-color: var(--cr-default-700);
 }
 
-[data-theme="dark"] .cr-ad-space__placeholder {
+[data-theme='dark'] .cr-ad-space__placeholder {
   color: var(--cr-default-300);
 }
 
-[data-theme="dark"] .cr-ad-space__placeholder-text {
+[data-theme='dark'] .cr-ad-space__placeholder-text {
   color: var(--cr-default-300);
 }
 
-[data-theme="dark"] .cr-ad-space__loading-text {
+[data-theme='dark'] .cr-ad-space__loading-text {
   color: var(--cr-default-300);
 }
 
-[data-theme="dark"] .cr-ad-space__loading-spinner {
+[data-theme='dark'] .cr-ad-space__loading-spinner {
   border-color: var(--cr-default-500);
   border-top-color: var(--cr-secondary-500);
 }
@@ -260,7 +264,7 @@
   .cr-ad-space {
     border: 1px solid currentColor;
   }
-  
+
   .cr-ad-space__placeholder {
     border: 1px dashed currentColor;
     margin: var(--cr-space-1);
@@ -272,15 +276,15 @@
   .cr-ad-space {
     transition: none;
   }
-  
-  .cr-ad-space:hover[role="link"] {
+
+  .cr-ad-space:hover[role='link'] {
     transform: none;
   }
-  
+
   .cr-ad-space__loading-spinner {
     animation: none;
   }
-  
+
   .cr-ad-space__skip-link {
     transition: none;
   }

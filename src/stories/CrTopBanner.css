@@ -33,7 +33,7 @@
     padding: var(--cr-space-1) var(--cr-space-4); /* Reduce horizontal padding */
     gap: var(--cr-space-2);
   }
-  
+
   .cr-top-banner__left,
   .cr-top-banner__right {
     gap: var(--cr-space-2); /* Tighter gaps on mobile */
@@ -47,7 +47,7 @@
     gap: var(--cr-space-2);
     min-height: auto;
   }
-  
+
   .cr-top-banner__left,
   .cr-top-banner__right {
     justify-content: center;

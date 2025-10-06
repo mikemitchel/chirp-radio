@@ -39,14 +39,14 @@
     flex-direction: column;
     gap: var(--cr-space-6); /* 24px gap when stacked */
   }
-  
+
   /* Both sections full width when stacked */
   .cr-support-with-ads__support,
   .cr-support-with-ads__ads {
     flex: none;
     width: 100%;
   }
-  
+
   /* Center ad when stacked */
   .cr-support-with-ads__ads {
     justify-content: center;

@@ -1,77 +1,82 @@
-// CrAppHeader.stories.js
-import CrAppHeader from './CrAppHeader';
+// CrAppHeader.stories.tsx
+import React from 'react'
+import CrAppHeader from './CrAppHeader'
+import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 
 export default {
   title: 'Organisms/CrAppHeader',
   component: CrAppHeader,
+  decorators: [
+    (Story) => React.createElement(AudioPlayerProvider, null, React.createElement(Story)),
+  ],
   parameters: {
     layout: 'fullscreen',
     docs: {
-  description: {
-    component: 'CrAppHeader uses the CrTopBanner molecule, the CrBrandBanner molecule, and the CrMainNav molecule. This component provides the complete application header combining user account info, current DJ display, CHIRP logo with music player, and main navigation. This complex header composition makes it a proper Organism. Supports logged-in/out states, store badge counts, and responsive behavior. Dark mode adapts through [data-theme="dark"] CSS selectors.'
-  }
-}
+      description: {
+        component:
+          'CrAppHeader uses the CrTopBanner molecule, the CrBrandBanner molecule, and the CrMainNav molecule. This component provides the complete application header combining user account info, current DJ display, CHIRP logo with music player, and main navigation. This complex header composition makes it a proper Organism. Supports logged-in/out states, store badge counts, and responsive behavior. Dark mode adapts through [data-theme="dark"] CSS selectors.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     // Account props
     isLoggedIn: {
       control: 'boolean',
-      description: 'Whether the user is logged in'
+      description: 'Whether the user is logged in',
     },
     isVolunteer: {
       control: 'boolean',
-      description: 'Whether the user is a volunteer'
+      description: 'Whether the user is a volunteer',
     },
     userName: {
       control: 'text',
-      description: 'User display name'
+      description: 'User display name',
     },
     userAvatar: {
       control: 'text',
-      description: 'URL for user avatar image'
+      description: 'URL for user avatar image',
     },
-    
+
     // DJ/Show props
     djName: {
       control: 'text',
-      description: 'Name of the current DJ'
+      description: 'Name of the current DJ',
     },
     showName: {
       control: 'text',
-      description: 'Name of the current show'
+      description: 'Name of the current show',
     },
     isOnAir: {
       control: 'boolean',
-      description: 'Whether to show the on-air status'
+      description: 'Whether to show the on-air status',
     },
     statusText: {
       control: 'text',
-      description: 'Text to display in the status chip'
+      description: 'Text to display in the status chip',
     },
-    
+
     // API props
     autoFetch: {
       control: 'boolean',
-      description: 'Whether to fetch live data from API'
+      description: 'Whether to fetch live data from API',
     },
     apiUrl: {
       control: 'text',
-      description: 'API URL for fetching live data'
+      description: 'API URL for fetching live data',
     },
-    
+
     // Navigation props
     storeBadgeCount: {
       control: { type: 'number', min: 0, max: 99 },
-      description: 'Number to display in store badge'
+      description: 'Number to display in store badge',
     },
     showStoreBadge: {
       control: 'boolean',
-      description: 'Whether to show the store badge'
-    }
-    
+      description: 'Whether to show the store badge',
+    },
   },
-};
+}
 
 // Default state - logged in volunteer
 export const Default = {
@@ -92,10 +97,10 @@ export const Default = {
       artistName: 'Dave Brubeck Quartet',
       albumArt: 'https://upload.wikimedia.org/wikipedia/en/e/e5/Time_out_album_cover.jpg',
       isTrackAdded: false,
-      autoFetch: false
-    }
+      autoFetch: false,
+    },
   },
-};
+}
 
 // Logged out user
 export const LoggedOut = {
@@ -113,10 +118,10 @@ export const LoggedOut = {
       artistName: 'John Coltrane',
       albumArt: 'https://upload.wikimedia.org/wikipedia/en/6/68/John_Coltrane_-_Blue_Train.jpg',
       isTrackAdded: false,
-      autoFetch: false
-    }
+      autoFetch: false,
+    },
   },
-};
+}
 
 // Regular user (not volunteer)
 export const RegularUser = {
@@ -135,12 +140,13 @@ export const RegularUser = {
       variant: 'slim-player',
       trackName: 'So What',
       artistName: 'Miles Davis',
-      albumArt: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Kind_of_Blue_%281959%2C_CL_1355%29_album_cover.jpg/500px-Kind_of_Blue_%281959%2C_CL_1355%29_album_cover.jpg',
+      albumArt:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Kind_of_Blue_%281959%2C_CL_1355%29_album_cover.jpg/500px-Kind_of_Blue_%281959%2C_CL_1355%29_album_cover.jpg',
       isTrackAdded: true,
-      autoFetch: false
-    }
+      autoFetch: false,
+    },
   },
-};
+}
 
 // No store badge
 export const NoStoreBadge = {
@@ -158,12 +164,13 @@ export const NoStoreBadge = {
       variant: 'slim-player',
       trackName: 'Giant Steps',
       artistName: 'John Coltrane',
-      albumArt: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Coltrane_Giant_Steps.jpg/500px-Coltrane_Giant_Steps.jpg',
+      albumArt:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Coltrane_Giant_Steps.jpg/500px-Coltrane_Giant_Steps.jpg',
       isTrackAdded: false,
-      autoFetch: false
-    }
+      autoFetch: false,
+    },
   },
-};
+}
 
 // Live API Data Example
 export const WithLiveData = {
@@ -185,14 +192,15 @@ export const WithLiveData = {
       variant: 'slim-player',
       autoFetch: true,
       apiUrl: 'https://chirpradio.appspot.com/api/current_playlist',
-      streamUrl: 'https://peridot.streamguys1.com:5185/live'
-    }
+      streamUrl: 'https://peridot.streamguys1.com:5185/live',
+    },
   },
   parameters: {
     docs: {
       description: {
-        story: 'CrAppHeader with live API data fetching enabled. Both the top banner DJ info and the streaming player will automatically fetch current data from the CHIRP Radio API. The DJ name will come from the API, and show name will be displayed if available in the API response.'
-      }
-    }
-  }
-};
+        story:
+          'CrAppHeader with live API data fetching enabled. Both the top banner DJ info and the streaming player will automatically fetch current data from the CHIRP Radio API. The DJ name will come from the API, and show name will be displayed if available in the API response.',
+      },
+    },
+  },
+}

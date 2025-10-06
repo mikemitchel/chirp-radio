@@ -22,14 +22,13 @@
 }
 
 .cr-page-header__title {
-  font: var(--cr-title-2xl);
   color: var(--cr-ink);
   margin: 0;
   letter-spacing: -0.05em;
 }
 
 .cr-page-header__action {
-    align-self: center;
+  align-self: center;
 }
 
 /* Header layout for larger screens */
@@ -39,11 +38,11 @@
     justify-content: space-between;
     align-items: flex-start;
   }
-  
+
   .cr-page-header__text {
     flex: 1;
   }
-  
+
   .cr-page-header__action {
     align-self: center;
   }

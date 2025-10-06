@@ -74,11 +74,11 @@
   .cr-breadcrumb__content {
     gap: var(--cr-space-1);
   }
-  
+
   .cr-breadcrumb__items {
     gap: var(--cr-space-1);
   }
-  
+
   .cr-breadcrumb__logo .cr-logo {
     height: 20px; /* Smaller logo on mobile */
   }

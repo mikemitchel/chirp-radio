@@ -39,7 +39,7 @@
   font: var(--cr-btn-txt-lg);
   height: 34px;
   border-radius: var(--cr-space-1);
-  --btn-hover-radius: calc(var(--cr-space-1)/2);
+  --btn-hover-radius: calc(var(--cr-space-1) / 2);
   --btn-hover-shadow: var(--cr-space-1);
 }
 
@@ -48,7 +48,7 @@
   font: var(--cr-btn-text-md);
   height: 30px;
   border-radius: 3px;
-  --btn-hover-radius: calc(var(--cr-space-1)/2);
+  --btn-hover-radius: calc(var(--cr-space-1) / 2);
   --btn-hover-shadow: var(--cr-space-1);
 }
 
@@ -57,7 +57,7 @@
   font: var(--cr-btn-text-sm);
   height: 26px;
   border-radius: 3px;
-  --btn-hover-radius: calc(var(--cr-space-1)/2);
+  --btn-hover-radius: calc(var(--cr-space-1) / 2);
   --btn-hover-shadow: var(--cr-space-1);
 }
 
@@ -69,7 +69,7 @@
   text-transform: none;
   letter-spacing: normal;
   --btn-hover-radius: var(--cr-space-3);
-  --btn-hover-shadow: calc(var(--cr-space-1)/2);
+  --btn-hover-shadow: calc(var(--cr-space-1) / 2);
 }
 
 /* ============================================ */
@@ -107,9 +107,9 @@
   font: var(--cr-btn-text-xs);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: calc(var(--cr-space-1)/2) var(--cr-space-1);
+  padding: calc(var(--cr-space-1) / 2) var(--cr-space-1);
   box-shadow: none;
-  gap: calc(var(--cr-space-1)/2);
+  gap: calc(var(--cr-space-1) / 2);
 }
 
 .cr-btn--xsmall.cr-btn--text:hover:not(:disabled) {
@@ -186,7 +186,7 @@
 /* Outline Buttons */
 .cr-btn--outline {
   background-color: transparent;
-  box-shadow: 0 0 0 calc(var(--cr-space-1)/4) var(--btn-color);
+  box-shadow: 0 0 0 calc(var(--cr-space-1) / 4) var(--btn-color);
 }
 
 .cr-btn--outline:hover:not(:disabled) {
@@ -270,11 +270,6 @@
   display: block;
   vertical-align: top;
   flex-shrink: 0;
-}
-
-/* XSM text buttons - only right icon allowed */
-.cr-btn--xsmall.cr-btn--text .cr-btn__icon--left {
-  display: none;
 }
 
 .cr-btn__text {

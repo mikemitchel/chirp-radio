@@ -10,18 +10,34 @@
 .cr-announcement.cr-bg-natural-a500 {
   --cr-ink: #18181b;
   --cr-paper: #fafafa;
-  --cr-default-100: #F4F4F5;
-  --cr-default-300: #D4D4D8;
+  --cr-default-100: #f4f4f5;
+  --cr-default-300: #d4d4d8;
+  --cr-default-500: #7b7b84;
+  --cr-default-700: #4d4d56;
+  --cr-default-900: #3f3f46;
+  --cr-primary-500: #ea1c2c;
+  --cr-primary-700: #c41b28;
+  --cr-secondary-500: #41b6e6;
+  --cr-secondary-700: #15769e;
+}
+
+/* s100 and d100 backgrounds allow normal dark mode changes - no overrides needed */
+
+/* Dark backgrounds (d900, dark) need light text */
+.cr-announcement.cr-bg-natural-d900,
+.cr-announcement.cr-bg-natural-dark {
+  --cr-ink: #fafafa;
+  --cr-paper: #18181b;
+  --cr-default-100: #3F3F46;
+  --cr-default-300: #4D4D56;
   --cr-default-500: #7B7B84;
-  --cr-default-700: #4D4D56;
-  --cr-default-900: #3F3F46;
+  --cr-default-700: #D4D4D8;
+  --cr-default-900: #F4F4F5;
   --cr-primary-500: #EA1C2C;
   --cr-primary-700: #C41B28;
   --cr-secondary-500: #41B6E6;
   --cr-secondary-700: #15769E;
 }
-
-/* s100 and d100 backgrounds allow normal dark mode changes - no overrides needed */
 
 /* ============================================ */
 /* === CONTENT AREA === */
@@ -92,11 +108,11 @@
   .cr-announcement {
     padding: var(--cr-space-6);
   }
-  
+
   .cr-announcement__headline {
     font: var(--cr-title-lg);
   }
-  
+
   .cr-announcement__buttons {
     flex-direction: column;
   }

@@ -16,16 +16,16 @@
 }
 
 /* Make it focusable when interactive */
-.cr-cart-icon[role="button"] {
+.cr-cart-icon[role='button'] {
   border-radius: var(--cr-space-1);
   transition: background-color 0.15s ease;
 }
 
-.cr-cart-icon[role="button"]:hover {
+.cr-cart-icon[role='button']:hover {
   background-color: var(--cr-default-100);
 }
 
-.cr-cart-icon[role="button"]:focus-visible {
+.cr-cart-icon[role='button']:focus-visible {
   outline: 2px solid var(--cr-primary-500);
   outline-offset: 2px;
 }
@@ -46,11 +46,11 @@
 
 .cr-cart-icon__badge {
   position: absolute;
-  
+
   /* Badge positioning - matches CrMainNav positioning */
   top: 33.33%; /* 12px from 36px total height */
   right: 22.22%; /* 8px from 36px total width */
-  
+
   /* Badge styling */
   background-color: transparent;
   color: currentColor;
@@ -58,7 +58,7 @@
   font-weight: 700;
   font-size: 14px;
   line-height: 20px;
-  
+
   /* Layout */
   display: flex;
   align-items: center;
@@ -75,7 +75,7 @@
 /* ============================================ */
 
 /* Small icon (24px) */
-.cr-cart-icon[style*="--cart-icon-size: 24px"] .cr-cart-icon__badge {
+.cr-cart-icon[style*='--cart-icon-size: 24px'] .cr-cart-icon__badge {
   top: 25%; /* 6px from 24px total */
   right: 16.67%; /* 4px from 24px total */
   font-size: 10px;
@@ -85,7 +85,7 @@
 }
 
 /* Medium icon (48px) */
-.cr-cart-icon[style*="--cart-icon-size: 48px"] .cr-cart-icon__badge {
+.cr-cart-icon[style*='--cart-icon-size: 48px'] .cr-cart-icon__badge {
   top: 37.5%; /* 18px from 48px total */
   right: 25%; /* 12px from 48px total */
   font-size: 16px;
@@ -95,7 +95,7 @@
 }
 
 /* Large icon (60px) */
-.cr-cart-icon[style*="--cart-icon-size: 60px"] .cr-cart-icon__badge {
+.cr-cart-icon[style*='--cart-icon-size: 60px'] .cr-cart-icon__badge {
   top: 44%; /* Position in the open area of the cart */
   left: 50%; /* Center horizontally */
   right: auto; /* Override right positioning for large icons */
@@ -113,7 +113,7 @@
 /* === DARK MODE === */
 /* ============================================ */
 
-[data-theme="dark"] .cr-cart-icon[role="button"]:hover {
+[data-theme='dark'] .cr-cart-icon[role='button']:hover {
   background-color: var(--cr-default-700);
 }
 
@@ -129,10 +129,10 @@
     min-width: 16px;
     height: 16px;
   }
-  
+
   /* Large icon mobile adjustments */
-  .cr-cart-icon[style*="--cart-icon-size: 60px"] .cr-cart-icon__badge,
-  .cr-cart-icon[style*="--cart-icon-size: 48px"] .cr-cart-icon__badge {
+  .cr-cart-icon[style*='--cart-icon-size: 60px'] .cr-cart-icon__badge,
+  .cr-cart-icon[style*='--cart-icon-size: 48px'] .cr-cart-icon__badge {
     font-size: 14px;
   }
 }
@@ -145,9 +145,9 @@
     min-width: 14px;
     height: 14px;
   }
-  
+
   /* Large icon smallest screen adjustments */
-  .cr-cart-icon[style*="--cart-icon-size: 60px"] .cr-cart-icon__badge {
+  .cr-cart-icon[style*='--cart-icon-size: 60px'] .cr-cart-icon__badge {
     font-size: 12px;
   }
 }

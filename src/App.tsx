@@ -1,35 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect } from 'react';
+import { HashRouter, Routes, Route } from 'react-router';
+import MobileApp from './layouts/MobileApp';
+import NowPlaying from './pages/NowPlaying';
+import RecentlyPlayed from './pages/RecentlyPlayed';
+import YourCollection from './pages/YourCollection';
+import MakeRequest from './pages/MakeRequest';
+import AccountSettings from './pages/AccountSettings';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // Apply dark mode preference on app initialization
+  useEffect(() => {
+    // Check both localStorage (logged in) and sessionStorage (logged out)
+    const savedMode = localStorage.getItem('chirp-dark-mode') ||
+                      sessionStorage.getItem('chirp-dark-mode') ||
+                      'device';
+
+    const applyTheme = (mode: string) => {
+      if (mode === 'device') {
+        // Follow system preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      } else if (mode === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    };
+
+    applyTheme(savedMode);
+
+    // Listen for system preference changes (only if mode is 'device')
+    if (savedMode === 'device') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = () => applyTheme('device');
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<MobileApp />}>
+          <Route index element={<NowPlaying />} />
+          <Route path="now-playing" element={<NowPlaying />} />
+          <Route path="recently-played" element={<RecentlyPlayed />} />
+          <Route path="collection" element={<YourCollection />} />
+          <Route path="request" element={<MakeRequest />} />
+          <Route path="settings" element={<AccountSettings />} />
+        </Route>
+      </Routes>
+    </HashRouter>
+  );
 }
 
 export default App

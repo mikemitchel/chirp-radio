@@ -18,7 +18,8 @@
   box-shadow: 0px 0px 0px 0px rgba(17, 119, 163, 0);
 }
 
-.cr-dj-schedule-tab:not(.cr-dj-schedule-tab--active):not(.cr-dj-schedule-tab--today) .cr-dj-schedule-tab__button:hover {
+.cr-dj-schedule-tab:not(.cr-dj-schedule-tab--active):not(.cr-dj-schedule-tab--today)
+  .cr-dj-schedule-tab__button:hover {
   box-shadow: 0px 0px 0px 4px rgba(17, 119, 163, 0.5);
 }
 

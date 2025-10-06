@@ -11,7 +11,7 @@
   --cr-cart-padding: var(--cr-space-12);
   --cr-cart-gap: var(--cr-space-6);
   --cr-cart-item-gap: var(--cr-space-3);
-  
+
   /* Colors */
   --cr-cart-text-color: var(--cr-ink);
   --cr-cart-divider-color: var(--cr-default-700);
@@ -51,7 +51,7 @@
 }
 
 .cr-shopping-cart__title {
-  font: var(--cr-title-xl); 
+  font: var(--cr-title-xl);
   font-weight: normal;
   color: var(--cr-cart-text-color);
   margin: 0;

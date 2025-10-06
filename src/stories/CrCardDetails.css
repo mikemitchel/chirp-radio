@@ -143,11 +143,11 @@
   .cr-card-details {
     padding: var(--cr-space-2) var(--cr-space-3);
   }
-  
+
   .cr-card-details__container {
     gap: var(--cr-space-3);
   }
-  
+
   .cr-card-details__tags {
     gap: var(--cr-space-1);
   }
