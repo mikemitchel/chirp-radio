@@ -1,39 +1,40 @@
-// CrAccountSettingsPage.stories.js
-import React from 'react';
-import CrAccountSettingsPage from './CrAccountSettingsPage';
+// CrAccountSettingsPage.stories.tsx
+import React from 'react'
+import CrAccountSettingsPage from './CrAccountSettingsPage'
 
 export default {
   title: 'Templates/CrAccountSettingsPage',
   component: CrAccountSettingsPage,
   parameters: {
     layout: 'fullscreen',
-docs: {
-  description: {
-    component: 'CrAccountSettingsPage uses the CrToggle atom and the CrButton atom. This component provides complete account settings interface with user preferences, streaming quality toggle, push notifications toggle, and app-specific actions like app support and terms/privacy access. Handles both logged-in and logged-out states with appropriate authentication options. Complex settings management makes it a proper Template. Dark mode adapts through [data-theme="dark"] CSS selectors.'
-  }
-}
+    docs: {
+      description: {
+        component:
+          'CrAccountSettingsPage uses the CrToggle atom and the CrButton atom. This component provides complete account settings interface with user preferences, streaming quality toggle, push notifications toggle, and app-specific actions like app support and terms/privacy access. Handles both logged-in and logged-out states with appropriate authentication options. Complex settings management makes it a proper Template. Dark mode adapts through [data-theme="dark"] CSS selectors.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     isLoggedIn: {
       control: 'boolean',
-      description: 'Whether the user is logged in'
+      description: 'Whether the user is logged in',
     },
     userEmail: {
       control: 'text',
-      description: 'User email to display when logged in'
+      description: 'User email to display when logged in',
     },
     streamingQuality: {
       control: { type: 'select' },
       options: ['128', '64'],
-      description: 'Streaming quality setting'
+      description: 'Streaming quality setting',
     },
     pushNotifications: {
       control: 'boolean',
-      description: 'Push notifications toggle state'
-    }
+      description: 'Push notifications toggle state',
+    },
   },
-};
+}
 
 // Not logged in state (default)
 export const NotLoggedIn = {
@@ -50,9 +51,9 @@ export const NotLoggedIn = {
     onShareApp: () => console.log('Share app clicked'),
     onLikeAppStore: () => console.log('Like app store clicked'),
     onAppSupport: () => console.log('App support clicked'),
-    onTermsPrivacy: () => console.log('Terms & privacy clicked')
+    onTermsPrivacy: () => console.log('Terms & privacy clicked'),
   },
-};
+}
 
 // Logged in state
 export const LoggedIn = {
@@ -68,9 +69,9 @@ export const LoggedIn = {
     onShareApp: () => console.log('Share app clicked'),
     onLikeAppStore: () => console.log('Like app store clicked'),
     onAppSupport: () => console.log('App support clicked'),
-    onTermsPrivacy: () => console.log('Terms & privacy clicked')
+    onTermsPrivacy: () => console.log('Terms & privacy clicked'),
   },
-};
+}
 
 // All notifications enabled
 export const AllNotificationsEnabled = {
@@ -86,9 +87,9 @@ export const AllNotificationsEnabled = {
     onShareApp: () => console.log('Share app clicked'),
     onLikeAppStore: () => console.log('Like app store clicked'),
     onAppSupport: () => console.log('App support clicked'),
-    onTermsPrivacy: () => console.log('Terms & privacy clicked')
+    onTermsPrivacy: () => console.log('Terms & privacy clicked'),
   },
-};
+}
 
 // Low quality streaming
 export const LowQualityStreaming = {
@@ -105,6 +106,6 @@ export const LowQualityStreaming = {
     onShareApp: () => console.log('Share app clicked'),
     onLikeAppStore: () => console.log('Like app store clicked'),
     onAppSupport: () => console.log('App support clicked'),
-    onTermsPrivacy: () => console.log('Terms & privacy clicked')
+    onTermsPrivacy: () => console.log('Terms & privacy clicked'),
   },
-};
+}

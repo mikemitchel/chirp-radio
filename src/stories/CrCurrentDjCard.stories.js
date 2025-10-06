@@ -1,70 +1,71 @@
-// CrCurrentDjCard.stories.js
-import React from 'react';
-import CrCurrentDjCard from './CrCurrentDjCard';
+// CrCurrentDjCard.stories.tsx
+import React from 'react'
+import CrCurrentDjCard from './CrCurrentDjCard'
 
 export default {
   title: 'Organisms/CrCurrentDjCard',
   component: CrCurrentDjCard,
   parameters: {
     layout: 'padded',
-docs: {
-  description: {
-    component: 'CrCurrentDjCard uses the CrCurrentDj molecule, the CrButton atom, an image, and additional content elements. This component provides expanded DJ information display showing current DJ details with extended show information and description. More comprehensive than the basic CrCurrentDj molecule. Supports different display states and responsive layouts. Dark mode adapts through [data-theme="dark"] CSS selectors.'
-  }
-}
+    docs: {
+      description: {
+        component:
+          'CrCurrentDjCard uses the CrCurrentDj molecule, the CrButton atom, an image, and additional content elements. This component provides expanded DJ information display showing current DJ details with extended show information and description. More comprehensive than the basic CrCurrentDj molecule. Supports different display states and responsive layouts. Dark mode adapts through [data-theme="dark"] CSS selectors.',
+      },
+    },
   },
   argTypes: {
     djImage: {
       control: 'text',
-      description: 'URL for the DJ image'
+      description: 'URL for the DJ image',
     },
     djImageAlt: {
       control: 'text',
-      description: 'Alt text for the DJ image'
+      description: 'Alt text for the DJ image',
     },
     djName: {
       control: 'text',
-      description: 'Name of the DJ'
+      description: 'Name of the DJ',
     },
     showName: {
       control: 'text',
-      description: 'Name of the show'
+      description: 'Name of the show',
     },
     isOnAir: {
       control: 'boolean',
-      description: 'Whether the show is currently on air'
+      description: 'Whether the show is currently on air',
     },
     statusText: {
       control: 'text',
-      description: 'Text for the status chip'
+      description: 'Text for the status chip',
     },
     header: {
       control: 'text',
-      description: 'Header text above the title'
+      description: 'Header text above the title',
     },
     title: {
       control: 'text',
-      description: 'Main title text'
+      description: 'Main title text',
     },
     metaText: {
       control: 'text',
-      description: 'Meta text below the title'
+      description: 'Meta text below the title',
     },
     description: {
       control: 'text',
-      description: 'Description text'
+      description: 'Description text',
     },
     requestButtonText: {
       control: 'text',
-      description: 'Text for the request button'
+      description: 'Text for the request button',
     },
     moreButtonText: {
       control: 'text',
-      description: 'Text for the more button'
-    }
+      description: 'Text for the more button',
+    },
   },
-  tags: ['autodocs']
-};
+  tags: ['autodocs'],
+}
 
 export const Default = {
   args: {
@@ -77,26 +78,28 @@ export const Default = {
     header: 'THE CURRENT SHOW',
     title: 'DJ Current',
     metaText: 'THIS CONTENT IS 30 CHARACTERS.',
-    description: 'DJ Current is lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo.',
+    description:
+      'DJ Current is lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo.',
     requestButtonText: 'REQUEST',
-    moreButtonText: 'MORE'
-  }
-};
+    moreButtonText: 'MORE',
+  },
+}
 
 export const OffAir = {
   args: {
     ...Default.args,
     isOnAir: false,
-    statusText: ''
-  }
-};
+    statusText: '',
+  },
+}
 
 export const LongDescription = {
   args: {
     ...Default.args,
-    description: 'DJ Current brings you an eclectic mix of music spanning multiple genres and decades. From underground electronic beats to classic rock anthems, this show explores the full spectrum of musical expression. Tune in every week for carefully curated playlists and exclusive interviews with emerging artists.'
-  }
-};
+    description:
+      'DJ Current brings you an eclectic mix of music spanning multiple genres and decades. From underground electronic beats to classic rock anthems, this show explores the full spectrum of musical expression. Tune in every week for carefully curated playlists and exclusive interviews with emerging artists.',
+  },
+}
 
 export const DifferentDJ = {
   args: {
@@ -106,17 +109,18 @@ export const DifferentDJ = {
     showName: 'After Dark Sessions',
     title: 'DJ Midnight',
     header: 'AFTER DARK SESSIONS',
-    description: 'Join DJ Midnight for a journey through the best in late-night electronic music and downtempo beats.'
-  }
-};
+    description:
+      'Join DJ Midnight for a journey through the best in late-night electronic music and downtempo beats.',
+  },
+}
 
 export const Mobile = {
   args: {
-    ...Default.args
+    ...Default.args,
   },
   parameters: {
     viewport: {
-      defaultViewport: 'mobile1'
-    }
-  }
-};
+      defaultViewport: 'mobile1',
+    },
+  },
+}

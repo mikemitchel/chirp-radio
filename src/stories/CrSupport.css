@@ -49,9 +49,9 @@
 
 /* DCASE logo dimensions */
 .cr-support__logo--dcase {
-    height: auto;
-    max-width: 250px;
-  }
+  height: auto;
+  max-width: 250px;
+}
 
 /* Illinois Arts Council logo dimensions */
 .cr-support__logo--iac {
@@ -67,7 +67,7 @@
 }
 
 /* Invert black logo to white in dark mode */
-[data-theme="dark"] .cr-support__logo-image {
+[data-theme='dark'] .cr-support__logo-image {
   filter: brightness(0) invert(1);
 }
 
@@ -110,7 +110,7 @@
 }
 
 /* Dark mode - Component Support - invert additional logos to white */
-[data-theme="dark"] .cr-support__additional-logo-image {
+[data-theme='dark'] .cr-support__additional-logo-image {
   filter: brightness(0) invert(1);
 }
 
@@ -120,18 +120,18 @@
     padding: var(--cr-space-4); /* 16px padding on smaller screens */
     gap: var(--cr-space-5); /* 20px gap */
   }
-  
+
   .cr-support__main-logos {
     gap: var(--cr-space-8); /* 32px gap between logos */
     justify-content: center; /* Center on smaller screens */
   }
-  
+
   /* Scale down logos proportionally on smaller screens */
   .cr-support__logo--dcase {
     width: 320px;
     height: 100px;
   }
-  
+
   .cr-support__logo--iac {
     width: 221px;
     height: 120px;
@@ -143,24 +143,24 @@
     padding: var(--cr-space-3); /* 12px padding */
     gap: var(--cr-space-4); /* 16px gap */
   }
-  
+
   .cr-support__main-logos {
     gap: var(--cr-space-6); /* 24px gap */
     flex-direction: column;
     justify-content: center; /* Center on mobile */
   }
-  
+
   /* Further scale down on tablets */
   .cr-support__logo--dcase {
     width: 280px;
     height: 87px;
   }
-  
+
   .cr-support__logo--iac {
     width: 193px;
     height: 105px;
   }
-  
+
   .cr-support__additional-logos {
     gap: var(--cr-space-4); /* 16px gap for additional logos */
     justify-content: center; /* Center on mobile */
@@ -172,22 +172,22 @@
     padding: var(--cr-space-2); /* 8px padding on mobile */
     gap: var(--cr-space-3); /* 12px gap */
   }
-  
+
   .cr-support__main-logos {
     gap: var(--cr-space-4); /* 16px gap */
   }
-  
+
   /* Mobile-friendly logo sizes */
   .cr-support__logo--dcase {
     width: 240px;
     height: 75px;
   }
-  
+
   .cr-support__logo--iac {
     width: 166px;
     height: 90px;
   }
-  
+
   .cr-support__additional-logos {
     flex-direction: column;
     gap: var(--cr-space-3); /* 12px gap */

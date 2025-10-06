@@ -12,7 +12,7 @@
   width: auto;
   min-width: 280px;
   z-index: 9999;
-  
+
   /* Glass morphism effect */
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
@@ -20,25 +20,25 @@
   border: var(--cr-space-1) solid rgba(255, 255, 255, 0.3);
   border-color: var(--toast-border-color); /* Override with support color border */
   border-radius: var(--cr-space-2);
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.15),
     0 2px 8px rgba(0, 0, 0, 0.1);
-  
+
   /* Layout - now a flex container for content and dismiss button */
   display: flex;
   align-items: flex-start;
   gap: var(--cr-space-3);
   padding: var(--cr-space-4);
-  
+
   /* Animation */
   animation: cr-toast-slide-in 0.3s ease-out;
 }
 
 /* Dark mode adjustments */
-[data-theme="dark"] .cr-toast {
+[data-theme='dark'] .cr-toast {
   background: rgba(0, 0, 0, 0.6);
   border-color: var(--toast-border-color-dark);
-  color: var(--cr-paper);
+  color: var(--cr-ink);
 }
 
 /* Toast slide-in animation */
@@ -77,7 +77,7 @@
   margin-top: 2px; /* Align with first line of text */
 }
 
-[data-theme="dark"] .cr-toast__icon {
+[data-theme='dark'] .cr-toast__icon {
   color: var(--toast-icon-color-dark);
 }
 
@@ -101,20 +101,13 @@
   word-wrap: break-word;
 }
 
-[data-theme="dark"] .cr-toast__title {
-  color: var(--cr-paper);
-}
-
 .cr-toast__message {
   font: var(--cr-body-sm);
-  color: var(--cr-default-700);
+  color: var(--cr-ink);
+  opacity: 0.8;
   margin: var(--cr-space-1) 0 0 0;
   line-height: 1.4;
   word-wrap: break-word;
-}
-
-[data-theme="dark"] .cr-toast__message {
-  color: var(--cr-default-300);
 }
 
 /* Link styling */
@@ -129,11 +122,11 @@
   text-decoration: none;
 }
 
-[data-theme="dark"] .cr-toast__link {
+[data-theme='dark'] .cr-toast__link {
   color: var(--cr-primary-400);
 }
 
-[data-theme="dark"] .cr-toast__link:hover {
+[data-theme='dark'] .cr-toast__link:hover {
   color: var(--cr-primary-300);
 }
 
@@ -176,15 +169,15 @@
   color: var(--cr-default-700);
 }
 
-[data-theme="dark"] .cr-toast__dismiss-button .cr-menu-button__icon svg {
+[data-theme='dark'] .cr-toast__dismiss-button .cr-menu-button__icon svg {
   color: var(--cr-default-400);
 }
 
-[data-theme="dark"] .cr-toast__dismiss-button:hover:not(:disabled) .cr-menu-button__icon svg {
+[data-theme='dark'] .cr-toast__dismiss-button:hover:not(:disabled) .cr-menu-button__icon svg {
   color: var(--cr-default-200);
 }
 
-[data-theme="dark"] .cr-toast__dismiss-button:hover:not(:disabled) .cr-menu-button__icon {
+[data-theme='dark'] .cr-toast__dismiss-button:hover:not(:disabled) .cr-menu-button__icon {
   background-color: var(--cr-default-700) !important;
 }
 
@@ -231,7 +224,7 @@
     right: var(--cr-space-4);
     left: var(--cr-space-4);
   }
-  
+
   .cr-toast__content {
     gap: var(--cr-space-2); /* Slightly smaller gap on mobile */
   }

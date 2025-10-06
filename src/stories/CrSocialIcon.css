@@ -7,7 +7,9 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
   border-radius: var(--cr-space-1);
   text-decoration: none;
   padding: 0;
@@ -27,8 +29,8 @@
 }
 
 /* Dark mode - Component Support - make icons white on hover */
-[data-theme="dark"] .cr-social-icon:hover .cr-social-icon__svg {
-  color: #FFFFFF;
+[data-theme='dark'] .cr-social-icon:hover .cr-social-icon__svg {
+  color: #ffffff;
 }
 
 /* Reduced motion support */

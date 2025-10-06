@@ -36,7 +36,7 @@
 
 .cr-dj-schedule__day-label::before,
 .cr-dj-schedule__day-label::after {
-  content: "";
+  content: '';
   flex: 1;
   border-top: 2px solid var(--cr-primary-500);
   height: 0;

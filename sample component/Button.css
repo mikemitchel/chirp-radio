@@ -1,0 +1,21 @@
+/* src/components/Button/Button.css */
+
+.btn {
+  padding: 0.5rem 1rem;
+  background-color: #1d4ed8; /* blue-700 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn:hover:not(:disabled) {
+  background-color: #2563eb; /* blue-600 */
+}
+
+.btn:disabled {
+  background-color: #9ca3af; /* gray-400 */
+  cursor: not-allowed;
+}
