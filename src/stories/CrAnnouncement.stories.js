@@ -23,7 +23,7 @@ export default {
     },
     textureBackground: {
       control: 'select',
-      options: ['cr-bg-natural-a500', 'cr-bg-natural-s100', 'cr-bg-natural-d100', 'cr-bg-natural-d900', 'cr-bg-natural-dark'],
+      options: ['cr-bg-natural-a500', 'cr-bg-natural-s100', 'cr-bg-natural-s900', 'cr-bg-natural-d100', 'cr-bg-natural-d900'],
       description: 'Textured background class'
     },
     buttonCount: {
@@ -145,18 +145,18 @@ export const AllBackgrounds = {
     React.createElement(CrAnnouncement, {
       key: 'darker',
       variant: 'motivation',
-      textureBackground: 'cr-bg-natural-d900',
-      headlineText: "Darker Background (D900)",
-      bodyText: "Default dark gray texture background",
+      textureBackground: 'cr-bg-natural-s900',
+      headlineText: "Darker Blue Background (S900)",
+      bodyText: "Secondary dark texture background",
       showLink: false,
       buttonCount: 'two'
     }),
     React.createElement(CrAnnouncement, {
       key: 'darkest',
       variant: 'donation',
-      textureBackground: 'cr-bg-natural-dark',
-      headlineText: "Darkest Background (Dark)",
-      bodyText: "Ink color texture background",
+      textureBackground: 'cr-bg-natural-d900',
+      headlineText: "Darkest Background (D900)",
+      bodyText: "Default dark gray texture background",
       showLink: false,
       buttonCount: 'two',
       currentAmount: 12000,

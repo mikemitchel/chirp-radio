@@ -45,10 +45,12 @@ const preloadNowPlayingData = async () => {
 }
 
 export default function MobileApp() {
-  // Check if splash has already been shown this session
-  const hasShownSplash = sessionStorage.getItem('chirp-splash-shown') === 'true'
-
-  const [showSplash, setShowSplash] = useState(!hasShownSplash)
+  const [showSplash, setShowSplash] = useState(() => {
+    // Check sessionStorage on initial mount
+    const splashShown = sessionStorage.getItem('chirp-splash-shown')
+    console.log('Initial state - chirp-splash-shown:', splashShown)
+    return splashShown !== 'true'
+  })
   const [splashAnimationState, setSplashAnimationState] = useState<
     'fade-in' | 'visible' | 'fade-out' | 'hidden'
   >('visible')
@@ -56,13 +58,21 @@ export default function MobileApp() {
   const location = useLocation()
 
   useEffect(() => {
+    // Always navigate to Now Playing page on mount
+    navigate('/')
+
+    // Check if splash has already been shown
+    const hasShownSplash = sessionStorage.getItem('chirp-splash-shown') === 'true'
+    console.log('useEffect - hasShownSplash:', hasShownSplash)
+
     // Skip splash animation if already shown this session
     if (hasShownSplash) {
+      console.log('Skipping splash - already shown')
+      setShowSplash(false)
       return
     }
 
-    // Navigate to Now Playing page on first load
-    navigate('/')
+    console.log('Starting splash animation')
 
     let hideTimer: NodeJS.Timeout
 
@@ -96,7 +106,7 @@ export default function MobileApp() {
     return () => {
       clearTimeout(hideTimer)
     }
-  }, [hasShownSplash])
+  }, [])
 
   // Determine if we're on the landing page (Now Playing)
   const isLandingPage = location.pathname === '/' || location.pathname === '/now-playing'

@@ -27,7 +27,7 @@ interface CrAnnouncementProps {
 
 export default function CrAnnouncement({
   variant = 'donation', // 'donation' or 'motivation'
-  textureBackground = 'cr-bg-natural-a500', // 'cr-bg-natural-a500', 'cr-bg-natural-s100', 'cr-bg-natural-d100', 'cr-bg-natural-d900', 'cr-bg-natural-dark'
+  textureBackground = 'cr-bg-natural-a500', // 'cr-bg-natural-a500', 'cr-bg-natural-s100', 'cr-bg-natural-s900', 'cr-bg-natural-d100', 'cr-bg-natural-d900'
   headlineText = "It's our fifteenth anniversary!",
   bodyText = 'Celebrate our history & help us plan for the future!',
   showLink = true,

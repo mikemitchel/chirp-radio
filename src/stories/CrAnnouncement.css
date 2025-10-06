@@ -6,8 +6,12 @@
   position: relative;
 }
 
-/* Override colors only for accent (yellow) background - prevent dark mode changes */
-.cr-announcement.cr-bg-natural-a500 {
+/* Override colors for all backgrounds - prevent dark mode changes */
+
+/* Light backgrounds (a500, s100, d100) use dark text */
+.cr-announcement.cr-bg-natural-a500,
+.cr-announcement.cr-bg-natural-s100,
+.cr-announcement.cr-bg-natural-d100 {
   --cr-ink: #18181b;
   --cr-paper: #fafafa;
   --cr-default-100: #f4f4f5;
@@ -21,22 +25,72 @@
   --cr-secondary-700: #15769e;
 }
 
-/* s100 and d100 backgrounds allow normal dark mode changes - no overrides needed */
+.cr-announcement.cr-bg-natural-a500 {
+  background-color: #ffc72c !important;
+}
 
-/* Dark backgrounds (d900, dark) need light text */
-.cr-announcement.cr-bg-natural-d900,
-.cr-announcement.cr-bg-natural-dark {
+.cr-announcement.cr-bg-natural-s100 {
+  background-color: #e3f0f6 !important;
+}
+
+.cr-announcement.cr-bg-natural-d100 {
+  background-color: #f4f4f5 !important;
+}
+
+/* Dark backgrounds (s900, d900) use light text and light blue buttons */
+.cr-announcement.cr-bg-natural-s900,
+.cr-announcement.cr-bg-natural-d900 {
   --cr-ink: #fafafa;
   --cr-paper: #18181b;
-  --cr-default-100: #3F3F46;
-  --cr-default-300: #4D4D56;
-  --cr-default-500: #7B7B84;
-  --cr-default-700: #D4D4D8;
-  --cr-default-900: #F4F4F5;
-  --cr-primary-500: #EA1C2C;
-  --cr-primary-700: #C41B28;
-  --cr-secondary-500: #41B6E6;
-  --cr-secondary-700: #15769E;
+  --cr-default-100: #3f3f46;
+  --cr-default-300: #4d4d56;
+  --cr-default-500: #7b7b84;
+  --cr-default-700: #d4d4d8;
+  --cr-default-900: #f4f4f5;
+  --cr-primary-500: #ea1c2c;
+  --cr-primary-700: #c41b28;
+  --cr-secondary-500: #41b6e6;
+  --cr-secondary-700: #41b6e6;
+}
+
+.cr-announcement.cr-bg-natural-s900 {
+  background-color: #0c435a !important;
+}
+
+.cr-announcement.cr-bg-natural-d900 {
+  background-color: #3f3f46 !important;
+}
+
+/* Prevent dark mode from changing any variant */
+[data-theme='dark'] .cr-announcement.cr-bg-natural-a500,
+[data-theme='dark'] .cr-announcement.cr-bg-natural-s100,
+[data-theme='dark'] .cr-announcement.cr-bg-natural-d100 {
+  --cr-ink: #18181b;
+  --cr-paper: #fafafa;
+  --cr-default-100: #f4f4f5;
+  --cr-default-300: #d4d4d8;
+  --cr-default-500: #7b7b84;
+  --cr-default-700: #4d4d56;
+  --cr-default-900: #3f3f46;
+  --cr-primary-500: #ea1c2c;
+  --cr-primary-700: #c41b28;
+  --cr-secondary-500: #41b6e6;
+  --cr-secondary-700: #15769e;
+}
+
+[data-theme='dark'] .cr-announcement.cr-bg-natural-s900,
+[data-theme='dark'] .cr-announcement.cr-bg-natural-d900 {
+  --cr-ink: #fafafa;
+  --cr-paper: #18181b;
+  --cr-default-100: #3f3f46;
+  --cr-default-300: #4d4d56;
+  --cr-default-500: #7b7b84;
+  --cr-default-700: #d4d4d8;
+  --cr-default-900: #f4f4f5;
+  --cr-primary-500: #ea1c2c;
+  --cr-primary-700: #c41b28;
+  --cr-secondary-500: #41b6e6;
+  --cr-secondary-700: #41b6e6;
 }
 
 /* ============================================ */
