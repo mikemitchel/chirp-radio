@@ -4,6 +4,8 @@ import { useNavigate, useLocation, Outlet } from 'react-router'
 import CrMobileSplash from '../stories/CrMobileSplash'
 import CrMobileAppFrame from '../stories/CrMobileAppFrame'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
+import { NotificationProvider } from '../contexts/NotificationContext'
+import GlobalNotifications from '../components/GlobalNotifications'
 
 // Preload now playing data and cache it
 const preloadNowPlayingData = async () => {
@@ -161,13 +163,14 @@ export default function MobileApp() {
   const handleBecomeVolunteerClick = () => handleExternalLink('https://chirpradio.org/volunteer')
 
   return (
-    <AudioPlayerProvider
-      autoFetch={true}
-      streamUrl="https://peridot.streamguys1.com:5185/live"
-      apiUrl="https://chirpradio.appspot.com/api/current_playlist"
-    >
-      {/* Always render the app frame so it's ready */}
-      <CrMobileAppFrame
+    <NotificationProvider>
+      <AudioPlayerProvider
+        autoFetch={true}
+        streamUrl="https://peridot.streamguys1.com:5185/live"
+        apiUrl="https://chirpradio.appspot.com/api/current_playlist"
+      >
+        {/* Always render the app frame so it's ready */}
+        <CrMobileAppFrame
         variant={isLandingPage ? 'landing' : 'interior'}
         pageTitle={getPageTitle()}
         onLogoClick={handleHomeClick}
@@ -196,10 +199,14 @@ export default function MobileApp() {
         <Outlet />
       </CrMobileAppFrame>
 
-      {/* Render splash on top when needed */}
-      {showSplash && (
-        <CrMobileSplash className={`splash-animation splash-animation--${splashAnimationState}`} />
-      )}
-    </AudioPlayerProvider>
+        {/* Render splash on top when needed */}
+        {showSplash && (
+          <CrMobileSplash className={`splash-animation splash-animation--${splashAnimationState}`} />
+        )}
+
+        {/* Global notifications (modal and toast) */}
+        <GlobalNotifications />
+      </AudioPlayerProvider>
+    </NotificationProvider>
   )
 }
