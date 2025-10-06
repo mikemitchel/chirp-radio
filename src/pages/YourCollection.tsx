@@ -1,9 +1,11 @@
 // src/pages/YourCollection.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import CrPageHeader from '../stories/CrPageHeader';
 import CrPlaylistTable from '../stories/CrPlaylistTable';
 import CrAnnouncement from '../stories/CrAnnouncement';
 import CrButton from '../stories/CrButton';
+import CrModal from '../stories/CrModal';
+import CrToast from '../stories/CrToast';
 import { useAuth } from '../hooks/useAuth';
 
 // Sample data - all items marked as added (isAdded: true) to show "remove" button
@@ -72,10 +74,33 @@ const sampleCollectionItems = [
 
 export default function YourCollection() {
   const { isLoggedIn, login } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [itemToRemove, setItemToRemove] = useState<any>(null);
+  const [showToast, setShowToast] = useState(false);
+  const [removedSongName, setRemovedSongName] = useState('');
 
   const handleItemRemove = (item: any, index: number) => {
-    console.log('Remove item from collection:', item, index);
-    // TODO: Implement remove from collection functionality
+    setItemToRemove(item);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmRemove = () => {
+    if (itemToRemove) {
+      console.log('Removing item from collection:', itemToRemove);
+      setRemovedSongName(`${itemToRemove.trackName} by ${itemToRemove.artistName}`);
+      setIsModalOpen(false);
+      setItemToRemove(null);
+      // TODO: Actually remove the item from the collection
+      // Show toast after modal closes
+      setTimeout(() => {
+        setShowToast(true);
+      }, 300);
+    }
+  };
+
+  const handleCancelRemove = () => {
+    setIsModalOpen(false);
+    setItemToRemove(null);
   };
 
   const handleLogin = () => {
@@ -216,6 +241,59 @@ export default function YourCollection() {
         button1Icon="mobile"
         button1OnClick={() => console.log('Navigate to recently played')}
       />
+
+      <CrModal
+        isOpen={isModalOpen}
+        onClose={handleCancelRemove}
+        scrimOnClick={handleCancelRemove}
+        title="Remove from Collection"
+        size="small"
+        showCloseButton={true}
+      >
+        <div style={{ padding: 'var(--cr-space-4)' }}>
+          <p style={{
+            font: 'var(--cr-body-reg)',
+            color: 'var(--cr-ink)',
+            lineHeight: 1.6,
+            marginBottom: 'var(--cr-space-6)'
+          }}>
+            Are you sure you want to remove <strong>{itemToRemove?.trackName}</strong> by <strong>{itemToRemove?.artistName}</strong> from your collection?
+          </p>
+
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: 'var(--cr-space-4)'
+          }}>
+            <CrButton
+              variant="outline"
+              color="default"
+              size="medium"
+              onClick={handleCancelRemove}
+            >
+              No
+            </CrButton>
+            <CrButton
+              variant="solid"
+              color="primary"
+              size="medium"
+              onClick={handleConfirmRemove}
+            >
+              Yes, Remove
+            </CrButton>
+          </div>
+        </div>
+      </CrModal>
+
+      {showToast && (
+        <CrToast
+          message={`Removed ${removedSongName} from your collection`}
+          type="success"
+          isVisible={showToast}
+          onClose={() => setShowToast(false)}
+          duration={5000}
+        />
+      )}
     </div>
   );
 }

@@ -14,7 +14,6 @@ footer {
 
 /* Page content container */
 .page-content {
-  padding: 20px;
   animation: pageSlideIn 300ms ease-out;
 }
 

@@ -1,6 +1,6 @@
 // CrTrackInfo.tsx
 import React, { useEffect, useRef, useState } from 'react'
-import { PiPlus, PiMinus } from 'react-icons/pi'
+import { PiPlusCircle } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
 import './CrTrackInfo.css'
@@ -372,7 +372,7 @@ export default function CrTrackInfo({
             variant="text"
             size="xsmall"
             color="secondary"
-            rightIcon={isAdded ? <PiMinus className="w-4 h-4" /> : <PiPlus className="w-4 h-4" />}
+            rightIcon={isAdded ? undefined : <PiPlusCircle className="w-4 h-4" />}
             onClick={handleToggleAdd}
           >
             {isAdded ? 'REMOVE' : 'ADD'}
