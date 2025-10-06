@@ -4,6 +4,8 @@
   position: fixed;
   inset: 0;
   display: flex;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   animation: cr-scrim-fade-in var(--cr-scrim-duration, 0.2s) ease-out forwards;
 }
 

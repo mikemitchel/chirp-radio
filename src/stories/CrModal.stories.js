@@ -12,12 +12,16 @@ export default {
     docs: {
       description: {
         component:
-          'Built from CrButton atoms, CrMenuButton atom for close action, CrScrim atom for backdrop overlay, and content area. Modal dialog component with customizable content, close button, and backdrop overlay using CrScrim. Supports different sizes and content types with proper focus management and keyboard navigation. Always visible in Storybook for design review. Dark mode adapts through [data-theme="dark"] CSS selectors.',
+          'Built from CrButton atoms, CrMenuButton atom for close action, CrScrim atom for backdrop overlay, and content area. Modal dialog component with customizable content, close button, and backdrop overlay using CrScrim. Supports different sizes and content types with proper focus management and keyboard navigation. Uses React Portal to render at document.body level, ensuring it appears above all other content. Dark mode adapts through [data-theme="dark"] CSS selectors. To use the modal, manage its visibility with useState: create an isOpen state, pass it to the isOpen prop, and provide onClose and scrimOnClick handlers that set the state to false. Trigger the modal by setting isOpen to true (e.g., via a button click).',
       },
     },
   },
   tags: ['autodocs'],
   argTypes: {
+    isOpen: {
+      control: false,
+      description: 'Controls modal visibility - manage with useState in your component',
+    },
     title: {
       control: 'text',
       description: 'Modal title',
@@ -43,6 +47,10 @@ export default {
       action: 'modal closed',
       description: 'Callback when modal is closed via CrMenuButton',
     },
+    scrimOnClick: {
+      action: 'scrim clicked',
+      description: 'Callback when scrim/backdrop is clicked',
+    },
   },
 }
 
@@ -51,37 +59,35 @@ export const Default = {
     title: 'Basic Modal',
     showDjInfo: false,
     showCloseButton: true,
-    scrimOpacity: 0.5,
+    scrimOpacity: 0.75,
   },
   render: (args) => {
+    const [isOpen, setIsOpen] = React.useState(false)
+
     return React.createElement(
       'div',
       {
         style: {
-          height: '100vh',
-          position: 'relative',
+          padding: 'var(--cr-space-4)',
           background: 'var(--cr-background)',
         },
       },
       [
-        // Background content
+        React.createElement('h1', { key: 'title' }, 'Page Content'),
         React.createElement(
-          'div',
+          'p',
+          { key: 'desc' },
+          'This is the background content that appears behind the modal.'
+        ),
+        React.createElement(
+          CrButton,
           {
-            key: 'bg-content',
-            style: {
-              padding: 'var(--cr-space-4)',
-              height: '100vh',
-            },
+            key: 'open-button',
+            variant: 'solid',
+            color: 'primary',
+            onClick: () => setIsOpen(true),
           },
-          [
-            React.createElement('h1', { key: 'title' }, 'Page Content'),
-            React.createElement(
-              'p',
-              { key: 'desc' },
-              'This is the background content that appears behind the modal.'
-            ),
-          ]
+          'Open Modal'
         ),
         // Modal overlay
         React.createElement(
@@ -89,6 +95,9 @@ export const Default = {
           {
             key: 'modal',
             ...args,
+            isOpen: isOpen,
+            onClose: () => setIsOpen(false),
+            scrimOnClick: () => setIsOpen(false),
           },
           React.createElement('div', { key: 'modal-content' }, [
             React.createElement(
@@ -122,6 +131,7 @@ export const Default = {
                   key: 'action',
                   variant: 'solid',
                   color: 'primary',
+                  onClick: () => setIsOpen(false),
                 },
                 'Take Action'
               )
@@ -142,7 +152,15 @@ export const WithDjInfo = {
     isOnAir: true,
     statusText: 'On-Air',
     showCloseButton: true,
-    scrimOpacity: 0.5,
+    scrimOpacity: 0.75,
+  },
+  parameters: {
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 400,
+      },
+    },
   },
   render: (args) => {
     return React.createElement(
@@ -180,6 +198,7 @@ export const WithDjInfo = {
           {
             key: 'modal-dj',
             ...args,
+            isOpen: true,
           },
           React.createElement('div', { key: 'modal-content-dj' }, [
             React.createElement(
@@ -237,7 +256,15 @@ export const SmallSize = {
     size: 'small',
     showDjInfo: false,
     showCloseButton: true,
-    scrimOpacity: 0.5,
+    scrimOpacity: 0.75,
+  },
+  parameters: {
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 400,
+      },
+    },
   },
   render: (args) => {
     return React.createElement(
@@ -275,6 +302,7 @@ export const SmallSize = {
           {
             key: 'modal-small',
             ...args,
+            isOpen: true,
           },
           React.createElement('div', { key: 'modal-content-small' }, [
             React.createElement(
@@ -327,7 +355,15 @@ export const LargeSize = {
     size: 'large',
     showDjInfo: false,
     showCloseButton: true,
-    scrimOpacity: 0.5,
+    scrimOpacity: 0.75,
+  },
+  parameters: {
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 400,
+      },
+    },
   },
   render: (args) => {
     return React.createElement(
@@ -365,6 +401,7 @@ export const LargeSize = {
           {
             key: 'modal-large',
             ...args,
+            isOpen: true,
           },
           React.createElement('div', { key: 'modal-content-large' }, [
             React.createElement(
@@ -417,99 +454,20 @@ export const LargeSize = {
   },
 }
 
-export const LightScrim = {
-  args: {
-    title: 'Light Background Modal',
-    showDjInfo: false,
-    showCloseButton: true,
-    scrimOpacity: 0.2,
-  },
-  render: (args) => {
-    return React.createElement(
-      'div',
-      {
-        style: {
-          height: '100vh',
-          position: 'relative',
-          background: 'var(--cr-background)',
-        },
-      },
-      [
-        // Background content
-        React.createElement(
-          'div',
-          {
-            key: 'bg-content-light',
-            style: {
-              padding: 'var(--cr-space-4)',
-              height: '100vh',
-            },
-          },
-          [
-            React.createElement('h1', { key: 'title' }, 'Background Content'),
-            React.createElement(
-              'p',
-              { key: 'desc1' },
-              'This content is still visible behind the modal due to the lighter scrim.'
-            ),
-            React.createElement(
-              'p',
-              { key: 'desc2' },
-              'The scrim opacity is set to 0.2 instead of the default 0.5.'
-            ),
-          ]
-        ),
-        // Modal overlay
-        React.createElement(
-          CrModal,
-          {
-            key: 'modal-light',
-            ...args,
-          },
-          React.createElement('div', { key: 'modal-content-light' }, [
-            React.createElement(
-              'p',
-              { key: 'desc' },
-              'This modal uses a lighter scrim opacity (0.2) to show more of the background content.'
-            ),
-            React.createElement(
-              'p',
-              { key: 'desc2' },
-              'Adjust the scrimOpacity control to see different backdrop effects.'
-            ),
-            React.createElement(
-              'div',
-              {
-                key: 'actions',
-                style: {
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  marginTop: 'var(--cr-space-4)',
-                },
-              },
-              React.createElement(
-                CrButton,
-                {
-                  key: 'close',
-                  variant: 'solid',
-                  color: 'primary',
-                },
-                'Close'
-              )
-            ),
-          ])
-        ),
-      ]
-    )
-  },
-}
-
 export const NoCloseButton = {
   args: {
     title: 'System Message',
     showDjInfo: false,
     showCloseButton: false,
     scrimOpacity: 0.6,
+  },
+  parameters: {
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 400,
+      },
+    },
   },
   render: (args) => {
     return React.createElement(
@@ -547,6 +505,7 @@ export const NoCloseButton = {
           {
             key: 'modal-noclose',
             ...args,
+            isOpen: true,
           },
           React.createElement('div', { key: 'modal-content-noclose' }, [
             React.createElement(
