@@ -40,8 +40,6 @@ export default function CrModal({
 }: CrModalProps) {
   const modalClasses = [
     'cr-modal',
-    'cr-bg-textured',
-    'cr-bg-natural-d100',
     `cr-modal--${size}`,
     className,
   ]

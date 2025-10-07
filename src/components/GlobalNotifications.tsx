@@ -33,21 +33,12 @@ export default function GlobalNotifications() {
         size={modalState.size}
         showCloseButton={true}
       >
-        <div style={{ padding: 'var(--cr-space-4)' }}>
-          <p style={{
-            font: 'var(--cr-body-reg)',
-            color: 'var(--cr-ink)',
-            lineHeight: 1.6,
-            marginBottom: 'var(--cr-space-6)'
-          }}>
+        <div className="cr-modal__body">
+          <p className="cr-modal__text">
             {modalState.message}
           </p>
 
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            gap: 'var(--cr-space-4)'
-          }}>
+          <div className="cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap">
             <CrButton
               variant="outline"
               color="default"

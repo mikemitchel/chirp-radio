@@ -69,6 +69,28 @@ export function addRecentlyPlayed(track: Omit<RecentlyPlayedTrack, 'playedAt'>):
 }
 
 /**
+ * Update album art for the most recent track (if it matches artist/track)
+ */
+export function updateRecentlyPlayedAlbumArt(artistName: string, trackName: string, albumArt: string): void {
+  const tracks = getRecentlyPlayed();
+
+  // Find the most recent track that matches artist and track name
+  const trackIndex = tracks.findIndex(t =>
+    t.artistName === artistName && t.trackName === trackName
+  );
+
+  if (trackIndex !== -1 && tracks[trackIndex].albumArt !== albumArt) {
+    tracks[trackIndex].albumArt = albumArt;
+    localStorage.setItem(RECENTLY_PLAYED_KEY, JSON.stringify(tracks));
+
+    // Dispatch event for other components to react
+    window.dispatchEvent(new CustomEvent('chirp-recently-played-updated', {
+      detail: { action: 'update-album-art', track: tracks[trackIndex] }
+    }));
+  }
+}
+
+/**
  * Clear all recently played
  */
 export function clearRecentlyPlayed(): void {

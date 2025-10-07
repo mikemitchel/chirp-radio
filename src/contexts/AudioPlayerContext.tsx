@@ -4,7 +4,7 @@ import { preloadFirstAvailable } from '../utils/imagePreloader';
 import { upgradeImageQuality } from '../utils/imageOptimizer';
 import { useNetworkQuality } from '../hooks/useNetworkQuality';
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB';
-import { addRecentlyPlayed } from '../utils/recentlyPlayedDB';
+import { addRecentlyPlayed, updateRecentlyPlayedAlbumArt } from '../utils/recentlyPlayedDB';
 
 interface TrackData {
   dj: string;
@@ -405,6 +405,9 @@ export function AudioPlayerProvider({
               djName: dj,
               showName: show,
             });
+          } else if (albumArtJustAppeared && albumArtUrl) {
+            // Album art loaded for existing track - update Recently Played
+            updateRecentlyPlayedAlbumArt(artist, track, albumArtUrl);
           }
         }
 
