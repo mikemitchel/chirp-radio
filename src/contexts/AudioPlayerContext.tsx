@@ -383,16 +383,15 @@ export function AudioPlayerProvider({
         lastSongRef.current = currentSong;
         lastUpdateTimeRef.current = new Date();
 
-        // If no album art, retry up to 5 times with strategic delays
-        // First retry quickly, then progressively slower
+        // If no album art, retry up to 5 times quickly (200ms each = 1s total)
+        // This confirms the album art is truly missing before showing fallback
         if (!albumArtUrl && autoFetch && pollTimeoutRef.current !== null && albumArtRetryCountRef.current < 5) {
           albumArtRetryCountRef.current += 1;
-          // Progressive retry delays: 2s, 4s, 6s, 8s, 10s
-          const retryDelay = albumArtRetryCountRef.current * 2000;
+          const retryDelay = 200; // 200ms between retries
 
           console.log(`🔄 [ALBUM ART RETRY ${albumArtRetryCountRef.current}/5]`, {
             song: `${artist} - ${track}`,
-            nextRetryIn: `${retryDelay / 1000}s`
+            nextRetryIn: `${retryDelay}ms`
           });
 
           if (pollTimeoutRef.current) clearTimeout(pollTimeoutRef.current);
@@ -401,7 +400,7 @@ export function AudioPlayerProvider({
         } else if (!albumArtUrl && albumArtRetryCountRef.current >= 5) {
           console.log('⚠️  [ALBUM ART UNAVAILABLE]', {
             song: `${artist} - ${track}`,
-            message: 'No album art found after 5 retries, using fallback'
+            message: 'No album art found after 5 retries (1s total), using fallback'
           });
         }
 
@@ -445,6 +444,90 @@ export function AudioPlayerProvider({
       };
     }
   }, [autoFetch, apiUrl]);
+
+  // Debug test functions
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Test 1: Load track with blue album art
+      (window as any).test1 = () => {
+        setCurrentData({
+          artist: 'Test Artist 1',
+          track: 'Blue Album',
+          albumArt: 'https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.webp',
+          dj: 'Test DJ',
+          show: 'Test Show',
+          album: 'Test Album 1',
+          label: 'Test Label',
+          isLocal: false
+        });
+      };
+
+      // Test 2: Load track with different album art
+      (window as any).test2 = () => {
+        setCurrentData({
+          artist: 'Test Artist 2',
+          track: 'Red Album',
+          albumArt: 'https://lastfm.freetls.fastly.net/i/u/300x300/5a31176389a59cda2a4ce90b414a65f7.webp',
+          dj: 'Test DJ',
+          show: 'Test Show',
+          album: 'Test Album 2',
+          label: 'Test Label',
+          isLocal: false
+        });
+      };
+
+      // Test 3: Load track with no album art (should show fallback after 1s)
+      (window as any).test3 = () => {
+        setCurrentData({
+          artist: 'No Art Artist',
+          track: 'No Album Art',
+          albumArt: '',
+          dj: 'Test DJ',
+          show: 'Test Show',
+          album: 'Test Album',
+          label: 'Test Label',
+          isLocal: false
+        });
+      };
+
+      // Test 4: Load track with null album art
+      (window as any).test4 = () => {
+        setCurrentData({
+          artist: 'Null Art Artist',
+          track: 'Null Album Art',
+          albumArt: null,
+          dj: 'Test DJ',
+          show: 'Test Show',
+          album: 'Test Album',
+          label: 'Test Label',
+          isLocal: false
+        });
+      };
+
+      // Reset to API data
+      (window as any).testReset = () => {
+        // Clear refs to force fresh fetch
+        lastSongRef.current = '';
+        lastAlbumArtUrlRef.current = '';
+        albumArtRetryCountRef.current = 0;
+        isFetchingRef.current = false;
+        // Fetch now
+        fetchNowPlaying();
+      };
+
+      console.log('🧪 Test functions loaded: test1(), test2(), test3(), test4(), testReset()');
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        delete (window as any).test1;
+        delete (window as any).test2;
+        delete (window as any).test3;
+        delete (window as any).test4;
+        delete (window as any).testReset;
+      }
+    };
+  }, []);
 
   const play = async () => {
     if (!audioRef.current) return;

@@ -83,81 +83,93 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false })
     )
   }
 
-  // Initialize with valid src or empty string for fallback
   const [displaySrc, setDisplaySrc] = useState(isValidImageUrl(src) ? src : '')
   const [imageError, setImageError] = useState(false)
-  const [waitingForRetry, setWaitingForRetry] = useState(false)
-  const fallbackTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [showSpinner, setShowSpinner] = useState(!isValidImageUrl(src)) // Start with spinner if no valid src
+  const hasShownFirstImage = useRef(false)
+  const hasConfirmedNoArt = useRef(false)
+  const lastSrc = useRef(src)
 
-  // Preload new image before swapping
   useEffect(() => {
+    // Track if src changed to empty/null (new track with no art vs waiting for art)
+    const srcChangedToEmpty = lastSrc.current !== src && !isValidImageUrl(src) && isValidImageUrl(lastSrc.current);
+    lastSrc.current = src;
+
     if (!isValidImageUrl(src)) {
-      // No valid URL - might be waiting for retry
-      // If we already have an image displayed, wait a bit before showing fallback
-      // This gives the retry mechanism time to find album art
-      if (displaySrc !== '' && !waitingForRetry) {
-        // Wait 1 second before showing fallback
-        // This allows API retries to potentially find album art
-        setWaitingForRetry(true)
-        fallbackTimeoutRef.current = setTimeout(() => {
-          setDisplaySrc('')
-          setWaitingForRetry(false)
-        }, 1000) // Wait 1 second for potential retry success
-      } else if (displaySrc === '' && !waitingForRetry) {
-        // No image currently shown and none coming - show fallback immediately
+      // No valid URL
+      if (srcChangedToEmpty) {
+        // Explicit change from valid art to no art - show spinner briefly, then fallback
+        setShowSpinner(true)
         setDisplaySrc('')
+        // Give 1 second for retries, then show fallback
+        const timer = setTimeout(() => {
+          hasConfirmedNoArt.current = true
+          setShowSpinner(false)
+        }, 1000)
+        return () => clearTimeout(timer)
+      } else if (displaySrc !== '') {
+        // We have a previous image - keep showing it while we wait
+        setShowSpinner(false)
+      } else if (!hasShownFirstImage.current && !hasConfirmedNoArt.current) {
+        // First load, no previous image, not confirmed empty - show spinner
+        setShowSpinner(true)
+      } else {
+        // Confirmed empty - show fallback
+        setDisplaySrc('')
+        setShowSpinner(false)
+        hasConfirmedNoArt.current = true
       }
       setImageError(false)
       return
     }
 
-    // Valid URL arrived - clear any pending fallback timeout
-    if (fallbackTimeoutRef.current) {
-      clearTimeout(fallbackTimeoutRef.current)
-      fallbackTimeoutRef.current = null
-    }
-    setWaitingForRetry(false)
+    // Valid URL arrived - preload it
+    setShowSpinner(false)
+    hasConfirmedNoArt.current = false // Reset since we have a URL now
 
-    // If this is the same as current display, do nothing
     if (src === displaySrc) {
       return
     }
 
-    // New URL - preload it before swapping
     setImageError(false)
 
     const img = new Image()
     img.onload = () => {
-      // Image loaded - swap immediately
       setDisplaySrc(src)
+      hasShownFirstImage.current = true
+      setShowSpinner(false)
     }
     img.onerror = () => {
-      // Failed to load - show fallback
       setDisplaySrc('')
       setImageError(true)
+      setShowSpinner(false)
     }
     img.src = src
-  }, [src, displaySrc, waitingForRetry])
+  }, [src, displaySrc])
 
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (fallbackTimeoutRef.current) {
-        clearTimeout(fallbackTimeoutRef.current)
-      }
-    }
-  }, [])
-
-  // If loading initial data and no src yet, show invisible placeholder
-  if (isLoading && !displaySrc) {
-    return <div className={`cr-player__album-fallback ${className}`} style={{ ...style, opacity: 0 }} />
+  // Priority 1: Show spinner while waiting for first image or during initial load
+  if (showSpinner && !hasConfirmedNoArt.current) {
+    return (
+      <div className={`cr-player__album-fallback ${className}`} style={style}>
+        <div className="cr-spinner" />
+      </div>
+    )
   }
 
-  // If no valid URL or image failed to load, show CHIRP logo
-  if (!displaySrc || imageError) {
+  // Priority 2: If no valid URL or image failed to load, show CHIRP logo (only after confirmed no art)
+  if ((!displaySrc || imageError) && hasConfirmedNoArt.current) {
     return (
       <div className={`cr-player__album-fallback ${className}`} style={style}>
         <CrLogo variant="record" className={isLarge ? 'cr-logo--large' : ''} />
+      </div>
+    )
+  }
+
+  // Priority 3: If still no image but not confirmed, keep showing spinner
+  if (!displaySrc) {
+    return (
+      <div className={`cr-player__album-fallback ${className}`} style={style}>
+        <div className="cr-spinner" />
       </div>
     )
   }
@@ -186,64 +198,67 @@ const BackgroundImage = ({ src, isLoading }) => {
     )
   }
 
-  // Initialize with valid src or empty string for fallback
   const [displaySrc, setDisplaySrc] = useState(isValidImageUrl(src) ? src : '')
-  const [waitingForRetry, setWaitingForRetry] = useState(false)
-  const fallbackTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [hasConfirmedNoArt, setHasConfirmedNoArt] = useState(false)
+  const hasShownFirstImage = useRef(false)
+  const lastSrc = useRef(src)
 
-  // Preload new background image before swapping
   useEffect(() => {
+    // Track if src changed to empty/null
+    const srcChangedToEmpty = lastSrc.current !== src && !isValidImageUrl(src) && isValidImageUrl(lastSrc.current);
+    lastSrc.current = src;
+
     if (!isValidImageUrl(src)) {
-      // No valid URL - might be waiting for retry
-      if (isValidImageUrl(displaySrc) && !waitingForRetry) {
-        // Wait 1 second before showing fallback
-        setWaitingForRetry(true)
-        fallbackTimeoutRef.current = setTimeout(() => {
-          setDisplaySrc('')
-          setWaitingForRetry(false)
-        }, 1000)
-      } else if (!isValidImageUrl(displaySrc) && !waitingForRetry) {
-        // Already showing fallback
+      // No valid URL
+      if (srcChangedToEmpty) {
+        // Explicit change to no art - clear and confirm after delay
         setDisplaySrc('')
+        setHasConfirmedNoArt(false) // Reset first
+        const timer = setTimeout(() => {
+          setHasConfirmedNoArt(true) // This triggers re-render to show fallback
+        }, 1000)
+        return () => clearTimeout(timer)
+      } else if (displaySrc !== '') {
+        // Keep showing previous image
+        return
+      } else if (!hasShownFirstImage.current && !hasConfirmedNoArt) {
+        // First load - don't show fallback yet, wait for data
+        return
+      } else {
+        // Confirmed empty - will show fallback
+        setDisplaySrc('')
+        setHasConfirmedNoArt(true)
       }
       return
     }
 
-    // Valid URL arrived - clear any pending fallback timeout
-    if (fallbackTimeoutRef.current) {
-      clearTimeout(fallbackTimeoutRef.current)
-      fallbackTimeoutRef.current = null
-    }
-    setWaitingForRetry(false)
+    // Valid URL arrived
+    setHasConfirmedNoArt(false)
 
-    // If this is the same as current display, do nothing
     if (src === displaySrc) {
       return
     }
 
-    // New URL - preload it before swapping
+    // Preload new background image
     const img = new Image()
     img.onload = () => {
-      // Image loaded - swap immediately
       setDisplaySrc(src)
+      hasShownFirstImage.current = true
     }
     img.onerror = () => {
-      // Failed to load - show fallback
       setDisplaySrc('')
+      setHasConfirmedNoArt(true)
     }
     img.src = src
-  }, [src, displaySrc, waitingForRetry])
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (fallbackTimeoutRef.current) {
-        clearTimeout(fallbackTimeoutRef.current)
-      }
-    }
-  }, [])
+  }, [src, displaySrc, hasConfirmedNoArt])
 
   const getFallbackUrl = () => '/images/chirp-logos/CHIRP_Logo_FM%20URL_record.svg'
+
+  // Only show background if we have an image OR if we've confirmed there's no art
+  // This prevents the fallback from flashing on initial load
+  if (!displaySrc && !hasConfirmedNoArt) {
+    return null // Don't render anything until we know what to show
+  }
 
   return (
     <div

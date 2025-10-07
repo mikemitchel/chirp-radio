@@ -444,6 +444,22 @@
   flex-shrink: 0;
 }
 
+/* Spinner for loading album art */
+.cr-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--cr-default-200);
+  border-top-color: var(--cr-default-700);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Loading animation */
 @keyframes shimmer {
   0% {
