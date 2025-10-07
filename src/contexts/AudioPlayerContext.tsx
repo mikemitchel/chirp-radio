@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useRef, useEffect, ReactNod
 import { preloadFirstAvailable } from '../utils/imagePreloader';
 import { upgradeImageQuality } from '../utils/imageOptimizer';
 import { useNetworkQuality } from '../hooks/useNetworkQuality';
+import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB';
 
 interface TrackData {
   dj: string;
@@ -277,14 +278,18 @@ export function AudioPlayerProvider({
       ];
 
       console.log('🖼️  [ALBUM ART FROM API]', {
-        large_image: nowPlaying.lastfm_urls?.large_image || 'none',
-        med_image: nowPlaying.lastfm_urls?.med_image || 'none',
-        sm_image: nowPlaying.lastfm_urls?.sm_image || 'none'
+        large_image: nowPlaying.lastfm_urls?.large_image,
+        med_image: nowPlaying.lastfm_urls?.med_image,
+        sm_image: nowPlaying.lastfm_urls?.sm_image
       });
 
+      console.log('📋 [RAW URLS]', rawUrls);
+
       const imageUrls = rawUrls
-        .filter(url => url && url.trim() !== '')
+        .filter(url => url && url.trim() !== '' && url !== 'none' && url !== 'null')
         .map(url => upgradeImageQuality(url, imageQuality)); // Adaptive quality based on network
+
+      console.log('✅ [FILTERED URLS]', imageUrls);
 
       const currentSong = `${artist} - ${track}`.toLowerCase().trim();
       const isSameSong = currentSong === lastSongRef.current;
@@ -370,7 +375,7 @@ export function AudioPlayerProvider({
 
         if (dataChanged) {
           console.log('🎨 [ALBUM ART LOADED TO APP]', {
-            albumArtUrl: albumArtUrl || 'none',
+            albumArtUrl: albumArtUrl || '(empty string)',
             artist,
             track
           });
@@ -384,8 +389,11 @@ export function AudioPlayerProvider({
         lastUpdateTimeRef.current = new Date();
 
         // If no album art, retry up to 5 times quickly (200ms each = 1s total)
-        // This confirms the album art is truly missing before showing fallback
-        if (!albumArtUrl && autoFetch && pollTimeoutRef.current !== null && albumArtRetryCountRef.current < 5) {
+        // This gives the backend time to fetch from Last.fm
+        // The API may return null initially and then update with actual URLs later
+        const shouldRetry = !albumArtUrl && autoFetch && pollTimeoutRef.current !== null && albumArtRetryCountRef.current < 5;
+
+        if (shouldRetry) {
           albumArtRetryCountRef.current += 1;
           const retryDelay = 200; // 200ms between retries
 
@@ -398,7 +406,7 @@ export function AudioPlayerProvider({
           pollTimeoutRef.current = setTimeout(fetchNowPlaying, retryDelay);
           return; // Skip the normal scheduling at the end
         } else if (!albumArtUrl && albumArtRetryCountRef.current >= 5) {
-          console.log('⚠️  [ALBUM ART UNAVAILABLE]', {
+          console.log('⚠️  [NO ALBUM ART AVAILABLE]', {
             song: `${artist} - ${track}`,
             message: 'No album art found after 5 retries (1s total), using fallback'
           });
@@ -504,6 +512,20 @@ export function AudioPlayerProvider({
         });
       };
 
+      // Test 5: Load track with 'none' string (simulates API returning 'none')
+      (window as any).test5 = () => {
+        setCurrentData({
+          artist: 'None String Artist',
+          track: 'Album Art is None String',
+          albumArt: 'none',
+          dj: 'Test DJ',
+          show: 'Test Show',
+          album: 'Test Album',
+          label: 'Test Label',
+          isLocal: false
+        });
+      };
+
       // Reset to API data
       (window as any).testReset = () => {
         // Clear refs to force fresh fetch
@@ -515,7 +537,7 @@ export function AudioPlayerProvider({
         fetchNowPlaying();
       };
 
-      console.log('🧪 Test functions loaded: test1(), test2(), test3(), test4(), testReset()');
+      console.log('🧪 Test functions loaded: test1(), test2(), test3(), test4(), test5(), testReset()');
     }
 
     return () => {
@@ -524,6 +546,7 @@ export function AudioPlayerProvider({
         delete (window as any).test2;
         delete (window as any).test3;
         delete (window as any).test4;
+        delete (window as any).test5;
         delete (window as any).testReset;
       }
     };
@@ -558,8 +581,62 @@ export function AudioPlayerProvider({
   };
 
   const toggleAddTrack = () => {
-    setIsTrackAdded(!isTrackAdded);
+    const trackId = `${currentData.artist}-${currentData.track}`.replace(/\s+/g, '-').toLowerCase();
+
+    if (isTrackAdded) {
+      // Remove from collection
+      const removed = removeFromCollection(trackId);
+      if (removed) {
+        // Dispatch toast event
+        window.dispatchEvent(new CustomEvent('chirp-show-toast', {
+          detail: {
+            message: `Removed ${currentData.track} from your collection`,
+            type: 'success',
+            duration: 3000,
+          }
+        }));
+      }
+    } else {
+      // Add to collection
+      // Use CHIRP logo as fallback if no album art
+      const albumArtUrl = currentData.albumArt || '/src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg';
+
+      addToCollection({
+        id: trackId,
+        artistName: currentData.artist,
+        trackName: currentData.track,
+        albumName: currentData.album,
+        labelName: currentData.label,
+        albumArt: albumArtUrl,
+        isLocal: currentData.isLocal,
+      });
+      // Dispatch toast event
+      window.dispatchEvent(new CustomEvent('chirp-show-toast', {
+        detail: {
+          message: `Added ${currentData.track} to your collection`,
+          type: 'success',
+          duration: 3000,
+        }
+      }));
+    }
   };
+
+  // Sync isTrackAdded with collection state
+  useEffect(() => {
+    const updateAddedStatus = () => {
+      const inCollection = isInCollection(currentData.artist, currentData.track);
+      setIsTrackAdded(inCollection);
+    };
+
+    // Initial check
+    updateAddedStatus();
+
+    // Listen for collection updates
+    window.addEventListener('chirp-collection-updated', updateAddedStatus);
+    return () => {
+      window.removeEventListener('chirp-collection-updated', updateAddedStatus);
+    };
+  }, [currentData.artist, currentData.track]);
 
   return (
     <AudioPlayerContext.Provider

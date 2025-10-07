@@ -39,19 +39,12 @@
   gap: var(--cr-space-4);
 }
 
-.cr-account-settings-page__name-section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--cr-space-2);
-  flex: 1;
-  align-items: flex-start;
-}
-
 .cr-account-settings-page__name {
   font: var(--cr-title-lg);
   color: var(--cr-ink);
   margin: 0;
   letter-spacing: -0.03em;
+  flex: 1;
 }
 
 .cr-account-settings-page__details {

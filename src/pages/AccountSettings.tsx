@@ -157,13 +157,24 @@ export default function AccountSettings() {
     // TODO: Navigate to terms and privacy page
   };
 
+  const handleEditProfile = () => {
+    // TODO: Navigate to edit profile page
+    showToast({
+      message: 'Navigate to edit profile',
+      type: 'info',
+      duration: 3000,
+    });
+  };
+
   return (
     <div className="page-content">
       <CrPageHeader
         eyebrowText="CHIRP Radio"
         title="Account Settings"
         showEyebrow={false}
-        showActionButton={false}
+        showActionButton={isLoggedIn}
+        actionButtonText="Edit Profile"
+        onActionClick={handleEditProfile}
         titleSize="lg"
       />
 
@@ -184,6 +195,7 @@ export default function AccountSettings() {
         onLikeAppStore={handleLikeAppStore}
         onAppSupport={handleAppSupport}
         onTermsPrivacy={handleTermsPrivacy}
+        onEditProfile={handleEditProfile}
       />
     </div>
   );

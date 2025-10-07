@@ -2,7 +2,8 @@
 
 .cr-page-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   gap: var(--cr-space-2);
   margin-bottom: var(--cr-space-6);
   width: 100%;

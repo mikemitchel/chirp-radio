@@ -61,14 +61,9 @@ export default function CrAccountSettingsPage({
         {isLoggedIn && (
           <section className="cr-account-settings-page__profile">
             <div className="cr-account-settings-page__profile-header">
-              <div className="cr-account-settings-page__name-section">
-                <h2 className="cr-account-settings-page__name">
-                  {firstName} {lastName}
-                </h2>
-                <CrButton variant="text" color="default" size="small" onClick={onEditProfile}>
-                  edit
-                </CrButton>
-              </div>
+              <h2 className="cr-account-settings-page__name">
+                {firstName} {lastName}
+              </h2>
               <div className="cr-account-settings-page__avatar-container">
                 <div className="cr-account-settings-page__avatar">
                   {avatarSrc ? (

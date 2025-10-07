@@ -78,7 +78,9 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false })
       url.trim() !== '' &&
       url !== 'null' &&
       url !== 'undefined' &&
+      url !== 'none' &&
       !url.includes('null') &&
+      !url.includes('none') &&
       url.startsWith('http')
     )
   }
@@ -97,8 +99,9 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false })
 
     if (!isValidImageUrl(src)) {
       // No valid URL
-      if (srcChangedToEmpty) {
-        // Explicit change from valid art to no art - show spinner briefly, then fallback
+      if (srcChangedToEmpty || (!hasShownFirstImage.current && !hasConfirmedNoArt.current)) {
+        // Explicit change from valid art to no art, OR first load with no art
+        // Show spinner briefly (1s for retries), then fallback
         setShowSpinner(true)
         setDisplaySrc('')
         // Give 1 second for retries, then show fallback
@@ -110,9 +113,6 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false })
       } else if (displaySrc !== '') {
         // We have a previous image - keep showing it while we wait
         setShowSpinner(false)
-      } else if (!hasShownFirstImage.current && !hasConfirmedNoArt.current) {
-        // First load, no previous image, not confirmed empty - show spinner
-        setShowSpinner(true)
       } else {
         // Confirmed empty - show fallback
         setDisplaySrc('')
@@ -193,7 +193,9 @@ const BackgroundImage = ({ src, isLoading }) => {
       url.trim() !== '' &&
       url !== 'null' &&
       url !== 'undefined' &&
+      url !== 'none' &&
       !url.includes('null') &&
+      !url.includes('none') &&
       url.startsWith('http')
     )
   }
@@ -210,8 +212,8 @@ const BackgroundImage = ({ src, isLoading }) => {
 
     if (!isValidImageUrl(src)) {
       // No valid URL
-      if (srcChangedToEmpty) {
-        // Explicit change to no art - clear and confirm after delay
+      if (srcChangedToEmpty || (!hasShownFirstImage.current && !hasConfirmedNoArt)) {
+        // Explicit change to no art, OR first load with no art - wait 1s then show fallback
         setDisplaySrc('')
         setHasConfirmedNoArt(false) // Reset first
         const timer = setTimeout(() => {
@@ -220,9 +222,6 @@ const BackgroundImage = ({ src, isLoading }) => {
         return () => clearTimeout(timer)
       } else if (displaySrc !== '') {
         // Keep showing previous image
-        return
-      } else if (!hasShownFirstImage.current && !hasConfirmedNoArt) {
-        // First load - don't show fallback yet, wait for data
         return
       } else {
         // Confirmed empty - will show fallback

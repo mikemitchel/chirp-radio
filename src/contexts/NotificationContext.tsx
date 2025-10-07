@@ -1,5 +1,5 @@
 // src/contexts/NotificationContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface ToastConfig {
   message: string;
@@ -97,6 +97,24 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   const hideModal = () => {
     setModalState(prev => ({ ...prev, isOpen: false, onConfirm: undefined, onCancel: undefined }));
   };
+
+  // Listen for custom toast events from other contexts
+  useEffect(() => {
+    const handleShowToast = (event: CustomEvent) => {
+      showToast(event.detail);
+    };
+
+    const handleHideToast = () => {
+      hideToast();
+    };
+
+    window.addEventListener('chirp-show-toast', handleShowToast as EventListener);
+    window.addEventListener('chirp-hide-toast', handleHideToast);
+    return () => {
+      window.removeEventListener('chirp-show-toast', handleShowToast as EventListener);
+      window.removeEventListener('chirp-hide-toast', handleHideToast);
+    };
+  }, []);
 
   return (
     <NotificationContext.Provider
