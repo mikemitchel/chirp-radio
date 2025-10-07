@@ -38,6 +38,11 @@ export default function CrToast({
   const [isFadingOut, setIsFadingOut] = React.useState(false)
 
   useEffect(() => {
+    // Reset fade state when becoming visible
+    if (isVisible) {
+      setIsFadingOut(false)
+    }
+
     if (isVisible && duration > 0 && onClose) {
       const fadeTimer = setTimeout(() => {
         setIsFadingOut(true)
@@ -108,6 +113,7 @@ export default function CrToast({
       className={`cr-toast ${getColorClass()} ${isFadingOut ? 'cr-toast--fade-out' : ''}`}
       role="alert"
       aria-live={type === 'error' ? 'assertive' : 'polite'}
+      style={{ '--toast-duration': `${duration}ms` } as React.CSSProperties}
     >
       <div className="cr-toast__content">
         <div className="cr-toast__icon">{getIcon()}</div>

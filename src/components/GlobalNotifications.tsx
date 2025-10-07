@@ -71,11 +71,12 @@ export default function GlobalNotifications() {
       {/* Global Toast */}
       {toastState.isVisible && (
         <CrToast
-          message={toastState.message}
+          title={toastState.message}
           type={toastState.type}
           isVisible={toastState.isVisible}
           onClose={() => (toastState as any).onClose()}
           duration={toastState.duration}
+          showDismiss={true}
         />
       )}
     </>
