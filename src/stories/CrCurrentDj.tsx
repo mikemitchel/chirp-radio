@@ -28,29 +28,25 @@ export default function CrCurrentDj({
   useEffect(() => {
     const calculateWidths = () => {
       const djNameElement = djNameRef.current
-      const showNameElement = showNameRef.current
       const djContainer = djNameContainerRef.current
-      const showContainer = showNameContainerRef.current
       const infoContainer = djContainer?.parentElement
       const mainContainer = infoContainer?.parentElement
 
-      if (
-        !djNameElement ||
-        !showNameElement ||
-        !djContainer ||
-        !showContainer ||
-        !infoContainer ||
-        !mainContainer
-      ) {
+      if (!djNameElement || !djContainer || !infoContainer || !mainContainer) {
         return
       }
 
+      // Check if show name exists
+      const showNameElement = showNameRef.current
+      const showContainer = showNameContainerRef.current
+      const hasShowName = showName && showName.trim() !== ''
+
       // Get natural widths of content by temporarily removing constraints
       djContainer.style.width = 'auto'
-      showContainer.style.width = 'auto'
+      if (showContainer) showContainer.style.width = 'auto'
 
       const djNaturalWidth = djNameElement.scrollWidth
-      const showNaturalWidth = showNameElement.scrollWidth
+      const showNaturalWidth = hasShowName && showNameElement ? showNameElement.scrollWidth : 0
 
       // Calculate available space more accurately
       // Total container width minus all gaps and the On-Air chip
@@ -61,44 +57,53 @@ export default function CrCurrentDj({
       const chipWidth = statusElement ? statusElement.offsetWidth : 60
 
       const infoComputedStyle = window.getComputedStyle(infoContainer)
-      const infoGap = parseInt(infoComputedStyle.gap) || 12
+      const infoGap = hasShowName ? parseInt(infoComputedStyle.gap) || 12 : 0
 
       const availableWidth = mainContainer.clientWidth - chipWidth - mainGap
-      const totalNaturalWidth = djNaturalWidth + showNaturalWidth + infoGap
 
       let djWidth: number
       let showWidth: number
 
-      if (totalNaturalWidth <= availableWidth) {
-        // Both fit naturally - use natural widths
-        djWidth = djNaturalWidth
-        showWidth = showNaturalWidth
+      if (!hasShowName) {
+        // No show name - give DJ all available space
+        djWidth = Math.min(djNaturalWidth, availableWidth)
+        showWidth = 0
       } else {
-        // Need to constrain
-        const halfSpace = (availableWidth - infoGap) / 2
+        const totalNaturalWidth = djNaturalWidth + showNaturalWidth + infoGap
 
-        if (djNaturalWidth <= halfSpace && showNaturalWidth > halfSpace) {
-          // DJ fits in half, show needs more - give DJ natural width, rest to show
+        if (totalNaturalWidth <= availableWidth) {
+          // Both fit naturally - use natural widths
           djWidth = djNaturalWidth
-          showWidth = availableWidth - djNaturalWidth - infoGap
-        } else if (showNaturalWidth <= halfSpace && djNaturalWidth > halfSpace) {
-          // Show fits in half, DJ needs more - give show natural width, rest to DJ
           showWidth = showNaturalWidth
-          djWidth = availableWidth - showNaturalWidth - infoGap
         } else {
-          // Both overflow half - split evenly
-          djWidth = halfSpace
-          showWidth = halfSpace
+          // Need to constrain
+          const halfSpace = (availableWidth - infoGap) / 2
+
+          if (djNaturalWidth <= halfSpace && showNaturalWidth > halfSpace) {
+            // DJ fits in half, show needs more - give DJ natural width, rest to show
+            djWidth = djNaturalWidth
+            showWidth = availableWidth - djNaturalWidth - infoGap
+          } else if (showNaturalWidth <= halfSpace && djNaturalWidth > halfSpace) {
+            // Show fits in half, DJ needs more - give show natural width, rest to DJ
+            showWidth = showNaturalWidth
+            djWidth = availableWidth - showNaturalWidth - infoGap
+          } else {
+            // Both overflow half - split evenly
+            djWidth = halfSpace
+            showWidth = halfSpace
+          }
         }
       }
 
       // Apply calculated widths
       djContainer.style.width = `${djWidth}px`
-      showContainer.style.width = `${showWidth}px`
+      if (showContainer) showContainer.style.width = `${showWidth}px`
 
       // Check for overflow and apply scrolling animation
       checkOverflow(djNameElement, djContainer)
-      checkOverflow(showNameElement, showContainer)
+      if (hasShowName && showNameElement && showContainer) {
+        checkOverflow(showNameElement, showContainer)
+      }
     }
 
     const checkOverflow = (element: HTMLDivElement, container: HTMLDivElement) => {

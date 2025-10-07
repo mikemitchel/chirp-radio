@@ -69,11 +69,8 @@ const PlayPauseButton = ({ isPlaying, onClick, size = 60 }) => {
   )
 }
 
-// Album Art component with CHIRP logo fallback
-const AlbumArt = ({ src, className, style, isLarge = false }) => {
-  const [hasError, setHasError] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
-
+// Album Art component with CHIRP logo fallback and crossfade
+const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false }) => {
   // Check if we have a valid image URL
   const isValidImageUrl = (url) => {
     return (
@@ -86,23 +83,78 @@ const AlbumArt = ({ src, className, style, isLarge = false }) => {
     )
   }
 
-  const handleImageError = () => {
-    setHasError(true)
-  }
+  // Initialize with valid src or empty string for fallback
+  const [displaySrc, setDisplaySrc] = useState(isValidImageUrl(src) ? src : '')
+  const [imageError, setImageError] = useState(false)
+  const [waitingForRetry, setWaitingForRetry] = useState(false)
+  const fallbackTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  const handleImageLoad = () => {
-    setIsLoaded(true)
-    setHasError(false)
-  }
-
-  // Reset error state when src changes
+  // Preload new image before swapping
   useEffect(() => {
-    setHasError(false)
-    setIsLoaded(false)
-  }, [src])
+    if (!isValidImageUrl(src)) {
+      // No valid URL - might be waiting for retry
+      // If we already have an image displayed, wait a bit before showing fallback
+      // This gives the retry mechanism time to find album art
+      if (displaySrc !== '' && !waitingForRetry) {
+        // Wait 1 second before showing fallback
+        // This allows API retries to potentially find album art
+        setWaitingForRetry(true)
+        fallbackTimeoutRef.current = setTimeout(() => {
+          setDisplaySrc('')
+          setWaitingForRetry(false)
+        }, 1000) // Wait 1 second for potential retry success
+      } else if (displaySrc === '' && !waitingForRetry) {
+        // No image currently shown and none coming - show fallback immediately
+        setDisplaySrc('')
+      }
+      setImageError(false)
+      return
+    }
+
+    // Valid URL arrived - clear any pending fallback timeout
+    if (fallbackTimeoutRef.current) {
+      clearTimeout(fallbackTimeoutRef.current)
+      fallbackTimeoutRef.current = null
+    }
+    setWaitingForRetry(false)
+
+    // If this is the same as current display, do nothing
+    if (src === displaySrc) {
+      return
+    }
+
+    // New URL - preload it before swapping
+    setImageError(false)
+
+    const img = new Image()
+    img.onload = () => {
+      // Image loaded - swap immediately
+      setDisplaySrc(src)
+    }
+    img.onerror = () => {
+      // Failed to load - show fallback
+      setDisplaySrc('')
+      setImageError(true)
+    }
+    img.src = src
+  }, [src, displaySrc, waitingForRetry])
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (fallbackTimeoutRef.current) {
+        clearTimeout(fallbackTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  // If loading initial data and no src yet, show invisible placeholder
+  if (isLoading && !displaySrc) {
+    return <div className={`cr-player__album-fallback ${className}`} style={{ ...style, opacity: 0 }} />
+  }
 
   // If no valid URL or image failed to load, show CHIRP logo
-  if (!isValidImageUrl(src) || hasError) {
+  if (!displaySrc || imageError) {
     return (
       <div className={`cr-player__album-fallback ${className}`} style={style}>
         <CrLogo variant="record" className={isLarge ? 'cr-logo--large' : ''} />
@@ -110,14 +162,96 @@ const AlbumArt = ({ src, className, style, isLarge = false }) => {
     )
   }
 
+  // Show the image
   return (
     <img
-      src={src}
+      src={displaySrc}
       alt="Album Art"
       className={className}
-      style={style}
-      onError={handleImageError}
-      onLoad={handleImageLoad}
+      style={{ ...style, width: '100%', height: '100%', objectFit: 'cover' }}
+    />
+  )
+}
+
+// Background component - simplified
+const BackgroundImage = ({ src, isLoading }) => {
+  const isValidImageUrl = (url) => {
+    return (
+      url &&
+      url.trim() !== '' &&
+      url !== 'null' &&
+      url !== 'undefined' &&
+      !url.includes('null') &&
+      url.startsWith('http')
+    )
+  }
+
+  // Initialize with valid src or empty string for fallback
+  const [displaySrc, setDisplaySrc] = useState(isValidImageUrl(src) ? src : '')
+  const [waitingForRetry, setWaitingForRetry] = useState(false)
+  const fallbackTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Preload new background image before swapping
+  useEffect(() => {
+    if (!isValidImageUrl(src)) {
+      // No valid URL - might be waiting for retry
+      if (isValidImageUrl(displaySrc) && !waitingForRetry) {
+        // Wait 1 second before showing fallback
+        setWaitingForRetry(true)
+        fallbackTimeoutRef.current = setTimeout(() => {
+          setDisplaySrc('')
+          setWaitingForRetry(false)
+        }, 1000)
+      } else if (!isValidImageUrl(displaySrc) && !waitingForRetry) {
+        // Already showing fallback
+        setDisplaySrc('')
+      }
+      return
+    }
+
+    // Valid URL arrived - clear any pending fallback timeout
+    if (fallbackTimeoutRef.current) {
+      clearTimeout(fallbackTimeoutRef.current)
+      fallbackTimeoutRef.current = null
+    }
+    setWaitingForRetry(false)
+
+    // If this is the same as current display, do nothing
+    if (src === displaySrc) {
+      return
+    }
+
+    // New URL - preload it before swapping
+    const img = new Image()
+    img.onload = () => {
+      // Image loaded - swap immediately
+      setDisplaySrc(src)
+    }
+    img.onerror = () => {
+      // Failed to load - show fallback
+      setDisplaySrc('')
+    }
+    img.src = src
+  }, [src, displaySrc, waitingForRetry])
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (fallbackTimeoutRef.current) {
+        clearTimeout(fallbackTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  const getFallbackUrl = () => '/images/chirp-logos/CHIRP_Logo_FM%20URL_record.svg'
+
+  return (
+    <div
+      className="cr-player__background"
+      style={{
+        backgroundImage: displaySrc ? `url(${displaySrc})` : `url(${getFallbackUrl()})`,
+        opacity: 0.75,
+      }}
     />
   )
 }
@@ -244,18 +378,11 @@ export default function CrStreamingMusicPlayer({
   const renderFullPlayer = () => {
     return (
       <div className="cr-player__full">
-        <div
-          className="cr-player__background"
-          style={{
-            backgroundImage: shouldUseFallback(currentData.albumArt)
-              ? `url('/images/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
-              : `url(${currentData.albumArt})`,
-          }}
-        />
+        <BackgroundImage src={currentData.albumArt} isLoading={isLoading} />
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
-            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" />
+            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" isLoading={isLoading} />
           </div>
           <div className="cr-player__track-info-container">
             <CrTrackInfo
@@ -279,18 +406,11 @@ export default function CrStreamingMusicPlayer({
   const renderSlimPlayer = () => {
     return (
       <div className="cr-player__slim">
-        <div
-          className="cr-player__background"
-          style={{
-            backgroundImage: shouldUseFallback(currentData.albumArt)
-              ? `url('/images/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
-              : `url(${currentData.albumArt})`,
-          }}
-        />
+        <BackgroundImage src={currentData.albumArt} isLoading={isLoading} />
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
-            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" />
+            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" isLoading={isLoading} />
           </div>
           <div className="cr-player__track-info-container">
             <CrTrackInfo
@@ -313,15 +433,7 @@ export default function CrStreamingMusicPlayer({
   const renderMobilePlayer = () => {
     return (
       <div className="cr-player__mobile">
-        {/* Add the background elements that were missing */}
-        <div
-          className="cr-player__background"
-          style={{
-            backgroundImage: shouldUseFallback(currentData.albumArt)
-              ? `url('/images/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
-              : `url(${currentData.albumArt})`,
-          }}
-        />
+        <BackgroundImage src={currentData.albumArt} isLoading={isLoading} />
         <div className="cr-player__color-overlay" />
 
         <div className="cr-player__mobile-content">
@@ -339,6 +451,7 @@ export default function CrStreamingMusicPlayer({
               src={currentData.albumArt}
               className="cr-player__album-art-large"
               isLarge={true}
+              isLoading={isLoading}
             />
           </div>
 

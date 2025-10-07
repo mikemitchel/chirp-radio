@@ -31,7 +31,7 @@
   opacity: 0.7;
 }
 
-/* Background and blur effects */
+/* Background and blur effects with crossfade */
 .cr-player__background {
   position: absolute;
   top: 0;
@@ -42,10 +42,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   filter: blur(24px);
-  opacity: 0.75;
-  transition:
-    opacity 0.5s ease-in-out,
-    background-image 0s ease-in-out 0.5s;
+  transition: opacity 0.5s ease-in-out;
   z-index: 0;
   pointer-events: none;
 }
@@ -105,6 +102,14 @@
 .cr-player__mobile .cr-player__play-button {
   width: 100px;
   height: 100px;
+}
+
+/* Smaller play button for narrow mobile devices */
+@media (max-width: 380px) {
+  .cr-player__mobile .cr-player__play-button {
+    width: 65px;
+    height: 65px;
+  }
 }
 
 .cr-player__play-button:hover {
@@ -367,14 +372,22 @@
 /* Album art container - viewport-based sizing, no drop shadow */
 .cr-player--mobile-player .cr-player__album-large {
   position: relative;
-  width: 75vw; /* 75% of viewport width */
-  height: 75vw; /* Keep it square */
+  width: 90vw; /* 90% of viewport width for larger screens */
+  height: 90vw; /* Keep it square */
   min-width: 300px; /* Add back min-width */
   min-height: 300px; /* Add back min-height */
   max-width: 500px; /* Cap at reasonable size */
   max-height: 500px; /* Cap at reasonable size */
   margin: var(--cr-space-6) auto 0; /* 24px top, centered horizontally */
   flex-shrink: 0; /* Don't allow shrinking */
+}
+
+/* Smaller screens (380px and below) - use 75vw */
+@media (max-width: 380px) {
+  .cr-player--mobile-player .cr-player__album-large {
+    width: 75vw;
+    height: 75vw;
+  }
 }
 
 .cr-player--mobile-player .cr-player__album-art-large {
@@ -398,14 +411,19 @@
 
 /* Track info container with 12px inset from album art edges */
 .cr-player--mobile-player .cr-player__track-info-container {
-  width: calc(
-    75vw - calc(var(--cr-space-3) * 2)
-  ); /* Album width minus 24px total (12px each side) */
+  width: calc(90vw - calc(var(--cr-space-3) * 2)); /* 90vw minus 24px total (12px each side) */
   max-width: calc(500px - calc(var(--cr-space-3) * 2)); /* Album max-width minus 24px */
   flex-shrink: 0;
   margin-top: var(--cr-space-6); /* 24px above track info */
   margin-left: auto; /* Center horizontally */
   margin-right: auto; /* Center horizontally */
+}
+
+/* Smaller screens (380px and below) - use 75vw */
+@media (max-width: 380px) {
+  .cr-player--mobile-player .cr-player__track-info-container {
+    width: 75vw;
+  }
 }
 
 /* Left-aligned track info for mobile player */

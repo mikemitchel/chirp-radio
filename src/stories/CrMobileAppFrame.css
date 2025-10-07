@@ -15,11 +15,12 @@
 .cr-mobile-frame--landing {
   height: 100vh;
   overflow: hidden;
+  padding-top: env(safe-area-inset-top);
 }
 
 .cr-mobile-frame--landing .cr-mobile-frame__header {
   position: fixed;
-  top: 0;
+  top: env(safe-area-inset-top);
   left: 0;
   right: 0;
   z-index: 100;
@@ -44,11 +45,12 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: env(safe-area-inset-top);
 }
 
 .cr-mobile-frame--interior .cr-mobile-frame__header {
   position: fixed;
-  top: 0;
+  top: env(safe-area-inset-top);
   left: 0;
   right: 0;
   z-index: 100;

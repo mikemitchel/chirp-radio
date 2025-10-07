@@ -83,7 +83,13 @@ export default function CrSidebar({
 
             {/* Header Section */}
             <div className="cr-sidebar__header">
-              <div className="cr-sidebar__logo-section" onClick={onLogoClick}>
+              <div
+                className="cr-sidebar__logo-section"
+                onClick={() => {
+                  if (onLogoClick) onLogoClick();
+                  onClose?.();
+                }}
+              >
                 <CrLogo
                   variant="horizontal"
                   color="primary"

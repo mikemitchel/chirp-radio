@@ -6,6 +6,8 @@ import CrMobileAppFrame from '../stories/CrMobileAppFrame'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 import { NotificationProvider } from '../contexts/NotificationContext'
 import GlobalNotifications from '../components/GlobalNotifications'
+import { preloadFirstAvailable } from '../utils/imagePreloader'
+import { upgradeImageQuality } from '../utils/imageOptimizer'
 
 // Preload now playing data and cache it
 const preloadNowPlayingData = async () => {
@@ -21,6 +23,35 @@ const preloadNowPlayingData = async () => {
     if (!parsedData || !parsedData.now_playing) throw new Error('Invalid API response')
 
     const nowPlaying = parsedData.now_playing
+
+    // Collect all available image URLs and upgrade to 348s quality
+    const imageUrls = [
+      nowPlaying.lastfm_urls?.large_image,
+      nowPlaying.lastfm_urls?.med_image,
+      nowPlaying.lastfm_urls?.sm_image
+    ]
+      .filter(url => url && url.trim() !== '')
+      .map(url => upgradeImageQuality(url)) // Upgrade to 348s for better quality
+
+    // Try to preload the first available image (now all upgraded to 348s)
+    let albumArtUrl = ''
+    if (imageUrls.length > 0) {
+      try {
+        const timestampedUrls = imageUrls.map(url => `${url}?t=${Date.now()}`)
+        albumArtUrl = await preloadFirstAvailable(timestampedUrls)
+      } catch (error) {
+        console.warn('⚠️ [Album Art - Splash] All image URLs failed to load, using fallback')
+        console.warn('API lastfm_urls:', nowPlaying.lastfm_urls)
+        console.warn('Attempted URLs:', imageUrls)
+      }
+    } else {
+      // No image URLs available at all
+      if (nowPlaying.lastfm_urls && nowPlaying.lastfm_urls !== null) {
+        console.warn('⚠️ [Album Art - Splash] No valid image URLs found, but lastfm_urls exists:')
+        console.warn('API lastfm_urls:', nowPlaying.lastfm_urls)
+      }
+    }
+
     const cachedData = {
       dj: nowPlaying.dj?.trim() || 'Unknown DJ',
       show: nowPlaying.show?.trim() || '',
@@ -28,11 +59,7 @@ const preloadNowPlayingData = async () => {
       track: nowPlaying.track?.trim() || 'Unknown Track',
       album: nowPlaying.release?.trim() || 'Unknown Release',
       label: nowPlaying.label?.trim() || 'Unknown Label',
-      albumArt:
-        nowPlaying.lastfm_urls?.large_image ||
-        nowPlaying.lastfm_urls?.med_image ||
-        nowPlaying.lastfm_urls?.sm_image ||
-        '',
+      albumArt: albumArtUrl, // Will be empty string if preload failed
       isLocal: nowPlaying.artist_is_local || false,
       timestamp: Date.now(),
     }
@@ -50,7 +77,6 @@ export default function MobileApp() {
   const [showSplash, setShowSplash] = useState(() => {
     // Check sessionStorage on initial mount
     const splashShown = sessionStorage.getItem('chirp-splash-shown')
-    console.log('Initial state - chirp-splash-shown:', splashShown)
     return splashShown !== 'true'
   })
   const [splashAnimationState, setSplashAnimationState] = useState<
@@ -65,16 +91,12 @@ export default function MobileApp() {
 
     // Check if splash has already been shown
     const hasShownSplash = sessionStorage.getItem('chirp-splash-shown') === 'true'
-    console.log('useEffect - hasShownSplash:', hasShownSplash)
 
     // Skip splash animation if already shown this session
     if (hasShownSplash) {
-      console.log('Skipping splash - already shown')
       setShowSplash(false)
       return
     }
-
-    console.log('Starting splash animation')
 
     let hideTimer: NodeJS.Timeout
 
