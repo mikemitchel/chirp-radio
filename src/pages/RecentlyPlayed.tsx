@@ -5,6 +5,7 @@ import CrPlaylistTable from '../stories/CrPlaylistTable';
 import CrAnnouncement from '../stories/CrAnnouncement';
 import { useNotification } from '../contexts/NotificationContext';
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB';
+import { getRecentlyPlayed, groupByHour } from '../utils/recentlyPlayedDB';
 
 // Sample data - will be replaced with API call
 const samplePlaylistItems = [
@@ -109,7 +110,47 @@ const samplePlaylistItems = [
 
 export default function RecentlyPlayed() {
   const { showToast } = useNotification();
-  const [playlistItems, setPlaylistItems] = useState(samplePlaylistItems);
+  const [playlistItems, setPlaylistItems] = useState<any[]>([]);
+
+  // Load recently played tracks and convert to playlist format
+  const loadRecentlyPlayed = () => {
+    const recentTracks = getRecentlyPlayed();
+    const grouped = groupByHour(recentTracks);
+
+    const items: any[] = [];
+    Object.entries(grouped).forEach(([hourKey, data]) => {
+      data.tracks.forEach((track: any) => {
+        const playedDate = new Date(track.playedAt);
+        const timeString = playedDate.toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        });
+
+        items.push({
+          id: track.id,
+          hourKey,
+          hourData: data.hourData,
+          albumArt: track.albumArt,
+          albumArtAlt: `${track.albumName} album cover`,
+          artistName: track.artistName,
+          trackName: track.trackName,
+          albumName: track.albumName,
+          labelName: track.labelName,
+          timeAgo: timeString,
+          isLocal: track.isLocal,
+          isAdded: isInCollection(track.artistName, track.trackName),
+        });
+      });
+    });
+
+    setPlaylistItems(items);
+  };
+
+  // Load on mount
+  useEffect(() => {
+    loadRecentlyPlayed();
+  }, []);
 
   // Update isAdded status when collection changes
   useEffect(() => {
@@ -122,13 +163,22 @@ export default function RecentlyPlayed() {
       );
     };
 
-    // Initial check
-    updateAddedStatus();
-
     // Listen for collection updates
     window.addEventListener('chirp-collection-updated', updateAddedStatus);
     return () => {
       window.removeEventListener('chirp-collection-updated', updateAddedStatus);
+    };
+  }, []);
+
+  // Update when new tracks are played
+  useEffect(() => {
+    const handleRecentlyPlayedUpdate = () => {
+      loadRecentlyPlayed();
+    };
+
+    window.addEventListener('chirp-recently-played-updated', handleRecentlyPlayedUpdate);
+    return () => {
+      window.removeEventListener('chirp-recently-played-updated', handleRecentlyPlayedUpdate);
     };
   }, []);
 

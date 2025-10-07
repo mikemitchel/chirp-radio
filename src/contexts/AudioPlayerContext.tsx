@@ -4,6 +4,7 @@ import { preloadFirstAvailable } from '../utils/imagePreloader';
 import { upgradeImageQuality } from '../utils/imageOptimizer';
 import { useNetworkQuality } from '../hooks/useNetworkQuality';
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB';
+import { addRecentlyPlayed } from '../utils/recentlyPlayedDB';
 
 interface TrackData {
   dj: string;
@@ -390,6 +391,21 @@ export function AudioPlayerProvider({
           setIsLoading(false);
           // Update ref to track album art URL (prevents repeated updates)
           lastAlbumArtUrlRef.current = albumArtUrl;
+
+          // Track new song in recently played (only when song actually changes, not just metadata updates)
+          if (!isSameSong) {
+            addRecentlyPlayed({
+              id: `${Date.now()}-${artist}-${track}`.replace(/\s+/g, '-').toLowerCase(),
+              artistName: artist,
+              trackName: track,
+              albumName: album,
+              labelName: label,
+              albumArt: albumArtUrl || '/src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg',
+              isLocal,
+              djName: dj,
+              showName: show,
+            });
+          }
         }
 
         lastSongRef.current = currentSong;
