@@ -87,7 +87,6 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false })
 
   const [displaySrc, setDisplaySrc] = useState(isValidImageUrl(src) ? src : '')
   const [imageError, setImageError] = useState(false)
-  const [showSpinner, setShowSpinner] = useState(!isValidImageUrl(src)) // Start with spinner if no valid src
   const hasShownFirstImage = useRef(false)
   const hasConfirmedNoArt = useRef(false)
   const lastSrc = useRef(src)
@@ -98,33 +97,14 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false })
     lastSrc.current = src;
 
     if (!isValidImageUrl(src)) {
-      // No valid URL
-      if (srcChangedToEmpty || (!hasShownFirstImage.current && !hasConfirmedNoArt.current)) {
-        // Explicit change from valid art to no art, OR first load with no art
-        // Show spinner briefly (1s for retries), then fallback
-        setShowSpinner(true)
-        setDisplaySrc('')
-        // Give 1 second for retries, then show fallback
-        const timer = setTimeout(() => {
-          hasConfirmedNoArt.current = true
-          setShowSpinner(false)
-        }, 1000)
-        return () => clearTimeout(timer)
-      } else if (displaySrc !== '') {
-        // We have a previous image - keep showing it while we wait
-        setShowSpinner(false)
-      } else {
-        // Confirmed empty - show fallback
-        setDisplaySrc('')
-        setShowSpinner(false)
-        hasConfirmedNoArt.current = true
-      }
+      // No valid URL - go directly to fallback (retries already happened in AudioPlayerContext)
+      setDisplaySrc('')
+      hasConfirmedNoArt.current = true
       setImageError(false)
       return
     }
 
     // Valid URL arrived - preload it
-    setShowSpinner(false)
     hasConfirmedNoArt.current = false // Reset since we have a URL now
 
     if (src === displaySrc) {
@@ -137,39 +117,19 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false })
     img.onload = () => {
       setDisplaySrc(src)
       hasShownFirstImage.current = true
-      setShowSpinner(false)
     }
     img.onerror = () => {
       setDisplaySrc('')
       setImageError(true)
-      setShowSpinner(false)
     }
     img.src = src
   }, [src, displaySrc])
 
-  // Priority 1: Show spinner while waiting for first image or during initial load
-  if (showSpinner && !hasConfirmedNoArt.current) {
-    return (
-      <div className={`cr-player__album-fallback ${className}`} style={style}>
-        <div className="cr-spinner" />
-      </div>
-    )
-  }
-
-  // Priority 2: If no valid URL or image failed to load, show CHIRP logo (only after confirmed no art)
-  if ((!displaySrc || imageError) && hasConfirmedNoArt.current) {
+  // If no valid URL or image failed to load, show CHIRP logo
+  if (!displaySrc || imageError) {
     return (
       <div className={`cr-player__album-fallback ${className}`} style={style}>
         <CrLogo variant="record" className={isLarge ? 'cr-logo--large' : ''} />
-      </div>
-    )
-  }
-
-  // Priority 3: If still no image but not confirmed, keep showing spinner
-  if (!displaySrc) {
-    return (
-      <div className={`cr-player__album-fallback ${className}`} style={style}>
-        <div className="cr-spinner" />
       </div>
     )
   }
@@ -211,23 +171,9 @@ const BackgroundImage = ({ src, isLoading }) => {
     lastSrc.current = src;
 
     if (!isValidImageUrl(src)) {
-      // No valid URL
-      if (srcChangedToEmpty || (!hasShownFirstImage.current && !hasConfirmedNoArt)) {
-        // Explicit change to no art, OR first load with no art - wait 1s then show fallback
-        setDisplaySrc('')
-        setHasConfirmedNoArt(false) // Reset first
-        const timer = setTimeout(() => {
-          setHasConfirmedNoArt(true) // This triggers re-render to show fallback
-        }, 1000)
-        return () => clearTimeout(timer)
-      } else if (displaySrc !== '') {
-        // Keep showing previous image
-        return
-      } else {
-        // Confirmed empty - will show fallback
-        setDisplaySrc('')
-        setHasConfirmedNoArt(true)
-      }
+      // No valid URL - go directly to fallback (retries already happened in AudioPlayerContext)
+      setDisplaySrc('')
+      setHasConfirmedNoArt(true)
       return
     }
 

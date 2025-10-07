@@ -301,7 +301,10 @@ export function AudioPlayerProvider({
       const newArtUrlFromApi = imageUrls.length > 0 ? stripTimestampForComparison(imageUrls[0]) : '';
       const albumArtJustAppeared = isSameSong && currentArtUrlFromRef === '' && newArtUrlFromApi !== '';
 
-      if (currentSong !== lastSongRef.current || albumArtJustAppeared) {
+      // Check if we're in retry mode (same song, no art yet, retries remaining)
+      const isRetryingAlbumArt = isSameSong && !currentArtUrlFromRef && albumArtRetryCountRef.current > 0 && albumArtRetryCountRef.current < 5;
+
+      if (currentSong !== lastSongRef.current || albumArtJustAppeared || isRetryingAlbumArt) {
         // Reset counter only for actual song changes
         if (!isSameSong) {
           consecutiveNoChangeRef.current = 0;
@@ -322,6 +325,10 @@ export function AudioPlayerProvider({
             // Same song, album art just appeared - no need for timestamp
             albumArtUrl = imageUrls[0];
           }
+        } else if (isSameSong && albumArtRetryCountRef.current > 0 && albumArtRetryCountRef.current < 5) {
+          // During retries for the same song, keep showing the old album art (from previous song)
+          // Don't switch to empty until we've exhausted all retries
+          albumArtUrl = currentData.albumArt;
         }
 
         const newData: TrackData = {
@@ -331,7 +338,7 @@ export function AudioPlayerProvider({
           track,
           album,
           label,
-          albumArt: albumArtUrl, // Will be empty string if preload failed
+          albumArt: albumArtUrl, // Keep old art during retries, empty after retries exhausted
           isLocal
         };
 
@@ -403,7 +410,10 @@ export function AudioPlayerProvider({
           });
 
           if (pollTimeoutRef.current) clearTimeout(pollTimeoutRef.current);
-          pollTimeoutRef.current = setTimeout(fetchNowPlaying, retryDelay);
+          pollTimeoutRef.current = setTimeout(() => {
+            isFetchingRef.current = false; // Reset flag before retry
+            fetchNowPlaying();
+          }, retryDelay);
           return; // Skip the normal scheduling at the end
         } else if (!albumArtUrl && albumArtRetryCountRef.current >= 5) {
           console.log('⚠️  [NO ALBUM ART AVAILABLE]', {
