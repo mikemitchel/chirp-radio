@@ -1,6 +1,6 @@
 // src/pages/LandingPage.tsx
 import React from 'react'
-import { PiCalendarDots, PiReadCvLogo } from 'react-icons/pi'
+import { PiCalendarDots, PiReadCvLogo, PiVinylRecord } from 'react-icons/pi'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrCurrentDjCard from '../stories/CrCurrentDjCard'
 import CrAdSpace from '../stories/CrAdSpace'
@@ -122,12 +122,15 @@ const LandingPage: React.FC = () => {
         </div>
 
         <div className="landing-main-right">
-          <CrCurrentDjCard />
+          <CrCurrentDjCard
+            description="DJ Current is lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo. Curabitur blandit tempus porttitor. Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
+          />
 
           <CrAnnouncement
             variant="motivation"
             widthVariant="third"
             textureBackground="cr-bg-natural-s900"
+            showLink={false}
           />
 
           <CrAdSpace
@@ -276,7 +279,9 @@ const LandingPage: React.FC = () => {
           <CrPageHeader
             showEyebrow={false}
             title="Our DJs"
-            showActionButton={false}
+            showActionButton={true}
+            actionButtonText="Review the DJ Schedule"
+            actionButtonIcon={<PiVinylRecord />}
           />
           <CrDjOverview
             size="medium"

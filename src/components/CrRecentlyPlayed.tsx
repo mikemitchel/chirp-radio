@@ -41,55 +41,28 @@ export default function CrRecentlyPlayed({
 }: CrRecentlyPlayedProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [showGradient, setShowGradient] = useState(true)
-  const [djInfo, setDjInfo] = useState<DjInfo | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
-  // Fetch DJ info from API
+  // DJ info should come from CrCurrentDj component, not fetched here
+  // Using default placeholder values for hour break display
+  const djInfo: DjInfo = {
+    djName: 'Current DJ',
+    showName: 'Current Show',
+    startTime: '12:00pm',
+    endTime: '1:00pm',
+    djProfileUrl: '#',
+  }
+
   useEffect(() => {
-    const fetchDjInfo = async () => {
-      try {
-        const response = await fetch('/api/current_playlist')
-        const data = await response.json()
-
-        console.log('API Response:', data.now_playing)
-
-        if (data.now_playing && data.now_playing.dj) {
-          // Format times from the API data
-          const formatTime = (dateStr: string) => {
-            const date = new Date(dateStr)
-            const hours = date.getHours()
-            const minutes = date.getMinutes()
-            const ampm = hours >= 12 ? 'pm' : 'am'
-            const displayHours = hours % 12 || 12
-            const displayMinutes = minutes.toString().padStart(2, '0')
-            return `${displayHours}:${displayMinutes}${ampm}`
-          }
-
-          const playedAt = new Date(data.now_playing.played_at_gmt)
-          const startOfHour = new Date(playedAt)
-          startOfHour.setMinutes(0, 0, 0)
-
-          const endOfHour = new Date(startOfHour)
-          endOfHour.setHours(startOfHour.getHours() + 1)
-
-          const djData = {
-            djName: data.now_playing.dj,
-            showName: '', // No show name in API
-            startTime: formatTime(startOfHour.toISOString()),
-            endTime: formatTime(endOfHour.toISOString()),
-            djProfileUrl: '#',
-          }
-
-          console.log('Setting DJ Info:', djData)
-          setDjInfo(djData)
-        } else {
-          console.log('No DJ info in API response')
-        }
-      } catch (error) {
-        console.error('Error fetching DJ info:', error)
-      }
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768)
     }
 
-    fetchDjInfo()
+    // Initial check
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   useEffect(() => {
@@ -121,7 +94,7 @@ export default function CrRecentlyPlayed({
           {showViewPlaylistButton && (
             <CrButton
               variant="outline"
-              size="medium"
+              size="large"
               color="secondary"
               rightIcon={<PiPlaylist />}
               onClick={onViewPlaylist}
@@ -131,17 +104,15 @@ export default function CrRecentlyPlayed({
           )}
         </div>
 
-        {djInfo && (
-          <CrPlaylistHourBreak
-            startTime={djInfo.startTime}
-            endTime={djInfo.endTime}
-            djName={djInfo.djName}
-            showName={djInfo.showName}
-            djProfileUrl={djInfo.djProfileUrl}
-            isCollapsed={false}
-            showChevron={false}
-          />
-        )}
+        <CrPlaylistHourBreak
+          startTime={djInfo.startTime}
+          endTime={djInfo.endTime}
+          djName={djInfo.djName}
+          showName={djInfo.showName}
+          djProfileUrl={djInfo.djProfileUrl}
+          isCollapsed={false}
+          showChevron={false}
+        />
 
         <div className={`cr-recently-played__scroll-wrapper ${showGradient ? 'cr-recently-played__scroll-wrapper--gradient' : ''}`}>
           <div className="cr-recently-played__scroll-container" ref={scrollRef}>
@@ -149,7 +120,7 @@ export default function CrRecentlyPlayed({
               {displayedTracks.map((track, index) => (
                 <CrPlaylistItem
                   key={index}
-                  variant="card"
+                  variant={isMobile ? 'table' : 'card'}
                   albumArt={track.albumArt}
                   albumArtAlt={track.albumArtAlt}
                   artistName={track.artistName}
@@ -160,6 +131,7 @@ export default function CrRecentlyPlayed({
                   isLocal={track.isLocal}
                   timeAgo={track.timeAgo}
                   showTime={true}
+                  currentlyPlaying={index === 0}
                 />
               ))}
             </div>

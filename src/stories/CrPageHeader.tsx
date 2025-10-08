@@ -45,7 +45,7 @@ export default function CrPageHeader({
       {showActionButton && (
         <div className="cr-page-header__action">
           <CrButton
-            size="small"
+            size="medium"
             variant="outline"
             color="default"
             rightIcon={actionButtonIcon}

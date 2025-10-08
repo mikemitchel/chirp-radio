@@ -49,7 +49,8 @@
   .cr-logo-banner__container {
     flex-direction: column;
     align-items: center;
-    gap: var(--cr-space-6); /* 24px gap */
+    gap: var(--cr-space-4); /* 16px gap */
+    margin-bottom: var(--cr-space-3);
   }
 
   .cr-logo-banner__logo-container {

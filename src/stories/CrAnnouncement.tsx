@@ -33,7 +33,7 @@ export default function CrAnnouncement({
   headlineText = "It's our fifteenth anniversary!",
   bodyText = 'Celebrate our history & help us plan for the future!',
   showLink = true,
-  linkText = 'DONATE TODAY & HELP US RAISE $48K!',
+  linkText = 'Donate Today!',
   linkUrl = '#',
   buttonCount = 'two', // 'one', 'two', or 'none'
   button1Text = 'SMART SPEAKER',

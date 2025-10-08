@@ -212,29 +212,16 @@
     padding: var(--cr-space-3) var(--cr-space-4);
   }
 
-  .cr-main-nav__left,
-  .cr-main-nav__right {
-    gap: var(--cr-space-3);
-  }
-
   .cr-main-nav__nav-items {
     gap: var(--cr-space-3);
   }
 }
 
-@media (max-width: 768px) {
-  .cr-main-nav__container {
-    padding: var(--cr-space-2) var(--cr-space-3);
-  }
-
-  /* Hide "WAYS TO GIVE" text on mobile, keep icon */
-  .cr-main-nav__ways-text {
-    display: none;
-  }
-
-  /* Hide "STORE" text on mobile, keep icon */
-  .cr-main-nav__store-text {
-    display: none;
+@media (max-width: 789px) {
+  .cr-main-nav__left,
+  .cr-main-nav__right {
+    justify-content: space-between;
+    width: 100%;
   }
 }
 

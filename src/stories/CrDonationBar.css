@@ -13,6 +13,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   padding: var(--cr-space-2);
+  margin: 0;
 }
 
 .cr-donation-bar:hover {

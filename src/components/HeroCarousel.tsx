@@ -1,6 +1,7 @@
 // HeroCarousel.tsx
 import React, { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
 import CrCard from '../stories/CrCard'
 import './HeroCarousel.css'
 
@@ -17,10 +18,19 @@ interface HeroCarouselProps {
     bannerButtonText?: string
     shareButtonText?: string
   }>
+  autoplay?: boolean
+  autoplayDelay?: number
 }
 
-export default function HeroCarousel({ slides = [] }: HeroCarouselProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
+export default function HeroCarousel({
+  slides = [],
+  autoplay = true,
+  autoplayDelay = 5000
+}: HeroCarouselProps) {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true },
+    autoplay ? [Autoplay({ delay: autoplayDelay, stopOnInteraction: true })] : []
+  )
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   const scrollPrev = useCallback(() => {

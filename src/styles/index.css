@@ -472,7 +472,7 @@ body {
   right: 0;
   bottom: 0;
   pointer-events: none;
-  background-size: auto;
+  background-size: 200px;
   background-repeat: repeat;
   opacity: 0.65;
 }

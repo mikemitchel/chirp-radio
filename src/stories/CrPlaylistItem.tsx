@@ -18,6 +18,7 @@ interface CrPlaylistItemProps {
   timeAgo?: string
   showTime?: boolean
   variant?: 'default' | 'table' | 'card'
+  currentlyPlaying?: boolean
   className?: string
 }
 
@@ -42,11 +43,14 @@ export default function CrPlaylistItem({
   // Variant
   variant = 'default', // "default" or "table"
 
+  // Currently playing state
+  currentlyPlaying = false,
+
   className = '',
 }: CrPlaylistItemProps) {
   if (variant === 'table') {
     return (
-      <div className={`cr-playlist-item cr-playlist-item--table ${className}`}>
+      <div className={`cr-playlist-item cr-playlist-item--table ${currentlyPlaying ? 'cr-playlist-item--currently-playing' : ''} ${className}`}>
         <div className="cr-playlist-item__table-album-art">
           <img src={albumArt} alt={albumArtAlt} className="cr-playlist-item__image" />
         </div>
@@ -105,7 +109,7 @@ export default function CrPlaylistItem({
   // Card variant
   if (variant === 'card') {
     return (
-      <div className={`cr-playlist-item cr-playlist-item--card ${className}`}>
+      <div className={`cr-playlist-item cr-playlist-item--card ${currentlyPlaying ? 'cr-playlist-item--currently-playing' : ''} ${className}`}>
         {/* Blurred background */}
         <div
           className="cr-playlist-item__card-background"

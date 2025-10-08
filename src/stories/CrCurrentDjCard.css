@@ -91,31 +91,6 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .cr-current-dj-card__content {
-    flex-direction: column;
-    padding: 0 var(--cr-space-4) var(--cr-space-4) var(--cr-space-4);
-    gap: var(--cr-space-4);
-  }
-
-  .cr-current-dj-card__top {
-    padding: var(--cr-space-4) var(--cr-space-4);
-  }
-
-  .cr-current-dj-card__image-container {
-    width: 100%;
-    max-width: 140px;
-    margin: 0 auto;
-  }
-
-  .cr-current-dj-card__actions {
-    flex-direction: column;
-  }
-
-  .cr-current-dj-card__actions button {
-    width: 100%;
-  }
-}
 
 @media (max-width: 480px) {
   .cr-current-dj-card__top {

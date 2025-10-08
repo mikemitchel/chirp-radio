@@ -121,22 +121,6 @@
 /* === RESPONSIVE === */
 /* ============================================ */
 
-@media (max-width: 768px) {
-  /* Scale badge font size down on mobile */
-  .cr-cart-icon__badge {
-    font-size: 12px;
-    line-height: 16px;
-    min-width: 16px;
-    height: 16px;
-  }
-
-  /* Large icon mobile adjustments */
-  .cr-cart-icon[style*='--cart-icon-size: 60px'] .cr-cart-icon__badge,
-  .cr-cart-icon[style*='--cart-icon-size: 48px'] .cr-cart-icon__badge {
-    font-size: 14px;
-  }
-}
-
 @media (max-width: 480px) {
   /* Further scale down on smallest screens */
   .cr-cart-icon__badge {

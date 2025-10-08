@@ -64,6 +64,7 @@ export default function CrCard({
   bannerButtonText = 'Buy Tix',
   shareButtonText = 'Share',
   continueButtonText = 'Continue Reading',
+  showShareButton = true,
 
   // Event handlers
   onBannerTicketClick,
@@ -386,6 +387,7 @@ export default function CrCard({
                     dateTime={dateTime}
                     venue={venue}
                     ageRestriction={ageRestriction}
+                    showShareButton={false}
                     onVenueClick={onVenueClick}
                     onShareClick={onShareClick}
                   />

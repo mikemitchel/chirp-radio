@@ -24,9 +24,9 @@
 /* Navigation Buttons */
 .hero-carousel__button {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.9);
+  top: 45%;
+  transform: translateY(-45%);
+  background-color: rgba(255, 255, 255, 0.25);
   border: none;
   border-radius: 50%;
   width: 48px;
@@ -42,13 +42,13 @@
 }
 
 .hero-carousel__button:hover {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 255, 255, 0.5);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transform: translateY(-50%) scale(1.05);
+  transform: translateY(-45%) scale(1.05);
 }
 
 .hero-carousel__button:active {
-  transform: translateY(-50%) scale(0.95);
+  transform: translateY(-45%) scale(0.95);
 }
 
 .hero-carousel__button:focus-visible {
@@ -66,12 +66,12 @@
 
 /* Dark mode */
 [data-theme='dark'] .hero-carousel__button {
-  background-color: rgba(0, 0, 0, 0.7);
-  color: var(--cr-paper);
+  background-color: rgba(255, 255, 255, 0.25);
+  color: var(--cr-ink);
 }
 
 [data-theme='dark'] .hero-carousel__button:hover {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Pagination Dots */
@@ -108,6 +108,20 @@
 }
 
 /* Mobile adjustments */
+@media (max-width: 1260px) and (min-width: 969px) {
+  /* Change card image aspect ratio to 4:3 */
+  .hero-carousel .cr-card--default {
+    aspect-ratio: 4/3;
+  }
+}
+
+@media (max-width: 560px) {
+  /* Change card image aspect ratio to 4:3 */
+  .hero-carousel .cr-card--default {
+    aspect-ratio: 4/3;
+  }
+}
+
 @media (max-width: 768px) {
   .hero-carousel__button {
     width: 40px;
