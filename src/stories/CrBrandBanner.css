@@ -44,7 +44,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   /* Switch to stacked layout on smaller screens */
   .cr-logo-banner__container {
     flex-direction: column;

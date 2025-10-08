@@ -108,14 +108,14 @@
 }
 
 /* Mobile adjustments */
-@media (max-width: 1260px) and (min-width: 969px) {
+@media (max-width: 1280px) and (min-width: 969px) {
   /* Change card image aspect ratio to 4:3 */
   .hero-carousel .cr-card--default {
     aspect-ratio: 4/3;
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   /* Change card image aspect ratio to 4:3 */
   .hero-carousel .cr-card--default {
     aspect-ratio: 4/3;

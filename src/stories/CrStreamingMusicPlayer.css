@@ -376,7 +376,7 @@
   height: 90vw; /* Keep it square */
   min-width: 300px; /* Add back min-width */
   min-height: 300px; /* Add back min-height */
-  max-width: 500px; /* Cap at reasonable size */
+  max-width: 480px; /* Cap at reasonable size */
   max-height: 500px; /* Cap at reasonable size */
   margin: var(--cr-space-6) auto 0; /* 24px top, centered horizontally */
   flex-shrink: 0; /* Don't allow shrinking */
@@ -480,7 +480,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 500px) {
+@media (max-width: 480px) {
   .cr-player--full-player .cr-player__full,
   .cr-player--slim-player .cr-player__slim {
     width: 100vw !important;

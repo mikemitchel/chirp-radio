@@ -46,7 +46,7 @@
   }
 }
 
-@media (max-width: 610px) {
+@media (max-width: 640px) {
   .cr-top-banner__container {
     flex-direction: column;
     align-items: center;

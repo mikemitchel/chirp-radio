@@ -131,6 +131,55 @@
   --cr-space-section-gap: var(--cr-space-2xl); /* 48px */
   --cr-space-page-margin: var(--cr-space-xl); /* 32px */
 
+  /* === RESPONSIVE BREAKPOINTS === */
+  /*
+   * STANDARD BREAKPOINT SYSTEM - Single Source of Truth
+   *
+   * NOTE: CSS variables cannot be used in @media queries.
+   * These values serve as the centralized reference - use the pixel values directly in media queries.
+   *
+   * STANDARDIZED BREAKPOINTS (Normalized across entire application):
+   * - 380px: Extra small mobile (component-specific: CrStreamingMusicPlayer)
+   * - 480px: Small mobile (phone portrait)
+   * - 520px: Medium mobile (component-specific)
+   * - 640px: Large mobile (phone landscape / small tablet)
+   * - 768px: Tablet portrait (most common mobile→desktop transition)
+   * - 968px: Near desktop (component-specific: Footer)
+   * - 1024px: Tablet landscape / small desktop
+   * - 1200px: Medium desktop
+   * - 1280px: Desktop
+   * - 1440px: Large desktop / max content width
+   *
+   * USAGE IN MEDIA QUERIES:
+   * @media (max-width: 480px)  { ... } // --breakpoint-xs
+   * @media (max-width: 640px)  { ... } // --breakpoint-sm
+   * @media (max-width: 768px)  { ... } // --breakpoint-md
+   * @media (max-width: 968px)  { ... } // --breakpoint-near-lg (footer)
+   * @media (max-width: 1024px) { ... } // --breakpoint-lg
+   * @media (max-width: 1200px) { ... } // --breakpoint-near-xl
+   * @media (max-width: 1280px) { ... } // --breakpoint-xl
+   * @media (max-width: 1440px) { ... } // --breakpoint-2xl
+   *
+   * For min-width queries, use breakpoint + 1:
+   * @media (min-width: 769px)  { ... } // Desktop and above
+   * @media (min-width: 969px)  { ... } // Above footer breakpoint
+   * @media (min-width: 1025px) { ... } // Large desktop
+   */
+
+  /* Primary breakpoints - Use these for all layout changes */
+  --breakpoint-xxs: 380px;  /* XXS - Extra small mobile (CrStreamingMusicPlayer only) */
+  --breakpoint-xs: 480px;   /* XS - Small mobile (phone portrait) */
+  --breakpoint-sm: 640px;   /* SM - Large mobile (phone landscape / small tablet) */
+  --breakpoint-md: 768px;   /* MD - Tablet portrait (most common mobile→desktop transition) */
+  --breakpoint-near-lg: 968px; /* Near-LG - Footer and component-specific */
+  --breakpoint-lg: 1024px;  /* LG - Tablet landscape / small desktop */
+  --breakpoint-near-xl: 1200px; /* Near-XL - Medium desktop */
+  --breakpoint-xl: 1280px;  /* XL - Desktop */
+  --breakpoint-2xl: 1440px; /* 2XL - Large desktop / max content width */
+
+  /* Component-specific breakpoints */
+  --breakpoint-520: 520px;  /* CrBrandBanner specific */
+
   /* === TEXTURE SYSTEM === */
   /* Real texture images */
   --cr-texture-natural-url: url('../assets/textures/natural-paper.png');
@@ -1052,7 +1101,7 @@ input[type='radio'] {
 }
 
 /* Mobile responsive adjustments */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .form-row {
     flex-direction: column;
     gap: var(--cr-space-4);

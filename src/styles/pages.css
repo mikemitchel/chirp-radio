@@ -93,7 +93,7 @@
   /* Columns remain at 67% 33% */
 }
 
-@media (max-width: 1175px) {
+@media (max-width: 1200px) {
   .landing-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -147,7 +147,7 @@
   }
 }
 
-@media (max-width: 799px) {
+@media (max-width: 768px) {
   .landing-grid {
     grid-template-columns: 1fr;
   }

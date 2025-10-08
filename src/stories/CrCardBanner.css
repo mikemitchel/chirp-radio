@@ -85,7 +85,7 @@
 }
 
 /* Responsive */
-@media (max-width: 655px) {
+@media (max-width: 640px) {
   /* Force stacked layout for inline variant */
   .cr-card-title-banner--inline .cr-card-title-banner__content {
     flex-direction: column !important;
@@ -95,7 +95,7 @@
 }
 
 
-@media (max-width: 539px) {
+@media (max-width: 640px) {
   .cr-card-title-banner {
     padding: var(--cr-space-3) var(--cr-space-4);
   }

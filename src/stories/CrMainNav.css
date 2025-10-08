@@ -217,7 +217,7 @@
   }
 }
 
-@media (max-width: 789px) {
+@media (max-width: 768px) {
   .cr-main-nav__left,
   .cr-main-nav__right {
     justify-content: space-between;

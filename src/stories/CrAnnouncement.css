@@ -283,7 +283,7 @@
 }
 
 /* When in narrow right column (viewport around 1000px), stack announcement content */
-@media (max-width: 1100px) and (min-width: 969px) {
+@media (max-width: 1024px) and (min-width: 969px) {
   .landing-main-right .cr-announcement__top {
     flex-direction: column;
     gap: var(--cr-space-4);

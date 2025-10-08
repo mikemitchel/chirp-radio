@@ -9,6 +9,7 @@
   gap: var(--cr-space-8); /* 32px gap between support and ads */
   align-items: flex-start;
   box-sizing: border-box;
+  background-color: var(--cr-default-100);
 }
 
 /* Support section - 2/3 width on web */
@@ -37,7 +38,7 @@
 /* ============================================ */
 
 /* Tablet and below - stack vertically */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   .cr-support-with-ads {
     flex-direction: column;
     gap: var(--cr-space-6); /* 24px gap when stacked */
@@ -87,7 +88,7 @@
   gap: var(--cr-space-4); /* 16px */
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   .cr-support-with-ads--compact {
     gap: var(--cr-space-3); /* 12px when stacked */
   }
