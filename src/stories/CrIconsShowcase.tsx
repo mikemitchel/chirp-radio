@@ -15,6 +15,8 @@ import {
   PiGearLight,
   PiPaperclip,
   PiNotepad,
+  PiCalendarDots,
+  PiReadCvLogo,
 } from 'react-icons/pi'
 import { FaFacebookSquare, FaInstagram, FaTwitterSquare, FaLinkedin } from 'react-icons/fa'
 import { SiBluesky } from 'react-icons/si'
@@ -108,6 +110,18 @@ export default function CrIconsShowcase() {
       component: PiNotepad,
       usage: 'Terms & Privacy button icon',
       components: ['CrAccountSettingsPage'],
+    },
+    {
+      name: 'PiCalendarDots',
+      component: PiCalendarDots,
+      usage: 'Calendar/Events related actions, used in See More Events button',
+      components: ['CrPageHeader', 'LandingPage'],
+    },
+    {
+      name: 'PiReadCvLogo',
+      component: PiReadCvLogo,
+      usage: 'Articles/Reading related actions, used in View More Articles button',
+      components: ['CrPageHeader', 'LandingPage'],
     },
     {
       name: 'SiBluesky',

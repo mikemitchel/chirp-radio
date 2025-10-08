@@ -48,7 +48,7 @@ export default function CrPageHeader({
             size="small"
             variant="outline"
             color="default"
-            leftIcon={actionButtonIcon}
+            rightIcon={actionButtonIcon}
             onClick={onActionClick}
           >
             {actionButtonText}

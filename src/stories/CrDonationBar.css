@@ -162,3 +162,31 @@
   --cr-primary-500: #ea1c2c;
   --cr-paper: #fafafa;
 }
+
+/* ============================================ */
+/* === REVERSE VARIANT === */
+/* ============================================ */
+
+/* Reverse variant - white background with red fill bar */
+.cr-donation-bar--reverse {
+  background-color: #fafafa;
+}
+
+.cr-donation-bar--reverse .cr-donation-bar__fill {
+  background-color: var(--cr-primary-500);
+}
+
+/* Reverse variant - red text on white background */
+.cr-donation-bar--reverse .cr-donation-bar__amount--white {
+  color: var(--cr-primary-500);
+}
+
+/* Reverse variant - white text inside red bar */
+.cr-donation-bar--reverse .cr-donation-bar__amount--red {
+  color: white;
+}
+
+/* Reverse variant - red target text on white background */
+.cr-donation-bar--reverse .cr-donation-bar__target .cr-donation-bar__amount {
+  color: var(--cr-primary-500);
+}

@@ -2,12 +2,19 @@
 
 .cr-announcement {
   width: 100%;
-  padding: var(--cr-space-8);
+  padding: var(--cr-space-6) var(--cr-space-6) var(--cr-space-1) var(--cr-space-6);
   position: relative;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--cr-space-6);
+  gap: 0;
+}
+
+.cr-announcement__top {
+  display: flex;
+  flex-direction: row;
+  gap: var(--cr-space-8);
+  align-items: flex-start;
 }
 
 
@@ -15,6 +22,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--cr-space-6);
+  flex: 1;
+  min-width: 0;
 }
 
 /* Override colors for all backgrounds - prevent dark mode changes */
@@ -117,7 +126,9 @@
   font: var(--cr-title-xl);
   font-family: var(--cr-font-antonio), serif;
   color: var(--cr-ink);
-  margin-bottom: var(--cr-space-4);
+  margin-bottom: 0;
+  flex-shrink: 0;
+  width: 400px;
 }
 
 .cr-announcement__body {
@@ -151,7 +162,8 @@
 /* ============================================ */
 
 .cr-announcement__donation {
-  margin-top: var(--cr-space-6);
+  margin-top: 0;
+  margin-bottom: var(--cr-space-4);
 }
 
 /* ============================================ */
@@ -164,6 +176,36 @@
 
 .cr-announcement--motivation {
   /* Motivation-specific styles if needed */
+}
+
+/* ============================================ */
+/* === WIDTH VARIANTS === */
+/* ============================================ */
+
+/* Full width variant - default, keeps current behavior */
+.cr-announcement--full {
+  /* Uses default styles */
+}
+
+/* Third width variant - more compact, stacks earlier */
+.cr-announcement--third .cr-announcement__top {
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.cr-announcement--third .cr-announcement__headline {
+  width: 100%;
+}
+
+.cr-announcement--third .cr-announcement__wrapper {
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.cr-announcement--third .cr-announcement__buttons {
+  width: 200px;
+  flex-shrink: 0;
 }
 
 /* ============================================ */
@@ -183,7 +225,7 @@
   }
 }
 
-/* Mobile screens: single column */
+/* Mobile/Tablet screens: header on top, content and buttons side-by-side */
 @media (max-width: 768px) {
   .cr-announcement {
     padding: var(--cr-space-6);
@@ -191,5 +233,47 @@
 
   .cr-announcement__headline {
     font: var(--cr-title-lg);
+  }
+
+  /* Stack top section vertically - headline on top */
+  .cr-announcement__top {
+    flex-direction: column;
+    gap: var(--cr-space-4);
+  }
+
+  .cr-announcement__headline {
+    width: 100%;
+  }
+
+  /* Keep wrapper horizontal - content left, buttons right */
+  .cr-announcement__wrapper {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .cr-announcement__buttons {
+    width: 200px;
+    flex-shrink: 0;
+  }
+}
+
+/* Very small screens: stack everything vertically */
+@media (max-width: 520px) {
+  .cr-announcement {
+    padding: var(--cr-space-4);
+  }
+
+  .cr-announcement__headline {
+    font: var(--cr-title-md);
+  }
+
+  /* Wrapper stacks vertically on very small screens */
+  .cr-announcement__wrapper {
+    flex-direction: column;
+    gap: var(--cr-space-4);
+  }
+
+  .cr-announcement__buttons {
+    width: 100%;
   }
 }

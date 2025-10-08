@@ -1,6 +1,7 @@
 // CrRecentlyPlayed.tsx
 import React, { useRef, useEffect, useState } from 'react'
 import CrPlaylistItem from '../stories/CrPlaylistItem'
+import CrPlaylistHourBreak from '../stories/CrPlaylistHourBreak'
 import CrButton from '../stories/CrButton'
 import { PiPlaylist } from 'react-icons/pi'
 import './CrRecentlyPlayed.css'
@@ -15,6 +16,14 @@ interface Track {
   isAdded?: boolean
   isLocal?: boolean
   timeAgo?: string
+}
+
+interface DjInfo {
+  djName: string
+  showName: string
+  startTime: string
+  endTime: string
+  djProfileUrl?: string
 }
 
 interface CrRecentlyPlayedProps {
@@ -32,6 +41,56 @@ export default function CrRecentlyPlayed({
 }: CrRecentlyPlayedProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [showGradient, setShowGradient] = useState(true)
+  const [djInfo, setDjInfo] = useState<DjInfo | null>(null)
+
+  // Fetch DJ info from API
+  useEffect(() => {
+    const fetchDjInfo = async () => {
+      try {
+        const response = await fetch('/api/current_playlist')
+        const data = await response.json()
+
+        console.log('API Response:', data.now_playing)
+
+        if (data.now_playing && data.now_playing.dj) {
+          // Format times from the API data
+          const formatTime = (dateStr: string) => {
+            const date = new Date(dateStr)
+            const hours = date.getHours()
+            const minutes = date.getMinutes()
+            const ampm = hours >= 12 ? 'pm' : 'am'
+            const displayHours = hours % 12 || 12
+            const displayMinutes = minutes.toString().padStart(2, '0')
+            return `${displayHours}:${displayMinutes}${ampm}`
+          }
+
+          const playedAt = new Date(data.now_playing.played_at_gmt)
+          const startOfHour = new Date(playedAt)
+          startOfHour.setMinutes(0, 0, 0)
+
+          const endOfHour = new Date(startOfHour)
+          endOfHour.setHours(startOfHour.getHours() + 1)
+
+          const djData = {
+            djName: data.now_playing.dj,
+            showName: '', // No show name in API
+            startTime: formatTime(startOfHour.toISOString()),
+            endTime: formatTime(endOfHour.toISOString()),
+            djProfileUrl: '#',
+          }
+
+          console.log('Setting DJ Info:', djData)
+          setDjInfo(djData)
+        } else {
+          console.log('No DJ info in API response')
+        }
+      } catch (error) {
+        console.error('Error fetching DJ info:', error)
+      }
+    }
+
+    fetchDjInfo()
+  }, [])
 
   useEffect(() => {
     const scrollContainer = scrollRef.current
@@ -52,6 +111,8 @@ export default function CrRecentlyPlayed({
 
   const displayedTracks = tracks.slice(0, maxItems)
 
+  console.log('CrRecentlyPlayed render - djInfo:', djInfo)
+
   return (
     <div className="cr-recently-played cr-bg-textured cr-bg-dust-d300">
       <div className="cr-recently-played__container">
@@ -69,6 +130,18 @@ export default function CrRecentlyPlayed({
             </CrButton>
           )}
         </div>
+
+        {djInfo && (
+          <CrPlaylistHourBreak
+            startTime={djInfo.startTime}
+            endTime={djInfo.endTime}
+            djName={djInfo.djName}
+            showName={djInfo.showName}
+            djProfileUrl={djInfo.djProfileUrl}
+            isCollapsed={false}
+            showChevron={false}
+          />
+        )}
 
         <div className={`cr-recently-played__scroll-wrapper ${showGradient ? 'cr-recently-played__scroll-wrapper--gradient' : ''}`}>
           <div className="cr-recently-played__scroll-container" ref={scrollRef}>

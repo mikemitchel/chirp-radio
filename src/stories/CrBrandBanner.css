@@ -18,7 +18,7 @@
   max-width: 1440px;
   margin: 0 auto;
   box-sizing: border-box;
-  padding: var(--cr-space-3) var(--cr-space-6); /* 12px 24px */
+  padding: 0 var(--cr-space-6); /* 0 24px */
   display: flex;
   justify-content: space-between;
   align-items: center;

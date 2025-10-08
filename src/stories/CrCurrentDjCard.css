@@ -23,8 +23,8 @@
 /* Image container */
 .cr-current-dj-card__image-container {
   flex-shrink: 0;
-  width: 160px;
-  height: 160px;
+  width: 140px;
+  height: 140px;
   border-radius: var(--cr-space-2);
   overflow: hidden;
 }
@@ -104,7 +104,7 @@
 
   .cr-current-dj-card__image-container {
     width: 100%;
-    max-width: 160px;
+    max-width: 140px;
     margin: 0 auto;
   }
 

@@ -6,6 +6,7 @@ import './CrAnnouncement.css'
 
 interface CrAnnouncementProps {
   variant?: string
+  widthVariant?: string
   textureBackground?: string
   headlineText?: string
   bodyText?: string
@@ -27,13 +28,14 @@ interface CrAnnouncementProps {
 
 export default function CrAnnouncement({
   variant = 'donation', // 'donation' or 'motivation'
+  widthVariant = 'full', // 'full' or 'third'
   textureBackground = 'cr-bg-natural-a500', // 'cr-bg-natural-a500', 'cr-bg-natural-s100', 'cr-bg-natural-s900', 'cr-bg-natural-d100', 'cr-bg-natural-d900'
   headlineText = "It's our fifteenth anniversary!",
   bodyText = 'Celebrate our history & help us plan for the future!',
   showLink = true,
   linkText = 'DONATE TODAY & HELP US RAISE $48K!',
   linkUrl = '#',
-  buttonCount = 'two', // 'one' or 'two'
+  buttonCount = 'two', // 'one', 'two', or 'none'
   button1Text = 'SMART SPEAKER',
   button1Icon = 'speaker', // 'speaker' or 'mobile'
   button1OnClick,
@@ -49,6 +51,7 @@ export default function CrAnnouncement({
   const componentClasses = [
     'cr-announcement',
     `cr-announcement--${variant}`,
+    `cr-announcement--${widthVariant}`,
     'cr-bg-textured',
     textureBackground,
     className,
@@ -105,39 +108,62 @@ export default function CrAnnouncement({
 
   return (
     <div className={componentClasses}>
-      {/* Headline - Full Width */}
-      <h2 className="cr-announcement__headline">{headlineText}</h2>
+      <div className="cr-announcement__top">
+        {/* Headline - Left Column */}
+        <h2 className="cr-announcement__headline">{headlineText}</h2>
 
-      <div className="cr-announcement__wrapper">
-        <div className="cr-announcement__content">
-          {/* Body Text */}
-          <p className="cr-announcement__body">{bodyText}</p>
+        <div className="cr-announcement__wrapper">
+          <div className="cr-announcement__content">
+            {/* Body Text */}
+            <p className="cr-announcement__body">{bodyText}</p>
 
-          {/* Optional Link Button */}
-          {showLink && (
-            <div className="cr-announcement__link-wrapper">
-              <CrButton
-                variant="text"
-                color="secondary"
-                size="medium"
-                leftIcon={<PiHandHeartLight />}
-                rightIcon={<PiArrowRight />}
-                onClick={() => {
-                  if (linkUrl) {
-                    window.location.href = linkUrl
-                  }
-                }}
-              >
-                {linkText}
-              </CrButton>
-            </div>
-          )}
-        </div>
+            {/* Optional Link Button */}
+            {showLink && (
+              <div className="cr-announcement__link-wrapper">
+                <CrButton
+                  variant="text"
+                  color="secondary"
+                  size="medium"
+                  leftIcon={<PiHandHeartLight />}
+                  rightIcon={<PiArrowRight />}
+                  onClick={() => {
+                    if (linkUrl) {
+                      window.location.href = linkUrl
+                    }
+                  }}
+                >
+                  {linkText}
+                </CrButton>
+              </div>
+            )}
+          </div>
 
-        {/* Buttons */}
-        <div className="cr-announcement__buttons">
-          {buttonCount === 'two' && (
-            <>
+          {/* Buttons */}
+          <div className="cr-announcement__buttons">
+            {buttonCount === 'two' && (
+              <>
+                <CrButton
+                  variant="outline"
+                  color="secondary"
+                  size="medium"
+                  rightIcon={renderIcon(button1Icon)}
+                  onClick={button1OnClick}
+                >
+                  {button1Text}
+                </CrButton>
+                <CrButton
+                  variant="outline"
+                  color="secondary"
+                  size="medium"
+                  rightIcon={renderIcon(button2Icon)}
+                  onClick={button2OnClick}
+                >
+                  {button2Text}
+                </CrButton>
+              </>
+            )}
+
+            {buttonCount === 'one' && (
               <CrButton
                 variant="outline"
                 color="secondary"
@@ -147,39 +173,19 @@ export default function CrAnnouncement({
               >
                 {button1Text}
               </CrButton>
-              <CrButton
-                variant="outline"
-                color="secondary"
-                size="medium"
-                rightIcon={renderIcon(button2Icon)}
-                onClick={button2OnClick}
-              >
-                {button2Text}
-              </CrButton>
-            </>
-          )}
-
-          {buttonCount === 'one' && (
-            <CrButton
-              variant="outline"
-              color="secondary"
-              size="medium"
-              rightIcon={renderIcon(button1Icon)}
-              onClick={button1OnClick}
-            >
-              {button1Text}
-            </CrButton>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Donation Bar - only shown for donation variant */}
+      {/* Donation Bar - only shown for donation variant - Full Width */}
       {variant === 'donation' && (
         <div className="cr-announcement__donation">
           <CrDonationBar
             currentAmount={currentAmount}
             targetAmount={targetAmount}
             onDonateClick={onDonateClick}
+            variant="reverse"
           />
         </div>
       )}

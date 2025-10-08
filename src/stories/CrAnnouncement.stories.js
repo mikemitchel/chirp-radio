@@ -21,6 +21,11 @@ export default {
       options: ['donation', 'motivation'],
       description: 'Component variant',
     },
+    widthVariant: {
+      control: 'select',
+      options: ['full', 'third'],
+      description: 'Width variant - full (desktop 2-col) or third (compact, header on top)',
+    },
     textureBackground: {
       control: 'select',
       options: ['cr-bg-natural-a500', 'cr-bg-natural-s100', 'cr-bg-natural-s900', 'cr-bg-natural-d100', 'cr-bg-natural-d900'],
@@ -28,7 +33,7 @@ export default {
     },
     buttonCount: {
       control: 'select',
-      options: ['one', 'two'],
+      options: ['one', 'two', 'none'],
       description: 'Number of buttons to display',
     },
   },
@@ -163,4 +168,31 @@ export const AllBackgrounds = {
       targetAmount: 20000
     })
   ])
+};
+
+// Third width variant - compact layout for sidebars
+export const ThirdWidth = {
+  args: {
+    variant: 'motivation',
+    widthVariant: 'third',
+    textureBackground: 'cr-bg-natural-s900',
+    headlineText: 'Listen on the go!',
+    bodyText: 'Stream CHIRP Radio on your smart speaker or mobile device.',
+    showLink: true,
+    linkText: 'Get the app today!',
+    linkUrl: '#',
+    buttonCount: 'two',
+    button1Text: 'SMART SPEAKER',
+    button1Icon: 'speaker',
+    button2Text: 'MOBILE',
+    button2Icon: 'mobile',
+  },
+  decorators: [
+    (Story) =>
+      React.createElement(
+        'div',
+        { style: { maxWidth: '420px', margin: '0 auto' } },
+        React.createElement(Story)
+      ),
+  ],
 };

@@ -47,39 +47,35 @@ export default function CrMainNav({
   )
 
   return (
-    <nav className={`cr-main-nav cr-main-nav--${variant} cr-bg-textured cr-bg-natural-d100`}>
+    <nav className={`cr-main-nav cr-main-nav--${variant}`}>
       <div className="cr-main-nav__container">
         {/* Left navigation items */}
         <div className="cr-main-nav__left">
-          <CrMenuButton variant="dots" layout="icon-left" text="MENU" onClick={onMenuClick} />
+          <CrMenuButton variant="dots" layout="icon-left" text="Menu" onClick={onMenuClick} />
 
           <div className="cr-main-nav__nav-items">
             <button className="cr-main-nav__nav-link" onClick={onListenClick}>
-              LISTEN
+              Listen
             </button>
-            <button
-              className="cr-main-nav__nav-link cr-main-nav__nav-link--dropdown"
-              onClick={onEventsClick}
-            >
-              EVENTS
-              <DropdownIcon />
+            <button className="cr-main-nav__nav-link" onClick={onEventsClick}>
+              Events
             </button>
             <button className="cr-main-nav__nav-link" onClick={onArticlesClick}>
-              ARTICLES
+              Articles
+            </button>
+            {/* Search */}
+            <button
+              className="cr-main-nav__search-button"
+              onClick={onSearchClick}
+              aria-label="Search"
+            >
+              <PiMagnifyingGlass />
             </button>
           </div>
         </div>
 
         {/* Right navigation items */}
         <div className="cr-main-nav__right">
-          {/* Search */}
-          <button
-            className="cr-main-nav__search-button"
-            onClick={onSearchClick}
-            aria-label="Search"
-          >
-            <PiMagnifyingGlass />
-          </button>
 
           {/* Store with cart icon */}
           <button
@@ -91,7 +87,7 @@ export default function CrMainNav({
                 : 'Store'
             }
           >
-            <span className="cr-main-nav__store-text">STORE</span>
+            <span className="cr-main-nav__store-text">Store</span>
             <CrCartIcon
               badgeCount={storeBadgeCount}
               showBadge={showStoreBadge}
@@ -106,13 +102,13 @@ export default function CrMainNav({
             onClick={onWaysToGiveClick}
             aria-label="Ways to Give"
           >
-            <span className="cr-main-nav__ways-text">WAYS TO GIVE</span>
+            <span className="cr-main-nav__ways-text">Ways to Give</span>
             <DropdownIcon />
           </button>
 
           {/* Donate button */}
           <CrButton variant="solid" color="primary" size="small" onClick={onDonateClick}>
-            DONATE
+            Donate
           </CrButton>
         </div>
       </div>

@@ -1,5 +1,6 @@
 // src/pages/LandingPage.tsx
 import React from 'react'
+import { PiCalendarDots, PiReadCvLogo } from 'react-icons/pi'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrCurrentDjCard from '../stories/CrCurrentDjCard'
 import CrAdSpace from '../stories/CrAdSpace'
@@ -110,6 +111,7 @@ const LandingPage: React.FC = () => {
         <CrAnnouncement
           variant="donation"
           textureBackground="cr-bg-natural-a500"
+          buttonCount="none"
         />
       </section>
 
@@ -124,12 +126,12 @@ const LandingPage: React.FC = () => {
 
           <CrAnnouncement
             variant="motivation"
+            widthVariant="third"
             textureBackground="cr-bg-natural-s900"
           />
 
           <CrAdSpace
-            size="custom"
-            customHeight="50px"
+            size="mobile-banner"
           />
         </div>
       </section>
@@ -146,6 +148,7 @@ const LandingPage: React.FC = () => {
             showEyebrow={false}
             title="Events"
             actionButtonText="See More Events"
+            actionButtonIcon={<PiCalendarDots />}
           />
           <CrCard
             variant="narrow"
@@ -193,6 +196,7 @@ const LandingPage: React.FC = () => {
             showEyebrow={false}
             title="Articles"
             actionButtonText="View More Articles"
+            actionButtonIcon={<PiReadCvLogo />}
           />
           <CrCard
             variant="small"

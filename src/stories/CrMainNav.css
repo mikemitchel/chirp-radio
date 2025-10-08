@@ -2,6 +2,11 @@
 .cr-main-nav {
   width: 100%;
   box-sizing: border-box;
+  background-color: var(--cr-default-100);
+}
+
+[data-theme='dark'] .cr-main-nav {
+  background-color: var(--cr-default-100);
 }
 
 .cr-main-nav__container {
@@ -11,7 +16,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: var(--cr-space-3) var(--cr-space-5);
+  padding: var(--cr-space-1) var(--cr-space-5);
   box-sizing: border-box;
   flex-wrap: wrap;
 }
@@ -27,7 +32,7 @@
 .cr-main-nav__nav-items {
   display: flex;
   align-items: center;
-  gap: var(--cr-space-4); /* Reduced from space-6 to space-4 */
+  gap: var(--cr-space-8);
 }
 
 .cr-main-nav__nav-link {
