@@ -43,10 +43,11 @@
   right: 0;
   bottom: 0;
   width: 60px;
-  background: linear-gradient(to left, rgba(0, 0, 0, 0.08), transparent);
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.5), transparent);
   pointer-events: none;
   z-index: 10;
   transition: opacity 0.3s ease;
+  filter: blur(10px);
 }
 
 /* Dark theme adjustment */
