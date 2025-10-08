@@ -1,0 +1,134 @@
+/* HeroCarousel.css */
+
+.hero-carousel {
+  position: relative;
+  width: 100%;
+}
+
+.hero-carousel__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero-carousel__container {
+  display: flex;
+  backface-visibility: hidden;
+  touch-action: pan-y;
+}
+
+.hero-carousel__slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+/* Navigation Buttons */
+.hero-carousel__button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+  color: var(--cr-ink);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.hero-carousel__button:hover {
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.hero-carousel__button:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.hero-carousel__button:focus-visible {
+  outline: 3px solid var(--cr-primary-500);
+  outline-offset: 2px;
+}
+
+.hero-carousel__button--prev {
+  left: var(--cr-space-4);
+}
+
+.hero-carousel__button--next {
+  right: var(--cr-space-4);
+}
+
+/* Dark mode */
+[data-theme='dark'] .hero-carousel__button {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--cr-paper);
+}
+
+[data-theme='dark'] .hero-carousel__button:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Pagination Dots */
+.hero-carousel__dots {
+  display: flex;
+  gap: var(--cr-space-2);
+  justify-content: center;
+  margin-top: var(--cr-space-4);
+}
+
+.hero-carousel__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--cr-default-300);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.hero-carousel__dot:hover {
+  opacity: 0.7;
+  transform: scale(1.1);
+}
+
+.hero-carousel__dot--active {
+  background-color: var(--cr-secondary-500);
+}
+
+.hero-carousel__dot:focus-visible {
+  outline: 2px solid var(--cr-primary-500);
+  outline-offset: 2px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .hero-carousel__button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hero-carousel__button--prev {
+    left: var(--cr-space-2);
+  }
+
+  .hero-carousel__button--next {
+    right: var(--cr-space-2);
+  }
+
+  .hero-carousel__dots {
+    margin-top: var(--cr-space-3);
+    gap: var(--cr-space-1);
+  }
+
+  .hero-carousel__dot {
+    width: 10px;
+    height: 10px;
+  }
+}

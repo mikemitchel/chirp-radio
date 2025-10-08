@@ -5,7 +5,6 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrPreviousShows from '../stories/CrPreviousShows'
 import CrAnnouncement from '../stories/CrAnnouncement'
-import '../styles/dj-detail-page.css'
 
 const DJDetailPage: React.FC = () => {
   return (
@@ -37,7 +36,7 @@ const DJDetailPage: React.FC = () => {
       <section className="dj-detail-announcement">
         <CrAnnouncement
           variant="motivation"
-          textureBackground="cr-br-natural-d100"
+          textureBackground="cr-bg-natural-d100"
         />
       </section>
     </div>

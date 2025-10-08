@@ -3,6 +3,9 @@
 .cr-support-with-ads {
   display: flex;
   width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--cr-space-8) 0;
   gap: var(--cr-space-8); /* 32px gap between support and ads */
   align-items: flex-start;
   box-sizing: border-box;

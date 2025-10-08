@@ -1,103 +1,27 @@
-body {
-  margin: 0;
-  padding: 0;
-}
-#root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Ensures the body is at least the height of the viewport */
+/* ============================================ */
+/* === LAYOUT MAIN IMPORT FILE === */
+/* This file imports all CSS modules for the application */
+/* ============================================ */
+
+/* Base styles - foundational styles and core elements */
+@import './base.css';
+
+/* Utilities - reusable utility classes for layouts */
+@import './utilities.css';
+
+/* Auth - authentication and login prompt styles */
+@import './auth.css';
+
+/* Pages - complex page-specific layouts */
+@import './pages.css';
+
+/* Support with Ads wrapper */
+.support-with-ads-wrapper {
+  width: 100%;
+  background-color: var(--cr-default-900);
+  border-top: 4px solid var(--cr-primary-500);
 }
 
-footer {
-  margin-top: auto; /* Pushes the footer to the bottom */
-}
-
-/* Page content container */
-.page-content {
-  animation: pageSlideIn 300ms ease-out;
-}
-
-.page-header {
-  margin-bottom: 24px;
-}
-
-.page-header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: var(--cr-default-900);
-}
-
-.page-header p {
-  font-size: 16px;
-  color: var(--cr-default-600);
-  margin: 0;
-}
-
-.page-section {
-  margin-bottom: 32px;
-}
-
-.page-section h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--cr-default-800);
-}
-
-/* Placeholder content */
-.playlist-placeholder,
-.collection-placeholder,
-.request-form-placeholder,
-.settings-placeholder {
-  padding: 32px;
-  background-color: var(--cr-default-50);
-  border-radius: 8px;
-  text-align: center;
-  color: var(--cr-default-600);
-}
-
-.playlist-placeholder p,
-.collection-placeholder p,
-.request-form-placeholder p,
-.settings-placeholder p {
-  margin: 8px 0;
-}
-
-/* Dark mode */
-[data-theme="dark"] .page-header h1 {
-  color: var(--cr-default-50);
-}
-
-[data-theme="dark"] .page-header p {
-  color: var(--cr-default-400);
-}
-
-[data-theme="dark"] .page-section h2 {
-  color: var(--cr-default-200);
-}
-
-[data-theme="dark"] .playlist-placeholder,
-[data-theme="dark"] .collection-placeholder,
-[data-theme="dark"] .request-form-placeholder,
-[data-theme="dark"] .settings-placeholder {
-  background-color: var(--cr-default-800);
-  color: var(--cr-default-300);
-}
-
-/* Page transition animations */
-@keyframes pageSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Route transition wrapper */
-.route-transition {
-  animation: pageSlideIn 300ms ease-out;
+[data-theme='dark'] .support-with-ads-wrapper {
+  background-color: var(--cr-default-100);
 }

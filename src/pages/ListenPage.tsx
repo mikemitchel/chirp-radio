@@ -4,7 +4,6 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrList from '../stories/CrList'
-import '../styles/listen-page.css'
 
 const ListenPage: React.FC = () => {
   return (
@@ -22,7 +21,7 @@ const ListenPage: React.FC = () => {
           <CrPlaylistTable showHeader={true} groupByHour={true} />
           <CrAnnouncement
             variant="motivation"
-            textureBackground="cr-br-natural-d100"
+            textureBackground="cr-bg-natural-d100"
           />
         </div>
 
@@ -30,7 +29,7 @@ const ListenPage: React.FC = () => {
           <CrPlaylistTable showHeader={false} groupByHour={false} />
           <CrAnnouncement
             variant="motivation"
-            textureBackground="cr-br-natural-s100"
+            textureBackground="cr-bg-natural-s100"
           />
           <CrList />
         </div>

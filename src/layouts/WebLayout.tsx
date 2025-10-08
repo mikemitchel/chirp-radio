@@ -2,6 +2,7 @@
 import React from 'react'
 import CrAppHeader from '../stories/CrAppHeader'
 import CrFooter from '../stories/CrFooter'
+import CrSupportWithAds from '../stories/CrSupportWithAds'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 import '../styles/layout.css'
 
@@ -16,8 +17,14 @@ const WebLayout: React.FC<LayoutProps> = ({ children }) => {
       streamUrl="https://peridot.streamguys1.com:5185/live"
       apiUrl="https://chirpradio.appspot.com/api/current_playlist"
     >
-      <CrAppHeader />
+      <CrAppHeader
+        autoFetch={true}
+        apiUrl="https://chirpradio.appspot.com/api/current_playlist"
+      />
       <main>{children}</main>
+      <div className="support-with-ads-wrapper">
+        <CrSupportWithAds />
+      </div>
       <CrFooter />
     </AudioPlayerProvider>
   )

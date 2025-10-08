@@ -2,6 +2,12 @@
 .cr-top-banner {
   background-color: var(--cr-paper);
   border-bottom: 1px solid var(--cr-border);
+  width: 100%;
+}
+
+.cr-top-banner__container {
+  max-width: 1440px;
+  margin: 0 auto;
   padding: var(--cr-space-1) var(--cr-space-6); /* 4px 24px - matches Figma spacing */
   display: flex;
   align-items: center;
@@ -29,7 +35,7 @@
 
 /* Responsive behavior */
 @media (max-width: 768px) {
-  .cr-top-banner {
+  .cr-top-banner__container {
     padding: var(--cr-space-1) var(--cr-space-4); /* Reduce horizontal padding */
     gap: var(--cr-space-2);
   }
@@ -41,7 +47,7 @@
 }
 
 @media (max-width: 480px) {
-  .cr-top-banner {
+  .cr-top-banner__container {
     flex-direction: column;
     align-items: stretch;
     gap: var(--cr-space-2);

@@ -606,6 +606,14 @@ body {
   background-image: var(--cr-texture-dust-url);
 }
 
+.cr-bg-dust-d300 {
+  background-color: var(--cr-default-300);
+}
+
+.cr-bg-dust-d300::before {
+  background-image: var(--cr-texture-dust-url);
+}
+
 /* === BUTTON SYSTEM === */
 .btn {
   border-radius: 6px;

@@ -105,32 +105,34 @@ export default function CrAnnouncement({
 
   return (
     <div className={componentClasses}>
-      <div className="cr-announcement__content">
-        {/* Headline */}
-        <h2 className="cr-announcement__headline">{headlineText}</h2>
+      {/* Headline - Full Width */}
+      <h2 className="cr-announcement__headline">{headlineText}</h2>
 
-        {/* Body Text */}
-        <p className="cr-announcement__body">{bodyText}</p>
+      <div className="cr-announcement__wrapper">
+        <div className="cr-announcement__content">
+          {/* Body Text */}
+          <p className="cr-announcement__body">{bodyText}</p>
 
-        {/* Optional Link Button */}
-        {showLink && (
-          <div className="cr-announcement__link-wrapper">
-            <CrButton
-              variant="text"
-              color="secondary"
-              size="medium"
-              leftIcon={<PiHandHeartLight />}
-              rightIcon={<PiArrowRight />}
-              onClick={() => {
-                if (linkUrl) {
-                  window.location.href = linkUrl
-                }
-              }}
-            >
-              {linkText}
-            </CrButton>
-          </div>
-        )}
+          {/* Optional Link Button */}
+          {showLink && (
+            <div className="cr-announcement__link-wrapper">
+              <CrButton
+                variant="text"
+                color="secondary"
+                size="medium"
+                leftIcon={<PiHandHeartLight />}
+                rightIcon={<PiArrowRight />}
+                onClick={() => {
+                  if (linkUrl) {
+                    window.location.href = linkUrl
+                  }
+                }}
+              >
+                {linkText}
+              </CrButton>
+            </div>
+          )}
+        </div>
 
         {/* Buttons */}
         <div className="cr-announcement__buttons">

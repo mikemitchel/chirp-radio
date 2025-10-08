@@ -174,73 +174,32 @@ export default function YourCollection() {
           titleSize="lg"
         />
 
-        <div style={{
-          padding: 'var(--cr-space-8) var(--cr-space-4)',
-          maxWidth: '600px',
-          margin: '0 auto'
-        }}>
-          <h2 style={{
-            font: 'var(--cr-body-bold)',
-            fontSize: '18px',
-            color: 'var(--cr-ink)',
-            marginBottom: 'var(--cr-space-4)'
-          }}>
+        <div className="auth-prompt-container">
+          <h2 className="auth-prompt-heading">
             Don't have a CHIRP Radio Account?
           </h2>
 
-          <p style={{
-            font: 'var(--cr-body-reg)',
-            color: 'var(--cr-ink)',
-            lineHeight: 1.4,
-            marginBottom: 'var(--cr-space-4)'
-          }}>
+          <p className="auth-prompt-text">
             A profile allows you to interact with the site in all sorts of helpful ways:
           </p>
 
-          <ul style={{
-            listStyle: 'disc',
-            paddingLeft: 'var(--cr-space-5)',
-            marginBottom: 'var(--cr-space-4)'
-          }}>
-            <li style={{
-              font: 'var(--cr-body-reg)',
-              color: 'var(--cr-ink)',
-              lineHeight: 1.4,
-              marginBottom: 'var(--cr-space-2)'
-            }}>
+          <ul className="auth-prompt-list">
+            <li className="auth-prompt-list-item">
               You can add songs to your collection that you hear across our web and mobile applications so you don't forget them
             </li>
-            <li style={{
-              font: 'var(--cr-body-reg)',
-              color: 'var(--cr-ink)',
-              lineHeight: 1.4,
-              marginBottom: 'var(--cr-space-2)'
-            }}>
+            <li className="auth-prompt-list-item">
               You can save your information for store purchases and donations
             </li>
-            <li style={{
-              font: 'var(--cr-body-reg)',
-              color: 'var(--cr-ink)',
-              lineHeight: 1.4
-            }}>
+            <li className="auth-prompt-list-item">
               Your profile settings will be saved between your mobile and web experiences
             </li>
           </ul>
 
-          <p style={{
-            font: 'var(--cr-body-reg)',
-            color: 'var(--cr-ink)',
-            lineHeight: 1.4,
-            marginBottom: 'var(--cr-space-6)'
-          }}>
+          <p className="auth-prompt-text-lg">
             So create your profile today, and start getting the maximum benefit from CHIRPradio.org!
           </p>
 
-          <div style={{
-            display: 'flex',
-            gap: 'var(--cr-space-4)',
-            marginBottom: 'var(--cr-space-4)'
-          }}>
+          <div className="auth-prompt-buttons">
             <CrButton
               variant="solid"
               color="secondary"

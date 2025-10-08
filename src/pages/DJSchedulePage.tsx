@@ -5,7 +5,6 @@ import CrDjSchedule from '../stories/CrDjSchedule'
 import CrCard from '../stories/CrCard'
 import CrDjOverview from '../stories/CrDjOverview'
 import CrAnnouncement from '../stories/CrAnnouncement'
-import '../styles/dj-schedule-page.css'
 
 const DJSchedulePage: React.FC = () => {
   return (
@@ -51,7 +50,7 @@ const DJSchedulePage: React.FC = () => {
           <CrDjOverview medium />
           <CrAnnouncement
             variant="motivation"
-            textureBackground="cr-br-natural-d100"
+            textureBackground="cr-bg-natural-d100"
           />
         </div>
       </div>

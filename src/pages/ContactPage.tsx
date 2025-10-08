@@ -3,7 +3,6 @@ import React from 'react'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
-import '../styles/contact-page.css'
 
 const ContactPage: React.FC = () => {
   return (
@@ -50,7 +49,7 @@ const ContactPage: React.FC = () => {
         <div className="contact-right">
           <CrAnnouncement
             variant="motivation"
-            textureBackground="cr-br-natural-d100"
+            textureBackground="cr-bg-natural-d100"
           />
           <CrPageHeader showEyebrow={false} />
           <CrCard variant="small" />

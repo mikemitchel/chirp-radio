@@ -6,7 +6,6 @@ import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrDonateForm from '../stories/CrDonateForm'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
-import '../styles/car-donation-page.css'
 
 const CarDonationPage: React.FC = () => {
   return (
@@ -33,7 +32,7 @@ const CarDonationPage: React.FC = () => {
         <div className="car-donation-right">
           <CrAnnouncement
             variant="motivation"
-            textureBackground="cr-br-natural-d100"
+            textureBackground="cr-bg-natural-d100"
           />
           <CrPageHeader showEyebrow={false} />
           <CrCard variant="small" />

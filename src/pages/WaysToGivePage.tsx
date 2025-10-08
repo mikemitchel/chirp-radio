@@ -6,7 +6,6 @@ import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrDonateForm from '../stories/CrDonateForm'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
-import '../styles/ways-to-give-page.css'
 
 const WaysToGivePage: React.FC = () => {
   return (
@@ -40,7 +39,7 @@ const WaysToGivePage: React.FC = () => {
         <div className="ways-to-give-right">
           <CrAnnouncement
             variant="motivation"
-            textureBackground="cr-br-natural-d100"
+            textureBackground="cr-bg-natural-d100"
           />
           <CrPageHeader showEyebrow={false} />
           <CrCard variant="small" />

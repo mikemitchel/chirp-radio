@@ -78,7 +78,7 @@ export default function CrTopBanner({
   useEffect(() => {
     if (autoFetch) {
       fetchApiData()
-      const interval = setInterval(fetchApiData, 15000)
+      const interval = setInterval(fetchApiData, 300000) // Poll every 5 minutes
       return () => clearInterval(interval)
     }
   }, [autoFetch, apiUrl])
@@ -95,26 +95,28 @@ export default function CrTopBanner({
 
   return (
     <div className="cr-top-banner">
-      <div className="cr-top-banner__left">
-        <CrAccount
-          isLoggedIn={isLoggedIn}
-          isVolunteer={isVolunteer}
-          userName={userName}
-          userAvatar={userAvatar}
-          showTags={showTags}
-          tags={tags}
-          onLoginClick={onLoginClick}
-          onVolunteerDropdown={onVolunteerDropdown}
-        />
-      </div>
+      <div className="cr-top-banner__container">
+        <div className="cr-top-banner__left">
+          <CrAccount
+            isLoggedIn={isLoggedIn}
+            isVolunteer={isVolunteer}
+            userName={userName}
+            userAvatar={userAvatar}
+            showTags={showTags}
+            tags={tags}
+            onLoginClick={onLoginClick}
+            onVolunteerDropdown={onVolunteerDropdown}
+          />
+        </div>
 
-      <div className="cr-top-banner__right">
-        <CrCurrentDj
-          djName={apiData.dj}
-          showName={apiData.show}
-          isOnAir={isOnAir}
-          statusText={statusText}
-        />
+        <div className="cr-top-banner__right">
+          <CrCurrentDj
+            djName={apiData.dj}
+            showName={apiData.show}
+            isOnAir={isOnAir}
+            statusText={statusText}
+          />
+        </div>
       </div>
     </div>
   )

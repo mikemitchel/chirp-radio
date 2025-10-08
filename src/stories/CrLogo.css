@@ -23,12 +23,14 @@
 }
 
 /* Variant-specific styling if needed */
-.cr-logo--horizontal .cr-logo__image {
-  /* Horizontal logo styling */
+.cr-logo--horizontal {
+  width: 400px;
+  height: 100px;
 }
 
-.cr-logo--horizontal-reversed .cr-logo__image {
-  /* Horizontal reversed logo styling */
+.cr-logo--horizontal-reversed {
+  width: 400px;
+  height: 100px;
 }
 
 .cr-logo--vertical .cr-logo__image {
@@ -60,4 +62,13 @@
 
 .cr-logo--reversed-dark .cr-logo__svg .cls-1 {
   fill: #ffffff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .cr-logo--horizontal,
+  .cr-logo--horizontal-reversed {
+    width: 480px;
+    height: 120px;
+  }
 }

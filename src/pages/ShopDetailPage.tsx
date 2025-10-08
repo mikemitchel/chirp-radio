@@ -5,7 +5,6 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrStoreItem from '../stories/CrStoreItem'
 import CrShoppingCart from '../stories/CrShoppingCart'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
-import '../styles/shop-detail-page.css'
 
 const ShopDetailPage: React.FC = () => {
   return (

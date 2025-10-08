@@ -4,7 +4,6 @@ import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrTable from '../stories/CrTable'
-import '../styles/volunteer-directory-page.css'
 
 const VolunteerDirectoryPage: React.FC = () => {
   return (

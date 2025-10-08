@@ -36,7 +36,7 @@ export default function CrCurrentDjCard({
   // Content
   header = 'THE CURRENT SHOW',
   title = 'DJ Current',
-  metaText = 'THIS CONTENT IS 30 CHARACTERS.',
+  metaText = '',
   description = 'DJ Current is lorem ipsum dolor sit amet, c...',
 
   // Button props

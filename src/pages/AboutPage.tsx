@@ -4,7 +4,6 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrDjOverview from '../stories/CrDjOverview'
 import CrImageRow from '../stories/CrImageRow'
-import '../styles/about-page.css'
 
 const AboutPage: React.FC = () => {
   return (

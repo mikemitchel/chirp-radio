@@ -5,7 +5,6 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrCard from '../stories/CrCard'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
-import '../styles/thank-you-page.css'
 
 const ThankYouPage: React.FC = () => {
   return (
@@ -37,7 +36,7 @@ const ThankYouPage: React.FC = () => {
         <div className="thank-you-right">
           <CrAnnouncement
             variant="motivation"
-            textureBackground="cr-br-natural-d100"
+            textureBackground="cr-bg-natural-d100"
           />
           <CrCard variant="small" />
           <CrCard variant="small" />

@@ -4,7 +4,6 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrCard from '../stories/CrCard'
-import '../styles/playlist-page.css'
 
 const PlaylistPage: React.FC = () => {
   return (
@@ -24,7 +23,7 @@ const PlaylistPage: React.FC = () => {
       <section className="playlist-announcement">
         <CrAnnouncement
           variant="motivation"
-          textureBackground="cr-br-natural-d100"
+          textureBackground="cr-bg-natural-d100"
         />
       </section>
 

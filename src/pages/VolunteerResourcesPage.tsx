@@ -3,7 +3,6 @@ import React from 'react'
 import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
-import '../styles/volunteer-resources-page.css'
 
 const VolunteerResourcesPage: React.FC = () => {
   return (

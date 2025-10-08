@@ -4,7 +4,6 @@ import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrShoppingCart from '../stories/CrShoppingCart'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
-import '../styles/shop-checkout-page.css'
 
 const ShopCheckoutPage: React.FC = () => {
   return (

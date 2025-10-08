@@ -4,7 +4,6 @@ import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrCalendarEvent from '../stories/CrCalendarEvent'
-import '../styles/volunteer-calendar-page.css'
 
 const VolunteerCalendarPage: React.FC = () => {
   return (

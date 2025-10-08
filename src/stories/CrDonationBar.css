@@ -116,7 +116,7 @@
 
 .cr-donation-bar__fill {
   height: 100%;
-  background-color: var(--cr-paper);
+  background-color: #fafafa;
   width: 0;
   border-radius: calc(var(--cr-space-1) / 2);
   transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);

@@ -3,7 +3,6 @@ import React from 'react'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrDjOverview from '../stories/CrDjOverview'
 import CrCard from '../stories/CrCard'
-import '../styles/dj-page.css'
 
 const DJPage: React.FC = () => {
   return (

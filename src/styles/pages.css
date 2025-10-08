@@ -1,0 +1,988 @@
+/* ============================================ */
+/* === PAGE-SPECIFIC LAYOUTS === */
+/* Complex page layouts that cannot be handled by utilities alone */
+/* ============================================ */
+
+/* ============================================ */
+/* === LANDING PAGE === */
+/* Uses: .full-width, .container-standard, .grid-3col, .flex-col-gap */
+/* ============================================ */
+
+.landing-page {
+  width: 100%;
+}
+
+.landing-announcement-top {
+  width: 100%;
+}
+
+.landing-announcement-top .cr-announcement {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.landing-main-content {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.landing-main-left {
+  min-width: 0;
+}
+
+.landing-main-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+  min-width: 0;
+  width: 100%;
+}
+
+.landing-tbd {
+  width: 100%;
+  margin: var(--cr-space-6) 0;
+}
+
+.landing-tbd-content {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: #f0f0f0;
+}
+
+.landing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  padding: 0;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.landing-grid-left,
+.landing-grid-middle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-12) var(--cr-space-8);
+}
+
+.landing-grid-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-12);
+  padding: var(--cr-space-12) var(--cr-space-8);
+}
+
+.landing-grid-middle {
+  background-color: var(--cr-default-100);
+}
+
+.landing-announcement-bottom {
+  width: 100%;
+  margin-top: var(--cr-space-6);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .landing-main-content {
+    grid-template-columns: 1fr 350px;
+  }
+}
+
+@media (max-width: 968px) {
+  .landing-main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .landing-grid-right {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === PLAYLIST PAGE === */
+/* Uses: .full-width, .container-standard, .grid-3col */
+/* ============================================ */
+
+.playlist-page {
+  width: 100%;
+}
+
+.playlist-page-header,
+.playlist-page-header-with-button,
+.playlist-table-section,
+.playlist-cards {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.playlist-announcement {
+  width: 100%;
+  margin: var(--cr-space-6) 0;
+}
+
+.playlist-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+  margin-top: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .playlist-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .playlist-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === ABOUT PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-content, .flex-col-gap */
+/* ============================================ */
+
+.about-page {
+  width: 100%;
+}
+
+.about-header {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.about-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.about-left,
+.about-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .about-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === DONATE PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-content, .flex-col-gap, .content-box */
+/* ============================================ */
+
+.donate-page {
+  width: 100%;
+}
+
+.donate-header {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.donate-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.donate-left,
+.donate-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.donate-general-content {
+  padding: var(--cr-space-6);
+  background-color: var(--cr-color-neutral-100);
+  border-radius: var(--cr-radius-md);
+  min-height: 200px;
+}
+
+@media (max-width: 968px) {
+  .donate-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === EVENTS PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-content, .flex-col-gap, .grid-2col-equal, .grid-3col */
+/* ============================================ */
+
+.events-page {
+  width: 100%;
+}
+
+.events-header {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.events-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.events-left,
+.events-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.events-grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--cr-space-4);
+}
+
+.events-grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+}
+
+.events-announcement {
+  width: 100%;
+}
+
+.events-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--cr-space-4) 0;
+}
+
+@media (max-width: 968px) {
+  .events-content {
+    grid-template-columns: 1fr;
+  }
+
+  .events-grid-2col,
+  .events-grid-3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === VOLUNTEER CALENDAR PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-content, .flex-col-gap */
+/* ============================================ */
+
+.volunteer-calendar-page {
+  width: 100%;
+}
+
+.volunteer-calendar-breadcrumb {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.volunteer-calendar-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.volunteer-calendar-left,
+.volunteer-calendar-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .volunteer-calendar-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === CAR DONATION PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-equal, .flex-col-gap, .content-box */
+/* ============================================ */
+
+.car-donation-page {
+  width: 100%;
+}
+
+.car-donation-breadcrumb {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.car-donation-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.car-donation-left,
+.car-donation-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.car-donation-general-content {
+  padding: var(--cr-space-6);
+  background-color: var(--cr-color-neutral-100);
+  border-radius: var(--cr-radius-md);
+  min-height: 200px;
+}
+
+@media (max-width: 968px) {
+  .car-donation-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === VOLUNTEER DIRECTORY PAGE === */
+/* Uses: .full-width, .container-standard */
+/* ============================================ */
+
+.volunteer-directory-page {
+  width: 100%;
+}
+
+.volunteer-directory-breadcrumb,
+.volunteer-directory-header,
+.volunteer-directory-intro,
+.volunteer-directory-table {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ============================================ */
+/* === SHOP CHECKOUT PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-equal, .flex-col-gap, .content-box */
+/* ============================================ */
+
+.shop-checkout-page {
+  width: 100%;
+}
+
+.shop-checkout-breadcrumb,
+.shop-checkout-header {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.shop-checkout-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.shop-checkout-left,
+.shop-checkout-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.shop-checkout-form {
+  padding: var(--cr-space-6);
+  background-color: var(--cr-color-neutral-100);
+  border-radius: var(--cr-radius-md);
+  min-height: 600px;
+}
+
+@media (max-width: 968px) {
+  .shop-checkout-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === CONTACT PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-content, .flex-col-gap, .content-box, .grid-2col-equal, .grid-3col */
+/* ============================================ */
+
+.contact-page {
+  width: 100%;
+}
+
+.contact-header {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.contact-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.contact-left,
+.contact-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.contact-general-content,
+.contact-form,
+.contact-info-item {
+  padding: var(--cr-space-6);
+  background-color: var(--cr-color-neutral-100);
+  border-radius: var(--cr-radius-md);
+  min-height: 150px;
+}
+
+.contact-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--cr-space-4);
+}
+
+.contact-info-grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .contact-content {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-info-grid,
+  .contact-info-grid-3col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === WAYS TO GIVE PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-equal, .flex-col-gap, .grid-3col */
+/* ============================================ */
+
+.ways-to-give-page {
+  width: 100%;
+}
+
+.ways-to-give-breadcrumb {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.ways-to-give-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.ways-to-give-left,
+.ways-to-give-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.ways-to-give-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .ways-to-give-content {
+    grid-template-columns: 1fr;
+  }
+
+  .ways-to-give-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === VOLUNTEER RESOURCES PAGE === */
+/* Uses: .full-width, .container-standard, .grid-3col */
+/* ============================================ */
+
+.volunteer-resources-page {
+  width: 100%;
+}
+
+.volunteer-resources-breadcrumb,
+.volunteer-resources-header,
+.volunteer-resources-intro,
+.volunteer-resources-content {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.volunteer-resources-general-content {
+  padding: var(--cr-space-6);
+  background-color: var(--cr-color-neutral-100);
+  border-radius: var(--cr-radius-md);
+  min-height: 400px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .volunteer-resources-general-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === DJ PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-equal, .grid-3col, .grid-5col, .flex-col-gap */
+/* ============================================ */
+
+.dj-page {
+  width: 100%;
+}
+
+.dj-header,
+.dj-footer {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dj-header-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dj-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dj-left,
+.dj-middle,
+.dj-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.dj-footer-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--cr-space-4);
+  margin-top: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .dj-header-row {
+    grid-template-columns: 1fr;
+  }
+
+  .dj-content {
+    grid-template-columns: 1fr;
+  }
+
+  .dj-footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================ */
+/* === DJ SCHEDULE PAGE === */
+/* Uses: .full-width, .container-standard, .grid-3col, .flex-col-gap */
+/* ============================================ */
+
+.dj-schedule-page {
+  width: 100%;
+}
+
+.dj-schedule-header-main,
+.dj-schedule-header-sub,
+.dj-schedule-calendar {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dj-schedule-grid,
+.dj-schedule-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dj-schedule-left,
+.dj-schedule-middle,
+.dj-schedule-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .dj-schedule-grid,
+  .dj-schedule-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === DJ DETAIL PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-content, .flex-col-gap */
+/* ============================================ */
+
+.dj-detail-page {
+  width: 100%;
+}
+
+.dj-detail-breadcrumb {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dj-detail-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.dj-detail-left,
+.dj-detail-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.dj-detail-announcement {
+  width: 100%;
+  margin: var(--cr-space-6) 0;
+}
+
+@media (max-width: 968px) {
+  .dj-detail-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === EVENT DETAIL PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-content, .flex-col-gap */
+/* ============================================ */
+
+.event-detail-page {
+  width: 100%;
+}
+
+.event-detail-breadcrumb,
+.event-detail-header {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.event-detail-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.event-detail-left,
+.event-detail-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .event-detail-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === SHOP PAGE === */
+/* Uses: .full-width, .container-standard, .flex-col-gap, .grid-4col */
+/* ============================================ */
+
+.shop-page {
+  width: 100%;
+}
+
+.shop-header {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.shop-filter-note {
+  padding: var(--cr-space-4);
+  background-color: var(--cr-color-primary-100);
+  color: var(--cr-color-primary-700);
+  text-align: center;
+  font-size: var(--cr-text-sm);
+  margin-top: var(--cr-space-2);
+}
+
+.shop-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.shop-left,
+.shop-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.shop-right {
+  width: 350px;
+}
+
+.shop-items-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 1200px) {
+  .shop-items-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 968px) {
+  .shop-content {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-right {
+    width: 100%;
+  }
+
+  .shop-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .shop-items-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === THANK YOU PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-equal, .flex-col-gap, .content-box */
+/* ============================================ */
+
+.thank-you-page {
+  width: 100%;
+}
+
+.thank-you-breadcrumb,
+.thank-you-header {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.thank-you-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.thank-you-left,
+.thank-you-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.thank-you-general-content {
+  padding: var(--cr-space-6);
+  background-color: var(--cr-color-neutral-100);
+  border-radius: var(--cr-radius-md);
+  min-height: 150px;
+}
+
+.thank-you-sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .thank-you-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================ */
+/* === SHOP DETAIL PAGE === */
+/* Uses: .full-width, .container-standard, .flex-col-gap */
+/* ============================================ */
+
+.shop-detail-page {
+  width: 100%;
+}
+
+.shop-detail-breadcrumb,
+.shop-detail-header {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.shop-detail-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.shop-detail-left,
+.shop-detail-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.shop-detail-right {
+  width: 350px;
+}
+
+@media (max-width: 968px) {
+  .shop-detail-content {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-detail-right {
+    width: 100%;
+  }
+}
+
+/* ============================================ */
+/* === LISTEN PAGE === */
+/* Uses: .full-width, .container-standard, .grid-2col-equal, .flex-col-gap */
+/* ============================================ */
+
+.listen-page {
+  width: 100%;
+}
+
+.listen-header-main,
+.listen-header-sub {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.listen-content,
+.listen-lists {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.listen-left,
+.listen-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+@media (max-width: 968px) {
+  .listen-content,
+  .listen-lists {
+    grid-template-columns: 1fr;
+  }
+}

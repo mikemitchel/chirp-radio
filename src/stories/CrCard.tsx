@@ -35,6 +35,8 @@ interface CrCardProps {
   articleImageAspectRatio?: string
   type?: string
   bannerHeight?: string
+  textLayout?: string
+  bannerBackgroundColor?: string
   className?: string
 }
 
@@ -87,6 +89,12 @@ export default function CrCard({
 
   // CrCardBanner height
   bannerHeight = 'narrow', // "narrow" or "tall"
+
+  // CrCardBanner text layout
+  textLayout = 'inline', // "inline" or "stacked"
+
+  // CrCardBanner background color
+  bannerBackgroundColor = 'textured', // "textured" or "none"
 
   className = '',
 }: CrCardProps) {
@@ -205,8 +213,8 @@ export default function CrCard({
                 preheader={preheader}
                 title={title}
                 height={bannerHeight}
-                textLayout="stacked"
-                backgroundColor="none"
+                textLayout={textLayout}
+                backgroundColor={bannerBackgroundColor}
                 showTicketButton={false}
                 showShareButton={false}
                 className="cr-card__small-banner-collapsed"
@@ -252,8 +260,8 @@ export default function CrCard({
                 preheader={preheader}
                 title={title}
                 height={bannerHeight}
-                textLayout="stacked"
-                backgroundColor="none"
+                textLayout={textLayout}
+                backgroundColor={bannerBackgroundColor}
                 showTicketButton={false}
                 showShareButton={false}
               />

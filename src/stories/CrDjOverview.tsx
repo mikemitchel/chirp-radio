@@ -11,8 +11,10 @@ interface CrDjOverviewProps {
   title?: string
   djName?: string
   content?: string
+  showContent?: boolean
   description?: string
   showTime?: string
+  buttonText?: string
   imageSrc?: string
   onRequestClick?: () => void
   onMoreClick?: () => void
@@ -28,8 +30,10 @@ export default function CrDjOverview({
   title, // Optional title for large variant
   djName = 'DJ Reallylong Namerson',
   content = 'This content is 30 characters.',
+  showContent = true,
   description = 'Aenean lacinia bibendum nulla sed consectetur. Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.',
   showTime = 'Monday 12pm - 12pm',
+  buttonText = 'More',
   imageSrc, // Optional image source
   onRequestClick,
   onMoreClick,
@@ -88,7 +92,7 @@ export default function CrDjOverview({
       </div>
       <div className="cr-dj-overview__content">
         <div className="cr-dj-overview__dj-name">{djName}</div>
-        <div className="cr-dj-overview__content-text">{content}</div>
+        {showContent && <div className="cr-dj-overview__content-text">{content}</div>}
         <div className="cr-dj-overview__show-time">{showTime}</div>
         <CrButton
           size="small"
@@ -97,7 +101,7 @@ export default function CrDjOverview({
           rightIcon={<PiCaretRight />}
           onClick={onMoreClick}
         >
-          More
+          {buttonText}
         </CrButton>
       </div>
     </div>

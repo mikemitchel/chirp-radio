@@ -4,7 +4,6 @@ import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
-import '../styles/event-detail-page.css'
 
 const EventDetailPage: React.FC = () => {
   return (
@@ -34,7 +33,7 @@ const EventDetailPage: React.FC = () => {
           <CrCard variant="small" />
           <CrAnnouncement
             variant="motivation"
-            textureBackground="cr-br-natural-s100"
+            textureBackground="cr-bg-natural-s100"
           />
         </div>
       </div>

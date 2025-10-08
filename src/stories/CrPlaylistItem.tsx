@@ -116,6 +116,13 @@ export default function CrPlaylistItem({
 
         <div className="cr-playlist-item__card-album-art">
           <img src={albumArt} alt={albumArtAlt} className="cr-playlist-item__image" />
+          {isLocal && (
+            <div className="cr-playlist-item__card-local-badge">
+              <CrChip variant="primary" size="small" squared>
+                LOCAL
+              </CrChip>
+            </div>
+          )}
         </div>
 
         <div className="cr-playlist-item__card-content">
@@ -123,12 +130,6 @@ export default function CrPlaylistItem({
           <div className="cr-playlist-item__card-artist">{artistName}</div>
           <div className="cr-playlist-item__card-album">{albumName}</div>
           <div className="cr-playlist-item__card-label">({labelName})</div>
-
-          {isLocal && (
-            <CrChip variant="primary" size="small" squared>
-              LOCAL
-            </CrChip>
-          )}
 
           <div className="cr-playlist-item__card-footer">
             {showTime && timeAgo && <div className="cr-playlist-item__card-time">{timeAgo}</div>}

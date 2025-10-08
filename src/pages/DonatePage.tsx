@@ -4,7 +4,6 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrDonateForm from '../stories/CrDonateForm'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrCard from '../stories/CrCard'
-import '../styles/donate-page.css'
 
 const DonatePage: React.FC = () => {
   return (
@@ -24,7 +23,7 @@ const DonatePage: React.FC = () => {
         <div className="donate-right">
           <CrAnnouncement
             variant="motivation"
-            textureBackground="cr-br-natural-d100"
+            textureBackground="cr-bg-natural-d100"
           />
           <CrPageHeader showEyebrow={false} />
           <CrCard variant="small" />

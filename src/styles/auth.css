@@ -1,0 +1,63 @@
+/* ============================================ */
+/* === AUTH/LOGIN PROMPT STYLES === */
+/* ============================================ */
+
+.auth-prompt-container {
+  padding: var(--cr-space-8) var(--cr-space-4);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.auth-prompt-heading {
+  font: var(--cr-body-bold);
+  font-size: 18px;
+  color: var(--cr-ink);
+  margin-bottom: var(--cr-space-4);
+}
+
+.auth-prompt-text {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  line-height: 1.4;
+  margin-bottom: var(--cr-space-4);
+}
+
+.auth-prompt-text-lg {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  line-height: 1.6;
+  margin-bottom: var(--cr-space-6);
+}
+
+.auth-prompt-list {
+  list-style: disc;
+  padding-left: var(--cr-space-5);
+  margin-bottom: var(--cr-space-4);
+}
+
+.auth-prompt-list-item {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  line-height: 1.4;
+  margin-bottom: var(--cr-space-2);
+}
+
+.auth-prompt-list-item:last-child {
+  margin-bottom: 0;
+}
+
+.auth-prompt-buttons {
+  display: flex;
+  gap: var(--cr-space-4);
+  margin-bottom: var(--cr-space-4);
+}
+
+.auth-prompt-buttons-wrap {
+  display: flex;
+  gap: var(--cr-space-4);
+  flex-wrap: wrap;
+}
+
+.current-dj-wrapper {
+  padding: var(--cr-space-4);
+}

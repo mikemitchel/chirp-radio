@@ -5,7 +5,6 @@ import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import CrButton from '../stories/CrButton'
-import '../styles/events-page.css'
 
 const EventsPage: React.FC = () => {
   return (
@@ -28,7 +27,7 @@ const EventsPage: React.FC = () => {
           <section className="events-announcement">
             <CrAnnouncement
               variant="motivation"
-              textureBackground="cr-br-natural-d100"
+              textureBackground="cr-bg-natural-d100"
             />
           </section>
           <div className="events-grid-3col">
@@ -54,7 +53,7 @@ const EventsPage: React.FC = () => {
         <div className="events-right">
           <CrAnnouncement
             variant="motivation"
-            textureBackground="cr-br-natural-s100"
+            textureBackground="cr-bg-natural-s100"
           />
           <CrAdSpace size="large-rectangle" />
         </div>
