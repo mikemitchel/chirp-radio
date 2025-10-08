@@ -1,37 +1,43 @@
 // CrMainNav.tsx
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrCartIcon from './CrCartIcon'
 import CrMenuButton from './CrMenuButton'
+import CrSelect from './CrSelect'
 import './CrMainNav.css'
 
 interface CrMainNavProps {
   onMenuClick?: () => void
-  onListenClick?: () => void
-  onEventsClick?: () => void
-  onArticlesClick?: () => void
   onSearchClick?: () => void
-  onStoreClick?: () => void
   storeBadgeCount?: number
-  onWaysToGiveClick?: () => void
-  onDonateClick?: () => void
   showStoreBadge?: boolean
   variant?: string
 }
 
 export default function CrMainNav({
   onMenuClick,
-  onListenClick,
-  onEventsClick,
-  onArticlesClick,
   onSearchClick,
-  onStoreClick,
   storeBadgeCount = 5,
-  onWaysToGiveClick,
-  onDonateClick,
   showStoreBadge = true,
   variant = 'desktop', // 'desktop' or 'mobile'
 }: CrMainNavProps) {
+  const navigate = useNavigate()
+  const [showWaysToGive, setShowWaysToGive] = useState(false)
+
+  const waysToGiveOptions = [
+    { label: 'Other Ways to Give', value: 'ways-to-give', route: '/ways-to-give' },
+    { label: 'Vehicle Donation', value: 'car-donation', route: '/car-donation' },
+    { label: 'Vinyl Circle', value: 'vinyl-circle', route: '/vinyl-circle' },
+  ]
+
+  const handleWaysToGiveSelect = (option: any) => {
+    if (option.route) {
+      navigate(option.route)
+    }
+    setShowWaysToGive(false)
+  }
   // Dropdown arrow
   const DropdownIcon = () => (
     <svg
@@ -54,15 +60,15 @@ export default function CrMainNav({
           <CrMenuButton variant="dots" layout="icon-left" text="Menu" onClick={onMenuClick} />
 
           <div className="cr-main-nav__nav-items">
-            <button className="cr-main-nav__nav-link" onClick={onListenClick}>
+            <Link to="/listen" className="cr-main-nav__nav-link">
               Listen
-            </button>
-            <button className="cr-main-nav__nav-link" onClick={onEventsClick}>
+            </Link>
+            <Link to="/events" className="cr-main-nav__nav-link">
               Events
-            </button>
-            <button className="cr-main-nav__nav-link" onClick={onArticlesClick}>
+            </Link>
+            <Link to="/articles" className="cr-main-nav__nav-link">
               Articles
-            </button>
+            </Link>
             {/* Search */}
             <button
               className="cr-main-nav__search-button"
@@ -78,9 +84,9 @@ export default function CrMainNav({
         <div className="cr-main-nav__right">
 
           {/* Store with cart icon */}
-          <button
+          <Link
+            to="/shop"
             className="cr-main-nav__store-button"
-            onClick={onStoreClick}
             aria-label={
               showStoreBadge && storeBadgeCount > 0
                 ? `Store - ${storeBadgeCount} items in cart`
@@ -94,22 +100,36 @@ export default function CrMainNav({
               size="36"
               className="cr-main-nav__store-icon"
             />
-          </button>
+          </Link>
 
           {/* Ways to Give dropdown */}
-          <button
-            className="cr-main-nav__ways-button"
-            onClick={onWaysToGiveClick}
-            aria-label="Ways to Give"
-          >
-            <span className="cr-main-nav__ways-text">Ways to Give</span>
-            <DropdownIcon />
-          </button>
+          <div className="cr-main-nav__ways-dropdown">
+            <button
+              className="cr-main-nav__ways-button"
+              onClick={() => setShowWaysToGive(!showWaysToGive)}
+              aria-label="Ways to Give"
+              aria-expanded={showWaysToGive}
+            >
+              <span className="cr-main-nav__ways-text">Ways to Give</span>
+              <DropdownIcon />
+            </button>
+            {showWaysToGive && (
+              <div className="cr-main-nav__ways-menu">
+                <CrSelect
+                  options={waysToGiveOptions}
+                  onSelect={handleWaysToGiveSelect}
+                  theme="light"
+                />
+              </div>
+            )}
+          </div>
 
           {/* Donate button */}
-          <CrButton variant="solid" color="primary" size="small" onClick={onDonateClick}>
-            Donate
-          </CrButton>
+          <Link to="/donate">
+            <CrButton variant="solid" color="primary" size="small">
+              Donate
+            </CrButton>
+          </Link>
         </div>
       </div>
     </nav>

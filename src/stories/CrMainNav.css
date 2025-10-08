@@ -50,6 +50,7 @@
   display: flex;
   align-items: center;
   gap: var(--cr-space-1);
+  text-decoration: none;
 }
 
 .cr-main-nav__nav-link:hover {
@@ -114,6 +115,7 @@
     color 0.15s ease,
     background-color 0.15s ease;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .cr-main-nav__store-button:hover {
@@ -138,7 +140,11 @@
   background-color: transparent; /* Don't double-hover since button already handles it */
 }
 
-/* Ways to Give button */
+/* Ways to Give dropdown */
+.cr-main-nav__ways-dropdown {
+  position: relative;
+}
+
 .cr-main-nav__ways-button {
   display: flex;
   align-items: center;
@@ -153,6 +159,15 @@
     color 0.15s ease,
     background-color 0.15s ease;
   white-space: nowrap;
+  text-decoration: none;
+}
+
+.cr-main-nav__ways-menu {
+  position: absolute;
+  top: calc(100% + var(--cr-space-1));
+  right: 0;
+  z-index: 1000;
+  min-width: 200px;
 }
 
 .cr-main-nav__ways-button:hover {

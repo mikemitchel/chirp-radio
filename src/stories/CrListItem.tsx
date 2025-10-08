@@ -24,10 +24,10 @@ export default function CrListItem({
     <div className="cr-rating-list-item">
       <div className="cr-rating-list-item__content">
         <span className="cr-rating-list-item__ranking">{ranking}.</span>
-        <span className="cr-rating-list-item__song">{songName}</span>
-        <span className="cr-rating-list-item__separator"> - </span>
-        <span className="cr-rating-list-item__artist">{artistName}</span>
-        <span className="cr-rating-list-item__company"> ({recordCompany})</span>
+        <span className="cr-rating-list-item__song">{songName} </span>
+        <span className="cr-rating-list-item__separator">- </span>
+        <span className="cr-rating-list-item__artist">{artistName} </span>
+        <span className="cr-rating-list-item__company">({recordCompany})</span>
       </div>
 
       {showAddButton && (

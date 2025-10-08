@@ -8,30 +8,30 @@ import CrCard from '../stories/CrCard'
 const PlaylistPage: React.FC = () => {
   return (
     <div className="playlist-page">
-      <section className="playlist-page-header">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={false} />
       </section>
 
-      <section className="playlist-page-header-with-button">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={true} />
       </section>
 
-      <section className="playlist-table-section">
+      <section className="page-container">
         <CrPlaylistTable showHeader={true} groupByHour={true} />
       </section>
 
-      <section className="playlist-announcement">
+      <section className="page-container">
         <CrAnnouncement
           variant="motivation"
           textureBackground="cr-bg-natural-d100"
         />
       </section>
 
-      <section className="playlist-table-section">
+      <section className="page-container">
         <CrPlaylistTable showHeader={true} groupByHour={true} />
       </section>
 
-      <section className="playlist-cards">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={true} />
         <div className="playlist-cards-grid">
           <CrCard variant="small" />

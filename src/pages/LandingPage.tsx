@@ -107,21 +107,23 @@ const LandingPage: React.FC = () => {
   return (
     <div className="landing-page">
       {/* Top Announcement */}
-      <section className="landing-announcement-top">
-        <CrAnnouncement
-          variant="donation"
-          textureBackground="cr-bg-natural-a500"
-          buttonCount="none"
-        />
+      <section className="page-section">
+        <div className="page-container">
+          <CrAnnouncement
+            variant="donation"
+            textureBackground="cr-bg-natural-a500"
+            buttonCount="none"
+          />
+        </div>
       </section>
 
       {/* Main Content Area */}
-      <section className="landing-main-content">
-        <div className="landing-main-left">
+      <section className="page-layout-main-sidebar">
+        <div className="page-layout-main-sidebar__main">
           <HeroCarousel slides={heroSlides} />
         </div>
 
-        <div className="landing-main-right">
+        <div className="page-layout-main-sidebar__sidebar">
           <CrCurrentDjCard
             description="DJ Current is lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo. Curabitur blandit tempus porttitor. Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
           />
@@ -140,13 +142,13 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Recently Played Section */}
-      <section className="landing-recently-played">
+      <section className="page-section">
         <CrRecentlyPlayed tracks={recentlyPlayedTracks} />
       </section>
 
       {/* Grid Section */}
-      <section className="landing-grid">
-        <div className="landing-grid-left">
+      <section className="page-layout-3col">
+        <div className="page-layout-3col__column">
           <CrPageHeader
             showEyebrow={false}
             title="Events"
@@ -194,7 +196,7 @@ const LandingPage: React.FC = () => {
           />
         </div>
 
-        <div className="landing-grid-middle">
+        <div className="page-layout-3col__column page-layout-3col__column--bg">
           <CrPageHeader
             showEyebrow={false}
             title="Articles"
@@ -275,7 +277,7 @@ const LandingPage: React.FC = () => {
           />
         </div>
 
-        <div className="landing-grid-right">
+        <div className="page-layout-3col__column page-layout-3col__column--large-gap">
           <CrPageHeader
             showEyebrow={false}
             title="Our DJs"

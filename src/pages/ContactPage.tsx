@@ -7,12 +7,12 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 const ContactPage: React.FC = () => {
   return (
     <div className="contact-page">
-      <section className="contact-header">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={false} />
       </section>
 
-      <div className="contact-content">
-        <div className="contact-left">
+      <div className="page-layout-main-sidebar">
+        <div className="page-layout-main-sidebar__main">
           <CrCard
             variant="article"
             imagePosition="right"
@@ -46,7 +46,7 @@ const ContactPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="contact-right">
+        <div className="page-layout-main-sidebar__sidebar">
           <CrAnnouncement
             variant="motivation"
             textureBackground="cr-bg-natural-d100"

@@ -35,7 +35,7 @@ export default function CrList({
         title={title}
         height="tall"
         textLayout="stacked"
-        backgroundColor="textured"
+        backgroundColor="none"
         showTicketButton={true}
         showShareButton={false}
         ticketButtonText={bannerButtonText}

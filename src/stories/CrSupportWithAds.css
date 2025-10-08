@@ -9,7 +9,6 @@
   gap: var(--cr-space-8); /* 32px gap between support and ads */
   align-items: flex-start;
   box-sizing: border-box;
-  background-color: var(--cr-default-100);
 }
 
 /* Support section - 2/3 width on web */

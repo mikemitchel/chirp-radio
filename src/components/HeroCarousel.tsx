@@ -67,6 +67,8 @@ export default function HeroCarousel({
             <div className="hero-carousel__slide" key={index}>
               <CrCard
                 variant="default"
+                bannerHeight="tall"
+                textLayout="stacked"
                 backgroundImage={slide.backgroundImage}
                 imageCaption={slide.imageCaption}
                 preheader={slide.preheader}

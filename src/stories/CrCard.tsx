@@ -404,7 +404,7 @@ export default function CrCard({
                 preheader={preheader}
                 title={title}
                 height={bannerHeight}
-                textLayout="inline"
+                textLayout={textLayout}
                 backgroundColor="none"
                 showTicketButton={true}
                 showShareButton={true}

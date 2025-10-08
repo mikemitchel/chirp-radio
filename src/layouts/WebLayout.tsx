@@ -22,10 +22,12 @@ const WebLayout: React.FC<LayoutProps> = ({ children }) => {
         apiUrl="https://chirpradio.appspot.com/api/current_playlist"
       />
       <main>{children}</main>
-      <div className="support-with-ads-wrapper">
-        <CrSupportWithAds />
+      <div className="web-layout-footer-container">
+        <div className="support-with-ads-wrapper">
+          <CrSupportWithAds />
+        </div>
+        <CrFooter />
       </div>
-      <CrFooter />
     </AudioPlayerProvider>
   )
 }

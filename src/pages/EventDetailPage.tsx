@@ -8,16 +8,16 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 const EventDetailPage: React.FC = () => {
   return (
     <div className="event-detail-page">
-      <section className="event-detail-breadcrumb">
+      <section className="page-container">
         <CrBreadcrumb />
       </section>
 
-      <section className="event-detail-header">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={false} />
       </section>
 
-      <div className="event-detail-content">
-        <div className="event-detail-left">
+      <div className="page-layout-main-sidebar">
+        <div className="page-layout-main-sidebar__main">
           <CrCard
             variant="article"
             imagePosition="right"
@@ -26,7 +26,7 @@ const EventDetailPage: React.FC = () => {
           />
         </div>
 
-        <div className="event-detail-right">
+        <div className="page-layout-main-sidebar__sidebar">
           <CrPageHeader showEyebrow={false} />
           <CrCard variant="small" />
           <CrCard variant="small" />

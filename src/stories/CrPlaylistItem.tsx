@@ -1,5 +1,5 @@
 // CrPlaylistItem.tsx
-import { PiMinus, PiPlus } from 'react-icons/pi'
+import { PiPlusCircle } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
 import './CrPlaylistItem.css'
@@ -81,7 +81,7 @@ export default function CrPlaylistItem({
             variant="text"
             size="xsmall"
             color="secondary"
-            rightIcon={isAdded ? <PiMinus /> : <PiPlus />}
+            rightIcon={isAdded ? undefined : <PiPlusCircle />}
             onClick={onToggleAdd}
           >
             {isAdded ? 'REMOVE' : 'ADD'}
@@ -143,7 +143,7 @@ export default function CrPlaylistItem({
                 variant="text"
                 size="xsmall"
                 color="secondary"
-                rightIcon={isAdded ? <PiMinus /> : <PiPlus />}
+                rightIcon={isAdded ? undefined : <PiPlusCircle />}
                 onClick={onToggleAdd}
               >
                 {isAdded ? 'REMOVE' : 'ADD'}

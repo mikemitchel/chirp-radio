@@ -10,12 +10,12 @@ import CrPlaylistTable from '../stories/CrPlaylistTable'
 const CarDonationPage: React.FC = () => {
   return (
     <div className="car-donation-page">
-      <section className="car-donation-breadcrumb">
+      <section className="page-container">
         <CrBreadcrumb />
       </section>
 
-      <div className="car-donation-content">
-        <div className="car-donation-left">
+      <div className="page-layout-main-sidebar">
+        <div className="page-layout-main-sidebar__main">
           <CrPageHeader showEyebrow={false} showActionButton={false} />
           <CrCard
             variant="article"
@@ -29,7 +29,7 @@ const CarDonationPage: React.FC = () => {
           <CrDonateForm variant="vinyl circle promo" />
         </div>
 
-        <div className="car-donation-right">
+        <div className="page-layout-main-sidebar__sidebar">
           <CrAnnouncement
             variant="motivation"
             textureBackground="cr-bg-natural-d100"

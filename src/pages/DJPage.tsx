@@ -7,17 +7,17 @@ import CrCard from '../stories/CrCard'
 const DJPage: React.FC = () => {
   return (
     <div className="dj-page">
-      <section className="dj-header">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={false} />
       </section>
 
-      <div className="dj-header-row">
+      <div className="page-container-row">
         <CrPageHeader showEyebrow={false} showActionButton={true} />
         <CrPageHeader showEyebrow={false} showActionButton={true} />
       </div>
 
-      <div className="dj-content">
-        <div className="dj-left">
+      <div className="page-layout-3col">
+        <div className="page-layout-3col__column">
           <CrDjOverview medium />
           <CrDjOverview medium />
           <CrDjOverview medium />
@@ -30,7 +30,7 @@ const DJPage: React.FC = () => {
           <CrDjOverview medium />
         </div>
 
-        <div className="dj-middle">
+        <div className="page-layout-3col__column">
           <CrDjOverview medium />
           <CrDjOverview medium />
           <CrDjOverview medium />
@@ -43,7 +43,7 @@ const DJPage: React.FC = () => {
           <CrDjOverview medium />
         </div>
 
-        <div className="dj-right">
+        <div className="page-layout-3col__column">
           <CrCard variant="narrow" />
           <CrCard variant="narrow" />
           <CrPageHeader showEyebrow={false} showActionButton={true} />
@@ -53,9 +53,9 @@ const DJPage: React.FC = () => {
         </div>
       </div>
 
-      <section className="dj-footer">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={true} />
-        <div className="dj-footer-grid">
+        <div className="page-container-grid">
           <CrDjOverview small />
           <CrDjOverview small />
           <CrDjOverview small />

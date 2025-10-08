@@ -9,12 +9,12 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 const DJDetailPage: React.FC = () => {
   return (
     <div className="dj-detail-page">
-      <section className="dj-detail-breadcrumb">
+      <section className="page-container">
         <CrBreadcrumb />
       </section>
 
-      <div className="dj-detail-content">
-        <div className="dj-detail-left">
+      <div className="page-layout-main-sidebar">
+        <div className="page-layout-main-sidebar__main">
           <CrPageHeader showEyebrow={true} showActionButton={false} />
           <CrCard
             variant="article"
@@ -25,7 +25,7 @@ const DJDetailPage: React.FC = () => {
           <CrPreviousShows />
         </div>
 
-        <div className="dj-detail-right">
+        <div className="page-layout-main-sidebar__sidebar">
           <CrPageHeader showEyebrow={false} />
           <CrCard variant="small" />
           <CrCard variant="small" />

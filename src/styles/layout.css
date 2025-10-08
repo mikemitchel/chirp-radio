@@ -18,10 +18,159 @@
 /* Support with Ads wrapper */
 .support-with-ads-wrapper {
   width: 100%;
-  background-color: var(--cr-default-900);
+  background-color: var(--cr-default-100);
   border-top: 4px solid var(--cr-primary-500);
 }
 
-[data-theme='dark'] .support-with-ads-wrapper {
+/* ============================================ */
+/* === STANDARD PAGE LAYOUTS === */
+/* Reusable layout patterns for all pages */
+/* ============================================ */
+
+/* Full-width section wrapper */
+.page-section {
+  width: 100%;
+}
+
+/* Standard content container (max-width with auto margin) */
+.page-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--cr-space-4);
+}
+
+/* Add top spacing to first page container (except on landing page) */
+.page-container:first-child {
+  margin-top: var(--cr-space-8);
+}
+
+/* Two-column layout: main content (67%) + sidebar (33%) */
+.page-layout-main-sidebar {
+  display: grid;
+  grid-template-columns: 67% 33%;
+  gap: var(--cr-space-6);
+  padding: var(--cr-space-4);
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.page-layout-main-sidebar__main {
+  min-width: 0;
+}
+
+.page-layout-main-sidebar__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+  min-width: 0;
+  width: 100%;
+  align-items: center;
+  padding-right: var(--cr-space-4);
+}
+
+/* Three-column equal grid */
+.page-layout-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  padding: 0;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-layout-3col__column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-12) var(--cr-space-8);
+}
+
+.page-layout-3col__column--large-gap {
+  gap: var(--cr-space-12);
+}
+
+.page-layout-3col__column--bg {
   background-color: var(--cr-default-100);
+}
+
+/* Two-column equal layout: 50% / 50% */
+.page-layout-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cr-space-6);
+  padding: var(--cr-space-4);
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.page-layout-2col__column {
+  min-width: 0;
+}
+
+/* Single column centered content */
+.page-layout-single {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--cr-space-8) var(--cr-space-4);
+}
+
+/* ============================================ */
+/* === RESPONSIVE BREAKPOINTS === */
+/* ============================================ */
+
+/* Tablet landscape: 968px */
+@media (max-width: 968px) {
+  .page-layout-main-sidebar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--cr-space-4);
+    padding: var(--cr-space-4);
+  }
+
+  .page-layout-2col {
+    grid-template-columns: 1fr;
+    gap: var(--cr-space-4);
+  }
+
+  .page-layout-main-sidebar__sidebar {
+    padding-right: 0;
+  }
+
+  .page-layout-3col {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Tablet portrait: 768px */
+@media (max-width: 768px) {
+  .page-container {
+    padding: var(--cr-space-3);
+  }
+
+  .page-layout-3col {
+    grid-template-columns: 1fr;
+  }
+
+  .page-layout-3col__column {
+    padding: var(--cr-space-8) var(--cr-space-4);
+  }
+
+  .page-layout-single {
+    padding: var(--cr-space-6) var(--cr-space-3);
+  }
+}
+
+/* Mobile: 480px */
+@media (max-width: 480px) {
+  .page-container {
+    padding: var(--cr-space-2);
+  }
+
+  .page-layout-3col__column {
+    padding: var(--cr-space-6) var(--cr-space-3);
+  }
+
+  .page-layout-single {
+    padding: var(--cr-space-4) var(--cr-space-2);
+  }
 }

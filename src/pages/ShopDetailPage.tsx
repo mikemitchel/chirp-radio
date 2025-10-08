@@ -9,20 +9,20 @@ import CrPlaylistTable from '../stories/CrPlaylistTable'
 const ShopDetailPage: React.FC = () => {
   return (
     <div className="shop-detail-page">
-      <section className="shop-detail-breadcrumb">
+      <section className="page-container">
         <CrBreadcrumb />
       </section>
 
-      <section className="shop-detail-header">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={false} />
       </section>
 
-      <div className="shop-detail-content">
-        <div className="shop-detail-left">
+      <div className="page-layout-main-sidebar">
+        <div className="page-layout-main-sidebar__main">
           <CrStoreItem />
         </div>
 
-        <div className="shop-detail-right">
+        <div className="page-layout-main-sidebar__sidebar">
           <CrShoppingCart />
           <CrPlaylistTable showHeader={true} groupByHour={true} />
         </div>

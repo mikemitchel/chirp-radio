@@ -9,12 +9,12 @@ import CrButton from '../stories/CrButton'
 const EventsPage: React.FC = () => {
   return (
     <div className="events-page">
-      <section className="events-header">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={false} />
       </section>
 
-      <div className="events-content">
-        <div className="events-left">
+      <div className="page-layout-main-sidebar">
+        <div className="page-layout-main-sidebar__main">
           <CrCard variant="default" />
           <div className="events-grid-2col">
             <CrCard variant="default" />
@@ -50,7 +50,7 @@ const EventsPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="events-right">
+        <div className="page-layout-main-sidebar__sidebar">
           <CrAnnouncement
             variant="motivation"
             textureBackground="cr-bg-natural-s100"

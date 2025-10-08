@@ -8,12 +8,12 @@ import CrCalendarEvent from '../stories/CrCalendarEvent'
 const VolunteerCalendarPage: React.FC = () => {
   return (
     <div className="volunteer-calendar-page">
-      <section className="volunteer-calendar-breadcrumb">
+      <section className="page-container">
         <CrBreadcrumb />
       </section>
 
-      <div className="volunteer-calendar-content">
-        <div className="volunteer-calendar-left">
+      <div className="page-layout-main-sidebar">
+        <div className="page-layout-main-sidebar__main">
           <CrPageHeader showEyebrow={false} showActionButton={false} />
           <CrCard
             variant="article"
@@ -24,7 +24,7 @@ const VolunteerCalendarPage: React.FC = () => {
           <CrCalendarEvent />
         </div>
 
-        <div className="volunteer-calendar-right">
+        <div className="page-layout-main-sidebar__sidebar">
           <CrPageHeader showEyebrow={false} />
           <CrCard variant="small" />
           <CrCard variant="small" />

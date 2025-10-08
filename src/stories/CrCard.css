@@ -128,7 +128,7 @@
 }
 
 .cr-card__banner {
-  background-color: var(--cr-card-bg);
+  background-color: var(--cr-default-100);
 }
 
 /* ============================================ */

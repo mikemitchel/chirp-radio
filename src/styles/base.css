@@ -14,8 +14,9 @@ body {
   min-height: 100vh; /* Ensures the body is at least the height of the viewport */
 }
 
-footer {
-  margin-top: auto; /* Pushes the footer to the bottom */
+.web-layout-footer-container {
+  margin-top: auto; /* Pushes the footer container (with support-ads and footer) to the bottom */
+  padding-top: var(--cr-space-16);
 }
 
 /* Global max-width constraint for all content */

@@ -10,12 +10,12 @@ import CrPlaylistTable from '../stories/CrPlaylistTable'
 const WaysToGivePage: React.FC = () => {
   return (
     <div className="ways-to-give-page">
-      <section className="ways-to-give-breadcrumb">
+      <section className="page-container">
         <CrBreadcrumb />
       </section>
 
-      <div className="ways-to-give-content">
-        <div className="ways-to-give-left">
+      <div className="page-layout-main-sidebar">
+        <div className="page-layout-main-sidebar__main">
           <CrPageHeader showEyebrow={false} showActionButton={false} />
           <CrCard
             variant="article"
@@ -36,7 +36,7 @@ const WaysToGivePage: React.FC = () => {
           <CrDonateForm variant="vinyl circle promo" />
         </div>
 
-        <div className="ways-to-give-right">
+        <div className="page-layout-main-sidebar__sidebar">
           <CrAnnouncement
             variant="motivation"
             textureBackground="cr-bg-natural-d100"

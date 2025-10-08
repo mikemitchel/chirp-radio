@@ -9,38 +9,38 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 const DJSchedulePage: React.FC = () => {
   return (
     <div className="dj-schedule-page">
-      <section className="dj-schedule-header-main">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={false} />
       </section>
 
-      <section className="dj-schedule-header-sub">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={true} />
       </section>
 
-      <section className="dj-schedule-calendar">
+      <section className="page-container">
         <CrDjSchedule />
       </section>
 
-      <div className="dj-schedule-grid">
+      <div className="page-layout-3col">
         <CrPageHeader showEyebrow={false} />
         <CrPageHeader showEyebrow={false} />
         <CrPageHeader showEyebrow={false} />
       </div>
 
-      <div className="dj-schedule-content">
-        <div className="dj-schedule-left">
+      <div className="page-layout-3col">
+        <div className="page-layout-3col__column">
           <CrCard variant="narrow" />
           <CrCard variant="narrow" />
           <CrCard variant="narrow" />
         </div>
 
-        <div className="dj-schedule-middle">
+        <div className="page-layout-3col__column">
           <CrCard variant="small" />
           <CrCard variant="small" />
           <CrCard variant="small" />
         </div>
 
-        <div className="dj-schedule-right">
+        <div className="page-layout-3col__column">
           <CrDjOverview medium />
           <CrDjOverview medium />
           <CrDjOverview medium />

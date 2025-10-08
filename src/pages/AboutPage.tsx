@@ -8,12 +8,12 @@ import CrImageRow from '../stories/CrImageRow'
 const AboutPage: React.FC = () => {
   return (
     <div className="about-page">
-      <section className="about-header">
+      <section className="page-container">
         <CrPageHeader showEyebrow={false} showActionButton={false} />
       </section>
 
-      <div className="about-content">
-        <div className="about-left">
+      <div className="page-layout-main-sidebar">
+        <div className="page-layout-main-sidebar__main">
           <CrPageHeader showEyebrow={false} showButton={false} />
           <CrCard
             variant="article"
@@ -40,7 +40,7 @@ const AboutPage: React.FC = () => {
           />
         </div>
 
-        <div className="about-right">
+        <div className="page-layout-main-sidebar__sidebar">
           <CrPageHeader showEyebrow={false} showButton={false} />
           <CrDjOverview large />
           <CrDjOverview large />
