@@ -15,6 +15,7 @@ import AboutPage from './pages/AboutPage';
 import VolunteerDirectoryPage from './pages/VolunteerDirectoryPage';
 import ShopCheckoutPage from './pages/ShopCheckoutPage';
 import EventsPage from './pages/EventsPage';
+import ArticlesPage from './pages/ArticlesPage';
 import ContactPage from './pages/ContactPage';
 import WaysToGivePage from './pages/WaysToGivePage';
 import VolunteerResourcesPage from './pages/VolunteerResourcesPage';
@@ -79,7 +80,7 @@ function App() {
         <Route path="/listen" element={<WebLayout><ListenPage /></WebLayout>} />
         <Route path="/events" element={<WebLayout><EventsPage /></WebLayout>} />
         <Route path="/events/:id" element={<WebLayout><EventDetailPage /></WebLayout>} />
-        <Route path="/articles" element={<WebLayout><EventsPage /></WebLayout>} />
+        <Route path="/articles" element={<WebLayout><ArticlesPage /></WebLayout>} />
         <Route path="/articles/:id" element={<WebLayout><EventDetailPage /></WebLayout>} />
         <Route path="/podcast" element={<WebLayout><EventsPage /></WebLayout>} />
         <Route path="/podcast/:id" element={<WebLayout><EventDetailPage /></WebLayout>} />

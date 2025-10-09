@@ -17,6 +17,10 @@ interface CrCardProps {
   metaContent?: string
   timeSlot?: string
   showMeta?: boolean
+  showMetaTop?: boolean
+  authorBy?: string
+  eventDate?: string
+  tags?: string[]
   preheader?: string
   title?: string
   bannerButtonText?: string
@@ -37,6 +41,8 @@ interface CrCardProps {
   bannerHeight?: string
   textLayout?: string
   bannerBackgroundColor?: string
+  showTicketButton?: boolean
+  showShareButton?: boolean
   className?: string
 }
 
@@ -57,6 +63,10 @@ export default function CrCard({
   metaContent = 'This content is 30 characters.',
   timeSlot = 'Monday 12pm - 12pm',
   showMeta = false,
+  showMetaTop = false,
+  authorBy = 'by Sally Forth',
+  eventDate = 'September 30, 2025',
+  tags = [],
 
   // Banner props
   preheader = 'Intro Preheader Thing',
@@ -65,6 +75,7 @@ export default function CrCard({
   shareButtonText = 'Share',
   continueButtonText = 'Continue Reading',
   showShareButton = true,
+  showTicketButton = true,
 
   // Event handlers
   onBannerTicketClick,
@@ -126,10 +137,10 @@ export default function CrCard({
           preheader={preheader}
           title={title}
           height={bannerHeight}
-          textLayout="inline"
+          textLayout={textLayout}
           backgroundColor="none"
-          showTicketButton={true}
-          showShareButton={true}
+          showTicketButton={showTicketButton}
+          showShareButton={showShareButton}
           ticketButtonText={bannerButtonText}
           shareButtonText={shareButtonText}
           onTicketClick={onBannerTicketClick}
@@ -141,6 +152,7 @@ export default function CrCard({
       preheader,
       title,
       bannerHeight,
+      textLayout,
       bannerButtonText,
       shareButtonText,
       onBannerTicketClick,
@@ -264,30 +276,45 @@ export default function CrCard({
                 textLayout={textLayout}
                 backgroundColor={bannerBackgroundColor}
                 showTicketButton={false}
-                showShareButton={false}
+                showShareButton={type === 'article' && !showMetaTop}
+                shareButtonText={shareButtonText}
+                onShareClick={onBannerShareClick}
               />
             </div>
 
-            <div className="cr-card__narrow-date-location">
-              <div className="cr-card__narrow-date-location-content">
-                <div className="cr-card__narrow-datetime">
-                  <PiCalendarDots className="cr-card__narrow-icon" />
-                  <span className="cr-card__narrow-text">{dateTime}</span>
+            {type === 'article' && showMetaTop ? (
+              <div className="cr-card__narrow-date-location">
+                <div className="cr-card__narrow-date-location-content">
+                  <div className="cr-card__narrow-datetime">
+                    <span className="cr-card__narrow-text">{authorBy}</span>
+                  </div>
+                  <div className="cr-card__narrow-datetime">
+                    <span className="cr-card__narrow-text">{eventDate}</span>
+                  </div>
                 </div>
-
-                <a
-                  href="#"
-                  className="cr-card__narrow-venue"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    onVenueClick?.()
-                  }}
-                >
-                  <PiMapTrifold className="cr-card__narrow-icon" />
-                  <span className="cr-card__narrow-venue-text">{venue}</span>
-                </a>
               </div>
-            </div>
+            ) : type !== 'article' ? (
+              <div className="cr-card__narrow-date-location">
+                <div className="cr-card__narrow-date-location-content">
+                  <div className="cr-card__narrow-datetime">
+                    <PiCalendarDots className="cr-card__narrow-icon" />
+                    <span className="cr-card__narrow-text">{dateTime}</span>
+                  </div>
+
+                  <a
+                    href="#"
+                    className="cr-card__narrow-venue"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      onVenueClick?.()
+                    }}
+                  >
+                    <PiMapTrifold className="cr-card__narrow-icon" />
+                    <span className="cr-card__narrow-venue-text">{venue}</span>
+                  </a>
+                </div>
+              </div>
+            ) : null}
 
             <div
               className={`cr-card__narrow-image cr-card__narrow-image--${activeImageAspectRatio.replace(':', '-')}`}
@@ -306,21 +333,58 @@ export default function CrCard({
 
             <div className="cr-card__narrow-age-share">
               <div className="cr-card__narrow-age-share-content">
-                {ageRestriction && (
-                  <CrChip variant="secondary" size="large">
-                    {ageRestriction}
-                  </CrChip>
-                )}
+                {type === 'article' ? (
+                  <>
+                    {!showMetaTop && (
+                      <>
+                        <div className="cr-card__narrow-datetime">
+                          <span className="cr-card__narrow-text">{authorBy}</span>
+                        </div>
+                        <div className="cr-card__narrow-datetime">
+                          <span className="cr-card__narrow-text">{eventDate}</span>
+                        </div>
+                      </>
+                    )}
+                    {tags && tags.length > 0 && (
+                      <div style={{ display: 'flex', gap: 'var(--cr-space-2)', flexWrap: 'wrap' }}>
+                        {tags.map((tag, index) => (
+                          <CrChip key={index} variant="secondary" size="medium">
+                            {tag}
+                          </CrChip>
+                        ))}
+                      </div>
+                    )}
+                    {showMetaTop && (
+                      <CrButton
+                        size="small"
+                        variant="outline"
+                        color="secondary"
+                        leftIcon={<PiArrowSquareUp />}
+                        onClick={onShareClick}
+                      >
+                        {shareButtonText}
+                      </CrButton>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {ageRestriction && (
+                      <CrChip variant="secondary" size="large">
+                        {ageRestriction}
+                      </CrChip>
+                    )}
 
-                <CrButton
-                  size="small"
-                  variant="outline"
-                  color="secondary"
-                  leftIcon={<PiArrowSquareUp />}
-                  onClick={onShareClick}
-                >
-                  {shareButtonText}
-                </CrButton>
+                    <CrButton
+                      size="small"
+                      variant="outline"
+                      color="secondary"
+                      leftIcon={<PiArrowSquareUp />}
+                      onClick={onShareClick}
+                    >
+                      {shareButtonText}
+                    </CrButton>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -334,7 +398,7 @@ export default function CrCard({
                 preheader={preheader}
                 title={title}
                 height={bannerHeight}
-                textLayout="inline"
+                textLayout={textLayout}
                 backgroundColor="none"
                 showTicketButton={false}
                 showShareButton={true}
@@ -365,6 +429,8 @@ export default function CrCard({
                 dateTime={dateTime}
                 venue={venue}
                 ageRestriction={ageRestriction}
+                authorBy={authorBy}
+                eventDate={eventDate}
                 onVenueClick={onVenueClick}
                 onShareClick={onShareClick}
               />
@@ -387,6 +453,9 @@ export default function CrCard({
                     dateTime={dateTime}
                     venue={venue}
                     ageRestriction={ageRestriction}
+                    authorBy={authorBy}
+                    eventDate={eventDate}
+                    tags={tags}
                     showShareButton={false}
                     onVenueClick={onVenueClick}
                     onShareClick={onShareClick}
@@ -406,8 +475,8 @@ export default function CrCard({
                 height={bannerHeight}
                 textLayout={textLayout}
                 backgroundColor="none"
-                showTicketButton={true}
-                showShareButton={true}
+                showTicketButton={showTicketButton}
+                showShareButton={showShareButton}
                 ticketButtonText={bannerButtonText}
                 shareButtonText={shareButtonText}
                 onTicketClick={onBannerTicketClick}

@@ -38,7 +38,7 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
 
   if (!isLoggedIn) {
     return (
-      <div className="page-content">
+      <div>
         <CrPageHeader
           eyebrowText="CHIRP Radio"
           title="Make a Song Request"
@@ -47,12 +47,12 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
           titleSize="lg"
         />
 
-        <div className="auth-prompt-container">
-          <p className="auth-prompt-text-lg">
+        <div>
+          <p>
             You need to be logged in to make a song request. This helps us know who the request is coming from and ensures a better experience for everyone.
           </p>
 
-          <div className="auth-prompt-buttons-wrap">
+          <div>
             <CrButton
               variant="solid"
               color="secondary"
@@ -76,7 +76,7 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
   }
 
   return (
-    <div className="page-content">
+    <div>
       <CrPageHeader
         eyebrowText="CHIRP Radio"
         title="Make a Request"
@@ -85,7 +85,7 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
         titleSize="lg"
       />
 
-      <div className="current-dj-wrapper">
+      <div>
         <CrCurrentDj
           djName={testDjName || currentData.dj}
           showName={testShowName || currentData.show}

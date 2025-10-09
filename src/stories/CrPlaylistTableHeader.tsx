@@ -12,8 +12,8 @@ export default function CrPlaylistTableHeader({ className = '' }: CrPlaylistTabl
 
       <div className="cr-playlist-table-header__grid">
         <div className="cr-playlist-table-header__left">
-          <div className="cr-playlist-table-header__track">Title</div>
           <div className="cr-playlist-table-header__artist">Artist Name</div>
+          <div className="cr-playlist-table-header__track">Title</div>
         </div>
 
         <div className="cr-playlist-table-header__right">

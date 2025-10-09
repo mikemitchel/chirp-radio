@@ -68,12 +68,15 @@
 /* Aspect ratio variants */
 .cr-card--default.cr-card--16-9 {
   aspect-ratio: 16/9;
+  min-height: 540px;
 }
 .cr-card--default.cr-card--4-3 {
   aspect-ratio: 4/3;
+  min-height: 540px;
 }
 .cr-card--default.cr-card--1-1 {
   aspect-ratio: 1/1;
+  min-height: 540px;
 }
 
 /* ============================================ */
@@ -373,6 +376,10 @@
   background-color: var(--cr-card-bg);
 }
 
+.cr-card--narrow .cr-card-title-banner__title {
+  font: var(--cr-title-sm);
+}
+
 /* Wide variant */
 .cr-card--wide {
   aspect-ratio: auto;
@@ -462,6 +469,12 @@
   /* Update custom properties for mobile */
   .cr-card {
     --cr-card-padding: var(--cr-card-padding-mobile);
+  }
+
+  /* Default variant - remove aspect ratio constraint */
+  .cr-card--default {
+    aspect-ratio: auto;
+    min-height: 400px;
   }
 
   /* Wide variant mobile adjustments */

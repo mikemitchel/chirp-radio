@@ -225,6 +225,7 @@ body {
     font: var(--cr-body-reg);
     background-color: var(--cr-background);
     color: var(--cr-foreground);
+    overflow-x: hidden;
 }
 
 /* === RICH TEXT === */

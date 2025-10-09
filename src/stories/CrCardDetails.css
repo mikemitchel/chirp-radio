@@ -70,8 +70,7 @@
   display: none;
 }
 
-.cr-card-details--article .cr-card-details__event-row,
-.cr-card-details--article .cr-card-details__actions {
+.cr-card-details--article .cr-card-details__event-row {
   display: none;
 }
 

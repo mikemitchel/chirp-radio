@@ -165,7 +165,7 @@ export default function YourCollection() {
 
   if (!isLoggedIn) {
     return (
-      <div className="page-content">
+      <div>
         <CrPageHeader
           eyebrowText="CHIRP Radio"
           title="Your Collection"
@@ -174,32 +174,32 @@ export default function YourCollection() {
           titleSize="lg"
         />
 
-        <div className="auth-prompt-container">
-          <h2 className="auth-prompt-heading">
+        <div>
+          <h2>
             Don't have a CHIRP Radio Account?
           </h2>
 
-          <p className="auth-prompt-text">
+          <p>
             A profile allows you to interact with the site in all sorts of helpful ways:
           </p>
 
-          <ul className="auth-prompt-list">
-            <li className="auth-prompt-list-item">
+          <ul>
+            <li>
               You can add songs to your collection that you hear across our web and mobile applications so you don't forget them
             </li>
-            <li className="auth-prompt-list-item">
+            <li>
               You can save your information for store purchases and donations
             </li>
-            <li className="auth-prompt-list-item">
+            <li>
               Your profile settings will be saved between your mobile and web experiences
             </li>
           </ul>
 
-          <p className="auth-prompt-text-lg">
+          <p>
             So create your profile today, and start getting the maximum benefit from CHIRPradio.org!
           </p>
 
-          <div className="auth-prompt-buttons">
+          <div>
             <CrButton
               variant="solid"
               color="secondary"
@@ -223,7 +223,7 @@ export default function YourCollection() {
   }
 
   return (
-    <div className="page-content">
+    <div>
       <CrPageHeader
         eyebrowText="CHIRP Radio"
         title="Your Collection"

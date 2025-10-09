@@ -9,7 +9,8 @@
       "WebFetch(domain:www.figma.com)",
       "Read(//tmp/chirp-layouts/chirp layouts/**)",
       "Bash(DJPage.tsx)",
-      "Bash(DJSchedulePage.tsx)"
+      "Bash(DJSchedulePage.tsx)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []

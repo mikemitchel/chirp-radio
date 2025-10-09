@@ -71,15 +71,24 @@ export default function CrRecentlyPlayed({
 
     const handleScroll = () => {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainer
+      // Only show gradient if content is wider than container AND not scrolled to the end
+      const hasOverflow = scrollWidth > clientWidth
       const isNearEnd = scrollLeft + clientWidth >= scrollWidth - 50
-      setShowGradient(!isNearEnd)
+      setShowGradient(hasOverflow && !isNearEnd)
     }
 
     // Initial check
     handleScroll()
 
+    // Also check on window resize
+    const handleResize = () => handleScroll()
+    window.addEventListener('resize', handleResize)
+
     scrollContainer.addEventListener('scroll', handleScroll)
-    return () => scrollContainer.removeEventListener('scroll', handleScroll)
+    return () => {
+      scrollContainer.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
 
   const displayedTracks = tracks.slice(0, maxItems)

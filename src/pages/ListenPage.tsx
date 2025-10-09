@@ -6,10 +6,90 @@ import CrPlaylistTable from '../stories/CrPlaylistTable'
 import CrPlaylistItem from '../stories/CrPlaylistItem'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrList from '../stories/CrList'
+import { useTracks, useCurrentUser, useTop25, useMostAdded, useHalloween, useAnnouncements } from '../hooks/useData'
 import './ListenPage.css'
 
 const ListenPage: React.FC = () => {
-  const recentlyPlayedTracks = [
+  const { data: tracks } = useTracks()
+  const { data: currentUser } = useCurrentUser()
+  const { data: top25Chart } = useTop25()
+  const { data: mostAddedChart } = useMostAdded()
+  const { data: halloweenChart } = useHalloween()
+  const { data: announcements } = useAnnouncements()
+
+  // Transform tracks for playlist table - only show last 2 hours
+  const recentlyPlayedTracks = tracks?.filter((track, index, arr) => {
+    // Get unique hours from tracks
+    const uniqueHours = [...new Set(arr.map(t => t.hourKey))]
+    // Only include tracks from the first 2 hours
+    return uniqueHours.slice(0, 2).includes(track.hourKey)
+  }).map(track => ({
+    albumArt: track.albumArt,
+    artistName: track.artistName,
+    trackName: track.trackName,
+    albumName: track.albumName,
+    labelName: track.labelName,
+    isLocal: track.isLocal,
+    timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit'
+    }),
+    hourKey: track.hourKey,
+    hourData: {
+      startTime: track.hourKey === '5am' ? '5:00am' : '4:00am',
+      endTime: track.hourKey === '5am' ? '6:00am' : '5:00am',
+      djName: track.djName,
+      showName: track.showName,
+      djProfileUrl: '#',
+    },
+  })) || []
+
+  // Get user collection for sidebar (first 3 items)
+  const userCollectionTracks = currentUser?.collection?.slice(0, 3).map(track => ({
+    albumArt: track.albumArt,
+    artistName: track.artistName,
+    trackName: track.trackName,
+    albumName: track.albumName,
+    labelName: track.labelName,
+    isLocal: track.isLocal,
+    isAdded: true,
+    timeAgo: new Date(track.dateAdded).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit'
+    }),
+  })) || []
+
+  // Transform chart data for lists
+  const top25Items = top25Chart?.tracks?.map(track => ({
+    songName: track.trackName,
+    artistName: track.artistName,
+    recordCompany: track.labelName
+  })) || []
+
+  const mostAddedItems = mostAddedChart?.tracks?.map(track => ({
+    songName: track.trackName,
+    artistName: track.artistName,
+    recordCompany: track.labelName
+  })) || []
+
+  // Get week date for headers
+  const getWeekOfDate = () => {
+    if (top25Chart?.weekOf) {
+      return new Date(top25Chart.weekOf).toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+      })
+    }
+    return new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    })
+  }
+
+  // Dummy data for "This Week's Adds" - will be replaced when we have this data
+  const weeksAddsTracks = [
     {
       albumArt: 'https://upload.wikimedia.org/wikipedia/en/5/5b/Chance_the_rapper_acid_rap.jpg',
       artistName: 'Chance the Rapper',
@@ -385,12 +465,6 @@ const ListenPage: React.FC = () => {
             actionButtonIcon={<PiVinylRecord />}
           />
           <CrPlaylistTable items={recentlyPlayedTracks} showHeader={true} groupByHour={true} className="listen-page__playlist" />
-          <CrAnnouncement
-            variant="motivation"
-            textureBackground="cr-bg-natural-d100"
-            showLink={false}
-            buttonCount="two"
-          />
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
@@ -404,104 +478,68 @@ const ListenPage: React.FC = () => {
             actionButtonIcon={<PiPlaylist />}
           />
           <CrPlaylistTable
-            items={collectionTracks}
+            items={userCollectionTracks}
             showHeader={false}
             groupByHour={false}
             variant="default"
           />
           <CrList
-            preheader={`Week of ${new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`}
-            title="This Week's Adds"
-            bannerButtonText="View All Adds"
-            items={[
-              { songName: "Espresso", artistName: "Sabrina Carpenter", recordCompany: "Island Records" },
-              { songName: "Too Sweet", artistName: "Hozier", recordCompany: "Columbia Records" },
-              { songName: "Beautiful Things", artistName: "Benson Boone", recordCompany: "Night Street Records" },
-              { songName: "Illusion", artistName: "Dua Lipa", recordCompany: "Warner Records" },
-              { songName: "Thinkin Bout Me", artistName: "Morgan Wallen", recordCompany: "Big Loud Records" },
-              { songName: "we can't be friends", artistName: "Ariana Grande", recordCompany: "Republic Records" },
-              { songName: "End of Beginning", artistName: "Djo", recordCompany: "AWAL" },
-              { songName: "Lunch", artistName: "Billie Eilish", recordCompany: "Darkroom/Interscope" },
-              { songName: "Hot To Go!", artistName: "Chappell Roan", recordCompany: "Island Records" },
-              { songName: "Pink Pony Club", artistName: "Chappell Roan", recordCompany: "Island Records" }
-            ]}
+            preheader={halloweenChart?.preheader}
+            title={halloweenChart?.title}
+            showActionButton={false}
+            showAddButton={false}
+            items={halloweenChart?.tracks?.map(costume => ({
+              songName: costume.costumeName
+            })) || []}
           />
-          <CrAnnouncement
-            variant="motivation"
-            textureBackground="cr-bg-natural-s900"
-            showLink={false}
-            buttonCount="one"
-          />
+          {announcements && announcements[3] && (
+            <CrAnnouncement
+              variant="motivation"
+              widthVariant="third"
+              textureBackground={announcements[3].backgroundColor}
+              headlineText={announcements[3].title}
+              bodyText={announcements[3].message}
+              showLink={!!announcements[3].ctaText}
+              linkText={announcements[3].ctaText}
+              linkUrl={announcements[3].ctaUrl}
+              buttonCount="one"
+            />
+          )}
         </div>
       </div>
+
+      <section className="page-section">
+        <div className="page-container">
+          {announcements && announcements[2] && (
+            <CrAnnouncement
+              variant="motivation"
+              textureBackground={announcements[2].backgroundColor}
+              headlineText={announcements[2].title}
+              bodyText={announcements[2].message}
+              showLink={!!announcements[2].ctaText}
+              linkText={announcements[2].ctaText}
+              linkUrl={announcements[2].ctaUrl}
+              buttonCount="two"
+            />
+          )}
+        </div>
+      </section>
 
       <section className="page-layout-2col">
         <div className="page-layout-2col__column">
           <CrList
-            preheader={`Week of ${new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`}
-            title="Top 25"
+            preheader={`Week of ${getWeekOfDate()}`}
+            title={top25Chart?.title || "Top 25"}
             bannerButtonText="View Full Chart"
-            items={[
-              { songName: "Cruel Summer", artistName: "Taylor Swift", recordCompany: "Republic Records" },
-              { songName: "Paint The Town Red", artistName: "Doja Cat", recordCompany: "Kemosabe Records" },
-              { songName: "Vampire", artistName: "Olivia Rodrigo", recordCompany: "Geffen Records" },
-              { songName: "Last Night", artistName: "Morgan Wallen", recordCompany: "Big Loud Records" },
-              { songName: "Snooze", artistName: "SZA", recordCompany: "Top Dawg Entertainment" },
-              { songName: "Fast Car", artistName: "Luke Combs", recordCompany: "Columbia Nashville" },
-              { songName: "fukumean", artistName: "Gunna", recordCompany: "YSL Records" },
-              { songName: "Northern Attitude", artistName: "Noah Kahan", recordCompany: "Republic Records" },
-              { songName: "I Remember Everything", artistName: "Zach Bryan feat. Kacey Musgraves", recordCompany: "Warner Records" },
-              { songName: "Strangers", artistName: "Kenya Grace", recordCompany: "Major Recordings" },
-              { songName: "Rich Baby Daddy", artistName: "Drake feat. Sexyy Red", recordCompany: "OVO Sound" },
-              { songName: "Greedy", artistName: "Tate McRae", recordCompany: "RCA Records" },
-              { songName: "What Was I Made For?", artistName: "Billie Eilish", recordCompany: "Darkroom/Interscope" },
-              { songName: "Dance The Night", artistName: "Dua Lipa", recordCompany: "Warner Records" },
-              { songName: "All My Life", artistName: "Lil Durk feat. J. Cole", recordCompany: "Alamo Records" },
-              { songName: "You Proof", artistName: "Morgan Wallen", recordCompany: "Big Loud Records" },
-              { songName: "Surround Sound", artistName: "JID feat. 21 Savage", recordCompany: "Dreamville Records" },
-              { songName: "Die For You", artistName: "The Weeknd & Ariana Grande", recordCompany: "XO/Republic" },
-              { songName: "Anti-Hero", artistName: "Taylor Swift", recordCompany: "Republic Records" },
-              { songName: "Ella Baila Sola", artistName: "Eslabon Armado x Peso Pluma", recordCompany: "DEL Records" },
-              { songName: "Monaco", artistName: "Bad Bunny", recordCompany: "Rimas Entertainment" },
-              { songName: "Karma", artistName: "Taylor Swift feat. Ice Spice", recordCompany: "Republic Records" },
-              { songName: "Flowers", artistName: "Miley Cyrus", recordCompany: "Columbia Records" },
-              { songName: "Standing Next to You", artistName: "Jung Kook", recordCompany: "BIGHIT MUSIC" },
-              { songName: "Boy's a liar Pt. 2", artistName: "PinkPantheress & Ice Spice", recordCompany: "Warner Records" }
-            ]}
+            items={top25Items}
           />
         </div>
         <div className="page-layout-2col__column">
           <CrList
             preheader="Chicago Local Artists"
-            title="Most Added"
+            title={mostAddedChart?.title || "Most Added"}
             bannerButtonText="View All Local"
-            items={[
-              { songName: "Sunset Boulevard", artistName: "The Moonlighters", recordCompany: "Independent" },
-              { songName: "City Lights", artistName: "Neon Dreams", recordCompany: "Local Records" },
-              { songName: "Midnight Train", artistName: "The Wanderers", recordCompany: "Urban Sound" },
-              { songName: "Electric Avenue", artistName: "Voltage Collective", recordCompany: "DIY Records" },
-              { songName: "River Run", artistName: "The Folk People", recordCompany: "Prairie Records" },
-              { songName: "Steel City", artistName: "Industrial Mind", recordCompany: "Factory Floor" },
-              { songName: "Golden Hour", artistName: "Sunrise Sessions", recordCompany: "Morning Light" },
-              { songName: "Neon Nights", artistName: "Retro Wave", recordCompany: "Synth Pop Records" },
-              { songName: "Hometown Hero", artistName: "Local Legend", recordCompany: "Neighborhood Sounds" },
-              { songName: "Lake Effect", artistName: "Winter Warning", recordCompany: "Cold Wave Records" },
-              { songName: "Rush Hour", artistName: "Traffic Jam", recordCompany: "Commuter Music" },
-              { songName: "Deep Dish", artistName: "Pizza Party", recordCompany: "Chicago Style" },
-              { songName: "Blue Line", artistName: "Transit Authority", recordCompany: "Public Transit" },
-              { songName: "Bean Town", artistName: "Millennium Park", recordCompany: "Loop Records" },
-              { songName: "Wicker Park", artistName: "Hipster Highway", recordCompany: "Artisan Audio" },
-              { songName: "Navy Pier", artistName: "Ferris Wheel", recordCompany: "Lakefront Sounds" },
-              { songName: "Hot Dogs", artistName: "No Ketchup", recordCompany: "Vienna Beef" },
-              { songName: "Southside Soul", artistName: "Chi-Town Funk", recordCompany: "Soul Records" },
-              { songName: "Lakeshore Drive", artistName: "Aliotta Haynes", recordCompany: "Classic Chicago" },
-              { songName: "Sweet Home", artistName: "Chicago Band", recordCompany: "Horn Section" },
-              { songName: "Magnificent Mile", artistName: "Shopping Spree", recordCompany: "Retail Therapy" },
-              { songName: "River North", artistName: "Gallery District", recordCompany: "Art Scene" },
-              { songName: "Lincoln Park", artistName: "Zoo Crew", recordCompany: "Green Space" },
-              { songName: "Pilsen Pride", artistName: "Barrio Beat", recordCompany: "Cultural Sounds" },
-              { songName: "Bucktown Boogie", artistName: "Western Avenue", recordCompany: "Northwest Side" }
-            ]}
+            items={mostAddedItems}
           />
         </div>
       </section>

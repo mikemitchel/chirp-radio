@@ -1,5 +1,5 @@
 // src/pages/LandingPage.tsx
-import React from 'react'
+import React, { useEffect } from 'react'
 import { PiCalendarDots, PiReadCvLogo, PiVinylRecord } from 'react-icons/pi'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrCurrentDjCard from '../stories/CrCurrentDjCard'
@@ -9,113 +9,79 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import HeroCarousel from '../components/HeroCarousel'
 import CrRecentlyPlayed from '../components/CrRecentlyPlayed'
+import { useFeaturedAnnouncement, useAnnouncements, useEvents, useArticles, useTracks, useCurrentShow } from '../hooks/useData'
 
 const LandingPage: React.FC = () => {
-  const heroSlides = [
-    {
-      backgroundImage: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop',
-      imageCaption: 'Photo credit - John Dough',
-      preheader: 'Featured Event',
-      title: 'Live Music Tonight',
-      dateTime: 'Oct 6, 2025 @ 9:00pm',
-      venue: 'Lincoln Hall',
-      ageRestriction: '21+',
-      contentSummary: 'Join us for an unforgettable night of live music featuring local bands and special guests. Doors open at 8pm.',
-      bannerButtonText: 'Buy Tickets',
-      shareButtonText: 'Share',
-    },
-    {
-      backgroundImage: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=600&fit=crop',
-      imageCaption: 'Photo credit - Jane Smith',
-      preheader: 'Special Performance',
-      title: 'Jazz Night',
-      dateTime: 'Oct 7, 2025 @ 8:00pm',
-      venue: 'The Green Mill',
-      ageRestriction: '18+',
-      contentSummary: 'Experience the smooth sounds of jazz with our featured artists. A night of timeless classics and modern interpretations.',
-      bannerButtonText: 'Get Tickets',
-      shareButtonText: 'Share',
-    },
-    {
-      backgroundImage: 'https://images.unsplash.com/photo-1501612780327-45045538702b?w=800&h=600&fit=crop',
-      imageCaption: 'Photo credit - Mike Jones',
-      preheader: 'Community Event',
-      title: 'CHIRP Block Party',
-      dateTime: 'Oct 8, 2025 @ 12:00pm',
-      venue: 'Wicker Park',
-      ageRestriction: 'All Ages',
-      contentSummary: 'Join us for our annual block party with live music, food trucks, and community fun. Free admission!',
-      bannerButtonText: 'Learn More',
-      shareButtonText: 'Share',
-    },
-  ]
+  const { data: featuredAnnouncement } = useFeaturedAnnouncement()
+  const { data: announcements } = useAnnouncements()
+  const { data: events } = useEvents()
+  const { data: articles } = useArticles()
+  const { data: tracks } = useTracks()
+  const { data: currentShow } = useCurrentShow()
 
-  const recentlyPlayedTracks = [
-    {
-      albumArt: 'https://upload.wikimedia.org/wikipedia/en/5/5b/Chance_the_rapper_acid_rap.jpg',
-      artistName: 'Chance the Rapper',
-      trackName: 'Pusha Man',
-      albumName: 'Acid Rap',
-      labelName: 'Chance the Rapper',
-      isLocal: true,
-      timeAgo: '10:36am',
-    },
-    {
-      albumArt: 'https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg',
-      artistName: 'Alkaline Trio',
-      trackName: 'Stupid Kid',
-      albumName: 'From Here to Infirmary',
-      labelName: 'Vagrant Records',
-      isLocal: true,
-      timeAgo: '10:30am',
-    },
-    {
-      albumArt: 'https://f4.bcbits.com/img/a3263361162_16.jpg',
-      artistName: 'Signals Midwest',
-      trackName: 'Your New, Old Apartment',
-      albumName: 'Pin',
-      labelName: 'Lauren Records',
-      timeAgo: '10:27am',
-    },
-    {
-      albumArt: 'https://f4.bcbits.com/img/a1076606024_16.jpg',
-      artistName: 'Into It. Over It.',
-      trackName: 'Vis Major',
-      albumName: 'Standards',
-      labelName: 'Storchmasers',
-      isLocal: true,
-      timeAgo: '10:24am',
-    },
-    {
-      albumArt: 'https://upload.wikimedia.org/wikipedia/en/9/95/Gukfmm.jpg',
-      artistName: 'The Get Up Kids',
-      trackName: 'Last Place You Look',
-      albumName: 'Four Minute Mile',
-      labelName: 'Doghouse Records',
-      timeAgo: '10:21am',
-    },
-    {
-      albumArt: 'https://upload.wikimedia.org/wikipedia/en/2/23/Sugar_-_File_Under_Easy_Listening.jpg',
-      artistName: 'Sugar',
-      trackName: 'Gee Angel',
-      albumName: 'File Under: Easy Listening',
-      labelName: 'Creation Records',
-      timeAgo: '10:17am',
-    },
-  ]
+  // Add landing-page class to body on mount, remove on unmount
+  useEffect(() => {
+    document.body.classList.add('landing-page')
+    return () => {
+      document.body.classList.remove('landing-page')
+    }
+  }, [])
+
+  // Get first non-featured active announcement for sidebar
+  const sidebarAnnouncement = announcements?.find(a => a.isActive && !a.featuredOnLanding)
+  // Transform events data for hero carousel (take first 3 featured events)
+  const heroSlides = events?.filter(e => e.featured).slice(0, 3).map(event => ({
+    backgroundImage: event.featuredImage,
+    imageCaption: '',
+    preheader: event.category,
+    title: event.title,
+    dateTime: new Date(event.date).toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit'
+    }),
+    venue: event.venue.name,
+    ageRestriction: event.ageRestriction,
+    contentSummary: event.description,
+    bannerButtonText: event.isFree ? 'Learn More' : 'Get Tickets',
+    shareButtonText: 'Share',
+  })) || []
+
+  // Transform tracks data for recently played (take first 6 from last 2 hours)
+  const recentlyPlayedTracks = tracks?.slice(0, 6).map(track => ({
+    albumArt: track.albumArt,
+    artistName: track.artistName,
+    trackName: track.trackName,
+    albumName: track.albumName,
+    labelName: track.labelName,
+    isLocal: track.isLocal,
+    timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit'
+    }),
+  })) || []
 
   return (
     <div className="landing-page">
       {/* Top Announcement */}
-      <section className="page-section">
-        <div className="page-container">
-          <CrAnnouncement
-            variant="donation"
-            textureBackground="cr-bg-natural-a500"
-            buttonCount="none"
-          />
-        </div>
-      </section>
+      {featuredAnnouncement && (
+        <section className="page-section">
+          <div className="page-container">
+            <CrAnnouncement
+              variant={featuredAnnouncement.showDonationBar ? 'donation' : 'motivation'}
+              textureBackground={featuredAnnouncement.backgroundColor}
+              headlineText={featuredAnnouncement.title}
+              bodyText={featuredAnnouncement.message}
+              showLink={!!featuredAnnouncement.ctaText}
+              linkText={featuredAnnouncement.ctaText}
+              linkUrl={featuredAnnouncement.ctaUrl}
+              buttonCount="none"
+            />
+          </div>
+        </section>
+      )}
 
       {/* Main Content Area */}
       <section className="page-layout-main-sidebar">
@@ -124,16 +90,30 @@ const LandingPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          <CrCurrentDjCard
-            description="DJ Current is lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo. Curabitur blandit tempus porttitor. Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
-          />
+          {currentShow && (
+            <CrCurrentDjCard
+              djName={currentShow.djName}
+              showName={currentShow.showName}
+              startTime={currentShow.startTime}
+              endTime={currentShow.endTime}
+              djImage={currentShow.djImage}
+              description="DJ Current is lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo. Curabitur blandit tempus porttitor. Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Praesent commodo cursus magna, vel scelerisque nisl consectetur et."
+            />
+          )}
 
-          <CrAnnouncement
-            variant="motivation"
-            widthVariant="third"
-            textureBackground="cr-bg-natural-s900"
-            showLink={false}
-          />
+          {sidebarAnnouncement && (
+            <CrAnnouncement
+              variant="motivation"
+              widthVariant="third"
+              textureBackground={sidebarAnnouncement.backgroundColor}
+              headlineText={sidebarAnnouncement.title}
+              bodyText={sidebarAnnouncement.message}
+              showLink={!!sidebarAnnouncement.ctaText}
+              linkText={sidebarAnnouncement.ctaText}
+              linkUrl={sidebarAnnouncement.ctaUrl}
+              buttonCount="none"
+            />
+          )}
 
           <CrAdSpace
             size="mobile-banner"
@@ -148,136 +128,62 @@ const LandingPage: React.FC = () => {
 
       {/* Grid Section */}
       <section className="page-layout-3col">
-        <div className="page-layout-3col__column">
+        <div className="page-layout-3col__column page-layout-3col__column--container">
           <CrPageHeader
             showEyebrow={false}
             title="Events"
             actionButtonText="See More Events"
             actionButtonIcon={<PiCalendarDots />}
           />
-          <CrCard
-            variant="narrow"
-            textLayout="stacked"
-            bannerHeight="tall"
-            imageAspectRatio="16:9"
-            backgroundImage="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop"
-            preheader="Featured Event"
-            title="Live Music Tonight"
-            dateTime="Oct 6, 2025 @ 9:00pm"
-            venue="Lincoln Hall"
-            ageRestriction="21+"
-            contentSummary="Join us for an unforgettable night of live music featuring local bands and special guests. Doors open at 8pm."
-          />
-          <CrCard
-            variant="narrow"
-            textLayout="stacked"
-            bannerHeight="tall"
-            imageAspectRatio="16:9"
-            backgroundImage="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=600&fit=crop"
-            preheader="Special Performance"
-            title="Jazz Night"
-            dateTime="Oct 7, 2025 @ 8:00pm"
-            venue="The Green Mill"
-            ageRestriction="18+"
-            contentSummary="Experience the smooth sounds of jazz with our featured artists. A night of timeless classics and modern interpretations."
-          />
-          <CrCard
-            variant="narrow"
-            textLayout="stacked"
-            bannerHeight="tall"
-            imageAspectRatio="16:9"
-            backgroundImage="https://images.unsplash.com/photo-1501612780327-45045538702b?w=800&h=600&fit=crop"
-            preheader="Community Event"
-            title="CHIRP Block Party"
-            dateTime="Oct 8, 2025 @ 12:00pm"
-            venue="Wicker Park"
-            ageRestriction="All Ages"
-            contentSummary="Join us for our annual block party with live music, food trucks, and community fun. Free admission!"
-          />
+          {events?.slice(0, 3).map(event => (
+            <CrCard
+              key={event.id}
+              variant="narrow"
+              textLayout="stacked"
+              bannerHeight="tall"
+              imageAspectRatio="16:9"
+              backgroundImage={event.featuredImage}
+              preheader={event.category}
+              title={event.title}
+              dateTime={new Date(event.date).toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit'
+              })}
+              venue={event.venue.name}
+              ageRestriction={event.isFree ? 'Free' : `$${event.ticketPrice}`}
+              contentSummary={event.description}
+            />
+          ))}
         </div>
 
-        <div className="page-layout-3col__column page-layout-3col__column--bg">
+        <div className="page-layout-3col__column page-layout-3col__column--container page-layout-3col__column--bg">
           <CrPageHeader
             showEyebrow={false}
             title="Articles"
             actionButtonText="View More Articles"
             actionButtonIcon={<PiReadCvLogo />}
           />
-          <CrCard
-            variant="small"
-            type="article"
-            textLayout="stacked"
-            bannerHeight="tall"
-            imageAspectRatio="16:9"
-            bannerBackgroundColor="none"
-            backgroundImage="https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=300&h=300&fit=crop"
-            preheader="Artist Interview"
-            title="Emerging Voices in Indie Folk"
-            contentSummary="We sat down with a local singer-songwriter to discuss their latest album and the creative process behind their unique blend of folk and electronic music."
-          />
-          <CrCard
-            variant="small"
-            type="article"
-            textLayout="stacked"
-            bannerHeight="tall"
-            imageAspectRatio="16:9"
-            bannerBackgroundColor="none"
-            backgroundImage="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=300&h=300&fit=crop"
-            preheader="Band Feature"
-            title="The Unexpecteds"
-            contentSummary="Alejandro Montoya Marin and Matt Walsh talk about forming The Unexpecteds, their journey through Chicago's music scene, and what's next for the band."
-          />
-          <CrCard
-            variant="small"
-            type="article"
-            textLayout="stacked"
-            bannerHeight="tall"
-            imageAspectRatio="16:9"
-            bannerBackgroundColor="none"
-            backgroundImage="https://images.unsplash.com/photo-1445985543470-41fba5c3144a?w=300&h=300&fit=crop"
-            preheader="Album Review"
-            title="Midwest Soundscapes"
-            contentSummary="A deep dive into the latest releases from Chicago's indie scene, exploring how local artists are shaping the sound of modern Midwest music."
-          />
-          <CrCard
-            variant="small"
-            type="article"
-            textLayout="stacked"
-            bannerHeight="tall"
-            imageAspectRatio="16:9"
-            bannerBackgroundColor="none"
-            backgroundImage="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=300&h=300&fit=crop"
-            preheader="Music News"
-            title="Festival Season Preview"
-            contentSummary="Get ready for summer with our comprehensive guide to Chicago's upcoming music festivals, featuring lineups, tips, and must-see performances."
-          />
-          <CrCard
-            variant="small"
-            type="article"
-            textLayout="stacked"
-            bannerHeight="tall"
-            imageAspectRatio="16:9"
-            bannerBackgroundColor="none"
-            backgroundImage="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=300&h=300&fit=crop"
-            preheader="DJ Spotlight"
-            title="Behind the Decks"
-            contentSummary="Meet the DJs who keep CHIRP Radio alive, sharing their favorite tracks, what inspires their selections, and the stories behind their shows."
-          />
-          <CrCard
-            variant="small"
-            type="article"
-            textLayout="stacked"
-            bannerHeight="tall"
-            imageAspectRatio="16:9"
-            bannerBackgroundColor="none"
-            backgroundImage="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&h=300&fit=crop"
-            preheader="Community"
-            title="Local Venues We Love"
-            contentSummary="Celebrating the neighborhood spots and historic venues that make Chicago's music community thrive, from intimate clubs to legendary halls."
-          />
+          {articles?.slice(0, 6).map(article => (
+            <CrCard
+              key={article.id}
+              variant="small"
+              type="article"
+              textLayout="stacked"
+              bannerHeight="tall"
+              imageAspectRatio="16:9"
+              bannerBackgroundColor="none"
+              backgroundImage={article.featuredImage}
+              preheader={article.category}
+              title={article.title}
+              contentSummary={article.excerpt}
+            />
+          ))}
         </div>
 
-        <div className="page-layout-3col__column page-layout-3col__column--large-gap">
+        <div className="page-layout-3col__column page-layout-3col__column--container page-layout-3col__column--large-gap">
           <CrPageHeader
             showEyebrow={false}
             title="Our DJs"

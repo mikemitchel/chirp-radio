@@ -8,7 +8,7 @@
   /* Layout properties */
   --cr-cart-border: 1px solid var(--cr-ink);
   --cr-cart-bg: var(--cr-paper);
-  --cr-cart-padding: var(--cr-space-12);
+  --cr-cart-padding: var(--cr-space-6);
   --cr-cart-gap: var(--cr-space-6);
   --cr-cart-item-gap: var(--cr-space-3);
 
@@ -30,9 +30,6 @@
   background-color: var(--cr-cart-bg);
   border: var(--cr-cart-border);
   color: var(--cr-cart-text-color);
-  /* Increased width to prevent button clipping */
-  min-width: 600px;
-  max-width: 800px;
   width: 100%;
   box-sizing: border-box;
   position: relative;
@@ -104,14 +101,27 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  gap: var(--cr-space-2);
 }
 
 .cr-shopping-cart__item-name {
   font: var(--cr-title-xs); /* Antonio Bold 18px, weight 600 */
   color: var(--cr-cart-text-color);
-  line-height: 1;
-  white-space: nowrap;
-  flex-shrink: 0;
+  line-height: 1.2;
+  flex: 1;
+  min-width: 0;
+  /* Option 1: Wrap text */
+  white-space: normal;
+  /* Option 2: Truncate with ellipsis (comment out Option 1 and uncomment below) */
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
+}
+
+.cr-shopping-cart__item-price-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2);
 }
 
 .cr-shopping-cart__item-price {
@@ -121,6 +131,24 @@
   text-align: right;
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+.cr-shopping-cart__remove-btn {
+  background: none;
+  border: none;
+  padding: var(--cr-space-1);
+  cursor: pointer;
+  color: var(--cr-cart-text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.cr-shopping-cart__remove-btn:hover {
+  color: var(--cr-secondary-700);
 }
 
 .cr-shopping-cart__item-details {

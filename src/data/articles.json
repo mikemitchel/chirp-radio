@@ -1,0 +1,156 @@
+{
+  "articles": [
+    {
+      "id": "article-001",
+      "title": "A Deep Dive into Chicago's Underground Scene",
+      "slug": "chicago-underground-music-scene",
+      "author": {
+        "name": "Sarah Martinez",
+        "id": "user-002",
+        "profileImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces"
+      },
+      "featuredImage": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=400&fit=crop",
+      "excerpt": "Exploring the vibrant underground music venues that make Chicago's indie scene thrive.",
+      "content": "Chicago has long been home to a thriving underground music scene...",
+      "category": "Music Scene",
+      "tags": ["chicago", "indie", "underground", "venues"],
+      "publishedDate": "2024-12-01T10:00:00Z",
+      "updatedDate": "2024-12-01T10:00:00Z",
+      "featured": true,
+      "readTime": 8
+    },
+    {
+      "id": "article-002",
+      "title": "Local Heroes Bring Post-Punk Revival",
+      "slug": "local-heroes-post-punk-revival",
+      "author": {
+        "name": "Alex Johnson",
+        "id": "user-001",
+        "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces"
+      },
+      "featuredImage": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=400&fit=crop",
+      "excerpt": "We sit down with the band making waves in Chicago's post-punk scene.",
+      "content": "Post-punk is experiencing a renaissance in Chicago, and at the forefront...",
+      "category": "Interview",
+      "tags": ["interview", "post-punk", "chicago", "local"],
+      "publishedDate": "2024-11-28T14:30:00Z",
+      "updatedDate": "2024-11-28T14:30:00Z",
+      "featured": true,
+      "readTime": 12
+    },
+    {
+      "id": "article-003",
+      "title": "Why Records Are Making a Comeback",
+      "slug": "vinyl-culture-comeback",
+      "author": {
+        "name": "Sarah Martinez",
+        "id": "user-002",
+        "profileImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces"
+      },
+      "featuredImage": "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=800&h=400&fit=crop",
+      "excerpt": "The resurgence of vinyl isn't just nostalgia—it's a cultural shift.",
+      "content": "In an age of streaming, vinyl sales have reached their highest point...",
+      "category": "Vinyl Culture",
+      "tags": ["vinyl", "culture", "music", "collecting"],
+      "publishedDate": "2024-11-25T09:00:00Z",
+      "updatedDate": "2024-11-25T09:00:00Z",
+      "featured": false,
+      "readTime": 6
+    },
+    {
+      "id": "article-004",
+      "title": "Best New Indie Releases This Month",
+      "slug": "best-new-indie-releases-december",
+      "author": {
+        "name": "Alex Johnson",
+        "id": "user-001",
+        "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces"
+      },
+      "featuredImage": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=400&fit=crop",
+      "excerpt": "Our curated list of the month's most exciting indie releases.",
+      "content": "December brings a stellar lineup of indie releases that deserve your attention...",
+      "category": "Album Reviews",
+      "tags": ["reviews", "indie", "new releases", "december"],
+      "publishedDate": "2024-12-03T11:00:00Z",
+      "updatedDate": "2024-12-03T11:00:00Z",
+      "featured": true,
+      "readTime": 10
+    },
+    {
+      "id": "article-005",
+      "title": "20 Years Strong",
+      "slug": "chirp-radio-20-years",
+      "author": {
+        "name": "Sarah Martinez",
+        "id": "user-002",
+        "profileImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces"
+      },
+      "featuredImage": "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=800&h=400&fit=crop",
+      "excerpt": "Celebrating two decades of independent radio and community connection.",
+      "content": "Twenty years ago, a group of passionate volunteers came together...",
+      "category": "CHIRP History",
+      "tags": ["chirp", "history", "anniversary", "community"],
+      "publishedDate": "2024-11-20T08:00:00Z",
+      "updatedDate": "2024-11-20T08:00:00Z",
+      "featured": false,
+      "readTime": 15
+    },
+    {
+      "id": "article-006",
+      "title": "Supporting Local Artists Beyond Streaming",
+      "slug": "support-local-artists",
+      "author": {
+        "name": "Alex Johnson",
+        "id": "user-001",
+        "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces"
+      },
+      "featuredImage": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=400&fit=crop",
+      "excerpt": "Practical ways to help your favorite local musicians thrive.",
+      "content": "Streaming pays fractions of a penny per play. Here's how to really support artists...",
+      "category": "Community Guide",
+      "tags": ["local", "support", "artists", "community"],
+      "publishedDate": "2024-11-18T13:00:00Z",
+      "updatedDate": "2024-11-18T13:00:00Z",
+      "featured": false,
+      "readTime": 7
+    },
+    {
+      "id": "article-007",
+      "title": "Top 10 Chicago Spots You Need to Visit",
+      "slug": "top-chicago-music-venues",
+      "author": {
+        "name": "Sarah Martinez",
+        "id": "user-002",
+        "profileImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces"
+      },
+      "featuredImage": "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&h=400&fit=crop",
+      "excerpt": "From intimate clubs to legendary halls, these venues define Chicago music.",
+      "content": "Chicago's music venues are as diverse as the music they host...",
+      "category": "Venue Guide",
+      "tags": ["chicago", "venues", "live music", "guide"],
+      "publishedDate": "2024-11-15T10:00:00Z",
+      "updatedDate": "2024-11-15T10:00:00Z",
+      "featured": false,
+      "readTime": 9
+    },
+    {
+      "id": "article-008",
+      "title": "A Day in the Life of a CHIRP DJ",
+      "slug": "day-in-life-chirp-dj",
+      "author": {
+        "name": "Alex Johnson",
+        "id": "user-001",
+        "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces"
+      },
+      "featuredImage": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=400&fit=crop",
+      "excerpt": "What does it take to curate and broadcast a radio show? We shadow a DJ to find out.",
+      "content": "It's 5:45 AM when DJ Morning Mike arrives at the station...",
+      "category": "Behind the Scenes",
+      "tags": ["dj", "radio", "behind the scenes", "chirp"],
+      "publishedDate": "2024-11-12T07:00:00Z",
+      "updatedDate": "2024-11-12T07:00:00Z",
+      "featured": false,
+      "readTime": 11
+    }
+  ]
+}

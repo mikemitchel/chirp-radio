@@ -53,7 +53,7 @@
 
 .cr-store-item-card__image-container {
   width: 100%;
-  height: 480px; /* Fixed height from Figma */
+  aspect-ratio: 9 / 16;
   position: relative;
   overflow: hidden;
   border-radius: 0; /* No border radius in Figma */
@@ -110,10 +110,6 @@
 /* ============================================ */
 
 @media (max-width: 768px) {
-  .cr-store-item-card__image-container {
-    height: 300px; /* Smaller on mobile */
-  }
-
   .cr-store-item-card__name {
     max-width: none; /* Allow full width on mobile */
     white-space: normal; /* Allow wrapping on mobile */
@@ -132,9 +128,5 @@
   .cr-store-item-card {
     --cr-store-item-card-gap: var(--cr-space-4);
     --cr-store-item-card-details-gap: var(--cr-space-2);
-  }
-
-  .cr-store-item-card__image-container {
-    height: 250px;
   }
 }

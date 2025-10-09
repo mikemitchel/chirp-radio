@@ -1,0 +1,172 @@
+{
+  "podcasts": [
+    {
+      "id": "podcast-001",
+      "title": "Transmission",
+      "slug": "transmission",
+      "description": "Weekly deep dives into the stories behind the music, featuring interviews with artists, producers, and industry insiders.",
+      "coverArt": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=400&fit=crop",
+      "host": "Sarah Martinez",
+      "category": "Music Interview",
+      "isActive": true,
+      "episodes": [
+        {
+          "id": "episode-001",
+          "episodeNumber": 42,
+          "title": "The Evolution of Midwest Emo",
+          "description": "We trace the roots of midwest emo from Champaign basements to sold-out shows across the country.",
+          "audioUrl": "https://example.com/podcasts/transmission-042.mp3",
+          "duration": 3420,
+          "publishedDate": "2024-12-01T10:00:00Z",
+          "guests": ["Cap'n Jazz", "American Football"]
+        },
+        {
+          "id": "episode-002",
+          "episodeNumber": 41,
+          "title": "DIY Venues: Past, Present, Future",
+          "description": "The history and future of DIY spaces in Chicago with venue owners and organizers.",
+          "audioUrl": "https://example.com/podcasts/transmission-041.mp3",
+          "duration": 3180,
+          "publishedDate": "2024-11-24T10:00:00Z",
+          "guests": ["The Burlington Bar", "Sleeping Village"]
+        },
+        {
+          "id": "episode-003",
+          "episodeNumber": 40,
+          "title": "Behind the Board: Legendary Producers",
+          "description": "Conversations with the producers shaping the sound of indie music.",
+          "audioUrl": "https://example.com/podcasts/transmission-040.mp3",
+          "duration": 3600,
+          "publishedDate": "2024-11-17T10:00:00Z",
+          "guests": ["Steve Albini", "John Congleton"]
+        }
+      ]
+    },
+    {
+      "id": "podcast-002",
+      "title": "Local Frequency",
+      "slug": "local-frequency",
+      "description": "Spotlighting Chicago's vibrant local music scene, one artist at a time.",
+      "coverArt": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop",
+      "host": "Alex Johnson",
+      "category": "Local Music",
+      "isActive": true,
+      "episodes": [
+        {
+          "id": "episode-004",
+          "episodeNumber": 28,
+          "title": "Ratboys: Growing Up in Public",
+          "description": "Julia Steiner and Dave Sagan talk about their journey from house shows to international tours.",
+          "audioUrl": "https://example.com/podcasts/local-frequency-028.mp3",
+          "duration": 2700,
+          "publishedDate": "2024-12-03T14:00:00Z",
+          "guests": ["Ratboys"]
+        },
+        {
+          "id": "episode-005",
+          "episodeNumber": 27,
+          "title": "Divino Niño's Sound Evolution",
+          "description": "How this Chicago band blends psychedelic rock with Latin influences.",
+          "audioUrl": "https://example.com/podcasts/local-frequency-027.mp3",
+          "duration": 2520,
+          "publishedDate": "2024-11-26T14:00:00Z",
+          "guests": ["Divino Niño"]
+        },
+        {
+          "id": "episode-006",
+          "episodeNumber": 26,
+          "title": "The Hecks: Punk Energy Meets Pop Hooks",
+          "description": "Dissecting the raw energy and melodic sensibility of one of Chicago's best punk bands.",
+          "audioUrl": "https://example.com/podcasts/local-frequency-026.mp3",
+          "duration": 2340,
+          "publishedDate": "2024-11-19T14:00:00Z",
+          "guests": ["The Hecks"]
+        }
+      ]
+    },
+    {
+      "id": "podcast-003",
+      "title": "Crate Diggers",
+      "slug": "crate-diggers",
+      "description": "CHIRP DJs share the stories behind their favorite records and deep cuts.",
+      "coverArt": "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=400&h=400&fit=crop",
+      "host": "Various DJs",
+      "category": "Record Talk",
+      "isActive": true,
+      "episodes": [
+        {
+          "id": "episode-007",
+          "episodeNumber": 15,
+          "title": "Morning Mike's Guilty Pleasures",
+          "description": "The records Morning Mike won't admit he loves (but totally does).",
+          "audioUrl": "https://example.com/podcasts/crate-diggers-015.mp3",
+          "duration": 1800,
+          "publishedDate": "2024-11-30T09:00:00Z",
+          "guests": ["Morning Mike"]
+        },
+        {
+          "id": "episode-008",
+          "episodeNumber": 14,
+          "title": "Rush Hour Ryan's Commute Classics",
+          "description": "The perfect records for Chicago traffic.",
+          "audioUrl": "https://example.com/podcasts/crate-diggers-014.mp3",
+          "duration": 1920,
+          "publishedDate": "2024-11-23T09:00:00Z",
+          "guests": ["Rush Hour Ryan"]
+        },
+        {
+          "id": "episode-009",
+          "episodeNumber": 13,
+          "title": "Night Owl Nina's After Dark Selections",
+          "description": "The moody, atmospheric records that soundtrack the late night.",
+          "audioUrl": "https://example.com/podcasts/crate-diggers-013.mp3",
+          "duration": 2100,
+          "publishedDate": "2024-11-16T09:00:00Z",
+          "guests": ["Night Owl Nina"]
+        }
+      ]
+    },
+    {
+      "id": "podcast-004",
+      "title": "The CHIRP Record Club",
+      "slug": "chirp-record-club",
+      "description": "Each month, we pick an album and discuss it in depth with special guests and listeners.",
+      "coverArt": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop",
+      "host": "Alex Johnson & Sarah Martinez",
+      "category": "Album Discussion",
+      "isActive": true,
+      "episodes": [
+        {
+          "id": "episode-010",
+          "episodeNumber": 8,
+          "title": "OK Computer at 27",
+          "description": "Revisiting Radiohead's landmark album and its lasting influence.",
+          "audioUrl": "https://example.com/podcasts/record-club-008.mp3",
+          "duration": 4200,
+          "publishedDate": "2024-12-01T16:00:00Z",
+          "guests": []
+        },
+        {
+          "id": "episode-011",
+          "episodeNumber": 7,
+          "title": "In the Aeroplane Over the Sea",
+          "description": "The cult classic that launched a thousand indie bands.",
+          "audioUrl": "https://example.com/podcasts/record-club-007.mp3",
+          "duration": 3900,
+          "publishedDate": "2024-11-01T16:00:00Z",
+          "guests": []
+        },
+        {
+          "id": "episode-012",
+          "episodeNumber": 6,
+          "title": "Funeral by Arcade Fire",
+          "description": "How this debut album changed indie rock forever.",
+          "audioUrl": "https://example.com/podcasts/record-club-006.mp3",
+          "duration": 3780,
+          "publishedDate": "2024-10-01T16:00:00Z",
+          "guests": []
+        }
+      ]
+    }
+  ]
+}

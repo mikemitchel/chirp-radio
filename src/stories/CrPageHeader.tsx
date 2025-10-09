@@ -13,6 +13,7 @@ interface CrPageHeaderProps {
   showActionButton?: boolean
   actionButtonText?: string
   actionButtonIcon?: React.ReactNode
+  actionButtonSize?: 'small' | 'medium' | 'large'
   onActionClick?: () => void
   className?: string
 }
@@ -26,6 +27,7 @@ export default function CrPageHeader({
   showActionButton = true,
   actionButtonText = 'Edit',
   actionButtonIcon,
+  actionButtonSize = 'medium',
   onActionClick,
   className = '',
 }: CrPageHeaderProps) {
@@ -45,7 +47,7 @@ export default function CrPageHeader({
       {showActionButton && (
         <div className="cr-page-header__action">
           <CrButton
-            size="medium"
+            size={actionButtonSize}
             variant="outline"
             color="default"
             rightIcon={actionButtonIcon}

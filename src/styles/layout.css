@@ -1,19 +1,16 @@
 /* ============================================ */
-/* === LAYOUT MAIN IMPORT FILE === */
-/* This file imports all CSS modules for the application */
+/* === LAYOUT STYLES === */
+/* All layout patterns and utilities for the application */
 /* ============================================ */
 
-/* Base styles - foundational styles and core elements */
-@import './base.css';
+/* Footer container */
+.web-layout-footer-container {
+  margin-top: var(--cr-space-12);
+}
 
-/* Utilities - reusable utility classes for layouts */
-@import './utilities.css';
-
-/* Auth - authentication and login prompt styles */
-@import './auth.css';
-
-/* Pages - complex page-specific layouts */
-@import './pages.css';
+.landing-page .web-layout-footer-container {
+  margin-top: 0;
+}
 
 /* Support with Ads wrapper */
 .support-with-ads-wrapper {
@@ -30,6 +27,17 @@
 /* Full-width section wrapper */
 .page-section {
   width: 100%;
+  margin-bottom: var(--cr-space-4);
+}
+
+/* Landing page specific overrides */
+.landing-page .page-section {
+  margin-bottom: 0;
+}
+
+.landing-page .page-container:first-child {
+  margin-top: 0;
+  padding: 0;
 }
 
 /* Standard content container (max-width with auto margin) */
@@ -39,16 +47,16 @@
   padding: var(--cr-space-4);
 }
 
-/* Add top spacing to first page container (except on landing page) */
-.page-container:first-child {
-  margin-top: var(--cr-space-8);
+/* Add top spacing after header on all pages except landing page */
+.landing-page .cr-page-header {
+  margin-top: 0;
 }
 
-/* Two-column layout: main content (67%) + sidebar (33%) */
+/* Two-column layout: main content + sidebar */
 .page-layout-main-sidebar {
   display: grid;
-  grid-template-columns: 67% 33%;
-  gap: var(--cr-space-6);
+  grid-template-columns: 3fr 1fr;
+  gap: var(--cr-space-8);
   padding: var(--cr-space-4);
   max-width: 1440px;
   margin: 0 auto;
@@ -62,27 +70,30 @@
   display: flex;
   flex-direction: column;
   gap: var(--cr-space-4);
-  min-width: 0;
   width: 100%;
   align-items: center;
   padding-right: var(--cr-space-4);
+  min-width: 0;
 }
 
 /* Three-column equal grid */
 .page-layout-3col {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0;
-  padding: 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
   max-width: 1400px;
   margin: 0 auto;
 }
 
 .page-layout-3col__column {
+  display: contents;
+}
+
+.page-layout-3col__column--container {
   display: flex;
   flex-direction: column;
   gap: var(--cr-space-4);
-  padding: var(--cr-space-12) var(--cr-space-8);
 }
 
 .page-layout-3col__column--large-gap {
@@ -96,15 +107,15 @@
 /* Two-column equal layout: 50% / 50% */
 .page-layout-2col {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--cr-space-6);
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--cr-space-8);
   padding: var(--cr-space-4);
   max-width: 1440px;
   margin: 0 auto;
 }
 
 .page-layout-2col__column {
-  min-width: 0;
+  display: contents;
 }
 
 /* Single column centered content */
@@ -118,8 +129,8 @@
 /* === RESPONSIVE BREAKPOINTS === */
 /* ============================================ */
 
-/* Tablet landscape: 968px */
-@media (max-width: 968px) {
+/* Medium desktop: 1024px */
+@media (max-width: 1024px) {
   .page-layout-main-sidebar {
     display: grid;
     grid-template-columns: 1fr;
@@ -127,17 +138,15 @@
     padding: var(--cr-space-4);
   }
 
-  .page-layout-2col {
-    grid-template-columns: 1fr;
-    gap: var(--cr-space-4);
-  }
-
   .page-layout-main-sidebar__sidebar {
     padding-right: 0;
   }
+}
 
+/* Desktop: 1200px */
+@media (max-width: 1200px) {
   .page-layout-3col {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -147,12 +156,12 @@
     padding: var(--cr-space-3);
   }
 
-  .page-layout-3col {
+  .page-layout-2col {
     grid-template-columns: 1fr;
   }
 
-  .page-layout-3col__column {
-    padding: var(--cr-space-8) var(--cr-space-4);
+  .page-layout-3col {
+    grid-template-columns: 1fr;
   }
 
   .page-layout-single {
@@ -172,5 +181,146 @@
 
   .page-layout-single {
     padding: var(--cr-space-4) var(--cr-space-2);
+  }
+}
+
+/* ============================================ */
+/* === LAYOUT UTILITIES === */
+/* Reusable utility classes for consistent layouts */
+/* ============================================ */
+
+/* Container Utilities */
+.container-standard {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Grid Layout Utilities */
+.grid-2col-equal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cr-space-4);
+}
+
+.grid-2col-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--cr-space-4);
+}
+
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+}
+
+.grid-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--cr-space-4);
+}
+
+.grid-5col {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--cr-space-4);
+}
+
+/* Flex Column Utilities */
+.flex-col-gap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+/* Content Box Utility */
+.content-box {
+  padding: var(--cr-space-6);
+  background-color: var(--cr-color-neutral-100);
+  border-radius: var(--cr-radius-md);
+  min-height: 150px;
+}
+
+/* Width Utilities */
+.full-width {
+  width: 100%;
+}
+
+/* Pagination */
+.events-pagination {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Shop items grid */
+.shop-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 31%));
+  gap: var(--cr-space-6);
+  justify-content: start;
+}
+
+/* Shop page specific layout */
+.shop-page .page-layout-main-sidebar {
+  grid-template-columns: 1fr 350px;
+}
+
+.shop-recently-played-header {
+  margin-top: var(--cr-space-6);
+}
+
+.shop-page .page-layout-main-sidebar__sidebar {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.shop-page .page-layout-main-sidebar__main {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* ============================================ */
+/* === RESPONSIVE UTILITY BREAKPOINTS === */
+/* ============================================ */
+
+@media (max-width: 1200px) {
+  .grid-4col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* @media (max-width: 1024px) {
+  .shop-page .shop-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--cr-space-4);
+  }
+} */
+
+@media (max-width: 968px) {
+  .grid-2col-content,
+  .grid-2col-equal {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .shop-page .page-layout-main-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-page .page-layout-main-sidebar__sidebar {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .shop-page .page-layout-main-sidebar__main {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .shop-page .shop-items-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

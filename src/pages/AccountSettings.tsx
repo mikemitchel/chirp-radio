@@ -167,7 +167,7 @@ export default function AccountSettings() {
   };
 
   return (
-    <div className="page-content">
+    <div>
       <CrPageHeader
         eyebrowText="CHIRP Radio"
         title="Account Settings"

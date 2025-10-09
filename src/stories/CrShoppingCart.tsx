@@ -1,6 +1,6 @@
 // CrShoppingCart.tsx
 import React from 'react'
-import { PiArrowRight } from 'react-icons/pi'
+import { PiArrowRight, PiX } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrCartIcon from './CrCartIcon'
 import './CrShoppingCart.css'
@@ -14,6 +14,7 @@ interface CrShoppingCartProps {
   }>
   onEmptyCart?: () => void
   onCheckout?: () => void
+  onRemoveItem?: (index: number) => void
   className?: string
 }
 
@@ -21,6 +22,7 @@ export default function CrShoppingCart({
   items = [],
   onEmptyCart,
   onCheckout,
+  onRemoveItem,
   className = '',
 }: CrShoppingCartProps) {
   // Calculate totals
@@ -34,7 +36,7 @@ export default function CrShoppingCart({
         <h2 className="cr-shopping-cart__title">Your Cart</h2>
         <CrCartIcon
           badgeCount={totalItems}
-          showBadge={totalItems > 0}
+          showBadge={true}
           size="60"
           className="cr-shopping-cart__icon"
         />
@@ -49,9 +51,20 @@ export default function CrShoppingCart({
             <div key={`item-${index}`} className="cr-shopping-cart__item">
               <div className="cr-shopping-cart__item-header">
                 <span className="cr-shopping-cart__item-name">{item.name}</span>
-                <span className="cr-shopping-cart__item-price">
-                  ${(item.price * (item.quantity || 1)).toFixed(2)}
-                </span>
+                <div className="cr-shopping-cart__item-price-actions">
+                  <span className="cr-shopping-cart__item-price">
+                    ${(item.price * (item.quantity || 1)).toFixed(2)}
+                  </span>
+                  {onRemoveItem && (
+                    <button
+                      className="cr-shopping-cart__remove-btn"
+                      onClick={() => onRemoveItem(index)}
+                      aria-label={`Remove ${item.name}`}
+                    >
+                      <PiX />
+                    </button>
+                  )}
+                </div>
               </div>
               {item.details && (
                 <div className="cr-shopping-cart__item-details">

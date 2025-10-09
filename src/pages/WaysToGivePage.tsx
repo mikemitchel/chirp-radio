@@ -6,34 +6,94 @@ import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrDonateForm from '../stories/CrDonateForm'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
+import waysToGiveData from '../data/waysToGive.json'
 
 const WaysToGivePage: React.FC = () => {
+  const [section1, section2] = waysToGiveData.sections
+
   return (
     <div className="ways-to-give-page">
       <section className="page-container">
-        <CrBreadcrumb />
+        <CrBreadcrumb
+          items={[
+            { label: 'Donate', isClickable: true },
+            { label: 'Ways to Give', isClickable: false }
+          ]}
+        />
       </section>
 
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
-          <CrPageHeader showEyebrow={false} showActionButton={false} />
           <CrCard
             variant="article"
             imagePosition="right"
             articleImageAspectRatio="16:9"
-            captionPosition="bottom"
+            preheader="DONATE TO CHIRP"
+            title="Ways to Give"
+            bannerHeight="tall"
+            textLayout="stacked"
+            showTicketButton={false}
+            showShareButton={false}
+            contentSummary={waysToGiveData.introText.join('\n\n')}
+            backgroundImage={section1.image}
           />
-          <div className="ways-to-give-cards-grid">
-            <CrCard variant="small" />
-            <CrCard variant="small" />
-            <CrCard variant="small" />
+
+          <div className="grid-2col-equal">
+            <div>
+              <CrCard
+                variant="article"
+                imagePosition="none"
+                preheader=""
+                title={section1.title}
+                bannerHeight="narrow"
+                textLayout="inline"
+                showTicketButton={false}
+                showShareButton={false}
+                contentSummary={`${section1.description}\n\n${section1.items.join('\n')}`}
+                backgroundImage={section1.image}
+              />
+              <CrCard
+                variant="article"
+                imagePosition="none"
+                preheader=""
+                title={section2.title}
+                bannerHeight="narrow"
+                textLayout="inline"
+                showTicketButton={false}
+                showShareButton={false}
+                contentSummary={`${section2.description}\n\n${section2.items.join('\n')}\n\n${section2.footer}`}
+                backgroundImage={section2.image}
+              />
+            </div>
+            <div>
+              {waysToGiveData.donationCards.map((card) => (
+                <CrCard
+                  key={card.id}
+                  variant="article"
+                  imagePosition="none"
+                  preheader=""
+                  title={card.title}
+                  bannerHeight="narrow"
+                  textLayout="inline"
+                  showTicketButton={false}
+                  showShareButton={false}
+                  contentSummary={card.contentSummary}
+                  backgroundImage={card.backgroundImage}
+                />
+              ))}
+            </div>
           </div>
-          <div className="ways-to-give-cards-grid">
-            <CrCard variant="small" />
-            <CrCard variant="small" />
-            <CrCard variant="small" />
-          </div>
-          <CrDonateForm variant="vinyl circle promo" />
+          <CrCard
+            variant="article"
+            imagePosition="right"
+            articleImageAspectRatio="16:9"
+            preheader=""
+            title={waysToGiveData.vinylCircle.title}
+            contentSummary={waysToGiveData.vinylCircle.contentSummary}
+            backgroundImage={waysToGiveData.vinylCircle.backgroundImage}
+            showTicketButton={false}
+            showShareButton={false}
+          />
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">

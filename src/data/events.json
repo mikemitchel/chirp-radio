@@ -1,0 +1,281 @@
+{
+  "events": [
+    {
+      "id": "event-001",
+      "title": "CHIRP Winter Fundraiser Concert",
+      "slug": "winter-fundraiser-concert-2024",
+      "description": "Join us for our annual winter fundraiser featuring performances from local Chicago artists. All proceeds support CHIRP Radio's mission to promote independent music.",
+      "featuredImage": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=400&fit=crop",
+      "venue": {
+        "name": "Empty Bottle",
+        "address": "1035 N Western Ave",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60622",
+        "mapUrl": "https://maps.google.com/?q=Empty+Bottle+Chicago"
+      },
+      "date": "2024-12-15T19:00:00Z",
+      "endDate": "2024-12-15T23:00:00Z",
+      "category": "Fundraiser",
+      "ticketPrice": 25,
+      "ticketUrl": "https://example.com/tickets/winter-fundraiser",
+      "isFree": false,
+      "ageRestriction": "21+",
+      "featured": true,
+      "performers": [
+        "The Hecks",
+        "Retirement Party",
+        "Ratboys"
+      ]
+    },
+    {
+      "id": "event-002",
+      "title": "Record Store Day Celebration",
+      "slug": "record-store-day-2024",
+      "description": "CHIRP DJs will be spinning at various record stores across Chicago. Stop by for exclusive releases and good vibes.",
+      "featuredImage": "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=800&h=400&fit=crop",
+      "venue": {
+        "name": "Multiple Locations",
+        "address": "Various Chicago Record Stores",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "",
+        "mapUrl": ""
+      },
+      "date": "2024-04-20T10:00:00Z",
+      "endDate": "2024-04-20T18:00:00Z",
+      "category": "Community Event",
+      "ticketPrice": 0,
+      "ticketUrl": "",
+      "isFree": true,
+      "ageRestriction": "All Ages",
+      "featured": true,
+      "performers": []
+    },
+    {
+      "id": "event-003",
+      "title": "Live at CHIRP: Signals Midwest",
+      "slug": "live-at-chirp-signals-midwest",
+      "description": "Intimate in-studio performance and interview with midwest emo legends Signals Midwest.",
+      "featuredImage": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=400&fit=crop",
+      "venue": {
+        "name": "CHIRP Radio Studio",
+        "address": "4045 N Rockwell St",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60618",
+        "mapUrl": "https://maps.google.com/?q=CHIRP+Radio+Chicago"
+      },
+      "date": "2024-12-18T15:00:00Z",
+      "endDate": "2024-12-18T16:30:00Z",
+      "category": "Live Session",
+      "ticketPrice": 0,
+      "ticketUrl": "",
+      "isFree": true,
+      "ageRestriction": "All Ages",
+      "featured": true,
+      "performers": ["Signals Midwest"]
+    },
+    {
+      "id": "event-004",
+      "title": "CHIRP Night at Thalia Hall",
+      "slug": "chirp-night-thalia-hall",
+      "description": "A showcase of Chicago's finest indie talent curated by CHIRP DJs.",
+      "featuredImage": "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&h=400&fit=crop",
+      "venue": {
+        "name": "Thalia Hall",
+        "address": "1807 S Allport St",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60608",
+        "mapUrl": "https://maps.google.com/?q=Thalia+Hall+Chicago"
+      },
+      "date": "2025-01-25T20:00:00Z",
+      "endDate": "2025-01-26T00:00:00Z",
+      "category": "Concert",
+      "ticketPrice": 20,
+      "ticketUrl": "https://example.com/tickets/thalia-hall",
+      "isFree": false,
+      "ageRestriction": "18+",
+      "featured": false,
+      "performers": [
+        "Whitney",
+        "Divino Niño",
+        "Deeper"
+      ]
+    },
+    {
+      "id": "event-005",
+      "title": "DJ Workshop: Learn to Mix",
+      "slug": "dj-workshop-learn-to-mix",
+      "description": "Want to become a radio DJ? Learn the basics from experienced CHIRP volunteers in this hands-on workshop.",
+      "featuredImage": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=400&fit=crop",
+      "venue": {
+        "name": "CHIRP Radio Studio",
+        "address": "4045 N Rockwell St",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60618",
+        "mapUrl": "https://maps.google.com/?q=CHIRP+Radio+Chicago"
+      },
+      "date": "2025-01-10T18:00:00Z",
+      "endDate": "2025-01-10T20:00:00Z",
+      "category": "Workshop",
+      "ticketPrice": 15,
+      "ticketUrl": "https://example.com/tickets/dj-workshop",
+      "isFree": false,
+      "ageRestriction": "All Ages",
+      "featured": false,
+      "performers": []
+    },
+    {
+      "id": "event-006",
+      "title": "CHIRP Summer Block Party",
+      "slug": "summer-block-party-2025",
+      "description": "Our biggest event of the year! Free outdoor concert featuring local and national acts.",
+      "featuredImage": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=400&fit=crop",
+      "venue": {
+        "name": "Union Park",
+        "address": "1501 W Randolph St",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60607",
+        "mapUrl": "https://maps.google.com/?q=Union+Park+Chicago"
+      },
+      "date": "2025-07-12T12:00:00Z",
+      "endDate": "2025-07-12T22:00:00Z",
+      "category": "Festival",
+      "ticketPrice": 0,
+      "ticketUrl": "",
+      "isFree": true,
+      "ageRestriction": "All Ages",
+      "featured": true,
+      "performers": [
+        "Modest Mouse",
+        "Built to Spill",
+        "The National",
+        "Local Natives"
+      ]
+    },
+    {
+      "id": "event-007",
+      "title": "Vinyl Swap Meet",
+      "slug": "vinyl-swap-meet-december",
+      "description": "Bring your records to trade, sell, or just browse hundreds of vinyl selections from local collectors.",
+      "featuredImage": "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=800&h=400&fit=crop",
+      "venue": {
+        "name": "Logan Square Auditorium",
+        "address": "2539 N Kedzie Blvd",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60647",
+        "mapUrl": "https://maps.google.com/?q=Logan+Square+Auditorium"
+      },
+      "date": "2024-12-21T10:00:00Z",
+      "endDate": "2024-12-21T16:00:00Z",
+      "category": "Community Event",
+      "ticketPrice": 5,
+      "ticketUrl": "",
+      "isFree": false,
+      "ageRestriction": "All Ages",
+      "featured": false,
+      "performers": []
+    },
+    {
+      "id": "event-008",
+      "title": "Annual Membership Drive Kickoff",
+      "slug": "membership-drive-2025",
+      "description": "Help us reach our 2025 membership goals! Special perks for new members who sign up during the event.",
+      "featuredImage": "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=800&h=400&fit=crop",
+      "venue": {
+        "name": "Online Event",
+        "address": "",
+        "city": "",
+        "state": "",
+        "zip": "",
+        "mapUrl": ""
+      },
+      "date": "2025-02-01T10:00:00Z",
+      "endDate": "2025-02-28T23:59:59Z",
+      "category": "Fundraiser",
+      "ticketPrice": 0,
+      "ticketUrl": "https://example.com/membership",
+      "isFree": true,
+      "ageRestriction": "All Ages",
+      "featured": false,
+      "performers": []
+    },
+    {
+      "id": "event-009",
+      "title": "Indie Rock Showcase",
+      "slug": "indie-rock-showcase",
+      "description": "Featuring up-and-coming indie rock bands from the Chicago music scene.",
+      "featuredImage": "https://images.unsplash.com/photo-1501612780327-45045538702b?w=800&h=400&fit=crop",
+      "venue": {
+        "name": "Schubas Tavern",
+        "address": "3159 N Southport Ave",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60657",
+        "mapUrl": "https://maps.google.com/?q=Schubas+Tavern+Chicago"
+      },
+      "date": "2025-03-15T20:00:00Z",
+      "endDate": "2025-03-16T00:00:00Z",
+      "category": "Concert",
+      "ticketPrice": 15,
+      "ticketUrl": "https://example.com/tickets/indie-showcase",
+      "isFree": false,
+      "ageRestriction": "21+",
+      "featured": false,
+      "performers": ["Twin Peaks", "Varsity", "Post Animal"]
+    },
+    {
+      "id": "event-010",
+      "title": "Jazz Night at the Green Mill",
+      "slug": "jazz-night-green-mill",
+      "description": "CHIRP presents a special jazz night at Chicago's legendary Green Mill.",
+      "featuredImage": "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800&h=400&fit=crop",
+      "venue": {
+        "name": "Green Mill Cocktail Lounge",
+        "address": "4802 N Broadway",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60640",
+        "mapUrl": "https://maps.google.com/?q=Green+Mill+Chicago"
+      },
+      "date": "2025-03-22T21:00:00Z",
+      "endDate": "2025-03-23T01:00:00Z",
+      "category": "Concert",
+      "ticketPrice": 10,
+      "ticketUrl": "https://example.com/tickets/jazz-night",
+      "isFree": false,
+      "ageRestriction": "21+",
+      "featured": false,
+      "performers": ["Chicago Jazz Ensemble"]
+    },
+    {
+      "id": "event-011",
+      "title": "Electronic Music Festival",
+      "slug": "electronic-music-festival",
+      "description": "All-day electronic music festival featuring local and international DJs.",
+      "featuredImage": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=400&fit=crop",
+      "venue": {
+        "name": "Concord Music Hall",
+        "address": "2047 N Milwaukee Ave",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60647",
+        "mapUrl": "https://maps.google.com/?q=Concord+Music+Hall+Chicago"
+      },
+      "date": "2025-04-05T14:00:00Z",
+      "endDate": "2025-04-06T02:00:00Z",
+      "category": "Festival",
+      "ticketPrice": 35,
+      "ticketUrl": "https://example.com/tickets/electronic-festival",
+      "isFree": false,
+      "ageRestriction": "18+",
+      "featured": false,
+      "performers": ["Various Artists"]
+    }
+  ]
+}

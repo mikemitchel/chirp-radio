@@ -217,7 +217,7 @@ export default function RecentlyPlayed() {
   };
 
   return (
-    <div className="page-content">
+    <div>
       <CrPageHeader
         eyebrowText="CHIRP Radio"
         title="Recently Played"
