@@ -3,6 +3,7 @@ import React from 'react'
 import { PiArrowRight, PiX } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrCartIcon from './CrCartIcon'
+import CrChip from './CrChip'
 import './CrShoppingCart.css'
 
 interface CrShoppingCartProps {
@@ -50,7 +51,12 @@ export default function CrShoppingCart({
           items.map((item, index) => (
             <div key={`item-${index}`} className="cr-shopping-cart__item">
               <div className="cr-shopping-cart__item-header">
-                <span className="cr-shopping-cart__item-name">{item.name}</span>
+                <div className="cr-shopping-cart__item-name-row">
+                  <CrChip variant="secondary" size="small">
+                    {item.quantity || 1}
+                  </CrChip>
+                  <span className="cr-shopping-cart__item-name">{item.name}</span>
+                </div>
                 <div className="cr-shopping-cart__item-price-actions">
                   <span className="cr-shopping-cart__item-price">
                     ${(item.price * (item.quantity || 1)).toFixed(2)}
@@ -68,7 +74,7 @@ export default function CrShoppingCart({
               </div>
               {item.details && (
                 <div className="cr-shopping-cart__item-details">
-                  {item.details} {item.quantity && item.quantity > 1 ? `× ${item.quantity}` : ''}
+                  {item.details}
                 </div>
               )}
             </div>

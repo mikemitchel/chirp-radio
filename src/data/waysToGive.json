@@ -53,7 +53,7 @@
     {
       "id": "crypto",
       "title": "Donate Bitcoin / Cryptocurrencies",
-      "contentSummary": "1. Go to crypto.chirpradio.us 2. Pick Chicago Independent Radio Project (CHIRP Radio) from the list. 3. Donate crypto and get a tax receipt! Donations of appreciated cryptocurrency don't trigger capital gains taxes, and may be tax-deductible for the full value.",
+      "content": "1. Go to crypto.chirpradio.us\n2. Pick Chicago Independent Radio Project (CHIRP Radio) from the list.\n3. Donate crypto and get a tax receipt!\n\nDonations of appreciated cryptocurrency don't trigger capital gains taxes, and may be tax-deductible for the full value.",
       "backgroundImage": "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&h=600&fit=crop",
       "variant": "small"
     }

@@ -1,47 +1,26 @@
 // src/pages/ShopPage.tsx
-import React, { useState } from 'react'
+import React from 'react'
+import { useNavigate } from 'react-router'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrStoreItemCard from '../stories/CrStoreItemCard'
 import CrShoppingCart from '../stories/CrShoppingCart'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
 import { useShopItems, usePlaylists } from '../hooks/useData'
+import { useCart } from '../contexts/CartContext'
 
 const ShopPage: React.FC = () => {
+  const navigate = useNavigate()
   const { data: shopItems } = useShopItems()
   const { data: playlistData } = usePlaylists()
+  const { items: cartItems, removeItem, emptyCart } = useCart()
 
   const recentPlaylistItems = playlistData?.tracks?.slice(0, 10).map(track => ({
     ...track,
     hourData: playlistData?.currentShow
   })) || []
 
-  const [cartItems, setCartItems] = useState([
-    {
-      name: "CHIRP 20th Anniversary Poster",
-      price: 20.00,
-      details: "18x24 inches"
-    },
-    {
-      name: "CHIRP Radio Classic Tee",
-      price: 20.00,
-      details: "Size: Medium",
-      quantity: 2
-    },
-    {
-      name: "CHIRP Baby Onesie",
-      price: 15.00,
-      details: "Size: 12-18 months"
-    }
-  ])
-
-  const handleRemoveItem = (index: number) => {
-    const newItems = [...cartItems]
-    newItems.splice(index, 1)
-    setCartItems(newItems)
-  }
-
-  const handleEmptyCart = () => {
-    setCartItems([])
+  const handleCheckout = () => {
+    navigate('/shop/checkout')
   }
 
   return (
@@ -54,8 +33,9 @@ const ShopPage: React.FC = () => {
         <div className="page-layout-main-sidebar__sidebar">
           <CrShoppingCart
             items={cartItems}
-            onRemoveItem={handleRemoveItem}
-            onEmptyCart={handleEmptyCart}
+            onRemoveItem={removeItem}
+            onEmptyCart={emptyCart}
+            onCheckout={handleCheckout}
           />
           <CrPageHeader
             title="Recently Played"
@@ -79,7 +59,9 @@ const ShopPage: React.FC = () => {
                 price={item.price}
                 image={item.image}
                 itemType={item.itemType}
-                onClick={() => console.log('Clicked:', item.name)}
+                onClick={() => {
+                  navigate(`/shop/${item.id}`, { state: { item } })
+                }}
               />
             ))}
           </div>

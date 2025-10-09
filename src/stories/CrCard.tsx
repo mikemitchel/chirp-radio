@@ -14,6 +14,8 @@ interface CrCardProps {
   venue?: string
   ageRestriction?: string
   contentSummary?: string
+  excerpt?: string
+  content?: string
   metaContent?: string
   timeSlot?: string
   showMeta?: boolean
@@ -23,14 +25,19 @@ interface CrCardProps {
   tags?: string[]
   preheader?: string
   title?: string
+  titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  titleSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   bannerButtonText?: string
   shareButtonText?: string
   continueButtonText?: string
+  ticketUrl?: string
+  shareUrl?: string
   onBannerTicketClick?: () => void
   onBannerShareClick?: () => void
   onVenueClick?: () => void
   onShareClick?: () => void
   onContinueClick?: () => void
+  onClick?: () => void
   variant?: string
   imagePosition?: string
   imageSize?: string
@@ -58,6 +65,8 @@ export default function CrCard({
 
   // Content
   contentSummary = 'Vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo.',
+  excerpt,
+  content,
 
   // Meta content for article layouts
   metaContent = 'This content is 30 characters.',
@@ -71,9 +80,13 @@ export default function CrCard({
   // Banner props
   preheader = 'Intro Preheader Thing',
   title = 'Title of the Thing',
+  titleTag = 'h2',
+  titleSize = 'md',
   bannerButtonText = 'Buy Tix',
   shareButtonText = 'Share',
   continueButtonText = 'Continue Reading',
+  ticketUrl,
+  shareUrl,
   showShareButton = true,
   showTicketButton = true,
 
@@ -83,6 +96,7 @@ export default function CrCard({
   onVenueClick,
   onShareClick,
   onContinueClick,
+  onClick,
 
   // Layout variant
   variant = 'default', // "default", "wide", "narrow", "small", "article"
@@ -110,8 +124,26 @@ export default function CrCard({
 
   className = '',
 }: CrCardProps) {
-  // Use articleImageAspectRatio when variant is 'article'
-  const activeImageAspectRatio = variant === 'article' ? articleImageAspectRatio : imageAspectRatio
+  // Determine active image aspect ratio based on variant
+  const activeImageAspectRatio = variant === 'article'
+    ? articleImageAspectRatio
+    : variant === 'small'
+      ? '1:1'
+      : imageAspectRatio
+
+  // Click handler
+  const handleClick = () => {
+    if (onClick) {
+      onClick()
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleClick()
+    }
+  }
 
   // Memoized class computation
   const componentClasses = React.useMemo(
@@ -122,11 +154,12 @@ export default function CrCard({
         variant === 'article' && `cr-card--article-${imagePosition}`,
         variant === 'article' && `cr-card--article-${imageSize}`,
         `cr-card--${activeImageAspectRatio.replace(':', '-')}`,
+        onClick && 'cr-card--clickable',
         className,
       ]
         .filter(Boolean)
         .join(' '),
-    [variant, imagePosition, imageSize, activeImageAspectRatio, className]
+    [variant, imagePosition, imageSize, activeImageAspectRatio, onClick, className]
   )
 
   // Shared components - memoized to prevent re-renders
@@ -136,6 +169,8 @@ export default function CrCard({
         <CrCardBanner
           preheader={preheader}
           title={title}
+          titleTag={titleTag}
+          titleSize={titleSize}
           height={bannerHeight}
           textLayout={textLayout}
           backgroundColor="none"
@@ -143,6 +178,8 @@ export default function CrCard({
           showShareButton={showShareButton}
           ticketButtonText={bannerButtonText}
           shareButtonText={shareButtonText}
+          ticketUrl={ticketUrl}
+          shareUrl={shareUrl}
           onTicketClick={onBannerTicketClick}
           onShareClick={onBannerShareClick}
         />
@@ -151,10 +188,16 @@ export default function CrCard({
     [
       preheader,
       title,
+      titleTag,
+      titleSize,
       bannerHeight,
       textLayout,
       bannerButtonText,
       shareButtonText,
+      ticketUrl,
+      shareUrl,
+      showTicketButton,
+      showShareButton,
       onBannerTicketClick,
       onBannerShareClick,
     ]
@@ -193,8 +236,36 @@ export default function CrCard({
     switch (variant) {
       case 'article':
         return (
-          <div className={componentClasses}>
+          <div
+            className={componentClasses}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={onClick ? 0 : undefined}
+            role={onClick ? 'button' : undefined}
+            aria-label={onClick ? `View ${title}` : undefined}
+          >
             {ArticleHeader}
+
+            {type === 'article' && (
+              <CrCardDetails
+                type="article"
+                authorBy={authorBy}
+                eventDate={eventDate}
+                tags={tags}
+                showShareButton={false}
+              />
+            )}
+
+            {type === 'event' && (
+              <CrCardDetails
+                type="event"
+                dateTime={dateTime}
+                venue={venue}
+                onVenueClick={onVenueClick}
+                showShareButton={false}
+              />
+            )}
+
             {showMeta && MetaInfo}
 
             <div className="cr-card__article-content">
@@ -212,7 +283,43 @@ export default function CrCard({
                     <ImageWithCaption />
                   </div>
                 )}
-                <p className="cr-card__content-text">{contentSummary}</p>
+                {excerpt && <p className="cr-card__content-excerpt">{excerpt}</p>}
+                {content && (
+                  <div
+                    className="cr-card__content-text"
+                    dangerouslySetInnerHTML={{
+                      __html: (() => {
+                        let html = content
+                        // Convert **bold** to <strong>
+                        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+
+                        // Split into blocks first
+                        const blocks = html.split('\n\n')
+                        const processedBlocks = blocks.map(block => {
+                          // Check if block contains ordered list items
+                          const lines = block.split('\n')
+                          const isOrderedList = lines.every(line =>
+                            line.trim() === '' || /^\d+\.\s/.test(line)
+                          ) && lines.some(line => /^\d+\.\s/.test(line))
+
+                          if (isOrderedList) {
+                            const listItems = lines
+                              .filter(line => /^\d+\.\s/.test(line))
+                              .map(item => `<li>${item.replace(/^\d+\.\s/, '')}</li>`)
+                              .join('')
+                            return `<ol>${listItems}</ol>`
+                          }
+
+                          // Otherwise wrap in paragraph
+                          return block.trim() ? `<p>${block}</p>` : ''
+                        }).filter(block => block !== '')
+
+                        return processedBlocks.join('')
+                      })()
+                    }}
+                  />
+                )}
+                {!excerpt && !content && <p className="cr-card__content-text">{contentSummary}</p>}
               </div>
             </div>
           </div>
@@ -220,11 +327,20 @@ export default function CrCard({
 
       case 'small':
         return (
-          <div className={componentClasses}>
+          <div
+            className={componentClasses}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={onClick ? 0 : undefined}
+            role={onClick ? 'button' : undefined}
+            aria-label={onClick ? `View ${title}` : undefined}
+          >
             <div className="cr-card__small-banner">
               <CrCardBanner
                 preheader={preheader}
                 title={title}
+                titleTag={titleTag}
+                titleSize={titleSize}
                 height={bannerHeight}
                 textLayout={textLayout}
                 backgroundColor={bannerBackgroundColor}
@@ -267,11 +383,20 @@ export default function CrCard({
 
       case 'narrow':
         return (
-          <div className={componentClasses}>
+          <div
+            className={componentClasses}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={onClick ? 0 : undefined}
+            role={onClick ? 'button' : undefined}
+            aria-label={onClick ? `View ${title}` : undefined}
+          >
             <div className="cr-card__narrow-banner">
               <CrCardBanner
                 preheader={preheader}
                 title={title}
+                titleTag={titleTag}
+                titleSize={titleSize}
                 height={bannerHeight}
                 textLayout={textLayout}
                 backgroundColor={bannerBackgroundColor}
@@ -392,11 +517,20 @@ export default function CrCard({
 
       case 'wide':
         return (
-          <div className={componentClasses}>
+          <div
+            className={componentClasses}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={onClick ? 0 : undefined}
+            role={onClick ? 'button' : undefined}
+            aria-label={onClick ? `View ${title}` : undefined}
+          >
             <div className="cr-card__top-banner">
               <CrCardBanner
                 preheader={preheader}
                 title={title}
+                titleTag={titleTag}
+                titleSize={titleSize}
                 height={bannerHeight}
                 textLayout={textLayout}
                 backgroundColor="none"
@@ -431,6 +565,8 @@ export default function CrCard({
                 ageRestriction={ageRestriction}
                 authorBy={authorBy}
                 eventDate={eventDate}
+                tags={tags}
+                showShareButton={showShareButton}
                 onVenueClick={onVenueClick}
                 onShareClick={onShareClick}
               />
@@ -440,7 +576,14 @@ export default function CrCard({
 
       default: // "default" variant
         return (
-          <div className={componentClasses}>
+          <div
+            className={componentClasses}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={onClick ? 0 : undefined}
+            role={onClick ? 'button' : undefined}
+            aria-label={onClick ? `View ${title}` : undefined}
+          >
             <div className="cr-card__image-container">
               <div
                 className="cr-card__image"
@@ -472,6 +615,8 @@ export default function CrCard({
               <CrCardBanner
                 preheader={preheader}
                 title={title}
+                titleTag={titleTag}
+                titleSize={titleSize}
                 height={bannerHeight}
                 textLayout={textLayout}
                 backgroundColor="none"

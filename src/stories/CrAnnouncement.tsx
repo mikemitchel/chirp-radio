@@ -122,7 +122,7 @@ export default function CrAnnouncement({
               <CrButton
                 variant="text"
                 color="secondary"
-                size="medium"
+                size="small"
                 leftIcon={<PiHandHeartLight />}
                 rightIcon={<PiArrowRight />}
                 onClick={() => {

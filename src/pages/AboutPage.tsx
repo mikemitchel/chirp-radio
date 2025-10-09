@@ -9,7 +9,7 @@ const AboutPage: React.FC = () => {
   return (
     <div className="about-page">
       <section className="page-container">
-        <CrPageHeader showEyebrow={false} showActionButton={false} />
+        <CrPageHeader title="About CHIRP" showEyebrow={false} showActionButton={false} />
       </section>
 
       <div className="page-layout-main-sidebar">

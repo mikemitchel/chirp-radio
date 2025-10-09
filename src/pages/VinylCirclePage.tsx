@@ -1,4 +1,4 @@
-// src/pages/DonatePage.tsx
+// src/pages/VinylCirclePage.tsx
 import React from 'react'
 import { useNavigate } from 'react-router'
 import CrBreadcrumb from '../stories/CrBreadcrumb'
@@ -7,21 +7,21 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import { useAnnouncements } from '../hooks/useData'
 
-const DonatePage: React.FC = () => {
+const VinylCirclePage: React.FC = () => {
   const navigate = useNavigate()
   const { data: announcements } = useAnnouncements()
 
-  const handleVinylCircleClick = () => {
-    navigate('/vinyl-circle')
+  const handleSwitchToDefault = () => {
+    navigate('/donate')
   }
 
   return (
-    <div className="donate-page">
+    <div className="vinyl-circle-page">
       <section className="page-container">
         <CrBreadcrumb
           items={[
             { label: 'Ways to Give', isClickable: true, onClick: () => navigate('/ways-to-give') },
-            { label: 'Donate', isClickable: false }
+            { label: 'Vinyl Circle', isClickable: false }
           ]}
         />
       </section>
@@ -29,8 +29,8 @@ const DonatePage: React.FC = () => {
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
           <CrDonateForm
-            title="Make a Donation Today"
-            onVinylCircleClick={handleVinylCircleClick}
+            variant="vinylCircle"
+            onSwitchToDefault={handleSwitchToDefault}
           />
         </div>
 
@@ -55,4 +55,4 @@ const DonatePage: React.FC = () => {
   )
 }
 
-export default DonatePage
+export default VinylCirclePage

@@ -1,5 +1,5 @@
 // CrMainNav.tsx
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { PiMagnifyingGlass } from 'react-icons/pi'
 import CrButton from './CrButton'
@@ -25,6 +25,7 @@ export default function CrMainNav({
 }: CrMainNavProps) {
   const navigate = useNavigate()
   const [showWaysToGive, setShowWaysToGive] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   const waysToGiveOptions = [
     { label: 'Other Ways to Give', value: 'ways-to-give', route: '/ways-to-give' },
@@ -38,6 +39,31 @@ export default function CrMainNav({
     }
     setShowWaysToGive(false)
   }
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowWaysToGive(false)
+      }
+    }
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setShowWaysToGive(false)
+      }
+    }
+
+    if (showWaysToGive) {
+      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener('keydown', handleEscape)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [showWaysToGive])
   // Dropdown arrow
   const DropdownIcon = () => (
     <svg
@@ -103,7 +129,7 @@ export default function CrMainNav({
           </Link>
 
           {/* Ways to Give dropdown */}
-          <div className="cr-main-nav__ways-dropdown">
+          <div className="cr-main-nav__ways-dropdown" ref={dropdownRef}>
             <button
               className="cr-main-nav__ways-button"
               onClick={() => setShowWaysToGive(!showWaysToGive)}

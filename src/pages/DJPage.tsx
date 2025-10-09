@@ -8,15 +8,15 @@ const DJPage: React.FC = () => {
   return (
     <div className="dj-page">
       <section className="page-container">
-        <CrPageHeader showEyebrow={false} showActionButton={false} />
+        <CrPageHeader title="DJs" showEyebrow={false} showActionButton={false} />
       </section>
 
       <div className="page-container-row">
-        <CrPageHeader showEyebrow={false} showActionButton={true} />
-        <CrPageHeader showEyebrow={false} showActionButton={true} />
+        <CrPageHeader title="Featured DJs" titleTag="h2" titleSize="lg" showEyebrow={false} showActionButton={true} actionButtonText="View Schedule" />
+        <CrPageHeader title="Browse by Day" titleTag="h2" titleSize="lg" showEyebrow={false} showActionButton={true} actionButtonText="All DJs" />
       </div>
 
-      <div className="page-layout-3col">
+      <section className="page-layout-3col">
         <div className="page-layout-3col__column">
           <CrDjOverview medium />
           <CrDjOverview medium />
@@ -46,15 +46,15 @@ const DJPage: React.FC = () => {
         <div className="page-layout-3col__column">
           <CrCard variant="narrow" />
           <CrCard variant="narrow" />
-          <CrPageHeader showEyebrow={false} showActionButton={true} />
+          <CrPageHeader title="Announcements" titleTag="h3" titleSize="md" showEyebrow={false} showActionButton={true} actionButtonText="View All" />
           <CrCard variant="small" />
           <CrCard variant="small" />
           <CrCard variant="small" />
         </div>
-      </div>
+      </section>
 
       <section className="page-container">
-        <CrPageHeader showEyebrow={false} showActionButton={true} />
+        <CrPageHeader title="All DJs" titleTag="h2" titleSize="lg" showEyebrow={false} showActionButton={true} actionButtonText="Search DJs" />
         <div className="page-container-grid">
           <CrDjOverview small />
           <CrDjOverview small />

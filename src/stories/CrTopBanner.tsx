@@ -51,13 +51,14 @@ export default function CrTopBanner({
   const fetchApiData = async () => {
     if (!autoFetch) return
 
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}&t=${Date.now()}`
     try {
+      // Use CORS proxy
+      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`
       const response = await fetch(proxyUrl)
+
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
 
-      const data = await response.json()
-      const parsedData = JSON.parse(data.contents)
+      const parsedData = await response.json()
 
       if (parsedData?.now_playing) {
         const nowPlaying = parsedData.now_playing
@@ -71,6 +72,7 @@ export default function CrTopBanner({
       }
     } catch (error) {
       console.error('Error fetching API data:', error)
+      // Silently fail and use default values
     }
   }
 

@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { HashRouter, Routes, Route } from 'react-router';
+import { CartProvider } from './contexts/CartContext';
+import ScrollToTop from './components/ScrollToTop';
 import MobileApp from './layouts/MobileApp';
 import WebLayout from './layouts/WebLayout';
 import NowPlaying from './pages/NowPlaying';
@@ -23,10 +25,14 @@ import DJPage from './pages/DJPage';
 import DJSchedulePage from './pages/DJSchedulePage';
 import DJDetailPage from './pages/DJDetailPage';
 import EventDetailPage from './pages/EventDetailPage';
+import ArticleDetailPage from './pages/ArticleDetailPage';
+import PodcastPage from './pages/PodcastPage';
+import PodcastDetailPage from './pages/PodcastDetailPage';
 import ShopPage from './pages/ShopPage';
 import ThankYouPage from './pages/ThankYouPage';
 import ShopDetailPage from './pages/ShopDetailPage';
 import DonatePage from './pages/DonatePage';
+import VinylCirclePage from './pages/VinylCirclePage';
 import ListenPage from './pages/ListenPage';
 
 function App() {
@@ -65,8 +71,10 @@ function App() {
   }, []);
 
   return (
-    <HashRouter>
-      <Routes>
+    <CartProvider>
+      <HashRouter>
+        <ScrollToTop />
+        <Routes>
         <Route path="/" element={<MobileApp />}>
           <Route index element={<NowPlaying />} />
           <Route path="now-playing" element={<NowPlaying />} />
@@ -81,9 +89,9 @@ function App() {
         <Route path="/events" element={<WebLayout><EventsPage /></WebLayout>} />
         <Route path="/events/:id" element={<WebLayout><EventDetailPage /></WebLayout>} />
         <Route path="/articles" element={<WebLayout><ArticlesPage /></WebLayout>} />
-        <Route path="/articles/:id" element={<WebLayout><EventDetailPage /></WebLayout>} />
-        <Route path="/podcast" element={<WebLayout><EventsPage /></WebLayout>} />
-        <Route path="/podcast/:id" element={<WebLayout><EventDetailPage /></WebLayout>} />
+        <Route path="/articles/:id" element={<WebLayout><ArticleDetailPage /></WebLayout>} />
+        <Route path="/podcasts" element={<WebLayout><PodcastPage /></WebLayout>} />
+        <Route path="/podcasts/:id" element={<WebLayout><PodcastDetailPage /></WebLayout>} />
         <Route path="/djs" element={<WebLayout><DJPage /></WebLayout>} />
         <Route path="/djs/:id" element={<WebLayout><DJDetailPage /></WebLayout>} />
         <Route path="/schedule" element={<WebLayout><DJSchedulePage /></WebLayout>} />
@@ -91,7 +99,7 @@ function App() {
         <Route path="/shop/:id" element={<WebLayout><ShopDetailPage /></WebLayout>} />
         <Route path="/shop/checkout" element={<WebLayout><ShopCheckoutPage /></WebLayout>} />
         <Route path="/donate" element={<WebLayout><DonatePage /></WebLayout>} />
-        <Route path="/vinyl-circle" element={<WebLayout><DonatePage /></WebLayout>} />
+        <Route path="/vinyl-circle" element={<WebLayout><VinylCirclePage /></WebLayout>} />
         <Route path="/ways-to-give" element={<WebLayout><WaysToGivePage /></WebLayout>} />
         <Route path="/car-donation" element={<WebLayout><CarDonationPage /></WebLayout>} />
         <Route path="/about" element={<WebLayout><AboutPage /></WebLayout>} />
@@ -100,8 +108,9 @@ function App() {
         <Route path="/volunteer/calendar" element={<WebLayout><VolunteerCalendarPage /></WebLayout>} />
         <Route path="/volunteer/resources" element={<WebLayout><VolunteerResourcesPage /></WebLayout>} />
         <Route path="/thank-you" element={<WebLayout><ThankYouPage /></WebLayout>} />
-      </Routes>
-    </HashRouter>
+        </Routes>
+      </HashRouter>
+    </CartProvider>
   );
 }
 

@@ -8,7 +8,7 @@ const ContactPage: React.FC = () => {
   return (
     <div className="contact-page">
       <section className="page-container">
-        <CrPageHeader showEyebrow={false} showActionButton={false} />
+        <CrPageHeader title="Contact Us" showEyebrow={false} showActionButton={false} />
       </section>
 
       <div className="page-layout-main-sidebar">

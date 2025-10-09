@@ -76,14 +76,11 @@
 }
 
 .cr-store-item__name {
-  font: var(--cr-title-xs);
+  font: var(--cr-title-xl);
   color: var(--cr-store-item-text-color);
   margin: 0;
-  line-height: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-height: 30px;
+  line-height: 1.2;
+  white-space: normal;
 }
 
 .cr-store-item__price-chip-row {

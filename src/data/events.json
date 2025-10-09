@@ -5,6 +5,8 @@
       "title": "CHIRP Winter Fundraiser Concert",
       "slug": "winter-fundraiser-concert-2024",
       "description": "Join us for our annual winter fundraiser featuring performances from local Chicago artists. All proceeds support CHIRP Radio's mission to promote independent music.",
+      "excerpt": "Join us for our annual winter fundraiser featuring performances from local Chicago artists.",
+      "content": "Join us for an unforgettable evening of music as we celebrate another year of independent radio and raise funds to keep CHIRP Radio thriving. This year's winter fundraiser brings together three of Chicago's most exciting bands for a night of incredible performances at the legendary Empty Bottle.\n\nThe Hecks will kick off the night with their signature blend of melodic punk and raw energy. Known for their explosive live shows and infectious hooks, they've become a staple of the Chicago DIY scene. Retirement Party follows with their emotionally resonant indie rock, featuring intricate guitar work and honest, vulnerable lyrics that have earned them fans across the country.\n\nHeadlining the evening is Ratboys, fresh off a national tour and riding high on the success of their latest album. Julia Steiner's distinctive voice and the band's ability to craft songs that are both intimate and anthemic make them one of Chicago's most beloved exports. Their set will feature new material alongside fan favorites that have defined their career.\n\nAll proceeds from ticket sales go directly to supporting CHIRP Radio's mission: providing a platform for independent artists, championing diverse voices, and keeping Chicago's airwaves free from corporate influence. Your support helps us continue broadcasting the music that matters, curated by real people who love what they do.\n\nDoors open at 7 PM, music starts at 8 PM. The Empty Bottle's full bar will be available all night. This is a 21+ event. Tickets are $25 and available online or at the door (subject to availability). Come support independent radio and discover why Chicago's music scene continues to be one of the best in the world.",
       "featuredImage": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=400&fit=crop",
       "venue": {
         "name": "Empty Bottle",
@@ -12,6 +14,7 @@
         "city": "Chicago",
         "state": "IL",
         "zip": "60622",
+        "phone": "(773) 276-3600",
         "mapUrl": "https://maps.google.com/?q=Empty+Bottle+Chicago"
       },
       "date": "2024-12-15T19:00:00Z",
@@ -33,6 +36,8 @@
       "title": "Record Store Day Celebration",
       "slug": "record-store-day-2024",
       "description": "CHIRP DJs will be spinning at various record stores across Chicago. Stop by for exclusive releases and good vibes.",
+      "excerpt": "CHIRP DJs will be spinning at various record stores across Chicago throughout the day.",
+      "content": "Record Store Day is back, and CHIRP Radio is celebrating at multiple locations across Chicago. Throughout the day, our DJs will be stationed at participating record stores, spinning vinyl and helping shoppers discover exclusive releases and hidden gems.\n\nThis year's Record Store Day features hundreds of limited-edition releases from artists across all genres. From rare reissues to brand-new vinyl-only releases, collectors and casual fans alike will find something special. Our DJs will be on hand to provide recommendations, share stories about the music, and help navigate the day's offerings.\n\nParticipating stores include Reckless Records (all three locations), Shuga Records, Dusty Groove, Dave's Records, and Record Breakers. Each store will have CHIRP DJs at different times throughout the day, so check our website for the full schedule. Many stores are also offering in-store performances, signings, and special sales.\n\nRecord Store Day celebrates the culture of independent record stores and the joy of physical music. It's a chance to support local businesses, discover new music, and connect with fellow music lovers. Whether you're a serious collector lining up before opening or a casual browser stopping by in the afternoon, you'll find a welcoming community.\n\nThe event is free and all ages. Most stores open early (some as early as 8 AM), and popular releases tend to sell out quickly. Come say hi to your favorite CHIRP DJs and celebrate the enduring magic of vinyl records.",
       "featuredImage": "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=800&h=400&fit=crop",
       "venue": {
         "name": "Multiple Locations",
@@ -40,6 +45,7 @@
         "city": "Chicago",
         "state": "IL",
         "zip": "",
+        "phone": "",
         "mapUrl": ""
       },
       "date": "2024-04-20T10:00:00Z",
@@ -57,6 +63,8 @@
       "title": "Live at CHIRP: Signals Midwest",
       "slug": "live-at-chirp-signals-midwest",
       "description": "Intimate in-studio performance and interview with midwest emo legends Signals Midwest.",
+      "excerpt": "Intimate in-studio performance and interview with midwest emo legends Signals Midwest.",
+      "content": "Join us for an intimate afternoon with Signals Midwest, one of the most respected bands in the midwest emo scene. This special Live at CHIRP session features a full acoustic performance followed by an in-depth conversation about their music, their influences, and the evolution of the scene they helped define.\n\nSignals Midwest has been crafting emotionally resonant indie rock for over a decade, building a devoted following through relentless touring and a string of critically acclaimed albums. Their ability to balance raw honesty with melodic sophistication has made them standard-bearers for contemporary emo, influencing countless bands while continuing to push their own sound forward.\n\nThe session will be broadcast live on CHIRP Radio and streamed on our website. The intimate studio setting allows for a unique performance experience—stripped-down arrangements that highlight the songwriting craft and vocal delivery that define their sound. Expect to hear fan favorites alongside tracks from their latest release, reimagined for acoustic performance.\n\nFollowing the performance, host Sarah Martinez will sit down with the band for a conversation exploring their creative process, the challenges of sustaining a band long-term, and their perspective on the evolution of emo from basement shows to mainstream recognition. There will also be time for questions from listeners via call-in and social media.\n\nThis is a free event, but space in the studio is extremely limited. RSVP is required—visit our website to reserve your spot. Even if you can't attend in person, tune in live or catch the archived performance on our podcast feed.",
       "featuredImage": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=400&fit=crop",
       "venue": {
         "name": "CHIRP Radio Studio",
@@ -64,6 +72,7 @@
         "city": "Chicago",
         "state": "IL",
         "zip": "60618",
+        "phone": "(773) 388-2477",
         "mapUrl": "https://maps.google.com/?q=CHIRP+Radio+Chicago"
       },
       "date": "2024-12-18T15:00:00Z",
@@ -81,6 +90,8 @@
       "title": "CHIRP Night at Thalia Hall",
       "slug": "chirp-night-thalia-hall",
       "description": "A showcase of Chicago's finest indie talent curated by CHIRP DJs.",
+      "excerpt": "A showcase of Chicago's finest indie talent curated by CHIRP DJs at the beautiful Thalia Hall.",
+      "content": "CHIRP Radio takes over Thalia Hall for a night celebrating the best of Chicago's independent music scene. This carefully curated showcase features three bands handpicked by our DJs, each representing different facets of the city's diverse musical landscape.\n\nThe lineup brings together established local favorites and rising stars, all sharing the gorgeous stage at one of Chicago's most beloved venues. Thalia Hall's exceptional acoustics and intimate atmosphere create the perfect setting for experiencing the raw energy and artistry that define Chicago's indie scene.\n\nDivino Niño opens the night with their sun-soaked psychedelic rock, blending Latin influences with dreamy guitar textures. Their infectious grooves and bilingual lyrics have made them one of Chicago's most exciting exports. Whitney follows with their soulful, jazz-inflected indie rock—former Smith Westerns members who've carved out their own distinctive sound built on falsetto vocals and shimmering instrumentation.\n\nHeadlining is Dehd, the trio whose minimalist post-punk has captivated audiences nationwide. Their deceptively simple songs pack an emotional punch, with spare arrangements that highlight raw vocals and hypnotic rhythms. They've become one of Chicago's most talked-about bands, and their live shows are legendary.\n\nDoors at 7 PM, music at 8 PM. Tickets $20 advance, $25 day of show. This is an 18+ event. The Dusek's restaurant adjacent to the venue will be open for dinner before the show—highly recommended to arrive early and make an evening of it.",
       "featuredImage": "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&h=400&fit=crop",
       "venue": {
         "name": "Thalia Hall",
@@ -88,6 +99,7 @@
         "city": "Chicago",
         "state": "IL",
         "zip": "60608",
+        "phone": "(773) 226-3761",
         "mapUrl": "https://maps.google.com/?q=Thalia+Hall+Chicago"
       },
       "date": "2025-01-25T20:00:00Z",
@@ -116,6 +128,7 @@
         "city": "Chicago",
         "state": "IL",
         "zip": "60618",
+        "phone": "(773) 388-2477",
         "mapUrl": "https://maps.google.com/?q=CHIRP+Radio+Chicago"
       },
       "date": "2025-01-10T18:00:00Z",
@@ -140,6 +153,7 @@
         "city": "Chicago",
         "state": "IL",
         "zip": "60607",
+        "phone": "(312) 746-5494",
         "mapUrl": "https://maps.google.com/?q=Union+Park+Chicago"
       },
       "date": "2025-07-12T12:00:00Z",
@@ -169,6 +183,7 @@
         "city": "Chicago",
         "state": "IL",
         "zip": "60647",
+        "phone": "(773) 489-2140",
         "mapUrl": "https://maps.google.com/?q=Logan+Square+Auditorium"
       },
       "date": "2024-12-21T10:00:00Z",
@@ -193,6 +208,7 @@
         "city": "",
         "state": "",
         "zip": "",
+        "phone": "",
         "mapUrl": ""
       },
       "date": "2025-02-01T10:00:00Z",
@@ -217,6 +233,7 @@
         "city": "Chicago",
         "state": "IL",
         "zip": "60657",
+        "phone": "(773) 525-2508",
         "mapUrl": "https://maps.google.com/?q=Schubas+Tavern+Chicago"
       },
       "date": "2025-03-15T20:00:00Z",
@@ -241,6 +258,7 @@
         "city": "Chicago",
         "state": "IL",
         "zip": "60640",
+        "phone": "(773) 878-5552",
         "mapUrl": "https://maps.google.com/?q=Green+Mill+Chicago"
       },
       "date": "2025-03-22T21:00:00Z",
@@ -265,6 +283,7 @@
         "city": "Chicago",
         "state": "IL",
         "zip": "60647",
+        "phone": "(773) 570-4000",
         "mapUrl": "https://maps.google.com/?q=Concord+Music+Hall+Chicago"
       },
       "date": "2025-04-05T14:00:00Z",

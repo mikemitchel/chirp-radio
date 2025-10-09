@@ -104,6 +104,14 @@
   gap: var(--cr-space-2);
 }
 
+.cr-shopping-cart__item-name-row {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2);
+  flex: 1;
+  min-width: 0;
+}
+
 .cr-shopping-cart__item-name {
   font: var(--cr-title-xs); /* Antonio Bold 18px, weight 600 */
   color: var(--cr-cart-text-color);
@@ -152,9 +160,8 @@
 }
 
 .cr-shopping-cart__item-details {
-  font: var(--cr-title-2xs); /* Antonio Bold 16px, weight 700 */
+  font: var(--cr-body-sm);
   color: var(--cr-cart-text-color);
-  line-height: 1;
   width: 100%;
 }
 

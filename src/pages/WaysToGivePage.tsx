@@ -4,32 +4,27 @@ import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
-import CrDonateForm from '../stories/CrDonateForm'
-import CrPlaylistTable from '../stories/CrPlaylistTable'
+import CrAdSpace from '../stories/CrAdSpace'
 import waysToGiveData from '../data/waysToGive.json'
+import { useAnnouncements } from '../hooks/useData'
 
 const WaysToGivePage: React.FC = () => {
   const [section1, section2] = waysToGiveData.sections
+  const { data: announcements } = useAnnouncements()
 
   return (
     <div className="ways-to-give-page">
-      <section className="page-container">
-        <CrBreadcrumb
-          items={[
-            { label: 'Donate', isClickable: true },
-            { label: 'Ways to Give', isClickable: false }
-          ]}
-        />
-      </section>
-
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
           <CrCard
             variant="article"
+            type="page"
             imagePosition="right"
             articleImageAspectRatio="16:9"
             preheader="DONATE TO CHIRP"
             title="Ways to Give"
+            titleTag="h1"
+            titleSize="xl"
             bannerHeight="tall"
             textLayout="stacked"
             showTicketButton={false}
@@ -42,6 +37,7 @@ const WaysToGivePage: React.FC = () => {
             <div>
               <CrCard
                 variant="article"
+                type="page"
                 imagePosition="none"
                 preheader=""
                 title={section1.title}
@@ -54,6 +50,7 @@ const WaysToGivePage: React.FC = () => {
               />
               <CrCard
                 variant="article"
+                type="page"
                 imagePosition="none"
                 preheader=""
                 title={section2.title}
@@ -70,6 +67,7 @@ const WaysToGivePage: React.FC = () => {
                 <CrCard
                   key={card.id}
                   variant="article"
+                  type="page"
                   imagePosition="none"
                   preheader=""
                   title={card.title}
@@ -77,6 +75,7 @@ const WaysToGivePage: React.FC = () => {
                   textLayout="inline"
                   showTicketButton={false}
                   showShareButton={false}
+                  content={card.content}
                   contentSummary={card.contentSummary}
                   backgroundImage={card.backgroundImage}
                 />
@@ -85,6 +84,7 @@ const WaysToGivePage: React.FC = () => {
           </div>
           <CrCard
             variant="article"
+            type="page"
             imagePosition="right"
             articleImageAspectRatio="16:9"
             preheader=""
@@ -97,13 +97,20 @@ const WaysToGivePage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          <CrAnnouncement
-            variant="motivation"
-            textureBackground="cr-bg-natural-d100"
-          />
-          <CrPageHeader showEyebrow={false} />
-          <CrCard variant="small" />
-          <CrPlaylistTable showHeader={true} groupByHour={true} />
+          {announcements && announcements[5] && (
+            <CrAnnouncement
+              variant="motivation"
+              widthVariant="third"
+              textureBackground={announcements[5].backgroundColor}
+              headlineText={announcements[5].title}
+              bodyText={announcements[5].message}
+              showLink={!!announcements[5].ctaText}
+              linkText={announcements[5].ctaText}
+              linkUrl={announcements[5].ctaUrl}
+              buttonCount="none"
+            />
+          )}
+          <CrAdSpace size="large-rectangle" />
         </div>
       </div>
     </div>

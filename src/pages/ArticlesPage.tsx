@@ -1,5 +1,7 @@
 // src/pages/ArticlesPage.tsx
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router'
+import { PiCaretLeft, PiCaretRight } from 'react-icons/pi'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
@@ -7,9 +9,35 @@ import CrAdSpace from '../stories/CrAdSpace'
 import CrButton from '../stories/CrButton'
 import { useArticles, useAnnouncements } from '../hooks/useData'
 
+const ITEMS_PER_PAGE = 8
+
 const ArticlesPage: React.FC = () => {
-  const { data: articles } = useArticles()
+  const navigate = useNavigate()
+  const { data: allArticles } = useArticles()
   const { data: announcements } = useAnnouncements()
+  const [currentPage, setCurrentPage] = useState(0)
+
+  const totalPages = allArticles ? Math.ceil(allArticles.length / ITEMS_PER_PAGE) : 0
+  const startIndex = currentPage * ITEMS_PER_PAGE
+  const articles = allArticles?.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+
+  const handleArticleClick = (article: any) => {
+    navigate(`/articles/${article.id}`, { state: { article } })
+  }
+
+  const handlePrevious = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
+  const handleNext = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
 
   return (
     <div className="articles-page">
@@ -38,6 +66,7 @@ const ArticlesPage: React.FC = () => {
               })}
               tags={articles[0].tags}
               showTicketButton={false}
+              onClick={() => handleArticleClick(articles[0])}
             />
           )}
         </div>
@@ -81,6 +110,7 @@ const ArticlesPage: React.FC = () => {
               tags={articles[1].tags}
               contentSummary={articles[1].excerpt}
               showTicketButton={false}
+              onClick={() => handleArticleClick(articles[1])}
             />
           )}
           {articles && articles[2] && (
@@ -101,6 +131,7 @@ const ArticlesPage: React.FC = () => {
               tags={articles[2].tags}
               contentSummary={articles[2].excerpt}
               showTicketButton={false}
+              onClick={() => handleArticleClick(articles[2])}
             />
           )}
         </div>
@@ -123,6 +154,7 @@ const ArticlesPage: React.FC = () => {
               tags={articles[3].tags}
               contentSummary={articles[3].excerpt}
               showTicketButton={false}
+              onClick={() => handleArticleClick(articles[3])}
             />
           )}
           {articles && articles[4] && (
@@ -143,6 +175,7 @@ const ArticlesPage: React.FC = () => {
               tags={articles[4].tags}
               contentSummary={articles[4].excerpt}
               showTicketButton={false}
+              onClick={() => handleArticleClick(articles[4])}
             />
           )}
         </div>
@@ -188,6 +221,7 @@ const ArticlesPage: React.FC = () => {
               tags={articles[5].tags}
               contentSummary={articles[5].excerpt}
               showTicketButton={false}
+              onClick={() => handleArticleClick(articles[5])}
             />
           )}
         </div>
@@ -211,6 +245,7 @@ const ArticlesPage: React.FC = () => {
               tags={articles[6].tags}
               contentSummary={articles[6].excerpt}
               showTicketButton={false}
+              onClick={() => handleArticleClick(articles[6])}
             />
           )}
         </div>
@@ -234,6 +269,7 @@ const ArticlesPage: React.FC = () => {
               tags={articles[7].tags}
               contentSummary={articles[7].excerpt}
               showTicketButton={false}
+              onClick={() => handleArticleClick(articles[7])}
             />
           )}
         </div>
@@ -243,10 +279,22 @@ const ArticlesPage: React.FC = () => {
       <section className="page-section">
         <div className="page-container">
           <div className="events-pagination">
-            <CrButton showLeftIcon={true} size="small" variant="text">
+            <CrButton
+              leftIcon={<PiCaretLeft />}
+              size="small"
+              variant="text"
+              onClick={handlePrevious}
+              disabled={currentPage === 0}
+            >
               Previous
             </CrButton>
-            <CrButton showRightIcon={true} size="small" variant="text">
+            <CrButton
+              rightIcon={<PiCaretRight />}
+              size="small"
+              variant="text"
+              onClick={handleNext}
+              disabled={currentPage >= totalPages - 1}
+            >
               Next
             </CrButton>
           </div>

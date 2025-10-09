@@ -1,5 +1,7 @@
 // src/pages/EventsPage.tsx
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router'
+import { PiCaretLeft, PiCaretRight } from 'react-icons/pi'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
@@ -7,9 +9,35 @@ import CrAdSpace from '../stories/CrAdSpace'
 import CrButton from '../stories/CrButton'
 import { useEvents, useAnnouncements } from '../hooks/useData'
 
+const ITEMS_PER_PAGE = 11
+
 const EventsPage: React.FC = () => {
-  const { data: events } = useEvents()
+  const navigate = useNavigate()
+  const { data: allEvents } = useEvents()
   const { data: announcements } = useAnnouncements()
+  const [currentPage, setCurrentPage] = useState(0)
+
+  const totalPages = allEvents ? Math.ceil(allEvents.length / ITEMS_PER_PAGE) : 0
+  const startIndex = currentPage * ITEMS_PER_PAGE
+  const events = allEvents?.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+
+  const handleEventClick = (event: any) => {
+    navigate(`/events/${event.id}`, { state: { event } })
+  }
+
+  const handlePrevious = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
+  const handleNext = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
 
   return (
     <div className="events-page">
@@ -39,6 +67,7 @@ const EventsPage: React.FC = () => {
               ageRestriction={events[0].ageRestriction}
               contentSummary={events[0].description}
               showTicketButton={false}
+              onClick={() => handleEventClick(events[0])}
             />
           )}
         </div>
@@ -84,6 +113,7 @@ const EventsPage: React.FC = () => {
               ageRestriction={events[1].ageRestriction}
               contentSummary={events[1].description}
               showTicketButton={false}
+              onClick={() => handleEventClick(events[1])}
             />
           )}
           {events && events[2] && (
@@ -106,6 +136,7 @@ const EventsPage: React.FC = () => {
               ageRestriction={events[2].ageRestriction}
               contentSummary={events[2].description}
               showTicketButton={false}
+              onClick={() => handleEventClick(events[2])}
             />
           )}
         </div>
@@ -130,6 +161,7 @@ const EventsPage: React.FC = () => {
               ageRestriction={events[3].ageRestriction}
               contentSummary={events[3].description}
               showTicketButton={false}
+              onClick={() => handleEventClick(events[3])}
             />
           )}
           {events && events[4] && (
@@ -152,6 +184,7 @@ const EventsPage: React.FC = () => {
               ageRestriction={events[4].ageRestriction}
               contentSummary={events[4].description}
               showTicketButton={false}
+              onClick={() => handleEventClick(events[4])}
             />
           )}
         </div>
@@ -197,6 +230,7 @@ const EventsPage: React.FC = () => {
               ageRestriction={events[5].ageRestriction}
               contentSummary={events[5].description}
               showTicketButton={false}
+              onClick={() => handleEventClick(events[5])}
             />
           )}
           {events && events[6] && (
@@ -218,6 +252,7 @@ const EventsPage: React.FC = () => {
               ageRestriction={events[6].ageRestriction}
               contentSummary={events[6].description}
               showTicketButton={false}
+              onClick={() => handleEventClick(events[6])}
             />
           )}
         </div>
@@ -241,6 +276,7 @@ const EventsPage: React.FC = () => {
               ageRestriction={events[7].ageRestriction}
               contentSummary={events[7].description}
               showTicketButton={false}
+              onClick={() => handleEventClick(events[7])}
             />
           )}
           {events && events[8] && (
@@ -262,6 +298,7 @@ const EventsPage: React.FC = () => {
               ageRestriction={events[8]?.ageRestriction}
               contentSummary={events[8]?.description}
               showTicketButton={false}
+              onClick={() => handleEventClick(events[8])}
             />
           )}
         </div>
@@ -285,6 +322,7 @@ const EventsPage: React.FC = () => {
               ageRestriction={events[9].ageRestriction}
               contentSummary={events[9].description}
               showTicketButton={false}
+              onClick={() => handleEventClick(events[9])}
             />
           )}
           {events && events[10] && (
@@ -306,6 +344,7 @@ const EventsPage: React.FC = () => {
               ageRestriction={events[10].ageRestriction}
               contentSummary={events[10].description}
               showTicketButton={false}
+              onClick={() => handleEventClick(events[10])}
             />
           )}
         </div>
@@ -315,10 +354,22 @@ const EventsPage: React.FC = () => {
       <section className="page-section">
         <div className="page-container">
           <div className="events-pagination">
-            <CrButton showLeftIcon={true} size="small" variant="text">
+            <CrButton
+              leftIcon={<PiCaretLeft />}
+              size="small"
+              variant="text"
+              onClick={handlePrevious}
+              disabled={currentPage === 0}
+            >
               Previous
             </CrButton>
-            <CrButton showRightIcon={true} size="small" variant="text">
+            <CrButton
+              rightIcon={<PiCaretRight />}
+              size="small"
+              variant="text"
+              onClick={handleNext}
+              disabled={currentPage >= totalPages - 1}
+            >
               Next
             </CrButton>
           </div>

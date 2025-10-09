@@ -3,7 +3,7 @@
 /* Browser Normalization */
 @import 'normalize.css';
 
-@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100;300;400;600;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,700&family=Roboto+Serif:wght@400;600&display=swap');
+/* Fonts are preloaded in index.html for better performance */
 
 :root {
   /* === TYPOGRAPHY === */
@@ -23,6 +23,7 @@
   --cr-title-eyebrow: 300 16px/1 var(--cr-font-antonio); /* Light */
 
   /* Body Text - Roboto Serif */
+  --cr-body-lg: 400 21px/1.4 var(--cr-font-roboto-serif);
   --cr-body-reg: 400 16px/1.4 var(--cr-font-roboto-serif);
   --cr-body-sm: 400 14px/1.6 var(--cr-font-roboto-serif);
   --cr-body-xs: 600 12px/1.8 var(--cr-font-roboto-serif);
@@ -377,6 +378,10 @@ body {
 }
 
 /* Body Text */
+.cr-body-lg {
+  font: var(--cr-body-lg);
+}
+
 .cr-body-reg {
   font: var(--cr-body-reg);
 }
