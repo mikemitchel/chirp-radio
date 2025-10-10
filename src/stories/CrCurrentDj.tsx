@@ -11,13 +11,15 @@ interface CrCurrentDjProps {
 }
 
 export default function CrCurrentDj({
-  djName: djNameProp,
-  showName: showNameProp,
+  djName: djNameProp = '',
+  showName: showNameProp = '',
   isOnAir = true,
   statusText = 'On-Air',
 }: CrCurrentDjProps) {
-  const [djName, setDjName] = useState(djNameProp || 'DJ Extraordinaire McGillicuddy')
-  const [showName, setShowName] = useState(showNameProp || 'The Very Long Show Name That Goes On Forever')
+  // Use props directly - no need for state since parent (AudioPlayerContext) handles updates
+  const djName = djNameProp
+  const showName = showNameProp
+
   // Refs for scrolling elements
   const djNameRef = useRef<HTMLDivElement>(null)
   const showNameRef = useRef<HTMLDivElement>(null)
@@ -25,68 +27,6 @@ export default function CrCurrentDj({
   // Container refs for measuring
   const djNameContainerRef = useRef<HTMLDivElement>(null)
   const showNameContainerRef = useRef<HTMLDivElement>(null)
-
-  // Fetch current DJ data
-  useEffect(() => {
-    // TEMPORARILY DISABLED FOR TESTING
-    return
-
-    let previousDjName = ''
-    let retryCount = 0
-    const timeouts: NodeJS.Timeout[] = []
-
-    const fetchCurrentDj = async (isHourChange = false) => {
-      try {
-        const response = await fetch('/api/current_playlist')
-        const data = await response.json()
-
-        if (data.now_playing && data.now_playing.dj) {
-          const newDjName = data.now_playing.dj
-          setDjName(newDjName)
-          setShowName(data.now_playing.show || '')
-
-          // If this is an hour change check and DJ name hasn't changed, retry
-          if (isHourChange && previousDjName && newDjName === previousDjName && retryCount < 2) {
-            retryCount++
-            const retryTimeout = setTimeout(() => {
-              fetchCurrentDj(true)
-            }, 2 * 60 * 1000) // Retry in 2 minutes
-            timeouts.push(retryTimeout)
-          } else {
-            // DJ changed or we've exhausted retries
-            previousDjName = newDjName
-            retryCount = 0
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching current DJ:', error)
-      }
-    }
-
-    // Fetch on mount
-    fetchCurrentDj()
-
-    const scheduleNextFetch = () => {
-      // Calculate milliseconds until next hour
-      const now = new Date()
-      const msUntilNextHour = (60 - now.getMinutes()) * 60 * 1000 - now.getSeconds() * 1000 - now.getMilliseconds()
-
-      // Set timeout to fetch at the top of the next hour
-      const hourTimeout = setTimeout(() => {
-        fetchCurrentDj(true)
-        // Schedule the next hour
-        scheduleNextFetch()
-      }, msUntilNextHour)
-
-      timeouts.push(hourTimeout)
-    }
-
-    scheduleNextFetch()
-
-    return () => {
-      timeouts.forEach(timeout => clearTimeout(timeout))
-    }
-  }, [])
 
   // Calculate optimal widths and check overflow
   useEffect(() => {
