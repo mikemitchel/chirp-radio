@@ -378,3 +378,10 @@
   text-transform: uppercase;
   font-weight: 600;
 }
+
+/* Responsive - Full width at small screens */
+@media (max-width: 520px) {
+  .cr-sidebar--open {
+    width: 100%;
+  }
+}
