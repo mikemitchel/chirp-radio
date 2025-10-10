@@ -10,7 +10,7 @@
       "endDate": "2024-12-31T23:59:59Z",
       "isActive": true,
       "ctaText": "Become a Sustaining Member",
-      "ctaUrl": "/ways-to-give",
+      "ctaUrl": "/other-ways-to-give",
       "dismissible": true,
       "featuredOnLanding": true,
       "showDonationBar": true,

@@ -2,8 +2,6 @@
 
 .cr-dj-schedule {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 .cr-dj-schedule__sticky-header {
@@ -12,8 +10,6 @@
   background-color: var(--cr-paper);
   z-index: 100;
   padding: var(--cr-space-2) 0;
-  border-bottom: 1px solid var(--cr-default-300);
-  margin-bottom: var(--cr-space-4);
 }
 
 .cr-dj-schedule__tabs {
@@ -55,8 +51,8 @@
 
 .cr-dj-schedule__bucket-title {
   font: var(--cr-title-xs);
-  border-bottom: 1px solid var(--cr-default-300);
-  padding-bottom: var(--cr-space-1);
+  border-bottom: 1px solid var(--cr-secondary-500);
+  padding-bottom: var(--cr-space-2);
   margin-bottom: var(--cr-space-3);
   color: var(--cr-ink);
 }

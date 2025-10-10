@@ -47,7 +47,8 @@
         "showNotifications": true,
         "darkMode": false,
         "autoPlay": true
-      }
+      },
+      "favoriteDJs": ["dj-001", "dj-027"]
     },
     {
       "id": "user-002",
@@ -66,7 +67,8 @@
         "showNotifications": false,
         "darkMode": true,
         "autoPlay": false
-      }
+      },
+      "favoriteDJs": []
     }
   ]
 }

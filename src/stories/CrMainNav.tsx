@@ -11,6 +11,12 @@ import './CrMainNav.css'
 interface CrMainNavProps {
   onMenuClick?: () => void
   onSearchClick?: () => void
+  onListenClick?: () => void
+  onEventsClick?: () => void
+  onArticlesClick?: () => void
+  onStoreClick?: () => void
+  onWaysToGiveClick?: () => void
+  onDonateClick?: () => void
   storeBadgeCount?: number
   showStoreBadge?: boolean
   variant?: string
@@ -19,25 +25,49 @@ interface CrMainNavProps {
 export default function CrMainNav({
   onMenuClick,
   onSearchClick,
+  onListenClick,
+  onEventsClick,
+  onArticlesClick,
+  onStoreClick,
+  onWaysToGiveClick,
+  onDonateClick,
   storeBadgeCount = 5,
   showStoreBadge = true,
   variant = 'desktop', // 'desktop' or 'mobile'
 }: CrMainNavProps) {
-  const navigate = useNavigate()
+  // Try to use navigate, but handle case where Router isn't available (e.g., Storybook)
+  let navigate: ((path: string) => void) | null = null
+  try {
+    navigate = useNavigate()
+  } catch (e) {
+    // Router not available, will use callback props instead
+  }
+
   const [showWaysToGive, setShowWaysToGive] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const waysToGiveOptions = [
-    { label: 'Other Ways to Give', value: 'ways-to-give', route: '/ways-to-give' },
-    { label: 'Vehicle Donation', value: 'car-donation', route: '/car-donation' },
+    { label: 'Donate', value: 'donate', route: '/donate' },
     { label: 'Vinyl Circle', value: 'vinyl-circle', route: '/vinyl-circle' },
+    { label: 'Vehicle Donation', value: 'car-donation', route: '/car-donation' },
+    { label: 'Other Ways to Give', value: 'other-ways-to-give', route: '/other-ways-to-give' },
   ]
 
   const handleWaysToGiveSelect = (option: any) => {
-    if (option.route) {
+    if (option.route && navigate) {
       navigate(option.route)
+    } else if (onWaysToGiveClick) {
+      onWaysToGiveClick()
     }
     setShowWaysToGive(false)
+  }
+
+  const handleNavClick = (path: string, callback?: () => void) => {
+    if (navigate) {
+      navigate(path)
+    } else if (callback) {
+      callback()
+    }
   }
 
   // Close dropdown on click outside
@@ -86,15 +116,42 @@ export default function CrMainNav({
           <CrMenuButton variant="dots" layout="icon-left" text="Menu" onClick={onMenuClick} />
 
           <div className="cr-main-nav__nav-items">
-            <Link to="/listen" className="cr-main-nav__nav-link">
-              Listen
-            </Link>
-            <Link to="/events" className="cr-main-nav__nav-link">
-              Events
-            </Link>
-            <Link to="/articles" className="cr-main-nav__nav-link">
-              Articles
-            </Link>
+            {navigate ? (
+              <Link to="/listen" className="cr-main-nav__nav-link">
+                Listen
+              </Link>
+            ) : (
+              <button
+                className="cr-main-nav__nav-link"
+                onClick={onListenClick}
+              >
+                Listen
+              </button>
+            )}
+            {navigate ? (
+              <Link to="/events" className="cr-main-nav__nav-link">
+                Events
+              </Link>
+            ) : (
+              <button
+                className="cr-main-nav__nav-link"
+                onClick={onEventsClick}
+              >
+                Events
+              </button>
+            )}
+            {navigate ? (
+              <Link to="/articles" className="cr-main-nav__nav-link">
+                Articles
+              </Link>
+            ) : (
+              <button
+                className="cr-main-nav__nav-link"
+                onClick={onArticlesClick}
+              >
+                Articles
+              </button>
+            )}
             {/* Search */}
             <button
               className="cr-main-nav__search-button"
@@ -110,23 +167,43 @@ export default function CrMainNav({
         <div className="cr-main-nav__right">
 
           {/* Store with cart icon */}
-          <Link
-            to="/shop"
-            className="cr-main-nav__store-button"
-            aria-label={
-              showStoreBadge && storeBadgeCount > 0
-                ? `Store - ${storeBadgeCount} items in cart`
-                : 'Store'
-            }
-          >
-            <span className="cr-main-nav__store-text">Store</span>
-            <CrCartIcon
-              badgeCount={storeBadgeCount}
-              showBadge={showStoreBadge}
-              size="36"
-              className="cr-main-nav__store-icon"
-            />
-          </Link>
+          {navigate ? (
+            <Link
+              to="/shop"
+              className="cr-main-nav__store-button"
+              aria-label={
+                showStoreBadge && storeBadgeCount > 0
+                  ? `Store - ${storeBadgeCount} items in cart`
+                  : 'Store'
+              }
+            >
+              <span className="cr-main-nav__store-text">Store</span>
+              <CrCartIcon
+                badgeCount={storeBadgeCount}
+                showBadge={showStoreBadge}
+                size="36"
+                className="cr-main-nav__store-icon"
+              />
+            </Link>
+          ) : (
+            <button
+              className="cr-main-nav__store-button"
+              onClick={onStoreClick}
+              aria-label={
+                showStoreBadge && storeBadgeCount > 0
+                  ? `Store - ${storeBadgeCount} items in cart`
+                  : 'Store'
+              }
+            >
+              <span className="cr-main-nav__store-text">Store</span>
+              <CrCartIcon
+                badgeCount={storeBadgeCount}
+                showBadge={showStoreBadge}
+                size="36"
+                className="cr-main-nav__store-icon"
+              />
+            </button>
+          )}
 
           {/* Ways to Give dropdown */}
           <div className="cr-main-nav__ways-dropdown" ref={dropdownRef}>
@@ -151,11 +228,17 @@ export default function CrMainNav({
           </div>
 
           {/* Donate button */}
-          <Link to="/donate">
-            <CrButton variant="solid" color="primary" size="small">
+          {navigate ? (
+            <Link to="/donate">
+              <CrButton variant="solid" color="primary" size="small">
+                Donate
+              </CrButton>
+            </Link>
+          ) : (
+            <CrButton variant="solid" color="primary" size="small" onClick={onDonateClick}>
               Donate
             </CrButton>
-          </Link>
+          )}
         </div>
       </div>
     </nav>

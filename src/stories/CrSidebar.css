@@ -72,11 +72,15 @@
 }
 
 /* Close button container - positioned for CrMenuButton */
-.cr-sidebar--mobile .cr-sidebar__close-button {
+.cr-sidebar__close-button {
   position: absolute;
-  top: calc(env(safe-area-inset-top) + 27px); /* Safe area + additional spacing */
-  right: -12px;
+  top: 27px;
+  right: 12px;
   z-index: 1001;
+}
+
+.cr-sidebar--mobile .cr-sidebar__close-button {
+  top: calc(env(safe-area-inset-top) + 27px); /* Safe area + additional spacing */
 }
 
 /* Header and Logo */

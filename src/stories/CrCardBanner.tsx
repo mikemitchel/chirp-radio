@@ -1,6 +1,7 @@
 // CrCardBanner.tsx
 import { PiTicket, PiArrowSquareUp } from 'react-icons/pi'
 import CrButton from './CrButton'
+import CrChip from './CrChip'
 import './CrCardBanner.css'
 
 interface CrCardBannerProps {
@@ -16,11 +17,14 @@ interface CrCardBannerProps {
   showShareButton?: boolean
   ticketButtonText?: string
   shareButtonText?: string
+  ticketButtonVariant?: 'outline' | 'solid' | 'text'
+  ticketButtonIcon?: React.ReactNode
   ticketUrl?: string
   shareUrl?: string
   onTicketClick?: () => void
   onShareClick?: () => void
   className?: string
+  isFavorite?: boolean
 }
 
 export default function CrCardBanner({
@@ -36,11 +40,14 @@ export default function CrCardBanner({
   showShareButton = true,
   ticketButtonText = 'Buy Tix',
   shareButtonText = 'Share',
+  ticketButtonVariant = 'outline',
+  ticketButtonIcon,
   ticketUrl,
   shareUrl,
   onTicketClick,
   onShareClick,
   className = '',
+  isFavorite = false,
 }: CrCardBannerProps) {
   // Force inline layout for narrow height
   const actualTextLayout = height === 'narrow' ? 'inline' : textLayout
@@ -96,7 +103,14 @@ export default function CrCardBanner({
           {showPreheader && preheader && (
             <div className="cr-card-title-banner__preheader">{preheader}</div>
           )}
-          <TitleTag className={titleClasses}>{title}</TitleTag>
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 'var(--cr-space-1)' }}>
+            <TitleTag className={titleClasses}>{title}</TitleTag>
+            {isFavorite && (
+              <CrChip variant="secondary-light" size="small" squared>
+                FAVORITE
+              </CrChip>
+            )}
+          </div>
         </div>
 
         {/* Right Action Buttons */}
@@ -104,9 +118,9 @@ export default function CrCardBanner({
           {showTicketButton && (
             <CrButton
               size="small"
-              variant="outline"
+              variant={ticketButtonVariant}
               color="secondary"
-              rightIcon={<PiTicket />}
+              rightIcon={ticketButtonIcon || <PiTicket />}
               onClick={handleTicketClick}
             >
               {ticketButtonText}

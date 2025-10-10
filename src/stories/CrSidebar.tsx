@@ -210,12 +210,14 @@ export default function CrSidebar({
   // Web version (original)
   return (
     <>
-      {/* Backdrop overlay */}
-      {isOpen && <div className="cr-sidebar__backdrop" />}
-
       {/* Sidebar */}
       <div className={`cr-sidebar ${isOpen ? 'cr-sidebar--open' : 'cr-sidebar--closed'}`}>
         <div className="cr-sidebar__content">
+          {/* Close Button */}
+          <div className="cr-sidebar__close-button">
+            <CrMenuButton variant="close" layout="icon-right" text="CLOSE" onClick={onClose} />
+          </div>
+
           {/* Header Section */}
           <div className="cr-sidebar__header">
             <div className="cr-sidebar__logo-section" onClick={onLogoClick}>
@@ -319,7 +321,7 @@ export default function CrSidebar({
                 leftIcon={<PiChatCircleTextLight />}
                 onClick={onRequestClick}
               >
-                REQUEST A SONG
+                Request a Song
               </CrButton>
             </div>
           </div>

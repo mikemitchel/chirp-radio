@@ -20,7 +20,7 @@ const VinylCirclePage: React.FC = () => {
       <section className="page-container">
         <CrBreadcrumb
           items={[
-            { label: 'Ways to Give', isClickable: true, onClick: () => navigate('/ways-to-give') },
+            { label: 'Other Ways to Give', isClickable: true, onClick: () => navigate('/other-ways-to-give') },
             { label: 'Vinyl Circle', isClickable: false }
           ]}
         />

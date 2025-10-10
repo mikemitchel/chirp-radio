@@ -76,6 +76,32 @@
   min-width: 0;
 }
 
+/* Pages with page-container header above don't need extra padding */
+.articles-page .page-layout-main-sidebar__sidebar,
+.events-page .page-layout-main-sidebar__sidebar,
+.podcast-page .page-layout-main-sidebar__sidebar,
+.listen-page .page-layout-main-sidebar__sidebar,
+.shop-page .page-layout-main-sidebar__sidebar,
+.donate-page .page-layout-main-sidebar__sidebar,
+.vinyl-circle-page .page-layout-main-sidebar__sidebar,
+.car-donation-page .page-layout-main-sidebar__sidebar {
+  padding-top: 0;
+}
+
+/* Pages without separate header need padding to align with content */
+.shop-detail-page .page-layout-main-sidebar__sidebar,
+.about-page .page-layout-main-sidebar__sidebar,
+.ways-to-give-page .page-layout-main-sidebar__sidebar,
+.article-detail-page .page-layout-main-sidebar__sidebar,
+.podcast-detail-page .page-layout-main-sidebar__sidebar,
+.event-detail-page .page-layout-main-sidebar__sidebar,
+.dj-detail-page .page-layout-main-sidebar__sidebar,
+.contact-page .page-layout-main-sidebar__sidebar,
+.landing-page .page-layout-main-sidebar__sidebar,
+.volunteer-calendar-page .page-layout-main-sidebar__sidebar {
+  padding-top: 80px;
+}
+
 /* Three-column equal grid */
 .page-layout-3col {
   display: grid;
@@ -227,6 +253,17 @@
   gap: var(--cr-space-4);
 }
 
+/* Masonry Grid Layout */
+.grid-masonry {
+  column-count: 2;
+  column-gap: var(--cr-space-4);
+}
+
+.grid-masonry > * {
+  break-inside: avoid;
+  margin-bottom: var(--cr-space-4);
+}
+
 /* Flex Column Utilities */
 .flex-col-gap {
   display: flex;
@@ -302,6 +339,10 @@
   .grid-2col-content,
   .grid-2col-equal {
     grid-template-columns: 1fr;
+  }
+
+  .grid-masonry {
+    column-count: 1;
   }
 }
 

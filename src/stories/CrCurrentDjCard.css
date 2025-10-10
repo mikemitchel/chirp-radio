@@ -53,6 +53,8 @@
   font: var(--cr-title-md);
   color: var(--cr-ink);
   margin: 0;
+  display: flex;
+  align-items: flex-end;
 }
 
 .cr-current-dj-card__meta {

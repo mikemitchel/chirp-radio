@@ -10,6 +10,7 @@ import playlistsData from '../data/playlists.json'
 import podcastsData from '../data/podcasts.json'
 import usersData from '../data/users.json'
 import shopItemsData from '../data/shopItems.json'
+import djsData from '../data/djs.json'
 
 // Announcements
 export function useAnnouncements() {
@@ -108,10 +109,21 @@ export function usePodcasts() {
 }
 
 // Users
+let usersState = usersData.users
+
 export function useUsers() {
-  const [data, setData] = useState(usersData.users)
+  const [data, setData] = useState(usersState)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  // Listen for favorite updates
+  useEffect(() => {
+    const handleUpdate = () => {
+      setData([...usersState])
+    }
+    window.addEventListener('userFavoritesUpdated', handleUpdate)
+    return () => window.removeEventListener('userFavoritesUpdated', handleUpdate)
+  }, [])
 
   return { data, loading, error }
 }
@@ -123,6 +135,25 @@ export function useCurrentUser() {
   return { data: currentUser, loading, error }
 }
 
+// Update user's favorite DJs
+export function updateUserFavoriteDJs(djId: string, isFavorite: boolean) {
+  usersState = usersState.map(user => {
+    if (user.id === 'user-001') { // Current user
+      const favoriteDJs = user.favoriteDJs || []
+      return {
+        ...user,
+        favoriteDJs: isFavorite
+          ? [...favoriteDJs, djId]
+          : favoriteDJs.filter(id => id !== djId)
+      }
+    }
+    return user
+  })
+
+  // Trigger re-render in all components using useUsers/useCurrentUser
+  window.dispatchEvent(new Event('userFavoritesUpdated'))
+}
+
 // Shop Items
 export function useShopItems() {
   const [data, setData] = useState(shopItemsData.shopItems)
@@ -130,4 +161,27 @@ export function useShopItems() {
   const [error, setError] = useState(null)
 
   return { data, loading, error }
+}
+
+// DJs
+export function useDJs() {
+  const [data, setData] = useState(djsData.djs)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+
+  return { data, loading, error }
+}
+
+// Get scheduled DJs (not substitutes)
+export function useScheduledDJs() {
+  const { data, loading, error } = useDJs()
+  const scheduledDJs = data?.filter(dj => !dj.isSubstitute)
+  return { data: scheduledDJs, loading, error }
+}
+
+// Get substitute DJs
+export function useSubstituteDJs() {
+  const { data, loading, error } = useDJs()
+  const substituteDJs = data?.filter(dj => dj.isSubstitute)
+  return { data: substituteDJs, loading, error }
 }

@@ -58,6 +58,11 @@
   color: var(--cr-paper);
 }
 
+.cr-chip--secondary-light {
+  background-color: var(--cr-secondary-300);
+  color: var(--cr-ink);
+}
+
 .cr-chip--primary {
   background-color: var(--cr-primary-500);
   color: #ffffff; /* Static white color that doesn't change in dark mode */

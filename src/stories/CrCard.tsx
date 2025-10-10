@@ -23,13 +23,18 @@ interface CrCardProps {
   authorBy?: string
   eventDate?: string
   tags?: string[]
+  eyebrow?: string
   preheader?: string
   title?: string
   titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   titleSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+  showName?: string
+  scheduleInfo?: string
   bannerButtonText?: string
   shareButtonText?: string
   continueButtonText?: string
+  bannerButtonVariant?: 'outline' | 'solid' | 'text'
+  bannerButtonIcon?: React.ReactNode
   ticketUrl?: string
   shareUrl?: string
   onBannerTicketClick?: () => void
@@ -51,6 +56,7 @@ interface CrCardProps {
   showTicketButton?: boolean
   showShareButton?: boolean
   className?: string
+  isFavorite?: boolean
 }
 
 export default function CrCard({
@@ -78,13 +84,18 @@ export default function CrCard({
   tags = [],
 
   // Banner props
+  eyebrow,
   preheader = 'Intro Preheader Thing',
   title = 'Title of the Thing',
   titleTag = 'h2',
   titleSize = 'md',
+  showName,
+  scheduleInfo,
   bannerButtonText = 'Buy Tix',
   shareButtonText = 'Share',
   continueButtonText = 'Continue Reading',
+  bannerButtonVariant = 'outline',
+  bannerButtonIcon,
   ticketUrl,
   shareUrl,
   showShareButton = true,
@@ -123,6 +134,7 @@ export default function CrCard({
   bannerBackgroundColor = 'textured', // "textured" or "none"
 
   className = '',
+  isFavorite = false,
 }: CrCardProps) {
   // Determine active image aspect ratio based on variant
   const activeImageAspectRatio = variant === 'article'
@@ -167,7 +179,7 @@ export default function CrCard({
     () => (
       <div className="cr-card__article-header">
         <CrCardBanner
-          preheader={preheader}
+          preheader={eyebrow || preheader}
           title={title}
           titleTag={titleTag}
           titleSize={titleSize}
@@ -178,28 +190,43 @@ export default function CrCard({
           showShareButton={showShareButton}
           ticketButtonText={bannerButtonText}
           shareButtonText={shareButtonText}
+          ticketButtonVariant={bannerButtonVariant}
+          ticketButtonIcon={bannerButtonIcon}
           ticketUrl={ticketUrl}
           shareUrl={shareUrl}
           onTicketClick={onBannerTicketClick}
           onShareClick={onBannerShareClick}
+          isFavorite={isFavorite}
         />
+        {(showName || scheduleInfo) && (
+          <div className="cr-card__dj-meta">
+            {showName && <div className="cr-card__show-name">{showName}</div>}
+            {scheduleInfo && <div className="cr-card__schedule-info">{scheduleInfo}</div>}
+          </div>
+        )}
       </div>
     ),
     [
+      eyebrow,
       preheader,
       title,
       titleTag,
       titleSize,
       bannerHeight,
       textLayout,
+      showName,
+      scheduleInfo,
       bannerButtonText,
       shareButtonText,
+      bannerButtonVariant,
+      bannerButtonIcon,
       ticketUrl,
       shareUrl,
       showTicketButton,
       showShareButton,
       onBannerTicketClick,
       onBannerShareClick,
+      isFavorite,
     ]
   )
 
@@ -266,7 +293,7 @@ export default function CrCard({
               />
             )}
 
-            {showMeta && MetaInfo}
+            {type !== 'dj' && showMeta && MetaInfo}
 
             <div className="cr-card__article-content">
               {imagePosition === 'full' && (

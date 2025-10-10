@@ -1,6 +1,7 @@
 // CrCurrentDjCard.tsx
 import CrCurrentDj from './CrCurrentDj'
 import CrButton from './CrButton'
+import CrChip from './CrChip'
 import { PiMusicNote, PiArrowRight } from 'react-icons/pi'
 import './CrCurrentDjCard.css'
 
@@ -20,6 +21,7 @@ interface CrCurrentDjCardProps {
   onRequestClick?: () => void
   onMoreClick?: () => void
   className?: string
+  isFavorite?: boolean
 }
 
 export default function CrCurrentDjCard({
@@ -46,6 +48,7 @@ export default function CrCurrentDjCard({
   onMoreClick,
 
   className = '',
+  isFavorite = false,
 }: CrCurrentDjCardProps) {
   return (
     <div className={`cr-current-dj-card ${className}`}>
@@ -66,7 +69,14 @@ export default function CrCurrentDjCard({
         <div className="cr-current-dj-card__info">
           <div className="cr-current-dj-card__header">{header}</div>
 
-          <h2 className="cr-current-dj-card__title">{title}</h2>
+          <h2 className="cr-current-dj-card__title">
+            {title}
+            {isFavorite && (
+              <CrChip variant="secondary-light" size="small" squared style={{ marginLeft: 'var(--cr-space-1)' }}>
+                FAVORITE
+              </CrChip>
+            )}
+          </h2>
 
           {metaText && <div className="cr-current-dj-card__meta">{metaText}</div>}
 

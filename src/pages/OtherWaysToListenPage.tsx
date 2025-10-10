@@ -1,19 +1,19 @@
-// src/pages/WaysToGivePage.tsx
+// src/pages/OtherWaysToListenPage.tsx
 import React from 'react'
 import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import waysToGiveData from '../data/waysToGive.json'
+import waysToListenData from '../data/waysToListen.json'
 import { useAnnouncements } from '../hooks/useData'
 
-const WaysToGivePage: React.FC = () => {
-  const [section1, section2] = waysToGiveData.sections
+const OtherWaysToListenPage: React.FC = () => {
+  const [section1, section2] = waysToListenData.sections
   const { data: announcements } = useAnnouncements()
 
   return (
-    <div className="ways-to-give-page">
+    <div className="ways-to-listen-page">
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
           <CrCard
@@ -21,16 +21,16 @@ const WaysToGivePage: React.FC = () => {
             type="page"
             imagePosition="right"
             articleImageAspectRatio="16:9"
-            preheader="DONATE TO CHIRP"
-            title="Ways to Give"
+            preheader="LISTEN TO CHIRP"
+            title="Other Ways to Listen"
             titleTag="h1"
             titleSize="xl"
             bannerHeight="tall"
             textLayout="stacked"
             showTicketButton={false}
             showShareButton={false}
-            contentSummary={waysToGiveData.introText.join('\n\n')}
-            backgroundImage={section1.image}
+            contentSummary={waysToListenData.introText.join('\n\n')}
+            backgroundImage={waysToListenData.heroImage}
           />
 
           <div className="grid-2col-equal">
@@ -63,21 +63,21 @@ const WaysToGivePage: React.FC = () => {
               />
             </div>
             <div>
-              {waysToGiveData.donationCards.map((card) => (
+              {waysToListenData.listeningOptions.map((option) => (
                 <CrCard
-                  key={card.id}
+                  key={option.id}
                   variant="article"
                   type="page"
                   imagePosition="none"
                   preheader=""
-                  title={card.title}
+                  title={option.title}
                   bannerHeight="narrow"
                   textLayout="inline"
                   showTicketButton={false}
                   showShareButton={false}
-                  content={card.content}
-                  contentSummary={card.contentSummary}
-                  backgroundImage={card.backgroundImage}
+                  content={option.content}
+                  contentSummary={option.contentSummary}
+                  backgroundImage={option.backgroundImage}
                 />
               ))}
             </div>
@@ -88,25 +88,25 @@ const WaysToGivePage: React.FC = () => {
             imagePosition="right"
             articleImageAspectRatio="16:9"
             preheader=""
-            title={waysToGiveData.vinylCircle.title}
-            contentSummary={waysToGiveData.vinylCircle.contentSummary}
-            backgroundImage={waysToGiveData.vinylCircle.backgroundImage}
+            title={waysToListenData.podcast.title}
+            contentSummary={waysToListenData.podcast.contentSummary}
+            backgroundImage={waysToListenData.podcast.backgroundImage}
             showTicketButton={false}
             showShareButton={false}
           />
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {announcements && announcements[5] && (
+          {announcements && announcements[3] && (
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={announcements[5].backgroundColor}
-              headlineText={announcements[5].title}
-              bodyText={announcements[5].message}
-              showLink={!!announcements[5].ctaText}
-              linkText={announcements[5].ctaText}
-              linkUrl={announcements[5].ctaUrl}
+              textureBackground={announcements[3].backgroundColor}
+              headlineText={announcements[3].title}
+              bodyText={announcements[3].message}
+              showLink={!!announcements[3].ctaText}
+              linkText={announcements[3].ctaText}
+              linkUrl={announcements[3].ctaUrl}
               buttonCount="none"
             />
           )}
@@ -117,4 +117,4 @@ const WaysToGivePage: React.FC = () => {
   )
 }
 
-export default WaysToGivePage
+export default OtherWaysToListenPage

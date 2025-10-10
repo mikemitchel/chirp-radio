@@ -1,0 +1,74 @@
+/* CrRequestForm.css */
+
+.cr-request-form {
+  background-color: var(--cr-paper);
+  padding: var(--cr-space-6);
+  border-radius: var(--cr-space-2);
+  border: 2px solid var(--cr-default-300);
+}
+
+.cr-request-form form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.cr-request-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-2);
+}
+
+.cr-request-form__label {
+  font: var(--cr-btn-text-sm);
+  color: var(--cr-ink);
+  font-weight: 600;
+}
+
+.cr-request-form__input,
+.cr-request-form__textarea {
+  font: var(--cr-body-reg);
+  padding: var(--cr-space-3);
+  border: 2px solid var(--cr-default-300);
+  border-radius: var(--cr-space-1);
+  background-color: var(--cr-paper);
+  color: var(--cr-ink);
+  transition: border-color 0.2s ease;
+}
+
+.cr-request-form__input:focus,
+.cr-request-form__textarea:focus {
+  outline: none;
+  border-color: var(--cr-primary-500);
+}
+
+.cr-request-form__input::placeholder,
+.cr-request-form__textarea::placeholder {
+  color: var(--cr-default-500);
+}
+
+.cr-request-form__textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.cr-request-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--cr-space-2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .cr-request-form {
+    padding: var(--cr-space-4);
+  }
+
+  .cr-request-form__actions {
+    justify-content: stretch;
+  }
+
+  .cr-request-form__actions button {
+    width: 100%;
+  }
+}

@@ -19,8 +19,11 @@ import ShopCheckoutPage from './pages/ShopCheckoutPage';
 import EventsPage from './pages/EventsPage';
 import ArticlesPage from './pages/ArticlesPage';
 import ContactPage from './pages/ContactPage';
-import WaysToGivePage from './pages/WaysToGivePage';
+import OtherWaysToGivePage from './pages/OtherWaysToGivePage';
+import OtherWaysToListenPage from './pages/OtherWaysToListenPage';
 import VolunteerResourcesPage from './pages/VolunteerResourcesPage';
+import BecomeVolunteerPage from './pages/BecomeVolunteerPage';
+import RequestSongPage from './pages/RequestSongPage';
 import DJPage from './pages/DJPage';
 import DJSchedulePage from './pages/DJSchedulePage';
 import DJDetailPage from './pages/DJDetailPage';
@@ -86,6 +89,7 @@ function App() {
         <Route path="/web" element={<WebLayout><LandingPage /></WebLayout>} />
         <Route path="/playlist" element={<WebLayout><PlaylistPage /></WebLayout>} />
         <Route path="/listen" element={<WebLayout><ListenPage /></WebLayout>} />
+        <Route path="/other-ways-to-listen" element={<WebLayout><OtherWaysToListenPage /></WebLayout>} />
         <Route path="/events" element={<WebLayout><EventsPage /></WebLayout>} />
         <Route path="/events/:id" element={<WebLayout><EventDetailPage /></WebLayout>} />
         <Route path="/articles" element={<WebLayout><ArticlesPage /></WebLayout>} />
@@ -100,13 +104,15 @@ function App() {
         <Route path="/shop/checkout" element={<WebLayout><ShopCheckoutPage /></WebLayout>} />
         <Route path="/donate" element={<WebLayout><DonatePage /></WebLayout>} />
         <Route path="/vinyl-circle" element={<WebLayout><VinylCirclePage /></WebLayout>} />
-        <Route path="/ways-to-give" element={<WebLayout><WaysToGivePage /></WebLayout>} />
+        <Route path="/other-ways-to-give" element={<WebLayout><OtherWaysToGivePage /></WebLayout>} />
         <Route path="/car-donation" element={<WebLayout><CarDonationPage /></WebLayout>} />
         <Route path="/about" element={<WebLayout><AboutPage /></WebLayout>} />
         <Route path="/contact" element={<WebLayout><ContactPage /></WebLayout>} />
-        <Route path="/volunteer" element={<WebLayout><VolunteerDirectoryPage /></WebLayout>} />
+        <Route path="/volunteer" element={<WebLayout><BecomeVolunteerPage /></WebLayout>} />
+        <Route path="/volunteer/directory" element={<WebLayout><VolunteerDirectoryPage /></WebLayout>} />
         <Route path="/volunteer/calendar" element={<WebLayout><VolunteerCalendarPage /></WebLayout>} />
         <Route path="/volunteer/resources" element={<WebLayout><VolunteerResourcesPage /></WebLayout>} />
+        <Route path="/request-song" element={<WebLayout><RequestSongPage /></WebLayout>} />
         <Route path="/thank-you" element={<WebLayout><ThankYouPage /></WebLayout>} />
         </Routes>
       </HashRouter>

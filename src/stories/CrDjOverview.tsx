@@ -1,5 +1,6 @@
 // CrDjOverview.tsx
 import CrButton from './CrButton'
+import CrChip from './CrChip'
 import { PiCaretRight, PiHeadphones } from 'react-icons/pi'
 import { PiMusicNotes, PiChatCircleText } from 'react-icons/pi'
 import './CrDjOverview.css'
@@ -21,6 +22,7 @@ interface CrDjOverviewProps {
   onDjDetailsClick?: (e: any) => void
   isCHIRP?: boolean
   showTitle?: string
+  isFavorite?: boolean
 }
 
 export default function CrDjOverview({
@@ -33,7 +35,7 @@ export default function CrDjOverview({
   showContent = true,
   description = 'Aenean lacinia bibendum nulla sed consectetur. Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.',
   showTime = 'Monday 12pm - 12pm',
-  buttonText = 'More',
+  buttonText = 'View Profile',
   imageSrc, // Optional image source
   onRequestClick,
   onMoreClick,
@@ -41,6 +43,7 @@ export default function CrDjOverview({
   // Schedule variant specific props
   isCHIRP = false,
   showTitle,
+  isFavorite = false,
 }: CrDjOverviewProps) {
   // Render different layouts based on size variant
   const renderLarge = () => (
@@ -53,7 +56,14 @@ export default function CrDjOverview({
       </div>
       <div className="cr-dj-overview__content">
         {title && <div className="cr-dj-overview__title">{title}</div>}
-        <div className="cr-dj-overview__dj-name">{djName}</div>
+        <div className="cr-dj-overview__dj-name">
+          {djName}
+          {isFavorite && (
+            <CrChip variant="secondary-light" size="small" squared style={{ marginLeft: 'var(--cr-space-1)' }}>
+              FAVORITE
+            </CrChip>
+          )}
+        </div>
         <div className="cr-dj-overview__content-text">{content}</div>
         <div className="cr-dj-overview__description">{description}</div>
         <div className="cr-dj-overview__show-time">{showTime}</div>
@@ -75,7 +85,7 @@ export default function CrDjOverview({
             rightIcon={<PiCaretRight />}
             onClick={onMoreClick}
           >
-            More
+            {buttonText}
           </CrButton>
         </div>
       </div>
@@ -91,7 +101,14 @@ export default function CrDjOverview({
         {/* SVG Placeholder */}
       </div>
       <div className="cr-dj-overview__content">
-        <div className="cr-dj-overview__dj-name">{djName}</div>
+        <div className="cr-dj-overview__dj-name">
+          {djName}
+          {isFavorite && (
+            <CrChip variant="secondary-light" size="small" squared style={{ marginLeft: 'var(--cr-space-1)' }}>
+              FAVORITE
+            </CrChip>
+          )}
+        </div>
         {showContent && <div className="cr-dj-overview__content-text">{content}</div>}
         <div className="cr-dj-overview__show-time">{showTime}</div>
         <CrButton
@@ -128,7 +145,7 @@ export default function CrDjOverview({
           rightIcon={<PiCaretRight />}
           onClick={onMoreClick}
         >
-          More
+          {buttonText}
         </CrButton>
       </div>
     </div>
@@ -153,7 +170,14 @@ export default function CrDjOverview({
         )}
 
         <div className="cr-dj-overview__meta">
-          <div className="cr-dj-overview__dj-name">{djName}</div>
+          <div className="cr-dj-overview__dj-name">
+            {djName}
+            {isFavorite && (
+              <CrChip variant="secondary-light" size="small" squared style={{ marginLeft: 'var(--cr-space-1)' }}>
+                FAVORITE
+              </CrChip>
+            )}
+          </div>
 
           {showTitle && <div className="cr-dj-overview__show-title">{showTitle}</div>}
 
@@ -184,7 +208,14 @@ export default function CrDjOverview({
         {/* SVG Placeholder */}
       </div>
       <div className="cr-dj-overview__content">
-        <div className="cr-dj-overview__dj-name">{djName}</div>
+        <div className="cr-dj-overview__dj-name">
+          {djName}
+          {isFavorite && (
+            <CrChip variant="secondary-light" size="small" squared style={{ marginLeft: 'var(--cr-space-1)' }}>
+              FAVORITE
+            </CrChip>
+          )}
+        </div>
       </div>
     </div>
   )
