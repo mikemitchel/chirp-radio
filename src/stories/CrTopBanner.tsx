@@ -52,9 +52,16 @@ export default function CrTopBanner({
     if (!autoFetch) return
 
     try {
-      // Use CORS proxy
-      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`
-      const response = await fetch(proxyUrl)
+      // Use the /api/current_playlist proxy path
+      const fetchUrl = `/api/current_playlist?t=${Date.now()}`
+      const response = await fetch(fetchUrl, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      })
 
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
 

@@ -15,6 +15,8 @@ interface TrackData {
   label: string;
   albumArt: string;
   isLocal: boolean;
+  playedAtGmt?: string;
+  detailsUpdatedAt?: string;
 }
 
 interface AudioPlayerContextType {
@@ -204,7 +206,6 @@ export function AudioPlayerProvider({
   const fetchNowPlaying = async () => {
     if (!autoFetch) return;
     if (isFetchingRef.current) {
-      console.warn('⚠️  Fetch already in progress, skipping');
       return;
     }
     isFetchingRef.current = true;
@@ -240,6 +241,8 @@ export function AudioPlayerProvider({
       const label = nowPlaying.label?.trim() || 'Unknown Label';
       const album = nowPlaying.release?.trim() || 'Unknown Release';
       const isLocal = nowPlaying.artist_is_local || false;
+      const playedAtGmt = nowPlaying.played_at_gmt || '';
+      const detailsUpdatedAt = new Date().toISOString();
 
       // Map network quality to image quality
       const getImageQuality = (): 'low' | 'medium' | 'high' => {
@@ -264,13 +267,6 @@ export function AudioPlayerProvider({
       const hasImages = !!(nowPlaying.lastfm_urls?.large_image &&
                           nowPlaying.lastfm_urls?.large_image !== null);
 
-      console.log('🔍 [API POLL]', {
-        song: `${artist} - ${track}`,
-        timeSinceSongStarted: `${timeSinceSongStarted}s`,
-        hasAlbumArt: hasImages,
-        _processed: nowPlaying.lastfm_urls?._processed
-      });
-
       // Collect all available image URLs and upgrade based on network quality
       const rawUrls = [
         nowPlaying.lastfm_urls?.large_image,
@@ -278,19 +274,9 @@ export function AudioPlayerProvider({
         nowPlaying.lastfm_urls?.sm_image
       ];
 
-      console.log('🖼️  [ALBUM ART FROM API]', {
-        large_image: nowPlaying.lastfm_urls?.large_image,
-        med_image: nowPlaying.lastfm_urls?.med_image,
-        sm_image: nowPlaying.lastfm_urls?.sm_image
-      });
-
-      console.log('📋 [RAW URLS]', rawUrls);
-
       const imageUrls = rawUrls
         .filter(url => url && url.trim() !== '' && url !== 'none' && url !== 'null')
         .map(url => upgradeImageQuality(url, imageQuality)); // Adaptive quality based on network
-
-      console.log('✅ [FILTERED URLS]', imageUrls);
 
       const currentSong = `${artist} - ${track}`.toLowerCase().trim();
       const isSameSong = currentSong === lastSongRef.current;
@@ -340,7 +326,9 @@ export function AudioPlayerProvider({
           album,
           label,
           albumArt: albumArtUrl, // Keep old art during retries, empty after retries exhausted
-          isLocal
+          isLocal,
+          playedAtGmt,
+          detailsUpdatedAt
         };
 
         // Calculate detection delay using GMT timestamp (most reliable)
@@ -382,11 +370,6 @@ export function AudioPlayerProvider({
 
 
         if (dataChanged) {
-          console.log('🎨 [ALBUM ART LOADED TO APP]', {
-            albumArtUrl: albumArtUrl || '(empty string)',
-            artist,
-            track
-          });
           setCurrentData(newData);
           setIsLoading(false);
           // Update ref to track album art URL (prevents repeated updates)
@@ -423,22 +406,12 @@ export function AudioPlayerProvider({
           albumArtRetryCountRef.current += 1;
           const retryDelay = 200; // 200ms between retries
 
-          console.log(`🔄 [ALBUM ART RETRY ${albumArtRetryCountRef.current}/5]`, {
-            song: `${artist} - ${track}`,
-            nextRetryIn: `${retryDelay}ms`
-          });
-
           if (pollTimeoutRef.current) clearTimeout(pollTimeoutRef.current);
           pollTimeoutRef.current = setTimeout(() => {
             isFetchingRef.current = false; // Reset flag before retry
             fetchNowPlaying();
           }, retryDelay);
           return; // Skip the normal scheduling at the end
-        } else if (!albumArtUrl && albumArtRetryCountRef.current >= 5) {
-          console.log('⚠️  [NO ALBUM ART AVAILABLE]', {
-            song: `${artist} - ${track}`,
-            message: 'No album art found after 5 retries (1s total), using fallback'
-          });
         }
 
         sessionStorage.setItem('chirp-now-playing', JSON.stringify({
@@ -565,8 +538,6 @@ export function AudioPlayerProvider({
         // Fetch now
         fetchNowPlaying();
       };
-
-      console.log('🧪 Test functions loaded: test1(), test2(), test3(), test4(), test5(), testReset()');
     }
 
     return () => {
