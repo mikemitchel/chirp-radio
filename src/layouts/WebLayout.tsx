@@ -7,6 +7,7 @@ import CrSupportWithAds from '../stories/CrSupportWithAds'
 import CrSidebar from '../stories/CrSidebar'
 import CrScrim from '../stories/CrScrim'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
+import { useCart } from '../contexts/CartContext'
 import '../styles/layout.css'
 
 interface LayoutProps {
@@ -15,7 +16,10 @@ interface LayoutProps {
 
 const WebLayout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate()
+  const { getTotalItems } = useCart()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+  const cartItemCount = getTotalItems()
 
   const handleMenuClick = () => {
     setIsSidebarOpen(true)
@@ -35,6 +39,8 @@ const WebLayout: React.FC<LayoutProps> = ({ children }) => {
         autoFetch={true}
         apiUrl="https://chirpradio.appspot.com/api/current_playlist"
         onMenuClick={handleMenuClick}
+        storeBadgeCount={cartItemCount}
+        showStoreBadge={true}
       />
 
       <CrSidebar
