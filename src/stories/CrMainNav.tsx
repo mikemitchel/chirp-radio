@@ -1,11 +1,13 @@
 // CrMainNav.tsx
 import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router'
-import { PiMagnifyingGlass } from 'react-icons/pi'
+import { PiMagnifyingGlass, PiX, PiNewspaper, PiCalendarDot, PiHeadphones, PiMicrophone, PiShoppingBag } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrCartIcon from './CrCartIcon'
 import CrMenuButton from './CrMenuButton'
 import CrSelect from './CrSelect'
+import CrModal from './CrModal'
+import { useSearch } from '../hooks/useSearch'
 import './CrMainNav.css'
 
 interface CrMainNavProps {
@@ -44,7 +46,12 @@ export default function CrMainNav({
   }
 
   const [showWaysToGive, setShowWaysToGive] = useState(false)
+  const [showSearch, setShowSearch] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  const { results, isSearching } = useSearch(searchQuery)
 
   const waysToGiveOptions = [
     { label: 'Donate', value: 'donate', route: '/donate' },
@@ -67,6 +74,48 @@ export default function CrMainNav({
       navigate(path)
     } else if (callback) {
       callback()
+    }
+  }
+
+  const handleSearchOpen = () => {
+    setShowSearch(true)
+    if (onSearchClick) {
+      onSearchClick()
+    }
+  }
+
+  const handleSearchClose = () => {
+    setShowSearch(false)
+    setSearchQuery('')
+  }
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Search happens automatically via useSearch hook
+    // Submit just focuses the first result if available
+  }
+
+  const handleResultClick = (url?: string) => {
+    if (url && navigate) {
+      navigate(url)
+      handleSearchClose()
+    }
+  }
+
+  const getResultIcon = (type: string) => {
+    switch (type) {
+      case 'article':
+        return <PiNewspaper />
+      case 'event':
+        return <PiCalendarDot />
+      case 'dj':
+        return <PiHeadphones />
+      case 'podcast':
+        return <PiMicrophone />
+      case 'shop':
+        return <PiShoppingBag />
+      default:
+        return <PiNewspaper />
     }
   }
 
@@ -94,6 +143,14 @@ export default function CrMainNav({
       document.removeEventListener('keydown', handleEscape)
     }
   }, [showWaysToGive])
+
+  // Focus search input when modal opens
+  useEffect(() => {
+    if (showSearch && searchInputRef.current) {
+      searchInputRef.current.focus()
+    }
+  }, [showSearch])
+
   // Dropdown arrow
   const DropdownIcon = () => (
     <svg
@@ -155,7 +212,7 @@ export default function CrMainNav({
             {/* Search */}
             <button
               className="cr-main-nav__search-button"
-              onClick={onSearchClick}
+              onClick={handleSearchOpen}
               aria-label="Search"
             >
               <PiMagnifyingGlass />
@@ -241,6 +298,92 @@ export default function CrMainNav({
           )}
         </div>
       </div>
+
+      {/* Search Modal */}
+      <CrModal
+        isOpen={showSearch}
+        onClose={handleSearchClose}
+        scrimOnClick={handleSearchClose}
+        title="Search"
+        size="default"
+        className="cr-main-nav__search-modal"
+      >
+        <div className="cr-main-nav__search-container">
+          <form onSubmit={handleSearchSubmit} className="cr-main-nav__search-form">
+            <PiMagnifyingGlass className="cr-main-nav__search-icon" />
+            <input
+              ref={searchInputRef}
+              type="text"
+              className="cr-main-nav__search-input"
+              placeholder="Search CHIRP..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="cr-main-nav__search-clear"
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search"
+              >
+                <PiX />
+              </button>
+            )}
+          </form>
+
+          {/* Search Results */}
+          {searchQuery && searchQuery.length >= 2 && (
+            <div className="cr-main-nav__search-results">
+              {isSearching ? (
+                <div className="cr-main-nav__search-loading">Searching...</div>
+              ) : results.length > 0 ? (
+                <>
+                  <div className="cr-main-nav__search-results-header">
+                    {results.length} result{results.length !== 1 ? 's' : ''}
+                  </div>
+                  {results.map((result) => (
+                    <button
+                      key={`${result.type}-${result.id}`}
+                      className="cr-main-nav__search-result"
+                      onClick={() => handleResultClick(result.url)}
+                    >
+                      {result.image && (
+                        <img
+                          src={result.image}
+                          alt={result.title}
+                          className="cr-main-nav__search-result-image"
+                        />
+                      )}
+                      <div className="cr-main-nav__search-result-content">
+                        <div className="cr-main-nav__search-result-header">
+                          <span className="cr-main-nav__search-result-icon">
+                            {getResultIcon(result.type)}
+                          </span>
+                          <span className="cr-main-nav__search-result-type">
+                            {result.type}
+                          </span>
+                        </div>
+                        <div className="cr-main-nav__search-result-title">
+                          {result.title}
+                        </div>
+                        {result.subtitle && (
+                          <div className="cr-main-nav__search-result-subtitle">
+                            {result.subtitle}
+                          </div>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </>
+              ) : (
+                <div className="cr-main-nav__search-empty">
+                  No results found for "{searchQuery}"
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </CrModal>
     </nav>
   )
 }

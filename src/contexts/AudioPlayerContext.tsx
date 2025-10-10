@@ -166,38 +166,9 @@ export function AudioPlayerProvider({
   const caughtSongAtStartRef = useRef(false);
 
   // Calculate next poll delay based on when the song started
-  // Optimized for 3-3.5 min average song length
-  // Strategy: 60s, then 30s, then 15s intervals, then 10s, then 5s as we approach typical song end
+  // Poll every 5 seconds for maximum responsiveness
   const getNextPollDelay = (songStartedMs: number): number => {
-    const nowMs = Date.now();
-    const timeSinceSongStarted = nowMs - songStartedMs;
-
-    // Poll schedule optimized for ~3.5 min songs:
-    // Use nextGap to determine how long to wait until next poll
-    const pollSchedule = [
-      { time: 0, nextGap: 60000 },       // Start of song: wait 60s
-      { time: 60000, nextGap: 30000 },   // At 1:00, wait 30s
-      { time: 90000, nextGap: 15000 },   // At 1:30, wait 15s
-      { time: 105000, nextGap: 15000 },  // At 1:45, wait 15s
-      { time: 120000, nextGap: 15000 },  // At 2:00, wait 15s
-      { time: 135000, nextGap: 15000 },  // At 2:15, wait 15s
-      { time: 150000, nextGap: 10000 },  // At 2:30, wait 10s
-      { time: 160000, nextGap: 10000 },  // At 2:40, wait 10s
-      { time: 170000, nextGap: 10000 },  // At 2:50, wait 10s
-      { time: 180000, nextGap: 5000 },   // At 3:00, wait 5s (song likely ending soon)
-    ];
-
-    // Find where we are in the schedule and use the appropriate gap
-    let appropriateGap = 5000; // Default: 5s for late in song
-
-    for (let i = pollSchedule.length - 1; i >= 0; i--) {
-      if (timeSinceSongStarted >= pollSchedule[i].time) {
-        appropriateGap = pollSchedule[i].nextGap;
-        break;
-      }
-    }
-
-    return appropriateGap;
+    return 5000; // Poll every 5 seconds
   };
 
   const isFetchingRef = useRef(false);

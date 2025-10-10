@@ -10,7 +10,8 @@
       "Read(//tmp/chirp-layouts/chirp layouts/**)",
       "Bash(DJPage.tsx)",
       "Bash(DJSchedulePage.tsx)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(npm run storybook:*)"
     ],
     "deny": [],
     "ask": []
