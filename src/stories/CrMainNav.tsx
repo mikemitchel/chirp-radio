@@ -222,19 +222,30 @@ export default function CrMainNav({
                 Articles
               </button>
             )}
-            {/* Search */}
-            <button
-              className="cr-main-nav__search-button"
-              onClick={handleSearchOpen}
-              aria-label="Search"
-            >
-              <PiMagnifyingGlass />
-            </button>
           </div>
+        </div>
+
+        {/* Center - Search */}
+        <div className="cr-main-nav__center">
+          <button
+            className="cr-main-nav__search-button"
+            onClick={handleSearchOpen}
+            aria-label="Search"
+          >
+            <PiMagnifyingGlass />
+          </button>
         </div>
 
         {/* Right navigation items */}
         <div className="cr-main-nav__right">
+          {/* Search button for responsive - hidden on desktop */}
+          <button
+            className="cr-main-nav__search-button cr-main-nav__search-button--responsive"
+            onClick={handleSearchOpen}
+            aria-label="Search"
+          >
+            <PiMagnifyingGlass />
+          </button>
 
           {/* Store with cart icon */}
           {navigate ? (
