@@ -1,5 +1,6 @@
 // CrSidebar.tsx
 import React from 'react'
+import { useLocation } from 'react-router'
 import { PiHandHeartLight, PiChatCircleTextLight, PiMusicNotes, PiGearLight } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrLogo from './CrLogo'
@@ -65,6 +66,13 @@ export default function CrSidebar({
   onRequestClick,
   onAccountSettingsClick,
 }: CrSidebarProps) {
+  // Try to use location, but handle case where Router isn't available (e.g., Storybook)
+  let location: { pathname: string } | null = null
+  try {
+    location = useLocation()
+  } catch (e) {
+    // Router not available
+  }
   if (variant === 'mobile') {
     return (
       <>
@@ -123,25 +131,46 @@ export default function CrSidebar({
 
             {/* Main Navigation */}
             <div className="cr-sidebar__mobile-nav">
-              <button className="cr-sidebar__mobile-nav-link" onClick={onPodcastClick}>
+              <button
+                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/podcast' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
+                onClick={onPodcastClick}
+              >
                 Podcast
               </button>
-              <button className="cr-sidebar__mobile-nav-link" onClick={onDjsClick}>
+              <button
+                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/djs' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
+                onClick={onDjsClick}
+              >
                 Djs
               </button>
-              <button className="cr-sidebar__mobile-nav-link" onClick={onScheduleClick}>
+              <button
+                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/schedule' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
+                onClick={onScheduleClick}
+              >
                 Schedule
               </button>
-              <button className="cr-sidebar__mobile-nav-link" onClick={onEventsClick}>
+              <button
+                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/events' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
+                onClick={onEventsClick}
+              >
                 Events
               </button>
-              <button className="cr-sidebar__mobile-nav-link" onClick={onArticlesClick}>
+              <button
+                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/articles' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
+                onClick={onArticlesClick}
+              >
                 Articles
               </button>
-              <button className="cr-sidebar__mobile-nav-link" onClick={onShopClick}>
+              <button
+                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/shop' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
+                onClick={onShopClick}
+              >
                 Store
               </button>
-              <button className="cr-sidebar__mobile-nav-link" onClick={onWaysToGiveClick}>
+              <button
+                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/donate' || location?.pathname === '/vinyl-circle' || location?.pathname === '/car-donation' || location?.pathname === '/other-ways-to-give' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
+                onClick={onWaysToGiveClick}
+              >
                 Ways to Give
               </button>
 
@@ -234,20 +263,35 @@ export default function CrSidebar({
           <div className="cr-sidebar__main-nav">
             {/* Listen Section */}
             <div className="cr-sidebar__nav-section">
-              <button className="cr-sidebar__nav-title" onClick={onListenClick}>
+              <button
+                className={`cr-sidebar__nav-title ${location?.pathname === '/listen' ? 'cr-sidebar__nav-title--active' : ''}`}
+                onClick={onListenClick}
+              >
                 Listen
               </button>
               <div className="cr-sidebar__nav-items">
-                <button className="cr-sidebar__nav-item" onClick={onPlaylistClick}>
+                <button
+                  className={`cr-sidebar__nav-item ${location?.pathname === '/playlist' ? 'cr-sidebar__nav-item--active' : ''}`}
+                  onClick={onPlaylistClick}
+                >
                   Playlist
                 </button>
-                <button className="cr-sidebar__nav-item" onClick={onPodcastClick}>
+                <button
+                  className={`cr-sidebar__nav-item ${location?.pathname === '/podcast' ? 'cr-sidebar__nav-item--active' : ''}`}
+                  onClick={onPodcastClick}
+                >
                   Podcast
                 </button>
-                <button className="cr-sidebar__nav-item" onClick={onDjsClick}>
+                <button
+                  className={`cr-sidebar__nav-item ${location?.pathname === '/djs' ? 'cr-sidebar__nav-item--active' : ''}`}
+                  onClick={onDjsClick}
+                >
                   DJs
                 </button>
-                <button className="cr-sidebar__nav-item" onClick={onScheduleClick}>
+                <button
+                  className={`cr-sidebar__nav-item ${location?.pathname === '/schedule' ? 'cr-sidebar__nav-item--active' : ''}`}
+                  onClick={onScheduleClick}
+                >
                   Schedule
                 </button>
               </div>
@@ -257,10 +301,16 @@ export default function CrSidebar({
 
             {/* Events and Articles */}
             <div className="cr-sidebar__nav-section">
-              <button className="cr-sidebar__nav-title" onClick={onEventsClick}>
+              <button
+                className={`cr-sidebar__nav-title ${location?.pathname === '/events' ? 'cr-sidebar__nav-title--active' : ''}`}
+                onClick={onEventsClick}
+              >
                 Events
               </button>
-              <button className="cr-sidebar__nav-title" onClick={onArticlesClick}>
+              <button
+                className={`cr-sidebar__nav-title ${location?.pathname === '/articles' ? 'cr-sidebar__nav-title--active' : ''}`}
+                onClick={onArticlesClick}
+              >
                 Articles
               </button>
             </div>
@@ -281,13 +331,22 @@ export default function CrSidebar({
                 </CrButton>
               </div>
 
-              <button className="cr-sidebar__nav-subtitle" onClick={onWaysToGiveClick}>
+              <button
+                className={`cr-sidebar__nav-subtitle ${location?.pathname === '/donate' || location?.pathname === '/vinyl-circle' || location?.pathname === '/car-donation' || location?.pathname === '/other-ways-to-give' ? 'cr-sidebar__nav-subtitle--active' : ''}`}
+                onClick={onWaysToGiveClick}
+              >
                 Other Ways to Give
               </button>
-              <button className="cr-sidebar__nav-subtitle" onClick={onVinylCircleClick}>
+              <button
+                className={`cr-sidebar__nav-subtitle ${location?.pathname === '/vinyl-circle' ? 'cr-sidebar__nav-subtitle--active' : ''}`}
+                onClick={onVinylCircleClick}
+              >
                 CHIRP Vinyl Circle
               </button>
-              <button className="cr-sidebar__nav-subtitle" onClick={onShopClick}>
+              <button
+                className={`cr-sidebar__nav-subtitle ${location?.pathname === '/shop' ? 'cr-sidebar__nav-subtitle--active' : ''}`}
+                onClick={onShopClick}
+              >
                 Shop
               </button>
             </div>
@@ -296,16 +355,28 @@ export default function CrSidebar({
 
             {/* About Section */}
             <div className="cr-sidebar__nav-section">
-              <button className="cr-sidebar__nav-subtitle" onClick={onAboutClick}>
+              <button
+                className={`cr-sidebar__nav-subtitle ${location?.pathname === '/about' ? 'cr-sidebar__nav-subtitle--active' : ''}`}
+                onClick={onAboutClick}
+              >
                 About
               </button>
-              <button className="cr-sidebar__nav-subtitle" onClick={onOtherWaysToListenClick}>
+              <button
+                className={`cr-sidebar__nav-subtitle ${location?.pathname === '/other-ways-to-listen' ? 'cr-sidebar__nav-subtitle--active' : ''}`}
+                onClick={onOtherWaysToListenClick}
+              >
                 Other Ways to Listen
               </button>
-              <button className="cr-sidebar__nav-subtitle" onClick={onContactClick}>
+              <button
+                className={`cr-sidebar__nav-subtitle ${location?.pathname === '/contact' ? 'cr-sidebar__nav-subtitle--active' : ''}`}
+                onClick={onContactClick}
+              >
                 Contact
               </button>
-              <button className="cr-sidebar__nav-subtitle" onClick={onBecomeVolunteerClick}>
+              <button
+                className={`cr-sidebar__nav-subtitle ${location?.pathname === '/become-volunteer' ? 'cr-sidebar__nav-subtitle--active' : ''}`}
+                onClick={onBecomeVolunteerClick}
+              >
                 Become a Volunteer
               </button>
             </div>

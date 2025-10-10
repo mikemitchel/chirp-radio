@@ -1,6 +1,6 @@
 // CrMainNav.tsx
 import { useState, useEffect, useRef } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { Link, useNavigate, useLocation } from 'react-router'
 import { PiMagnifyingGlass, PiX, PiNewspaper, PiCalendarDot, PiHeadphones, PiMicrophone, PiShoppingBag } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrCartIcon from './CrCartIcon'
@@ -37,10 +37,12 @@ export default function CrMainNav({
   showStoreBadge = true,
   variant = 'desktop', // 'desktop' or 'mobile'
 }: CrMainNavProps) {
-  // Try to use navigate, but handle case where Router isn't available (e.g., Storybook)
+  // Try to use navigate and location, but handle case where Router isn't available (e.g., Storybook)
   let navigate: ((path: string) => void) | null = null
+  let location: { pathname: string } | null = null
   try {
     navigate = useNavigate()
+    location = useLocation()
   } catch (e) {
     // Router not available, will use callback props instead
   }
@@ -59,6 +61,8 @@ export default function CrMainNav({
     { label: 'Vehicle Donation', value: 'car-donation', route: '/car-donation' },
     { label: 'Other Ways to Give', value: 'other-ways-to-give', route: '/other-ways-to-give' },
   ]
+
+  const isWaysToGiveActive = location && waysToGiveOptions.some(option => location.pathname === option.route)
 
   const handleWaysToGiveSelect = (option: any) => {
     if (option.route && navigate) {
@@ -174,7 +178,10 @@ export default function CrMainNav({
 
           <div className="cr-main-nav__nav-items">
             {navigate ? (
-              <Link to="/listen" className="cr-main-nav__nav-link">
+              <Link
+                to="/listen"
+                className={`cr-main-nav__nav-link ${location?.pathname === '/listen' ? 'cr-main-nav__nav-link--active' : ''}`}
+              >
                 Listen
               </Link>
             ) : (
@@ -186,7 +193,10 @@ export default function CrMainNav({
               </button>
             )}
             {navigate ? (
-              <Link to="/events" className="cr-main-nav__nav-link">
+              <Link
+                to="/events"
+                className={`cr-main-nav__nav-link ${location?.pathname === '/events' ? 'cr-main-nav__nav-link--active' : ''}`}
+              >
                 Events
               </Link>
             ) : (
@@ -198,7 +208,10 @@ export default function CrMainNav({
               </button>
             )}
             {navigate ? (
-              <Link to="/articles" className="cr-main-nav__nav-link">
+              <Link
+                to="/articles"
+                className={`cr-main-nav__nav-link ${location?.pathname === '/articles' ? 'cr-main-nav__nav-link--active' : ''}`}
+              >
                 Articles
               </Link>
             ) : (
@@ -227,7 +240,7 @@ export default function CrMainNav({
           {navigate ? (
             <Link
               to="/shop"
-              className="cr-main-nav__store-button"
+              className={`cr-main-nav__store-button ${location?.pathname === '/shop' ? 'cr-main-nav__store-button--active' : ''}`}
               aria-label={
                 showStoreBadge && storeBadgeCount > 0
                   ? `Store - ${storeBadgeCount} items in cart`
@@ -265,7 +278,7 @@ export default function CrMainNav({
           {/* Ways to Give dropdown */}
           <div className="cr-main-nav__ways-dropdown" ref={dropdownRef}>
             <button
-              className="cr-main-nav__ways-button"
+              className={`cr-main-nav__ways-button ${isWaysToGiveActive ? 'cr-main-nav__ways-button--active' : ''}`}
               onClick={() => setShowWaysToGive(!showWaysToGive)}
               aria-label="Ways to Give"
               aria-expanded={showWaysToGive}

@@ -1,5 +1,6 @@
 // src/pages/ListenPage.tsx
 import React from 'react'
+import { useNavigate } from 'react-router'
 import { PiVinylRecord, PiPlaylist } from 'react-icons/pi'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
@@ -10,6 +11,7 @@ import { useTracks, useCurrentUser, useTop25, useMostAdded, useHalloween, useAnn
 import './ListenPage.css'
 
 const ListenPage: React.FC = () => {
+  const navigate = useNavigate()
   const { data: tracks } = useTracks()
   const { data: currentUser } = useCurrentUser()
   const { data: top25Chart } = useTop25()
@@ -463,6 +465,7 @@ const ListenPage: React.FC = () => {
             showActionButton={true}
             actionButtonText="Complete Playlist"
             actionButtonIcon={<PiVinylRecord />}
+            onActionClick={() => navigate('/playlist')}
           />
           <CrPlaylistTable items={recentlyPlayedTracks} showHeader={true} groupByHour={true} className="listen-page__playlist" />
         </div>

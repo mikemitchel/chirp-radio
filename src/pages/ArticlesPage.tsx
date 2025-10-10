@@ -1,21 +1,23 @@
 // src/pages/ArticlesPage.tsx
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router'
-import { PiCaretLeft, PiCaretRight } from 'react-icons/pi'
+import React from 'react'
+import { useNavigate, useSearchParams } from 'react-router'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import CrButton from '../stories/CrButton'
+import CrPagination from '../stories/CrPagination'
 import { useArticles, useAnnouncements } from '../hooks/useData'
 
 const ITEMS_PER_PAGE = 8
 
 const ArticlesPage: React.FC = () => {
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { data: allArticles } = useArticles()
   const { data: announcements } = useAnnouncements()
-  const [currentPage, setCurrentPage] = useState(0)
+
+  // Get current page from URL, default to 0
+  const currentPage = parseInt(searchParams.get('page') || '0', 10)
 
   const totalPages = allArticles ? Math.ceil(allArticles.length / ITEMS_PER_PAGE) : 0
   const startIndex = currentPage * ITEMS_PER_PAGE
@@ -25,18 +27,13 @@ const ArticlesPage: React.FC = () => {
     navigate(`/articles/${article.id}`, { state: { article } })
   }
 
-  const handlePrevious = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+  const handlePageChange = (page: number) => {
+    if (page === 0) {
+      setSearchParams({})
+    } else {
+      setSearchParams({ page: String(page) })
     }
-  }
-
-  const handleNext = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   return (
@@ -278,26 +275,11 @@ const ArticlesPage: React.FC = () => {
       {/* Pagination */}
       <section className="page-section">
         <div className="page-container">
-          <div className="events-pagination">
-            <CrButton
-              leftIcon={<PiCaretLeft />}
-              size="small"
-              variant="text"
-              onClick={handlePrevious}
-              disabled={currentPage === 0}
-            >
-              Previous
-            </CrButton>
-            <CrButton
-              rightIcon={<PiCaretRight />}
-              size="small"
-              variant="text"
-              onClick={handleNext}
-              disabled={currentPage >= totalPages - 1}
-            >
-              Next
-            </CrButton>
-          </div>
+          <CrPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
         </div>
       </section>
     </div>
