@@ -97,9 +97,13 @@
 .event-detail-page .page-layout-main-sidebar__sidebar,
 .dj-detail-page .page-layout-main-sidebar__sidebar,
 .contact-page .page-layout-main-sidebar__sidebar,
-.landing-page .page-layout-main-sidebar__sidebar,
 .volunteer-calendar-page .page-layout-main-sidebar__sidebar {
   padding-top: 80px;
+}
+
+/* Landing page sidebar should not have top padding */
+.landing-page .page-layout-main-sidebar__sidebar {
+  padding-top: 0;
 }
 
 /* Three-column equal grid */
