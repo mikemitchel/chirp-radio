@@ -132,6 +132,7 @@
 
 .page-layout-3col__column--bg {
   background-color: var(--cr-default-100);
+  padding: var(--cr-space-4);
 }
 
 /* Two-column equal layout: 50% / 50% */

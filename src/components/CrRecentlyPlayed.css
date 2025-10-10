@@ -3,6 +3,7 @@
 .cr-recently-played {
   width: 100%;
   padding: var(--cr-space-6) 0;
+  margin-bottom: var(--cr-space-12);
 }
 
 .cr-recently-played__container {
