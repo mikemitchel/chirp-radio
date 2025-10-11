@@ -1,7 +1,7 @@
 // CrSidebar.tsx
 import React from 'react'
 import { useLocation } from 'react-router'
-import { PiHandHeartLight, PiChatCircleTextLight, PiMusicNotes, PiGearLight } from 'react-icons/pi'
+import { PiHandHeartLight, PiChatCircleTextLight, PiMusicNotes, PiGear } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrLogo from './CrLogo'
 import CrMenuButton from './CrMenuButton'
@@ -211,7 +211,7 @@ export default function CrSidebar({
                 size="xsmall"
                 variant="text"
                 color="default"
-                leftIcon={<PiGearLight />}
+                leftIcon={<PiGear />}
                 onClick={() => {
                   onAccountSettingsClick?.();
                   onClose?.();

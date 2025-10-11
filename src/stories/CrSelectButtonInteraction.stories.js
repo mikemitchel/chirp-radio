@@ -1,6 +1,6 @@
 import React from 'react'
 import CrSelectButtonInteraction from './CrSelectButtonInteraction'
-import { PiUserCircle, PiHandHeartLight, PiGearSix } from 'react-icons/pi'
+import { PiUserCircle, PiHandHeartLight, PiGear } from 'react-icons/pi'
 
 export default {
   title: 'Molecules/CrSelectButtonInteraction',
@@ -86,7 +86,7 @@ export const Primary = {
 export const Outline = {
   args: {
     children: 'Settings',
-    leftIcon: React.createElement(PiGearSix),
+    leftIcon: React.createElement(PiGear),
     options: settingsOptions,
     variant: 'outline',
     color: 'secondary',
