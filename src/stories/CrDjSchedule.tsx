@@ -8,11 +8,15 @@ import './CrDjSchedule.css'
 interface CrDjScheduleProps {
   scheduleData?: any
   className?: string
+  currentUser?: any
+  djsData?: any[]
 }
 
 export default function CrDjSchedule({
   scheduleData = {}, // Default to empty object to prevent errors
   className = '',
+  currentUser,
+  djsData = [],
 }: CrDjScheduleProps) {
   // Get current time in Central Time
   const getCurrentCentralTime = () => {
@@ -115,26 +119,33 @@ export default function CrDjSchedule({
     return `${hour}${m ? ':' + m.toString().padStart(2, '0') : ''}${ampm}`
   }
 
-  // Generate mock headshot
-  const getMockHeadshot = (djName) => {
-    if (!djName || !Array.isArray(djName)) return 'https://assets.codepen.io/715673/album-art.jpg'
+  // Get DJ headshot from real DJ data
+  const getDjHeadshot = (djNames) => {
+    if (!djNames || !Array.isArray(djNames)) return 'https://assets.codepen.io/715673/album-art.jpg'
 
-    if (djName.some((name) => name.includes('CHIRP'))) {
+    if (djNames.some((name) => name.includes('CHIRP'))) {
       return 'https://assets.codepen.io/715673/album-art.jpg'
     }
 
-    const hashString = (str) => {
-      let hash = 0
-      for (let i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash)
+    // Find DJ by matching name
+    if (djsData && djsData.length > 0) {
+      const dj = djsData.find(d => djNames.some(name => d.djName === name))
+      if (dj && dj.imageSrc) {
+        return dj.imageSrc
       }
-      return Math.abs(hash)
     }
 
-    const hash = hashString(djName.join(' '))
-    const gender = hash % 2 === 0 ? 'men' : 'women'
-    const index = hash % 100
-    return `https://randomuser.me/api/portraits/${gender}/${index}.jpg`
+    // Fallback to default image
+    return 'https://assets.codepen.io/715673/album-art.jpg'
+  }
+
+  // Check if DJ is favorited
+  const isDjFavorited = (djNames) => {
+    if (!currentUser?.favoriteDJs || !djsData || !Array.isArray(djNames)) return false
+
+    // Find DJ by matching name
+    const dj = djsData.find(d => djNames.some(name => d.djName === name))
+    return dj ? currentUser.favoriteDJs.includes(dj.id) : false
   }
 
   // Organize shows by time bucket
@@ -221,9 +232,10 @@ export default function CrDjSchedule({
                 show: show, // Pass the entire show object
                 startTime: formatTime(show.start),
                 endTime: formatTime(show.end),
-                headshot: getMockHeadshot(show.dj),
+                headshot: getDjHeadshot(show.dj),
                 isCurrentShow: isCurrent,
                 isHighlighted: isHighlighted,
+                isFavorite: isDjFavorited(show.dj),
               })
             })}
           </div>

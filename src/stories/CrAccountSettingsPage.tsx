@@ -7,6 +7,11 @@ import './CrAccountSettingsPage.css'
 interface CrAccountSettingsPageProps {
   isLoggedIn?: boolean
   userEmail?: string
+  firstName?: string
+  lastName?: string
+  location?: string
+  avatarSrc?: string
+  avatarAlt?: string
   streamingQuality?: string
   onStreamingQualityChange?: (quality: string) => void
   pushNotifications?: boolean
@@ -21,11 +26,17 @@ interface CrAccountSettingsPageProps {
   onLikeAppStore?: () => void
   onAppSupport?: () => void
   onTermsPrivacy?: () => void
+  onEditProfile?: () => void
 }
 
 export default function CrAccountSettingsPage({
   isLoggedIn = false,
   userEmail = 'account@gmail.com',
+  firstName = 'John',
+  lastName = 'Dough',
+  location = 'Chicago, Illinois',
+  avatarSrc = 'https://i.pravatar.cc/150?img=33',
+  avatarAlt = 'User avatar',
   streamingQuality = '128',
   onStreamingQualityChange,
   pushNotifications = false,
@@ -40,11 +51,54 @@ export default function CrAccountSettingsPage({
   onLikeAppStore,
   onAppSupport,
   onTermsPrivacy,
+  onEditProfile,
   ...props
 }: CrAccountSettingsPageProps) {
   return (
     <div className="cr-account-settings-page" {...props}>
       <div className="cr-account-settings-page__content">
+        {/* Profile Header - only shown when logged in */}
+        {isLoggedIn && (
+          <section className="cr-account-settings-page__profile">
+            <div className="cr-account-settings-page__profile-header">
+              <h2 className="cr-account-settings-page__name">
+                {firstName} {lastName}
+              </h2>
+              <div className="cr-account-settings-page__avatar-container">
+                <div className="cr-account-settings-page__avatar">
+                  {avatarSrc ? (
+                    <img src={avatarSrc} alt={avatarAlt} className="cr-account-settings-page__avatar-image" />
+                  ) : (
+                    <div className="cr-account-settings-page__avatar-placeholder">
+                      <svg className="cr-account-settings-page__avatar-icon" viewBox="0 0 100 100">
+                        <circle cx="50" cy="35" r="18" />
+                        <path d="M20 80 Q20 65 50 65 Q80 65 80 80 L80 85 Q80 90 75 90 L25 90 Q20 90 20 85 Z" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="cr-account-settings-page__details">
+              <div className="cr-account-settings-page__detail-item">
+                <span className="cr-account-settings-page__detail-label">Location:</span>
+                <span className="cr-account-settings-page__detail-value">{location}</span>
+              </div>
+
+              <div className="cr-account-settings-page__detail-item">
+                <span className="cr-account-settings-page__detail-label">Email:</span>
+                <div className="cr-account-settings-page__detail-value-with-action">
+                  <span className="cr-account-settings-page__detail-value">{userEmail}</span>
+                  <CrButton variant="text" color="default" size="small" onClick={onLogout}>
+                    log out
+                  </CrButton>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Settings Sections */}
         <div className="cr-account-settings-page__settings">
           <CrSettingsToggles
@@ -57,27 +111,20 @@ export default function CrAccountSettingsPage({
           />
         </div>
 
-        {/* Account Section */}
-        <div className="cr-account-settings-page__account-section">
-          <span className="cr-account-settings-page__account-label">Account</span>
-          {isLoggedIn && <span className="cr-account-settings-page__user-email">{userEmail}</span>}
-          <div className="cr-account-settings-page__account-action">
-            {isLoggedIn ? (
-              <CrButton variant="outline" color="default" size="medium" onClick={onLogout}>
-                log out
+        {/* Account Section - only shown when not logged in */}
+        {!isLoggedIn && (
+          <div className="cr-account-settings-page__account-section">
+            <span className="cr-account-settings-page__account-label">Account</span>
+            <div className="cr-account-settings-page__account-action">
+              <CrButton variant="solid" color="primary" size="medium" onClick={onLogin}>
+                log in
               </CrButton>
-            ) : (
-              <>
-                <CrButton variant="solid" color="primary" size="medium" onClick={onLogin}>
-                  log in
-                </CrButton>
-                <CrButton variant="text" color="default" size="xsmall" onClick={onForgotPassword}>
-                  forgot password
-                </CrButton>
-              </>
-            )}
+              <CrButton variant="text" color="default" size="xsmall" onClick={onForgotPassword}>
+                forgot password
+              </CrButton>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Sign Up Section - only shown when not logged in */}
         {!isLoggedIn && (

@@ -69,11 +69,8 @@ const PlayPauseButton = ({ isPlaying, onClick, size = 60 }) => {
   )
 }
 
-// Album Art component with CHIRP logo fallback
-const AlbumArt = ({ src, className, style, isLarge = false }) => {
-  const [hasError, setHasError] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
-
+// Album Art component with CHIRP logo fallback and crossfade
+const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false }) => {
   // Check if we have a valid image URL
   const isValidImageUrl = (url) => {
     return (
@@ -81,28 +78,55 @@ const AlbumArt = ({ src, className, style, isLarge = false }) => {
       url.trim() !== '' &&
       url !== 'null' &&
       url !== 'undefined' &&
+      url !== 'none' &&
       !url.includes('null') &&
+      !url.includes('none') &&
       url.startsWith('http')
     )
   }
 
-  const handleImageError = () => {
-    setHasError(true)
-  }
+  const [displaySrc, setDisplaySrc] = useState(isValidImageUrl(src) ? src : '')
+  const [imageError, setImageError] = useState(false)
+  const hasShownFirstImage = useRef(false)
+  const hasConfirmedNoArt = useRef(false)
+  const lastSrc = useRef(src)
 
-  const handleImageLoad = () => {
-    setIsLoaded(true)
-    setHasError(false)
-  }
-
-  // Reset error state when src changes
   useEffect(() => {
-    setHasError(false)
-    setIsLoaded(false)
-  }, [src])
+    // Track if src changed to empty/null (new track with no art vs waiting for art)
+    const srcChangedToEmpty = lastSrc.current !== src && !isValidImageUrl(src) && isValidImageUrl(lastSrc.current);
+    lastSrc.current = src;
+
+    if (!isValidImageUrl(src)) {
+      // No valid URL - go directly to fallback (retries already happened in AudioPlayerContext)
+      setDisplaySrc('')
+      hasConfirmedNoArt.current = true
+      setImageError(false)
+      return
+    }
+
+    // Valid URL arrived - preload it
+    hasConfirmedNoArt.current = false // Reset since we have a URL now
+
+    if (src === displaySrc) {
+      return
+    }
+
+    setImageError(false)
+
+    const img = new Image()
+    img.onload = () => {
+      setDisplaySrc(src)
+      hasShownFirstImage.current = true
+    }
+    img.onerror = () => {
+      setDisplaySrc('')
+      setImageError(true)
+    }
+    img.src = src
+  }, [src, displaySrc])
 
   // If no valid URL or image failed to load, show CHIRP logo
-  if (!isValidImageUrl(src) || hasError) {
+  if (!displaySrc || imageError) {
     return (
       <div className={`cr-player__album-fallback ${className}`} style={style}>
         <CrLogo variant="record" className={isLarge ? 'cr-logo--large' : ''} />
@@ -110,14 +134,84 @@ const AlbumArt = ({ src, className, style, isLarge = false }) => {
     )
   }
 
+  // Show the image
   return (
     <img
-      src={src}
+      src={displaySrc}
       alt="Album Art"
       className={className}
-      style={style}
-      onError={handleImageError}
-      onLoad={handleImageLoad}
+      style={{ ...style, width: '100%', height: '100%', objectFit: 'cover' }}
+    />
+  )
+}
+
+// Background component - simplified
+const BackgroundImage = ({ src, isLoading }) => {
+  const isValidImageUrl = (url) => {
+    return (
+      url &&
+      url.trim() !== '' &&
+      url !== 'null' &&
+      url !== 'undefined' &&
+      url !== 'none' &&
+      !url.includes('null') &&
+      !url.includes('none') &&
+      url.startsWith('http')
+    )
+  }
+
+  const [displaySrc, setDisplaySrc] = useState(isValidImageUrl(src) ? src : '')
+  const [hasConfirmedNoArt, setHasConfirmedNoArt] = useState(false)
+  const hasShownFirstImage = useRef(false)
+  const lastSrc = useRef(src)
+
+  useEffect(() => {
+    // Track if src changed to empty/null
+    const srcChangedToEmpty = lastSrc.current !== src && !isValidImageUrl(src) && isValidImageUrl(lastSrc.current);
+    lastSrc.current = src;
+
+    if (!isValidImageUrl(src)) {
+      // No valid URL - go directly to fallback (retries already happened in AudioPlayerContext)
+      setDisplaySrc('')
+      setHasConfirmedNoArt(true)
+      return
+    }
+
+    // Valid URL arrived
+    setHasConfirmedNoArt(false)
+
+    if (src === displaySrc) {
+      return
+    }
+
+    // Preload new background image
+    const img = new Image()
+    img.onload = () => {
+      setDisplaySrc(src)
+      hasShownFirstImage.current = true
+    }
+    img.onerror = () => {
+      setDisplaySrc('')
+      setHasConfirmedNoArt(true)
+    }
+    img.src = src
+  }, [src, displaySrc, hasConfirmedNoArt])
+
+  const getFallbackUrl = () => '/images/chirp-logos/CHIRP_Logo_FM%20URL_record.svg'
+
+  // Only show background if we have an image OR if we've confirmed there's no art
+  // This prevents the fallback from flashing on initial load
+  if (!displaySrc && !hasConfirmedNoArt) {
+    return null // Don't render anything until we know what to show
+  }
+
+  return (
+    <div
+      className="cr-player__background"
+      style={{
+        backgroundImage: displaySrc ? `url(${displaySrc})` : `url(${getFallbackUrl()})`,
+        opacity: 0.75,
+      }}
     />
   )
 }
@@ -244,18 +338,11 @@ export default function CrStreamingMusicPlayer({
   const renderFullPlayer = () => {
     return (
       <div className="cr-player__full">
-        <div
-          className="cr-player__background"
-          style={{
-            backgroundImage: shouldUseFallback(currentData.albumArt)
-              ? `url('/images/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
-              : `url(${currentData.albumArt})`,
-          }}
-        />
+        <BackgroundImage src={currentData.albumArt} isLoading={isLoading} />
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
-            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" />
+            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" isLoading={isLoading} />
           </div>
           <div className="cr-player__track-info-container">
             <CrTrackInfo
@@ -279,18 +366,11 @@ export default function CrStreamingMusicPlayer({
   const renderSlimPlayer = () => {
     return (
       <div className="cr-player__slim">
-        <div
-          className="cr-player__background"
-          style={{
-            backgroundImage: shouldUseFallback(currentData.albumArt)
-              ? `url('/images/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
-              : `url(${currentData.albumArt})`,
-          }}
-        />
+        <BackgroundImage src={currentData.albumArt} isLoading={isLoading} />
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
-            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" />
+            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" isLoading={isLoading} />
           </div>
           <div className="cr-player__track-info-container">
             <CrTrackInfo
@@ -313,15 +393,7 @@ export default function CrStreamingMusicPlayer({
   const renderMobilePlayer = () => {
     return (
       <div className="cr-player__mobile">
-        {/* Add the background elements that were missing */}
-        <div
-          className="cr-player__background"
-          style={{
-            backgroundImage: shouldUseFallback(currentData.albumArt)
-              ? `url('/images/chirp-logos/CHIRP_Logo_FM URL_record.svg')`
-              : `url(${currentData.albumArt})`,
-          }}
-        />
+        <BackgroundImage src={currentData.albumArt} isLoading={isLoading} />
         <div className="cr-player__color-overlay" />
 
         <div className="cr-player__mobile-content">
@@ -339,6 +411,7 @@ export default function CrStreamingMusicPlayer({
               src={currentData.albumArt}
               className="cr-player__album-art-large"
               isLarge={true}
+              isLoading={isLoading}
             />
           </div>
 

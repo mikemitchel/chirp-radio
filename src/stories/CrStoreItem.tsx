@@ -12,6 +12,7 @@ interface CrStoreItemProps {
   itemType?: string
   sizeOptions?: string[]
   sizeLabel?: string
+  showSizeSelection?: boolean
   quantityLabel?: string
   maxQuantity?: number
   onAddToCart?: (item: any) => void
@@ -33,6 +34,7 @@ export default function CrStoreItem({
   // Form options
   sizeOptions = ['S', 'M', 'L', 'XL'],
   sizeLabel = 'T-Shirt Size',
+  showSizeSelection = true,
   quantityLabel = 'How Many?',
   maxQuantity = 10,
 
@@ -41,7 +43,7 @@ export default function CrStoreItem({
 
   // Form state (controlled)
   selectedSize,
-  quantity = 1,
+  quantity,
   onSizeChange,
   onQuantityChange,
 
@@ -49,11 +51,11 @@ export default function CrStoreItem({
 }: CrStoreItemProps) {
   // Internal state for uncontrolled usage
   const [internalSize, setInternalSize] = useState(selectedSize || '')
-  const [internalQuantity, setInternalQuantity] = useState(quantity)
+  const [internalQuantity, setInternalQuantity] = useState(1)
 
   // Use controlled values if provided, otherwise use internal state
   const currentSize = selectedSize !== undefined ? selectedSize : internalSize
-  const currentQuantity = quantity !== undefined ? quantity : internalQuantity
+  const currentQuantity = onQuantityChange ? quantity : internalQuantity
 
   const handleSizeChange = (newSize) => {
     if (onSizeChange) {
@@ -96,7 +98,7 @@ export default function CrStoreItem({
         {/* Product Header */}
         <div className="cr-store-item__header">
           <div className="cr-store-item__title-section">
-            <h2 className="cr-store-item__name">{name}</h2>
+            <h1 className="cr-store-item__name">{name}</h1>
             <div className="cr-store-item__price-chip-row">
               <span className="cr-store-item__price">${price.toFixed(2)}</span>
               <CrChip variant="light" size="medium">
@@ -112,7 +114,7 @@ export default function CrStoreItem({
         {/* Product Form */}
         <form className="cr-store-item__form" onSubmit={(e) => e.preventDefault()}>
           {/* Size Selection */}
-          {sizeOptions && sizeOptions.length > 0 && (
+          {showSizeSelection && sizeOptions && sizeOptions.length > 0 && (
             <div className="form-group">
               <label className="form-label">{sizeLabel}</label>
               <select

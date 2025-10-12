@@ -25,7 +25,7 @@
 }
 
 .cr-card-title-banner--tall {
-  height: 84px;
+  height: 100%;
 }
 
 /* Content area */
@@ -40,6 +40,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--cr-space-1);
+  padding: var(--cr-space-4) 0;
 }
 
 /* Inline layout */
@@ -65,6 +66,31 @@
   font: var(--cr-title-lg);
 }
 
+/* Title size variants */
+.cr-card-title-banner__title--2xl {
+  font: var(--cr-title-2xl);
+}
+
+.cr-card-title-banner__title--xl {
+  font: var(--cr-title-xl);
+}
+
+.cr-card-title-banner__title--lg {
+  font: var(--cr-title-lg);
+}
+
+.cr-card-title-banner__title--md {
+  font: var(--cr-title-md);
+}
+
+.cr-card-title-banner__title--sm {
+  font: var(--cr-title-sm);
+}
+
+.cr-card-title-banner__title--xs {
+  font: var(--cr-title-xs);
+}
+
 /* Action buttons */
 .cr-card-title-banner__actions {
   display: flex;
@@ -79,13 +105,18 @@
   margin: 0;
 }
 
+
 /* Background variants */
 .cr-card-title-banner:not(.cr-bg-textured) {
   background: transparent;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
+  .cr-card-title-banner {
+    padding: var(--cr-space-3) var(--cr-space-4);
+  }
+
   .cr-card-title-banner--narrow {
     height: auto;
     min-height: 60px;
@@ -96,31 +127,16 @@
     min-height: 84px;
   }
 
-  .cr-card-title-banner__container {
+  /* Override inline layout at mobile - using higher specificity instead of !important */
+  .cr-card-title-banner.cr-card-title-banner--inline .cr-card-title-banner__content {
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--cr-space-md);
-  }
-
-  .cr-card-title-banner__content {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: var(--cr-space-1) !important;
+    gap: var(--cr-space-1);
   }
 
   .cr-card-title-banner__actions {
-    align-self: stretch;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-}
-
-@media (max-width: 480px) {
-  .cr-card-title-banner__container {
-    gap: var(--cr-space-3);
-  }
-
-  .cr-card-title-banner__actions {
+    flex-direction: column;
+    align-items: flex-start;
     gap: var(--cr-space-2);
   }
 }

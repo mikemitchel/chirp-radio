@@ -1,104 +1,372 @@
-body {
-  margin: 0;
+/* ============================================ */
+/* === LAYOUT STYLES === */
+/* All layout patterns and utilities for the application */
+/* ============================================ */
+
+/* Footer container */
+.web-layout-footer-container {
+  margin-top: var(--cr-space-12);
+}
+
+.landing-page .web-layout-footer-container {
+  margin-top: 0;
+}
+
+/* Support with Ads wrapper */
+.support-with-ads-wrapper {
+  width: 100%;
+  background-color: var(--cr-default-100);
+  border-top: 4px solid var(--cr-primary-500);
+}
+
+/* ============================================ */
+/* === STANDARD PAGE LAYOUTS === */
+/* Reusable layout patterns for all pages */
+/* ============================================ */
+
+/* Full-width section wrapper */
+.page-section {
+  width: 100%;
+  margin-bottom: var(--cr-space-4);
+}
+
+/* Landing page specific overrides */
+.landing-page .page-section {
+  margin-bottom: 0;
+}
+
+.landing-page .page-container:first-child {
+  margin-top: 0;
   padding: 0;
 }
-#root {
+
+/* Standard content container (max-width with auto margin) */
+.page-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: var(--cr-space-4);
+}
+
+/* Add top spacing after header on all pages except landing page */
+.landing-page .cr-page-header {
+  margin-top: 0;
+}
+
+/* Two-column layout: main content + sidebar */
+.page-layout-main-sidebar {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: var(--cr-space-8);
+  padding: var(--cr-space-4);
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.page-layout-main-sidebar__main {
+  min-width: 0;
+}
+
+.page-layout-main-sidebar__sidebar {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensures the body is at least the height of the viewport */
+  gap: var(--cr-space-4);
+  width: 100%;
+  align-items: center;
+  padding-right: var(--cr-space-4);
+  min-width: 0;
 }
 
-footer {
-  margin-top: auto; /* Pushes the footer to the bottom */
+/* Pages with page-container header above don't need extra padding */
+.articles-page .page-layout-main-sidebar__sidebar,
+.events-page .page-layout-main-sidebar__sidebar,
+.podcast-page .page-layout-main-sidebar__sidebar,
+.listen-page .page-layout-main-sidebar__sidebar,
+.shop-page .page-layout-main-sidebar__sidebar,
+.donate-page .page-layout-main-sidebar__sidebar,
+.vinyl-circle-page .page-layout-main-sidebar__sidebar,
+.car-donation-page .page-layout-main-sidebar__sidebar {
+  padding-top: 0;
 }
 
-/* Page content container */
-.page-content {
-  padding: 20px;
-  animation: pageSlideIn 300ms ease-out;
+/* Pages without separate header need padding to align with content */
+.shop-detail-page .page-layout-main-sidebar__sidebar,
+.about-page .page-layout-main-sidebar__sidebar,
+.ways-to-give-page .page-layout-main-sidebar__sidebar,
+.article-detail-page .page-layout-main-sidebar__sidebar,
+.podcast-detail-page .page-layout-main-sidebar__sidebar,
+.event-detail-page .page-layout-main-sidebar__sidebar,
+.dj-detail-page .page-layout-main-sidebar__sidebar,
+.contact-page .page-layout-main-sidebar__sidebar,
+.volunteer-calendar-page .page-layout-main-sidebar__sidebar {
+  padding-top: 80px;
 }
 
-.page-header {
-  margin-bottom: 24px;
+/* Landing page sidebar should not have top padding */
+.landing-page .page-layout-main-sidebar__sidebar {
+  padding-top: 0;
 }
 
-.page-header h1 {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: var(--cr-default-900);
+/* Three-column equal grid */
+.page-layout-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.page-header p {
-  font-size: 16px;
-  color: var(--cr-default-600);
-  margin: 0;
+.page-layout-3col__column {
+  display: contents;
 }
 
-.page-section {
-  margin-bottom: 32px;
+.page-layout-3col__column--container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
 }
 
-.page-section h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--cr-default-800);
+.page-layout-3col__column--large-gap {
+  gap: var(--cr-space-12);
 }
 
-/* Placeholder content */
-.playlist-placeholder,
-.collection-placeholder,
-.request-form-placeholder,
-.settings-placeholder {
-  padding: 32px;
-  background-color: var(--cr-default-50);
-  border-radius: 8px;
-  text-align: center;
-  color: var(--cr-default-600);
+.page-layout-3col__column--bg {
+  background-color: var(--cr-default-100);
+  padding: var(--cr-space-4);
 }
 
-.playlist-placeholder p,
-.collection-placeholder p,
-.request-form-placeholder p,
-.settings-placeholder p {
-  margin: 8px 0;
+/* Two-column equal layout: 50% / 50% */
+.page-layout-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--cr-space-8);
+  padding: var(--cr-space-4);
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
-/* Dark mode */
-[data-theme="dark"] .page-header h1 {
-  color: var(--cr-default-50);
+.page-layout-2col__column {
+  display: contents;
 }
 
-[data-theme="dark"] .page-header p {
-  color: var(--cr-default-400);
+/* Single column centered content */
+.page-layout-single {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--cr-space-8) var(--cr-space-4);
 }
 
-[data-theme="dark"] .page-section h2 {
-  color: var(--cr-default-200);
-}
+/* ============================================ */
+/* === RESPONSIVE BREAKPOINTS === */
+/* ============================================ */
 
-[data-theme="dark"] .playlist-placeholder,
-[data-theme="dark"] .collection-placeholder,
-[data-theme="dark"] .request-form-placeholder,
-[data-theme="dark"] .settings-placeholder {
-  background-color: var(--cr-default-800);
-  color: var(--cr-default-300);
-}
-
-/* Page transition animations */
-@keyframes pageSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
+/* Medium desktop: 1024px */
+@media (max-width: 1024px) {
+  .page-layout-main-sidebar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--cr-space-4);
+    padding: var(--cr-space-4);
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+
+  .page-layout-main-sidebar__sidebar {
+    padding-right: 0;
   }
 }
 
-/* Route transition wrapper */
-.route-transition {
-  animation: pageSlideIn 300ms ease-out;
+/* Desktop: 1200px */
+@media (max-width: 1200px) {
+  .page-layout-3col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Tablet portrait: 768px */
+@media (max-width: 768px) {
+  .page-container {
+    padding: var(--cr-space-3);
+  }
+
+  .page-layout-2col {
+    grid-template-columns: 1fr;
+  }
+
+  .page-layout-3col {
+    grid-template-columns: 1fr;
+  }
+
+  .page-layout-single {
+    padding: var(--cr-space-6) var(--cr-space-3);
+  }
+}
+
+/* Mobile: 480px */
+@media (max-width: 480px) {
+  .page-container {
+    padding: var(--cr-space-2);
+  }
+
+  .page-layout-3col__column {
+    padding: var(--cr-space-6) var(--cr-space-3);
+  }
+
+  .page-layout-single {
+    padding: var(--cr-space-4) var(--cr-space-2);
+  }
+}
+
+/* ============================================ */
+/* === LAYOUT UTILITIES === */
+/* Reusable utility classes for consistent layouts */
+/* ============================================ */
+
+/* Container Utilities */
+.container-standard {
+  padding: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Grid Layout Utilities */
+.grid-2col-equal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--cr-space-4);
+}
+
+.grid-2col-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--cr-space-4);
+}
+
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--cr-space-4);
+}
+
+.grid-4col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--cr-space-4);
+}
+
+.grid-5col {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--cr-space-4);
+}
+
+/* Masonry Grid Layout */
+.grid-masonry {
+  column-count: 2;
+  column-gap: var(--cr-space-4);
+}
+
+.grid-masonry > * {
+  break-inside: avoid;
+  margin-bottom: var(--cr-space-4);
+}
+
+/* Flex Column Utilities */
+.flex-col-gap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+/* Content Box Utility */
+.content-box {
+  padding: var(--cr-space-6);
+  background-color: var(--cr-color-neutral-100);
+  border-radius: var(--cr-radius-md);
+  min-height: 150px;
+}
+
+/* Width Utilities */
+.full-width {
+  width: 100%;
+}
+
+/* Pagination */
+.events-pagination {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Shop items grid */
+.shop-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 31%));
+  gap: var(--cr-space-6);
+  justify-content: start;
+}
+
+/* Shop page specific layout */
+.shop-page .page-layout-main-sidebar {
+  grid-template-columns: 1fr 350px;
+}
+
+.shop-recently-played-header {
+  margin-top: var(--cr-space-6);
+}
+
+.shop-page .page-layout-main-sidebar__sidebar {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.shop-page .page-layout-main-sidebar__main {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* ============================================ */
+/* === RESPONSIVE UTILITY BREAKPOINTS === */
+/* ============================================ */
+
+@media (max-width: 1200px) {
+  .grid-4col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* @media (max-width: 1024px) {
+  .shop-page .shop-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: var(--cr-space-4);
+  }
+} */
+
+@media (max-width: 968px) {
+  .grid-2col-content,
+  .grid-2col-equal {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-masonry {
+    column-count: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .shop-page .page-layout-main-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-page .page-layout-main-sidebar__sidebar {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .shop-page .page-layout-main-sidebar__main {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .shop-page .shop-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

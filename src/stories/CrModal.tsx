@@ -34,14 +34,12 @@ export default function CrModal({
   size = 'default', // default, small, large
   onClose,
   showCloseButton = true,
-  scrimOpacity = 0.5,
+  scrimOpacity = 0.75,
   scrimOnClick,
   isOpen = false,
 }: CrModalProps) {
   const modalClasses = [
     'cr-modal',
-    'cr-bg-textured',
-    'cr-bg-natural-d100',
     `cr-modal--${size}`,
     className,
   ]

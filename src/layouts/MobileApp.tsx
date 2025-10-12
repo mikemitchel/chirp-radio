@@ -4,6 +4,10 @@ import { useNavigate, useLocation, Outlet } from 'react-router'
 import CrMobileSplash from '../stories/CrMobileSplash'
 import CrMobileAppFrame from '../stories/CrMobileAppFrame'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
+import { NotificationProvider } from '../contexts/NotificationContext'
+import GlobalNotifications from '../components/GlobalNotifications'
+import { preloadFirstAvailable } from '../utils/imagePreloader'
+import { upgradeImageQuality } from '../utils/imageOptimizer'
 
 // Preload now playing data and cache it
 const preloadNowPlayingData = async () => {
@@ -19,6 +23,35 @@ const preloadNowPlayingData = async () => {
     if (!parsedData || !parsedData.now_playing) throw new Error('Invalid API response')
 
     const nowPlaying = parsedData.now_playing
+
+    // Collect all available image URLs and upgrade to 348s quality
+    const imageUrls = [
+      nowPlaying.lastfm_urls?.large_image,
+      nowPlaying.lastfm_urls?.med_image,
+      nowPlaying.lastfm_urls?.sm_image
+    ]
+      .filter(url => url && url.trim() !== '')
+      .map(url => upgradeImageQuality(url)) // Upgrade to 348s for better quality
+
+    // Try to preload the first available image (now all upgraded to 348s)
+    let albumArtUrl = ''
+    if (imageUrls.length > 0) {
+      try {
+        const timestampedUrls = imageUrls.map(url => `${url}?t=${Date.now()}`)
+        albumArtUrl = await preloadFirstAvailable(timestampedUrls)
+      } catch (error) {
+        console.warn('⚠️ [Album Art - Splash] All image URLs failed to load, using fallback')
+        console.warn('API lastfm_urls:', nowPlaying.lastfm_urls)
+        console.warn('Attempted URLs:', imageUrls)
+      }
+    } else {
+      // No image URLs available at all
+      if (nowPlaying.lastfm_urls && nowPlaying.lastfm_urls !== null) {
+        console.warn('⚠️ [Album Art - Splash] No valid image URLs found, but lastfm_urls exists:')
+        console.warn('API lastfm_urls:', nowPlaying.lastfm_urls)
+      }
+    }
+
     const cachedData = {
       dj: nowPlaying.dj?.trim() || 'Unknown DJ',
       show: nowPlaying.show?.trim() || '',
@@ -26,11 +59,7 @@ const preloadNowPlayingData = async () => {
       track: nowPlaying.track?.trim() || 'Unknown Track',
       album: nowPlaying.release?.trim() || 'Unknown Release',
       label: nowPlaying.label?.trim() || 'Unknown Label',
-      albumArt:
-        nowPlaying.lastfm_urls?.large_image ||
-        nowPlaying.lastfm_urls?.med_image ||
-        nowPlaying.lastfm_urls?.sm_image ||
-        '',
+      albumArt: albumArtUrl, // Will be empty string if preload failed
       isLocal: nowPlaying.artist_is_local || false,
       timestamp: Date.now(),
     }
@@ -45,10 +74,11 @@ const preloadNowPlayingData = async () => {
 }
 
 export default function MobileApp() {
-  // Check if splash has already been shown this session
-  const hasShownSplash = sessionStorage.getItem('chirp-splash-shown') === 'true'
-
-  const [showSplash, setShowSplash] = useState(!hasShownSplash)
+  const [showSplash, setShowSplash] = useState(() => {
+    // Check sessionStorage on initial mount
+    const splashShown = sessionStorage.getItem('chirp-splash-shown')
+    return splashShown !== 'true'
+  })
   const [splashAnimationState, setSplashAnimationState] = useState<
     'fade-in' | 'visible' | 'fade-out' | 'hidden'
   >('visible')
@@ -56,13 +86,17 @@ export default function MobileApp() {
   const location = useLocation()
 
   useEffect(() => {
+    // Always navigate to Now Playing page on mount
+    navigate('/')
+
+    // Check if splash has already been shown
+    const hasShownSplash = sessionStorage.getItem('chirp-splash-shown') === 'true'
+
     // Skip splash animation if already shown this session
     if (hasShownSplash) {
+      setShowSplash(false)
       return
     }
-
-    // Navigate to Now Playing page on first load
-    navigate('/')
 
     let hideTimer: NodeJS.Timeout
 
@@ -96,7 +130,7 @@ export default function MobileApp() {
     return () => {
       clearTimeout(hideTimer)
     }
-  }, [hasShownSplash])
+  }, [])
 
   // Determine if we're on the landing page (Now Playing)
   const isLandingPage = location.pathname === '/' || location.pathname === '/now-playing'
@@ -151,13 +185,14 @@ export default function MobileApp() {
   const handleBecomeVolunteerClick = () => handleExternalLink('https://chirpradio.org/volunteer')
 
   return (
-    <AudioPlayerProvider
-      autoFetch={true}
-      streamUrl="https://peridot.streamguys1.com:5185/live"
-      apiUrl="https://chirpradio.appspot.com/api/current_playlist"
-    >
-      {/* Always render the app frame so it's ready */}
-      <CrMobileAppFrame
+    <NotificationProvider>
+      <AudioPlayerProvider
+        autoFetch={true}
+        streamUrl="https://peridot.streamguys1.com:5185/live"
+        apiUrl="https://chirpradio.appspot.com/api/current_playlist"
+      >
+        {/* Always render the app frame so it's ready */}
+        <CrMobileAppFrame
         variant={isLandingPage ? 'landing' : 'interior'}
         pageTitle={getPageTitle()}
         onLogoClick={handleHomeClick}
@@ -186,10 +221,14 @@ export default function MobileApp() {
         <Outlet />
       </CrMobileAppFrame>
 
-      {/* Render splash on top when needed */}
-      {showSplash && (
-        <CrMobileSplash className={`splash-animation splash-animation--${splashAnimationState}`} />
-      )}
-    </AudioPlayerProvider>
+        {/* Render splash on top when needed */}
+        {showSplash && (
+          <CrMobileSplash className={`splash-animation splash-animation--${splashAnimationState}`} />
+        )}
+
+        {/* Global notifications (modal and toast) */}
+        <GlobalNotifications />
+      </AudioPlayerProvider>
+    </NotificationProvider>
   )
 }

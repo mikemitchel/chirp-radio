@@ -76,7 +76,7 @@ export default function CrCartIcon({
         />
       </svg>
 
-      {showBadge && badgeCount > 0 && <span className="cr-cart-icon__badge">{badgeCount}</span>}
+      {showBadge && <span className="cr-cart-icon__badge">{badgeCount}</span>}
     </div>
   )
 }

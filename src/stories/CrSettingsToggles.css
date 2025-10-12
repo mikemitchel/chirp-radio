@@ -38,3 +38,50 @@
 .cr-settings-toggles__setting-control {
   flex-shrink: 0;
 }
+
+/* Dark Mode Radio Buttons */
+.cr-settings-toggles .form-radio-group {
+  display: flex;
+  gap: var(--cr-space-6);
+}
+
+.cr-settings-toggles .form-radio-item {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2);
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  cursor: pointer;
+}
+
+.cr-settings-toggles .form-radio-item input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  margin: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Radio button size variants */
+.cr-settings-toggles .form-radio-item--small input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+}
+
+.cr-settings-toggles .form-radio-item--medium input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.cr-settings-toggles .form-radio-item--large input[type="radio"] {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+}

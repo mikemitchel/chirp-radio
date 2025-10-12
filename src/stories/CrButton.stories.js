@@ -5,10 +5,9 @@ import {
   PiCaretLeft,
   PiCaretRight,
   PiUserCircle,
-  PiGearSix,
+  PiGear,
   PiChatCircleTextLight,
   PiMusicNotes,
-  PiGearLight,
   PiPlayFill,
   PiPauseFill,
 } from 'react-icons/pi'
@@ -122,7 +121,7 @@ export const UserAccount = {
 
 export const Settings = {
   render: (args) => {
-    const settingsIcon = React.createElement(PiGearSix)
+    const settingsIcon = React.createElement(PiGear)
     return React.createElement(CrButton, {
       ...args,
       rightIcon: settingsIcon,
@@ -181,7 +180,7 @@ export const PlayButton = {
 
 export const LightSettings = {
   render: (args) => {
-    const lightGearIcon = React.createElement(PiGearLight)
+    const lightGearIcon = React.createElement(PiGear)
     return React.createElement(CrButton, {
       ...args,
       rightIcon: lightGearIcon,

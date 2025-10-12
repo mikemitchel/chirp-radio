@@ -33,7 +33,13 @@ export default function CrBreadcrumb({
                 {item.isClickable ? (
                   <button
                     className="cr-breadcrumb__link"
-                    onClick={() => onItemClick && onItemClick(item)}
+                    onClick={() => {
+                      if (item.onClick) {
+                        item.onClick()
+                      } else if (onItemClick) {
+                        onItemClick(item)
+                      }
+                    }}
                     type="button"
                   >
                     {item.label}

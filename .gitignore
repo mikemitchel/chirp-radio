@@ -26,3 +26,11 @@ dist-ssr
 *storybook.log
 storybook-static
 .vercel
+
+# Test results
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Visual regression baseline screenshots
+e2e/**/*-snapshots/

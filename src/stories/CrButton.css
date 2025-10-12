@@ -242,6 +242,7 @@
 
 .cr-btn__icon--right {
   margin-left: var(--cr-space-1);
+  padding: 0;
 }
 
 /* Icon sizes by button size */
@@ -263,6 +264,22 @@
 .cr-btn--xsmall .cr-btn__icon svg {
   width: var(--cr-space-4);
   height: var(--cr-space-4);
+}
+
+/* Text XS variant icons should be 24px with top margin */
+.cr-btn--xsmall.cr-btn--text .cr-btn__icon svg {
+  width: 24px;
+  height: 24px;
+  margin-top: 4px;
+}
+
+/* Remove left/right margins for text XS variant icons */
+.cr-btn--xsmall.cr-btn--text .cr-btn__icon--left {
+  margin-right: 0;
+}
+
+.cr-btn--xsmall.cr-btn--text .cr-btn__icon--right {
+  margin-left: 0;
 }
 
 /* Icon styling */

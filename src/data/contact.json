@@ -1,0 +1,78 @@
+{
+  "heroImage": "https://images.unsplash.com/photo-1584541728894-dbcae08f94ac?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "introText": [
+    "We'd love to hear from you! Whether you have questions, feedback, or want to get involved with CHIRP Radio, we're here to help. As a volunteer-driven community radio station, CHIRP thrives on the passion and participation of music lovers like you.",
+    "Since 2008, we've been bringing independent music to Chicago's airwaves at 107.1 FM, and we couldn't do it without our dedicated community of listeners, volunteers, and supporters. Whether you're an artist looking to share your music, a music fan wanting to get involved, or a business interested in partnership opportunities, there's a place for you at CHIRP.",
+    "Use the contact form or reach out using the information below. Our volunteer teams work hard to respond to all inquiries, though response times may vary depending on the department and volume of messages. Thank you for your interest in CHIRP Radio — Chicago's independent voice for music discovery!"
+  ],
+  "contactMethods": [
+    {
+      "id": "music",
+      "title": "Submitting Your Music to CHIRP Radio",
+      "content": "If you're an artist or label who would like to submit music to CHIRP Radio for possible airplay, you can contact our music department using the contact form or send it by mail to the address below.\n\nIMPORTANT:\n\n• If you use the contact form, you must select \"music submissions\" in the dropdown. Submissions sent to any other addresses will be deleted!\n• Please include a brief band bio, your BandCamp or Soundcloud link and a download code.\n• We can only consider submissions with downloadable files! Music submitted via Spotify or YouTube links will NOT be considered because they cannot be used for airplay.\n• Please be aware that due to the volume of mail that we receive, we cannot respond to questions about submission status. However, we do make every effort to listen to all music submitted to CHIRP.\n\nMailing Address:\nCHIRP Radio * attn: Music Department * 4045 N. Rockwell * Chicago, IL 60618",
+      "backgroundImage": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "interview",
+      "title": "Proposing an Interview with a Musical Artist",
+      "contentSummary": "CHIRP does regular interviews with local and touring artists, which we offer as podcasts. If you're interested in being interviewed for a CHIRP podcast, send a bio and links to music samples using the contact form.",
+      "backgroundImage": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "volunteer",
+      "title": "Volunteering for CHIRP",
+      "content": "CHIRP is a volunteer-driven organization. Volunteers meet monthly to work on issues and events, chart progress, and socialize. Meetings take place on the third Thursday of the month at 7:30pm. CHIRP has many active departments that meet at different times or work remotely. CHIRP's departments include Music, Events, Partnerships, Tech, Features, Fundraising, Marketing, Outreach, Volunteer Management, Promotions, Production, and Record Fair. Volunteers can serve in whichever departments match their skills and interests, but all are asked to serve in at least one department.\n\nIf you're interested in volunteering with CHIRP, your required first step is to attend a new volunteer meeting. To find the date of the next meeting, please visit our Volunteers website.",
+      "backgroundImage": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "dj",
+      "title": "Becoming a DJ",
+      "contentSummary": "Anyone hoping to DJ for CHIRP must first attend a new volunteer meeting. From there, volunteers will be expected to participate in other areas and demonstrate their commitment to the organization overall. All potential DJs must attend a CHIRP DJ orientation (offered several times per year), then submit an application and go through a training and audition process. All CHIRP DJs are expected to play a wide array of music from a mix of genres and eras — CHIRP does not feature specialty shows that focus on a single style of music or time period.",
+      "backgroundImage": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "giveaway",
+      "title": "Proposing A Ticket Giveaway",
+      "contentSummary": "If you'd like to propose a ticket giveaway, please contact our promotions department using the contact form.",
+      "backgroundImage": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "partnership",
+      "title": "Proposing A Partnership",
+      "contentSummary": "If you have a business or organization and you'd like to propose a partnership with CHIRP, please contact our partnerships department using the contact form.",
+      "backgroundImage": "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop"
+    }
+  ],
+  "studioAddress": {
+    "title": "CHIRP Radio Studio",
+    "address": "4045 N. Rockwell St.\nChicago, IL 60618",
+    "note": "Please note: Our studio is not open to the public. For studio tours or in-person visits, please email us in advance to schedule an appointment.",
+    "image": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800&h=600&fit=crop"
+  },
+  "socialMedia": {
+    "title": "Connect With Us",
+    "description": "Follow CHIRP Radio on social media for the latest updates, show announcements, playlists, and behind-the-scenes content.",
+    "platforms": [
+      {
+        "name": "Instagram",
+        "handle": "@chirpradio",
+        "url": "https://instagram.com/chirpradio"
+      },
+      {
+        "name": "Facebook",
+        "handle": "facebook.com/chirpradio",
+        "url": "https://facebook.com/chirpradio"
+      },
+      {
+        "name": "Twitter",
+        "handle": "@chirpradio",
+        "url": "https://twitter.com/chirpradio"
+      },
+      {
+        "name": "YouTube",
+        "handle": "CHIRP Radio",
+        "url": "https://youtube.com/chirpradio"
+      }
+    ]
+  }
+}

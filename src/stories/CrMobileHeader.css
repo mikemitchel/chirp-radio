@@ -33,9 +33,21 @@
   filter: brightness(0) invert(1);
 }
 
+.cr-mobile-header__title-section {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2);
+  flex: 1;
+  justify-content: center;
+}
+
 .cr-mobile-header__page-title {
   font: var(--cr-nav2);
   color: var(--cr-ink);
   text-align: center;
-  flex: 1;
+}
+
+.cr-mobile-header__action {
+  display: flex;
+  align-items: center;
 }

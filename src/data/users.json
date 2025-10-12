@@ -1,0 +1,74 @@
+{
+  "users": [
+    {
+      "id": "user-001",
+      "email": "demo@chirpradio.org",
+      "username": "musiclover",
+      "firstName": "Alex",
+      "lastName": "Johnson",
+      "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces",
+      "bio": "Chicago music enthusiast and long-time CHIRP supporter. Love indie rock, post-punk, and everything in between.",
+      "location": "Chicago, IL",
+      "memberSince": "2018-03-15",
+      "donorLevel": "Vinyl Circle",
+      "collection": [
+        {
+          "id": "track-001",
+          "trackName": "Cruel Summer",
+          "artistName": "Taylor Swift",
+          "albumName": "Lover",
+          "albumArt": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop",
+          "labelName": "Republic Records",
+          "dateAdded": "2024-12-01T14:30:00Z"
+        },
+        {
+          "id": "track-002",
+          "trackName": "Pusha Man",
+          "artistName": "Chance the Rapper",
+          "albumName": "Acid Rap",
+          "albumArt": "https://upload.wikimedia.org/wikipedia/en/5/5b/Chance_the_rapper_acid_rap.jpg",
+          "labelName": "Chance the Rapper",
+          "isLocal": true,
+          "dateAdded": "2024-12-02T10:15:00Z"
+        },
+        {
+          "id": "track-003",
+          "trackName": "Stupid Kid",
+          "artistName": "Alkaline Trio",
+          "albumName": "From Here to Infirmary",
+          "albumArt": "https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg",
+          "labelName": "Vagrant Records",
+          "isLocal": true,
+          "dateAdded": "2024-12-03T16:45:00Z"
+        }
+      ],
+      "preferences": {
+        "emailNotifications": true,
+        "showNotifications": true,
+        "darkMode": false,
+        "autoPlay": true
+      },
+      "favoriteDJs": ["dj-001", "dj-027"]
+    },
+    {
+      "id": "user-002",
+      "email": "sarah@example.com",
+      "username": "sarahm",
+      "firstName": "Sarah",
+      "lastName": "Martinez",
+      "profileImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces",
+      "bio": "DJ and music curator. Spinning records since 2015.",
+      "location": "Wicker Park, Chicago",
+      "memberSince": "2019-06-20",
+      "donorLevel": "Supporter",
+      "collection": [],
+      "preferences": {
+        "emailNotifications": true,
+        "showNotifications": false,
+        "darkMode": true,
+        "autoPlay": false
+      },
+      "favoriteDJs": []
+    }
+  ]
+}

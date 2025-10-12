@@ -22,6 +22,103 @@
   font-weight: bold;
 }
 
+/* Profile Header Section */
+.cr-account-settings-page__profile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-1);
+  margin-bottom: var(--cr-space-6);
+  padding-bottom: var(--cr-space-6);
+  border-bottom: 1px solid var(--cr-default-200);
+}
+
+.cr-account-settings-page__profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--cr-space-4);
+}
+
+.cr-account-settings-page__name {
+  font: var(--cr-title-lg);
+  color: var(--cr-ink);
+  margin: 0;
+  letter-spacing: -0.03em;
+  flex: 1;
+}
+
+.cr-account-settings-page__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.cr-account-settings-page__detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.cr-account-settings-page__detail-label {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  line-height: 1.4;
+}
+
+.cr-account-settings-page__detail-value {
+  font-family: var(--cr-font-roboto-serif);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--cr-ink);
+}
+
+.cr-account-settings-page__detail-value-with-action {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-3);
+  justify-content: space-between;
+}
+
+/* Avatar Section */
+.cr-account-settings-page__avatar-container {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.cr-account-settings-page__avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: var(--cr-default-300);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cr-account-settings-page__avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cr-account-settings-page__avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  fill: var(--cr-default-500);
+}
+
+.cr-account-settings-page__avatar-icon {
+  width: 60%;
+  height: 60%;
+}
+
+
 /* Settings Section */
 .cr-account-settings-page__settings {
   margin-bottom: var(--cr-space-6);
@@ -162,7 +259,7 @@
 /* Responsive Design */
 @media (max-width: 480px) {
   .cr-account-settings-page__content {
-    padding: var(--cr-space-3);
+    padding: 0;
   }
 
   .cr-account-settings-page__setting {

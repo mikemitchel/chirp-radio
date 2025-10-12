@@ -1,0 +1,91 @@
+{
+  "heroImage": "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1200&h=800&fit=crop",
+  "introText": [
+    "CHIRP Radio is powered entirely by passionate volunteers who share a love for independent music and community radio. Whether you dream of being on the airwaves, working behind the scenes, or helping spread the word about great music, there's a place for you at CHIRP.",
+    "Since 2008, hundreds of volunteers have joined our community to learn new skills, meet fellow music enthusiasts, and contribute to Chicago's vibrant independent radio scene. No prior experience necessary — just bring your passion for music and willingness to learn!"
+  ],
+  "callToAction": {
+    "title": "Ready to Get Started?",
+    "description": "To become a CHIRP Radio volunteer, fill out the volunteer form and attend a future volunteer orientation meeting to learn about the station, its departments, and ask any questions you may have.",
+    "buttonText": "Visit Volunteers Website",
+    "buttonUrl": "https://volunteers.chirpradio.org",
+    "note": "Orientation meetings are held monthly. After submitting your form, you'll receive information about upcoming session dates."
+  },
+  "departments": [
+    {
+      "id": "dj",
+      "title": "Become a DJ",
+      "icon": "mic",
+      "content": "Ever dreamed of being on the radio? CHIRP DJs curate and host their own shows, sharing their musical discoveries with Chicago listeners. All DJs start as volunteers in other departments to learn about the station, then attend DJ orientation, submit an application, and complete training and audition process. CHIRP DJs play a wide array of music from various genres and eras — no specialty shows focused on a single style.\n\nWhat you'll do:\n• Curate weekly radio shows\n• Discover and share new music\n• Interview artists and bands\n• Engage with the Chicago music community",
+      "backgroundImage": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "music",
+      "title": "Music Department",
+      "icon": "music",
+      "contentSummary": "Help decide what music gets played on CHIRP! The Music Department reviews submissions from artists and labels, manages our music library, creates specialty charts, and ensures DJs have access to the best independent music. Perfect for music enthusiasts who love discovering new artists and organizing collections.",
+      "backgroundImage": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "events",
+      "title": "Events Team",
+      "icon": "calendar",
+      "contentSummary": "Plan and execute CHIRP's legendary events including concerts, the annual Record Fair, DJ nights, and community gatherings. Work with venues, book talent, manage logistics, and create memorable experiences for music fans across Chicago. Great for people-oriented volunteers who love live music.",
+      "backgroundImage": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "tech",
+      "title": "Tech Department",
+      "icon": "code",
+      "contentSummary": "Keep CHIRP on the air and online! Our Tech team maintains broadcasting equipment, manages our website and streaming infrastructure, develops digital tools, and ensures listeners can tune in anywhere. Perfect for volunteers with technical skills or those wanting to learn about broadcast technology and web development.",
+      "backgroundImage": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "marketing",
+      "title": "Marketing & Social Media",
+      "icon": "megaphone",
+      "contentSummary": "Spread the word about CHIRP! Create social media content, design graphics, write newsletters, manage community outreach, and help grow our audience. Ideal for creative volunteers interested in digital marketing, copywriting, graphic design, and building online communities.",
+      "backgroundImage": "https://images.unsplash.com/photo-1611926653458-09294b3142bf?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "production",
+      "title": "Production",
+      "icon": "edit",
+      "contentSummary": "Create audio content for CHIRP including promos, station IDs, podcast editing, and special features. Learn audio production skills, work with professional software, and help maintain CHIRP's unique on-air sound. Great for volunteers interested in audio engineering and creative sound design.",
+      "backgroundImage": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "fundraising",
+      "title": "Fundraising",
+      "icon": "heart",
+      "contentSummary": "Help keep CHIRP on the air! Support fundraising campaigns, coordinate donor outreach, plan fundraising events, and develop sponsorship opportunities. Work with a passionate team to ensure CHIRP remains independent and community-supported.",
+      "backgroundImage": "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "partnerships",
+      "title": "Partnerships",
+      "icon": "handshake",
+      "contentSummary": "Build relationships with local businesses, venues, and organizations. Develop sponsorship packages, coordinate cross-promotions, and create mutually beneficial partnerships that support both CHIRP and Chicago's creative community.",
+      "backgroundImage": "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&h=600&fit=crop"
+    }
+  ],
+  "benefits": {
+    "title": "Why Volunteer with CHIRP?",
+    "description": "Joining CHIRP means more than just volunteering — it means becoming part of a vibrant community of music lovers and creative professionals.",
+    "items": [
+      "Learn valuable skills in broadcasting, production, marketing, and more",
+      "Access to exclusive music industry events and concerts",
+      "Network with musicians, industry professionals, and fellow music enthusiasts",
+      "Contribute to Chicago's independent music scene",
+      "Flexible commitment — work around your schedule",
+      "Potential pathway to becoming an on-air DJ",
+      "Make lifelong friendships with people who share your passion",
+      "See direct impact of your work in the community"
+    ]
+  },
+  "commitment": {
+    "title": "What's the Commitment?",
+    "content": "CHIRP volunteers meet monthly on the third Thursday at 7:30pm for general meetings where we discuss station business, plan events, and socialize. Beyond meetings, volunteers serve in at least one department and contribute according to their availability and interests. Some departments meet regularly while others work remotely. The time commitment varies by department and role, but flexibility is key — we work with your schedule!",
+    "image": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=600&fit=crop"
+  }
+}

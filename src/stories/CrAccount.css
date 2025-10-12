@@ -51,12 +51,6 @@
 
 /* Responsive behavior for smaller screens */
 @media (max-width: 768px) {
-  .cr-account__greeting {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-  }
-
   .cr-account__tags {
     flex-direction: column;
     align-items: flex-start;

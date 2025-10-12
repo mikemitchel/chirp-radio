@@ -1,0 +1,523 @@
+{
+  "charts": {
+    "top25": {
+      "weekOf": "2024-12-02",
+      "title": "Top 25",
+      "tracks": [
+        {
+          "rank": 1,
+          "previousRank": 2,
+          "artistName": "MJ Lenderman",
+          "trackName": "Rudolph",
+          "albumName": "Manning Fireworks",
+          "labelName": "Anti-"
+        },
+        {
+          "rank": 2,
+          "previousRank": 1,
+          "artistName": "Waxahatchee",
+          "trackName": "Right Back to It",
+          "albumName": "Tigers Blood",
+          "labelName": "Anti-"
+        },
+        {
+          "rank": 3,
+          "previousRank": 5,
+          "artistName": "The Smile",
+          "trackName": "Wall of Eyes",
+          "albumName": "Wall of Eyes",
+          "labelName": "XL Recordings"
+        },
+        {
+          "rank": 4,
+          "previousRank": 3,
+          "artistName": "Jessica Pratt",
+          "trackName": "Life Is",
+          "albumName": "Here in the Pitch",
+          "labelName": "Mexican Summer"
+        },
+        {
+          "rank": 5,
+          "previousRank": 7,
+          "artistName": "adrianne lenker",
+          "trackName": "anything",
+          "albumName": "Bright Future",
+          "labelName": "4AD"
+        },
+        {
+          "rank": 6,
+          "previousRank": 4,
+          "artistName": "Kim Gordon",
+          "trackName": "Bye Bye",
+          "albumName": "The Collective",
+          "labelName": "Matador"
+        },
+        {
+          "rank": 7,
+          "previousRank": 9,
+          "artistName": "Mannequin Pussy",
+          "trackName": "I Got Heaven",
+          "albumName": "I Got Heaven",
+          "labelName": "Epitaph"
+        },
+        {
+          "rank": 8,
+          "previousRank": 6,
+          "artistName": "Wednesday",
+          "trackName": "Quarry",
+          "albumName": "Rat Saw God",
+          "labelName": "Dead Oceans"
+        },
+        {
+          "rank": 9,
+          "previousRank": 11,
+          "artistName": "The National",
+          "trackName": "Eucalyptus",
+          "albumName": "Laugh Track",
+          "labelName": "4AD"
+        },
+        {
+          "rank": 10,
+          "previousRank": 8,
+          "artistName": "Hotline TNT",
+          "trackName": "Nineteen in Love",
+          "albumName": "Cartwheel",
+          "labelName": "Third Man"
+        },
+        {
+          "rank": 11,
+          "previousRank": 13,
+          "artistName": "Alvvays",
+          "trackName": "Belinda Says",
+          "albumName": "Blue Rev",
+          "labelName": "Polyvinyl"
+        },
+        {
+          "rank": 12,
+          "previousRank": 10,
+          "artistName": "Knocked Loose",
+          "trackName": "Slaughterhouse 2",
+          "albumName": "You Won't Go Before You're Supposed To",
+          "labelName": "Pure Noise"
+        },
+        {
+          "rank": 13,
+          "previousRank": 15,
+          "artistName": "Fontaines D.C.",
+          "trackName": "Starburster",
+          "albumName": "Romance",
+          "labelName": "XL Recordings"
+        },
+        {
+          "rank": 14,
+          "previousRank": 12,
+          "artistName": "Caroline Polachek",
+          "trackName": "Welcome to My Island",
+          "albumName": "Desire, I Want to Turn Into You",
+          "labelName": "Perpetual Novice"
+        },
+        {
+          "rank": 15,
+          "previousRank": 17,
+          "artistName": "Vampire Weekend",
+          "trackName": "Classical",
+          "albumName": "Only God Was Above Us",
+          "labelName": "Columbia"
+        },
+        {
+          "rank": 16,
+          "previousRank": 14,
+          "artistName": "Mk.gee",
+          "trackName": "Are You Looking Up",
+          "albumName": "Two Star & the Dream Police",
+          "labelName": "R&R Digital"
+        },
+        {
+          "rank": 17,
+          "previousRank": 19,
+          "artistName": "Geese",
+          "trackName": "3D Country",
+          "albumName": "3D Country",
+          "labelName": "Partisan"
+        },
+        {
+          "rank": 18,
+          "previousRank": 16,
+          "artistName": "Nation of Language",
+          "trackName": "Weak in Your Light",
+          "albumName": "Strange Disciple",
+          "labelName": "Play It Again Sam"
+        },
+        {
+          "rank": 19,
+          "previousRank": 21,
+          "artistName": "Dehd",
+          "trackName": "Bad Love",
+          "albumName": "Poetry",
+          "labelName": "Fat Possum"
+        },
+        {
+          "rank": 20,
+          "previousRank": 18,
+          "artistName": "bar italia",
+          "trackName": "Nurse!",
+          "albumName": "Tracey Denim",
+          "labelName": "Matador"
+        },
+        {
+          "rank": 21,
+          "previousRank": 23,
+          "artistName": "IDLES",
+          "trackName": "Gift Horse",
+          "albumName": "TANGK",
+          "labelName": "Partisan"
+        },
+        {
+          "rank": 22,
+          "previousRank": 20,
+          "artistName": "Porridge Radio",
+          "trackName": "Back to the Radio",
+          "albumName": "Waterslide, Diving Board, Ladder to the Sky",
+          "labelName": "Secretly Canadian"
+        },
+        {
+          "rank": 23,
+          "previousRank": null,
+          "artistName": "Model/Actriz",
+          "trackName": "Mosquito",
+          "albumName": "Dogsbody",
+          "labelName": "True Panther"
+        },
+        {
+          "rank": 24,
+          "previousRank": 22,
+          "artistName": "Blonde Redhead",
+          "trackName": "Not Getting There",
+          "albumName": "Sit Down for Dinner",
+          "labelName": "Section1"
+        },
+        {
+          "rank": 25,
+          "previousRank": 24,
+          "artistName": "Turnstile",
+          "trackName": "Mystery",
+          "albumName": "Glow On",
+          "labelName": "Roadrunner"
+        }
+      ]
+    },
+    "halloween": {
+      "weekOf": "2025-10-31",
+      "title": "25 Best Halloween Costumes",
+      "preheader": "Halloween 2025",
+      "tracks": [
+        {
+          "rank": 1,
+          "costumeName": "Vampire"
+        },
+        {
+          "rank": 2,
+          "costumeName": "Zombie"
+        },
+        {
+          "rank": 3,
+          "costumeName": "Witch"
+        },
+        {
+          "rank": 4,
+          "costumeName": "Ghost"
+        },
+        {
+          "rank": 5,
+          "costumeName": "Skeleton"
+        },
+        {
+          "rank": 6,
+          "costumeName": "Mummy"
+        },
+        {
+          "rank": 7,
+          "costumeName": "Werewolf"
+        },
+        {
+          "rank": 8,
+          "costumeName": "Frankenstein's Monster"
+        },
+        {
+          "rank": 9,
+          "costumeName": "Black Cat"
+        },
+        {
+          "rank": 10,
+          "costumeName": "Grim Reaper"
+        },
+        {
+          "rank": 11,
+          "costumeName": "Devil"
+        },
+        {
+          "rank": 12,
+          "costumeName": "Angel"
+        },
+        {
+          "rank": 13,
+          "costumeName": "Pirate"
+        },
+        {
+          "rank": 14,
+          "costumeName": "Superhero"
+        },
+        {
+          "rank": 15,
+          "costumeName": "Clown"
+        },
+        {
+          "rank": 16,
+          "costumeName": "Mad Scientist"
+        },
+        {
+          "rank": 17,
+          "costumeName": "Scarecrow"
+        },
+        {
+          "rank": 18,
+          "costumeName": "Alien"
+        },
+        {
+          "rank": 19,
+          "costumeName": "Dinosaur"
+        },
+        {
+          "rank": 20,
+          "costumeName": "Princess"
+        },
+        {
+          "rank": 21,
+          "costumeName": "Cowboy"
+        },
+        {
+          "rank": 22,
+          "costumeName": "Fairy"
+        },
+        {
+          "rank": 23,
+          "costumeName": "Robot"
+        },
+        {
+          "rank": 24,
+          "costumeName": "Knight"
+        },
+        {
+          "rank": 25,
+          "costumeName": "Astronaut"
+        }
+      ]
+    },
+    "mostAdded": {
+      "weekOf": "2024-12-02",
+      "title": "Most Added - Chicago Artists",
+      "tracks": [
+        {
+          "rank": 1,
+          "artistName": "Ratboys",
+          "trackName": "Making Noise for the Ones You Love",
+          "albumName": "The Window",
+          "labelName": "Topshelf Records",
+          "isLocal": true
+        },
+        {
+          "rank": 2,
+          "artistName": "Divino Niño",
+          "trackName": "Drive",
+          "albumName": "Last Spa on Earth",
+          "labelName": "Winspear",
+          "isLocal": true
+        },
+        {
+          "rank": 3,
+          "artistName": "The Hecks",
+          "trackName": "My Star",
+          "albumName": "My Star",
+          "labelName": "Trouble In Mind",
+          "isLocal": true
+        },
+        {
+          "rank": 4,
+          "artistName": "Dehd",
+          "trackName": "Loner",
+          "albumName": "Poetry",
+          "labelName": "Fat Possum",
+          "isLocal": true
+        },
+        {
+          "rank": 5,
+          "artistName": "Twin Peaks",
+          "trackName": "Oh Mama",
+          "albumName": "Lookout Low",
+          "labelName": "Grand Jury",
+          "isLocal": true
+        },
+        {
+          "rank": 6,
+          "artistName": "Moontype",
+          "trackName": "Ferry",
+          "albumName": "Bodies of Water",
+          "labelName": "Born Yesterday",
+          "isLocal": true
+        },
+        {
+          "rank": 7,
+          "artistName": "Whitney",
+          "trackName": "Terminal",
+          "albumName": "SPARK",
+          "labelName": "Secretly Canadian",
+          "isLocal": true
+        },
+        {
+          "rank": 8,
+          "artistName": "FACS",
+          "trackName": "Strawberry Cough",
+          "albumName": "Still Life in Decay",
+          "labelName": "Trouble In Mind",
+          "isLocal": true
+        },
+        {
+          "rank": 9,
+          "artistName": "Cafe Racer",
+          "trackName": "Vitamin C",
+          "albumName": "Vitamin C",
+          "labelName": "Self-Released",
+          "isLocal": true
+        },
+        {
+          "rank": 10,
+          "artistName": "Lifeguard",
+          "trackName": "Crowd Can Talk",
+          "albumName": "Crowd Can Talk",
+          "labelName": "Matador",
+          "isLocal": true
+        },
+        {
+          "rank": 11,
+          "artistName": "Friko",
+          "trackName": "Crashing Through",
+          "albumName": "Where we've been, Where we go from here",
+          "labelName": "ATO Records",
+          "isLocal": true
+        },
+        {
+          "rank": 12,
+          "artistName": "Post Office Winter",
+          "trackName": "Blurry",
+          "albumName": "Fool",
+          "labelName": "Self-Released",
+          "isLocal": true
+        },
+        {
+          "rank": 13,
+          "artistName": "Deeper",
+          "trackName": "This Heat",
+          "albumName": "Auto-Pain",
+          "labelName": "Sub Pop",
+          "isLocal": true
+        },
+        {
+          "rank": 14,
+          "artistName": "Stuck",
+          "trackName": "Peachy",
+          "albumName": "Frisk",
+          "labelName": "Exploding In Sound",
+          "isLocal": true
+        },
+        {
+          "rank": 15,
+          "artistName": "Horsegirl",
+          "trackName": "Anti-glory",
+          "albumName": "Versions of Modern Performance",
+          "labelName": "Matador",
+          "isLocal": true
+        },
+        {
+          "rank": 16,
+          "artistName": "Pool Holographics",
+          "trackName": "Violet Hour",
+          "albumName": "Goodnight, Sweetheart",
+          "labelName": "Self-Released",
+          "isLocal": true
+        },
+        {
+          "rank": 17,
+          "artistName": "NE-HI",
+          "trackName": "Buried on the Moon",
+          "albumName": "Offers",
+          "labelName": "Grand Jury",
+          "isLocal": true
+        },
+        {
+          "rank": 18,
+          "artistName": "Slow Pulp",
+          "trackName": "Slugs",
+          "albumName": "Yard",
+          "labelName": "Anti-",
+          "isLocal": true
+        },
+        {
+          "rank": 19,
+          "artistName": "Clearance",
+          "trackName": "Rapid Rewards",
+          "albumName": "Rapid Rewards",
+          "labelName": "Trouble In Mind",
+          "isLocal": true
+        },
+        {
+          "rank": 20,
+          "artistName": "Dummy",
+          "trackName": "Pepsi Vacuum",
+          "albumName": "Free Energy",
+          "labelName": "Trouble In Mind",
+          "isLocal": true
+        },
+        {
+          "rank": 21,
+          "artistName": "Rookie",
+          "trackName": "When It Rains",
+          "albumName": "Sentimental Punk",
+          "labelName": "Self-Released",
+          "isLocal": true
+        },
+        {
+          "rank": 22,
+          "artistName": "Pixel Grip",
+          "trackName": "Arena",
+          "albumName": "Arena",
+          "labelName": "Feeltrip",
+          "isLocal": true
+        },
+        {
+          "rank": 23,
+          "artistName": "Djunah",
+          "trackName": "Wrong Body",
+          "albumName": "Femina Furens",
+          "labelName": "Sargent House",
+          "isLocal": true
+        },
+        {
+          "rank": 24,
+          "artistName": "Tenci",
+          "trackName": "Earthquake",
+          "albumName": "A Swollen River, A Well Overflowing",
+          "labelName": "Keeled Scales",
+          "isLocal": true
+        },
+        {
+          "rank": 25,
+          "artistName": "Spaces of Disappearance",
+          "trackName": "Leaving",
+          "albumName": "Mesmerism",
+          "labelName": "American Dreams",
+          "isLocal": true
+        }
+      ]
+    }
+  }
+}

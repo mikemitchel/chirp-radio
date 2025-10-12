@@ -58,7 +58,7 @@ export default function CrDonateForm({
   const isVinylCircle = variant === 'vinylCircle'
 
   const defaultContent = {
-    eyebrowText: 'CHIRP Radio',
+    eyebrowText: 'Donate to CHIRP',
     title: 'Donate to Chirp',
     description:
       'You helped make our year amazing! Your support let us upgrade both our studios, double our workspace, and launch a new event, Chicago Independent Day. We have even more big plans in 2025, including rebuilding our website and app! Your belief and support are essential to everything we do. Please make a tax-deductible year-end gift today. Get a limited edition CHIRP logo notebook and stylus pen when you give $100 or more!',
@@ -66,7 +66,7 @@ export default function CrDonateForm({
   }
 
   const vinylCircleContent = {
-    eyebrowText: 'CHIRP Radio',
+    eyebrowText: 'Donate to CHIRP',
     title: 'The Vinyl Circle',
     description:
       'CHIRP is excited to announce The Vinyl Circle, our NEW major donor club. Listeners like you have always been the force that keeps our local community radio station strong. We want to recognize your contribution with some special benefits that show off your CHIRP allegiance and make you an even more integral part of the CHIRP family.',
@@ -261,7 +261,7 @@ export default function CrDonateForm({
               rightIcon={<PiArrowRight />}
               onClick={onSwitchToDefault}
             >
-              Make a regular donation instead
+              Make a Regular Donation
             </CrButton>
           </div>
         </div>
