@@ -27,10 +27,22 @@
   font: var(--cr-body-reg);
   font-weight: 600;
   color: var(--cr-ink);
+  margin-right: var(--cr-space-1);
 }
 
-.cr-rating-list-item__separator,
-.cr-rating-list-item__artist,
+.cr-rating-list-item__separator {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  margin-right: var(--cr-space-1);
+  flex-shrink: 0;
+}
+
+.cr-rating-list-item__artist {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  margin-right: var(--cr-space-1);
+}
+
 .cr-rating-list-item__company {
   font: var(--cr-body-reg);
   color: var(--cr-ink);

@@ -1,5 +1,6 @@
 // CrScrim.tsx
 import React from 'react'
+import { createPortal } from 'react-dom'
 import './CrScrim.css'
 
 interface CrScrimProps {
@@ -17,7 +18,7 @@ interface CrScrimProps {
 export default function CrScrim({
   isVisible = false,
   onClick,
-  opacity = 0.5,
+  opacity = 0.75,
   zIndex = 1000,
   className = '',
   children,
@@ -42,9 +43,10 @@ export default function CrScrim({
     animationDuration: `${animationDuration}s`,
   }
 
-  return (
+  return createPortal(
     <div className={scrimClasses} style={scrimStyle} onClick={onClick}>
       {children}
-    </div>
+    </div>,
+    document.body
   )
 }

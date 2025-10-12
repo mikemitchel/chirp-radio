@@ -12,12 +12,16 @@ export default {
     docs: {
       description: {
         component:
-          'Built from CrButton atoms, CrMenuButton atom for close action, CrScrim atom for backdrop overlay, and content area. Modal dialog component with customizable content, close button, and backdrop overlay using CrScrim. Supports different sizes and content types with proper focus management and keyboard navigation. Always visible in Storybook for design review. Dark mode adapts through [data-theme="dark"] CSS selectors.',
+          'Built from CrButton atoms, CrMenuButton atom for close action, CrScrim atom for backdrop overlay, and content area. Modal dialog component with customizable content, close button, and backdrop overlay using CrScrim. Supports different sizes and content types with proper focus management and keyboard navigation. Uses React Portal to render at document.body level, ensuring it appears above all other content. Dark mode adapts through [data-theme="dark"] CSS selectors. To use the modal, manage its visibility with useState: create an isOpen state, pass it to the isOpen prop, and provide onClose and scrimOnClick handlers that set the state to false. Trigger the modal by setting isOpen to true (e.g., via a button click).',
       },
     },
   },
   tags: ['autodocs'],
   argTypes: {
+    isOpen: {
+      control: false,
+      description: 'Controls modal visibility - manage with useState in your component',
+    },
     title: {
       control: 'text',
       description: 'Modal title',
@@ -43,6 +47,10 @@ export default {
       action: 'modal closed',
       description: 'Callback when modal is closed via CrMenuButton',
     },
+    scrimOnClick: {
+      action: 'scrim clicked',
+      description: 'Callback when scrim/backdrop is clicked',
+    },
   },
 }
 
@@ -51,37 +59,35 @@ export const Default = {
     title: 'Basic Modal',
     showDjInfo: false,
     showCloseButton: true,
-    scrimOpacity: 0.5,
+    scrimOpacity: 0.75,
   },
   render: (args) => {
+    const [isOpen, setIsOpen] = React.useState(false)
+
     return React.createElement(
       'div',
       {
         style: {
-          height: '100vh',
-          position: 'relative',
+          padding: 'var(--cr-space-4)',
           background: 'var(--cr-background)',
         },
       },
       [
-        // Background content
+        React.createElement('h1', { key: 'title' }, 'Page Content'),
         React.createElement(
-          'div',
+          'p',
+          { key: 'desc' },
+          'This is the background content that appears behind the modal.'
+        ),
+        React.createElement(
+          CrButton,
           {
-            key: 'bg-content',
-            style: {
-              padding: 'var(--cr-space-4)',
-              height: '100vh',
-            },
+            key: 'open-button',
+            variant: 'solid',
+            color: 'primary',
+            onClick: () => setIsOpen(true),
           },
-          [
-            React.createElement('h1', { key: 'title' }, 'Page Content'),
-            React.createElement(
-              'p',
-              { key: 'desc' },
-              'This is the background content that appears behind the modal.'
-            ),
-          ]
+          'Open Modal'
         ),
         // Modal overlay
         React.createElement(
@@ -89,32 +95,31 @@ export const Default = {
           {
             key: 'modal',
             ...args,
+            isOpen: isOpen,
+            onClose: () => setIsOpen(false),
+            scrimOnClick: () => setIsOpen(false),
           },
-          React.createElement('div', { key: 'modal-content' }, [
+          React.createElement('div', { key: 'modal-content', className: 'cr-modal__body' }, [
             React.createElement(
               'p',
-              { key: 'p1' },
+              { key: 'p1', className: 'cr-modal__text' },
               'This is a basic modal without DJ information.'
             ),
             React.createElement(
               'p',
-              { key: 'p2' },
+              { key: 'p2', className: 'cr-modal__text' },
               'You can put any content here including forms, images, and interactive elements.'
             ),
             React.createElement(
               'p',
-              { key: 'p3' },
+              { key: 'p3', className: 'cr-modal__text' },
               'The close button now uses CrMenuButton with the close variant for consistency.'
             ),
             React.createElement(
               'div',
               {
                 key: 'actions',
-                style: {
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  marginTop: 'var(--cr-space-4)',
-                },
+                className: 'cr-modal__actions',
               },
               React.createElement(
                 CrButton,
@@ -122,6 +127,7 @@ export const Default = {
                   key: 'action',
                   variant: 'solid',
                   color: 'primary',
+                  onClick: () => setIsOpen(false),
                 },
                 'Take Action'
               )
@@ -142,7 +148,15 @@ export const WithDjInfo = {
     isOnAir: true,
     statusText: 'On-Air',
     showCloseButton: true,
-    scrimOpacity: 0.5,
+    scrimOpacity: 0.75,
+  },
+  parameters: {
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 400,
+      },
+    },
   },
   render: (args) => {
     return React.createElement(
@@ -180,28 +194,24 @@ export const WithDjInfo = {
           {
             key: 'modal-dj',
             ...args,
+            isOpen: true,
           },
-          React.createElement('div', { key: 'modal-content-dj' }, [
+          React.createElement('div', { key: 'modal-content-dj', className: 'cr-modal__body' }, [
             React.createElement(
               'p',
-              { key: 'intro' },
+              { key: 'intro', className: 'cr-modal__text' },
               'This modal includes DJ information in the header, showing the current DJ and show details.'
             ),
             React.createElement(
               'p',
-              { key: 'desc' },
+              { key: 'desc', className: 'cr-modal__text' },
               'This is useful for modals that appear during live broadcasts or show-specific interactions.'
             ),
             React.createElement(
               'div',
               {
                 key: 'actions',
-                style: {
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  gap: 'var(--cr-space-2)',
-                  marginTop: 'var(--cr-space-4)',
-                },
+                className: 'cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap',
               },
               [
                 React.createElement(
@@ -237,7 +247,15 @@ export const SmallSize = {
     size: 'small',
     showDjInfo: false,
     showCloseButton: true,
-    scrimOpacity: 0.5,
+    scrimOpacity: 0.75,
+  },
+  parameters: {
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 400,
+      },
+    },
   },
   render: (args) => {
     return React.createElement(
@@ -275,23 +293,19 @@ export const SmallSize = {
           {
             key: 'modal-small',
             ...args,
+            isOpen: true,
           },
-          React.createElement('div', { key: 'modal-content-small' }, [
+          React.createElement('div', { key: 'modal-content-small', className: 'cr-modal__body' }, [
             React.createElement(
               'p',
-              { key: 'confirm' },
+              { key: 'confirm', className: 'cr-modal__text' },
               'Are you sure you want to delete this item? This action cannot be undone.'
             ),
             React.createElement(
               'div',
               {
                 key: 'actions',
-                style: {
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  gap: 'var(--cr-space-2)',
-                  marginTop: 'var(--cr-space-4)',
-                },
+                className: 'cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap',
               },
               [
                 React.createElement(
@@ -327,7 +341,15 @@ export const LargeSize = {
     size: 'large',
     showDjInfo: false,
     showCloseButton: true,
-    scrimOpacity: 0.5,
+    scrimOpacity: 0.75,
+  },
+  parameters: {
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 400,
+      },
+    },
   },
   render: (args) => {
     return React.createElement(
@@ -365,40 +387,37 @@ export const LargeSize = {
           {
             key: 'modal-large',
             ...args,
+            isOpen: true,
           },
-          React.createElement('div', { key: 'modal-content-large' }, [
+          React.createElement('div', { key: 'modal-content-large', className: 'cr-modal__body' }, [
             React.createElement(
               'p',
-              { key: 'intro' },
+              { key: 'intro', className: 'cr-modal__text' },
               'This is a large modal that can contain more extensive content.'
             ),
             React.createElement('h3', { key: 'section1' }, 'Section One'),
             React.createElement(
               'p',
-              { key: 'content1' },
+              { key: 'content1', className: 'cr-modal__text' },
               'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
             ),
             React.createElement('h3', { key: 'section2' }, 'Section Two'),
             React.createElement(
               'p',
-              { key: 'content2' },
+              { key: 'content2', className: 'cr-modal__text' },
               'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
             ),
             React.createElement('h3', { key: 'section3' }, 'Section Three'),
             React.createElement(
               'p',
-              { key: 'content3' },
+              { key: 'content3', className: 'cr-modal__text' },
               'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
             ),
             React.createElement(
               'div',
               {
                 key: 'actions',
-                style: {
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  marginTop: 'var(--cr-space-6)',
-                },
+                className: 'cr-modal__actions',
               },
               React.createElement(
                 CrButton,
@@ -417,99 +436,20 @@ export const LargeSize = {
   },
 }
 
-export const LightScrim = {
-  args: {
-    title: 'Light Background Modal',
-    showDjInfo: false,
-    showCloseButton: true,
-    scrimOpacity: 0.2,
-  },
-  render: (args) => {
-    return React.createElement(
-      'div',
-      {
-        style: {
-          height: '100vh',
-          position: 'relative',
-          background: 'var(--cr-background)',
-        },
-      },
-      [
-        // Background content
-        React.createElement(
-          'div',
-          {
-            key: 'bg-content-light',
-            style: {
-              padding: 'var(--cr-space-4)',
-              height: '100vh',
-            },
-          },
-          [
-            React.createElement('h1', { key: 'title' }, 'Background Content'),
-            React.createElement(
-              'p',
-              { key: 'desc1' },
-              'This content is still visible behind the modal due to the lighter scrim.'
-            ),
-            React.createElement(
-              'p',
-              { key: 'desc2' },
-              'The scrim opacity is set to 0.2 instead of the default 0.5.'
-            ),
-          ]
-        ),
-        // Modal overlay
-        React.createElement(
-          CrModal,
-          {
-            key: 'modal-light',
-            ...args,
-          },
-          React.createElement('div', { key: 'modal-content-light' }, [
-            React.createElement(
-              'p',
-              { key: 'desc' },
-              'This modal uses a lighter scrim opacity (0.2) to show more of the background content.'
-            ),
-            React.createElement(
-              'p',
-              { key: 'desc2' },
-              'Adjust the scrimOpacity control to see different backdrop effects.'
-            ),
-            React.createElement(
-              'div',
-              {
-                key: 'actions',
-                style: {
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  marginTop: 'var(--cr-space-4)',
-                },
-              },
-              React.createElement(
-                CrButton,
-                {
-                  key: 'close',
-                  variant: 'solid',
-                  color: 'primary',
-                },
-                'Close'
-              )
-            ),
-          ])
-        ),
-      ]
-    )
-  },
-}
-
 export const NoCloseButton = {
   args: {
     title: 'System Message',
     showDjInfo: false,
     showCloseButton: false,
     scrimOpacity: 0.6,
+  },
+  parameters: {
+    docs: {
+      story: {
+        inline: false,
+        iframeHeight: 400,
+      },
+    },
   },
   render: (args) => {
     return React.createElement(
@@ -547,17 +487,14 @@ export const NoCloseButton = {
           {
             key: 'modal-noclose',
             ...args,
+            isOpen: true,
           },
-          React.createElement('div', { key: 'modal-content-noclose' }, [
+          React.createElement('div', { key: 'modal-content-noclose', className: 'cr-modal__body' }, [
             React.createElement(
               'div',
               {
                 key: 'icon',
-                style: {
-                  textAlign: 'center',
-                  marginBottom: 'var(--cr-space-4)',
-                  fontSize: '48px',
-                },
+                className: 'cr-modal__icon',
               },
               React.createElement(PiMusicNotes, {
                 style: { color: 'var(--cr-primary-500)' },
@@ -567,7 +504,7 @@ export const NoCloseButton = {
               'p',
               {
                 key: 'message',
-                style: { textAlign: 'center' },
+                className: 'cr-modal__text cr-modal__text--center',
               },
               'This modal has no close button in the header. Users must use the action buttons to proceed.'
             ),
@@ -575,12 +512,7 @@ export const NoCloseButton = {
               'div',
               {
                 key: 'actions',
-                style: {
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  gap: 'var(--cr-space-2)',
-                  marginTop: 'var(--cr-space-6)',
-                },
+                className: 'cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap',
               },
               [
                 React.createElement(

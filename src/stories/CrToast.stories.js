@@ -10,15 +10,15 @@ const withImageBackground = (Story) =>
       style: {
         position: 'relative',
         width: '100%',
-        maxHeight: '150px',
-        height: '150px',
+        minHeight: '500px',
+        height: '500px',
         backgroundImage: 'url("https://images.pexels.com/photos/196652/pexels-photo-196652.jpeg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center bottom',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        overflow: 'hidden',
+        overflow: 'visible',
       },
     },
     React.createElement(Story)
@@ -32,14 +32,14 @@ const withTextBackground = (Story) =>
       style: {
         position: 'relative',
         width: '100%',
-        maxHeight: '150px',
-        height: '150px',
+        minHeight: '500px',
+        height: '500px',
         backgroundColor: '#f8f9fa',
         padding: '20px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        overflow: 'hidden',
+        overflow: 'visible',
       },
     },
     [
@@ -165,6 +165,20 @@ export default {
 
 // Default story - Success type with dismiss button
 export const Default = {
+  render: (args) => {
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    React.useEffect(() => {
+      if (args.showToast) {
+        setIsVisible(true)
+      }
+    }, [args.showToast])
+
+    return isVisible ? React.createElement(CrToast, {
+      ...args,
+      onClose: () => setIsVisible(false)
+    }) : null
+  },
   args: {
     type: 'success',
     title: 'Song Added to Favorites',
@@ -172,12 +186,32 @@ export const Default = {
     linkText: 'View your Favorites list in your Account',
     linkHref: '/favorites',
     showDismiss: true,
+    showToast: true,
+  },
+  argTypes: {
+    showToast: {
+      control: 'boolean',
+      description: 'Toggle to show/hide the toast',
+    },
   },
 }
 
 // Success notification with dismiss
 export const Success = {
-  render: (args) => React.createElement(CrToast, args),
+  render: (args) => {
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    React.useEffect(() => {
+      if (args.showToast) {
+        setIsVisible(true)
+      }
+    }, [args.showToast])
+
+    return isVisible ? React.createElement(CrToast, {
+      ...args,
+      onClose: () => setIsVisible(false)
+    }) : null
+  },
   args: {
     type: 'success',
     title: 'Settings Saved',
@@ -185,12 +219,32 @@ export const Success = {
     linkText: 'View Settings',
     linkHref: '/settings',
     showDismiss: true,
+    showToast: true,
+  },
+  argTypes: {
+    showToast: {
+      control: 'boolean',
+      description: 'Toggle to show/hide the toast',
+    },
   },
 }
 
 // Info notification with dismiss
 export const Info = {
-  render: (args) => React.createElement(CrToast, args),
+  render: (args) => {
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    React.useEffect(() => {
+      if (args.showToast) {
+        setIsVisible(true)
+      }
+    }, [args.showToast])
+
+    return isVisible ? React.createElement(CrToast, {
+      ...args,
+      onClose: () => setIsVisible(false)
+    }) : null
+  },
   args: {
     type: 'info',
     title: 'Profile Updated',
@@ -198,12 +252,32 @@ export const Info = {
     linkText: 'View Profile',
     linkHref: '/profile',
     showDismiss: true,
+    showToast: true,
+  },
+  argTypes: {
+    showToast: {
+      control: 'boolean',
+      description: 'Toggle to show/hide the toast',
+    },
   },
 }
 
 // Warning notification with dismiss
 export const Warning = {
-  render: (args) => React.createElement(CrToast, args),
+  render: (args) => {
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    React.useEffect(() => {
+      if (args.showToast) {
+        setIsVisible(true)
+      }
+    }, [args.showToast])
+
+    return isVisible ? React.createElement(CrToast, {
+      ...args,
+      onClose: () => setIsVisible(false)
+    }) : null
+  },
   args: {
     type: 'warning',
     title: 'Connection Issue',
@@ -211,12 +285,32 @@ export const Warning = {
     linkText: 'Troubleshoot',
     linkHref: '/help/connection',
     showDismiss: true,
+    showToast: true,
+  },
+  argTypes: {
+    showToast: {
+      control: 'boolean',
+      description: 'Toggle to show/hide the toast',
+    },
   },
 }
 
 // Error notification with dismiss
 export const Error = {
-  render: (args) => React.createElement(CrToast, args),
+  render: (args) => {
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    React.useEffect(() => {
+      if (args.showToast) {
+        setIsVisible(true)
+      }
+    }, [args.showToast])
+
+    return isVisible ? React.createElement(CrToast, {
+      ...args,
+      onClose: () => setIsVisible(false)
+    }) : null
+  },
   args: {
     type: 'error',
     title: 'Playback Error',
@@ -224,12 +318,32 @@ export const Error = {
     linkText: 'Report Issue',
     linkHref: '/support',
     showDismiss: true,
+    showToast: true,
+  },
+  argTypes: {
+    showToast: {
+      control: 'boolean',
+      description: 'Toggle to show/hide the toast',
+    },
   },
 }
 
 // Toast over text content example
 export const OverTextContent = {
-  render: (args) => React.createElement(CrToast, args),
+  render: (args) => {
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    React.useEffect(() => {
+      if (args.showToast) {
+        setIsVisible(true)
+      }
+    }, [args.showToast])
+
+    return isVisible ? React.createElement(CrToast, {
+      ...args,
+      onClose: () => setIsVisible(false)
+    }) : null
+  },
   decorators: [withTextBackground],
   args: {
     type: 'success',
@@ -238,38 +352,105 @@ export const OverTextContent = {
     linkText: 'View your Favorites list',
     linkHref: '/favorites',
     showDismiss: true,
+    showToast: true,
+  },
+  argTypes: {
+    showToast: {
+      control: 'boolean',
+      description: 'Toggle to show/hide the toast',
+    },
   },
 }
 
 // Simple notification without link but with dismiss
 export const WithoutLink = {
-  render: (args) => React.createElement(CrToast, args),
+  render: (args) => {
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    React.useEffect(() => {
+      if (args.showToast) {
+        setIsVisible(true)
+      }
+    }, [args.showToast])
+
+    return isVisible ? React.createElement(CrToast, {
+      ...args,
+      onClose: () => setIsVisible(false)
+    }) : null
+  },
   args: {
     type: 'success',
     title: 'Settings Saved',
     message: 'Your preferences have been updated successfully.',
     showDismiss: true,
+    showToast: true,
+  },
+  argTypes: {
+    showToast: {
+      control: 'boolean',
+      description: 'Toggle to show/hide the toast',
+    },
   },
 }
 
 // Title only with dismiss
 export const TitleOnly = {
-  render: (args) => React.createElement(CrToast, args),
+  render: (args) => {
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    React.useEffect(() => {
+      if (args.showToast) {
+        setIsVisible(true)
+      }
+    }, [args.showToast])
+
+    return isVisible ? React.createElement(CrToast, {
+      ...args,
+      onClose: () => setIsVisible(false)
+    }) : null
+  },
   args: {
     type: 'info',
     title: 'Now Playing: Artist Name - Song Title',
     showDismiss: true,
+    showToast: true,
+  },
+  argTypes: {
+    showToast: {
+      control: 'boolean',
+      description: 'Toggle to show/hide the toast',
+    },
   },
 }
 
 // Without dismiss button (legacy behavior)
 export const WithoutDismiss = {
-  render: (args) => React.createElement(CrToast, args),
+  render: (args) => {
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    React.useEffect(() => {
+      if (args.showToast) {
+        setIsVisible(true)
+      }
+    }, [args.showToast])
+
+    return isVisible ? React.createElement(CrToast, {
+      ...args,
+      onClose: () => setIsVisible(false)
+    }) : null
+  },
   args: {
     type: 'success',
     title: 'Auto-Dismissing Toast',
     message: 'This toast will auto-dismiss after timeout.',
     showDismiss: false,
+    showToast: true,
+  },
+  argTypes: {
+    showToast: {
+      control: 'boolean',
+      description: 'Toggle to show/hide the toast',
+    },
   },
   parameters: {
     docs: {
@@ -282,7 +463,20 @@ export const WithoutDismiss = {
 
 // Story without glass effect for comparison
 export const OnPlainBackground = {
-  render: (args) => React.createElement(CrToast, args),
+  render: (args) => {
+    const [isVisible, setIsVisible] = React.useState(true)
+
+    React.useEffect(() => {
+      if (args.showToast) {
+        setIsVisible(true)
+      }
+    }, [args.showToast])
+
+    return isVisible ? React.createElement(CrToast, {
+      ...args,
+      onClose: () => setIsVisible(false)
+    }) : null
+  },
   decorators: [],
   parameters: {
     layout: 'centered',
@@ -301,5 +495,12 @@ export const OnPlainBackground = {
     linkText: 'View your Favorites list in your Account',
     linkHref: '/favorites',
     showDismiss: true,
+    showToast: true,
+  },
+  argTypes: {
+    showToast: {
+      control: 'boolean',
+      description: 'Toggle to show/hide the toast',
+    },
   },
 }

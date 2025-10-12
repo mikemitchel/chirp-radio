@@ -4,9 +4,8 @@
 .cr-logo-banner {
   position: relative;
   width: 100%;
-  box-sizing: border-box;
-  padding: var(--cr-space-3) var(--cr-space-6); /* 12px 24px */
   background-color: var(--cr-primary-500); /* Default: Red background */
+  border-bottom: 4px solid var(--cr-primary-500);
 }
 
 /* Dark mode Component Support */
@@ -16,6 +15,10 @@
 
 /* Container layout - responsive by default */
 .cr-logo-banner__container {
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0 var(--cr-space-6); /* 0 24px */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,10 +30,11 @@
 /* Logo container */
 .cr-logo-banner__logo-container {
   flex: 0 0 auto;
-  height: 80px;
+  height: 100px;
   width: 400px;
   display: flex;
   align-items: center;
+  text-decoration: none;
 }
 
 /* Player container */
@@ -41,17 +45,18 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   /* Switch to stacked layout on smaller screens */
   .cr-logo-banner__container {
     flex-direction: column;
     align-items: center;
-    gap: var(--cr-space-6); /* 24px gap */
+    gap: var(--cr-space-4); /* 16px gap */
+    margin-bottom: var(--cr-space-3);
   }
 
   .cr-logo-banner__logo-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 480px;
     justify-content: center;
   }
 

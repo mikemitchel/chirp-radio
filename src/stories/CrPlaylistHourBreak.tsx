@@ -9,6 +9,7 @@ interface CrPlaylistHourBreakProps {
   djProfileUrl?: string
   showName?: string
   isCollapsed?: boolean
+  showChevron?: boolean
   className?: string
 }
 
@@ -19,15 +20,18 @@ export default function CrPlaylistHourBreak({
   djProfileUrl = '#',
   showName = '',
   isCollapsed = false,
+  showChevron = true,
   className = '',
 }: CrPlaylistHourBreakProps) {
   return (
     <div className={`cr-playlist-hour-break ${className}`}>
-      <div
-        className={`cr-playlist-hour-break__chevron ${isCollapsed ? 'cr-playlist-hour-break__chevron--collapsed' : ''}`}
-      >
-        <PiCaretDown />
-      </div>
+      {showChevron && (
+        <div
+          className={`cr-playlist-hour-break__chevron ${isCollapsed ? 'cr-playlist-hour-break__chevron--collapsed' : ''}`}
+        >
+          <PiCaretDown />
+        </div>
+      )}
       <span className="cr-playlist-hour-break__time">
         {startTime} - {endTime}
       </span>

@@ -278,6 +278,20 @@ export default function CrTextureShowcase() {
             ),
           ]),
         ]),
+        React.createElement('div', { key: 'dust-d300', className: 'sg-texture-swatch' }, [
+          React.createElement('div', {
+            key: 'box',
+            className: 'sg-texture-rectangle cr-bg-textured cr-bg-dust-d300',
+          }),
+          React.createElement('div', { key: 'info', className: 'sg-texture-info' }, [
+            React.createElement('div', { key: 'name', className: 'sg-texture-name' }, 'Dust D300'),
+            React.createElement(
+              'div',
+              { key: 'value', className: 'sg-texture-value' },
+              'cr-bg-dust-d300'
+            ),
+          ]),
+        ]),
         React.createElement('div', { key: 'dust-d100', className: 'sg-texture-swatch' }, [
           React.createElement('div', {
             key: 'box',

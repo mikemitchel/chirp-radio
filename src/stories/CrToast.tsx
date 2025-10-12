@@ -1,5 +1,5 @@
 // CrToast.tsx
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   PiMinusSquare,
   PiCheckSquare,
@@ -19,6 +19,8 @@ interface CrToastProps {
   onLinkClick?: () => void
   onClose?: () => void
   showDismiss?: boolean
+  isVisible?: boolean
+  duration?: number
 }
 
 export default function CrToast({
@@ -30,7 +32,32 @@ export default function CrToast({
   onLinkClick,
   onClose,
   showDismiss = true,
+  isVisible = true,
+  duration = 5000,
 }: CrToastProps) {
+  const [isFadingOut, setIsFadingOut] = React.useState(false)
+
+  useEffect(() => {
+    // Reset fade state when becoming visible
+    if (isVisible) {
+      setIsFadingOut(false)
+    }
+
+    if (isVisible && duration > 0 && onClose) {
+      const fadeTimer = setTimeout(() => {
+        setIsFadingOut(true)
+      }, duration - 300) // Start fade 300ms before close
+
+      const closeTimer = setTimeout(() => {
+        onClose()
+      }, duration)
+
+      return () => {
+        clearTimeout(fadeTimer)
+        clearTimeout(closeTimer)
+      }
+    }
+  }, [isVisible, duration, onClose])
   const getIcon = () => {
     switch (type) {
       case 'remove':
@@ -83,9 +110,10 @@ export default function CrToast({
 
   return (
     <div
-      className={`cr-toast ${getColorClass()}`}
+      className={`cr-toast ${getColorClass()} ${isFadingOut ? 'cr-toast--fade-out' : ''}`}
       role="alert"
       aria-live={type === 'error' ? 'assertive' : 'polite'}
+      style={{ '--toast-duration': `${duration}ms` } as React.CSSProperties}
     >
       <div className="cr-toast__content">
         <div className="cr-toast__icon">{getIcon()}</div>

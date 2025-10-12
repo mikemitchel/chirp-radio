@@ -11,6 +11,8 @@ interface CrListProps {
   items?: any[]
   onItemAddClick?: (item: any, index: number) => void
   className?: string
+  showActionButton?: boolean
+  showAddButton?: boolean
 }
 
 export default function CrList({
@@ -25,6 +27,8 @@ export default function CrList({
   onItemAddClick,
 
   className = '',
+  showActionButton = true,
+  showAddButton = true,
 }: CrListProps) {
   const componentClasses = ['cr-rating-card', className].filter(Boolean).join(' ')
 
@@ -35,8 +39,8 @@ export default function CrList({
         title={title}
         height="tall"
         textLayout="stacked"
-        backgroundColor="textured"
-        showTicketButton={true}
+        backgroundColor="none"
+        showTicketButton={showActionButton}
         showShareButton={false}
         ticketButtonText={bannerButtonText}
         onTicketClick={onBannerButtonClick}
@@ -50,7 +54,7 @@ export default function CrList({
             songName={item.songName}
             artistName={item.artistName}
             recordCompany={item.recordCompany}
-            showAddButton={item.showAddButton !== false}
+            showAddButton={showAddButton && item.showAddButton !== false}
             onAddClick={() => onItemAddClick && onItemAddClick(item, index)}
           />
         ))}

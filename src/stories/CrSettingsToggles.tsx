@@ -10,6 +10,7 @@ interface CrSettingsTogglesProps {
   onPushNotificationsChange?: (checked: boolean) => void
   darkMode?: 'light' | 'dark' | 'device'
   onDarkModeChange?: (mode: 'light' | 'dark' | 'device') => void
+  size?: 'small' | 'medium' | 'large'
   className?: string
 }
 
@@ -20,6 +21,7 @@ export default function CrSettingsToggles({
   onPushNotificationsChange,
   darkMode = 'device',
   onDarkModeChange,
+  size = 'large',
   className = '',
 }: CrSettingsTogglesProps) {
   const [localStreamingQuality, setLocalStreamingQuality] = useState(streamingQuality)
@@ -64,8 +66,8 @@ export default function CrSettingsToggles({
         <div className="cr-settings-toggles__setting-info">
           <span className="cr-settings-toggles__setting-label">Dark Mode</span>
         </div>
-        <div className="form-radio-group">
-          <label className="form-radio-item">
+        <div className={`form-radio-group form-radio-group--${size}`}>
+          <label className={`form-radio-item form-radio-item--${size}`}>
             <input
               type="radio"
               name="dark-mode"
@@ -75,7 +77,7 @@ export default function CrSettingsToggles({
             />
             Light
           </label>
-          <label className="form-radio-item">
+          <label className={`form-radio-item form-radio-item--${size}`}>
             <input
               type="radio"
               name="dark-mode"
@@ -85,7 +87,7 @@ export default function CrSettingsToggles({
             />
             Dark
           </label>
-          <label className="form-radio-item">
+          <label className={`form-radio-item form-radio-item--${size}`}>
             <input
               type="radio"
               name="dark-mode"
@@ -112,7 +114,7 @@ export default function CrSettingsToggles({
             checked={localStreamingQuality === '128'}
             onChange={handleStreamingQualityChange}
             aria-label="Streaming quality selection"
-            size="large"
+            size={size}
           />
         </div>
       </div>
@@ -130,7 +132,7 @@ export default function CrSettingsToggles({
             checked={localPushNotifications}
             onChange={handlePushNotificationsChange}
             aria-label="Toggle push notifications"
-            size="large"
+            size={size}
           />
         </div>
       </div>

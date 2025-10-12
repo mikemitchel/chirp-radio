@@ -7,6 +7,10 @@
   color: var(--cr-ink);
 }
 
+.cr-donate-form .cr-page-header {
+  margin-bottom: var(--cr-space-12);
+}
+
 .cr-donate-form__description {
   margin-bottom: var(--cr-space-8);
 }

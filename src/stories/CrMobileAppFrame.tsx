@@ -8,6 +8,7 @@ import './CrMobileAppFrame.css'
 interface CrMobileAppFrameProps {
   variant?: 'landing' | 'interior'
   pageTitle?: string
+  headerActionButton?: React.ReactNode
   onLogoClick?: () => void
   streamingPlayerProps?: any
   children?: React.ReactNode
@@ -39,6 +40,7 @@ interface CrMobileAppFrameProps {
 export default function CrMobileAppFrame({
   variant = 'interior', // 'landing' or 'interior'
   pageTitle = 'CHIRP Radio',
+  headerActionButton,
   onLogoClick,
   // Streaming player props
   streamingPlayerProps = {},
@@ -72,6 +74,8 @@ export default function CrMobileAppFrame({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const handleMenuClick = () => {
+    // Clear any visible toasts when opening menu
+    window.dispatchEvent(new CustomEvent('chirp-hide-toast'));
     setIsSidebarOpen(true)
   }
 
@@ -105,6 +109,7 @@ export default function CrMobileAppFrame({
           onMenuClick={handleMenuClick}
           onLogoClick={onLogoClick}
           variant="transparent"
+          actionButton={headerActionButton}
         />
       </div>
 
@@ -123,6 +128,7 @@ export default function CrMobileAppFrame({
           pageTitle={pageTitle}
           onMenuClick={handleMenuClick}
           onLogoClick={onLogoClick}
+          actionButton={headerActionButton}
         />
       </div>
 

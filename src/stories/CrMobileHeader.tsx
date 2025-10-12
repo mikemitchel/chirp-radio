@@ -1,4 +1,5 @@
 // CrMobileHeader.tsx
+import React from 'react'
 import CrLogo from './CrLogo'
 import CrMenuButton from './CrMenuButton'
 import './CrMobileHeader.css'
@@ -8,6 +9,7 @@ interface CrMobileHeaderProps {
   onMenuClick?: () => void
   onLogoClick?: () => void
   variant?: 'default' | 'transparent'
+  actionButton?: React.ReactNode
 }
 
 export default function CrMobileHeader({
@@ -15,6 +17,7 @@ export default function CrMobileHeader({
   onMenuClick,
   onLogoClick,
   variant = 'default',
+  actionButton,
 }: CrMobileHeaderProps) {
   const headerClasses = ['cr-mobile-header', `cr-mobile-header--${variant}`]
     .filter(Boolean)
@@ -25,7 +28,10 @@ export default function CrMobileHeader({
       <div className="cr-mobile-header__logo" onClick={onLogoClick}>
         <CrLogo variant="vertical" className="cr-mobile-header__logo-image" />
       </div>
-      <div className="cr-mobile-header__page-title">{pageTitle}</div>
+      <div className="cr-mobile-header__title-section">
+        <div className="cr-mobile-header__page-title">{pageTitle}</div>
+        {actionButton && <div className="cr-mobile-header__action">{actionButton}</div>}
+      </div>
       <CrMenuButton variant="menu" layout="icon-right" text="MENU" onClick={onMenuClick} />
     </div>
   )

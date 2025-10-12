@@ -3,7 +3,7 @@ import React from 'react'
 import CrDjSchedule from './CrDjSchedule'
 
 // Mock schedule data
-const mockScheduleData = {
+export const mockScheduleData = {
   Monday: [
     {
       slug: 'morning-classics',

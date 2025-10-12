@@ -14,19 +14,35 @@ interface CrCardProps {
   venue?: string
   ageRestriction?: string
   contentSummary?: string
+  excerpt?: string
+  content?: string
   metaContent?: string
   timeSlot?: string
   showMeta?: boolean
+  showMetaTop?: boolean
+  authorBy?: string
+  eventDate?: string
+  tags?: string[]
+  eyebrow?: string
   preheader?: string
   title?: string
+  titleTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  titleSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+  showName?: string
+  scheduleInfo?: string
   bannerButtonText?: string
   shareButtonText?: string
   continueButtonText?: string
+  bannerButtonVariant?: 'outline' | 'solid' | 'text'
+  bannerButtonIcon?: React.ReactNode
+  ticketUrl?: string
+  shareUrl?: string
   onBannerTicketClick?: () => void
   onBannerShareClick?: () => void
   onVenueClick?: () => void
   onShareClick?: () => void
   onContinueClick?: () => void
+  onClick?: () => void
   variant?: string
   imagePosition?: string
   imageSize?: string
@@ -35,7 +51,12 @@ interface CrCardProps {
   articleImageAspectRatio?: string
   type?: string
   bannerHeight?: string
+  textLayout?: string
+  bannerBackgroundColor?: string
+  showTicketButton?: boolean
+  showShareButton?: boolean
   className?: string
+  isFavorite?: boolean
 }
 
 export default function CrCard({
@@ -50,18 +71,35 @@ export default function CrCard({
 
   // Content
   contentSummary = 'Vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo.',
+  excerpt,
+  content,
 
   // Meta content for article layouts
   metaContent = 'This content is 30 characters.',
   timeSlot = 'Monday 12pm - 12pm',
   showMeta = false,
+  showMetaTop = false,
+  authorBy = 'by Sally Forth',
+  eventDate = 'September 30, 2025',
+  tags = [],
 
   // Banner props
+  eyebrow,
   preheader = 'Intro Preheader Thing',
   title = 'Title of the Thing',
+  titleTag = 'h2',
+  titleSize = 'md',
+  showName,
+  scheduleInfo,
   bannerButtonText = 'Buy Tix',
   shareButtonText = 'Share',
   continueButtonText = 'Continue Reading',
+  bannerButtonVariant = 'outline',
+  bannerButtonIcon,
+  ticketUrl,
+  shareUrl,
+  showShareButton = true,
+  showTicketButton = true,
 
   // Event handlers
   onBannerTicketClick,
@@ -69,6 +107,7 @@ export default function CrCard({
   onVenueClick,
   onShareClick,
   onContinueClick,
+  onClick,
 
   // Layout variant
   variant = 'default', // "default", "wide", "narrow", "small", "article"
@@ -88,10 +127,35 @@ export default function CrCard({
   // CrCardBanner height
   bannerHeight = 'narrow', // "narrow" or "tall"
 
+  // CrCardBanner text layout
+  textLayout = 'inline', // "inline" or "stacked"
+
+  // CrCardBanner background color
+  bannerBackgroundColor = 'textured', // "textured" or "none"
+
   className = '',
+  isFavorite = false,
 }: CrCardProps) {
-  // Use articleImageAspectRatio when variant is 'article'
-  const activeImageAspectRatio = variant === 'article' ? articleImageAspectRatio : imageAspectRatio
+  // Determine active image aspect ratio based on variant
+  const activeImageAspectRatio = variant === 'article'
+    ? articleImageAspectRatio
+    : variant === 'small'
+      ? '1:1'
+      : imageAspectRatio
+
+  // Click handler
+  const handleClick = () => {
+    if (onClick) {
+      onClick()
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleClick()
+    }
+  }
 
   // Memoized class computation
   const componentClasses = React.useMemo(
@@ -102,11 +166,12 @@ export default function CrCard({
         variant === 'article' && `cr-card--article-${imagePosition}`,
         variant === 'article' && `cr-card--article-${imageSize}`,
         `cr-card--${activeImageAspectRatio.replace(':', '-')}`,
+        onClick && 'cr-card--clickable',
         className,
       ]
         .filter(Boolean)
         .join(' '),
-    [variant, imagePosition, imageSize, activeImageAspectRatio, className]
+    [variant, imagePosition, imageSize, activeImageAspectRatio, onClick, className]
   )
 
   // Shared components - memoized to prevent re-renders
@@ -114,28 +179,54 @@ export default function CrCard({
     () => (
       <div className="cr-card__article-header">
         <CrCardBanner
-          preheader={preheader}
+          preheader={eyebrow || preheader}
           title={title}
+          titleTag={titleTag}
+          titleSize={titleSize}
           height={bannerHeight}
-          textLayout="inline"
+          textLayout={textLayout}
           backgroundColor="none"
-          showTicketButton={true}
-          showShareButton={true}
+          showTicketButton={showTicketButton}
+          showShareButton={showShareButton}
           ticketButtonText={bannerButtonText}
           shareButtonText={shareButtonText}
+          ticketButtonVariant={bannerButtonVariant}
+          ticketButtonIcon={bannerButtonIcon}
+          ticketUrl={ticketUrl}
+          shareUrl={shareUrl}
           onTicketClick={onBannerTicketClick}
           onShareClick={onBannerShareClick}
+          isFavorite={isFavorite}
         />
+        {(showName || scheduleInfo) && (
+          <div className="cr-card__dj-meta">
+            {showName && <div className="cr-card__show-name">{showName}</div>}
+            {scheduleInfo && <div className="cr-card__schedule-info">{scheduleInfo}</div>}
+          </div>
+        )}
       </div>
     ),
     [
+      eyebrow,
       preheader,
       title,
+      titleTag,
+      titleSize,
       bannerHeight,
+      textLayout,
+      showName,
+      scheduleInfo,
       bannerButtonText,
       shareButtonText,
+      bannerButtonVariant,
+      bannerButtonIcon,
+      ticketUrl,
+      shareUrl,
+      showTicketButton,
+      showShareButton,
       onBannerTicketClick,
       onBannerShareClick,
+      isFavorite,
     ]
   )
 
@@ -172,9 +263,37 @@ export default function CrCard({
     switch (variant) {
       case 'article':
         return (
-          <div className={componentClasses}>
+          <div
+            className={componentClasses}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={onClick ? 0 : undefined}
+            role={onClick ? 'button' : undefined}
+            aria-label={onClick ? `View ${title}` : undefined}
+          >
             {ArticleHeader}
-            {showMeta && MetaInfo}
+
+            {type === 'article' && (
+              <CrCardDetails
+                type="article"
+                authorBy={authorBy}
+                eventDate={eventDate}
+                tags={tags}
+                showShareButton={false}
+              />
+            )}
+
+            {type === 'event' && (
+              <CrCardDetails
+                type="event"
+                dateTime={dateTime}
+                venue={venue}
+                onVenueClick={onVenueClick}
+                showShareButton={false}
+              />
+            )}
+
+            {type !== 'dj' && showMeta && MetaInfo}
 
             <div className="cr-card__article-content">
               {imagePosition === 'full' && (
@@ -191,7 +310,43 @@ export default function CrCard({
                     <ImageWithCaption />
                   </div>
                 )}
-                <p className="cr-card__content-text">{contentSummary}</p>
+                {excerpt && <p className="cr-card__content-excerpt">{excerpt}</p>}
+                {content && (
+                  <div
+                    className="cr-card__content-text"
+                    dangerouslySetInnerHTML={{
+                      __html: (() => {
+                        let html = content
+                        // Convert **bold** to <strong>
+                        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+
+                        // Split into blocks first
+                        const blocks = html.split('\n\n')
+                        const processedBlocks = blocks.map(block => {
+                          // Check if block contains ordered list items
+                          const lines = block.split('\n')
+                          const isOrderedList = lines.every(line =>
+                            line.trim() === '' || /^\d+\.\s/.test(line)
+                          ) && lines.some(line => /^\d+\.\s/.test(line))
+
+                          if (isOrderedList) {
+                            const listItems = lines
+                              .filter(line => /^\d+\.\s/.test(line))
+                              .map(item => `<li>${item.replace(/^\d+\.\s/, '')}</li>`)
+                              .join('')
+                            return `<ol>${listItems}</ol>`
+                          }
+
+                          // Otherwise wrap in paragraph
+                          return block.trim() ? `<p>${block}</p>` : ''
+                        }).filter(block => block !== '')
+
+                        return processedBlocks.join('')
+                      })()
+                    }}
+                  />
+                )}
+                {!excerpt && !content && <p className="cr-card__content-text">{contentSummary}</p>}
               </div>
             </div>
           </div>
@@ -199,14 +354,23 @@ export default function CrCard({
 
       case 'small':
         return (
-          <div className={componentClasses}>
+          <div
+            className={componentClasses}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={onClick ? 0 : undefined}
+            role={onClick ? 'button' : undefined}
+            aria-label={onClick ? `View ${title}` : undefined}
+          >
             <div className="cr-card__small-banner">
               <CrCardBanner
                 preheader={preheader}
                 title={title}
+                titleTag={titleTag}
+                titleSize={titleSize}
                 height={bannerHeight}
-                textLayout="stacked"
-                backgroundColor="none"
+                textLayout={textLayout}
+                backgroundColor={bannerBackgroundColor}
                 showTicketButton={false}
                 showShareButton={false}
                 className="cr-card__small-banner-collapsed"
@@ -246,39 +410,63 @@ export default function CrCard({
 
       case 'narrow':
         return (
-          <div className={componentClasses}>
+          <div
+            className={componentClasses}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={onClick ? 0 : undefined}
+            role={onClick ? 'button' : undefined}
+            aria-label={onClick ? `View ${title}` : undefined}
+          >
             <div className="cr-card__narrow-banner">
               <CrCardBanner
                 preheader={preheader}
                 title={title}
+                titleTag={titleTag}
+                titleSize={titleSize}
                 height={bannerHeight}
-                textLayout="stacked"
-                backgroundColor="none"
+                textLayout={textLayout}
+                backgroundColor={bannerBackgroundColor}
                 showTicketButton={false}
-                showShareButton={false}
+                showShareButton={type === 'article' && !showMetaTop}
+                shareButtonText={shareButtonText}
+                onShareClick={onBannerShareClick}
               />
             </div>
 
-            <div className="cr-card__narrow-date-location">
-              <div className="cr-card__narrow-date-location-content">
-                <div className="cr-card__narrow-datetime">
-                  <PiCalendarDots className="cr-card__narrow-icon" />
-                  <span className="cr-card__narrow-text">{dateTime}</span>
+            {type === 'article' && showMetaTop ? (
+              <div className="cr-card__narrow-date-location">
+                <div className="cr-card__narrow-date-location-content">
+                  <div className="cr-card__narrow-datetime">
+                    <span className="cr-card__narrow-text">{authorBy}</span>
+                  </div>
+                  <div className="cr-card__narrow-datetime">
+                    <span className="cr-card__narrow-text">{eventDate}</span>
+                  </div>
                 </div>
-
-                <a
-                  href="#"
-                  className="cr-card__narrow-venue"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    onVenueClick?.()
-                  }}
-                >
-                  <PiMapTrifold className="cr-card__narrow-icon" />
-                  <span className="cr-card__narrow-venue-text">{venue}</span>
-                </a>
               </div>
-            </div>
+            ) : type !== 'article' ? (
+              <div className="cr-card__narrow-date-location">
+                <div className="cr-card__narrow-date-location-content">
+                  <div className="cr-card__narrow-datetime">
+                    <PiCalendarDots className="cr-card__narrow-icon" />
+                    <span className="cr-card__narrow-text">{dateTime}</span>
+                  </div>
+
+                  <a
+                    href="#"
+                    className="cr-card__narrow-venue"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      onVenueClick?.()
+                    }}
+                  >
+                    <PiMapTrifold className="cr-card__narrow-icon" />
+                    <span className="cr-card__narrow-venue-text">{venue}</span>
+                  </a>
+                </div>
+              </div>
+            ) : null}
 
             <div
               className={`cr-card__narrow-image cr-card__narrow-image--${activeImageAspectRatio.replace(':', '-')}`}
@@ -297,21 +485,58 @@ export default function CrCard({
 
             <div className="cr-card__narrow-age-share">
               <div className="cr-card__narrow-age-share-content">
-                {ageRestriction && (
-                  <CrChip variant="secondary" size="large">
-                    {ageRestriction}
-                  </CrChip>
-                )}
+                {type === 'article' ? (
+                  <>
+                    {!showMetaTop && (
+                      <>
+                        <div className="cr-card__narrow-datetime">
+                          <span className="cr-card__narrow-text">{authorBy}</span>
+                        </div>
+                        <div className="cr-card__narrow-datetime">
+                          <span className="cr-card__narrow-text">{eventDate}</span>
+                        </div>
+                      </>
+                    )}
+                    {tags && tags.length > 0 && (
+                      <div style={{ display: 'flex', gap: 'var(--cr-space-2)', flexWrap: 'wrap' }}>
+                        {tags.map((tag, index) => (
+                          <CrChip key={index} variant="secondary" size="medium">
+                            {tag}
+                          </CrChip>
+                        ))}
+                      </div>
+                    )}
+                    {showMetaTop && (
+                      <CrButton
+                        size="small"
+                        variant="outline"
+                        color="secondary"
+                        leftIcon={<PiArrowSquareUp />}
+                        onClick={onShareClick}
+                      >
+                        {shareButtonText}
+                      </CrButton>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {ageRestriction && (
+                      <CrChip variant="secondary" size="large">
+                        {ageRestriction}
+                      </CrChip>
+                    )}
 
-                <CrButton
-                  size="small"
-                  variant="outline"
-                  color="secondary"
-                  leftIcon={<PiArrowSquareUp />}
-                  onClick={onShareClick}
-                >
-                  {shareButtonText}
-                </CrButton>
+                    <CrButton
+                      size="small"
+                      variant="outline"
+                      color="secondary"
+                      leftIcon={<PiArrowSquareUp />}
+                      onClick={onShareClick}
+                    >
+                      {shareButtonText}
+                    </CrButton>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -319,13 +544,22 @@ export default function CrCard({
 
       case 'wide':
         return (
-          <div className={componentClasses}>
+          <div
+            className={componentClasses}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={onClick ? 0 : undefined}
+            role={onClick ? 'button' : undefined}
+            aria-label={onClick ? `View ${title}` : undefined}
+          >
             <div className="cr-card__top-banner">
               <CrCardBanner
                 preheader={preheader}
                 title={title}
+                titleTag={titleTag}
+                titleSize={titleSize}
                 height={bannerHeight}
-                textLayout="inline"
+                textLayout={textLayout}
                 backgroundColor="none"
                 showTicketButton={false}
                 showShareButton={true}
@@ -356,6 +590,10 @@ export default function CrCard({
                 dateTime={dateTime}
                 venue={venue}
                 ageRestriction={ageRestriction}
+                authorBy={authorBy}
+                eventDate={eventDate}
+                tags={tags}
+                showShareButton={showShareButton}
                 onVenueClick={onVenueClick}
                 onShareClick={onShareClick}
               />
@@ -365,7 +603,14 @@ export default function CrCard({
 
       default: // "default" variant
         return (
-          <div className={componentClasses}>
+          <div
+            className={componentClasses}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={onClick ? 0 : undefined}
+            role={onClick ? 'button' : undefined}
+            aria-label={onClick ? `View ${title}` : undefined}
+          >
             <div className="cr-card__image-container">
               <div
                 className="cr-card__image"
@@ -378,6 +623,10 @@ export default function CrCard({
                     dateTime={dateTime}
                     venue={venue}
                     ageRestriction={ageRestriction}
+                    authorBy={authorBy}
+                    eventDate={eventDate}
+                    tags={tags}
+                    showShareButton={false}
                     onVenueClick={onVenueClick}
                     onShareClick={onShareClick}
                   />
@@ -393,11 +642,13 @@ export default function CrCard({
               <CrCardBanner
                 preheader={preheader}
                 title={title}
+                titleTag={titleTag}
+                titleSize={titleSize}
                 height={bannerHeight}
-                textLayout="inline"
+                textLayout={textLayout}
                 backgroundColor="none"
-                showTicketButton={true}
-                showShareButton={true}
+                showTicketButton={showTicketButton}
+                showShareButton={showShareButton}
                 ticketButtonText={bannerButtonText}
                 shareButtonText={shareButtonText}
                 onTicketClick={onBannerTicketClick}

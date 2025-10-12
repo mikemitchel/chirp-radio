@@ -66,6 +66,10 @@
   margin-left: var(--cr-space-2);
 }
 
+[data-theme='dark'] .cr-playlist-hour-break__line {
+  background-color: var(--cr-default-700);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .cr-playlist-hour-break {

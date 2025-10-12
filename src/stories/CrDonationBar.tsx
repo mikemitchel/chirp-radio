@@ -6,6 +6,7 @@ interface CrDonationBarProps {
   currentAmount?: number
   targetAmount?: number
   onDonateClick?: () => void
+  variant?: string
   className?: string
 }
 
@@ -13,6 +14,7 @@ export default function CrDonationBar({
   currentAmount = 7271,
   targetAmount = 48000,
   onDonateClick,
+  variant = 'default', // 'default' or 'reverse'
   className = '',
 }: CrDonationBarProps) {
   const [hasAnimated, setHasAnimated] = useState(false)
@@ -55,7 +57,9 @@ export default function CrDonationBar({
     }
   }, [hasAnimated])
 
-  const componentClasses = ['cr-donation-bar', className].filter(Boolean).join(' ')
+  const componentClasses = ['cr-donation-bar', `cr-donation-bar--${variant}`, className]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <div

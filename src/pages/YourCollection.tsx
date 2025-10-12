@@ -1,10 +1,18 @@
 // src/pages/YourCollection.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CrPageHeader from '../stories/CrPageHeader';
 import CrPlaylistTable from '../stories/CrPlaylistTable';
 import CrAnnouncement from '../stories/CrAnnouncement';
 import CrButton from '../stories/CrButton';
 import { useAuth } from '../hooks/useAuth';
+import { useNotification } from '../contexts/NotificationContext';
+import { downloadTracksAsCSV } from '../utils/csvExport';
+import {
+  getCollection,
+  removeFromCollection,
+  initializeSampleCollection,
+  type CollectionTrack
+} from '../utils/collectionDB';
 
 // Sample data - all items marked as added (isAdded: true) to show "remove" button
 const sampleCollectionItems = [
@@ -72,10 +80,64 @@ const sampleCollectionItems = [
 
 export default function YourCollection() {
   const { isLoggedIn, login } = useAuth();
+  const { showModal, showToast } = useNotification();
+  const [collection, setCollection] = useState<CollectionTrack[]>([]);
+
+  // Load collection on mount and when logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      // Initialize sample data if needed (for testing)
+      initializeSampleCollection();
+      setCollection(getCollection());
+    }
+  }, [isLoggedIn]);
+
+  // Add reset function to window for testing (only in development)
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      (window as any).resetCollection = () => {
+        localStorage.removeItem('chirp-collection');
+        initializeSampleCollection();
+        setCollection(getCollection());
+        console.log('Collection reset with new sample data');
+      };
+    }
+    return () => {
+      if (process.env.NODE_ENV === 'development') {
+        delete (window as any).resetCollection;
+      }
+    };
+  }, []);
+
+  // Listen for collection updates
+  useEffect(() => {
+    const handleCollectionUpdate = () => {
+      setCollection(getCollection());
+    };
+
+    window.addEventListener('chirp-collection-updated', handleCollectionUpdate);
+    return () => {
+      window.removeEventListener('chirp-collection-updated', handleCollectionUpdate);
+    };
+  }, []);
 
   const handleItemRemove = (item: any, index: number) => {
-    console.log('Remove item from collection:', item, index);
-    // TODO: Implement remove from collection functionality
+    showModal({
+      title: 'Remove from Collection',
+      message: `Are you sure you want to remove ${item.trackName} by ${item.artistName} from your collection?`,
+      confirmText: 'Yes, Remove',
+      cancelText: 'No',
+      onConfirm: () => {
+        const removed = removeFromCollection(item.id);
+        if (removed) {
+          showToast({
+            message: `Removed ${item.trackName} by ${item.artistName} from your collection`,
+            type: 'success',
+            duration: 5000,
+          });
+        }
+      },
+    });
   };
 
   const handleLogin = () => {
@@ -88,9 +150,22 @@ export default function YourCollection() {
     // TODO: Open signup modal or navigate to signup
   };
 
+  const handleDownloadCollection = () => {
+    // Get current date for filename
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+    const filename = `chirp-radio-my-collection-${today}.csv`;
+
+    downloadTracksAsCSV(collection, filename);
+    showToast({
+      message: 'Your collection has been downloaded',
+      type: 'success',
+      duration: 3000,
+    });
+  };
+
   if (!isLoggedIn) {
     return (
-      <div className="page-content">
+      <div>
         <CrPageHeader
           eyebrowText="CHIRP Radio"
           title="Your Collection"
@@ -99,73 +174,32 @@ export default function YourCollection() {
           titleSize="lg"
         />
 
-        <div style={{
-          padding: 'var(--cr-space-8) var(--cr-space-4)',
-          maxWidth: '600px',
-          margin: '0 auto'
-        }}>
-          <h2 style={{
-            font: 'var(--cr-body-bold)',
-            fontSize: '18px',
-            color: 'var(--cr-ink)',
-            marginBottom: 'var(--cr-space-4)'
-          }}>
+        <div>
+          <h2>
             Don't have a CHIRP Radio Account?
           </h2>
 
-          <p style={{
-            font: 'var(--cr-body-reg)',
-            color: 'var(--cr-ink)',
-            lineHeight: 1.4,
-            marginBottom: 'var(--cr-space-4)'
-          }}>
+          <p>
             A profile allows you to interact with the site in all sorts of helpful ways:
           </p>
 
-          <ul style={{
-            listStyle: 'disc',
-            paddingLeft: 'var(--cr-space-5)',
-            marginBottom: 'var(--cr-space-4)'
-          }}>
-            <li style={{
-              font: 'var(--cr-body-reg)',
-              color: 'var(--cr-ink)',
-              lineHeight: 1.4,
-              marginBottom: 'var(--cr-space-2)'
-            }}>
+          <ul>
+            <li>
               You can add songs to your collection that you hear across our web and mobile applications so you don't forget them
             </li>
-            <li style={{
-              font: 'var(--cr-body-reg)',
-              color: 'var(--cr-ink)',
-              lineHeight: 1.4,
-              marginBottom: 'var(--cr-space-2)'
-            }}>
+            <li>
               You can save your information for store purchases and donations
             </li>
-            <li style={{
-              font: 'var(--cr-body-reg)',
-              color: 'var(--cr-ink)',
-              lineHeight: 1.4
-            }}>
+            <li>
               Your profile settings will be saved between your mobile and web experiences
             </li>
           </ul>
 
-          <p style={{
-            font: 'var(--cr-body-reg)',
-            color: 'var(--cr-ink)',
-            lineHeight: 1.4,
-            marginBottom: 'var(--cr-space-6)'
-          }}>
+          <p>
             So create your profile today, and start getting the maximum benefit from CHIRPradio.org!
           </p>
 
-          <div style={{
-            display: 'flex',
-            gap: 'var(--cr-space-4)',
-            marginBottom: 'var(--cr-space-4)'
-          }}>
+          <div>
             <CrButton
               variant="solid"
               color="secondary"
@@ -189,17 +223,27 @@ export default function YourCollection() {
   }
 
   return (
-    <div className="page-content">
+    <div>
       <CrPageHeader
         eyebrowText="CHIRP Radio"
         title="Your Collection"
         showEyebrow={false}
-        showActionButton={false}
+        showActionButton={true}
+        actionButtonText="Download CSV"
+        onActionClick={handleDownloadCollection}
         titleSize="lg"
       />
 
       <CrPlaylistTable
-        items={sampleCollectionItems}
+        items={collection.map(track => ({
+          ...track,
+          isAdded: true,
+          timeAgo: `Added on ${new Date(track.dateAdded).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+          })}`
+        }))}
         showHeader={true}
         groupByHour={false}
         onItemAddClick={handleItemRemove}

@@ -55,3 +55,8 @@
 .cr-dropdown-menu--dark .cr-dropdown-menu__option:hover {
   color: var(--cr-primary-400);
 }
+
+/* Dark mode override */
+[data-theme="dark"] .cr-dropdown-menu__option:hover {
+  color: var(--cr-primary-700);
+}

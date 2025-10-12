@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function NowPlaying() {
   return (
-    <div className="page-content">
+    <div>
       <div className="page-header">
         <h1>Now Playing</h1>
         <p>Currently streaming on CHIRP Radio</p>
