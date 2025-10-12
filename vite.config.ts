@@ -26,6 +26,14 @@ export default defineConfig({
         target: 'https://chirpradio.appspot.com',
         changeOrigin: true,
         secure: false,
+        configure: (proxy, _options) => {
+          proxy.on('proxyRes', (proxyRes) => {
+            // Disable all caching on proxied responses
+            proxyRes.headers['cache-control'] = 'no-cache, no-store, must-revalidate';
+            proxyRes.headers['pragma'] = 'no-cache';
+            proxyRes.headers['expires'] = '0';
+          });
+        },
       },
     },
   },

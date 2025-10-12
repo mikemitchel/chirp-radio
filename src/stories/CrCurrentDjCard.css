@@ -6,7 +6,6 @@
   background-color: var(--cr-default-300);
   overflow: hidden;
   width: 100%;
-  max-width: 420px;
 }
 
 /* Top section with CrCurrentDj */
@@ -24,8 +23,8 @@
 /* Image container */
 .cr-current-dj-card__image-container {
   flex-shrink: 0;
-  width: 160px;
-  height: 160px;
+  width: 140px;
+  height: 140px;
   border-radius: var(--cr-space-2);
   overflow: hidden;
 }
@@ -54,6 +53,8 @@
   font: var(--cr-title-md);
   color: var(--cr-ink);
   margin: 0;
+  display: flex;
+  align-items: flex-end;
 }
 
 .cr-current-dj-card__meta {
@@ -88,34 +89,10 @@
   display: flex;
   gap: var(--cr-space-3);
   margin-top: auto;
+  flex-wrap: wrap;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .cr-current-dj-card__content {
-    flex-direction: column;
-    padding: 0 var(--cr-space-4) var(--cr-space-4) var(--cr-space-4);
-    gap: var(--cr-space-4);
-  }
-
-  .cr-current-dj-card__top {
-    padding: var(--cr-space-4) var(--cr-space-4);
-  }
-
-  .cr-current-dj-card__image-container {
-    width: 100%;
-    max-width: 160px;
-    margin: 0 auto;
-  }
-
-  .cr-current-dj-card__actions {
-    flex-direction: column;
-  }
-
-  .cr-current-dj-card__actions button {
-    width: 100%;
-  }
-}
 
 @media (max-width: 480px) {
   .cr-current-dj-card__top {

@@ -2,25 +2,32 @@
 
 /* Modal container - removed backdrop styles since CrScrim handles that */
 .cr-modal {
-  border-radius: var(--cr-space-2);
-  border: 1px solid var(--cr-default-300);
+  /* Enhanced glass morphism effect */
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--cr-space-4);
   box-shadow:
-    0px 10px 10px 0px rgba(0, 0, 0, 0.22),
-    0px 14px 28px 0px rgba(0, 0, 0, 0.25);
+    0 24px 72px rgba(0, 0, 0, 0.3),
+    0 12px 32px rgba(0, 0, 0, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 1),
+    inset 0 0 60px rgba(255, 255, 255, 0.5);
+
   width: 100%;
   max-width: 600px;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: modalSlideIn 0.2s ease-out forwards;
+  animation: modalSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   transform-origin: center;
 }
 
 @keyframes modalSlideIn {
   from {
     opacity: 0;
-    transform: scale(0.95) translateY(-10px);
+    transform: scale(0.9) translateY(-20px);
   }
   to {
     opacity: 1;
@@ -111,13 +118,55 @@
   color: inherit;
 }
 
-/* Content area - keep padding-top at 0 since header handles spacing */
+/* Content area - no padding to allow children to control their own spacing */
 .cr-modal__content {
-  padding: var(--cr-space-6);
-  padding-top: 0;
   overflow-y: auto;
   flex: 1;
   min-height: 0;
+}
+
+/* Content body - standard padding for content */
+.cr-modal__body {
+  padding: var(--cr-space-6);
+  padding-top: 0;
+}
+
+/* Modal actions container */
+.cr-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--cr-space-4);
+}
+
+.cr-modal__actions--space-between {
+  justify-content: space-between;
+}
+
+.cr-modal__actions--gap {
+  gap: var(--cr-space-2);
+}
+
+/* Modal text content */
+.cr-modal__text {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  margin: 0 0 var(--cr-space-4) 0;
+  line-height: 1.5;
+}
+
+.cr-modal__text:last-child {
+  margin-bottom: 0;
+}
+
+.cr-modal__text--center {
+  text-align: center;
+}
+
+/* Modal icon container */
+.cr-modal__icon {
+  text-align: center;
+  margin-bottom: var(--cr-space-4);
+  font-size: 48px;
 }
 
 /* Form styles - using CSS variables only */
@@ -191,21 +240,18 @@
   box-shadow: 0 0 0 3px var(--cr-primary-100);
 }
 
-/* Background-specific styles */
-.cr-modal.cr-bg-textured {
-  background-color: var(--cr-paper);
-  color: var(--cr-ink);
-}
-
 /* Dark mode adjustments */
 [data-theme='dark'] .cr-modal {
-  background-color: var(--cr-default-100);
-  border-color: var(--cr-default-300);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 3px solid rgba(255, 255, 255, 0.25);
   color: var(--cr-ink);
-}
-
-[data-theme='dark'] .cr-modal.cr-bg-textured {
-  background-color: var(--cr-default-100);
+  box-shadow:
+    0 24px 72px rgba(0, 0, 0, 0.6),
+    0 12px 32px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.15),
+    inset 0 0 60px rgba(255, 255, 255, 0.08);
 }
 
 [data-theme='dark'] .cr-modal__title {
@@ -221,10 +267,10 @@
 
   .cr-modal__header {
     padding: var(--cr-space-4) var(--cr-space-4) 0 var(--cr-space-4);
-    margin-bottom: var(--cr-space-6);
+    margin-bottom: 0;
   }
 
-  .cr-modal__content {
+  .cr-modal__body {
     padding: var(--cr-space-4);
     padding-top: 0;
   }

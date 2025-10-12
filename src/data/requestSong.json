@@ -1,0 +1,56 @@
+{
+  "heroImage": "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1200&h=800&fit=crop",
+  "introText": [
+    "Want to hear your favorite song on CHIRP Radio? We love taking requests from our listeners! Whether it's a deep cut you've been dying to hear, a local artist you want to support, or a new discovery you think everyone should experience, we want to know what you're into.",
+    "Our DJs are always on the lookout for great music suggestions, and listener requests help us stay connected to what our community wants to hear. While we can't guarantee every request will make it on air (our DJs curate their shows based on their individual tastes and the station's eclectic format), we read every message and love hearing from you!"
+  ],
+  "requestMethods": [
+    {
+      "id": "email",
+      "title": "Email Your Request",
+      "icon": "envelope",
+      "content": "Send your song request to dj@chirpradio.org\n\nBe sure to include:\n• Song title and artist name\n• Album name (if you know it)\n• Why you'd like to hear this song\n• Optional: Your name and shout-out message\n\nOur DJs check this inbox regularly and may play your request during their next show!",
+      "backgroundImage": "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "phone",
+      "title": "Call the Request Line",
+      "icon": "phone",
+      "contentSummary": "Pick up the phone and call 773-DJ-SONGS (773-357-6647) to speak directly with the DJ on air. This is the most direct way to make a request and you might even get a shout-out! The request line is monitored during live DJ shows.",
+      "backgroundImage": "https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "social",
+      "title": "Request via Social Media",
+      "icon": "twitter",
+      "contentSummary": "Use the hashtag #CHIRPrequest on X (formerly Twitter) to reach @CHIRPRadio. Tag us in your post with the song and artist you'd like to hear. Our DJs and social team monitor this hashtag, especially during live shows. Great for engaging with other listeners too!",
+      "backgroundImage": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop"
+    },
+    {
+      "id": "account",
+      "title": "Request Through Your Account",
+      "icon": "user",
+      "contentSummary": "Log in to your listener account on chirpradio.org to submit song requests directly through our website. This method keeps a record of your requests and allows you to track what you've requested in the past. Plus, our DJs can see your listening history and preferences!",
+      "backgroundImage": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=600&fit=crop"
+    }
+  ],
+  "tips": {
+    "title": "Request Tips for Best Results",
+    "description": "Want to increase your chances of hearing your request on air? Follow these helpful tips:",
+    "items": [
+      "Know your DJ's style — check the schedule to see what kind of music each DJ typically plays",
+      "Request songs that fit CHIRP's independent and eclectic format",
+      "Support local artists — we love playing Chicago musicians!",
+      "Include context — tell us why you love the song or why it's meaningful to you",
+      "Be patient — DJs receive many requests and curate shows in advance",
+      "Try requesting during live shows for the best response time",
+      "Keep it clean — we're a community radio station!",
+      "Don't request Top 40 hits — we focus on independent and lesser-known music"
+    ]
+  },
+  "note": {
+    "title": "A Note About Requests",
+    "content": "CHIRP Radio operates on a freeform format, which means our DJs have creative freedom to curate their shows. While we welcome and appreciate all requests, our DJs ultimately decide what fits their show's vibe and the station's mission to promote independent music. Even if your request doesn't make it on air immediately, it might inspire future playlists or introduce our DJs to new artists. Thank you for being an engaged listener and helping us discover great music together!",
+    "image": "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=800&h=600&fit=crop"
+  }
+}

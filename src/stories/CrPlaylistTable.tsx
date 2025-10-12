@@ -10,6 +10,7 @@ interface CrPlaylistTableProps {
   showHeader?: boolean
   onItemAddClick?: (item: any, index: number) => void
   groupByHour?: boolean
+  variant?: 'default' | 'table' | 'card'
   className?: string
 }
 
@@ -18,6 +19,7 @@ export default function CrPlaylistTable({
   showHeader = true,
   onItemAddClick,
   groupByHour = false,
+  variant = 'table',
   className = '',
 }: CrPlaylistTableProps) {
   const [collapsedHours, setCollapsedHours] = useState({})
@@ -95,7 +97,7 @@ export default function CrPlaylistTable({
                     {hourItems.map((item, index) => (
                       <CrPlaylistItem
                         key={item.id || `${hourKey}-${index}`}
-                        variant="table"
+                        variant={variant}
                         albumArt={item.albumArt}
                         albumArtAlt={item.albumArtAlt}
                         artistName={item.artistName}
@@ -128,7 +130,7 @@ export default function CrPlaylistTable({
         {items.map((item, index) => (
           <CrPlaylistItem
             key={item.id || index}
-            variant="table"
+            variant={variant}
             albumArt={item.albumArt}
             albumArtAlt={item.albumArtAlt}
             artistName={item.artistName}

@@ -32,11 +32,17 @@ export default {
       action: 'pushNotificationsChanged',
     },
     darkMode: {
-      control: 'boolean',
-      description: 'Dark mode enabled state',
+      control: { type: 'select' },
+      options: ['light', 'dark', 'device'],
+      description: 'Dark mode selection',
     },
     onDarkModeChange: {
       action: 'darkModeChanged',
+    },
+    size: {
+      control: { type: 'select' },
+      options: ['small', 'medium', 'large'],
+      description: 'Toggle size',
     },
   },
 }
@@ -46,25 +52,38 @@ export const Default = {
   args: {
     streamingQuality: '128',
     pushNotifications: false,
-    darkMode: false,
+    darkMode: 'device',
+    size: 'large',
   },
 }
 
-export const AllEnabled = {
+export const SmallSize = {
   render: (args) => React.createElement(CrSettingsToggles, args),
   args: {
     streamingQuality: '128',
     pushNotifications: true,
-    darkMode: true,
+    darkMode: 'device',
+    size: 'small',
   },
 }
 
-export const LowQuality = {
+export const MediumSize = {
   render: (args) => React.createElement(CrSettingsToggles, args),
   args: {
     streamingQuality: '64',
     pushNotifications: false,
-    darkMode: false,
+    darkMode: 'light',
+    size: 'medium',
+  },
+}
+
+export const LargeSize = {
+  render: (args) => React.createElement(CrSettingsToggles, args),
+  args: {
+    streamingQuality: '128',
+    pushNotifications: true,
+    darkMode: 'dark',
+    size: 'large',
   },
 }
 
@@ -74,11 +93,12 @@ export const WithHandlers = {
       ...args,
       onStreamingQualityChange: (quality) => console.log('Streaming quality changed to:', quality),
       onPushNotificationsChange: (enabled) => console.log('Push notifications:', enabled),
-      onDarkModeChange: (enabled) => console.log('Dark mode:', enabled),
+      onDarkModeChange: (mode) => console.log('Dark mode:', mode),
     }),
   args: {
     streamingQuality: '128',
     pushNotifications: false,
-    darkMode: false,
+    darkMode: 'device',
+    size: 'large',
   },
 }

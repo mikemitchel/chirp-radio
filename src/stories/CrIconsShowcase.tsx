@@ -1,83 +1,293 @@
 // CrIconsShowcase.tsx
 import React, { useState } from 'react'
 import {
-  PiHandHeartLight,
+  // Navigation & Actions
+  PiArrowRight,
+  PiArrowSquareUp,
   PiCaretLeft,
   PiCaretRight,
+  PiCaretUp,
   PiCaretDown,
-  PiUserCircle,
-  PiGearSix,
+  PiCaretUpDown,
+  PiX,
+  PiXBold,
+  PiMagnifyingGlass,
   PiDotsThreeOutlineVerticalFill,
+  PiPlus,
+  PiMinus,
+
+  // Calendar & Events
+  PiCalendarBlank,
+  PiCalendarDot,
+  PiCalendarDots,
+  PiCalendarPlus,
+  PiTicket,
+
+  // Music & Media
+  PiVinylRecord,
+  PiMusicNote,
+  PiMusicNotes,
+  PiPlaylist,
   PiPlayFill,
   PiPauseFill,
+  PiHeadphones,
+  PiMicrophone,
+
+  // User & Social
+  PiHeart,
+  PiHeartFill,
+  PiHandHeart,
+  PiHandHeartLight,
+  PiUser,
+  PiUserCircle,
+  PiChatCircleText,
   PiChatCircleTextLight,
-  PiMusicNotes,
-  PiGearLight,
-  PiPaperclip,
+  PiSignIn,
+
+  // Content & Documents
+  PiReadCvLogo,
   PiNotepad,
+  PiPaperclip,
+  PiNewspaper,
+  PiMapTrifold,
+
+  // Communication
+  PiPaperPlaneRight,
+  PiPaperPlaneTilt,
+
+  // Settings & Tools
+  PiGear,
+  PiFloppyDisk,
+  PiPencilSimple,
+  PiUploadSimple,
+
+  // Shopping & Commerce
+  PiShoppingBag,
+
+  // Visibility & Display
+  PiEye,
+  PiEyeSlash,
+  PiDownload,
+  PiDownloadSimple,
+  PiExport,
+
+  // Collection & Add
+  PiPlusCircle,
+  PiPlusSquare,
 } from 'react-icons/pi'
 import { FaFacebookSquare, FaInstagram, FaTwitterSquare, FaLinkedin } from 'react-icons/fa'
 import { SiBluesky } from 'react-icons/si'
 
 export default function CrIconsShowcase() {
-  const [selectedSize, setSelectedSize] = useState(24)
+  const [selectedSize, setSelectedSize] = useState(64)
   const [selectedColor, setSelectedColor] = useState('default')
 
   // All React Icons used in CHIRP components
   const icons = [
+    // Navigation & Actions
     {
-      name: 'PiHandHeartLight',
-      component: PiHandHeartLight,
-      usage: 'Used in buttons for community/volunteer actions, sidebar donate button',
-      components: ['CrButton', 'CrSelectButtonInteraction', 'CrSidebar'],
+      name: 'PiArrowRight',
+      component: PiArrowRight,
+      usage: 'Right arrow for buttons, CTAs, and forward navigation',
+      components: ['CrAnnouncement', 'CrShoppingCart', 'CrDonateForm', 'CrCard', 'CrCurrentDjCard'],
+    },
+    {
+      name: 'PiArrowSquareUp',
+      component: PiArrowSquareUp,
+      usage: 'Share or external link icon for cards and banners',
+      components: ['CrCardDetails', 'CrCardBanner', 'CrCard'],
     },
     {
       name: 'PiCaretLeft',
       component: PiCaretLeft,
-      usage: 'Left arrow icon for navigation buttons and controls',
-      components: ['CrButton'],
+      usage: 'Left navigation in pagination and calendar controls',
+      components: ['CrCalendarEvent', 'CrPagination'],
     },
     {
       name: 'PiCaretRight',
       component: PiCaretRight,
-      usage: 'Right arrow icon for navigation buttons and breadcrumbs',
-      components: ['CrButton', 'CrBreadcrumb'],
+      usage: 'Right navigation in pagination, calendar, and list expansion',
+      components: ['CrCalendarEvent', 'CrPagination', 'CrDonateForm', 'CrDjOverview'],
+    },
+    {
+      name: 'PiCaretUp',
+      component: PiCaretUp,
+      usage: 'Sort ascending indicator in tables',
+      components: ['CrTable'],
     },
     {
       name: 'PiCaretDown',
       component: PiCaretDown,
-      usage: 'Dropdown arrow icon for select button interactions',
-      components: ['CrSelectButtonInteraction'],
+      usage: 'Dropdown indicators, sort descending, and expandable sections',
+      components: ['CrSelectButtonInteraction', 'CrPlaylistHourBreak', 'CrTable'],
     },
     {
-      name: 'PiUserCircle',
-      component: PiUserCircle,
-      usage: 'User account and profile related interactions',
-      components: ['CrSelectButtonInteraction'],
+      name: 'PiCaretUpDown',
+      component: PiCaretUpDown,
+      usage: 'Sortable column indicator in tables',
+      components: ['CrTable'],
     },
     {
-      name: 'PiGearSix',
-      component: PiGearSix,
-      usage: 'Settings and configuration menus',
-      components: ['CrSelectButtonInteraction'],
+      name: 'PiX',
+      component: PiX,
+      usage: 'Close buttons and dismiss actions',
+      components: ['CrDjScheduleSearch', 'CrShoppingCart', 'CrMainNav'],
+    },
+    {
+      name: 'PiXBold',
+      component: PiXBold,
+      usage: 'Bold close button for menu overlays',
+      components: ['CrMenuButton'],
+    },
+    {
+      name: 'PiMagnifyingGlass',
+      component: PiMagnifyingGlass,
+      usage: 'Search icon in main navigation',
+      components: ['CrMainNav', 'CrMenuButton'],
     },
     {
       name: 'PiDotsThreeOutlineVerticalFill',
       component: PiDotsThreeOutlineVerticalFill,
-      usage: 'Main navigation menu toggle button',
+      usage: 'Menu toggle button in main navigation',
+      components: ['CrMenuButton'],
+    },
+    {
+      name: 'PiPlus',
+      component: PiPlus,
+      usage: 'Add or create new item actions',
+      components: ['CrPageHeader'],
+    },
+    {
+      name: 'PiMinus',
+      component: PiMinus,
+      usage: 'Remove or minimize actions',
+      components: ['CrProfileCard'],
+    },
+
+    // Calendar & Events
+    {
+      name: 'PiCalendarBlank',
+      component: PiCalendarBlank,
+      usage: 'Base calendar icon in calendar event component',
+      components: ['CrCalendarEvent'],
+    },
+    {
+      name: 'PiCalendarDot',
+      component: PiCalendarDot,
+      usage: 'Calendar with event indicator in main navigation',
       components: ['CrMainNav'],
+    },
+    {
+      name: 'PiCalendarDots',
+      component: PiCalendarDots,
+      usage: 'Events section headers and event-related CTAs',
+      components: ['CrCardDetails', 'CrCard', 'CrEventItem', 'CrPageHeader', 'Pages'],
+    },
+    {
+      name: 'PiCalendarPlus',
+      component: PiCalendarPlus,
+      usage: 'Add to calendar action on event detail pages',
+      components: ['EventDetailPage'],
+    },
+    {
+      name: 'PiTicket',
+      component: PiTicket,
+      usage: 'Ticket purchase button on event cards and banners',
+      components: ['CrCardBanner'],
+    },
+
+    // Music & Media
+    {
+      name: 'PiVinylRecord',
+      component: PiVinylRecord,
+      usage: 'Vinyl-related content, donation tiers, and music features',
+      components: ['CrDonateForm', 'ListenPage', 'LandingPage'],
+    },
+    {
+      name: 'PiMusicNote',
+      component: PiMusicNote,
+      usage: 'Single music note for DJ cards and music features',
+      components: ['CrCurrentDjCard'],
+    },
+    {
+      name: 'PiMusicNotes',
+      component: PiMusicNotes,
+      usage: 'Music library, collection links, and music-related actions',
+      components: ['CrSidebar', 'CrDjOverview', 'CrFormsShowcase', 'CrModal'],
+    },
+    {
+      name: 'PiPlaylist',
+      component: PiPlaylist,
+      usage: 'Playlist views and recently played sections',
+      components: ['CrRecentlyPlayed', 'ListenPage'],
     },
     {
       name: 'PiPlayFill',
       component: PiPlayFill,
-      usage: 'Play button in streaming music player (imported but using custom SVG)',
-      components: ['CrStreamingMusicPlayer'],
+      usage: 'Play button in music player and previous shows',
+      components: ['CrStreamingMusicPlayer', 'CrPreviousShows'],
     },
     {
       name: 'PiPauseFill',
       component: PiPauseFill,
-      usage: 'Pause button in streaming music player (imported but using custom SVG)',
-      components: ['CrStreamingMusicPlayer'],
+      usage: 'Pause button in music player and previous shows',
+      components: ['CrStreamingMusicPlayer', 'CrPreviousShows'],
+    },
+    {
+      name: 'PiHeadphones',
+      component: PiHeadphones,
+      usage: 'Listen/audio sections in navigation and DJ overview',
+      components: ['CrDjOverview'],
+    },
+    {
+      name: 'PiMicrophone',
+      component: PiMicrophone,
+      usage: 'DJ and broadcast-related navigation',
+      components: ['CrMainNav'],
+    },
+
+    // User & Social
+    {
+      name: 'PiHeart',
+      component: PiHeart,
+      usage: 'Favorite/like actions and profile interactions',
+      components: ['DJDetailPage', 'CrProfileCard', 'CrMenuButton', 'CrTable'],
+    },
+    {
+      name: 'PiHeartFill',
+      component: PiHeartFill,
+      usage: 'Favorited/liked state indicator',
+      components: ['DJDetailPage', 'CrTable'],
+    },
+    {
+      name: 'PiHandHeart',
+      component: PiHandHeart,
+      usage: 'DJ donation and support actions',
+      components: ['CrDjDonation'],
+    },
+    {
+      name: 'PiHandHeartLight',
+      component: PiHandHeartLight,
+      usage: 'Community actions, volunteer, and donate buttons in sidebar',
+      components: ['CrSidebar', 'CrSelectButtonInteraction', 'CrAnnouncement'],
+    },
+    {
+      name: 'PiUser',
+      component: PiUser,
+      usage: 'User profile placeholder and profile actions',
+      components: ['CrProfileCard'],
+    },
+    {
+      name: 'PiUserCircle',
+      component: PiUserCircle,
+      usage: 'User account menu and profile interactions',
+      components: ['CrSelectButtonInteraction'],
+    },
+    {
+      name: 'PiChatCircleText',
+      component: PiChatCircleText,
+      usage: 'Chat or comment features in DJ overview',
+      components: ['CrDjOverview'],
     },
     {
       name: 'PiChatCircleTextLight',
@@ -86,34 +296,136 @@ export default function CrIconsShowcase() {
       components: ['CrSidebar'],
     },
     {
-      name: 'PiMusicNotes',
-      component: PiMusicNotes,
-      usage: 'Your Collection link in sidebar footer',
-      components: ['CrSidebar'],
+      name: 'PiSignIn',
+      component: PiSignIn,
+      usage: 'Sign in prompt on request song page',
+      components: ['RequestSongPage'],
     },
+
+    // Content & Documents
     {
-      name: 'PiGearLight',
-      component: PiGearLight,
-      usage: 'Account Settings link in sidebar footer',
-      components: ['CrSidebar'],
-    },
-    {
-      name: 'PiPaperclip',
-      component: PiPaperclip,
-      usage: 'App Support & Feedback button icon',
-      components: ['CrAccountSettingsPage'],
+      name: 'PiReadCvLogo',
+      component: PiReadCvLogo,
+      usage: 'Articles section headers and article-related CTAs',
+      components: ['CrPageHeader', 'Pages'],
     },
     {
       name: 'PiNotepad',
       component: PiNotepad,
-      usage: 'Terms & Privacy button icon',
+      usage: 'Terms & Privacy documentation links',
       components: ['CrAccountSettingsPage'],
     },
     {
-      name: 'SiBluesky',
-      component: SiBluesky,
-      usage: 'Bluesky social media link in footer',
-      components: ['CrFooter'],
+      name: 'PiPaperclip',
+      component: PiPaperclip,
+      usage: 'App Support & Feedback button',
+      components: ['CrAccountSettingsPage'],
+    },
+    {
+      name: 'PiNewspaper',
+      component: PiNewspaper,
+      usage: 'News and articles navigation',
+      components: ['CrMainNav'],
+    },
+    {
+      name: 'PiMapTrifold',
+      component: PiMapTrifold,
+      usage: 'Venue location icon in card details',
+      components: ['CrCardDetails', 'CrCard'],
+    },
+
+    // Communication
+    {
+      name: 'PiPaperPlaneRight',
+      component: PiPaperPlaneRight,
+      usage: 'Send button in request forms',
+      components: ['CrRequestForm'],
+    },
+    {
+      name: 'PiPaperPlaneTilt',
+      component: PiPaperPlaneTilt,
+      usage: 'Submit button in song request forms',
+      components: ['CrSongRequestForm'],
+    },
+
+    // Settings & Tools
+    {
+      name: 'PiGear',
+      component: PiGear,
+      usage: 'Settings and configuration actions across the application',
+      components: ['CrPageHeader', 'CrSidebar', 'CrSelectButtonInteraction'],
+    },
+    {
+      name: 'PiFloppyDisk',
+      component: PiFloppyDisk,
+      usage: 'Save button in forms and edit interfaces',
+      components: ['CrVolunteerEditForm', 'CrProfileEditForm', 'CrFormsShowcase'],
+    },
+    {
+      name: 'PiPencilSimple',
+      component: PiPencilSimple,
+      usage: 'Edit actions in profile cards and image cropper',
+      components: ['CrProfileCard', 'CrImageCropper', 'CrPageHeader'],
+    },
+    {
+      name: 'PiUploadSimple',
+      component: PiUploadSimple,
+      usage: 'Upload button in image cropper',
+      components: ['CrImageCropper'],
+    },
+
+    // Shopping & Commerce
+    {
+      name: 'PiShoppingBag',
+      component: PiShoppingBag,
+      usage: 'Shopping cart and store navigation',
+      components: ['CrMainNav'],
+    },
+
+    // Visibility & Display
+    {
+      name: 'PiEye',
+      component: PiEye,
+      usage: 'Show/visibility toggle in ad spaces and tables',
+      components: ['CrAdSpace', 'CrTable'],
+    },
+    {
+      name: 'PiEyeSlash',
+      component: PiEyeSlash,
+      usage: 'Hide/visibility toggle in ad spaces',
+      components: ['CrAdSpace'],
+    },
+    {
+      name: 'PiDownload',
+      component: PiDownload,
+      usage: 'Download action in tables',
+      components: ['CrTable'],
+    },
+    {
+      name: 'PiDownloadSimple',
+      component: PiDownloadSimple,
+      usage: 'Simple download icon variant in tables',
+      components: ['CrTable'],
+    },
+    {
+      name: 'PiExport',
+      component: PiExport,
+      usage: 'Export action in tables',
+      components: ['CrTable'],
+    },
+
+    // Collection & Add
+    {
+      name: 'PiPlusCircle',
+      component: PiPlusCircle,
+      usage: 'Add to collection in track info and playlist items',
+      components: ['CrTrackInfo', 'CrPlaylistItem'],
+    },
+    {
+      name: 'PiPlusSquare',
+      component: PiPlusSquare,
+      usage: 'Add item action in list items',
+      components: ['CrListItem'],
     },
   ]
 
@@ -123,29 +435,34 @@ export default function CrIconsShowcase() {
       name: 'FaFacebookSquare',
       component: FaFacebookSquare,
       usage: 'Facebook social media link in footer',
-      components: ['CrFooter'],
+      components: ['CrFooter', 'CrSocialIcon'],
     },
     {
       name: 'FaInstagram',
       component: FaInstagram,
       usage: 'Instagram social media link in footer',
-      components: ['CrFooter'],
+      components: ['CrFooter', 'CrSocialIcon'],
     },
     {
       name: 'FaTwitterSquare',
       component: FaTwitterSquare,
       usage: 'Twitter social media link in footer',
-      components: ['CrFooter'],
+      components: ['CrFooter', 'CrSocialIcon'],
     },
     {
       name: 'FaLinkedin',
       component: FaLinkedin,
       usage: 'LinkedIn social media link in footer',
-      components: ['CrFooter'],
+      components: ['CrFooter', 'CrSocialIcon'],
+    },
+    {
+      name: 'SiBluesky',
+      component: SiBluesky,
+      usage: 'Bluesky social media link in footer',
+      components: ['CrFooter', 'CrSocialIcon'],
     },
   ]
 
-  const sizeOptions = [16, 20, 24, 32, 48, 64]
   const colorOptions = [
     { name: 'Default', value: 'default', color: 'var(--cr-ink)' },
     { name: 'Primary', value: 'primary', color: 'var(--cr-primary-700)' },
@@ -189,8 +506,8 @@ export default function CrIconsShowcase() {
               className: 'sg-description',
             },
             [
-              'Complete documentation of React Icons used in the CHIRP Radio WebApp project. ',
-              'All icons are from the ',
+              'Complete documentation of all React Icons used in the CHIRP Radio WebApp project. ',
+              'Icons are from the ',
               React.createElement(
                 'code',
                 {
@@ -206,7 +523,7 @@ export default function CrIconsShowcase() {
                 },
                 'react-icons'
               ),
-              ' library (Phosphor Icons and Font Awesome).',
+              ' library (Phosphor Icons, Font Awesome, and Simple Icons).',
             ]
           ),
         ]
@@ -247,41 +564,34 @@ export default function CrIconsShowcase() {
                     React.createElement(
                       'label',
                       { key: 'size-label', className: 'sg-control-label' },
-                      'Size'
+                      `Size: ${selectedSize}px`
                     ),
                     React.createElement(
                       'div',
                       {
-                        key: 'size-buttons',
+                        key: 'size-slider-wrapper',
                         style: {
                           display: 'flex',
-                          gap: 'var(--cr-space-1)',
-                          flexWrap: 'wrap',
+                          alignItems: 'center',
+                          gap: 'var(--cr-space-3)',
                         },
                       },
-                      sizeOptions.map((size) =>
-                        React.createElement(
-                          'button',
-                          {
-                            key: `size-${size}`,
-                            style: {
-                              padding: 'var(--cr-space-1) var(--cr-space-2)',
-                              backgroundColor:
-                                selectedSize === size
-                                  ? 'var(--cr-primary-700)'
-                                  : 'var(--cr-default-100)',
-                              color: selectedSize === size ? 'white' : 'var(--cr-ink)',
-                              border: 'none',
-                              borderRadius: '4px',
-                              cursor: 'pointer',
-                              fontSize: '12px',
-                              fontWeight: '600',
-                            },
-                            onClick: () => setSelectedSize(size),
+                      [
+                        React.createElement('span', { key: 'min-label', style: { fontSize: '12px', color: 'var(--cr-default-700)' } }, '16px'),
+                        React.createElement('input', {
+                          key: 'size-slider',
+                          type: 'range',
+                          min: 16,
+                          max: 128,
+                          value: selectedSize,
+                          onChange: (e) => setSelectedSize(Number(e.target.value)),
+                          style: {
+                            flex: 1,
+                            cursor: 'pointer',
                           },
-                          `${size}px`
-                        )
-                      )
+                        }),
+                        React.createElement('span', { key: 'max-label', style: { fontSize: '12px', color: 'var(--cr-default-700)' } }, '128px'),
+                      ]
                     ),
                   ]),
 
@@ -360,6 +670,11 @@ export default function CrIconsShowcase() {
           {
             key: 'phosphor-grid',
             className: 'sg-icon-grid',
+            style: {
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 'var(--cr-space-4)',
+            },
           },
           icons.map((icon, index) => {
             const IconComponent = icon.component
@@ -507,7 +822,7 @@ export default function CrIconsShowcase() {
                 fontWeight: '600',
               },
             },
-            'Social Media Icons (react-icons/fa)'
+            'Social Media Icons'
           ),
 
           React.createElement(
@@ -515,6 +830,11 @@ export default function CrIconsShowcase() {
             {
               key: 'social-grid',
               className: 'sg-icon-grid',
+              style: {
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 'var(--cr-space-4)',
+              },
             },
             socialIcons.map((icon, index) => {
               const IconComponent = icon.component
@@ -688,22 +1008,24 @@ export default function CrIconsShowcase() {
                   style: { fontSize: '13px' },
                 },
                 `// Import Phosphor icons from react-icons/pi
-import { 
+import {
   PiHandHeartLight,
   PiCaretLeft,
   PiCaretRight,
-  PiCaretDown,
-  PiPaperclip,
-  PiNotepad
+  PiCalendarDots,
+  PiReadCvLogo
 } from 'react-icons/pi';
 
 // Import Font Awesome icons from react-icons/fa
-import { 
+import {
   FaFacebookSquare,
   FaInstagram,
   FaTwitterSquare,
-  FaLinkedin 
-} from 'react-icons/fa';`
+  FaLinkedin
+} from 'react-icons/fa';
+
+// Import Simple Icons
+import { SiBluesky } from 'react-icons/si';`
               ),
             ]
           ),
@@ -866,9 +1188,9 @@ import {
                           key: 'size-64-strong',
                           style: { color: 'var(--cr-primary-700)' },
                         },
-                        '64px: '
+                        '64px+: '
                       ),
-                      'Large displays, special cases',
+                      'Large displays, hero sections, special cases',
                     ]
                   ),
                 ]
@@ -1091,6 +1413,17 @@ import {
                     },
                   },
                   'Include appropriate aria-labels for accessibility when icons convey meaning'
+                ),
+                React.createElement(
+                  'li',
+                  {
+                    key: 'practice-5-item',
+                    style: {
+                      padding: 'var(--cr-space-1) 0',
+                      lineHeight: '1.6',
+                    },
+                  },
+                  'Choose icons from the Phosphor family for UI consistency'
                 ),
               ]
             ),

@@ -66,6 +66,7 @@ export const LoggedIn = {
     onStreamingQualityChange: (quality) => console.log('Streaming quality:', quality),
     onPushNotificationsChange: (checked) => console.log('Push notifications:', checked),
     onLogout: () => console.log('Logout clicked'),
+    onEditProfile: () => console.log('Edit profile clicked'),
     onShareApp: () => console.log('Share app clicked'),
     onLikeAppStore: () => console.log('Like app store clicked'),
     onAppSupport: () => console.log('App support clicked'),

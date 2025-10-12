@@ -21,14 +21,19 @@ export default {
       options: ['donation', 'motivation'],
       description: 'Component variant',
     },
+    widthVariant: {
+      control: 'select',
+      options: ['full', 'third'],
+      description: 'Width variant - full (desktop 2-col) or third (compact, header on top)',
+    },
     textureBackground: {
       control: 'select',
-      options: ['cr-bg-natural-a500', 'cr-bg-natural-s100', 'cr-bg-natural-d100', 'cr-bg-natural-d900', 'cr-bg-natural-dark'],
+      options: ['cr-bg-natural-a500', 'cr-bg-natural-s100', 'cr-bg-natural-s900', 'cr-bg-natural-d100', 'cr-bg-natural-d900'],
       description: 'Textured background class'
     },
     buttonCount: {
       control: 'select',
-      options: ['one', 'two'],
+      options: ['one', 'two', 'none'],
       description: 'Number of buttons to display',
     },
   },
@@ -145,22 +150,49 @@ export const AllBackgrounds = {
     React.createElement(CrAnnouncement, {
       key: 'darker',
       variant: 'motivation',
-      textureBackground: 'cr-bg-natural-d900',
-      headlineText: "Darker Background (D900)",
-      bodyText: "Default dark gray texture background",
+      textureBackground: 'cr-bg-natural-s900',
+      headlineText: "Darker Blue Background (S900)",
+      bodyText: "Secondary dark texture background",
       showLink: false,
       buttonCount: 'two'
     }),
     React.createElement(CrAnnouncement, {
       key: 'darkest',
       variant: 'donation',
-      textureBackground: 'cr-bg-natural-dark',
-      headlineText: "Darkest Background (Dark)",
-      bodyText: "Ink color texture background",
+      textureBackground: 'cr-bg-natural-d900',
+      headlineText: "Darkest Background (D900)",
+      bodyText: "Default dark gray texture background",
       showLink: false,
       buttonCount: 'two',
       currentAmount: 12000,
       targetAmount: 20000
     })
   ])
+};
+
+// Third width variant - compact layout for sidebars
+export const ThirdWidth = {
+  args: {
+    variant: 'motivation',
+    widthVariant: 'third',
+    textureBackground: 'cr-bg-natural-s900',
+    headlineText: 'Listen on the go!',
+    bodyText: 'Stream CHIRP Radio on your smart speaker or mobile device.',
+    showLink: true,
+    linkText: 'Get the app today!',
+    linkUrl: '#',
+    buttonCount: 'two',
+    button1Text: 'SMART SPEAKER',
+    button1Icon: 'speaker',
+    button2Text: 'MOBILE',
+    button2Icon: 'mobile',
+  },
+  decorators: [
+    (Story) =>
+      React.createElement(
+        'div',
+        { style: { maxWidth: '420px', margin: '0 auto' } },
+        React.createElement(Story)
+      ),
+  ],
 };

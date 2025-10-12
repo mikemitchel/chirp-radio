@@ -1,5 +1,5 @@
 // CrPlaylistItem.tsx
-import { PiMinus, PiPlus } from 'react-icons/pi'
+import { PiPlusCircle } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
 import './CrPlaylistItem.css'
@@ -18,6 +18,7 @@ interface CrPlaylistItemProps {
   timeAgo?: string
   showTime?: boolean
   variant?: 'default' | 'table' | 'card'
+  currentlyPlaying?: boolean
   className?: string
 }
 
@@ -42,11 +43,14 @@ export default function CrPlaylistItem({
   // Variant
   variant = 'default', // "default" or "table"
 
+  // Currently playing state
+  currentlyPlaying = false,
+
   className = '',
 }: CrPlaylistItemProps) {
   if (variant === 'table') {
     return (
-      <div className={`cr-playlist-item cr-playlist-item--table ${className}`}>
+      <div className={`cr-playlist-item cr-playlist-item--table ${currentlyPlaying ? 'cr-playlist-item--currently-playing' : ''} ${className}`}>
         <div className="cr-playlist-item__table-album-art">
           <img src={albumArt} alt={albumArtAlt} className="cr-playlist-item__image" />
         </div>
@@ -77,7 +81,7 @@ export default function CrPlaylistItem({
             variant="text"
             size="xsmall"
             color="secondary"
-            rightIcon={isAdded ? <PiMinus /> : <PiPlus />}
+            rightIcon={isAdded ? undefined : <PiPlusCircle />}
             onClick={onToggleAdd}
           >
             {isAdded ? 'REMOVE' : 'ADD'}
@@ -105,7 +109,7 @@ export default function CrPlaylistItem({
   // Card variant
   if (variant === 'card') {
     return (
-      <div className={`cr-playlist-item cr-playlist-item--card ${className}`}>
+      <div className={`cr-playlist-item cr-playlist-item--card ${currentlyPlaying ? 'cr-playlist-item--currently-playing' : ''} ${className}`}>
         {/* Blurred background */}
         <div
           className="cr-playlist-item__card-background"
@@ -116,6 +120,13 @@ export default function CrPlaylistItem({
 
         <div className="cr-playlist-item__card-album-art">
           <img src={albumArt} alt={albumArtAlt} className="cr-playlist-item__image" />
+          {isLocal && (
+            <div className="cr-playlist-item__card-local-badge">
+              <CrChip variant="primary" size="small" squared>
+                LOCAL
+              </CrChip>
+            </div>
+          )}
         </div>
 
         <div className="cr-playlist-item__card-content">
@@ -123,12 +134,6 @@ export default function CrPlaylistItem({
           <div className="cr-playlist-item__card-artist">{artistName}</div>
           <div className="cr-playlist-item__card-album">{albumName}</div>
           <div className="cr-playlist-item__card-label">({labelName})</div>
-
-          {isLocal && (
-            <CrChip variant="primary" size="small" squared>
-              LOCAL
-            </CrChip>
-          )}
 
           <div className="cr-playlist-item__card-footer">
             {showTime && timeAgo && <div className="cr-playlist-item__card-time">{timeAgo}</div>}
@@ -138,7 +143,7 @@ export default function CrPlaylistItem({
                 variant="text"
                 size="xsmall"
                 color="secondary"
-                rightIcon={isAdded ? <PiMinus /> : <PiPlus />}
+                rightIcon={isAdded ? undefined : <PiPlusCircle />}
                 onClick={onToggleAdd}
               >
                 {isAdded ? 'REMOVE' : 'ADD'}

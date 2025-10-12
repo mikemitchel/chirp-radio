@@ -1,5 +1,5 @@
 // src/pages/Player.tsx
-import RootLayout from '../layouts/RootLayout'
+import WebLayout from '../layouts/WebLayout'
 import MobileLayout from '../layouts/MobileLayout'
 import DesktopLayout from '../layouts/DesktopLayout'
 import { useEffect, useState } from 'react'
@@ -20,11 +20,11 @@ export default function PlayerPage() {
   const Layout = isMobile ? MobileLayout : DesktopLayout
 
   return (
-    <RootLayout>
+    <WebLayout>
       <Layout>
         <h1 className="text-xl font-bold mb-4">Now Playing</h1>
         <AudioPlayerUI />
       </Layout>
-    </RootLayout>
+    </WebLayout>
   )
 }

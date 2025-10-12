@@ -3,9 +3,11 @@ import React, { useState, useEffect } from 'react';
 import CrPageHeader from '../stories/CrPageHeader';
 import CrAccountSettingsPage from '../stories/CrAccountSettingsPage';
 import { useAuth } from '../hooks/useAuth';
+import { useNotification } from '../contexts/NotificationContext';
 
 export default function AccountSettings() {
   const { isLoggedIn, user, login, logout } = useAuth();
+  const { showToast } = useNotification();
 
   // Get the appropriate storage based on login state
   const getStorage = () => isLoggedIn ? localStorage : sessionStorage;
@@ -17,7 +19,7 @@ export default function AccountSettings() {
     if (saved === 'light' || saved === 'dark' || saved === 'device') {
       return saved;
     }
-    return 'device'; // Default to device preference
+    return 'light'; // Default to light mode
   });
 
   // Load streaming quality preference
@@ -49,7 +51,7 @@ export default function AccountSettings() {
       if (savedDarkMode === 'light' || savedDarkMode === 'dark' || savedDarkMode === 'device') {
         setDarkMode(savedDarkMode);
       } else {
-        setDarkMode('device');
+        setDarkMode('light');
       }
       setStreamingQuality(localStorage.getItem('chirp-streaming-quality') || '128');
     } else {
@@ -58,7 +60,7 @@ export default function AccountSettings() {
       if (savedDarkMode === 'light' || savedDarkMode === 'dark' || savedDarkMode === 'device') {
         setDarkMode(savedDarkMode);
       } else {
-        setDarkMode('device');
+        setDarkMode('light');
       }
       setStreamingQuality(sessionStorage.getItem('chirp-streaming-quality') || '128');
     }
@@ -115,10 +117,20 @@ export default function AccountSettings() {
   const handleLogin = () => {
     // For demo purposes, simulate login with a demo account
     login('demo@chirpradio.org');
+    showToast({
+      message: 'Successfully logged in',
+      type: 'success',
+      duration: 5000,
+    });
   };
 
   const handleLogout = () => {
     logout();
+    showToast({
+      message: 'Successfully logged out',
+      type: 'success',
+      duration: 5000,
+    });
   };
 
   const handleSignUp = () => {
@@ -145,13 +157,24 @@ export default function AccountSettings() {
     // TODO: Navigate to terms and privacy page
   };
 
+  const handleEditProfile = () => {
+    // TODO: Navigate to edit profile page
+    showToast({
+      message: 'Navigate to edit profile',
+      type: 'info',
+      duration: 3000,
+    });
+  };
+
   return (
-    <div className="page-content">
+    <div>
       <CrPageHeader
         eyebrowText="CHIRP Radio"
         title="Account Settings"
         showEyebrow={false}
-        showActionButton={false}
+        showActionButton={isLoggedIn}
+        actionButtonText="Edit Profile"
+        onActionClick={handleEditProfile}
         titleSize="lg"
       />
 
@@ -172,6 +195,7 @@ export default function AccountSettings() {
         onLikeAppStore={handleLikeAppStore}
         onAppSupport={handleAppSupport}
         onTermsPrivacy={handleTermsPrivacy}
+        onEditProfile={handleEditProfile}
       />
     </div>
   );

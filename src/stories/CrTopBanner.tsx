@@ -51,13 +51,21 @@ export default function CrTopBanner({
   const fetchApiData = async () => {
     if (!autoFetch) return
 
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}&t=${Date.now()}`
     try {
-      const response = await fetch(proxyUrl)
+      // Use the /api/current_playlist proxy path
+      const fetchUrl = `/api/current_playlist?t=${Date.now()}`
+      const response = await fetch(fetchUrl, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      })
+
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
 
-      const data = await response.json()
-      const parsedData = JSON.parse(data.contents)
+      const parsedData = await response.json()
 
       if (parsedData?.now_playing) {
         const nowPlaying = parsedData.now_playing
@@ -71,6 +79,7 @@ export default function CrTopBanner({
       }
     } catch (error) {
       console.error('Error fetching API data:', error)
+      // Silently fail and use default values
     }
   }
 
@@ -78,7 +87,7 @@ export default function CrTopBanner({
   useEffect(() => {
     if (autoFetch) {
       fetchApiData()
-      const interval = setInterval(fetchApiData, 15000)
+      const interval = setInterval(fetchApiData, 300000) // Poll every 5 minutes
       return () => clearInterval(interval)
     }
   }, [autoFetch, apiUrl])
@@ -95,26 +104,28 @@ export default function CrTopBanner({
 
   return (
     <div className="cr-top-banner">
-      <div className="cr-top-banner__left">
-        <CrAccount
-          isLoggedIn={isLoggedIn}
-          isVolunteer={isVolunteer}
-          userName={userName}
-          userAvatar={userAvatar}
-          showTags={showTags}
-          tags={tags}
-          onLoginClick={onLoginClick}
-          onVolunteerDropdown={onVolunteerDropdown}
-        />
-      </div>
+      <div className="cr-top-banner__container">
+        <div className="cr-top-banner__left">
+          <CrAccount
+            isLoggedIn={isLoggedIn}
+            isVolunteer={isVolunteer}
+            userName={userName}
+            userAvatar={userAvatar}
+            showTags={showTags}
+            tags={tags}
+            onLoginClick={onLoginClick}
+            onVolunteerDropdown={onVolunteerDropdown}
+          />
+        </div>
 
-      <div className="cr-top-banner__right">
-        <CrCurrentDj
-          djName={apiData.dj}
-          showName={apiData.show}
-          isOnAir={isOnAir}
-          statusText={statusText}
-        />
+        <div className="cr-top-banner__right">
+          <CrCurrentDj
+            djName={apiData.dj}
+            showName={apiData.show}
+            isOnAir={isOnAir}
+            statusText={statusText}
+          />
+        </div>
       </div>
     </div>
   )

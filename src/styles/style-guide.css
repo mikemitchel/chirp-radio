@@ -475,12 +475,45 @@
 }
 
 /* Body Text Styles - Clean spacing */
-.cr-body-reg,
-.cr-body-sm,
-.cr-body-xs {
-  margin-bottom: var(--cr-space-4);
-  line-height: 1.6;
-  max-width: 600px;
+.sg-section .cr-body-lg,
+.sg-section .cr-body-reg,
+.sg-section .cr-body-sm,
+.sg-section .cr-body-xs {
+  padding: var(--cr-space-2) 0;
+  border-bottom: 1px solid var(--cr-default-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sg-section .cr-body-lg:last-child,
+.sg-section .cr-body-reg:last-child,
+.sg-section .cr-body-sm:last-child,
+.sg-section .cr-body-xs:last-child {
+  border-bottom: none;
+}
+
+/* Add variable names */
+.sg-section .cr-body-lg::after {
+  content: 'var(--cr-body-lg)';
+}
+.sg-section .cr-body-reg::after {
+  content: 'var(--cr-body-reg)';
+}
+.sg-section .cr-body-sm::after {
+  content: 'var(--cr-body-sm)';
+}
+.sg-section .cr-body-xs::after {
+  content: 'var(--cr-body-xs)';
+}
+
+.sg-section .cr-body-lg::after,
+.sg-section .cr-body-reg::after,
+.sg-section .cr-body-sm::after,
+.sg-section .cr-body-xs::after {
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  color: var(--cr-default-500);
+  font-weight: normal;
 }
 
 /* Navigation & Player Styles - List format */
@@ -810,6 +843,10 @@
   .sg-section .cr-title-xs::after,
   .sg-section .cr-title-2xs::after,
   .sg-section .cr-title-eyebrow::after,
+  .sg-section .cr-body-lg::after,
+  .sg-section .cr-body-reg::after,
+  .sg-section .cr-body-sm::after,
+  .sg-section .cr-body-xs::after,
   .sg-section .cr-nav1::after,
   .sg-section .cr-nav2::after,
   .sg-section .cr-nav3::after,

@@ -5,8 +5,9 @@
   flex-direction: column;
   border-radius: var(--cr-space-2);
   overflow: hidden;
-  background-color: var(--cr-paper);
+  background-color: var(--cr-default-100);
   border: 1px solid var(--cr-default-300);
+  width: 100%;
 }
 
 .cr-rating-card__list {

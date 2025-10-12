@@ -28,6 +28,10 @@ export default {
       action: 'checkout',
       description: 'Callback when Check out button is clicked',
     },
+    onRemoveItem: {
+      action: 'remove item',
+      description: 'Callback when individual item remove button is clicked',
+    },
     className: {
       control: 'text',
       description: 'Additional CSS classes to apply to the component',
@@ -401,6 +405,13 @@ export const Interactive = {
       // In real app, this would navigate to checkout page
     }
 
+    const handleRemoveItem = (index) => {
+      const newItems = [...cartItems]
+      newItems.splice(index, 1)
+      setCartItems(newItems)
+      console.log('Removed item at index:', index)
+    }
+
     const handleAddItem = () => {
       const newItem = {
         id: Date.now(),
@@ -449,6 +460,7 @@ export const Interactive = {
           items: cartItems,
           onEmptyCart: handleEmptyCart,
           onCheckout: handleCheckout,
+          onRemoveItem: handleRemoveItem,
         }),
       ]
     )

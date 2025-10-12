@@ -60,6 +60,10 @@ export default {
       options: ['default', 'table', 'card'],
       description: 'Layout variant - default (horizontal), table (row layout), or card (vertical)',
     },
+    currentlyPlaying: {
+      control: 'boolean',
+      description: 'Whether this track is currently playing (shows primary-500 outline on card variant)',
+    },
   },
   tags: ['autodocs'],
 }
@@ -420,6 +424,24 @@ export const CardVariantAdded = {
     isAdded: true,
     isLocal: false,
     variant: 'card',
+  },
+}
+
+export const CardVariantCurrentlyPlaying = {
+  args: {
+    albumArt:
+      'https://i.discogs.com/_PKd2Tx-U7jNurH8U1e9BQe435HV3QkMhhPDaTeCuGY/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTU2NjAx/NzItMTQ3MTU0NzY5/Ni01NTg4LmpwZWc.jpeg',
+    albumArtAlt: 'Kind of Blue album cover',
+    artistName: 'Miles Davis',
+    trackName: 'So What',
+    albumName: 'Kind of Blue',
+    labelName: 'Columbia Records',
+    timeAgo: '2:01pm',
+    showTime: true,
+    isAdded: false,
+    isLocal: false,
+    variant: 'card',
+    currentlyPlaying: true,
   },
 }
 

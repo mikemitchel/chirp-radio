@@ -24,6 +24,11 @@ export default {
       control: { type: 'number', min: 1, step: 1000 },
       description: 'Target fundraising goal in dollars',
     },
+    variant: {
+      control: { type: 'select' },
+      options: ['default', 'reverse'],
+      description: 'Visual variant - default (red bg, white fill) or reverse (white bg, red fill)',
+    },
     onDonateClick: {
       action: 'donate clicked',
       description: 'Function called when donation bar is clicked',
@@ -288,6 +293,43 @@ export const MultipleBars = {
             onDonateClick: () => alert('Operating expenses donation!'),
           }),
         ]),
+      ]
+    ),
+}
+
+// Reverse variant - white background with red progress
+export const Reverse = {
+  args: {
+    currentAmount: 7271,
+    targetAmount: 48000,
+    variant: 'reverse',
+  },
+  render: (args) =>
+    React.createElement(
+      'div',
+      {
+        style: {
+          background: 'var(--cr-background)',
+          padding: 'var(--cr-space-4)',
+          minHeight: '200px',
+        },
+      },
+      [
+        React.createElement(
+          'h3',
+          {
+            key: 'title',
+            style: {
+              marginBottom: 'var(--cr-space-4)',
+              color: 'var(--cr-foreground)',
+            },
+          },
+          'Reverse Variant'
+        ),
+        React.createElement(CrDonationBar, {
+          key: 'bar',
+          ...args,
+        }),
       ]
     ),
 }

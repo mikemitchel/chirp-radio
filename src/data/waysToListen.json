@@ -1,0 +1,67 @@
+{
+  "heroImage": "https://images.unsplash.com/photo-1584541728894-dbcae08f94ac?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "introText": [
+    "CHIRP Radio is available across multiple platforms so you can tune in wherever you are. Whether you prefer traditional FM radio, streaming online, or listening on your favorite smart device, we've got you covered.",
+    "Discover all the ways to connect with CHIRP and never miss your favorite shows, DJs, and the best independent music Chicago has to offer."
+  ],
+  "sections": [
+    {
+      "id": "radio",
+      "type": "list",
+      "title": "FM Radio",
+      "description": "The classic way to listen to CHIRP:",
+      "image": "https://images.unsplash.com/photo-1606928155414-bb8f56e3e261?w=800&h=600&fit=crop",
+      "items": [
+        "107.1 FM in Chicago and surrounding areas",
+        "Broadcast 24/7 with no commercials",
+        "Crystal clear signal covering the entire Chicago metro area"
+      ]
+    },
+    {
+      "id": "online",
+      "type": "list",
+      "title": "Online Streaming",
+      "description": "Listen from anywhere in the world:",
+      "image": "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=800&h=600&fit=crop",
+      "items": [
+        "Stream directly from chirpradio.org",
+        "High-quality audio stream",
+        "Access our complete playlist and show archives",
+        "Compatible with all modern browsers"
+      ],
+      "footer": "Our web player makes it easy to listen from any computer or mobile device."
+    }
+  ],
+  "listeningOptions": [
+    {
+      "id": "smart-speakers",
+      "title": "Smart Speakers & Voice Assistants",
+      "contentSummary": "Listen to CHIRP Radio on your smart speaker! Simply say 'Alexa, play CHIRP Radio' or 'Hey Google, play CHIRP Radio' and start listening. CHIRP is also available on Apple HomePod and other voice-activated devices.",
+      "backgroundImage": "https://images.unsplash.com/photo-1543512214-318c7553f230?w=800&h=600&fit=crop",
+      "variant": "small"
+    },
+    {
+      "id": "mobile-apps",
+      "title": "Mobile Apps",
+      "contentSummary": "Take CHIRP with you wherever you go! Download the CHIRP Radio app for iOS or Android. Access live streams, view current playlists, discover new music, and get notifications when your favorite DJs are on air.",
+      "backgroundImage": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop",
+      "variant": "small"
+    },
+    {
+      "id": "radio-apps",
+      "title": "Radio Apps & Aggregators",
+      "content": "Find CHIRP on popular radio apps:\n\n• TuneIn Radio\n• Radio.com\n• iHeartRadio\n• Simple Radio\n\nSearch for 'CHIRP Radio Chicago' in your favorite radio app and add us to your favorites for easy access.",
+      "backgroundImage": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&h=600&fit=crop",
+      "variant": "small"
+    }
+  ],
+  "podcast": {
+    "id": "podcasts",
+    "title": "CHIRP Podcasts",
+    "contentSummary": "Can't catch your favorite show live? No problem! Subscribe to CHIRP's podcasts and listen to select shows on demand. Available on Apple Podcasts, Spotify, Google Podcasts, and all major podcast platforms. Never miss an episode of your favorite CHIRP programs.",
+    "backgroundImage": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=800&h=800&fit=crop",
+    "variant": "article",
+    "imagePosition": "right",
+    "articleImageAspectRatio": "16:9"
+  }
+}

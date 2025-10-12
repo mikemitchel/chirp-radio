@@ -119,6 +119,10 @@ export default {
       options: ['narrow', 'tall'],
       description: 'Banner height (all variants)',
     },
+    onClick: {
+      action: 'clicked',
+      description: 'Click handler for the card',
+    },
   },
   tags: ['autodocs'],
 }
@@ -149,6 +153,21 @@ export const Default = {
   },
 }
 
+export const DefaultClickable = {
+  args: {
+    ...commonProps,
+    variant: 'default',
+    onClick: () => alert('Card clicked!'),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Card with onClick handler - hover to see the lift effect and click interaction',
+      },
+    },
+  },
+}
+
 export const Wide = {
   args: {
     ...commonProps,
@@ -159,6 +178,22 @@ export const Wide = {
   },
 }
 
+export const WideClickable = {
+  args: {
+    ...commonProps,
+    variant: 'wide',
+    onClick: () => alert('Card clicked!'),
+  },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story: 'Wide card with onClick handler - hover to see the lift effect and click interaction',
+      },
+    },
+  },
+}
+
 export const Narrow = {
   args: {
     ...commonProps,
@@ -166,10 +201,40 @@ export const Narrow = {
   },
 }
 
+export const NarrowClickable = {
+  args: {
+    ...commonProps,
+    variant: 'narrow',
+    onClick: () => alert('Card clicked!'),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Narrow card with onClick handler - hover to see the lift effect and click interaction',
+      },
+    },
+  },
+}
+
 export const Small = {
   args: {
     ...commonProps,
     variant: 'small',
+  },
+}
+
+export const SmallClickable = {
+  args: {
+    ...commonProps,
+    variant: 'small',
+    onClick: () => alert('Card clicked!'),
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Small card with onClick handler - hover to see the lift effect and click interaction',
+      },
+    },
   },
 }
 

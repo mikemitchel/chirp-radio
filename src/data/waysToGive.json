@@ -1,0 +1,70 @@
+{
+  "introText": [
+    "Nulla vitae elit libero, a pharetra augue. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Maecenas sed diam eget risus varius blandit sit amet non ipsum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Curabitur blandit tempus porttitor ligula. Cras mattis consectetur purus sit amet fermentum.",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur. Integer posuere erat a ante venenatis."
+  ],
+  "sections": [
+    {
+      "id": "shop",
+      "type": "list",
+      "title": "Support Chirp When You Shop",
+      "description": "Bookmark the following links and use them all year long when you shop. A portion of your sale price will be donated directly to CHIRP!",
+      "image": "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=800&h=600&fit=crop",
+      "items": [
+        "eBay",
+        "Paypal Giving Fund",
+        "Amazon (While Amazon has discontinued their Smile charitable giving program, their affiliate program remains active. Click this link and shop and CHIRP may receive as much as 8% of your purchase through Amazon Associates from the Amazon home page. There will not be a mention of CHIRP.)"
+      ]
+    },
+    {
+      "id": "wishlist",
+      "type": "list",
+      "title": "Wishlist / In-Kind Donations",
+      "description": "CHIRP can always use donations of the following items:",
+      "image": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=600&fit=crop",
+      "items": [
+        "white paper",
+        "printer cartridges",
+        "padded mailing envelopes in various sizes (unused)",
+        "packing tape",
+        "office/office supplies",
+        "cleaning supplies (paper towels, wax, windex, etc.)",
+        "coffee",
+        "monetary gifts or gift cards"
+      ],
+      "footer": "Contact us for information about specific needs. Thanks so much."
+    }
+  ],
+  "donationCards": [
+    {
+      "id": "records",
+      "title": "Donate Your Records, CDs, DVDs",
+      "contentSummary": "Have you been thinking of getting rid of your collection of old records, CDs, or DVDs? We have a solution! You can donate your unwanted music and movies to CHIRP Radio for up some space and support your favorite radio station! We can even arrange a pick-up. If you would like to donate your vinyl or other collection to CHIRP, please email our Record Fair team.",
+      "backgroundImage": "https://images.unsplash.com/photo-1512733596533-7b00ccf8ebaf?w=800&h=600&fit=crop",
+      "variant": "small"
+    },
+    {
+      "id": "vehicle",
+      "title": "Donate Your Vehicle",
+      "contentSummary": "Have an old car, truck, boat, or motorcycle sitting around in your garage? Why not donate it to CHIRP? It doesn't even have to run, and you can get a tax deduction! Towing and title transfer is all taken care of for you. Find out more about donating your vehicle to CHIRP.",
+      "backgroundImage": "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&h=600&fit=crop",
+      "variant": "small"
+    },
+    {
+      "id": "crypto",
+      "title": "Donate Bitcoin / Cryptocurrencies",
+      "content": "1. Go to crypto.chirpradio.us\n2. Pick Chicago Independent Radio Project (CHIRP Radio) from the list.\n3. Donate crypto and get a tax receipt!\n\nDonations of appreciated cryptocurrency don't trigger capital gains taxes, and may be tax-deductible for the full value.",
+      "backgroundImage": "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&h=600&fit=crop",
+      "variant": "small"
+    }
+  ],
+  "vinylCircle": {
+    "id": "vinyl-circle",
+    "title": "Join the Vinyl Circle",
+    "contentSummary": "Become a member of our major donor program, CHIRP's Vinyl Circle, with a tax-deductible donation and you'll join a network of people who are committed to keeping volunteer-driven, local radio a vibrant part of our community. You can find a list of giving levels and benefits here.",
+    "backgroundImage": "https://images.unsplash.com/photo-1496293455970-f8581aae0e3b?w=800&h=800&fit=crop",
+    "variant": "article",
+    "imagePosition": "right",
+    "articleImageAspectRatio": "16:9"
+  }
+}

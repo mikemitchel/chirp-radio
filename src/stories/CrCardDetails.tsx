@@ -13,6 +13,7 @@ interface CrCardDetailsProps {
   tags?: string[]
   device?: string
   type?: string
+  showShareButton?: boolean
   onVenueClick?: () => void
   onShareClick?: () => void
 }
@@ -26,6 +27,7 @@ export default function CrCardDetails({
   tags = ['Hello World', 'Hello World', 'Hello World'],
   device = 'desktop',
   type = 'event',
+  showShareButton = true,
   onVenueClick,
   onShareClick,
 }: CrCardDetailsProps) {
@@ -82,17 +84,19 @@ export default function CrCardDetails({
           </div>
         </div>
 
-        <div className="cr-card-details__actions">
-          <CrButton
-            size="small"
-            variant="outline"
-            color="secondary"
-            leftIcon={<PiArrowSquareUp />}
-            onClick={onShareClick}
-          >
-            Share
-          </CrButton>
-        </div>
+        {showShareButton && (
+          <div className="cr-card-details__actions">
+            <CrButton
+              size="small"
+              variant="outline"
+              color="secondary"
+              leftIcon={<PiArrowSquareUp />}
+              onClick={onShareClick}
+            >
+              Share
+            </CrButton>
+          </div>
+        )}
       </div>
     </div>
   )

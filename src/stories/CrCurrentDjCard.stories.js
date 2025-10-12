@@ -79,7 +79,7 @@ export const Default = {
     title: 'DJ Current',
     metaText: 'THIS CONTENT IS 30 CHARACTERS.',
     description:
-      'DJ Current is lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo.',
+      'DJ Current is lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam quis risus eget urna mollis ornare vel eu leo. Curabitur blandit tempus porttitor. Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.',
     requestButtonText: 'REQUEST',
     moreButtonText: 'MORE',
   },

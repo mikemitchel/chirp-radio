@@ -10,6 +10,7 @@ interface CrDjShowCardProps {
   isCurrentShow?: boolean
   isHighlighted?: boolean
   onClick?: () => void
+  isFavorite?: boolean
 }
 
 export default function CrDjShowCard({
@@ -20,6 +21,7 @@ export default function CrDjShowCard({
   isCurrentShow = false,
   isHighlighted = false,
   onClick,
+  isFavorite = false,
 }: CrDjShowCardProps) {
   // Safety checks for show data
   const djArray = show.dj && Array.isArray(show.dj) ? show.dj : ['Unknown DJ']
@@ -50,6 +52,7 @@ export default function CrDjShowCard({
         showTime={`${startTime} — ${endTime}`}
         imageSrc={headshot}
         isCHIRP={isCHIRP}
+        isFavorite={isFavorite}
         onDjDetailsClick={(e) => {
           e.preventDefault()
           e.stopPropagation()

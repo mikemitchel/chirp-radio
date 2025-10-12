@@ -2,10 +2,13 @@
 
 .cr-page-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   gap: var(--cr-space-2);
-  margin-bottom: var(--cr-space-6);
+  margin-bottom: var(--cr-space-3);
   width: 100%;
+  flex-wrap: nowrap;
 }
 
 .cr-page-header__text {

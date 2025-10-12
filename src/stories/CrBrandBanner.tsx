@@ -1,4 +1,5 @@
 // CrBrandBanner.tsx
+import { Link } from 'react-router'
 import CrLogo from './CrLogo'
 import CrStreamingMusicPlayer from './CrStreamingMusicPlayer'
 import './CrBrandBanner.css'
@@ -21,9 +22,9 @@ export default function CrBrandBanner({
     <header className="cr-logo-banner">
       <div className="cr-logo-banner__container">
         {/* Logo Container */}
-        <div className="cr-logo-banner__logo-container">
+        <Link to="/web" className="cr-logo-banner__logo-container">
           <CrLogo variant="horizontal-reversed" color="white" />
-        </div>
+        </Link>
 
         {/* Player Container */}
         <div className="cr-logo-banner__player-container">

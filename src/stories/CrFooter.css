@@ -11,6 +11,7 @@
   align-items: center;
   gap: var(--cr-space-8);
   width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
@@ -162,7 +163,7 @@
 }
 
 /* Responsive */
-@media (max-width: 960px) {
+@media (max-width: 968px) {
   .cr-footer__container {
     gap: var(--cr-space-8);
   }

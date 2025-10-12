@@ -67,17 +67,10 @@ export default function CrTypographyShowcase() {
         {/* Body Text */}
         <div className="sg-example-card">
           <h2>Body Text Styles</h2>
-          <div className="cr-body-reg sg-margin-bottom">
-            Body Regular - This is the default body text used for most content. It provides
-            excellent readability for longer passages of text.
-          </div>
-          <div className="cr-body-sm sg-margin-bottom">
-            Body Small - Used for secondary content, captions, or supporting text that needs to be
-            smaller than regular body text.
-          </div>
-          <div className="cr-body-xs">
-            Body XS - Used for fine print, disclaimers, or very small supplementary text.
-          </div>
+          <div className="cr-body-lg sg-font-sample">Body Large</div>
+          <div className="cr-body-reg sg-font-sample">Body Regular</div>
+          <div className="cr-body-sm sg-font-sample">Body Small</div>
+          <div className="cr-body-xs sg-font-sample">Body XS</div>
         </div>
 
         {/* Navigation */}
