@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { HashRouter, Routes, Route } from 'react-router';
 import { CartProvider } from './contexts/CartContext';
 import ScrollToTop from './components/ScrollToTop';
+import ProtectedRoute from './components/ProtectedRoute';
+import './utils/devTools'; // Load development tools
 import MobileApp from './layouts/MobileApp';
 import WebLayout from './layouts/WebLayout';
 import NowPlaying from './pages/NowPlaying';
@@ -37,6 +39,9 @@ import ShopDetailPage from './pages/ShopDetailPage';
 import DonatePage from './pages/DonatePage';
 import VinylCirclePage from './pages/VinylCirclePage';
 import ListenPage from './pages/ListenPage';
+import LeadershipDirectoryPage from './pages/LeadershipDirectoryPage';
+import VolunteerDownloadsPage from './pages/VolunteerDownloadsPage';
+import WebsitesToRememberPage from './pages/WebsitesToRememberPage';
 
 function App() {
   // Apply dark mode preference on app initialization
@@ -82,9 +87,9 @@ function App() {
           <Route index element={<NowPlaying />} />
           <Route path="now-playing" element={<NowPlaying />} />
           <Route path="recently-played" element={<RecentlyPlayed />} />
-          <Route path="collection" element={<YourCollection />} />
+          <Route path="my-collection" element={<ProtectedRoute requireLogin={true}><YourCollection /></ProtectedRoute>} />
           <Route path="request" element={<MakeRequest />} />
-          <Route path="settings" element={<AccountSettings />} />
+          <Route path="settings" element={<ProtectedRoute requireLogin={true}><AccountSettings /></ProtectedRoute>} />
         </Route>
         <Route path="/web" element={<WebLayout><LandingPage /></WebLayout>} />
         <Route path="/playlist" element={<WebLayout><PlaylistPage /></WebLayout>} />
@@ -109,9 +114,14 @@ function App() {
         <Route path="/about" element={<WebLayout><AboutPage /></WebLayout>} />
         <Route path="/contact" element={<WebLayout><ContactPage /></WebLayout>} />
         <Route path="/volunteer" element={<WebLayout><BecomeVolunteerPage /></WebLayout>} />
-        <Route path="/volunteer/directory" element={<WebLayout><VolunteerDirectoryPage /></WebLayout>} />
-        <Route path="/volunteer/calendar" element={<WebLayout><VolunteerCalendarPage /></WebLayout>} />
-        <Route path="/volunteer/resources" element={<WebLayout><VolunteerResourcesPage /></WebLayout>} />
+        <Route path="/volunteer-directory" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><VolunteerDirectoryPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/volunteer-calendar" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><VolunteerCalendarPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/volunteer/resources" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><VolunteerResourcesPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/leadership-directory" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><LeadershipDirectoryPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/websites-to-remember" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><WebsitesToRememberPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/volunteer-downloads" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><VolunteerDownloadsPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/profile" element={<WebLayout><ProtectedRoute requireLogin={true}><AccountSettings /></ProtectedRoute></WebLayout>} />
+        <Route path="/collection" element={<WebLayout><ProtectedRoute requireLogin={true}><YourCollection /></ProtectedRoute></WebLayout>} />
         <Route path="/request-song" element={<WebLayout><RequestSongPage /></WebLayout>} />
         <Route path="/thank-you" element={<WebLayout><ThankYouPage /></WebLayout>} />
         </Routes>

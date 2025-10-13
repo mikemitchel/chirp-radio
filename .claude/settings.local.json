@@ -11,7 +11,8 @@
       "Bash(DJPage.tsx)",
       "Bash(DJSchedulePage.tsx)",
       "Bash(git checkout:*)",
-      "Bash(npm run storybook:*)"
+      "Bash(npm run storybook:*)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

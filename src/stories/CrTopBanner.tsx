@@ -12,7 +12,18 @@ interface CrTopBannerProps {
   showTags?: boolean
   tags?: string[]
   onLoginClick?: () => void
+  onSignUpClick?: () => void
   onVolunteerDropdown?: () => void
+  onProfileClick?: () => void
+  onFavoritesClick?: () => void
+  onDonationsClick?: () => void
+  onPurchasesClick?: () => void
+  onSignOutClick?: () => void
+  onVolunteerDirectoryClick?: () => void
+  onLeadershipDirectoryClick?: () => void
+  onVolunteerCalendarClick?: () => void
+  onWebsitesClick?: () => void
+  onDownloadsClick?: () => void
   djName?: string
   showName?: string
   isOnAir?: boolean
@@ -30,7 +41,18 @@ export default function CrTopBanner({
   showTags = false, // Typically false in the banner to save space
   tags = ['Jazz', 'Blues', 'Rock'],
   onLoginClick,
+  onSignUpClick,
   onVolunteerDropdown,
+  onProfileClick,
+  onFavoritesClick,
+  onDonationsClick,
+  onPurchasesClick,
+  onSignOutClick,
+  onVolunteerDirectoryClick,
+  onLeadershipDirectoryClick,
+  onVolunteerCalendarClick,
+  onWebsitesClick,
+  onDownloadsClick,
 
   // DJ/Show props
   djName = 'DJ Current',
@@ -114,7 +136,18 @@ export default function CrTopBanner({
             showTags={showTags}
             tags={tags}
             onLoginClick={onLoginClick}
+            onSignUpClick={onSignUpClick}
             onVolunteerDropdown={onVolunteerDropdown}
+            onProfileClick={onProfileClick}
+            onFavoritesClick={onFavoritesClick}
+            onDonationsClick={onDonationsClick}
+            onPurchasesClick={onPurchasesClick}
+            onSignOutClick={onSignOutClick}
+            onVolunteerDirectoryClick={onVolunteerDirectoryClick}
+            onLeadershipDirectoryClick={onLeadershipDirectoryClick}
+            onVolunteerCalendarClick={onVolunteerCalendarClick}
+            onWebsitesClick={onWebsitesClick}
+            onDownloadsClick={onDownloadsClick}
           />
         </div>
 

@@ -107,8 +107,12 @@
 
 
 /* Background variants */
-.cr-card-title-banner:not(.cr-bg-textured) {
+.cr-card-title-banner:not(.cr-bg-textured):not(.cr-bg-light) {
   background: transparent;
+}
+
+.cr-card-title-banner.cr-bg-light {
+  background-color: var(--cr-default-100);
 }
 
 /* Responsive */

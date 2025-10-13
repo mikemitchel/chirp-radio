@@ -55,9 +55,10 @@ const ListenPage: React.FC = () => {
     labelName: track.labelName,
     isLocal: track.isLocal,
     isAdded: true,
-    timeAgo: new Date(track.dateAdded).toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit'
+    timeAgo: new Date(track.dateAdded).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
     }),
   })) || []
 
@@ -479,6 +480,8 @@ const ListenPage: React.FC = () => {
             showActionButton={true}
             actionButtonText="Your Collection"
             actionButtonIcon={<PiPlaylist />}
+            actionButtonSize="medium"
+            onActionClick={() => navigate('/collection')}
           />
           <CrPlaylistTable
             items={userCollectionTracks}

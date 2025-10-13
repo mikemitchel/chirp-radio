@@ -55,7 +55,7 @@
 /* Two-column layout: main content + sidebar */
 .page-layout-main-sidebar {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--cr-space-8);
   padding: var(--cr-space-4);
   max-width: 1440px;
@@ -97,7 +97,8 @@
 .event-detail-page .page-layout-main-sidebar__sidebar,
 .dj-detail-page .page-layout-main-sidebar__sidebar,
 .contact-page .page-layout-main-sidebar__sidebar,
-.volunteer-calendar-page .page-layout-main-sidebar__sidebar {
+.volunteer-calendar-page .page-layout-main-sidebar__sidebar,
+.account-settings-page .page-layout-main-sidebar__sidebar {
   padding-top: 80px;
 }
 
@@ -111,9 +112,21 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--cr-space-4);
-  padding: var(--cr-space-4);
   max-width: 1400px;
   margin: 0 auto;
+}
+
+/* Masonry layout */
+.page-layout-masonry {
+  column-count: 3;
+  column-gap: var(--cr-space-4);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-layout-masonry > * {
+  break-inside: avoid;
+  margin-bottom: var(--cr-space-4);
 }
 
 .page-layout-3col__column {
@@ -179,6 +192,10 @@
   .page-layout-3col {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .page-layout-masonry {
+    column-count: 2;
+  }
 }
 
 /* Tablet portrait: 768px */
@@ -193,6 +210,10 @@
 
   .page-layout-3col {
     grid-template-columns: 1fr;
+  }
+
+  .page-layout-masonry {
+    column-count: 1;
   }
 
   .page-layout-single {
@@ -321,6 +342,11 @@
 .shop-page .page-layout-main-sidebar__main {
   grid-column: 1;
   grid-row: 1;
+}
+
+/* Volunteer calendar page specific layout - 2/3 : 1/3 */
+.volunteer-calendar-page__layout {
+  grid-template-columns: 2fr 1fr;
 }
 
 /* ============================================ */

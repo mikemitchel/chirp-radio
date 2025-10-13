@@ -1,12 +1,16 @@
 // src/pages/AccountSettings.tsx
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { PiPencilSimple, PiHandHeart, PiStorefront } from 'react-icons/pi';
 import CrPageHeader from '../stories/CrPageHeader';
 import CrAccountSettingsPage from '../stories/CrAccountSettingsPage';
+import CrTable from '../stories/CrTable';
 import { useAuth } from '../hooks/useAuth';
 import { useNotification } from '../contexts/NotificationContext';
 
 export default function AccountSettings() {
-  const { isLoggedIn, user, login, logout } = useAuth();
+  const navigate = useNavigate();
+  const { isLoggedIn, user, login, logout, switchProfile } = useAuth();
   const { showToast } = useNotification();
 
   // Get the appropriate storage based on login state
@@ -116,7 +120,7 @@ export default function AccountSettings() {
 
   const handleLogin = () => {
     // For demo purposes, simulate login with a demo account
-    login('demo@chirpradio.org');
+    switchProfile('listener');
     showToast({
       message: 'Successfully logged in',
       type: 'success',
@@ -166,37 +170,105 @@ export default function AccountSettings() {
     });
   };
 
-  return (
-    <div>
-      <CrPageHeader
-        eyebrowText="CHIRP Radio"
-        title="Account Settings"
-        showEyebrow={false}
-        showActionButton={isLoggedIn}
-        actionButtonText="Edit Profile"
-        onActionClick={handleEditProfile}
-        titleSize="lg"
-      />
+  const handleMakeDonation = () => {
+    navigate('/donate');
+  };
 
-      <CrAccountSettingsPage
-        isLoggedIn={isLoggedIn}
-        userEmail={user?.email || 'account@gmail.com'}
-        streamingQuality={streamingQuality}
-        pushNotifications={false}
-        darkMode={darkMode}
-        onStreamingQualityChange={handleStreamingQualityChange}
-        onPushNotificationsChange={handlePushNotificationsChange}
-        onDarkModeChange={handleDarkModeChange}
-        onLogin={handleLogin}
-        onLogout={handleLogout}
-        onSignUp={handleSignUp}
-        onForgotPassword={handleForgotPassword}
-        onShareApp={handleShareApp}
-        onLikeAppStore={handleLikeAppStore}
-        onAppSupport={handleAppSupport}
-        onTermsPrivacy={handleTermsPrivacy}
-        onEditProfile={handleEditProfile}
-      />
+  const handleVisitStore = () => {
+    navigate('/shop');
+  };
+
+  // Donation history table configuration
+  const donationColumns = [
+    { key: 'date', title: 'Date', sortable: true, width: 'medium' },
+    { key: 'amount', title: 'Amount', sortable: true, width: 'narrow', render: (value: number) => `$${value}` },
+    { key: 'type', title: 'Type', sortable: true, width: 'medium' },
+    { key: 'status', title: 'Status', sortable: true, width: 'narrow' },
+  ];
+
+  // Purchase history table configuration
+  const purchaseColumns = [
+    { key: 'date', title: 'Date', sortable: true, width: 'medium' },
+    { key: 'item', title: 'Item', sortable: true, width: 'wide' },
+    { key: 'amount', title: 'Amount', sortable: true, width: 'narrow', render: (value: number) => `$${value}` },
+    { key: 'status', title: 'Status', sortable: true, width: 'narrow' },
+  ];
+
+  return (
+    <div className="account-settings-page">
+      <div className="page-layout-main-sidebar">
+        <div className="page-layout-main-sidebar__main">
+          <CrPageHeader
+            eyebrowText="YOUR ACCOUNT"
+            title="Your Profile"
+            titleTag="h1"
+            titleSize="xl"
+            showEyebrow={true}
+            showActionButton={true}
+            actionButtonText="Edit"
+            actionButtonIcon={<PiPencilSimple size={20} />}
+            actionButtonSize="medium"
+            onActionClick={handleEditProfile}
+          />
+
+          <CrAccountSettingsPage
+            isLoggedIn={isLoggedIn}
+            userEmail={user?.email || 'account@gmail.com'}
+            firstName={user?.name?.split(' ')[0] || 'John'}
+            lastName={user?.name?.split(' ')[1] || 'Dough'}
+            djName={user?.djName}
+            showName={user?.showName}
+            avatarSrc={user?.avatar}
+            memberSince={user?.memberSince}
+            socialLinks={user?.socialLinks}
+            streamingQuality={streamingQuality}
+            pushNotifications={false}
+            darkMode={darkMode}
+            onStreamingQualityChange={handleStreamingQualityChange}
+            onPushNotificationsChange={handlePushNotificationsChange}
+            onDarkModeChange={handleDarkModeChange}
+            onLogin={handleLogin}
+            onLogout={handleLogout}
+            onSignUp={handleSignUp}
+            onForgotPassword={handleForgotPassword}
+            onShareApp={handleShareApp}
+            onLikeAppStore={handleLikeAppStore}
+            onAppSupport={handleAppSupport}
+            onTermsPrivacy={handleTermsPrivacy}
+            onEditProfile={handleEditProfile}
+          />
+        </div>
+
+        <div className="page-layout-main-sidebar__sidebar account-settings-page__sidebar">
+          <CrTable
+            tableTitle="Donation History"
+            columns={donationColumns}
+            data={user?.donationHistory || []}
+            sortable={true}
+            variant="compact"
+            tableTitleLevel={3}
+            showActionButton={true}
+            actionButtonText="Make a Donation"
+            actionButtonIcon={<PiHandHeart />}
+            actionButtonSize="medium"
+            onActionClick={handleMakeDonation}
+          />
+
+          <CrTable
+            tableTitle="Purchase History"
+            columns={purchaseColumns}
+            data={user?.purchaseHistory || []}
+            sortable={true}
+            variant="compact"
+            tableTitleLevel={3}
+            showActionButton={true}
+            actionButtonText="Visit Store"
+            actionButtonIcon={<PiStorefront />}
+            actionButtonSize="medium"
+            onActionClick={handleVisitStore}
+          />
+        </div>
+      </div>
     </div>
   );
 }

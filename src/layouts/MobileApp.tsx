@@ -143,7 +143,7 @@ export default function MobileApp() {
         return 'Now Playing'
       case '/recently-played':
         return 'Recently Played'
-      case '/collection':
+      case '/my-collection':
         return 'Your Collection'
       case '/request':
         return 'Make a Request'
@@ -158,7 +158,7 @@ export default function MobileApp() {
   const handleHomeClick = () => navigate('/')
   const handleNowPlayingClick = () => navigate('/')
   const handleRecentlyPlayedClick = () => navigate('/recently-played')
-  const handleYourCollectionClick = () => navigate('/collection')
+  const handleYourCollectionClick = () => navigate('/my-collection')
   const handleRequestClick = () => navigate('/request')
   const handleAccountSettingsClick = () => navigate('/settings')
 

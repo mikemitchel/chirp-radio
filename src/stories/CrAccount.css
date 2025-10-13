@@ -25,13 +25,42 @@
   color: var(--cr-primary-700);
 }
 
-.cr-account__greeting {
-  display: flex;
-  align-items: baseline;
-  gap: var(--cr-space-1);
-  font: var(--cr-nav-support);
-  color: var(--cr-ink);
-  white-space: nowrap;
+.cr-account__dropdown-wrapper {
+  position: relative;
+}
+
+.cr-account__volunteer-dropdown {
+  position: relative;
+}
+
+.cr-account__dropdown-menu {
+  position: absolute;
+  top: calc(100% + var(--cr-space-2));
+  left: 0;
+  z-index: 1000;
+  min-width: 200px;
+}
+
+/* Override for greeting button - remove outline and box-shadow */
+.cr-account__greeting-button {
+  border: none !important;
+  background: transparent !important;
+  padding: var(--cr-space-1) var(--cr-space-2) !important;
+  box-shadow: none !important;
+}
+
+.cr-account__greeting-button:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Remove box-shadow from outline buttons in user dropdown wrapper */
+.cr-account__dropdown-wrapper .cr-btn--outline {
+  box-shadow: none !important;
+}
+
+.cr-account__dropdown-wrapper .cr-btn--outline:hover {
+  box-shadow: none !important;
 }
 
 .cr-account__hello {

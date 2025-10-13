@@ -45,6 +45,13 @@
   animation-range: entry 0% entry 100%;
 }
 
+/* Disable scroll animations for masonry layouts */
+.page-layout-masonry .cr-card {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
 /* Clickable variant */
 .cr-card--clickable {
   cursor: pointer;

@@ -1,4 +1,4 @@
-// src/pages/VolunteerDirectoryPage.tsx
+// src/pages/LeadershipDirectoryPage.tsx
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router'
 import CrBreadcrumb from '../stories/CrBreadcrumb'
@@ -7,15 +7,15 @@ import CrTable from '../stories/CrTable'
 import CrChip from '../stories/CrChip'
 import { useUsers } from '../hooks/useData'
 
-const VolunteerDirectoryPage: React.FC = () => {
+const LeadershipDirectoryPage: React.FC = () => {
   const navigate = useNavigate()
   const { data: users } = useUsers()
 
-  // Filter users with volunteer roles
-  const volunteerData = useMemo(() => {
+  // Filter users with leadership roles
+  const leadershipData = useMemo(() => {
     if (!users) return []
     return users
-      .filter(user => ['Regular DJ', 'Substitute DJ', 'Content Publisher', 'General'].includes(user.role))
+      .filter(user => ['President', 'Vice President', 'Treasurer', 'Board Member'].includes(user.role))
       .map(user => ({
         id: user.id,
         firstName: user.firstName,
@@ -29,18 +29,18 @@ const VolunteerDirectoryPage: React.FC = () => {
 
   const breadcrumbItems = [
     { label: 'Home', path: '/web', onClick: () => navigate('/web') },
-    { label: 'Volunteer Directory', path: '/volunteer-directory', isActive: true }
+    { label: 'Leadership Directory', path: '/leadership-directory', isActive: true }
   ]
 
   // Render role as CrChip with custom colors
   const renderRole = (role: string) => {
-    let backgroundColor = 'var(--cr-default-300)' // default for General
+    let backgroundColor = 'var(--cr-default-300)' // default for Board Member
 
-    if (role === 'Regular DJ') {
+    if (role === 'President') {
       backgroundColor = 'var(--cr-secondary-100)'
-    } else if (role === 'Substitute DJ') {
+    } else if (role === 'Vice President') {
       backgroundColor = 'var(--cr-primary-100)'
-    } else if (role === 'Content Publisher') {
+    } else if (role === 'Treasurer') {
       backgroundColor = 'var(--cr-accent-100)'
     }
 
@@ -74,11 +74,11 @@ const VolunteerDirectoryPage: React.FC = () => {
   ]
 
   return (
-    <div className="volunteer-directory-page">
+    <div className="leadership-directory-page">
       <section className="page-container">
         <CrPageHeader
           eyebrowText="FOR VOLUNTEERS"
-          title="Volunteer Directory"
+          title="Leadership Directory"
           titleTag="h1"
           titleSize="xl"
           showEyebrow={true}
@@ -86,7 +86,7 @@ const VolunteerDirectoryPage: React.FC = () => {
         />
         <CrTable
           columns={columns}
-          data={volunteerData}
+          data={leadershipData}
           sortable={true}
           variant="default"
           showActionButton={false}
@@ -96,4 +96,4 @@ const VolunteerDirectoryPage: React.FC = () => {
   )
 }
 
-export default VolunteerDirectoryPage
+export default LeadershipDirectoryPage

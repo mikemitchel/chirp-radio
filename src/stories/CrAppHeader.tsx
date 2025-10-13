@@ -27,7 +27,18 @@ interface CrAppHeaderProps {
   onWaysToGiveClick?: () => void
   onDonateClick?: () => void
   onLoginClick?: () => void
+  onSignUpClick?: () => void
   onVolunteerDropdown?: () => void
+  onProfileClick?: () => void
+  onFavoritesClick?: () => void
+  onDonationsClick?: () => void
+  onPurchasesClick?: () => void
+  onSignOutClick?: () => void
+  onVolunteerDirectoryClick?: () => void
+  onLeadershipDirectoryClick?: () => void
+  onVolunteerCalendarClick?: () => void
+  onWebsitesClick?: () => void
+  onDownloadsClick?: () => void
 }
 
 export default function CrAppHeader({
@@ -68,7 +79,18 @@ export default function CrAppHeader({
   onWaysToGiveClick,
   onDonateClick,
   onLoginClick,
+  onSignUpClick,
   onVolunteerDropdown,
+  onProfileClick,
+  onFavoritesClick,
+  onDonationsClick,
+  onPurchasesClick,
+  onSignOutClick,
+  onVolunteerDirectoryClick,
+  onLeadershipDirectoryClick,
+  onVolunteerCalendarClick,
+  onWebsitesClick,
+  onDownloadsClick,
 }: CrAppHeaderProps) {
   return (
     <div className="cr-app-header">
@@ -85,7 +107,18 @@ export default function CrAppHeader({
         autoFetch={autoFetch}
         apiUrl={apiUrl}
         onLoginClick={onLoginClick}
+        onSignUpClick={onSignUpClick}
         onVolunteerDropdown={onVolunteerDropdown}
+        onProfileClick={onProfileClick}
+        onFavoritesClick={onFavoritesClick}
+        onDonationsClick={onDonationsClick}
+        onPurchasesClick={onPurchasesClick}
+        onSignOutClick={onSignOutClick}
+        onVolunteerDirectoryClick={onVolunteerDirectoryClick}
+        onLeadershipDirectoryClick={onLeadershipDirectoryClick}
+        onVolunteerCalendarClick={onVolunteerCalendarClick}
+        onWebsitesClick={onWebsitesClick}
+        onDownloadsClick={onDownloadsClick}
       />
 
       <CrBrandBanner streamingPlayerProps={streamingPlayerProps} />
