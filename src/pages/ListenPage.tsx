@@ -1,5 +1,5 @@
 // src/pages/ListenPage.tsx
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { PiVinylRecord, PiPlaylist } from 'react-icons/pi'
 import CrPageHeader from '../stories/CrPageHeader'
@@ -8,6 +8,8 @@ import CrPlaylistItem from '../stories/CrPlaylistItem'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrList from '../stories/CrList'
 import { useTracks, useCurrentUser, useTop25, useMostAdded, useHalloween, useAnnouncements } from '../hooks/useData'
+import { useNotification } from '../contexts/NotificationContext'
+import { getCollection, removeFromCollection, type CollectionTrack } from '../utils/collectionDB'
 import './ListenPage.css'
 
 const ListenPage: React.FC = () => {
@@ -18,6 +20,8 @@ const ListenPage: React.FC = () => {
   const { data: mostAddedChart } = useMostAdded()
   const { data: halloweenChart } = useHalloween()
   const { data: announcements } = useAnnouncements()
+  const { showModal, showToast } = useNotification()
+  const [collection, setCollection] = useState<CollectionTrack[]>([])
 
   // Transform tracks for playlist table - only show last 2 hours
   const recentlyPlayedTracks = tracks?.filter((track, index, arr) => {
@@ -46,8 +50,46 @@ const ListenPage: React.FC = () => {
     },
   })) || []
 
+  // Load collection on mount
+  useEffect(() => {
+    setCollection(getCollection())
+  }, [])
+
+  // Listen for collection updates
+  useEffect(() => {
+    const handleCollectionUpdate = () => {
+      setCollection(getCollection())
+    }
+
+    window.addEventListener('chirp-collection-updated', handleCollectionUpdate)
+    return () => {
+      window.removeEventListener('chirp-collection-updated', handleCollectionUpdate)
+    }
+  }, [])
+
+  // Handle removing tracks from collection
+  const handleItemRemove = (item: any, index: number) => {
+    showModal({
+      title: 'Remove from Collection',
+      message: `Are you sure you want to remove ${item.trackName} by ${item.artistName} from your collection?`,
+      confirmText: 'Yes, Remove',
+      cancelText: 'No',
+      onConfirm: () => {
+        const removed = removeFromCollection(item.id)
+        if (removed) {
+          showToast({
+            message: `Removed ${item.trackName} by ${item.artistName} from your collection`,
+            type: 'success',
+            duration: 5000,
+          })
+        }
+      },
+    })
+  }
+
   // Get user collection for sidebar (first 3 items)
-  const userCollectionTracks = currentUser?.collection?.slice(0, 3).map(track => ({
+  const userCollectionTracks = collection.slice(0, 3).map(track => ({
+    ...track,
     albumArt: track.albumArt,
     artistName: track.artistName,
     trackName: track.trackName,
@@ -55,12 +97,12 @@ const ListenPage: React.FC = () => {
     labelName: track.labelName,
     isLocal: track.isLocal,
     isAdded: true,
-    timeAgo: new Date(track.dateAdded).toLocaleDateString('en-US', {
+    timeAgo: `Added on ${new Date(track.dateAdded).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric'
-    }),
-  })) || []
+    })}`,
+  }))
 
   // Transform chart data for lists
   const top25Items = top25Chart?.tracks?.map(track => ({
@@ -488,6 +530,7 @@ const ListenPage: React.FC = () => {
             showHeader={false}
             groupByHour={false}
             variant="default"
+            onItemAddClick={handleItemRemove}
           />
           <CrList
             preheader={halloweenChart?.preheader}

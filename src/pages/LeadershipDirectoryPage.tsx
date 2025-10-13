@@ -28,7 +28,7 @@ const LeadershipDirectoryPage: React.FC = () => {
   }, [users])
 
   const breadcrumbItems = [
-    { label: 'Home', path: '/web', onClick: () => navigate('/web') },
+    { label: 'Home', path: '/', onClick: () => navigate('/') },
     { label: 'Leadership Directory', path: '/leadership-directory', isActive: true }
   ]
 

@@ -52,6 +52,17 @@
   transform: none;
 }
 
+/* Disable scroll animations for detail pages where card is main content */
+.dj-detail-page .cr-card,
+.article-detail-page .cr-card,
+.event-detail-page .cr-card,
+.podcast-detail-page .cr-card,
+.shop-detail-page .cr-card {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
 /* Clickable variant */
 .cr-card--clickable {
   cursor: pointer;

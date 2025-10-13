@@ -36,6 +36,8 @@ interface CrTableProps {
   actionButtonIcon?: React.ReactNode
   onActionClick?: () => void
   tableTitleLevel?: number
+  tableTitleSize?: '2xl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs' | '2xs'
+  actionButtonSize?: 'small' | 'medium' | 'large'
 }
 
 export default function CrTable({
@@ -83,6 +85,8 @@ export default function CrTable({
   actionButtonIcon,
   onActionClick,
   tableTitleLevel = 2, // h2 by default
+  tableTitleSize,
+  actionButtonSize = 'medium',
 }: CrTableProps) {
   const [sortColumn, setSortColumn] = useState(initialSortColumn)
   const [sortDirection, setSortDirection] = useState(initialSortDirection)
@@ -246,10 +250,13 @@ export default function CrTable({
         <CrPageHeader
           eyebrowText={eyebrowText}
           title={tableTitle}
+          titleTag={`h${tableTitleLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'}
+          titleSize={tableTitleSize}
           showEyebrow={showEyebrow && !!eyebrowText}
           showActionButton={shouldShowActionButton}
           actionButtonText={actionButtonText}
           actionButtonIcon={actionButtonIcon}
+          actionButtonSize={actionButtonSize}
           onActionClick={onActionClick}
         />
       )}

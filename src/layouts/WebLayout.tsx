@@ -6,10 +6,12 @@ import CrFooter from '../stories/CrFooter'
 import CrSupportWithAds from '../stories/CrSupportWithAds'
 import CrSidebar from '../stories/CrSidebar'
 import CrScrim from '../stories/CrScrim'
+import GlobalNotifications from '../components/GlobalNotifications'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
-import { NotificationProvider } from '../contexts/NotificationContext'
+import { NotificationProvider, useNotification } from '../contexts/NotificationContext'
 import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../hooks/useAuth'
+import { useCurrentShow } from '../hooks/useData'
 import type { UserRole } from '../hooks/useAuth'
 import '../styles/layout.css'
 
@@ -17,24 +19,61 @@ interface LayoutProps {
   children: React.ReactNode
 }
 
-const WebLayout: React.FC<LayoutProps> = ({ children }) => {
+const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate()
   const { getTotalItems } = useCart()
   const { isLoggedIn, user, switchProfile, logout } = useAuth()
+  const { showToast } = useNotification()
+  const { data: currentShow } = useCurrentShow()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const cartItemCount = getTotalItems()
+
+  // Show toast if flags are set (for post-reload toasts)
+  useEffect(() => {
+    const showLogoutToast = sessionStorage.getItem('chirp-show-logout-toast')
+    const showLoginToast = sessionStorage.getItem('chirp-show-login-toast')
+    const showSignupToast = sessionStorage.getItem('chirp-show-signup-toast')
+
+    if (showLogoutToast === 'true') {
+      sessionStorage.removeItem('chirp-show-logout-toast')
+      showToast({
+        message: 'Successfully logged out',
+        type: 'success',
+        duration: 3000,
+      })
+    }
+
+    if (showLoginToast === 'true') {
+      sessionStorage.removeItem('chirp-show-login-toast')
+      showToast({
+        message: 'Successfully logged in',
+        type: 'success',
+        duration: 3000,
+      })
+    }
+
+    if (showSignupToast === 'true') {
+      sessionStorage.removeItem('chirp-show-signup-toast')
+      showToast({
+        message: 'Account created successfully',
+        type: 'success',
+        duration: 3000,
+      })
+    }
+  }, [showToast])
 
   // Listen for profile switch events from console
   useEffect(() => {
     const handleProfileSwitch = (event: CustomEvent<UserRole>) => {
       switchProfile(event.detail)
-      // Trigger a page reload or state update to reflect changes
+      sessionStorage.setItem('chirp-show-login-toast', 'true')
       window.location.reload()
     }
 
     const handleLogout = () => {
       logout()
+      sessionStorage.setItem('chirp-show-logout-toast', 'true')
       window.location.reload()
     }
 
@@ -58,12 +97,14 @@ const WebLayout: React.FC<LayoutProps> = ({ children }) => {
   const handleLoginClick = () => {
     // Simulate login for demo - switch to listener by default
     switchProfile('listener')
+    sessionStorage.setItem('chirp-show-login-toast', 'true')
     window.location.reload()
   }
 
   const handleSignUpClick = () => {
     // Simulate signup for demo - switch to listener by default
     switchProfile('listener')
+    sessionStorage.setItem('chirp-show-signup-toast', 'true')
     window.location.reload()
   }
 
@@ -72,7 +113,9 @@ const WebLayout: React.FC<LayoutProps> = ({ children }) => {
   const handleFavoritesClick = () => navigate('/collection')
   const handleSignOutClick = () => {
     logout()
-    window.location.href = '/web'
+    // Store toast flag for after redirect
+    sessionStorage.setItem('chirp-show-logout-toast', 'true')
+    window.location.href = '/#/'
   }
 
   // Volunteer menu handlers
@@ -83,15 +126,15 @@ const WebLayout: React.FC<LayoutProps> = ({ children }) => {
   const handleDownloadsClick = () => navigate('/volunteer-downloads')
 
   return (
-    <NotificationProvider>
-      <AudioPlayerProvider
-        autoFetch={true}
-        streamUrl="https://peridot.streamguys1.com:5185/live"
-        apiUrl="https://chirpradio.appspot.com/api/current_playlist"
-      >
+    <AudioPlayerProvider
+      autoFetch={true}
+      streamUrl="https://peridot.streamguys1.com:5185/live"
+      apiUrl="https://chirpradio.appspot.com/api/current_playlist"
+    >
         <CrAppHeader
-        autoFetch={true}
-        apiUrl="https://chirpradio.appspot.com/api/current_playlist"
+        autoFetch={false}
+        djName={currentShow?.djName}
+        showName={currentShow?.showName}
         onMenuClick={handleMenuClick}
         storeBadgeCount={cartItemCount}
         showStoreBadge={true}
@@ -115,8 +158,8 @@ const WebLayout: React.FC<LayoutProps> = ({ children }) => {
         variant="web"
         isOpen={isSidebarOpen}
         onClose={handleCloseSidebar}
-        onLogoClick={() => { navigate('/web'); handleCloseSidebar(); }}
-        onHomeClick={() => { navigate('/web'); handleCloseSidebar(); }}
+        onLogoClick={() => { navigate('/'); handleCloseSidebar(); }}
+        onHomeClick={() => { navigate('/'); handleCloseSidebar(); }}
         onListenClick={() => { navigate('/listen'); handleCloseSidebar(); }}
         onPlaylistClick={() => { navigate('/playlist'); handleCloseSidebar(); }}
         onPodcastClick={() => { navigate('/podcasts'); handleCloseSidebar(); }}
@@ -150,7 +193,18 @@ const WebLayout: React.FC<LayoutProps> = ({ children }) => {
         </div>
         <CrFooter />
       </div>
-      </AudioPlayerProvider>
+
+      {/* Global Notifications - Toasts & Modals */}
+      <GlobalNotifications />
+    </AudioPlayerProvider>
+  )
+}
+
+// Wrapper to provide NotificationProvider context
+const WebLayout: React.FC<LayoutProps> = ({ children }) => {
+  return (
+    <NotificationProvider>
+      <WebLayoutContent>{children}</WebLayoutContent>
     </NotificationProvider>
   )
 }

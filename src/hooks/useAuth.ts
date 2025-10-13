@@ -41,6 +41,9 @@ interface CollectionTrack {
 interface User {
   email: string;
   name: string;
+  firstName?: string;
+  lastName?: string;
+  location?: string;
   role: UserRole;
   avatar?: string;
   memberSince?: string;
@@ -50,6 +53,10 @@ interface User {
   donationHistory?: DonationHistory[];
   purchaseHistory?: PurchaseHistory[];
   collection?: CollectionTrack[];
+  password?: string; // For demo purposes only
+  pendingEmail?: string;
+  pendingEmailToken?: string;
+  pendingEmailExpiry?: string;
 }
 
 export function useAuth() {
@@ -121,9 +128,13 @@ export function useAuth() {
       listener: {
         email: 'listener@chirpradio.org',
         name: 'Jane Listener',
+        firstName: 'Jane',
+        lastName: 'Listener',
+        location: 'Chicago, Illinois',
         role: 'listener',
         avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop',
         memberSince: '2020-03-15',
+        password: 'demo123', // For demo purposes only
         socialLinks: {
           instagram: 'www.instagram.com/janelistener',
           twitter: 'www.twitter.com/janelistener',
@@ -171,9 +182,13 @@ export function useAuth() {
       volunteer: {
         email: 'volunteer@chirpradio.org',
         name: 'Sam Volunteer',
+        firstName: 'Sam',
+        lastName: 'Volunteer',
+        location: 'Chicago, Illinois',
         role: 'volunteer',
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop',
         memberSince: '2019-06-20',
+        password: 'demo123', // For demo purposes only
         socialLinks: {
           facebook: 'www.facebook.com/samvolunteer',
           instagram: 'www.instagram.com/samvolunteer',
@@ -225,9 +240,13 @@ export function useAuth() {
       dj: {
         email: 'dj@chirpradio.org',
         name: 'Sally Smith',
+        firstName: 'Sally',
+        lastName: 'Smith',
+        location: 'Chicago, Illinois',
         role: 'dj',
         avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop',
         memberSince: '2018-01-10',
+        password: 'demo123', // For demo purposes only
         djName: 'DJ Sally',
         showName: 'Seashells by the Seashore',
         socialLinks: {
@@ -294,12 +313,75 @@ export function useAuth() {
     console.log(`✅ Switched to ${role} profile:`, selectedProfile);
   };
 
+  const verifyPassword = (password: string): boolean => {
+    // In real implementation, this would securely verify password
+    return user?.password === password;
+  };
+
+  const requestEmailChange = (newEmail: string, token: string) => {
+    if (!user) return false;
+
+    const expiry = new Date();
+    expiry.setHours(expiry.getHours() + 48); // 48 hour expiry
+
+    const updatedUser = {
+      ...user,
+      pendingEmail: newEmail,
+      pendingEmailToken: token,
+      pendingEmailExpiry: expiry.toISOString(),
+    };
+
+    setUser(updatedUser);
+    return true;
+  };
+
+  const verifyEmailChange = (token: string): boolean => {
+    if (!user || !user.pendingEmail || !user.pendingEmailToken) return false;
+
+    // Check token matches and hasn't expired
+    if (user.pendingEmailToken !== token) return false;
+
+    if (user.pendingEmailExpiry) {
+      const expiry = new Date(user.pendingEmailExpiry);
+      if (expiry < new Date()) return false;
+    }
+
+    // Complete email change
+    const updatedUser = {
+      ...user,
+      email: user.pendingEmail,
+      pendingEmail: undefined,
+      pendingEmailToken: undefined,
+      pendingEmailExpiry: undefined,
+    };
+
+    setUser(updatedUser);
+    return true;
+  };
+
+  const cancelEmailChange = () => {
+    if (!user) return;
+
+    const updatedUser = {
+      ...user,
+      pendingEmail: undefined,
+      pendingEmailToken: undefined,
+      pendingEmailExpiry: undefined,
+    };
+
+    setUser(updatedUser);
+  };
+
   return {
     isLoggedIn,
     user,
     login,
     logout,
     signup,
-    switchProfile
+    switchProfile,
+    verifyPassword,
+    requestEmailChange,
+    verifyEmailChange,
+    cancelEmailChange,
   };
 }

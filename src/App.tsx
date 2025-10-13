@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
-import { HashRouter, Routes, Route } from 'react-router';
+import { HashRouter, Routes, Route, Navigate, useNavigate } from 'react-router';
 import { CartProvider } from './contexts/CartContext';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
 import './utils/devTools'; // Load development tools
 import MobileApp from './layouts/MobileApp';
 import WebLayout from './layouts/WebLayout';
+import { Capacitor } from '@capacitor/core';
 import NowPlaying from './pages/NowPlaying';
 import RecentlyPlayed from './pages/RecentlyPlayed';
 import YourCollection from './pages/YourCollection';
@@ -42,6 +43,25 @@ import ListenPage from './pages/ListenPage';
 import LeadershipDirectoryPage from './pages/LeadershipDirectoryPage';
 import VolunteerDownloadsPage from './pages/VolunteerDownloadsPage';
 import WebsitesToRememberPage from './pages/WebsitesToRememberPage';
+
+// Redirect component to route mobile app users to /app
+function RootRedirect() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // If running in Capacitor (native mobile app), redirect to /app
+    if (Capacitor.isNativePlatform()) {
+      navigate('/app', { replace: true });
+    }
+  }, [navigate]);
+
+  // For web browsers, show the web landing page
+  if (Capacitor.isNativePlatform()) {
+    return null; // Redirect happening
+  }
+
+  return <WebLayout><LandingPage /></WebLayout>;
+}
 
 function App() {
   // Apply dark mode preference on app initialization
@@ -83,7 +103,11 @@ function App() {
       <HashRouter>
         <ScrollToTop />
         <Routes>
-        <Route path="/" element={<MobileApp />}>
+        {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
+        <Route index element={<RootRedirect />} />
+
+        {/* Mobile app routes (Capacitor only) */}
+        <Route path="/app" element={<MobileApp />}>
           <Route index element={<NowPlaying />} />
           <Route path="now-playing" element={<NowPlaying />} />
           <Route path="recently-played" element={<RecentlyPlayed />} />
@@ -91,7 +115,6 @@ function App() {
           <Route path="request" element={<MakeRequest />} />
           <Route path="settings" element={<ProtectedRoute requireLogin={true}><AccountSettings /></ProtectedRoute>} />
         </Route>
-        <Route path="/web" element={<WebLayout><LandingPage /></WebLayout>} />
         <Route path="/playlist" element={<WebLayout><PlaylistPage /></WebLayout>} />
         <Route path="/listen" element={<WebLayout><ListenPage /></WebLayout>} />
         <Route path="/other-ways-to-listen" element={<WebLayout><OtherWaysToListenPage /></WebLayout>} />

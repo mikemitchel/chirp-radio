@@ -28,7 +28,7 @@ const VolunteerDirectoryPage: React.FC = () => {
   }, [users])
 
   const breadcrumbItems = [
-    { label: 'Home', path: '/web', onClick: () => navigate('/web') },
+    { label: 'Home', path: '/', onClick: () => navigate('/') },
     { label: 'Volunteer Directory', path: '/volunteer-directory', isActive: true }
   ]
 

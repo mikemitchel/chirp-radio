@@ -317,7 +317,7 @@ export default function CrProfileCard({
 
         <section className="cr-profile-card__profile">
           <div className="cr-profile-card__profile-info">
-            <h2 className="cr-profile-card__name">
+            <h2 className="cr-profile-card__name cr-title-lg">
               {firstName} {lastName}
             </h2>
 
@@ -408,72 +408,14 @@ export default function CrProfileCard({
           </section>
         )}
 
-        {/* Saved Tracks Section */}
-        <section className="cr-profile-card__saved-tracks">
-          <CrPageHeader
-            eyebrowText="Your Music"
-            title="Saved Tracks"
-            showEyebrow={true}
-            showActionButton={false}
-          />
-
-          <div className="cr-profile-card__playlist-table">
-            <CrPlaylistTableSaved
-              items={[
-                {
-                  id: '1',
-                  albumArt:
-                    'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
-                  albumArtAlt: 'Kind of Blue album cover',
-                  artistName: 'Miles Davis',
-                  trackName: 'So What',
-                  albumName: 'Kind of Blue',
-                  labelName: 'Columbia Records',
-                  timeAgo: '09/15/2024',
-                  isAdded: true,
-                  isLocal: false,
-                },
-                {
-                  id: '2',
-                  albumArt:
-                    'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=200&fit=crop',
-                  albumArtAlt: 'Giant Steps album cover',
-                  artistName: 'John Coltrane',
-                  trackName: 'Giant Steps',
-                  albumName: 'Giant Steps',
-                  labelName: 'Atlantic Records',
-                  timeAgo: '09/12/2024',
-                  isAdded: true,
-                  isLocal: true,
-                },
-                {
-                  id: '3',
-                  albumArt:
-                    'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=200&h=200&fit=crop',
-                  albumArtAlt: 'Time Out album cover',
-                  artistName: 'Dave Brubeck',
-                  trackName: 'Take Five',
-                  albumName: 'Time Out',
-                  labelName: 'Columbia Records',
-                  timeAgo: '09/08/2024',
-                  isAdded: true,
-                  isLocal: false,
-                },
-              ]}
-              showHeader={true}
-              onItemRemoveClick={(item, index) => {
-                console.log('Remove clicked for:', item.trackName)
-              }}
-            />
-          </div>
-        </section>
-
         {/* Account Settings Section */}
         <section className="cr-profile-card__account-settings">
           <CrPageHeader
             eyebrowText="Your Account"
             title="Account Settings"
-            showEyebrow={true}
+            titleTag="h2"
+            titleSize="lg"
+            showEyebrow={false}
             showActionButton={false}
           />
 
@@ -485,205 +427,6 @@ export default function CrProfileCard({
               onPushNotificationsChange={onPushNotificationsChange}
             />
           </div>
-        </section>
-
-        {/* Donation History Section */}
-        <section className="cr-profile-card__donations">
-          <CrTable
-            columns={[
-              {
-                key: 'date',
-                title: 'Date',
-                sortable: true,
-                width: 'medium',
-              },
-              {
-                key: 'type',
-                title: 'Type',
-                sortable: true,
-                width: 'medium',
-              },
-              {
-                key: 'amount',
-                title: 'Amount',
-                align: 'right',
-                sortable: true,
-                width: 'medium',
-              },
-              {
-                key: 'receipt',
-                title: 'Receipt',
-                align: 'center',
-                width: 'narrow',
-                render: (value, row) => {
-                  return React.createElement(
-                    CrButton,
-                    {
-                      size: 'small',
-                      variant: 'text',
-                      color: 'default',
-                      leftIcon: React.createElement(
-                        'svg',
-                        {
-                          width: 16,
-                          height: 16,
-                          viewBox: '0 0 24 24',
-                          fill: 'none',
-                          stroke: 'currentColor',
-                          strokeWidth: 2,
-                        },
-                        [
-                          React.createElement('path', {
-                            key: 'download-path',
-                            d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3',
-                          }),
-                        ]
-                      ),
-                      onClick: () => {
-                        console.log(`Downloading receipt for donation ${row.id}`)
-                      },
-                      'aria-label': `Download receipt for ${row.amount} donation on ${row.date}`,
-                    },
-                    'Receipt'
-                  )
-                },
-              },
-            ]}
-            data={[
-              {
-                id: '1',
-                date: '09/15/2024',
-                type: 'Sustaining Member',
-                amount: '$25.00',
-                receipt: '',
-              },
-              {
-                id: '2',
-                date: '08/15/2024',
-                type: 'Sustaining Member',
-                amount: '$25.00',
-                receipt: '',
-              },
-              {
-                id: '3',
-                date: '07/15/2024',
-                type: 'One-Time Donation',
-                amount: '$100.00',
-                receipt: '',
-              },
-              {
-                id: '4',
-                date: '06/15/2024',
-                type: 'Sustaining Member',
-                amount: '$25.00',
-                receipt: '',
-              },
-            ]}
-            variant="default"
-            striped={true}
-            bordered={false}
-            hover={true}
-            sortable={true}
-            loading={false}
-            empty={false}
-            initialSortColumn="date"
-            initialSortDirection="desc"
-            eyebrowText="CHIRP Radio"
-            tableTitle="Your Donation History"
-            showEyebrow={true}
-            showActionButton={false}
-          />
-        </section>
-
-        {/* Store Purchases Section */}
-        <section className="cr-profile-card__store-purchases">
-          <CrTable
-            columns={[
-              {
-                key: 'date',
-                title: 'Date',
-                sortable: true,
-                width: 'medium',
-              },
-              {
-                key: 'item',
-                title: 'Item',
-                sortable: true,
-                width: 'wide',
-              },
-              {
-                key: 'price',
-                title: 'Price',
-                align: 'right',
-                sortable: true,
-                width: 'medium',
-              },
-              {
-                key: 'status',
-                title: 'Status',
-                align: 'center',
-                width: 'narrow',
-                render: (value, row) => {
-                  return React.createElement(
-                    CrChip,
-                    {
-                      variant:
-                        row.status === 'Shipped'
-                          ? 'primary'
-                          : row.status === 'Delivered'
-                            ? 'success'
-                            : 'light',
-                      size: 'small',
-                    },
-                    row.status
-                  )
-                },
-              },
-            ]}
-            data={[
-              {
-                id: '1',
-                date: '09/10/2024',
-                item: 'CHIRP Radio T-Shirt - Medium',
-                price: '$25.00',
-                status: 'Delivered',
-              },
-              {
-                id: '2',
-                date: '08/22/2024',
-                item: 'CHIRP Radio Tote Bag',
-                price: '$15.00',
-                status: 'Delivered',
-              },
-              {
-                id: '3',
-                date: '07/05/2024',
-                item: 'CHIRP Radio Coffee Mug',
-                price: '$12.00',
-                status: 'Delivered',
-              },
-              {
-                id: '4',
-                date: '09/20/2024',
-                item: 'CHIRP Radio Hoodie - Large',
-                price: '$45.00',
-                status: 'Shipped',
-              },
-            ]}
-            variant="default"
-            striped={true}
-            bordered={false}
-            hover={true}
-            sortable={true}
-            loading={false}
-            empty={false}
-            initialSortColumn="date"
-            initialSortDirection="desc"
-            eyebrowText="CHIRP Radio"
-            tableTitle="Store Purchases"
-            showEyebrow={true}
-            showActionButton={false}
-          />
         </section>
 
         {/* DJ Schedule Section - Only for DJs */}

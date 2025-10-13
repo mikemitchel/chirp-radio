@@ -14,7 +14,7 @@ export default function ProtectedRoute({
   children,
   requireLogin = false,
   requiredRoles,
-  redirectTo = '/#/web',
+  redirectTo = '/',
 }: ProtectedRouteProps) {
   const { isLoggedIn, user } = useAuth();
 

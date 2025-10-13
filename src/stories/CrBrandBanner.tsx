@@ -22,7 +22,7 @@ export default function CrBrandBanner({
     <header className="cr-logo-banner">
       <div className="cr-logo-banner__container">
         {/* Logo Container */}
-        <Link to="/web" className="cr-logo-banner__logo-container">
+        <Link to="/" className="cr-logo-banner__logo-container">
           <CrLogo variant="horizontal-reversed" color="white" />
         </Link>
 
