@@ -19,6 +19,37 @@
 .hero-carousel__slide {
   flex: 0 0 100%;
   min-width: 0;
+  position: relative;
+}
+
+/* Progress bar timer */
+.hero-carousel__slide::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 4px;
+  background: var(--cr-secondary-500);
+  opacity: 0.8;
+  z-index: 20;
+  border-radius: 0 0 0 var(--cr-space-2);
+}
+
+/* Animate only the active slide */
+.hero-carousel__slide--active::after {
+  animation: carousel-progress var(--carousel-duration, 8000ms) linear;
+}
+
+@keyframes carousel-progress {
+  from {
+    width: 100%;
+    border-radius: 0 0 var(--cr-space-2) var(--cr-space-2);
+  }
+  to {
+    width: 0;
+    border-radius: 0 0 0 var(--cr-space-2);
+  }
 }
 
 /* Navigation Buttons */

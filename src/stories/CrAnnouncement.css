@@ -112,6 +112,9 @@
 .cr-announcement__content {
   flex: 1;
   min-width: 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .cr-announcement__headline {
@@ -139,7 +142,7 @@
   display: flex;
   gap: var(--cr-space-4);
   flex-direction: column;
-  width: 200px;
+  width: 240px;
   flex-shrink: 0;
 }
 

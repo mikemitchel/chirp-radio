@@ -6,11 +6,14 @@ import CrModal from './CrModal'
 import './CrImageCropper.css'
 
 interface CrImageCropperProps {
-  onImageChange?: (imageData: { fullImage: string; croppedImage: string }) => void
+  onImageChange?: (imageData: { fullImage: string; croppedImage: string; orientation?: string }) => void
   maxFileSize?: number
   acceptedFormats?: string
   initialFullImage?: string | null
   initialCroppedImage?: string | null
+  showFullImage?: boolean // Control whether to show the full image section (for DJs only)
+  initialOrientation?: 'square' | 'landscape' | 'portrait'
+  onOrientationChange?: (orientation: 'square' | 'landscape' | 'portrait') => void
 }
 
 export default function CrImageCropper({
@@ -19,6 +22,9 @@ export default function CrImageCropper({
   acceptedFormats = 'image/jpeg,image/png',
   initialFullImage = null, // Pre-populate with existing full image
   initialCroppedImage = null, // Pre-populate with existing cropped image
+  showFullImage = true, // Default to showing full image for backwards compatibility
+  initialOrientation = 'square',
+  onOrientationChange,
 }: CrImageCropperProps) {
   // Fixed sizes - no customization needed
   const maxDisplayWidth = 400
@@ -30,6 +36,9 @@ export default function CrImageCropper({
     full: initialFullImage,
     cropped: initialCroppedImage,
   })
+
+  // Image orientation state
+  const [orientation, setOrientation] = useState<'square' | 'landscape' | 'portrait'>(initialOrientation)
 
   // UI state
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -339,6 +348,7 @@ export default function CrImageCropper({
         onImageChange({
           fullImage: imageSrc,
           croppedImage: initialCroppedDataURL,
+          orientation: orientation,
         })
       }
     },
@@ -404,6 +414,7 @@ export default function CrImageCropper({
           onImageChange({
             fullImage: images.full,
             croppedImage: croppedDataURL,
+            orientation: orientation,
           })
         }
       } catch (error) {
@@ -415,6 +426,7 @@ export default function CrImageCropper({
           onImageChange({
             fullImage: images.full,
             croppedImage: images.full,
+            orientation: orientation,
           })
         }
       }
@@ -465,29 +477,90 @@ export default function CrImageCropper({
       <h2 className="cr-image-cropper__title">Update Profile Picture</h2>
 
       <div className="cr-image-cropper__images">
-        {/* Full Image Display */}
-        <div className="cr-image-cropper__full-image">
-          <h3 className="cr-image-cropper__subtitle">
-            Profile Picture - Full (used on DJ Profile page)
-          </h3>
-          {images.full ? (
-            <div className="cr-image-cropper__image-container">
-              <img
-                src={images.full}
-                alt="Full profile"
-                className="cr-image-cropper__image cr-image-cropper__image--full"
+        {/* Full Image Display - Only for DJs */}
+        {showFullImage && (
+          <div className="cr-image-cropper__full-image">
+            <h3 className="cr-image-cropper__subtitle">
+              Profile Picture - Full (used on DJ Profile page)
+            </h3>
+            {images.full ? (
+              <div className="cr-image-cropper__image-container">
+                <img
+                  src={images.full}
+                  alt="Full profile"
+                  className="cr-image-cropper__image cr-image-cropper__image--full"
+                  style={{
+                    width: orientation === 'landscape' ? '400px' : orientation === 'portrait' ? '225px' : '400px',
+                    height: orientation === 'landscape' ? '225px' : orientation === 'portrait' ? '400px' : '400px',
+                    objectFit: 'cover',
+                  }}
+                />
+              </div>
+            ) : (
+              <div
+                className="cr-image-cropper__placeholder-initial"
                 style={{
-                  maxWidth: maxDisplayWidth,
-                  maxHeight: maxDisplayHeight,
-                  width: 'auto',
-                  height: 'auto',
+                  width: orientation === 'landscape' ? '400px' : orientation === 'portrait' ? '225px' : '400px',
+                  height: orientation === 'landscape' ? '225px' : orientation === 'portrait' ? '400px' : '400px',
                 }}
-              />
+              >
+                No image uploaded yet
+              </div>
+            )}
+
+            {/* Image Orientation Radio Buttons */}
+            <div className="cr-image-cropper__orientation">
+              <h4 className="cr-image-cropper__orientation-label">Image Orientation</h4>
+              <div className="cr-image-cropper__orientation-options">
+                <label className="cr-image-cropper__orientation-option">
+                  <input
+                    type="radio"
+                    name="orientation"
+                    value="square"
+                    checked={orientation === 'square'}
+                    onChange={(e) => {
+                      setOrientation('square')
+                      if (onOrientationChange) {
+                        onOrientationChange('square')
+                      }
+                    }}
+                  />
+                  <span>Square</span>
+                </label>
+                <label className="cr-image-cropper__orientation-option">
+                  <input
+                    type="radio"
+                    name="orientation"
+                    value="landscape"
+                    checked={orientation === 'landscape'}
+                    onChange={(e) => {
+                      setOrientation('landscape')
+                      if (onOrientationChange) {
+                        onOrientationChange('landscape')
+                      }
+                    }}
+                  />
+                  <span>Landscape</span>
+                </label>
+                <label className="cr-image-cropper__orientation-option">
+                  <input
+                    type="radio"
+                    name="orientation"
+                    value="portrait"
+                    checked={orientation === 'portrait'}
+                    onChange={(e) => {
+                      setOrientation('portrait')
+                      if (onOrientationChange) {
+                        onOrientationChange('portrait')
+                      }
+                    }}
+                  />
+                  <span>Portrait</span>
+                </label>
+              </div>
             </div>
-          ) : (
-            <div className="cr-image-cropper__placeholder-initial">No image uploaded yet</div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Avatar Image Display */}
         <div className="cr-image-cropper__avatar">

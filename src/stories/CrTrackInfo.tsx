@@ -4,6 +4,9 @@ import { PiPlusCircle } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
 import './CrTrackInfo.css'
+import { useLoginRequired } from '../hooks/useLoginRequired'
+import LoginRequiredModal from '../components/LoginRequiredModal'
+import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
 
 interface CrTrackInfoProps {
   variant?: 'full' | 'minimal' | 'stacked'
@@ -11,7 +14,7 @@ interface CrTrackInfoProps {
   artistName?: string
   albumName?: string
   labelName?: string
-  isAdded?: boolean
+  albumArt?: string
   isLocal?: boolean
   onToggleAdd?: (isAdded: boolean) => void
   className?: string
@@ -23,11 +26,28 @@ export default function CrTrackInfo({
   artistName = 'Artist Name',
   albumName = '',
   labelName = '',
-  isAdded = false,
+  albumArt = '',
   isLocal = false,
-  onToggleAdd = () => {},
+  onToggleAdd,
   className = '',
 }: CrTrackInfoProps) {
+  const { requireLogin, showLoginModal, handleLogin, handleSignUp, closeModal } = useLoginRequired()
+  const [isAdded, setIsAdded] = useState(false)
+
+  // Check if track is in collection
+  useEffect(() => {
+    const checkCollection = () => {
+      setIsAdded(isInCollection(artistName, trackName))
+    }
+    checkCollection()
+
+    // Listen for collection updates
+    window.addEventListener('chirp-collection-updated', checkCollection)
+    return () => {
+      window.removeEventListener('chirp-collection-updated', checkCollection)
+    }
+  }, [artistName, trackName])
+
   // Refs for scrolling elements
   const trackRef = useRef(null)
   const artistRef = useRef(null)
@@ -87,7 +107,49 @@ export default function CrTrackInfo({
   }, [trackName, artistName, albumName, labelName, variant, isLocal])
 
   const handleToggleAdd = () => {
-    onToggleAdd(!isAdded)
+    requireLogin(() => {
+      const trackId = `${artistName}-${trackName}`.replace(/\s+/g, '-').toLowerCase()
+
+      if (isAdded) {
+        // Remove from collection
+        const removed = removeFromCollection(trackId)
+        if (removed) {
+          window.dispatchEvent(new CustomEvent('chirp-show-toast', {
+            detail: {
+              message: `Removed ${trackName} from your collection`,
+              type: 'success',
+              duration: 3000,
+            }
+          }))
+        }
+      } else {
+        // Add to collection
+        const albumArtUrl = albumArt || '/src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg'
+
+        addToCollection({
+          id: trackId,
+          artistName,
+          trackName,
+          albumName,
+          labelName,
+          albumArt: albumArtUrl,
+          isLocal,
+        })
+
+        window.dispatchEvent(new CustomEvent('chirp-show-toast', {
+          detail: {
+            message: `Added ${trackName} to your collection`,
+            type: 'success',
+            duration: 3000,
+          }
+        }))
+      }
+
+      // Call optional callback
+      if (onToggleAdd) {
+        onToggleAdd(!isAdded)
+      }
+    })
   }
 
   const renderFullVariant = () => (
@@ -363,22 +425,31 @@ export default function CrTrackInfo({
   }
 
   return (
-    <div className={`cr-track-info cr-track-info--${variant} ${className}`}>
-      <div className="cr-track-info__content">
-        {renderContent()}
+    <>
+      <div className={`cr-track-info cr-track-info--${variant} ${className}`}>
+        <div className="cr-track-info__content">
+          {renderContent()}
 
-        <div className="cr-track-info__actions">
-          <CrButton
-            variant="text"
-            size="xsmall"
-            color="secondary"
-            rightIcon={isAdded ? undefined : <PiPlusCircle className="w-4 h-4" />}
-            onClick={handleToggleAdd}
-          >
-            {isAdded ? 'REMOVE' : 'ADD'}
-          </CrButton>
+          <div className="cr-track-info__actions">
+            <CrButton
+              variant="text"
+              size="xsmall"
+              color="secondary"
+              rightIcon={isAdded ? undefined : <PiPlusCircle className="w-4 h-4" />}
+              onClick={handleToggleAdd}
+            >
+              {isAdded ? 'REMOVE' : 'ADD'}
+            </CrButton>
+          </div>
         </div>
       </div>
-    </div>
+
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={closeModal}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+      />
+    </>
   )
 }

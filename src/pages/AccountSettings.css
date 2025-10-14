@@ -1,0 +1,92 @@
+/* AccountSettings.css */
+
+/* Email Change Info Box */
+.email-change-info {
+  background-color: var(--cr-default-50);
+  padding: var(--cr-space-4);
+  border-radius: var(--cr-radius-md);
+  border: 1px solid var(--cr-default-200);
+}
+
+.email-change-info__row {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--cr-default-700);
+}
+
+.email-change-info__row strong {
+  color: var(--cr-default-900);
+  font-weight: 600;
+  display: inline-block;
+  min-width: 70px;
+}
+
+/* Form Error Message */
+.form-error {
+  color: var(--cr-error-600);
+  font-size: 13px;
+  margin: var(--cr-space-2) 0 0 0;
+  font-weight: 500;
+}
+
+/* Dark mode adjustments */
+[data-theme='dark'] .email-change-info {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .email-change-info__row {
+  color: var(--cr-default-300);
+}
+
+[data-theme='dark'] .email-change-info__row strong {
+  color: var(--cr-ink);
+}
+
+/* Email Verification Banner */
+.email-verification-banner {
+  background: linear-gradient(to right, var(--cr-warning-50), var(--cr-warning-100));
+  border: 2px solid var(--cr-warning-400);
+  border-radius: var(--cr-radius-lg);
+  padding: var(--cr-space-5);
+  margin: var(--cr-space-4) auto;
+  max-width: 1440px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.email-verification-banner__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cr-space-6);
+}
+
+.email-verification-banner__content p {
+  margin: 0;
+  color: var(--cr-default-900);
+  flex: 1;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.email-verification-banner__content p strong {
+  font-weight: 600;
+}
+
+.email-verification-banner__actions {
+  display: flex;
+  gap: var(--cr-space-3);
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .email-verification-banner__content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .email-verification-banner__actions {
+    width: 100%;
+    flex-direction: column;
+  }
+}

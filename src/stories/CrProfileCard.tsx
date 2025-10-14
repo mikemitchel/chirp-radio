@@ -140,12 +140,16 @@ interface CrProfileCardProps {
   email?: string
   memberSince?: string
   avatarSrc?: string
+  fullProfileImage?: string
   avatarAlt?: string
   socialLinks?: Array<{ platform: string; url: string }>
   permissions?: string[]
   showPermissions?: boolean
   isVolunteer?: boolean
   isDJ?: boolean
+  djName?: string
+  showName?: string
+  showTime?: string
   onStateChange?: (state: string) => void
   onSave?: () => void
   onCancel?: () => void
@@ -158,6 +162,8 @@ interface CrProfileCardProps {
   onStreamingQualityChange?: (quality: string) => void
   pushNotifications?: boolean
   onPushNotificationsChange?: (checked: boolean) => void
+  darkMode?: 'light' | 'dark' | 'device'
+  onDarkModeChange?: (mode: 'light' | 'dark' | 'device') => void
   onLogin?: () => void
   onLogout?: () => void
   onSignUp?: () => void
@@ -166,6 +172,7 @@ interface CrProfileCardProps {
   onLikeAppStore?: () => void
   onAppSupport?: () => void
   onTermsPrivacy?: () => void
+  onViewDJProfile?: () => void
 }
 
 export default function CrProfileCard({
@@ -187,6 +194,7 @@ export default function CrProfileCard({
 
   // Avatar
   avatarSrc,
+  fullProfileImage,
   avatarAlt = 'User avatar',
 
   // Social links
@@ -205,6 +213,9 @@ export default function CrProfileCard({
   // User role for determining what edit options to show
   isVolunteer = false, // true if user has volunteer permissions
   isDJ = false, // true if user has DJ permissions
+  djName,
+  showName,
+  showTime,
 
   // State change handlers
   onStateChange, // Callback to change state between editProfile/editVolunteer
@@ -222,6 +233,8 @@ export default function CrProfileCard({
   onStreamingQualityChange,
   pushNotifications = false,
   onPushNotificationsChange,
+  darkMode = 'light',
+  onDarkModeChange,
   onLogin,
   onLogout,
   onSignUp,
@@ -230,13 +243,14 @@ export default function CrProfileCard({
   onLikeAppStore,
   onAppSupport,
   onTermsPrivacy,
+  onViewDJProfile,
 
   // Layout
   maxWidth = '860px',
   className = '',
 }: CrProfileCardProps) {
   // Track the original full image separately from the cropped avatar
-  const [originalFullImage, setOriginalFullImage] = useState(avatarSrc)
+  const [originalFullImage, setOriginalFullImage] = useState(fullProfileImage || avatarSrc)
 
   const componentClasses = ['cr-profile-card', `cr-profile-card--${state}`, className]
     .filter(Boolean)
@@ -317,11 +331,46 @@ export default function CrProfileCard({
 
         <section className="cr-profile-card__profile">
           <div className="cr-profile-card__profile-info">
-            <h2 className="cr-profile-card__name">
+            <h2 className="cr-profile-card__name cr-title-lg">
               {firstName} {lastName}
             </h2>
 
+            {isDJ && onViewDJProfile && (
+              <div style={{ marginTop: 'var(--cr-space-3)', marginBottom: 'var(--cr-space-3)' }}>
+                <CrButton
+                  variant="outline"
+                  size="small"
+                  color="secondary"
+                  rightIcon={<PiUser />}
+                  onClick={onViewDJProfile}
+                >
+                  View DJ Profile
+                </CrButton>
+              </div>
+            )}
+
             <div className="cr-profile-card__details">
+              {isDJ && djName && (
+                <div className="cr-profile-card__detail-item">
+                  <span className="cr-profile-card__detail-label">DJ Name:</span>
+                  <span className="cr-profile-card__detail-value">{djName}</span>
+                </div>
+              )}
+
+              {isDJ && showName && (
+                <div className="cr-profile-card__detail-item">
+                  <span className="cr-profile-card__detail-label">Show Name:</span>
+                  <span className="cr-profile-card__detail-value">{showName}</span>
+                </div>
+              )}
+
+              {isDJ && showTime && (
+                <div className="cr-profile-card__detail-item">
+                  <span className="cr-profile-card__detail-label">DJ Schedule:</span>
+                  <span className="cr-profile-card__detail-value">{showTime}</span>
+                </div>
+              )}
+
               <div className="cr-profile-card__detail-item">
                 <span className="cr-profile-card__detail-label">Location:</span>
                 <span className="cr-profile-card__detail-value">{location}</span>
@@ -360,6 +409,19 @@ export default function CrProfileCard({
           </div>
         </section>
 
+        {showPermissions && (
+          <section className="cr-profile-card__permissions">
+            <div className="cr-profile-card__permissions-label">Permissions:</div>
+            <div className="cr-profile-card__permissions-chips">
+              {permissions.map((permission, index) => (
+                <CrChip key={index} variant="light" size="small">
+                  {permission}
+                </CrChip>
+              ))}
+            </div>
+          </section>
+        )}
+
         <section className="cr-profile-card__social-section">
           <div className="cr-profile-card__social-columns">
             <div className="cr-profile-card__social-column">
@@ -395,85 +457,14 @@ export default function CrProfileCard({
           </div>
         </section>
 
-        {showPermissions && (
-          <section className="cr-profile-card__permissions">
-            <div className="cr-profile-card__permissions-label">Permissions:</div>
-            <div className="cr-profile-card__permissions-chips">
-              {permissions.map((permission, index) => (
-                <CrChip key={index} variant="light" size="small">
-                  {permission}
-                </CrChip>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Saved Tracks Section */}
-        <section className="cr-profile-card__saved-tracks">
-          <CrPageHeader
-            eyebrowText="Your Music"
-            title="Saved Tracks"
-            showEyebrow={true}
-            showActionButton={false}
-          />
-
-          <div className="cr-profile-card__playlist-table">
-            <CrPlaylistTableSaved
-              items={[
-                {
-                  id: '1',
-                  albumArt:
-                    'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
-                  albumArtAlt: 'Kind of Blue album cover',
-                  artistName: 'Miles Davis',
-                  trackName: 'So What',
-                  albumName: 'Kind of Blue',
-                  labelName: 'Columbia Records',
-                  timeAgo: '09/15/2024',
-                  isAdded: true,
-                  isLocal: false,
-                },
-                {
-                  id: '2',
-                  albumArt:
-                    'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=200&fit=crop',
-                  albumArtAlt: 'Giant Steps album cover',
-                  artistName: 'John Coltrane',
-                  trackName: 'Giant Steps',
-                  albumName: 'Giant Steps',
-                  labelName: 'Atlantic Records',
-                  timeAgo: '09/12/2024',
-                  isAdded: true,
-                  isLocal: true,
-                },
-                {
-                  id: '3',
-                  albumArt:
-                    'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=200&h=200&fit=crop',
-                  albumArtAlt: 'Time Out album cover',
-                  artistName: 'Dave Brubeck',
-                  trackName: 'Take Five',
-                  albumName: 'Time Out',
-                  labelName: 'Columbia Records',
-                  timeAgo: '09/08/2024',
-                  isAdded: true,
-                  isLocal: false,
-                },
-              ]}
-              showHeader={true}
-              onItemRemoveClick={(item, index) => {
-                console.log('Remove clicked for:', item.trackName)
-              }}
-            />
-          </div>
-        </section>
-
         {/* Account Settings Section */}
         <section className="cr-profile-card__account-settings">
           <CrPageHeader
             eyebrowText="Your Account"
             title="Account Settings"
-            showEyebrow={true}
+            titleTag="h2"
+            titleSize="lg"
+            showEyebrow={false}
             showActionButton={false}
           />
 
@@ -483,288 +474,11 @@ export default function CrProfileCard({
               onStreamingQualityChange={onStreamingQualityChange}
               pushNotifications={pushNotifications}
               onPushNotificationsChange={onPushNotificationsChange}
+              darkMode={darkMode}
+              onDarkModeChange={onDarkModeChange}
             />
           </div>
         </section>
-
-        {/* Donation History Section */}
-        <section className="cr-profile-card__donations">
-          <CrTable
-            columns={[
-              {
-                key: 'date',
-                title: 'Date',
-                sortable: true,
-                width: 'medium',
-              },
-              {
-                key: 'type',
-                title: 'Type',
-                sortable: true,
-                width: 'medium',
-              },
-              {
-                key: 'amount',
-                title: 'Amount',
-                align: 'right',
-                sortable: true,
-                width: 'medium',
-              },
-              {
-                key: 'receipt',
-                title: 'Receipt',
-                align: 'center',
-                width: 'narrow',
-                render: (value, row) => {
-                  return React.createElement(
-                    CrButton,
-                    {
-                      size: 'small',
-                      variant: 'text',
-                      color: 'default',
-                      leftIcon: React.createElement(
-                        'svg',
-                        {
-                          width: 16,
-                          height: 16,
-                          viewBox: '0 0 24 24',
-                          fill: 'none',
-                          stroke: 'currentColor',
-                          strokeWidth: 2,
-                        },
-                        [
-                          React.createElement('path', {
-                            key: 'download-path',
-                            d: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3',
-                          }),
-                        ]
-                      ),
-                      onClick: () => {
-                        console.log(`Downloading receipt for donation ${row.id}`)
-                      },
-                      'aria-label': `Download receipt for ${row.amount} donation on ${row.date}`,
-                    },
-                    'Receipt'
-                  )
-                },
-              },
-            ]}
-            data={[
-              {
-                id: '1',
-                date: '09/15/2024',
-                type: 'Sustaining Member',
-                amount: '$25.00',
-                receipt: '',
-              },
-              {
-                id: '2',
-                date: '08/15/2024',
-                type: 'Sustaining Member',
-                amount: '$25.00',
-                receipt: '',
-              },
-              {
-                id: '3',
-                date: '07/15/2024',
-                type: 'One-Time Donation',
-                amount: '$100.00',
-                receipt: '',
-              },
-              {
-                id: '4',
-                date: '06/15/2024',
-                type: 'Sustaining Member',
-                amount: '$25.00',
-                receipt: '',
-              },
-            ]}
-            variant="default"
-            striped={true}
-            bordered={false}
-            hover={true}
-            sortable={true}
-            loading={false}
-            empty={false}
-            initialSortColumn="date"
-            initialSortDirection="desc"
-            eyebrowText="CHIRP Radio"
-            tableTitle="Your Donation History"
-            showEyebrow={true}
-            showActionButton={false}
-          />
-        </section>
-
-        {/* Store Purchases Section */}
-        <section className="cr-profile-card__store-purchases">
-          <CrTable
-            columns={[
-              {
-                key: 'date',
-                title: 'Date',
-                sortable: true,
-                width: 'medium',
-              },
-              {
-                key: 'item',
-                title: 'Item',
-                sortable: true,
-                width: 'wide',
-              },
-              {
-                key: 'price',
-                title: 'Price',
-                align: 'right',
-                sortable: true,
-                width: 'medium',
-              },
-              {
-                key: 'status',
-                title: 'Status',
-                align: 'center',
-                width: 'narrow',
-                render: (value, row) => {
-                  return React.createElement(
-                    CrChip,
-                    {
-                      variant:
-                        row.status === 'Shipped'
-                          ? 'primary'
-                          : row.status === 'Delivered'
-                            ? 'success'
-                            : 'light',
-                      size: 'small',
-                    },
-                    row.status
-                  )
-                },
-              },
-            ]}
-            data={[
-              {
-                id: '1',
-                date: '09/10/2024',
-                item: 'CHIRP Radio T-Shirt - Medium',
-                price: '$25.00',
-                status: 'Delivered',
-              },
-              {
-                id: '2',
-                date: '08/22/2024',
-                item: 'CHIRP Radio Tote Bag',
-                price: '$15.00',
-                status: 'Delivered',
-              },
-              {
-                id: '3',
-                date: '07/05/2024',
-                item: 'CHIRP Radio Coffee Mug',
-                price: '$12.00',
-                status: 'Delivered',
-              },
-              {
-                id: '4',
-                date: '09/20/2024',
-                item: 'CHIRP Radio Hoodie - Large',
-                price: '$45.00',
-                status: 'Shipped',
-              },
-            ]}
-            variant="default"
-            striped={true}
-            bordered={false}
-            hover={true}
-            sortable={true}
-            loading={false}
-            empty={false}
-            initialSortColumn="date"
-            initialSortDirection="desc"
-            eyebrowText="CHIRP Radio"
-            tableTitle="Store Purchases"
-            showEyebrow={true}
-            showActionButton={false}
-          />
-        </section>
-
-        {/* DJ Schedule Section - Only for DJs */}
-        {isDJ && (
-          <section className="cr-profile-card__dj-schedule">
-            <CrTable
-              columns={[
-                {
-                  key: 'date',
-                  title: 'Date',
-                  sortable: true,
-                  width: 'medium',
-                },
-                {
-                  key: 'time',
-                  title: 'Time',
-                  sortable: true,
-                  width: 'medium',
-                },
-                {
-                  key: 'show',
-                  title: 'Show',
-                  sortable: true,
-                  width: 'wide',
-                },
-                {
-                  key: 'status',
-                  title: 'Status',
-                  align: 'center',
-                  width: 'narrow',
-                  render: (value, row) => {
-                    return React.createElement(
-                      CrChip,
-                      {
-                        variant: row.status === 'Scheduled' ? 'primary' : 'light',
-                        size: 'small',
-                      },
-                      row.status
-                    )
-                  },
-                },
-              ]}
-              data={[
-                {
-                  id: '1',
-                  date: '09/25/2024',
-                  time: '8:00 PM - 10:00 PM',
-                  show: 'Underground Sounds with DJ Sarah',
-                  status: 'Scheduled',
-                },
-                {
-                  id: '2',
-                  date: '09/18/2024',
-                  time: '8:00 PM - 10:00 PM',
-                  show: 'Underground Sounds with DJ Sarah',
-                  status: 'Completed',
-                },
-                {
-                  id: '3',
-                  date: '09/11/2024',
-                  time: '8:00 PM - 10:00 PM',
-                  show: 'Underground Sounds with DJ Sarah',
-                  status: 'Completed',
-                },
-              ]}
-              variant="default"
-              striped={true}
-              bordered={false}
-              hover={true}
-              sortable={true}
-              loading={false}
-              empty={false}
-              initialSortColumn="date"
-              initialSortDirection="desc"
-              eyebrowText="CHIRP Radio"
-              tableTitle="Your DJ Schedule"
-              showEyebrow={true}
-              showActionButton={false}
-            />
-          </section>
-        )}
       </div>
     )
   }

@@ -11,7 +11,12 @@
 }
 
 .cr-rating-card__list {
-  padding: var(--cr-space-4) var(--cr-space-4);
+  padding: 0 var(--cr-space-4) var(--cr-space-4);
   display: flex;
   flex-direction: column;
+}
+
+/* Remove bottom padding from banner when inside CrList */
+.cr-rating-card .cr-card-title-banner--tall.cr-card-title-banner--stacked .cr-card-title-banner__content {
+  padding-bottom: 0;
 }

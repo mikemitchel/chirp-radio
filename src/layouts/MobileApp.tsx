@@ -87,7 +87,7 @@ export default function MobileApp() {
 
   useEffect(() => {
     // Always navigate to Now Playing page on mount
-    navigate('/')
+    navigate('/app')
 
     // Check if splash has already been shown
     const hasShownSplash = sessionStorage.getItem('chirp-splash-shown') === 'true'
@@ -133,21 +133,21 @@ export default function MobileApp() {
   }, [])
 
   // Determine if we're on the landing page (Now Playing)
-  const isLandingPage = location.pathname === '/' || location.pathname === '/now-playing'
+  const isLandingPage = location.pathname === '/app' || location.pathname === '/app/now-playing'
 
   // Get dynamic page title based on current route
   const getPageTitle = () => {
     switch (location.pathname) {
-      case '/':
-      case '/now-playing':
+      case '/app':
+      case '/app/now-playing':
         return 'Now Playing'
-      case '/recently-played':
+      case '/app/recently-played':
         return 'Recently Played'
-      case '/collection':
+      case '/app/my-collection':
         return 'Your Collection'
-      case '/request':
+      case '/app/request':
         return 'Make a Request'
-      case '/settings':
+      case '/app/settings':
         return 'Account Settings'
       default:
         return 'CHIRP Radio'
@@ -155,12 +155,12 @@ export default function MobileApp() {
   }
 
   // Navigation handlers for sidebar
-  const handleHomeClick = () => navigate('/')
-  const handleNowPlayingClick = () => navigate('/')
-  const handleRecentlyPlayedClick = () => navigate('/recently-played')
-  const handleYourCollectionClick = () => navigate('/collection')
-  const handleRequestClick = () => navigate('/request')
-  const handleAccountSettingsClick = () => navigate('/settings')
+  const handleHomeClick = () => navigate('/app')
+  const handleNowPlayingClick = () => navigate('/app')
+  const handleRecentlyPlayedClick = () => navigate('/app/recently-played')
+  const handleYourCollectionClick = () => navigate('/app/my-collection')
+  const handleRequestClick = () => navigate('/app/request')
+  const handleAccountSettingsClick = () => navigate('/app/settings')
 
   // External link handlers for web app features
   const handleExternalLink = (url: string) => {

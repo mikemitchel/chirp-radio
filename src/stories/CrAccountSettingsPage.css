@@ -10,7 +10,6 @@
 
 .cr-account-settings-page__content {
   max-width: 100%;
-  padding: var(--cr-space-4);
   margin: 0 auto;
 }
 
@@ -78,6 +77,33 @@
   align-items: center;
   gap: var(--cr-space-3);
   justify-content: space-between;
+}
+
+/* Social Links */
+.cr-account-settings-page__social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cr-space-3);
+  margin-top: var(--cr-space-4);
+  width: 100%;
+}
+
+.cr-account-settings-page__social-link-item {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-3);
+  flex: 1 1 300px;
+}
+
+.cr-account-settings-page__social-url {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  text-decoration: underline;
+  transition: color 0.2s ease-in-out;
+}
+
+.cr-account-settings-page__social-url:hover {
+  color: var(--cr-primary-500);
 }
 
 /* Avatar Section */
@@ -256,7 +282,7 @@
   align-items: flex-start;
 }
 
-/* Responsive Design */
+
 @media (max-width: 480px) {
   .cr-account-settings-page__content {
     padding: 0;
@@ -271,7 +297,6 @@
   .cr-account-settings-page__setting-control {
     align-self: flex-end;
   }
-
 
   .cr-account-settings-page__app-actions {
     flex-direction: column;

@@ -10,16 +10,58 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import CrChip from '../stories/CrChip'
 import { useDJs, useAnnouncements, useCurrentUser, updateUserFavoriteDJs } from '../hooks/useData'
+import { useLoginRequired } from '../hooks/useLoginRequired'
+import { useAuth } from '../hooks/useAuth'
+import LoginRequiredModal from '../components/LoginRequiredModal'
 
 const DJDetailPage: React.FC = () => {
   const navigate = useNavigate()
-  const { id } = useParams()
+  const { id: slugOrId } = useParams()
   const { data: allDJs } = useDJs()
   const { data: announcements } = useAnnouncements()
   const { data: currentUser } = useCurrentUser()
+  const { user: loggedInUser } = useAuth()
+  const { requireLogin, showLoginModal, handleLogin, handleSignUp, closeModal } = useLoginRequired()
 
-  // Find the DJ by ID
-  const dj = allDJs?.find((d) => d.id === id)
+  // Find the DJ by slug (or fall back to ID for backwards compatibility)
+  let dj = allDJs?.find((d) => d.slug === slugOrId || d.id === slugOrId)
+
+  // If viewing the logged-in user's DJ profile, use their current data from localStorage
+  if (loggedInUser && loggedInUser.role === 'dj' && dj && dj.id === 'dj-001') {
+    // Create slug from logged-in user's DJ name
+    const userSlug = loggedInUser.djName
+      ? loggedInUser.djName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+      : dj.slug
+
+    dj = {
+      ...dj,
+      slug: userSlug,
+      djName: loggedInUser.djName || dj.djName,
+      showName: loggedInUser.showName || dj.showName,
+      showTime: loggedInUser.showTime || dj.showTime,
+      excerpt: loggedInUser.djExcerpt || dj.excerpt,
+      description: loggedInUser.djBio || dj.description,
+      donationLink: loggedInUser.djDonationLink || dj.donationLink,
+      imageSrc: loggedInUser.avatar || dj.imageSrc,
+      fullProfileImage: loggedInUser.fullProfileImage || loggedInUser.avatar || dj.fullProfileImage,
+      profileImageOrientation: loggedInUser.profileImageOrientation || 'square',
+    }
+  }
+
+  // Map orientation to aspect ratio for CrCard
+  const getAspectRatio = (orientation: string | undefined): string => {
+    switch (orientation) {
+      case 'landscape':
+        return '16:9'
+      case 'portrait':
+        return '9:16'
+      case 'square':
+      default:
+        return '1:1'
+    }
+  }
+
+  const imageAspectRatio = getAspectRatio(dj?.profileImageOrientation)
 
   // Track if this DJ is favorited
   const [isFavorite, setIsFavorite] = useState(false)
@@ -33,14 +75,16 @@ const DJDetailPage: React.FC = () => {
   const handleFavoriteClick = () => {
     if (!dj) return
 
-    // Toggle favorite status
-    const newFavoriteStatus = !isFavorite
-    setIsFavorite(newFavoriteStatus)
+    requireLogin(() => {
+      // Toggle favorite status
+      const newFavoriteStatus = !isFavorite
+      setIsFavorite(newFavoriteStatus)
 
-    // Update the user's favoriteDJs array
-    updateUserFavoriteDJs(dj.id, newFavoriteStatus)
+      // Update the user's favoriteDJs array
+      updateUserFavoriteDJs(dj.id, newFavoriteStatus)
 
-    console.log(`${newFavoriteStatus ? 'Favorited' : 'Unfavorited'} DJ:`, dj.djName)
+      console.log(`${newFavoriteStatus ? 'Favorited' : 'Unfavorited'} DJ:`, dj.djName)
+    });
   }
 
   const handleShareClick = () => {
@@ -95,9 +139,10 @@ const DJDetailPage: React.FC = () => {
             variant="article"
             type="dj"
             imagePosition="left"
-            imageSrc={dj.imageSrc}
-            backgroundImage={dj.imageSrc}
-            articleImageAspectRatio="16:9"
+            imageSize="large"
+            imageSrc={dj.fullProfileImage || dj.imageSrc}
+            backgroundImage={dj.fullProfileImage || dj.imageSrc}
+            articleImageAspectRatio={imageAspectRatio}
             captionPosition="none"
             preheader="DJ Profile"
             title={dj.djName}
@@ -121,6 +166,7 @@ const DJDetailPage: React.FC = () => {
           />
           <CrDjDonation
             djName={dj.djName}
+            donationLink={dj.donationLink}
             onDonateClick={handleDonateClick}
           />
           <CrPreviousShows />
@@ -143,6 +189,13 @@ const DJDetailPage: React.FC = () => {
           <CrAdSpace size="large-rectangle" />
         </div>
       </div>
+
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={closeModal}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+      />
     </div>
   )
 }

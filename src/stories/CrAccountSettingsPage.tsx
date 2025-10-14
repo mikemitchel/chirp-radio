@@ -1,17 +1,30 @@
 // CrAccountSettingsPage.tsx
 import CrSettingsToggles from './CrSettingsToggles'
 import CrButton from './CrButton'
+import CrSocialIcon from './CrSocialIcon'
 import { PiPaperclip, PiNotepad } from 'react-icons/pi'
 import './CrAccountSettingsPage.css'
+
+interface SocialLinks {
+  facebook?: string
+  instagram?: string
+  twitter?: string
+  bluesky?: string
+  linkedin?: string
+}
 
 interface CrAccountSettingsPageProps {
   isLoggedIn?: boolean
   userEmail?: string
   firstName?: string
   lastName?: string
+  djName?: string
+  showName?: string
   location?: string
   avatarSrc?: string
   avatarAlt?: string
+  memberSince?: string
+  socialLinks?: SocialLinks
   streamingQuality?: string
   onStreamingQualityChange?: (quality: string) => void
   pushNotifications?: boolean
@@ -34,9 +47,13 @@ export default function CrAccountSettingsPage({
   userEmail = 'account@gmail.com',
   firstName = 'John',
   lastName = 'Dough',
+  djName,
+  showName,
   location = 'Chicago, Illinois',
   avatarSrc = 'https://i.pravatar.cc/150?img=33',
   avatarAlt = 'User avatar',
+  memberSince,
+  socialLinks,
   streamingQuality = '128',
   onStreamingQualityChange,
   pushNotifications = false,
@@ -81,6 +98,20 @@ export default function CrAccountSettingsPage({
             </div>
 
             <div className="cr-account-settings-page__details">
+              {djName && (
+                <div className="cr-account-settings-page__detail-item">
+                  <span className="cr-account-settings-page__detail-label">DJ Name:</span>
+                  <span className="cr-account-settings-page__detail-value">{djName}</span>
+                </div>
+              )}
+
+              {showName && (
+                <div className="cr-account-settings-page__detail-item">
+                  <span className="cr-account-settings-page__detail-label">Show Name:</span>
+                  <span className="cr-account-settings-page__detail-value">{showName}</span>
+                </div>
+              )}
+
               <div className="cr-account-settings-page__detail-item">
                 <span className="cr-account-settings-page__detail-label">Location:</span>
                 <span className="cr-account-settings-page__detail-value">{location}</span>
@@ -95,6 +126,89 @@ export default function CrAccountSettingsPage({
                   </CrButton>
                 </div>
               </div>
+
+              {memberSince && (
+                <div className="cr-account-settings-page__detail-item">
+                  <span className="cr-account-settings-page__detail-label">Member Since:</span>
+                  <span className="cr-account-settings-page__detail-value">
+                    {new Date(memberSince).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </span>
+                </div>
+              )}
+
+              {socialLinks && Object.keys(socialLinks).length > 0 && (
+                <div className="cr-account-settings-page__social-links">
+                  {socialLinks.facebook && (
+                    <div className="cr-account-settings-page__social-link-item">
+                      <CrSocialIcon platform="facebook" url={socialLinks.facebook} size={32} />
+                      <a
+                        href={socialLinks.facebook.startsWith('http') ? socialLinks.facebook : `https://${socialLinks.facebook}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cr-account-settings-page__social-url"
+                      >
+                        {socialLinks.facebook}
+                      </a>
+                    </div>
+                  )}
+                  {socialLinks.instagram && (
+                    <div className="cr-account-settings-page__social-link-item">
+                      <CrSocialIcon platform="instagram" url={socialLinks.instagram} size={32} />
+                      <a
+                        href={socialLinks.instagram.startsWith('http') ? socialLinks.instagram : `https://${socialLinks.instagram}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cr-account-settings-page__social-url"
+                      >
+                        {socialLinks.instagram}
+                      </a>
+                    </div>
+                  )}
+                  {socialLinks.twitter && (
+                    <div className="cr-account-settings-page__social-link-item">
+                      <CrSocialIcon platform="twitter" url={socialLinks.twitter} size={32} />
+                      <a
+                        href={socialLinks.twitter.startsWith('http') ? socialLinks.twitter : `https://${socialLinks.twitter}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cr-account-settings-page__social-url"
+                      >
+                        {socialLinks.twitter}
+                      </a>
+                    </div>
+                  )}
+                  {socialLinks.linkedin && (
+                    <div className="cr-account-settings-page__social-link-item">
+                      <CrSocialIcon platform="linkedin" url={socialLinks.linkedin} size={32} />
+                      <a
+                        href={socialLinks.linkedin.startsWith('http') ? socialLinks.linkedin : `https://${socialLinks.linkedin}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cr-account-settings-page__social-url"
+                      >
+                        {socialLinks.linkedin}
+                      </a>
+                    </div>
+                  )}
+                  {socialLinks.bluesky && (
+                    <div className="cr-account-settings-page__social-link-item">
+                      <CrSocialIcon platform="bluesky" url={socialLinks.bluesky} size={32} />
+                      <a
+                        href={socialLinks.bluesky.startsWith('http') ? socialLinks.bluesky : `https://${socialLinks.bluesky}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cr-account-settings-page__social-url"
+                      >
+                        {socialLinks.bluesky}
+                      </a>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </section>
         )}

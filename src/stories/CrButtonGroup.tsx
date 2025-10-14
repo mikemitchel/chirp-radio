@@ -116,6 +116,8 @@ export default function CrButtonGroup({
               size={size}
               onClick={() => handleOptionClick(option.value)}
               className="cr-button-group__option"
+              leftIcon={option.leftIcon}
+              rightIcon={option.rightIcon}
             >
               {option.label}
             </CrButton>

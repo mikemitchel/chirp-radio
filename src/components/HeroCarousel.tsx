@@ -25,7 +25,7 @@ interface HeroCarouselProps {
 export default function HeroCarousel({
   slides = [],
   autoplay = true,
-  autoplayDelay = 5000
+  autoplayDelay = 8000
 }: HeroCarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true },
@@ -64,7 +64,11 @@ export default function HeroCarousel({
       <div className="hero-carousel__viewport" ref={emblaRef}>
         <div className="hero-carousel__container">
           {slides.map((slide, index) => (
-            <div className="hero-carousel__slide" key={index}>
+            <div
+              className={`hero-carousel__slide ${index === selectedIndex ? 'hero-carousel__slide--active' : ''}`}
+              key={index}
+              style={{ '--carousel-duration': `${autoplayDelay}ms` } as React.CSSProperties}
+            >
               <CrCard
                 variant="default"
                 bannerHeight="tall"

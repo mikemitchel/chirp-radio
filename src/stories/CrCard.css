@@ -18,7 +18,7 @@
   /* Image properties */
   --cr-card-image-margin: var(--cr-space-4);
   --cr-card-image-width-small: 300px;
-  --cr-card-image-width-large: 400px;
+  --cr-card-image-width-large: 480px;
 
   /* Text properties */
   --cr-card-text-color: var(--cr-ink);
@@ -43,6 +43,33 @@
   animation: card-reveal-vertical linear both;
   animation-timeline: view();
   animation-range: entry 0% entry 100%;
+}
+
+/* Disable scroll animations for the first card in main content area */
+.page-content > .cr-card:first-of-type,
+.page-layout-single > .cr-card:first-of-type,
+.page-layout-main-sidebar > * > .cr-card:first-of-type {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+/* Disable scroll animations for masonry layouts */
+.page-layout-masonry .cr-card {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+/* Disable scroll animations for detail pages where card is main content */
+.dj-detail-page .cr-card,
+.article-detail-page .cr-card,
+.event-detail-page .cr-card,
+.podcast-detail-page .cr-card,
+.shop-detail-page .cr-card {
+  animation: none;
+  opacity: 1;
+  transform: none;
 }
 
 /* Clickable variant */
@@ -304,6 +331,11 @@
 /* Article image sizing */
 .cr-card--article-large .cr-card__article-image {
   width: var(--cr-card-image-width-large);
+}
+
+/* Portrait orientation (9:16) should use narrower width so height matches landscape width */
+.cr-card--article-large.cr-card--9-16 .cr-card__article-image {
+  width: 270px; /* 480px * 9/16 - swaps landscape dimensions */
 }
 
 .cr-card--article-small .cr-card__article-image {
