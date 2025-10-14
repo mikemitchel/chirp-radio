@@ -1,6 +1,7 @@
 // src/layouts/MobileApp.tsx
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation, Outlet } from 'react-router'
+import { Capacitor } from '@capacitor/core'
 import CrMobileSplash from '../stories/CrMobileSplash'
 import CrMobileAppFrame from '../stories/CrMobileAppFrame'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
@@ -8,14 +9,25 @@ import { NotificationProvider } from '../contexts/NotificationContext'
 import GlobalNotifications from '../components/GlobalNotifications'
 import { preloadFirstAvailable } from '../utils/imagePreloader'
 import { upgradeImageQuality } from '../utils/imageOptimizer'
+import { createLogger } from '../utils/logger'
+
+const log = createLogger('MobileApp')
 
 // Preload now playing data and cache it
 const preloadNowPlayingData = async () => {
-  // Always use proxy path to avoid CORS issues
-  const fetchUrl = `/api/current_playlist?t=${Date.now()}`
+  // For Capacitor (native apps), use full URL since proxy isn't available
+  // For web, use proxy path to avoid CORS issues
+  const isNative = Capacitor.isNativePlatform()
+  const baseUrl = isNative ? 'https://chirpradio.appspot.com' : ''
+  const fetchUrl = `${baseUrl}/api/current_playlist?t=${Date.now()}`
+
+  log.log('Preloading data...')
+  log.log('isNative:', isNative)
+  log.log('fetchUrl:', fetchUrl)
 
   try {
     const response = await fetch(fetchUrl)
+    log.log('Response status:', response.status)
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
 
     const parsedData = await response.json()
@@ -23,6 +35,7 @@ const preloadNowPlayingData = async () => {
     if (!parsedData || !parsedData.now_playing) throw new Error('Invalid API response')
 
     const nowPlaying = parsedData.now_playing
+    log.log('Loaded track:', nowPlaying.artist, '-', nowPlaying.track)
 
     // Collect all available image URLs and upgrade to 348s quality
     const imageUrls = [
@@ -39,7 +52,7 @@ const preloadNowPlayingData = async () => {
       try {
         const timestampedUrls = imageUrls.map((url) => `${url}?t=${Date.now()}`)
         albumArtUrl = await preloadFirstAvailable(timestampedUrls)
-      } catch (error) {
+      } catch {
         console.warn('⚠️ [Album Art - Splash] All image URLs failed to load, using fallback')
         console.warn('API lastfm_urls:', nowPlaying.lastfm_urls)
         console.warn('Attempted URLs:', imageUrls)

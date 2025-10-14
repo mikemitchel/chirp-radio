@@ -1,12 +1,15 @@
 // src/contexts/AudioPlayerContext.tsx
 import React, { createContext, useContext, useState, useRef, useEffect, ReactNode } from 'react'
-import { preloadFirstAvailable } from '../utils/imagePreloader'
+import { Capacitor } from '@capacitor/core'
 import { upgradeImageQuality } from '../utils/imageOptimizer'
 import { useNetworkQuality } from '../hooks/useNetworkQuality'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
 import { addRecentlyPlayed, updateRecentlyPlayedAlbumArt } from '../utils/recentlyPlayedDB'
 import { useAuth } from '../hooks/useAuth'
 import LoginRequiredModal from '../components/LoginRequiredModal'
+import { createLogger } from '../utils/logger'
+
+const log = createLogger('AudioPlayerContext')
 
 interface TrackData {
   dj: string
@@ -68,12 +71,13 @@ export function AudioPlayerProvider({
   const [streamUrl, setStreamUrl] = useState(getStreamUrl())
 
   // Listen for streaming quality changes
+
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'chirp-streaming-quality') {
         const newUrl = getStreamUrl()
         if (newUrl !== streamUrl) {
-          console.log('[AudioPlayerContext] Stream URL changed to:', newUrl)
+          log.log('Stream URL changed to:', newUrl)
           setStreamUrl(newUrl)
         }
       }
@@ -82,7 +86,7 @@ export function AudioPlayerProvider({
     const handleQualityChange = () => {
       const newUrl = getStreamUrl()
       if (newUrl !== streamUrl) {
-        console.log('[AudioPlayerContext] Stream URL changed to:', newUrl)
+        log.log('Stream URL changed to:', newUrl)
         setStreamUrl(newUrl)
       }
     }
@@ -145,6 +149,7 @@ export function AudioPlayerProvider({
   const lastAlbumArtUrlRef = useRef(cachedData?.albumArt || '') // Track the last album art URL we set
 
   // Initialize audio element once
+
   useEffect(() => {
     const wasPlaying = isPlaying
     const audio = new Audio(streamUrl)
@@ -152,6 +157,20 @@ export function AudioPlayerProvider({
     audio.loop = true
     audio.volume = 1.0
     audio.setAttribute('playsinline', 'true')
+
+    // Android-specific audio configuration
+    const isAndroid = Capacitor.getPlatform() === 'android'
+    log.log('Platform:', Capacitor.getPlatform())
+    log.log('Initial volume:', audio.volume)
+
+    if (isAndroid) {
+      // Android WebView sometimes needs explicit volume setting after a delay
+      setTimeout(() => {
+        audio.volume = 1.0
+        log.log('Android volume set to:', audio.volume)
+      }, 100)
+    }
+
     audioRef.current = audio
 
     // If audio was playing before stream change, restart it
@@ -175,7 +194,7 @@ export function AudioPlayerProvider({
 
   // Calculate next poll delay based on when the song started
   // Poll every 5 seconds for maximum responsiveness
-  const getNextPollDelay = (songStartedMs: number): number => {
+  const getNextPollDelay = (): number => {
     return 5000 // Poll every 5 seconds
   }
 
@@ -208,9 +227,17 @@ export function AudioPlayerProvider({
     }
 
     // Use proxy with aggressive cache busting
+    // For Capacitor (native apps), use full URL since proxy isn't available
+    // For web, use proxy path to avoid CORS issues
     const timestamp = Date.now()
     const random = Math.random()
-    const fetchUrl = `/api/current_playlist?_t=${timestamp}&_r=${random}`
+    const isNative = Capacitor.isNativePlatform()
+    const baseUrl = isNative ? 'https://chirpradio.appspot.com' : ''
+    const fetchUrl = `${baseUrl}/api/current_playlist?_t=${timestamp}&_r=${random}`
+
+    log.log('Fetching now playing...')
+    log.log('isNative:', isNative)
+    log.log('fetchUrl:', fetchUrl)
 
     let songStartedMs: number | null = null // Track song start time for scheduling
 
@@ -223,6 +250,7 @@ export function AudioPlayerProvider({
           Expires: '0',
         },
       })
+      log.log('Response status:', response.status)
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
 
       const parsedData = await response.json()
@@ -241,6 +269,8 @@ export function AudioPlayerProvider({
       const playedAtGmt = nowPlaying.played_at_gmt || ''
       const detailsUpdatedAt = new Date().toISOString()
 
+      log.log('Parsed track data:', { artist, track, dj, show })
+
       // Map network quality to image quality
       const getImageQuality = (): 'low' | 'medium' | 'high' => {
         switch (networkInfo.quality) {
@@ -256,14 +286,6 @@ export function AudioPlayerProvider({
       }
 
       const imageQuality = getImageQuality()
-
-      // Log every API poll
-      const nowMs = Date.now()
-      const timeSinceSongStarted = Math.round((nowMs - songStartedMs) / 1000)
-
-      const hasImages = !!(
-        nowPlaying.lastfm_urls?.large_image && nowPlaying.lastfm_urls?.large_image !== null
-      )
 
       // Collect all available image URLs and upgrade based on network quality
       const rawUrls = [
@@ -339,7 +361,6 @@ export function AudioPlayerProvider({
         }
 
         // Calculate detection delay using GMT timestamp (most reliable)
-        let delayMessage = ''
         let detectionDelaySec = 0
 
         if (nowPlaying.played_at_gmt_ts) {
@@ -348,7 +369,6 @@ export function AudioPlayerProvider({
           const playedAtMs = nowPlaying.played_at_gmt_ts * 1000
           const nowMs = Date.now() // Current time in UTC milliseconds
           detectionDelaySec = Math.round((nowMs - playedAtMs) / 1000)
-          delayMessage = ` (+${detectionDelaySec}s)`
         }
 
         // Check if we caught this song at its start (within first 10 seconds)
@@ -441,7 +461,7 @@ export function AudioPlayerProvider({
 
     // Schedule next poll based on when this song started
     if (autoFetch && pollTimeoutRef.current !== null && songStartedMs !== null) {
-      const nextDelay = getNextPollDelay(songStartedMs)
+      const nextDelay = getNextPollDelay()
       pollTimeoutRef.current = setTimeout(() => {
         isFetchingRef.current = false // Reset flag right before next fetch
         fetchNowPlaying()
@@ -452,6 +472,7 @@ export function AudioPlayerProvider({
   }
 
   // Auto-fetch effect with dynamic polling
+
   useEffect(() => {
     if (autoFetch) {
       // Initialize polling (set ref to a non-null value to enable scheduling)
@@ -468,6 +489,7 @@ export function AudioPlayerProvider({
   }, [autoFetch, apiUrl])
 
   // Listen for forced refresh (for devTools simulation)
+
   useEffect(() => {
     const handleForceRefresh = () => {
       if (autoFetch) {
@@ -481,9 +503,11 @@ export function AudioPlayerProvider({
   }, [autoFetch])
 
   // Debug test functions
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       // Test 1: Load track with blue album art
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(window as any).test1 = () => {
         setCurrentData({
           artist: 'Test Artist 1',
@@ -499,6 +523,7 @@ export function AudioPlayerProvider({
       }
 
       // Test 2: Load track with different album art
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(window as any).test2 = () => {
         setCurrentData({
           artist: 'Test Artist 2',
@@ -514,6 +539,7 @@ export function AudioPlayerProvider({
       }
 
       // Test 3: Load track with no album art (should show fallback after 1s)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(window as any).test3 = () => {
         setCurrentData({
           artist: 'No Art Artist',
@@ -528,6 +554,7 @@ export function AudioPlayerProvider({
       }
 
       // Test 4: Load track with null album art
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(window as any).test4 = () => {
         setCurrentData({
           artist: 'Null Art Artist',
@@ -542,6 +569,7 @@ export function AudioPlayerProvider({
       }
 
       // Test 5: Load track with 'none' string (simulates API returning 'none')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(window as any).test5 = () => {
         setCurrentData({
           artist: 'None String Artist',
@@ -556,6 +584,7 @@ export function AudioPlayerProvider({
       }
 
       // Reset to API data
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(window as any).testReset = () => {
         // Clear refs to force fresh fetch
         lastSongRef.current = ''
@@ -569,11 +598,17 @@ export function AudioPlayerProvider({
 
     return () => {
       if (typeof window !== 'undefined') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         delete (window as any).test1
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         delete (window as any).test2
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         delete (window as any).test3
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         delete (window as any).test4
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         delete (window as any).test5
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         delete (window as any).testReset
       }
     }
@@ -582,14 +617,22 @@ export function AudioPlayerProvider({
   const play = async () => {
     if (!audioRef.current) return
     try {
+      log.log('Playing audio...')
+      log.log('Audio volume before play:', audioRef.current.volume)
+      log.log('Stream URL:', streamUrl)
+
       await audioRef.current.play()
       setIsPlaying(true)
+
+      log.log('Audio playback started')
+      log.log('Audio volume after play:', audioRef.current.volume)
+
       // Immediately fetch latest track info when resuming playback
       if (autoFetch) {
         fetchNowPlaying()
       }
     } catch (error) {
-      console.error('Error playing audio:', error)
+      log.error('Error playing audio:', error)
     }
   }
 
@@ -659,7 +702,8 @@ export function AudioPlayerProvider({
     }
   }
 
-  const handleLogin = (email: string, password: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleLogin = (email: string, _password: string) => {
     // TODO: Validate credentials with API
     login(email, email.split('@')[0]) // For demo, use email prefix as name
     setShowLoginModal(false)
@@ -675,7 +719,8 @@ export function AudioPlayerProvider({
     )
   }
 
-  const handleSignUp = (email: string, password: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleSignUp = (email: string, _password: string) => {
     // TODO: Create account with API
     signup(email, email.split('@')[0]) // For demo, use email prefix as name
     setShowLoginModal(false)
@@ -734,6 +779,7 @@ export function AudioPlayerProvider({
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAudioPlayer() {
   const context = useContext(AudioPlayerContext)
   if (!context) {
