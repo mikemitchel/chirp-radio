@@ -94,19 +94,21 @@ export default function CrVolunteerEditForm({
                 />
               </div>
             ))}
-            <CrButton
-              size="small"
-              variant="outline"
-              color="default"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                const currentOrgs = formData.volunteerOrgs || ['']
-                handleInputChange('volunteerOrgs', [...currentOrgs, ''])
-              }}
-            >
-              + ADD ANOTHER
-            </CrButton>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <CrButton
+                size="small"
+                variant="outline"
+                color="default"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  const currentOrgs = formData.volunteerOrgs || ['']
+                  handleInputChange('volunteerOrgs', [...currentOrgs, ''])
+                }}
+              >
+                + ADD ANOTHER
+              </CrButton>
+            </div>
           </div>
         </div>
 

@@ -583,27 +583,6 @@ export default function AccountSettings() {
       align: 'right' as const,
       render: (value: number) => typeof value === 'number' ? `$${value}` : value
     },
-    {
-      key: 'status',
-      title: 'Status',
-      sortable: true,
-      width: 'narrow',
-      align: 'center' as const,
-      render: (value: string) => (
-        <CrChip
-          variant={
-            value === 'Shipped'
-              ? 'primary'
-              : value === 'Delivered'
-                ? 'success'
-                : 'light'
-          }
-          size="small"
-        >
-          {value}
-        </CrChip>
-      )
-    },
   ];
 
   // Convert user social links to CrProfileCard format
@@ -723,7 +702,7 @@ export default function AccountSettings() {
         </div>
       )}
 
-      <div className="page-layout-main-sidebar page-layout-main-sidebar--equal">
+      <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
           <CrProfileCard
             state={profileState}
