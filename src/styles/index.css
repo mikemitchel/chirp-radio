@@ -229,6 +229,11 @@ body {
   overflow-x: hidden;
 }
 
+p {
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
 /* === GLOBAL ANCHOR STYLES === */
 /* Only style anchors within paragraphs to avoid affecting navigation */
 p a {
@@ -248,6 +253,40 @@ p a:active {
 
 p a:visited {
   color: var(--cr-primary-700);
+}
+
+/* === GLOBAL LIST STYLES === */
+ul, ol {
+  margin: var(--cr-space-4) 0;
+  padding-left: var(--cr-space-8);
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+li {
+  margin: var(--cr-space-2) 0;
+  line-height: 1.6;
+}
+
+/* Nested lists */
+ul ul, ol ul {
+  list-style-type: circle;
+  margin: var(--cr-space-2) 0;
+}
+
+ul ul ul, ol ul ul {
+  list-style-type: square;
+}
+
+ol ol, ul ol {
+  list-style-type: lower-alpha;
+  margin: var(--cr-space-2) 0;
 }
 
 /* === TYPOGRAPHY CLASSES === */

@@ -312,16 +312,23 @@ export default function AccountSettings() {
   }
 
   const handleViewDJProfile = () => {
-    // Generate slug from DJ name and navigate to the DJ's profile page
-    if (user?.djName) {
-      const slug = user.djName
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '')
-      navigate(`/djs/${slug}`)
+    // Generate slug from DJ name
+    const slug = user?.djName
+      ? user.djName
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+      : 'dj-001'
+
+    // Check if we're in mobile app routes
+    const isInAppRoutes = location.pathname.startsWith('/app')
+
+    if (isInAppRoutes) {
+      // Open in browser for mobile app
+      window.open(`https://chirpradio.org/djs/${slug}`, '_blank')
     } else {
-      // Fallback to ID if no DJ name
-      navigate('/djs/dj-001')
+      // Navigate in-app for web
+      navigate(`/djs/${slug}`)
     }
   }
 
