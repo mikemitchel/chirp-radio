@@ -16,7 +16,8 @@
       "Read(//private/tmp/**)",
       "WebSearch",
       "Bash(test:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "WebFetch(domain:chirpradio.org)"
     ],
     "deny": [],
     "ask": []

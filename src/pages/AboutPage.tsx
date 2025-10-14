@@ -129,8 +129,8 @@ const AboutPage: React.FC = () => {
             preheader="Founder & General Manager"
             title="Shawn Campbell"
             titleTag="h2"
-            bannerHeight="narrow"
-            textLayout="inline"
+            bannerHeight="tall"
+            textLayout="stacked"
             showTicketButton={false}
             showShareButton={false}
             content={`Shawn Campbell has three decades of broadcast experience, including eight years as program director at Chicago's WLUW, and a stint as a producer and reporter at WBEZ. She's also been a news writer and anchor, a DJ, a music director, and a news director. The only thing she wanted to do from the time she was ten years old was to be on the radio.\n\nPrior to becoming CHIRP's first employee in March of 2012, Campbell served as President of the Board of Directors for nearly five years. During that time, she and then-Vice President Jennifer Lizak led a White House meeting on the low-power FM broadcast issue with President Obama's technology team. In addition to her General Manager duties, she currently hosts a CHIRP show on Saturdays from 12-2pm.`}
