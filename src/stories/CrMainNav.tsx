@@ -1,7 +1,15 @@
 // CrMainNav.tsx
 import { useState, useEffect, useRef } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router'
-import { PiMagnifyingGlass, PiX, PiNewspaper, PiCalendarDot, PiHeadphones, PiMicrophone, PiShoppingBag } from 'react-icons/pi'
+import {
+  PiMagnifyingGlass,
+  PiX,
+  PiNewspaper,
+  PiCalendarDot,
+  PiHeadphones,
+  PiMicrophone,
+  PiShoppingBag,
+} from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrCartIcon from './CrCartIcon'
 import CrMenuButton from './CrMenuButton'
@@ -62,7 +70,8 @@ export default function CrMainNav({
     { label: 'Other Ways to Give', value: 'other-ways-to-give', route: '/other-ways-to-give' },
   ]
 
-  const isWaysToGiveActive = location && waysToGiveOptions.some(option => location.pathname === option.route)
+  const isWaysToGiveActive =
+    location && waysToGiveOptions.some((option) => location.pathname === option.route)
 
   const handleWaysToGiveSelect = (option: any) => {
     if (option.route && navigate) {
@@ -184,10 +193,7 @@ export default function CrMainNav({
               Listen
             </Link>
           ) : (
-            <button
-              className="cr-main-nav__nav-link"
-              onClick={onListenClick}
-            >
+            <button className="cr-main-nav__nav-link" onClick={onListenClick}>
               Listen
             </button>
           )}
@@ -199,10 +205,7 @@ export default function CrMainNav({
               Events
             </Link>
           ) : (
-            <button
-              className="cr-main-nav__nav-link"
-              onClick={onEventsClick}
-            >
+            <button className="cr-main-nav__nav-link" onClick={onEventsClick}>
               Events
             </button>
           )}
@@ -214,10 +217,7 @@ export default function CrMainNav({
               Articles
             </Link>
           ) : (
-            <button
-              className="cr-main-nav__nav-link"
-              onClick={onArticlesClick}
-            >
+            <button className="cr-main-nav__nav-link" onClick={onArticlesClick}>
               Articles
             </button>
           )}
@@ -379,13 +379,9 @@ export default function CrMainNav({
                           <span className="cr-main-nav__search-result-icon">
                             {getResultIcon(result.type)}
                           </span>
-                          <span className="cr-main-nav__search-result-type">
-                            {result.type}
-                          </span>
+                          <span className="cr-main-nav__search-result-type">{result.type}</span>
                         </div>
-                        <div className="cr-main-nav__search-result-title">
-                          {result.title}
-                        </div>
+                        <div className="cr-main-nav__search-result-title">{result.title}</div>
                         {result.subtitle && (
                           <div className="cr-main-nav__search-result-subtitle">
                             {result.subtitle}

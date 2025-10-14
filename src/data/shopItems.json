@@ -3,7 +3,7 @@
     {
       "id": "poster-001",
       "name": "CHIRP 20th Anniversary Poster",
-      "price": 20.00,
+      "price": 20.0,
       "image": "https://images.unsplash.com/photo-1567359781514-3b964e2b04d6?w=400&h=600&fit=crop",
       "itemType": "Poster",
       "category": "posters",
@@ -15,7 +15,7 @@
     {
       "id": "poster-002",
       "name": "Chicago Skyline Music Poster",
-      "price": 20.00,
+      "price": 20.0,
       "image": "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400&h=600&fit=crop",
       "itemType": "Poster",
       "category": "posters",
@@ -27,7 +27,7 @@
     {
       "id": "poster-003",
       "name": "Vintage Radio Waves Poster",
-      "price": 20.00,
+      "price": 20.0,
       "image": "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=400&h=600&fit=crop",
       "itemType": "Poster",
       "category": "posters",
@@ -39,7 +39,7 @@
     {
       "id": "poster-004",
       "name": "Underground Music Scene Poster",
-      "price": 20.00,
+      "price": 20.0,
       "image": "https://images.unsplash.com/photo-1707944789575-3a4735380a94?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "itemType": "Poster",
       "category": "posters",
@@ -51,7 +51,7 @@
     {
       "id": "poster-005",
       "name": "DJ Silhouette Art Poster",
-      "price": 20.00,
+      "price": 20.0,
       "image": "https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?w=400&h=600&fit=crop",
       "itemType": "Poster",
       "category": "posters",
@@ -63,7 +63,7 @@
     {
       "id": "shirt-001",
       "name": "CHIRP Radio Classic Tee",
-      "price": 20.00,
+      "price": 20.0,
       "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=600&fit=crop",
       "itemType": "Shirt",
       "category": "adult-shirts",
@@ -75,7 +75,7 @@
     {
       "id": "shirt-002",
       "name": "Chicago Independent Radio Tee",
-      "price": 20.00,
+      "price": 20.0,
       "image": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=400&h=600&fit=crop",
       "itemType": "Shirt",
       "category": "adult-shirts",
@@ -87,7 +87,7 @@
     {
       "id": "toddler-001",
       "name": "CHIRP Toddler T-Shirt",
-      "price": 14.00,
+      "price": 14.0,
       "image": "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=400&h=600&fit=crop",
       "itemType": "Kids Clothing",
       "category": "kids",
@@ -99,7 +99,7 @@
     {
       "id": "baby-001",
       "name": "CHIRP Baby Onesie",
-      "price": 15.00,
+      "price": 15.0,
       "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&h=600&fit=crop",
       "itemType": "Kids Clothing",
       "category": "baby",

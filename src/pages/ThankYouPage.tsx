@@ -34,10 +34,7 @@ const ThankYouPage: React.FC = () => {
         </div>
 
         <div className="thank-you-right">
-          <CrAnnouncement
-            variant="motivation"
-            textureBackground="cr-bg-natural-d100"
-          />
+          <CrAnnouncement variant="motivation" textureBackground="cr-bg-natural-d100" />
           <CrCard variant="small" />
           <CrCard variant="small" />
           <CrCard variant="small" />

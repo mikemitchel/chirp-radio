@@ -28,8 +28,14 @@ export default {
     },
     textureBackground: {
       control: 'select',
-      options: ['cr-bg-natural-a500', 'cr-bg-natural-s100', 'cr-bg-natural-s900', 'cr-bg-natural-d100', 'cr-bg-natural-d900'],
-      description: 'Textured background class'
+      options: [
+        'cr-bg-natural-a500',
+        'cr-bg-natural-s100',
+        'cr-bg-natural-s900',
+        'cr-bg-natural-d100',
+        'cr-bg-natural-d900',
+      ],
+      description: 'Textured background class',
     },
     buttonCount: {
       control: 'select',
@@ -109,66 +115,71 @@ export const SingleButton = {
 
 // All texture backgrounds showcase
 export const AllBackgrounds = {
-  render: () => React.createElement('div', {
-    style: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 'var(--cr-space-4)'
-    }
-  }, [
-    React.createElement(CrAnnouncement, {
-      key: 'yellow',
-      variant: 'donation',
-      textureBackground: 'cr-bg-natural-a500',
-      headlineText: "Yellow Background (A500)",
-      bodyText: "Accent color texture background",
-      showLink: false,
-      buttonCount: 'two',
-      currentAmount: 5000,
-      targetAmount: 10000
-    }),
-    React.createElement(CrAnnouncement, {
-      key: 'blue',
-      variant: 'motivation',
-      textureBackground: 'cr-bg-natural-s100',
-      headlineText: "Blue Background (S100)",
-      bodyText: "Secondary color texture background",
-      showLink: false,
-      buttonCount: 'two'
-    }),
-    React.createElement(CrAnnouncement, {
-      key: 'dark',
-      variant: 'donation',
-      textureBackground: 'cr-bg-natural-d100',
-      headlineText: "Dark Background (D100)",
-      bodyText: "Default light gray texture background",
-      showLink: false,
-      buttonCount: 'two',
-      currentAmount: 8000,
-      targetAmount: 12000
-    }),
-    React.createElement(CrAnnouncement, {
-      key: 'darker',
-      variant: 'motivation',
-      textureBackground: 'cr-bg-natural-s900',
-      headlineText: "Darker Blue Background (S900)",
-      bodyText: "Secondary dark texture background",
-      showLink: false,
-      buttonCount: 'two'
-    }),
-    React.createElement(CrAnnouncement, {
-      key: 'darkest',
-      variant: 'donation',
-      textureBackground: 'cr-bg-natural-d900',
-      headlineText: "Darkest Background (D900)",
-      bodyText: "Default dark gray texture background",
-      showLink: false,
-      buttonCount: 'two',
-      currentAmount: 12000,
-      targetAmount: 20000
-    })
-  ])
-};
+  render: () =>
+    React.createElement(
+      'div',
+      {
+        style: {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--cr-space-4)',
+        },
+      },
+      [
+        React.createElement(CrAnnouncement, {
+          key: 'yellow',
+          variant: 'donation',
+          textureBackground: 'cr-bg-natural-a500',
+          headlineText: 'Yellow Background (A500)',
+          bodyText: 'Accent color texture background',
+          showLink: false,
+          buttonCount: 'two',
+          currentAmount: 5000,
+          targetAmount: 10000,
+        }),
+        React.createElement(CrAnnouncement, {
+          key: 'blue',
+          variant: 'motivation',
+          textureBackground: 'cr-bg-natural-s100',
+          headlineText: 'Blue Background (S100)',
+          bodyText: 'Secondary color texture background',
+          showLink: false,
+          buttonCount: 'two',
+        }),
+        React.createElement(CrAnnouncement, {
+          key: 'dark',
+          variant: 'donation',
+          textureBackground: 'cr-bg-natural-d100',
+          headlineText: 'Dark Background (D100)',
+          bodyText: 'Default light gray texture background',
+          showLink: false,
+          buttonCount: 'two',
+          currentAmount: 8000,
+          targetAmount: 12000,
+        }),
+        React.createElement(CrAnnouncement, {
+          key: 'darker',
+          variant: 'motivation',
+          textureBackground: 'cr-bg-natural-s900',
+          headlineText: 'Darker Blue Background (S900)',
+          bodyText: 'Secondary dark texture background',
+          showLink: false,
+          buttonCount: 'two',
+        }),
+        React.createElement(CrAnnouncement, {
+          key: 'darkest',
+          variant: 'donation',
+          textureBackground: 'cr-bg-natural-d900',
+          headlineText: 'Darkest Background (D900)',
+          bodyText: 'Default dark gray texture background',
+          showLink: false,
+          buttonCount: 'two',
+          currentAmount: 12000,
+          targetAmount: 20000,
+        }),
+      ]
+    ),
+}
 
 // Third width variant - compact layout for sidebars
 export const ThirdWidth = {
@@ -195,4 +206,4 @@ export const ThirdWidth = {
         React.createElement(Story)
       ),
   ],
-};
+}

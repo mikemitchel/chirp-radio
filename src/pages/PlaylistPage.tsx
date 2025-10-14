@@ -21,42 +21,43 @@ const PlaylistPage: React.FC = () => {
   const currentPage = parseInt(searchParams.get('page') || '0', 10)
 
   // Format tracks with hour data for grouping
-  const formattedTracks = tracks?.map(track => {
-    // Parse the hourKey to determine start/end times
-    const hourMatch = track.hourKey?.match(/(\d+)(am|pm)/i)
-    let startTime = '12:00am'
-    let endTime = '1:00am'
+  const formattedTracks =
+    tracks?.map((track) => {
+      // Parse the hourKey to determine start/end times
+      const hourMatch = track.hourKey?.match(/(\d+)(am|pm)/i)
+      let startTime = '12:00am'
+      let endTime = '1:00am'
 
-    if (hourMatch) {
-      const hour = parseInt(hourMatch[1])
-      const period = hourMatch[2].toLowerCase()
-      startTime = `${hour}:00${period}`
+      if (hourMatch) {
+        const hour = parseInt(hourMatch[1])
+        const period = hourMatch[2].toLowerCase()
+        startTime = `${hour}:00${period}`
 
-      // Calculate end time (next hour)
-      if (hour === 12) {
-        endTime = period === 'am' ? '1:00am' : '1:00pm'
-      } else if (hour === 11) {
-        endTime = period === 'am' ? '12:00pm' : '12:00am'
-      } else {
-        endTime = `${hour + 1}:00${period}`
+        // Calculate end time (next hour)
+        if (hour === 12) {
+          endTime = period === 'am' ? '1:00am' : '1:00pm'
+        } else if (hour === 11) {
+          endTime = period === 'am' ? '12:00pm' : '12:00am'
+        } else {
+          endTime = `${hour + 1}:00${period}`
+        }
       }
-    }
 
-    return {
-      ...track,
-      timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit'
-      }),
-      hourData: {
-        startTime,
-        endTime,
-        djName: track.djName || 'Unknown DJ',
-        djProfileUrl: track.djImage,
-        showName: track.showName || 'Unknown Show',
+      return {
+        ...track,
+        timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+        }),
+        hourData: {
+          startTime,
+          endTime,
+          djName: track.djName || 'Unknown DJ',
+          djProfileUrl: track.djImage,
+          showName: track.showName || 'Unknown Show',
+        },
       }
-    }
-  }) || []
+    }) || []
 
   // Group tracks by hour and paginate
   const { hourlyTracks, totalPages } = useMemo(() => {
@@ -67,7 +68,7 @@ const PlaylistPage: React.FC = () => {
 
     formattedTracks
       .sort((a, b) => new Date(b.playedAt || 0).getTime() - new Date(a.playedAt || 0).getTime())
-      .forEach(track => {
+      .forEach((track) => {
         const hourKey = track.hourKey
         if (!tracksByHour.has(hourKey)) {
           tracksByHour.set(hourKey, [])
@@ -76,13 +77,12 @@ const PlaylistPage: React.FC = () => {
       })
 
     // Convert to array of [hourKey, tracks[]] and sort by most recent track in each hour
-    const hourGroups = Array.from(tracksByHour.entries())
-      .sort((a, b) => {
-        // Sort hour groups by the most recent track in each group
-        const aTime = new Date(a[1][0]?.playedAt || 0).getTime()
-        const bTime = new Date(b[1][0]?.playedAt || 0).getTime()
-        return bTime - aTime
-      })
+    const hourGroups = Array.from(tracksByHour.entries()).sort((a, b) => {
+      // Sort hour groups by the most recent track in each group
+      const aTime = new Date(a[1][0]?.playedAt || 0).getTime()
+      const bTime = new Date(b[1][0]?.playedAt || 0).getTime()
+      return bTime - aTime
+    })
 
     // Calculate pagination
     const pages = Math.ceil(hourGroups.length / HOURS_PER_PAGE)
@@ -94,7 +94,7 @@ const PlaylistPage: React.FC = () => {
 
     return {
       hourlyTracks: currentHourGroups.map(([_, tracks]) => tracks),
-      totalPages: pages
+      totalPages: pages,
     }
   }, [formattedTracks, currentPage])
 
@@ -118,23 +118,31 @@ const PlaylistPage: React.FC = () => {
       </section>
 
       <section className="page-container">
-        <CrPageHeader title="Current Playlist" titleTag="h2" titleSize="lg" showEyebrow={false} showActionButton={true} actionButtonText="Download Playlist" />
+        <CrPageHeader
+          title="Current Playlist"
+          titleTag="h2"
+          titleSize="lg"
+          showEyebrow={false}
+          showActionButton={true}
+          actionButtonText="Download Playlist"
+        />
       </section>
 
       {/* First 2 hours of playlist */}
       {hourlyTracks[0] && hourlyTracks[1] && (
         <section className="page-container">
-          <CrPlaylistTable items={[...hourlyTracks[0], ...hourlyTracks[1]]} showHeader={true} groupByHour={true} />
+          <CrPlaylistTable
+            items={[...hourlyTracks[0], ...hourlyTracks[1]]}
+            showHeader={true}
+            groupByHour={true}
+          />
         </section>
       )}
 
       {/* Announcement */}
       <section className="page-section">
         <div className="page-container">
-          <CrAnnouncement
-            variant="motivation"
-            textureBackground="cr-bg-natural-d100"
-          />
+          <CrAnnouncement variant="motivation" textureBackground="cr-bg-natural-d100" />
         </div>
       </section>
 
@@ -147,7 +155,14 @@ const PlaylistPage: React.FC = () => {
 
       {/* Three article cards in 1/3 1/3 1/3 layout */}
       <section className="page-container">
-        <CrPageHeader title="Recent Articles" titleTag="h2" titleSize="lg" showEyebrow={false} showActionButton={true} actionButtonText="View All" />
+        <CrPageHeader
+          title="Recent Articles"
+          titleTag="h2"
+          titleSize="lg"
+          showEyebrow={false}
+          showActionButton={true}
+          actionButtonText="View All"
+        />
       </section>
 
       <section className="page-layout-3col">
@@ -165,7 +180,7 @@ const PlaylistPage: React.FC = () => {
               eventDate={new Date(articles[0].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               tags={articles[0].tags}
               onClick={() => handleArticleClick(articles[0])}
@@ -186,7 +201,7 @@ const PlaylistPage: React.FC = () => {
               eventDate={new Date(articles[1].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               tags={articles[1].tags}
               onClick={() => handleArticleClick(articles[1])}
@@ -207,7 +222,7 @@ const PlaylistPage: React.FC = () => {
               eventDate={new Date(articles[2].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               tags={articles[2].tags}
               onClick={() => handleArticleClick(articles[2])}

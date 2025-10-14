@@ -5,7 +5,12 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrDjOverview from '../stories/CrDjOverview'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import { useAnnouncements, useScheduledDJs, useSubstituteDJs, useCurrentUser } from '../hooks/useData'
+import {
+  useAnnouncements,
+  useScheduledDJs,
+  useSubstituteDJs,
+  useCurrentUser,
+} from '../hooks/useData'
 import { useAuth } from '../hooks/useAuth'
 
 const DJPage: React.FC = () => {
@@ -21,10 +26,13 @@ const DJPage: React.FC = () => {
     if (!scheduledDJs) return []
 
     // Map DJs and overlay logged-in user's data if applicable
-    const updatedDJs = scheduledDJs.map(dj => {
+    const updatedDJs = scheduledDJs.map((dj) => {
       if (loggedInUser && loggedInUser.role === 'dj' && dj.id === 'dj-001') {
         const djName = loggedInUser.djName || dj.djName
-        const userSlug = djName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+        const userSlug = djName
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
 
         return {
           ...dj,
@@ -34,7 +42,8 @@ const DJPage: React.FC = () => {
           showTime: loggedInUser.showTime || dj.showTime,
           description: loggedInUser.djExcerpt || dj.description,
           imageSrc: loggedInUser.avatar || dj.imageSrc,
-          fullProfileImage: loggedInUser.fullProfileImage || loggedInUser.avatar || dj.fullProfileImage,
+          fullProfileImage:
+            loggedInUser.fullProfileImage || loggedInUser.avatar || dj.fullProfileImage,
           profileImageOrientation: loggedInUser.profileImageOrientation || 'square',
         }
       }
@@ -43,7 +52,6 @@ const DJPage: React.FC = () => {
 
     return [...updatedDJs].sort((a, b) => a.djName.localeCompare(b.djName))
   }, [scheduledDJs, loggedInUser])
-
 
   return (
     <div className="dj-page">
@@ -90,38 +98,48 @@ const DJPage: React.FC = () => {
 
       <section className="page-container" style={{ marginTop: 'var(--cr-space-8)' }}>
         <CrPageHeader title="Substitute DJs" showEyebrow={false} showActionButton={false} />
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-          gap: 'var(--cr-space-4)',
-          marginTop: 'var(--cr-space-4)'
-        }}>
-          {substituteDJs && substituteDJs.map((dj) => {
-            // Update substitute DJ data if it's the logged-in user
-            let displayDJ = dj
-            if (loggedInUser && loggedInUser.role === 'dj' && dj.id === 'dj-001') {
-              const djName = loggedInUser.djName || dj.djName
-              const userSlug = djName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+            gap: 'var(--cr-space-4)',
+            marginTop: 'var(--cr-space-4)',
+          }}
+        >
+          {substituteDJs &&
+            substituteDJs.map((dj) => {
+              // Update substitute DJ data if it's the logged-in user
+              let displayDJ = dj
+              if (loggedInUser && loggedInUser.role === 'dj' && dj.id === 'dj-001') {
+                const djName = loggedInUser.djName || dj.djName
+                const userSlug = djName
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, '-')
+                  .replace(/^-+|-+$/g, '')
 
-              displayDJ = {
-                ...dj,
-                slug: userSlug,
-                djName,
-                imageSrc: loggedInUser.avatar || dj.imageSrc,
+                displayDJ = {
+                  ...dj,
+                  slug: userSlug,
+                  djName,
+                  imageSrc: loggedInUser.avatar || dj.imageSrc,
+                }
               }
-            }
 
-            return (
-              <div key={dj.id} onClick={() => navigate(`/djs/${displayDJ.slug}`)} style={{ cursor: 'pointer' }}>
-                <CrDjOverview
-                  size="small"
-                  djName={displayDJ.djName}
-                  imageSrc={displayDJ.imageSrc}
-                  isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
-                />
-              </div>
-            )
-          })}
+              return (
+                <div
+                  key={dj.id}
+                  onClick={() => navigate(`/djs/${displayDJ.slug}`)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <CrDjOverview
+                    size="small"
+                    djName={displayDJ.djName}
+                    imageSrc={displayDJ.imageSrc}
+                    isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
+                  />
+                </div>
+              )
+            })}
         </div>
       </section>
     </div>

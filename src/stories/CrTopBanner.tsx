@@ -80,9 +80,9 @@ export default function CrTopBanner({
         cache: 'no-store',
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0'
-        }
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
       })
 
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)

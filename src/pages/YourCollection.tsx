@@ -1,18 +1,18 @@
 // src/pages/YourCollection.tsx
-import React, { useState, useEffect } from 'react';
-import CrPageHeader from '../stories/CrPageHeader';
-import CrPlaylistTable from '../stories/CrPlaylistTable';
-import CrAnnouncement from '../stories/CrAnnouncement';
-import CrButton from '../stories/CrButton';
-import { useAuth } from '../hooks/useAuth';
-import { useNotification } from '../contexts/NotificationContext';
-import { downloadTracksAsCSV } from '../utils/csvExport';
+import React, { useState, useEffect } from 'react'
+import CrPageHeader from '../stories/CrPageHeader'
+import CrPlaylistTable from '../stories/CrPlaylistTable'
+import CrAnnouncement from '../stories/CrAnnouncement'
+import CrButton from '../stories/CrButton'
+import { useAuth } from '../hooks/useAuth'
+import { useNotification } from '../contexts/NotificationContext'
+import { downloadTracksAsCSV } from '../utils/csvExport'
 import {
   getCollection,
   removeFromCollection,
   initializeSampleCollection,
-  type CollectionTrack
-} from '../utils/collectionDB';
+  type CollectionTrack,
+} from '../utils/collectionDB'
 
 // Sample data - all items marked as added (isAdded: true) to show "remove" button
 const sampleCollectionItems = [
@@ -26,7 +26,7 @@ const sampleCollectionItems = [
     labelName: 'Columbia Records',
     timeAgo: '2:45pm',
     isLocal: false,
-    isAdded: true
+    isAdded: true,
   },
   {
     id: '2',
@@ -38,7 +38,7 @@ const sampleCollectionItems = [
     labelName: 'Atlantic Records',
     timeAgo: '2:30pm',
     isLocal: true,
-    isAdded: true
+    isAdded: true,
   },
   {
     id: '3',
@@ -50,19 +50,19 @@ const sampleCollectionItems = [
     labelName: 'Columbia Records',
     timeAgo: '2:15pm',
     isLocal: false,
-    isAdded: true
+    isAdded: true,
   },
   {
     id: '4',
     albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
-    albumArtAlt: 'Takin\' Off album cover',
+    albumArtAlt: "Takin' Off album cover",
     artistName: 'Herbie Hancock',
     trackName: 'Watermelon Man',
-    albumName: 'Takin\' Off',
+    albumName: "Takin' Off",
     labelName: 'Blue Note Records',
     timeAgo: '1:45pm',
     isLocal: false,
-    isAdded: true
+    isAdded: true,
   },
   {
     id: '5',
@@ -74,52 +74,52 @@ const sampleCollectionItems = [
     labelName: 'Impulse! Records',
     timeAgo: '1:15pm',
     isLocal: false,
-    isAdded: true
-  }
-];
+    isAdded: true,
+  },
+]
 
 export default function YourCollection() {
-  const { isLoggedIn, login } = useAuth();
-  const { showModal, showToast } = useNotification();
-  const [collection, setCollection] = useState<CollectionTrack[]>([]);
+  const { isLoggedIn, login } = useAuth()
+  const { showModal, showToast } = useNotification()
+  const [collection, setCollection] = useState<CollectionTrack[]>([])
 
   // Load collection on mount and when logged in
   useEffect(() => {
     if (isLoggedIn) {
       // Initialize sample data if needed (for testing)
-      initializeSampleCollection();
-      setCollection(getCollection());
+      initializeSampleCollection()
+      setCollection(getCollection())
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn])
 
   // Add reset function to window for testing (only in development)
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
-      (window as any).resetCollection = () => {
-        localStorage.removeItem('chirp-collection');
-        initializeSampleCollection();
-        setCollection(getCollection());
-        console.log('Collection reset with new sample data');
-      };
+      ;(window as any).resetCollection = () => {
+        localStorage.removeItem('chirp-collection')
+        initializeSampleCollection()
+        setCollection(getCollection())
+        console.log('Collection reset with new sample data')
+      }
     }
     return () => {
       if (process.env.NODE_ENV === 'development') {
-        delete (window as any).resetCollection;
+        delete (window as any).resetCollection
       }
-    };
-  }, []);
+    }
+  }, [])
 
   // Listen for collection updates
   useEffect(() => {
     const handleCollectionUpdate = () => {
-      setCollection(getCollection());
-    };
+      setCollection(getCollection())
+    }
 
-    window.addEventListener('chirp-collection-updated', handleCollectionUpdate);
+    window.addEventListener('chirp-collection-updated', handleCollectionUpdate)
     return () => {
-      window.removeEventListener('chirp-collection-updated', handleCollectionUpdate);
-    };
-  }, []);
+      window.removeEventListener('chirp-collection-updated', handleCollectionUpdate)
+    }
+  }, [])
 
   const handleItemRemove = (item: any, index: number) => {
     showModal({
@@ -128,40 +128,40 @@ export default function YourCollection() {
       confirmText: 'Yes, Remove',
       cancelText: 'No',
       onConfirm: () => {
-        const removed = removeFromCollection(item.id);
+        const removed = removeFromCollection(item.id)
         if (removed) {
           showToast({
             message: `Removed ${item.trackName} by ${item.artistName} from your collection`,
             type: 'success',
             duration: 5000,
-          });
+          })
         }
       },
-    });
-  };
+    })
+  }
 
   const handleLogin = () => {
     // For demo purposes, simulate login with a demo account
-    login('demo@chirpradio.org');
-  };
+    login('demo@chirpradio.org')
+  }
 
   const handleSignUp = () => {
-    console.log('Sign up clicked from collection');
+    console.log('Sign up clicked from collection')
     // TODO: Open signup modal or navigate to signup
-  };
+  }
 
   const handleDownloadCollection = () => {
     // Get current date for filename
-    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
-    const filename = `chirp-radio-my-collection-${today}.csv`;
+    const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD format
+    const filename = `chirp-radio-my-collection-${today}.csv`
 
-    downloadTracksAsCSV(collection, filename);
+    downloadTracksAsCSV(collection, filename)
     showToast({
       message: 'Your collection has been downloaded',
       type: 'success',
       duration: 3000,
-    });
-  };
+    })
+  }
 
   if (!isLoggedIn) {
     return (
@@ -176,24 +176,17 @@ export default function YourCollection() {
         />
 
         <div>
-          <h2>
-            Don't have a CHIRP Radio Account?
-          </h2>
+          <h2>Don't have a CHIRP Radio Account?</h2>
 
-          <p>
-            A profile allows you to interact with the site in all sorts of helpful ways:
-          </p>
+          <p>A profile allows you to interact with the site in all sorts of helpful ways:</p>
 
           <ul>
             <li>
-              You can add songs to your collection that you hear across our web and mobile applications so you don't forget them
+              You can add songs to your collection that you hear across our web and mobile
+              applications so you don't forget them
             </li>
-            <li>
-              You can save your information for store purchases and donations
-            </li>
-            <li>
-              Your profile settings will be saved between your mobile and web experiences
-            </li>
+            <li>You can save your information for store purchases and donations</li>
+            <li>Your profile settings will be saved between your mobile and web experiences</li>
           </ul>
 
           <p>
@@ -201,26 +194,16 @@ export default function YourCollection() {
           </p>
 
           <div>
-            <CrButton
-              variant="solid"
-              color="secondary"
-              size="medium"
-              onClick={handleSignUp}
-            >
+            <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUp}>
               sign up
             </CrButton>
-            <CrButton
-              variant="outline"
-              color="default"
-              size="medium"
-              onClick={handleLogin}
-            >
+            <CrButton variant="outline" color="default" size="medium" onClick={handleLogin}>
               log in
             </CrButton>
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -237,14 +220,14 @@ export default function YourCollection() {
       />
 
       <CrPlaylistTable
-        items={collection.map(track => ({
+        items={collection.map((track) => ({
           ...track,
           isAdded: true,
           timeAgo: `Added on ${new Date(track.dateAdded).toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
-            year: 'numeric'
-          })}`
+            year: 'numeric',
+          })}`,
         }))}
         showHeader={true}
         groupByHour={false}
@@ -263,5 +246,5 @@ export default function YourCollection() {
         button1OnClick={() => console.log('Navigate to recently played')}
       />
     </div>
-  );
+  )
 }

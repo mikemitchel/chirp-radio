@@ -67,13 +67,15 @@ export default function CrCardBanner({
     } else if (shareUrl) {
       // Copy URL to clipboard and optionally open share dialog
       if (navigator.share) {
-        navigator.share({
-          title: title,
-          url: shareUrl,
-        }).catch(() => {
-          // If share fails, copy to clipboard
-          navigator.clipboard.writeText(shareUrl)
-        })
+        navigator
+          .share({
+            title: title,
+            url: shareUrl,
+          })
+          .catch(() => {
+            // If share fails, copy to clipboard
+            navigator.clipboard.writeText(shareUrl)
+          })
       } else {
         navigator.clipboard.writeText(shareUrl)
       }

@@ -20,12 +20,13 @@ const ShopDetailPage: React.FC = () => {
   const { items: cartItems, addToCart, removeItem, emptyCart } = useCart()
 
   // Get item from URL params if not passed via state
-  const shopItem = item || shopItems?.find(i => i.id === id)
+  const shopItem = item || shopItems?.find((i) => i.id === id)
 
-  const recentPlaylistItems = playlistData?.tracks?.slice(0, 10).map(track => ({
-    ...track,
-    hourData: playlistData?.currentShow
-  })) || []
+  const recentPlaylistItems =
+    playlistData?.tracks?.slice(0, 10).map((track) => ({
+      ...track,
+      hourData: playlistData?.currentShow,
+    })) || []
 
   if (!shopItem) {
     return (
@@ -58,7 +59,7 @@ const ShopDetailPage: React.FC = () => {
         <CrBreadcrumb
           items={[
             { label: 'Store', isClickable: true, onClick: () => navigate('/shop') },
-            { label: shopItem.name, isClickable: false }
+            { label: shopItem.name, isClickable: false },
           ]}
         />
       </section>
@@ -94,7 +95,12 @@ const ShopDetailPage: React.FC = () => {
             actionButtonSize="small"
             actionButtonText="View Playlist"
           />
-          <CrPlaylistTable items={recentPlaylistItems} showHeader={false} groupByHour={false} variant="default" />
+          <CrPlaylistTable
+            items={recentPlaylistItems}
+            showHeader={false}
+            groupByHour={false}
+            variant="default"
+          />
         </div>
       </div>
     </div>

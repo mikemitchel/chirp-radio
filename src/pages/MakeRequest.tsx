@@ -1,40 +1,40 @@
 // src/pages/MakeRequest.tsx
-import React from 'react';
-import CrPageHeader from '../stories/CrPageHeader';
-import CrCurrentDj from '../stories/CrCurrentDj';
-import CrSongRequestForm from '../stories/CrSongRequestForm';
-import CrButton from '../stories/CrButton';
-import { useAuth } from '../hooks/useAuth';
-import { useAudioPlayer } from '../contexts/AudioPlayerContext';
+import React from 'react'
+import CrPageHeader from '../stories/CrPageHeader'
+import CrCurrentDj from '../stories/CrCurrentDj'
+import CrSongRequestForm from '../stories/CrSongRequestForm'
+import CrButton from '../stories/CrButton'
+import { useAuth } from '../hooks/useAuth'
+import { useAudioPlayer } from '../contexts/AudioPlayerContext'
 
 interface MakeRequestProps {
-  testDjName?: string;
-  testShowName?: string;
+  testDjName?: string
+  testShowName?: string
 }
 
 export default function MakeRequest({ testDjName, testShowName }: MakeRequestProps = {}) {
-  const { isLoggedIn, login } = useAuth();
-  const { currentData } = useAudioPlayer();
+  const { isLoggedIn, login } = useAuth()
+  const { currentData } = useAudioPlayer()
 
   const handleSubmit = (data: any) => {
-    console.log('Song request submitted:', data);
+    console.log('Song request submitted:', data)
     // TODO: Send request to API
-  };
+  }
 
   const handleCancel = () => {
-    console.log('Song request cancelled');
+    console.log('Song request cancelled')
     // TODO: Handle cancel action (e.g., navigate back)
-  };
+  }
 
   const handleLogin = () => {
     // For demo purposes, simulate login with a demo account
-    login('demo@chirpradio.org');
-  };
+    login('demo@chirpradio.org')
+  }
 
   const handleSignUp = () => {
-    console.log('Sign up clicked from make request');
+    console.log('Sign up clicked from make request')
     // TODO: Open signup modal or navigate to signup
-  };
+  }
 
   if (!isLoggedIn) {
     return (
@@ -49,30 +49,21 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
 
         <div>
           <p>
-            You need to be logged in to make a song request. This helps us know who the request is coming from and ensures a better experience for everyone.
+            You need to be logged in to make a song request. This helps us know who the request is
+            coming from and ensures a better experience for everyone.
           </p>
 
           <div>
-            <CrButton
-              variant="solid"
-              color="secondary"
-              size="medium"
-              onClick={handleSignUp}
-            >
+            <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUp}>
               sign up
             </CrButton>
-            <CrButton
-              variant="outline"
-              color="default"
-              size="medium"
-              onClick={handleLogin}
-            >
+            <CrButton variant="outline" color="default" size="medium" onClick={handleLogin}>
               log in
             </CrButton>
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -94,11 +85,7 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
         />
       </div>
 
-      <CrSongRequestForm
-        title=""
-        onSubmit={handleSubmit}
-        onCancel={handleCancel}
-      />
+      <CrSongRequestForm title="" onSubmit={handleSubmit} onCancel={handleCancel} />
     </div>
-  );
+  )
 }

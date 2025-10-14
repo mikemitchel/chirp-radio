@@ -111,20 +111,20 @@ export default function CrProfileEditForm({
     // Validate if field has been touched
     if (touched[field]) {
       const error = validateField(field, value)
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [field]: error
+        [field]: error,
       }))
     }
   }
 
   const handleBlur = (field: string) => {
-    setTouched(prev => ({ ...prev, [field]: true }))
+    setTouched((prev) => ({ ...prev, [field]: true }))
     const value = formData[field]
     const error = validateField(field, value)
-    setErrors(prev => ({
+    setErrors((prev) => ({
       ...prev,
-      [field]: error
+      [field]: error,
     }))
   }
 
@@ -145,7 +145,7 @@ export default function CrProfileEditForm({
       fieldsToValidate.push('primaryPhone', 'zipCode')
     }
 
-    fieldsToValidate.forEach(field => {
+    fieldsToValidate.forEach((field) => {
       const error = validateField(field, formData[field])
       if (error) {
         newErrors[field] = error
@@ -153,9 +153,7 @@ export default function CrProfileEditForm({
     })
 
     setErrors(newErrors)
-    setTouched(
-      fieldsToValidate.reduce((acc, field) => ({ ...acc, [field]: true }), {})
-    )
+    setTouched(fieldsToValidate.reduce((acc, field) => ({ ...acc, [field]: true }), {}))
 
     return Object.keys(newErrors).length === 0
   }
@@ -285,9 +283,7 @@ export default function CrProfileEditForm({
 
         {/* Profile Picture Section */}
         <div className="form-group">
-          <label className="form-label">
-            Profile Picture{(isVolunteer || isDJ) && ' *'}
-          </label>
+          <label className="form-label">Profile Picture{(isVolunteer || isDJ) && ' *'}</label>
           <div className="cr-image-cropper">
             <CrImageCropper
               onImageChange={handleImageChangeInternal}
@@ -363,9 +359,7 @@ export default function CrProfileEditForm({
                 </select>
               </div>
               <div className="form-group">
-                <label className="form-label">
-                  Primary Phone Number{isVolunteer && ' *'}
-                </label>
+                <label className="form-label">Primary Phone Number{isVolunteer && ' *'}</label>
                 <input
                   type="tel"
                   value={formData.primaryPhone || ''}

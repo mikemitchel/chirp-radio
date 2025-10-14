@@ -72,11 +72,7 @@ export default function CrShoppingCart({
                   )}
                 </div>
               </div>
-              {item.details && (
-                <div className="cr-shopping-cart__item-details">
-                  {item.details}
-                </div>
-              )}
+              {item.details && <div className="cr-shopping-cart__item-details">{item.details}</div>}
             </div>
           ))
         )}

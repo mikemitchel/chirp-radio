@@ -2,34 +2,34 @@
 // Fake database for user's collection using localStorage
 
 export interface CollectionTrack {
-  id: string;
-  artistName: string;
-  trackName: string;
-  albumName: string;
-  labelName: string;
-  albumArt?: string;
-  albumArtAlt?: string;
-  isLocal?: boolean;
-  dateAdded: string; // ISO date string
+  id: string
+  artistName: string
+  trackName: string
+  albumName: string
+  labelName: string
+  albumArt?: string
+  albumArtAlt?: string
+  isLocal?: boolean
+  dateAdded: string // ISO date string
 }
 
-const COLLECTION_KEY = 'chirp-collection';
+const COLLECTION_KEY = 'chirp-collection'
 
 /**
  * Get all tracks in the collection, sorted by newest first
  */
 export function getCollection(): CollectionTrack[] {
   try {
-    const data = localStorage.getItem(COLLECTION_KEY);
-    if (!data) return [];
-    const collection = JSON.parse(data);
+    const data = localStorage.getItem(COLLECTION_KEY)
+    if (!data) return []
+    const collection = JSON.parse(data)
     // Sort by dateAdded, newest first
-    return collection.sort((a, b) =>
-      new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
-    );
+    return collection.sort(
+      (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
+    )
   } catch (error) {
-    console.error('Error reading collection:', error);
-    return [];
+    console.error('Error reading collection:', error)
+    return []
   }
 }
 
@@ -37,86 +37,88 @@ export function getCollection(): CollectionTrack[] {
  * Add a track to the collection
  */
 export function addToCollection(track: Omit<CollectionTrack, 'dateAdded'>): CollectionTrack {
-  const collection = getCollection();
+  const collection = getCollection()
 
   // Check if track already exists
-  const exists = collection.find(t =>
-    t.artistName === track.artistName &&
-    t.trackName === track.trackName
-  );
+  const exists = collection.find(
+    (t) => t.artistName === track.artistName && t.trackName === track.trackName
+  )
 
   if (exists) {
-    console.log('Track already in collection');
-    return exists;
+    console.log('Track already in collection')
+    return exists
   }
 
   // Add new track with current date
   const newTrack: CollectionTrack = {
     ...track,
     dateAdded: new Date().toISOString(),
-  };
+  }
 
-  collection.push(newTrack);
-  localStorage.setItem(COLLECTION_KEY, JSON.stringify(collection));
+  collection.push(newTrack)
+  localStorage.setItem(COLLECTION_KEY, JSON.stringify(collection))
 
   // Dispatch event for other components to react
-  window.dispatchEvent(new CustomEvent('chirp-collection-updated', {
-    detail: { action: 'add', track: newTrack }
-  }));
+  window.dispatchEvent(
+    new CustomEvent('chirp-collection-updated', {
+      detail: { action: 'add', track: newTrack },
+    })
+  )
 
-  return newTrack;
+  return newTrack
 }
 
 /**
  * Remove a track from the collection
  */
 export function removeFromCollection(trackId: string): boolean {
-  const collection = getCollection();
-  const initialLength = collection.length;
+  const collection = getCollection()
+  const initialLength = collection.length
 
-  const filtered = collection.filter(t => t.id !== trackId);
+  const filtered = collection.filter((t) => t.id !== trackId)
 
   if (filtered.length === initialLength) {
-    console.log('Track not found in collection');
-    return false;
+    console.log('Track not found in collection')
+    return false
   }
 
-  localStorage.setItem(COLLECTION_KEY, JSON.stringify(filtered));
+  localStorage.setItem(COLLECTION_KEY, JSON.stringify(filtered))
 
   // Dispatch event
-  window.dispatchEvent(new CustomEvent('chirp-collection-updated', {
-    detail: { action: 'remove', trackId }
-  }));
+  window.dispatchEvent(
+    new CustomEvent('chirp-collection-updated', {
+      detail: { action: 'remove', trackId },
+    })
+  )
 
-  return true;
+  return true
 }
 
 /**
  * Check if a track is in the collection
  */
 export function isInCollection(artistName: string, trackName: string): boolean {
-  const collection = getCollection();
-  return collection.some(t =>
-    t.artistName === artistName &&
-    t.trackName === trackName
-  );
+  const collection = getCollection()
+  return collection.some((t) => t.artistName === artistName && t.trackName === trackName)
 }
 
 /**
  * Clear entire collection
  */
 export function clearCollection(): void {
-  localStorage.removeItem(COLLECTION_KEY);
-  window.dispatchEvent(new CustomEvent('chirp-collection-updated', {
-    detail: { action: 'clear' }
-  }));
+  localStorage.removeItem(COLLECTION_KEY)
+  window.dispatchEvent(
+    new CustomEvent('chirp-collection-updated', {
+      detail: { action: 'clear' },
+    })
+  )
 }
 
 /**
  * Get collection count
  */
 export function getCollectionCount(): number {
-  return getCollection().length;
+  return getCollection().length
 }
 
 /**
@@ -128,7 +130,8 @@ export function initializeSampleCollection(): void {
     const sampleTracksWithDates: CollectionTrack[] = [
       {
         id: '1',
-        albumArt: 'https://upload.wikimedia.org/wikipedia/commons/a/ad/Kind_of_Blue_%281959%2C_CL_1355%29_album_cover.jpg',
+        albumArt:
+          'https://upload.wikimedia.org/wikipedia/commons/a/ad/Kind_of_Blue_%281959%2C_CL_1355%29_album_cover.jpg',
         albumArtAlt: 'Kind of Blue album cover',
         artistName: 'Miles Davis',
         trackName: 'So What',
@@ -139,7 +142,8 @@ export function initializeSampleCollection(): void {
       },
       {
         id: '2',
-        albumArt: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Coltrane_Giant_Steps.jpg/1200px-Coltrane_Giant_Steps.jpg',
+        albumArt:
+          'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Coltrane_Giant_Steps.jpg/1200px-Coltrane_Giant_Steps.jpg',
         albumArtAlt: 'Giant Steps album cover',
         artistName: 'John Coltrane',
         trackName: 'Giant Steps',
@@ -161,18 +165,20 @@ export function initializeSampleCollection(): void {
       },
       {
         id: '4',
-        albumArt: 'https://upload.wikimedia.org/wikipedia/en/3/35/Herbie_Hancock_-_Takin%27_Off.jpg',
-        albumArtAlt: 'Takin\' Off album cover',
+        albumArt:
+          'https://upload.wikimedia.org/wikipedia/en/3/35/Herbie_Hancock_-_Takin%27_Off.jpg',
+        albumArtAlt: "Takin' Off album cover",
         artistName: 'Herbie Hancock',
         trackName: 'Watermelon Man',
-        albumName: 'Takin\' Off',
+        albumName: "Takin' Off",
         labelName: 'Blue Note Records',
         isLocal: false,
         dateAdded: new Date('2024-09-05T11:30:00').toISOString(),
       },
       {
         id: '5',
-        albumArt: 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/John_Coltrane_-_A_Love_Supreme.jpg/250px-John_Coltrane_-_A_Love_Supreme.jpg',
+        albumArt:
+          'https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/John_Coltrane_-_A_Love_Supreme.jpg/250px-John_Coltrane_-_A_Love_Supreme.jpg',
         albumArtAlt: 'A Love Supreme album cover',
         artistName: 'John Coltrane',
         trackName: 'Acknowledgement',
@@ -180,13 +186,15 @@ export function initializeSampleCollection(): void {
         labelName: 'Impulse! Records',
         isLocal: false,
         dateAdded: new Date('2025-02-14T19:20:00').toISOString(),
-      }
-    ];
+      },
+    ]
 
     // Manually add each track with its date
-    localStorage.setItem(COLLECTION_KEY, JSON.stringify(sampleTracksWithDates));
-    window.dispatchEvent(new CustomEvent('chirp-collection-updated', {
-      detail: { action: 'initialize' }
-    }));
+    localStorage.setItem(COLLECTION_KEY, JSON.stringify(sampleTracksWithDates))
+    window.dispatchEvent(
+      new CustomEvent('chirp-collection-updated', {
+        detail: { action: 'initialize' },
+      })
+    )
   }
 }

@@ -33,18 +33,19 @@ const VinylCirclePage: React.FC = () => {
       <section className="page-container">
         <CrBreadcrumb
           items={[
-            { label: 'Other Ways to Give', isClickable: true, onClick: () => navigate('/other-ways-to-give') },
-            { label: 'Vinyl Circle', isClickable: false }
+            {
+              label: 'Other Ways to Give',
+              isClickable: true,
+              onClick: () => navigate('/other-ways-to-give'),
+            },
+            { label: 'Vinyl Circle', isClickable: false },
           ]}
         />
       </section>
 
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
-          <CrDonateForm
-            variant="vinylCircle"
-            onSwitchToDefault={handleSwitchToDefault}
-          />
+          <CrDonateForm variant="vinylCircle" onSwitchToDefault={handleSwitchToDefault} />
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
@@ -89,7 +90,7 @@ const VinylCirclePage: React.FC = () => {
                   day: 'numeric',
                   year: 'numeric',
                   hour: 'numeric',
-                  minute: '2-digit'
+                  minute: '2-digit',
                 })}
                 venue={events[0].venue.name}
                 showTicketButton={false}
@@ -103,7 +104,10 @@ const VinylCirclePage: React.FC = () => {
           </div>
 
           {/* Articles Section */}
-          <div className="cr-bg-rice-d100" style={{ padding: 'var(--cr-space-6)', marginTop: 'var(--cr-space-6)' }}>
+          <div
+            className="cr-bg-rice-d100"
+            style={{ padding: 'var(--cr-space-6)', marginTop: 'var(--cr-space-6)' }}
+          >
             <CrPageHeader
               title="Recent Article"
               titleTag="h3"
@@ -129,7 +133,7 @@ const VinylCirclePage: React.FC = () => {
                 eventDate={new Date(articles[0].publishedDate).toLocaleDateString('en-US', {
                   month: 'long',
                   day: 'numeric',
-                  year: 'numeric'
+                  year: 'numeric',
                 })}
                 showTicketButton={false}
                 onClick={() => handleArticleClick(articles[0])}

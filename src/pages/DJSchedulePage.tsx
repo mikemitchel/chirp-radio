@@ -23,7 +23,8 @@ const DJSchedulePage: React.FC = () => {
       content: 'Morning Classics',
       showTime: 'Mon 6am - 9am',
       description: 'Indie rock enthusiast spinning classics and new discoveries.',
-      imageSrc: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=faces'
+      imageSrc:
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=faces',
     },
     {
       id: 'dj-002',
@@ -31,7 +32,8 @@ const DJSchedulePage: React.FC = () => {
       content: 'Lunch Beats',
       showTime: 'Mon 12pm - 2pm',
       description: 'Bringing you the best midday mix of electronic and indie.',
-      imageSrc: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces'
+      imageSrc:
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces',
     },
     {
       id: 'dj-003',
@@ -39,7 +41,8 @@ const DJSchedulePage: React.FC = () => {
       content: 'Afternoon Mix',
       showTime: 'Mon 2pm - 5pm',
       description: 'Alternative and indie sounds to get you through the afternoon.',
-      imageSrc: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=faces'
+      imageSrc:
+        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=faces',
     },
     {
       id: 'dj-004',
@@ -47,7 +50,8 @@ const DJSchedulePage: React.FC = () => {
       content: 'Evening Drive',
       showTime: 'Mon 5pm - 8pm',
       description: 'Rock and alternative for your evening commute.',
-      imageSrc: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces'
+      imageSrc:
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces',
     },
     {
       id: 'dj-005',
@@ -55,7 +59,8 @@ const DJSchedulePage: React.FC = () => {
       content: 'Night Vibes',
       showTime: 'Mon 8pm - 11pm',
       description: 'Late night electronic and experimental sounds.',
-      imageSrc: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=faces'
+      imageSrc:
+        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=faces',
     },
     {
       id: 'dj-006',
@@ -63,7 +68,8 @@ const DJSchedulePage: React.FC = () => {
       content: 'Wake Up Call',
       showTime: 'Tue 6am - 9am',
       description: 'Starting your Tuesday with energy and great music.',
-      imageSrc: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=faces'
+      imageSrc:
+        'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=faces',
     },
     {
       id: 'dj-007',
@@ -71,7 +77,8 @@ const DJSchedulePage: React.FC = () => {
       content: 'Midday Melodies',
       showTime: 'Tue 9am - 12pm',
       description: 'Eclectic mix of indie, rock, and folk.',
-      imageSrc: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=faces'
+      imageSrc:
+        'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=faces',
     },
     {
       id: 'dj-008',
@@ -79,7 +86,8 @@ const DJSchedulePage: React.FC = () => {
       content: 'The Indie Hour',
       showTime: 'Tue 2pm - 5pm',
       description: 'Deep cuts and new indie releases.',
-      imageSrc: 'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&h=400&fit=crop&crop=faces'
+      imageSrc:
+        'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&h=400&fit=crop&crop=faces',
     },
     {
       id: 'dj-009',
@@ -87,7 +95,8 @@ const DJSchedulePage: React.FC = () => {
       content: 'Jazz Junction',
       showTime: 'Tue 8pm - 11pm',
       description: 'Traditional and modern jazz explorations.',
-      imageSrc: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=400&fit=crop&crop=faces'
+      imageSrc:
+        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=400&fit=crop&crop=faces',
     },
     {
       id: 'dj-010',
@@ -95,8 +104,9 @@ const DJSchedulePage: React.FC = () => {
       content: 'Fresh Tracks',
       showTime: 'Wed 9am - 12pm',
       description: 'New releases and hidden gems.',
-      imageSrc: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop&crop=faces'
-    }
+      imageSrc:
+        'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop&crop=faces',
+    },
   ]
 
   // Get 8 random DJs
@@ -112,11 +122,7 @@ const DJSchedulePage: React.FC = () => {
       </section>
 
       <section className="page-container">
-        <CrDjSchedule
-          scheduleData={mockScheduleData}
-          currentUser={currentUser}
-          djsData={allDJs}
-        />
+        <CrDjSchedule scheduleData={mockScheduleData} currentUser={currentUser} djsData={allDJs} />
       </section>
 
       <div className="page-layout-main-sidebar">

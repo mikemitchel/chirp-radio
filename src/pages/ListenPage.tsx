@@ -7,7 +7,14 @@ import CrPlaylistTable from '../stories/CrPlaylistTable'
 import CrPlaylistItem from '../stories/CrPlaylistItem'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrList from '../stories/CrList'
-import { useTracks, useCurrentUser, useTop25, useMostAdded, useHalloween, useAnnouncements } from '../hooks/useData'
+import {
+  useTracks,
+  useCurrentUser,
+  useTop25,
+  useMostAdded,
+  useHalloween,
+  useAnnouncements,
+} from '../hooks/useData'
 import { useNotification } from '../contexts/NotificationContext'
 import { getCollection, removeFromCollection, type CollectionTrack } from '../utils/collectionDB'
 import './ListenPage.css'
@@ -24,31 +31,34 @@ const ListenPage: React.FC = () => {
   const [collection, setCollection] = useState<CollectionTrack[]>([])
 
   // Transform tracks for playlist table - only show last 2 hours
-  const recentlyPlayedTracks = tracks?.filter((track, index, arr) => {
-    // Get unique hours from tracks
-    const uniqueHours = [...new Set(arr.map(t => t.hourKey))]
-    // Only include tracks from the first 2 hours
-    return uniqueHours.slice(0, 2).includes(track.hourKey)
-  }).map(track => ({
-    albumArt: track.albumArt,
-    artistName: track.artistName,
-    trackName: track.trackName,
-    albumName: track.albumName,
-    labelName: track.labelName,
-    isLocal: track.isLocal,
-    timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit'
-    }),
-    hourKey: track.hourKey,
-    hourData: {
-      startTime: track.hourKey === '5am' ? '5:00am' : '4:00am',
-      endTime: track.hourKey === '5am' ? '6:00am' : '5:00am',
-      djName: track.djName,
-      showName: track.showName,
-      djProfileUrl: '#',
-    },
-  })) || []
+  const recentlyPlayedTracks =
+    tracks
+      ?.filter((track, index, arr) => {
+        // Get unique hours from tracks
+        const uniqueHours = [...new Set(arr.map((t) => t.hourKey))]
+        // Only include tracks from the first 2 hours
+        return uniqueHours.slice(0, 2).includes(track.hourKey)
+      })
+      .map((track) => ({
+        albumArt: track.albumArt,
+        artistName: track.artistName,
+        trackName: track.trackName,
+        albumName: track.albumName,
+        labelName: track.labelName,
+        isLocal: track.isLocal,
+        timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+        }),
+        hourKey: track.hourKey,
+        hourData: {
+          startTime: track.hourKey === '5am' ? '5:00am' : '4:00am',
+          endTime: track.hourKey === '5am' ? '6:00am' : '5:00am',
+          djName: track.djName,
+          showName: track.showName,
+          djProfileUrl: '#',
+        },
+      })) || []
 
   // Load collection on mount
   useEffect(() => {
@@ -88,7 +98,7 @@ const ListenPage: React.FC = () => {
   }
 
   // Get user collection for sidebar (first 3 items)
-  const userCollectionTracks = collection.slice(0, 3).map(track => ({
+  const userCollectionTracks = collection.slice(0, 3).map((track) => ({
     ...track,
     albumArt: track.albumArt,
     artistName: track.artistName,
@@ -100,22 +110,24 @@ const ListenPage: React.FC = () => {
     timeAgo: `Added on ${new Date(track.dateAdded).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     })}`,
   }))
 
   // Transform chart data for lists
-  const top25Items = top25Chart?.tracks?.map(track => ({
-    songName: track.trackName,
-    artistName: track.artistName,
-    recordCompany: track.labelName
-  })) || []
+  const top25Items =
+    top25Chart?.tracks?.map((track) => ({
+      songName: track.trackName,
+      artistName: track.artistName,
+      recordCompany: track.labelName,
+    })) || []
 
-  const mostAddedItems = mostAddedChart?.tracks?.map(track => ({
-    songName: track.trackName,
-    artistName: track.artistName,
-    recordCompany: track.labelName
-  })) || []
+  const mostAddedItems =
+    mostAddedChart?.tracks?.map((track) => ({
+      songName: track.trackName,
+      artistName: track.artistName,
+      recordCompany: track.labelName,
+    })) || []
 
   // Get week date for headers
   const getWeekOfDate = () => {
@@ -123,13 +135,15 @@ const ListenPage: React.FC = () => {
       return new Date(top25Chart.weekOf).toLocaleDateString('en-US', {
         month: 'long',
         day: 'numeric',
-        year: 'numeric'
+        year: 'numeric',
       })
     }
-    return new Date(new Date().setDate(new Date().getDate() - new Date().getDay())).toLocaleDateString('en-US', {
+    return new Date(
+      new Date().setDate(new Date().getDate() - new Date().getDay())
+    ).toLocaleDateString('en-US', {
       month: 'long',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     })
   }
 
@@ -153,7 +167,8 @@ const ListenPage: React.FC = () => {
       },
     },
     {
-      albumArt: 'https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg',
+      albumArt:
+        'https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg',
       artistName: 'Alkaline Trio',
       trackName: 'Stupid Kid',
       albumName: 'From Here to Infirmary',
@@ -219,7 +234,8 @@ const ListenPage: React.FC = () => {
       },
     },
     {
-      albumArt: 'https://upload.wikimedia.org/wikipedia/en/2/23/Sugar_-_File_Under_Easy_Listening.jpg',
+      albumArt:
+        'https://upload.wikimedia.org/wikipedia/en/2/23/Sugar_-_File_Under_Easy_Listening.jpg',
       artistName: 'Sugar',
       trackName: 'Gee Angel',
       albumName: 'File Under: Easy Listening',
@@ -440,7 +456,7 @@ const ListenPage: React.FC = () => {
       labelName: 'Columbia Records',
       timeAgo: '2:45pm',
       isLocal: false,
-      isAdded: true
+      isAdded: true,
     },
     {
       id: '2',
@@ -452,7 +468,7 @@ const ListenPage: React.FC = () => {
       labelName: 'Atlantic Records',
       timeAgo: '2:30pm',
       isLocal: true,
-      isAdded: true
+      isAdded: true,
     },
     {
       id: '3',
@@ -464,19 +480,19 @@ const ListenPage: React.FC = () => {
       labelName: 'Columbia Records',
       timeAgo: '2:15pm',
       isLocal: false,
-      isAdded: true
+      isAdded: true,
     },
     {
       id: '4',
       albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
-      albumArtAlt: 'Takin\' Off album cover',
+      albumArtAlt: "Takin' Off album cover",
       artistName: 'Herbie Hancock',
       trackName: 'Watermelon Man',
-      albumName: 'Takin\' Off',
+      albumName: "Takin' Off",
       labelName: 'Blue Note Records',
       timeAgo: '1:45pm',
       isLocal: false,
-      isAdded: true
+      isAdded: true,
     },
     {
       id: '5',
@@ -488,8 +504,8 @@ const ListenPage: React.FC = () => {
       labelName: 'Impulse! Records',
       timeAgo: '1:15pm',
       isLocal: false,
-      isAdded: true
-    }
+      isAdded: true,
+    },
   ]
 
   return (
@@ -510,7 +526,12 @@ const ListenPage: React.FC = () => {
             actionButtonIcon={<PiVinylRecord />}
             onActionClick={() => navigate('/playlist')}
           />
-          <CrPlaylistTable items={recentlyPlayedTracks} showHeader={true} groupByHour={true} className="listen-page__playlist" />
+          <CrPlaylistTable
+            items={recentlyPlayedTracks}
+            showHeader={true}
+            groupByHour={true}
+            className="listen-page__playlist"
+          />
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
@@ -541,9 +562,11 @@ const ListenPage: React.FC = () => {
             title={halloweenChart?.title}
             showActionButton={false}
             showAddButton={false}
-            items={halloweenChart?.tracks?.map(costume => ({
-              songName: costume.costumeName
-            })) || []}
+            items={
+              halloweenChart?.tracks?.map((costume) => ({
+                songName: costume.costumeName,
+              })) || []
+            }
           />
           {announcements && announcements[3] && (
             <CrAnnouncement
@@ -582,7 +605,7 @@ const ListenPage: React.FC = () => {
         <div className="page-layout-2col__column">
           <CrList
             preheader={`Week of ${getWeekOfDate()}`}
-            title={top25Chart?.title || "Top 25"}
+            title={top25Chart?.title || 'Top 25'}
             bannerButtonText="View Full Chart"
             items={top25Items}
           />
@@ -590,7 +613,7 @@ const ListenPage: React.FC = () => {
         <div className="page-layout-2col__column">
           <CrList
             preheader="Chicago Local Artists"
-            title={mostAddedChart?.title || "Most Added"}
+            title={mostAddedChart?.title || 'Most Added'}
             bannerButtonText="View All Local"
             items={mostAddedItems}
           />

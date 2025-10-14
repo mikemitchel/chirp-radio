@@ -75,7 +75,7 @@ export default function CrMobileAppFrame({
 
   const handleMenuClick = () => {
     // Clear any visible toasts when opening menu
-    window.dispatchEvent(new CustomEvent('chirp-hide-toast'));
+    window.dispatchEvent(new CustomEvent('chirp-hide-toast'))
     setIsSidebarOpen(true)
   }
 

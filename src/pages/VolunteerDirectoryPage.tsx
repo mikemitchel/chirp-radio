@@ -15,21 +15,23 @@ const VolunteerDirectoryPage: React.FC = () => {
   const volunteerData = useMemo(() => {
     if (!users) return []
     return users
-      .filter(user => ['Regular DJ', 'Substitute DJ', 'Content Publisher', 'General'].includes(user.role))
-      .map(user => ({
+      .filter((user) =>
+        ['Regular DJ', 'Substitute DJ', 'Content Publisher', 'General'].includes(user.role)
+      )
+      .map((user) => ({
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         djName: user.djName || '',
         role: user.role,
         email: user.email,
-        phone: user.phone || ''
+        phone: user.phone || '',
       }))
   }, [users])
 
   const breadcrumbItems = [
     { label: 'Home', path: '/', onClick: () => navigate('/') },
-    { label: 'Volunteer Directory', path: '/volunteer-directory', isActive: true }
+    { label: 'Volunteer Directory', path: '/volunteer-directory', isActive: true },
   ]
 
   // Render role as CrChip with custom colors
@@ -45,11 +47,7 @@ const VolunteerDirectoryPage: React.FC = () => {
     }
 
     return (
-      <CrChip
-        variant="light"
-        size="small"
-        style={{ backgroundColor }}
-      >
+      <CrChip variant="light" size="small" style={{ backgroundColor }}>
         {role}
       </CrChip>
     )
@@ -58,7 +56,10 @@ const VolunteerDirectoryPage: React.FC = () => {
   // Render email as mailto link
   const renderEmail = (email: string) => {
     return (
-      <a href={`mailto:${email}`} style={{ color: 'var(--cr-primary-500)', textDecoration: 'underline' }}>
+      <a
+        href={`mailto:${email}`}
+        style={{ color: 'var(--cr-primary-500)', textDecoration: 'underline' }}
+      >
         {email}
       </a>
     )
@@ -70,7 +71,7 @@ const VolunteerDirectoryPage: React.FC = () => {
     { key: 'djName', title: 'DJ Name', sortable: true, width: 'medium' },
     { key: 'role', title: 'Role', sortable: true, width: 'medium', render: renderRole },
     { key: 'email', title: 'Email', sortable: true, width: 'wide', render: renderEmail },
-    { key: 'phone', title: 'Primary Phone', sortable: true, width: 'medium' }
+    { key: 'phone', title: 'Primary Phone', sortable: true, width: 'medium' },
   ]
 
   return (

@@ -15,7 +15,7 @@ export default function CrPagination({
   currentPage,
   totalPages,
   onPageChange,
-  maxVisiblePages = 7
+  maxVisiblePages = 7,
 }: CrPaginationProps) {
   if (totalPages <= 1) return null
 

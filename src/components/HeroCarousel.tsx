@@ -25,7 +25,7 @@ interface HeroCarouselProps {
 export default function HeroCarousel({
   slides = [],
   autoplay = true,
-  autoplayDelay = 8000
+  autoplayDelay = 8000,
 }: HeroCarouselProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true },
@@ -41,9 +41,12 @@ export default function HeroCarousel({
     if (emblaApi) emblaApi.scrollNext()
   }, [emblaApi])
 
-  const scrollTo = useCallback((index: number) => {
-    if (emblaApi) emblaApi.scrollTo(index)
-  }, [emblaApi])
+  const scrollTo = useCallback(
+    (index: number) => {
+      if (emblaApi) emblaApi.scrollTo(index)
+    },
+    [emblaApi]
+  )
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return
@@ -94,7 +97,17 @@ export default function HeroCarousel({
         onClick={scrollPrev}
         aria-label="Previous slide"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
       </button>
@@ -104,7 +117,17 @@ export default function HeroCarousel({
         onClick={scrollNext}
         aria-label="Next slide"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
       </button>

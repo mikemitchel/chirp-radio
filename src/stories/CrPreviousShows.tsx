@@ -125,20 +125,26 @@ export default function CrPreviousShows({
   className = '',
 }: CrPreviousShowsProps) {
   return (
-    <div className={`cr-previous-shows ${className}`} style={{
-      marginTop: 'var(--cr-space-8)',
-      maxWidth: '1000px',
-      padding: 'var(--cr-space-6)',
-      backgroundColor: 'var(--cr-paper)',
-      border: '1px solid var(--cr-default-300)',
-      borderRadius: 'var(--cr-space-2)'
-    }}>
-      <h2 className="cr-previous-shows__title" style={{
-        font: 'var(--cr-title-sm)',
-        color: 'var(--cr-ink)',
-        margin: 0,
-        marginBottom: 'var(--cr-space-4)'
-      }}>
+    <div
+      className={`cr-previous-shows ${className}`}
+      style={{
+        marginTop: 'var(--cr-space-8)',
+        maxWidth: '1000px',
+        padding: 'var(--cr-space-6)',
+        backgroundColor: 'var(--cr-paper)',
+        border: '1px solid var(--cr-default-300)',
+        borderRadius: 'var(--cr-space-2)',
+      }}
+    >
+      <h2
+        className="cr-previous-shows__title"
+        style={{
+          font: 'var(--cr-title-sm)',
+          color: 'var(--cr-ink)',
+          margin: 0,
+          marginBottom: 'var(--cr-space-4)',
+        }}
+      >
         Previous Shows
       </h2>
       <div className="cr-previous-shows__players">

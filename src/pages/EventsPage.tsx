@@ -58,7 +58,7 @@ const EventsPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={events[0].venue.name}
               ageRestriction={events[0].ageRestriction}
@@ -104,7 +104,7 @@ const EventsPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={events[1].venue.name}
               ageRestriction={events[1].ageRestriction}
@@ -127,7 +127,7 @@ const EventsPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={events[2].venue.name}
               ageRestriction={events[2].ageRestriction}
@@ -152,7 +152,7 @@ const EventsPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={events[3].venue.name}
               ageRestriction={events[3].ageRestriction}
@@ -175,7 +175,7 @@ const EventsPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={events[4].venue.name}
               ageRestriction={events[4].ageRestriction}
@@ -221,7 +221,7 @@ const EventsPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={events[5].venue.name}
               ageRestriction={events[5].ageRestriction}
@@ -243,7 +243,7 @@ const EventsPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={events[6].venue.name}
               ageRestriction={events[6].ageRestriction}
@@ -267,7 +267,7 @@ const EventsPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={events[7].venue.name}
               ageRestriction={events[7].ageRestriction}
@@ -289,7 +289,7 @@ const EventsPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={events[8]?.venue.name}
               ageRestriction={events[8]?.ageRestriction}
@@ -313,7 +313,7 @@ const EventsPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={events[9].venue.name}
               ageRestriction={events[9].ageRestriction}
@@ -335,7 +335,7 @@ const EventsPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={events[10].venue.name}
               ageRestriction={events[10].ageRestriction}

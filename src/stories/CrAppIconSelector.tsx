@@ -1,21 +1,21 @@
 // CrAppIconSelector.tsx
-import { useState, useEffect } from 'react';
-import { PiCheck } from 'react-icons/pi';
-import CrButton from './CrButton';
-import './CrAppIconSelector.css';
+import { useState, useEffect } from 'react'
+import { PiCheck } from 'react-icons/pi'
+import CrButton from './CrButton'
+import './CrAppIconSelector.css'
 
 interface IconOption {
-  id: string;
-  name: string;
-  preview: string;
-  description?: string;
+  id: string
+  name: string
+  preview: string
+  description?: string
 }
 
 interface CrAppIconSelectorProps {
-  icons?: IconOption[];
-  currentIcon?: string;
-  onIconChange?: (iconId: string) => void;
-  onApply?: (iconId: string) => Promise<void>;
+  icons?: IconOption[]
+  currentIcon?: string
+  onIconChange?: (iconId: string) => void
+  onApply?: (iconId: string) => Promise<void>
 }
 
 const defaultIcons: IconOption[] = [
@@ -59,7 +59,7 @@ const defaultIcons: IconOption[] = [
     name: 'Icon 8',
     preview: '/images/app-icons/icon8.png',
   },
-];
+]
 
 export default function CrAppIconSelector({
   icons = defaultIcons,
@@ -67,34 +67,34 @@ export default function CrAppIconSelector({
   onIconChange,
   onApply,
 }: CrAppIconSelectorProps) {
-  const [selectedIcon, setSelectedIcon] = useState(currentIcon);
-  const [isApplying, setIsApplying] = useState(false);
+  const [selectedIcon, setSelectedIcon] = useState(currentIcon)
+  const [isApplying, setIsApplying] = useState(false)
 
   useEffect(() => {
-    setSelectedIcon(currentIcon);
-  }, [currentIcon]);
+    setSelectedIcon(currentIcon)
+  }, [currentIcon])
 
   const handleIconSelect = (iconId: string) => {
-    setSelectedIcon(iconId);
+    setSelectedIcon(iconId)
     if (onIconChange) {
-      onIconChange(iconId);
+      onIconChange(iconId)
     }
-  };
+  }
 
   const handleApply = async () => {
-    if (!onApply || selectedIcon === currentIcon) return;
+    if (!onApply || selectedIcon === currentIcon) return
 
-    setIsApplying(true);
+    setIsApplying(true)
     try {
-      await onApply(selectedIcon);
+      await onApply(selectedIcon)
     } catch (error) {
-      console.error('Failed to change icon:', error);
+      console.error('Failed to change icon:', error)
     } finally {
-      setIsApplying(false);
+      setIsApplying(false)
     }
-  };
+  }
 
-  const hasChanges = selectedIcon !== currentIcon;
+  const hasChanges = selectedIcon !== currentIcon
 
   return (
     <div className="cr-app-icon-selector">
@@ -111,18 +111,12 @@ export default function CrAppIconSelector({
             key={icon.id}
             className={`cr-app-icon-selector__option ${
               selectedIcon === icon.id ? 'cr-app-icon-selector__option--selected' : ''
-            } ${
-              currentIcon === icon.id ? 'cr-app-icon-selector__option--current' : ''
-            }`}
+            } ${currentIcon === icon.id ? 'cr-app-icon-selector__option--current' : ''}`}
             onClick={() => handleIconSelect(icon.id)}
             type="button"
           >
             <div className="cr-app-icon-selector__preview">
-              <img
-                src={icon.preview}
-                alt={icon.name}
-                className="cr-app-icon-selector__image"
-              />
+              <img src={icon.preview} alt={icon.name} className="cr-app-icon-selector__image" />
             </div>
           </button>
         ))}
@@ -142,5 +136,5 @@ export default function CrAppIconSelector({
         </div>
       )}
     </div>
-  );
+  )
 }

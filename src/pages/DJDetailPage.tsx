@@ -30,7 +30,10 @@ const DJDetailPage: React.FC = () => {
   if (loggedInUser && loggedInUser.role === 'dj' && dj && dj.id === 'dj-001') {
     // Create slug from logged-in user's DJ name
     const userSlug = loggedInUser.djName
-      ? loggedInUser.djName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+      ? loggedInUser.djName
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
       : dj.slug
 
     dj = {
@@ -84,18 +87,20 @@ const DJDetailPage: React.FC = () => {
       updateUserFavoriteDJs(dj.id, newFavoriteStatus)
 
       console.log(`${newFavoriteStatus ? 'Favorited' : 'Unfavorited'} DJ:`, dj.djName)
-    });
+    })
   }
 
   const handleShareClick = () => {
     const url = window.location.href
     if (navigator.share) {
-      navigator.share({
-        title: `${dj?.djName} - CHIRP Radio`,
-        url: url,
-      }).catch(() => {
-        navigator.clipboard.writeText(url)
-      })
+      navigator
+        .share({
+          title: `${dj?.djName} - CHIRP Radio`,
+          url: url,
+        })
+        .catch(() => {
+          navigator.clipboard.writeText(url)
+        })
     } else {
       navigator.clipboard.writeText(url)
     }
@@ -113,7 +118,7 @@ const DJDetailPage: React.FC = () => {
           <CrBreadcrumb
             items={[
               { label: 'DJs', isClickable: true, onClick: () => navigate('/djs') },
-              { label: 'Not Found', isClickable: false }
+              { label: 'Not Found', isClickable: false },
             ]}
           />
           <p>DJ not found.</p>
@@ -128,7 +133,7 @@ const DJDetailPage: React.FC = () => {
         <CrBreadcrumb
           items={[
             { label: 'DJs', isClickable: true, onClick: () => navigate('/djs') },
-            { label: dj.djName, isClickable: false }
+            { label: dj.djName, isClickable: false },
           ]}
         />
       </section>

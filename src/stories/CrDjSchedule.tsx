@@ -129,7 +129,7 @@ export default function CrDjSchedule({
 
     // Find DJ by matching name
     if (djsData && djsData.length > 0) {
-      const dj = djsData.find(d => djNames.some(name => d.djName === name))
+      const dj = djsData.find((d) => djNames.some((name) => d.djName === name))
       if (dj && dj.imageSrc) {
         return dj.imageSrc
       }
@@ -144,7 +144,7 @@ export default function CrDjSchedule({
     if (!currentUser?.favoriteDJs || !djsData || !Array.isArray(djNames)) return false
 
     // Find DJ by matching name
-    const dj = djsData.find(d => djNames.some(name => d.djName === name))
+    const dj = djsData.find((d) => djNames.some((name) => d.djName === name))
     return dj ? currentUser.favoriteDJs.includes(dj.id) : false
   }
 

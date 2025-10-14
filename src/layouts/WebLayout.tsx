@@ -152,7 +152,7 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
       streamUrl="https://peridot.streamguys1.com:5185/live"
       apiUrl="https://chirpradio.appspot.com/api/current_playlist"
     >
-        <CrAppHeader
+      <CrAppHeader
         autoFetch={false}
         djName={currentShow?.djName}
         showName={currentShow?.showName}
@@ -179,24 +179,78 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
         variant="web"
         isOpen={isSidebarOpen}
         onClose={handleCloseSidebar}
-        onLogoClick={() => { navigate('/'); handleCloseSidebar(); }}
-        onHomeClick={() => { navigate('/'); handleCloseSidebar(); }}
-        onListenClick={() => { navigate('/listen'); handleCloseSidebar(); }}
-        onPlaylistClick={() => { navigate('/playlist'); handleCloseSidebar(); }}
-        onPodcastClick={() => { navigate('/podcasts'); handleCloseSidebar(); }}
-        onDjsClick={() => { navigate('/djs'); handleCloseSidebar(); }}
-        onScheduleClick={() => { navigate('/schedule'); handleCloseSidebar(); }}
-        onEventsClick={() => { navigate('/events'); handleCloseSidebar(); }}
-        onArticlesClick={() => { navigate('/articles'); handleCloseSidebar(); }}
-        onDonateClick={() => { navigate('/donate'); handleCloseSidebar(); }}
-        onWaysToGiveClick={() => { navigate('/other-ways-to-give'); handleCloseSidebar(); }}
-        onVinylCircleClick={() => { navigate('/vinyl-circle'); handleCloseSidebar(); }}
-        onShopClick={() => { navigate('/shop'); handleCloseSidebar(); }}
-        onAboutClick={() => { navigate('/about'); handleCloseSidebar(); }}
-        onOtherWaysToListenClick={() => { navigate('/other-ways-to-listen'); handleCloseSidebar(); }}
-        onContactClick={() => { navigate('/contact'); handleCloseSidebar(); }}
-        onBecomeVolunteerClick={() => { navigate('/volunteer'); handleCloseSidebar(); }}
-        onRequestClick={() => { navigate('/request-song'); handleCloseSidebar(); }}
+        onLogoClick={() => {
+          navigate('/')
+          handleCloseSidebar()
+        }}
+        onHomeClick={() => {
+          navigate('/')
+          handleCloseSidebar()
+        }}
+        onListenClick={() => {
+          navigate('/listen')
+          handleCloseSidebar()
+        }}
+        onPlaylistClick={() => {
+          navigate('/playlist')
+          handleCloseSidebar()
+        }}
+        onPodcastClick={() => {
+          navigate('/podcasts')
+          handleCloseSidebar()
+        }}
+        onDjsClick={() => {
+          navigate('/djs')
+          handleCloseSidebar()
+        }}
+        onScheduleClick={() => {
+          navigate('/schedule')
+          handleCloseSidebar()
+        }}
+        onEventsClick={() => {
+          navigate('/events')
+          handleCloseSidebar()
+        }}
+        onArticlesClick={() => {
+          navigate('/articles')
+          handleCloseSidebar()
+        }}
+        onDonateClick={() => {
+          navigate('/donate')
+          handleCloseSidebar()
+        }}
+        onWaysToGiveClick={() => {
+          navigate('/other-ways-to-give')
+          handleCloseSidebar()
+        }}
+        onVinylCircleClick={() => {
+          navigate('/vinyl-circle')
+          handleCloseSidebar()
+        }}
+        onShopClick={() => {
+          navigate('/shop')
+          handleCloseSidebar()
+        }}
+        onAboutClick={() => {
+          navigate('/about')
+          handleCloseSidebar()
+        }}
+        onOtherWaysToListenClick={() => {
+          navigate('/other-ways-to-listen')
+          handleCloseSidebar()
+        }}
+        onContactClick={() => {
+          navigate('/contact')
+          handleCloseSidebar()
+        }}
+        onBecomeVolunteerClick={() => {
+          navigate('/volunteer')
+          handleCloseSidebar()
+        }}
+        onRequestClick={() => {
+          navigate('/request-song')
+          handleCloseSidebar()
+        }}
       />
 
       <CrScrim
@@ -216,11 +270,10 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
       </div>
 
       {/* Fixed Bottom Player - slides up when scrolling past header */}
-      <div className={`web-layout-bottom-player ${showBottomPlayer ? 'web-layout-bottom-player--visible' : ''}`}>
-        <CrStreamingMusicPlayer
-          variant="mini-player"
-          autoFetch={true}
-        />
+      <div
+        className={`web-layout-bottom-player ${showBottomPlayer ? 'web-layout-bottom-player--visible' : ''}`}
+      >
+        <CrStreamingMusicPlayer variant="mini-player" autoFetch={true} />
       </div>
 
       {/* Global Notifications - Toasts & Modals */}

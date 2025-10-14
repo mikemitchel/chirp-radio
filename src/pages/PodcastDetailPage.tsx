@@ -19,9 +19,7 @@ const PodcastDetailPage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
 
   // Get 3 most recent podcasts excluding the current one
-  const recentPodcasts = allPodcasts
-    ?.filter(p => p.id !== podcast?.id)
-    .slice(0, 3) || []
+  const recentPodcasts = allPodcasts?.filter((p) => p.id !== podcast?.id).slice(0, 3) || []
 
   const handlePodcastClick = (clickedPodcast: any) => {
     navigate(`/podcasts/${clickedPodcast.id}`, { state: { podcast: clickedPodcast } })
@@ -32,7 +30,7 @@ const PodcastDetailPage: React.FC = () => {
     return new Date(podcastItem.episodes[0].publishedDate).toLocaleDateString('en-US', {
       month: 'long',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     })
   }
 
@@ -52,7 +50,7 @@ const PodcastDetailPage: React.FC = () => {
         <CrBreadcrumb
           items={[
             { label: 'Podcasts', isClickable: true, onClick: () => navigate('/podcasts') },
-            { label: podcastTitle, isClickable: false }
+            { label: podcastTitle, isClickable: false },
           ]}
         />
       </section>
@@ -83,30 +81,36 @@ const PodcastDetailPage: React.FC = () => {
           />
 
           {podcast.pullQuote && (
-            <div style={{
-              marginTop: 'var(--cr-space-8)',
-              maxWidth: '1000px',
-              padding: 'var(--cr-space-8)',
-              backgroundColor: 'var(--cr-default-100)',
-              borderLeft: '4px solid var(--cr-primary-500)',
-              borderRadius: 'var(--cr-space-1)'
-            }}>
-              <blockquote style={{
-                font: 'var(--cr-body-lg)',
-                color: 'var(--cr-ink)',
-                margin: 0,
-                fontStyle: 'italic',
-                lineHeight: 1.6
-              }}>
+            <div
+              style={{
+                marginTop: 'var(--cr-space-8)',
+                maxWidth: '1000px',
+                padding: 'var(--cr-space-8)',
+                backgroundColor: 'var(--cr-default-100)',
+                borderLeft: '4px solid var(--cr-primary-500)',
+                borderRadius: 'var(--cr-space-1)',
+              }}
+            >
+              <blockquote
+                style={{
+                  font: 'var(--cr-body-lg)',
+                  color: 'var(--cr-ink)',
+                  margin: 0,
+                  fontStyle: 'italic',
+                  lineHeight: 1.6,
+                }}
+              >
                 "{podcast.pullQuote}"
               </blockquote>
               {podcast.pullQuoteAttribution && (
-                <p style={{
-                  font: 'var(--cr-body-sm)',
-                  color: 'var(--cr-default-700)',
-                  marginTop: 'var(--cr-space-3)',
-                  marginBottom: 0
-                }}>
+                <p
+                  style={{
+                    font: 'var(--cr-body-sm)',
+                    color: 'var(--cr-default-700)',
+                    marginTop: 'var(--cr-space-3)',
+                    marginBottom: 0,
+                  }}
+                >
                   — {podcast.pullQuoteAttribution}
                 </p>
               )}
@@ -114,36 +118,42 @@ const PodcastDetailPage: React.FC = () => {
           )}
 
           {podcast.additionalInfo && (
-            <div style={{
-              marginTop: 'var(--cr-space-6)',
-              maxWidth: '1000px',
-              padding: 'var(--cr-space-6)',
-              backgroundColor: 'var(--cr-paper)',
-              border: '1px solid var(--cr-default-300)',
-              borderRadius: 'var(--cr-space-2)'
-            }}>
-              <div style={{
-                font: 'var(--cr-body-reg)',
-                color: 'var(--cr-ink)',
-                lineHeight: 1.6,
-                whiteSpace: 'pre-line'
-              }}>
+            <div
+              style={{
+                marginTop: 'var(--cr-space-6)',
+                maxWidth: '1000px',
+                padding: 'var(--cr-space-6)',
+                backgroundColor: 'var(--cr-paper)',
+                border: '1px solid var(--cr-default-300)',
+                borderRadius: 'var(--cr-space-2)',
+              }}
+            >
+              <div
+                style={{
+                  font: 'var(--cr-body-reg)',
+                  color: 'var(--cr-ink)',
+                  lineHeight: 1.6,
+                  whiteSpace: 'pre-line',
+                }}
+              >
                 {podcast.additionalInfo}
               </div>
               {podcast.transcriptUrl && (
-                <p style={{
-                  font: 'var(--cr-body-reg)',
-                  color: 'var(--cr-ink)',
-                  marginTop: 'var(--cr-space-4)',
-                  marginBottom: 0
-                }}>
+                <p
+                  style={{
+                    font: 'var(--cr-body-reg)',
+                    color: 'var(--cr-ink)',
+                    marginTop: 'var(--cr-space-4)',
+                    marginBottom: 0,
+                  }}
+                >
                   <a
                     href={podcast.transcriptUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
                       color: 'var(--cr-secondary-700)',
-                      textDecoration: 'underline'
+                      textDecoration: 'underline',
                     }}
                   >
                     Read a transcript of the interview here.
@@ -154,25 +164,31 @@ const PodcastDetailPage: React.FC = () => {
           )}
 
           {podcast.soundCloudEmbedUrl && (
-            <div style={{
-              marginTop: 'var(--cr-space-8)',
-              maxWidth: '1000px',
-              padding: 'var(--cr-space-6)',
-              backgroundColor: 'var(--cr-paper)',
-              border: '1px solid var(--cr-default-300)',
-              borderRadius: 'var(--cr-space-2)'
-            }}>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: 'var(--cr-space-4)'
-              }}>
-                <h2 style={{
-                  font: 'var(--cr-title-sm)',
-                  color: 'var(--cr-ink)',
-                  margin: 0
-                }}>
+            <div
+              style={{
+                marginTop: 'var(--cr-space-8)',
+                maxWidth: '1000px',
+                padding: 'var(--cr-space-6)',
+                backgroundColor: 'var(--cr-paper)',
+                border: '1px solid var(--cr-default-300)',
+                borderRadius: 'var(--cr-space-2)',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 'var(--cr-space-4)',
+                }}
+              >
+                <h2
+                  style={{
+                    font: 'var(--cr-title-sm)',
+                    color: 'var(--cr-ink)',
+                    margin: 0,
+                  }}
+                >
                   Listen to the Episode
                 </h2>
                 <CrButton
@@ -193,23 +209,39 @@ const PodcastDetailPage: React.FC = () => {
                 title={`${podcast.title} SoundCloud Player`}
                 style={{
                   borderRadius: 'var(--cr-space-1)',
-                  marginBottom: 'var(--cr-space-2)'
+                  marginBottom: 'var(--cr-space-2)',
                 }}
               />
-              <div style={{
-                fontSize: '10px',
-                color: 'var(--cr-default-500)',
-                lineBreak: 'anywhere',
-                wordBreak: 'normal',
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
-                fontFamily: 'var(--cr-font-roboto-serif)',
-                fontWeight: 400
-              }}>
-                <a href="https://soundcloud.com/chirpradio" title="CHIRP Radio" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--cr-secondary-700)', textDecoration: 'none' }}>
+              <div
+                style={{
+                  fontSize: '10px',
+                  color: 'var(--cr-default-500)',
+                  lineBreak: 'anywhere',
+                  wordBreak: 'normal',
+                  overflow: 'hidden',
+                  whiteSpace: 'nowrap',
+                  textOverflow: 'ellipsis',
+                  fontFamily: 'var(--cr-font-roboto-serif)',
+                  fontWeight: 400,
+                }}
+              >
+                <a
+                  href="https://soundcloud.com/chirpradio"
+                  title="CHIRP Radio"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: 'var(--cr-secondary-700)', textDecoration: 'none' }}
+                >
                   CHIRP Radio
-                </a> · <a href="https://soundcloud.com/chirpradio/mac-sabbath-interview" title="Mac Sabbath Interview" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--cr-secondary-700)', textDecoration: 'none' }}>
+                </a>{' '}
+                ·{' '}
+                <a
+                  href="https://soundcloud.com/chirpradio/mac-sabbath-interview"
+                  title="Mac Sabbath Interview"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: 'var(--cr-secondary-700)', textDecoration: 'none' }}
+                >
                   Mac Sabbath Interview
                 </a>
               </div>

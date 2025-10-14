@@ -13,124 +13,132 @@ const volunteerEvents = [
     startDate: '2025-10-15',
     endDate: '2025-10-15',
     dateTime: 'Wednesday, October 15, 2025 at 6:00 PM',
-    description: 'Welcome session for new CHIRP Radio volunteers. Learn about our mission, meet the team, and discover how you can contribute to independent radio.',
+    description:
+      'Welcome session for new CHIRP Radio volunteers. Learn about our mission, meet the team, and discover how you can contribute to independent radio.',
     location: 'CHIRP Radio Studio, 4045 N Rockwell St',
     eventDetails: [
       'Introduction to CHIRP Radio',
       'Tour of the studio facilities',
       'Overview of volunteer opportunities',
       'Meet current volunteers and staff',
-      'Q&A session'
+      'Q&A session',
     ],
-    moreInfoUrl: 'https://chirpradio.org/volunteer'
+    moreInfoUrl: 'https://chirpradio.org/volunteer',
   },
   {
     name: 'DJ Training Workshop - Level 1',
     startDate: '2025-10-18',
     endDate: '2025-10-18',
     dateTime: 'Saturday, October 18, 2025 at 10:00 AM',
-    description: 'Hands-on training for aspiring DJs. Learn the basics of radio broadcasting, equipment operation, and show preparation.',
+    description:
+      'Hands-on training for aspiring DJs. Learn the basics of radio broadcasting, equipment operation, and show preparation.',
     location: 'CHIRP Radio Studio, 4045 N Rockwell St',
     eventDetails: [
       'Introduction to radio broadcasting',
       'Equipment and studio walkthrough',
       'FCC regulations and best practices',
       'Music selection and programming',
-      'Voice training basics'
+      'Voice training basics',
     ],
-    moreInfoUrl: 'https://chirpradio.org/volunteer'
+    moreInfoUrl: 'https://chirpradio.org/volunteer',
   },
   {
     name: 'Volunteer Appreciation Mixer',
     startDate: '2025-10-22',
     endDate: '2025-10-22',
     dateTime: 'Wednesday, October 22, 2025 at 7:00 PM',
-    description: 'Join us for an evening celebrating our amazing volunteer community. Food, drinks, and music provided.',
+    description:
+      'Join us for an evening celebrating our amazing volunteer community. Food, drinks, and music provided.',
     location: 'Empty Bottle, 1035 N Western Ave',
     eventDetails: [
       'Complimentary food and drinks',
       'Live DJ set from CHIRP volunteers',
       'Networking with fellow volunteers',
       'Recognition awards',
-      '21+ event'
-    ]
+      '21+ event',
+    ],
   },
   {
     name: 'Content Team Meeting',
     startDate: '2025-10-25',
     endDate: '2025-10-25',
     dateTime: 'Saturday, October 25, 2025 at 2:00 PM',
-    description: 'Monthly meeting for volunteers involved in content creation, social media, and web development.',
+    description:
+      'Monthly meeting for volunteers involved in content creation, social media, and web development.',
     location: 'Virtual Meeting (Zoom)',
     eventDetails: [
       'Review current content initiatives',
       'Plan upcoming campaigns',
       'Discuss website improvements',
       'Social media strategy',
-      'Open discussion and ideas'
-    ]
+      'Open discussion and ideas',
+    ],
   },
   {
     name: 'Record Fair Volunteer Day',
     startDate: '2025-11-01',
     endDate: '2025-11-01',
     dateTime: 'Sunday, November 1, 2025 at 9:00 AM',
-    description: 'Help staff the CHIRP booth at the Chicago Record Fair. Great opportunity to connect with music lovers and promote the station.',
+    description:
+      'Help staff the CHIRP booth at the Chicago Record Fair. Great opportunity to connect with music lovers and promote the station.',
     location: 'Plumbers Hall, 1340 W Washington Blvd',
     eventDetails: [
       'Setup at 9:00 AM',
       'Event runs 10:00 AM - 5:00 PM',
       'Shifts available throughout the day',
       'Free admission for volunteers',
-      'Discount on record purchases'
-    ]
+      'Discount on record purchases',
+    ],
   },
   {
     name: 'DJ Training Workshop - Level 2',
     startDate: '2025-11-08',
     endDate: '2025-11-08',
     dateTime: 'Sunday, November 8, 2025 at 1:00 PM',
-    description: 'Advanced DJ training covering show structure, guest interviews, and live performance techniques.',
+    description:
+      'Advanced DJ training covering show structure, guest interviews, and live performance techniques.',
     location: 'CHIRP Radio Studio, 4045 N Rockwell St',
     eventDetails: [
       'Advanced board operation',
       'Interview techniques',
       'Live performance coordination',
       'Show planning and structure',
-      'Prerequisite: Level 1 training'
+      'Prerequisite: Level 1 training',
     ],
-    moreInfoUrl: 'https://chirpradio.org/volunteer'
+    moreInfoUrl: 'https://chirpradio.org/volunteer',
   },
   {
     name: 'Fundraiser Planning Committee',
     startDate: '2025-11-12',
     endDate: '2025-11-12',
     dateTime: 'Thursday, November 12, 2025 at 6:30 PM',
-    description: 'Help plan our winter fundraiser concert. All volunteers welcome to contribute ideas and assist with event logistics.',
+    description:
+      'Help plan our winter fundraiser concert. All volunteers welcome to contribute ideas and assist with event logistics.',
     location: 'CHIRP Radio Studio, 4045 N Rockwell St',
     eventDetails: [
       'Review venue options',
       'Discuss potential performers',
       'Plan promotional strategy',
       'Assign volunteer roles',
-      'Budget review'
-    ]
+      'Budget review',
+    ],
   },
   {
     name: 'Music Library Organization Day',
     startDate: '2025-11-16',
     endDate: '2025-11-16',
     dateTime: 'Monday, November 16, 2025 at 5:00 PM',
-    description: 'Help organize and catalog our vinyl and CD collection. Perfect for music enthusiasts who want to get hands-on with our library.',
+    description:
+      'Help organize and catalog our vinyl and CD collection. Perfect for music enthusiasts who want to get hands-on with our library.',
     location: 'CHIRP Radio Studio, 4045 N Rockwell St',
     eventDetails: [
       'Catalog new arrivals',
       'Organize by genre and artist',
       'Quality check existing inventory',
       'Digital database updates',
-      'Pizza provided!'
-    ]
-  }
+      'Pizza provided!',
+    ],
+  },
 ]
 
 const VolunteerCalendarPage: React.FC = () => {
@@ -181,28 +189,29 @@ const VolunteerCalendarPage: React.FC = () => {
             showEyebrow={false}
             showActionButton={false}
           />
-          {events && events.slice(0, 3).map((event) => (
-            <CrCard
-              key={event.id}
-              variant="small"
-              bannerHeight="tall"
-              textLayout="stacked"
-              textureBackground="cr-bg-natural-d100"
-              backgroundImage={event.featuredImage}
-              preheader={event.category}
-              title={event.title}
-              dateTime={new Date(event.date).toLocaleString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit'
-              })}
-              venue={event.venue.name}
-              contentSummary={event.excerpt || event.description}
-              onClick={() => handleChirpEventClick(event)}
-            />
-          ))}
+          {events &&
+            events.slice(0, 3).map((event) => (
+              <CrCard
+                key={event.id}
+                variant="small"
+                bannerHeight="tall"
+                textLayout="stacked"
+                textureBackground="cr-bg-natural-d100"
+                backgroundImage={event.featuredImage}
+                preheader={event.category}
+                title={event.title}
+                dateTime={new Date(event.date).toLocaleString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                  hour: 'numeric',
+                  minute: '2-digit',
+                })}
+                venue={event.venue.name}
+                contentSummary={event.excerpt || event.description}
+                onClick={() => handleChirpEventClick(event)}
+              />
+            ))}
         </div>
       </div>
     </div>

@@ -72,7 +72,12 @@ export default function CrCurrentDjCard({
           <h2 className="cr-current-dj-card__title">
             {title}
             {isFavorite && (
-              <CrChip variant="secondary-light" size="small" squared style={{ marginLeft: 'var(--cr-space-1)' }}>
+              <CrChip
+                variant="secondary-light"
+                size="small"
+                squared
+                style={{ marginLeft: 'var(--cr-space-1)' }}
+              >
                 FAVORITE
               </CrChip>
             )}

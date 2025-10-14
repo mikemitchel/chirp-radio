@@ -102,7 +102,7 @@
 }
 
 /* Dark mode - make logo white */
-[data-theme="dark"] .cr-sidebar__logo-section .cr-logo__image {
+[data-theme='dark'] .cr-sidebar__logo-section .cr-logo__image {
   filter: brightness(0) invert(1);
 }
 
@@ -121,7 +121,9 @@
   padding: 0;
   text-align: left;
   line-height: 1;
-  transition: color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    color 0.15s ease,
+    box-shadow 0.15s ease;
   box-shadow: 0 3px 0 0 transparent;
   display: inline-block;
 }
@@ -148,7 +150,9 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    color 0.15s ease,
+    box-shadow 0.15s ease;
   line-height: 1;
   display: inline-block;
   box-shadow: 0 3px 0 0 transparent;
@@ -179,7 +183,9 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    color 0.15s ease,
+    box-shadow 0.15s ease;
   line-height: 1;
   display: inline-block;
   text-transform: uppercase;
@@ -233,7 +239,9 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    color 0.15s ease,
+    box-shadow 0.15s ease;
   line-height: 1;
   box-shadow: 0 3px 0 0 transparent;
   display: inline-block;
@@ -340,7 +348,7 @@
 }
 
 /* Dark mode - make footer bird logo white */
-[data-theme="dark"] .cr-sidebar__footer-bird .cr-logo__image {
+[data-theme='dark'] .cr-sidebar__footer-bird .cr-logo__image {
   filter: brightness(0) invert(1);
 }
 

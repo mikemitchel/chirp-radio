@@ -94,34 +94,40 @@ export default function CrSidebar({
               <div
                 className="cr-sidebar__logo-section"
                 onClick={() => {
-                  if (onLogoClick) onLogoClick();
-                  onClose?.();
+                  if (onLogoClick) onLogoClick()
+                  onClose?.()
                 }}
               >
-                <CrLogo
-                  variant="horizontal"
-                  color="primary"
-                />
+                <CrLogo variant="horizontal" color="primary" />
               </div>
 
               {/* Mobile-specific top sections */}
               <div className="cr-sidebar__mobile-sections">
-                <button className="cr-sidebar__mobile-nav-item" onClick={() => {
-                  onNowPlayingClick?.();
-                  onClose?.();
-                }}>
+                <button
+                  className="cr-sidebar__mobile-nav-item"
+                  onClick={() => {
+                    onNowPlayingClick?.()
+                    onClose?.()
+                  }}
+                >
                   Now Playing
                 </button>
-                <button className="cr-sidebar__mobile-nav-item" onClick={() => {
-                  onRecentPlaylistClick?.();
-                  onClose?.();
-                }}>
+                <button
+                  className="cr-sidebar__mobile-nav-item"
+                  onClick={() => {
+                    onRecentPlaylistClick?.()
+                    onClose?.()
+                  }}
+                >
                   Recently Played
                 </button>
-                <button className="cr-sidebar__mobile-nav-item" onClick={() => {
-                  onYourCollectionClick?.();
-                  onClose?.();
-                }}>
+                <button
+                  className="cr-sidebar__mobile-nav-item"
+                  onClick={() => {
+                    onYourCollectionClick?.()
+                    onClose?.()
+                  }}
+                >
                   Your Collection
                 </button>
               </div>
@@ -195,8 +201,8 @@ export default function CrSidebar({
                   color="secondary"
                   leftIcon={<PiChatCircleTextLight />}
                   onClick={() => {
-                    onRequestClick?.();
-                    onClose?.();
+                    onRequestClick?.()
+                    onClose?.()
                   }}
                 >
                   Make a Request
@@ -213,8 +219,8 @@ export default function CrSidebar({
                 color="default"
                 leftIcon={<PiGear />}
                 onClick={() => {
-                  onAccountSettingsClick?.();
-                  onClose?.();
+                  onAccountSettingsClick?.()
+                  onClose?.()
                 }}
               >
                 Account Settings
@@ -222,11 +228,7 @@ export default function CrSidebar({
 
               {/* CHIRPRADIO.ORG link with bird logo */}
               <button className="cr-sidebar__footer-chirp" onClick={onLogoClick}>
-                <CrLogo
-                  variant="bird"
-                  color="primary"
-                  className="cr-sidebar__footer-bird"
-                />
+                <CrLogo variant="bird" color="primary" className="cr-sidebar__footer-bird" />
                 <span className="cr-sidebar__footer-chirp-text">Chirpradio.org</span>
               </button>
             </div>
@@ -250,11 +252,10 @@ export default function CrSidebar({
           {/* Header Section */}
           <div className="cr-sidebar__header">
             <div className="cr-sidebar__logo-section" onClick={onLogoClick}>
-              <CrLogo
-                variant="vertical"
-                color="primary"
-              />
-              <span className="cr-sidebar__home-text" onClick={onHomeClick}>Home</span>
+              <CrLogo variant="vertical" color="primary" />
+              <span className="cr-sidebar__home-text" onClick={onHomeClick}>
+                Home
+              </span>
             </div>
             <div className="cr-sidebar__divider"></div>
           </div>

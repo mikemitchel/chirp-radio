@@ -64,19 +64,19 @@ const customIcons = [
     id: 'custom1',
     name: 'Neon',
     preview: '/images/app-icons/custom1.png',
-    description: 'Bright neon style'
+    description: 'Bright neon style',
   },
   {
     id: 'custom2',
     name: 'Gradient',
     preview: '/images/app-icons/custom2.png',
-    description: 'Modern gradient'
+    description: 'Modern gradient',
   },
   {
     id: 'custom3',
     name: 'Monochrome',
     preview: '/images/app-icons/custom3.png',
-    description: 'Simple black & white'
+    description: 'Simple black & white',
   },
 ]
 

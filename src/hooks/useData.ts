@@ -34,7 +34,7 @@ export function useAnnouncements() {
 // Get featured announcement for landing page
 export function useFeaturedAnnouncement() {
   const { data, loading, error } = useAnnouncements()
-  const featured = data?.find(a => a.featuredOnLanding && a.isActive)
+  const featured = data?.find((a) => a.featuredOnLanding && a.isActive)
   return { data: featured, loading, error }
 }
 
@@ -139,14 +139,13 @@ export function useCurrentUser() {
 
 // Update user's favorite DJs
 export function updateUserFavoriteDJs(djId: string, isFavorite: boolean) {
-  usersState = usersState.map(user => {
-    if (user.id === 'user-001') { // Current user
+  usersState = usersState.map((user) => {
+    if (user.id === 'user-001') {
+      // Current user
       const favoriteDJs = user.favoriteDJs || []
       return {
         ...user,
-        favoriteDJs: isFavorite
-          ? [...favoriteDJs, djId]
-          : favoriteDJs.filter(id => id !== djId)
+        favoriteDJs: isFavorite ? [...favoriteDJs, djId] : favoriteDJs.filter((id) => id !== djId),
       }
     }
     return user
@@ -177,8 +176,8 @@ function createSlug(djName: string): string {
 export function useDJs() {
   // Filter users who have DJ roles and map to DJ format
   const djUsers = usersData.users
-    .filter(user => user.role && user.role.includes('DJ'))
-    .map(user => {
+    .filter((user) => user.role && user.role.includes('DJ'))
+    .map((user) => {
       const djName = user.djName || user.firstName || 'DJ'
       return {
         id: user.id,
@@ -192,7 +191,7 @@ export function useDJs() {
         imageSrc: user.profileImage || '',
         fullProfileImage: user.fullProfileImage || user.profileImage || '',
         profileImageOrientation: user.profileImageOrientation || 'square',
-        isSubstitute: user.role === 'Substitute DJ'
+        isSubstitute: user.role === 'Substitute DJ',
       }
     })
 
@@ -206,13 +205,13 @@ export function useDJs() {
 // Get scheduled DJs (not substitutes)
 export function useScheduledDJs() {
   const { data, loading, error } = useDJs()
-  const scheduledDJs = data?.filter(dj => !dj.isSubstitute)
+  const scheduledDJs = data?.filter((dj) => !dj.isSubstitute)
   return { data: scheduledDJs, loading, error }
 }
 
 // Get substitute DJs
 export function useSubstituteDJs() {
   const { data, loading, error } = useDJs()
-  const substituteDJs = data?.filter(dj => dj.isSubstitute)
+  const substituteDJs = data?.filter((dj) => dj.isSubstitute)
   return { data: substituteDJs, loading, error }
 }

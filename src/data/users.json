@@ -1003,7 +1003,16 @@
       "hearAboutChirp": ["Friend"],
       "interests": ["DJ", "Community radio", "Content writing"],
       "wantsToDJ": "yes",
-      "djAvailability": ["Weekday mornings", "Weekday day", "Weekday evening", "Weekday night", "Weekend mornings", "Weekend day", "Weekend evening", "Weekend night"],
+      "djAvailability": [
+        "Weekday mornings",
+        "Weekday day",
+        "Weekday evening",
+        "Weekday night",
+        "Weekend mornings",
+        "Weekend day",
+        "Weekend evening",
+        "Weekend night"
+      ],
       "collection": [],
       "preferences": {
         "emailNotifications": true,
@@ -1245,10 +1254,7 @@
         "darkMode": "dark",
         "autoPlay": true
       },
-      "favoriteDJs": [
-        "dj-001",
-        "dj-027"
-      ]
+      "favoriteDJs": ["dj-001", "dj-027"]
     },
     {
       "id": "user-002",

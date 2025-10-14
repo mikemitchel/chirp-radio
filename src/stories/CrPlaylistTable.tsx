@@ -33,9 +33,9 @@ export default function CrPlaylistTable({
   // Update items with collection status
   useEffect(() => {
     const updateStatus = () => {
-      const updated = items.map(item => ({
+      const updated = items.map((item) => ({
         ...item,
-        isAdded: isInCollection(item.artistName, item.trackName)
+        isAdded: isInCollection(item.artistName, item.trackName),
       }))
       setItemsWithStatus(updated)
     }
@@ -58,19 +58,22 @@ export default function CrPlaylistTable({
       }
 
       // Otherwise, handle add/remove internally
-      const trackId = item.id || `${item.artistName}-${item.trackName}`.replace(/\s+/g, '-').toLowerCase()
+      const trackId =
+        item.id || `${item.artistName}-${item.trackName}`.replace(/\s+/g, '-').toLowerCase()
 
       if (item.isAdded) {
         // Remove from collection
         const removed = removeFromCollection(trackId)
         if (removed) {
-          window.dispatchEvent(new CustomEvent('chirp-show-toast', {
-            detail: {
-              message: `Removed ${item.trackName} from your collection`,
-              type: 'success',
-              duration: 3000,
-            }
-          }))
+          window.dispatchEvent(
+            new CustomEvent('chirp-show-toast', {
+              detail: {
+                message: `Removed ${item.trackName} from your collection`,
+                type: 'success',
+                duration: 3000,
+              },
+            })
+          )
         }
       } else {
         // Add to collection
@@ -86,13 +89,15 @@ export default function CrPlaylistTable({
           isLocal: item.isLocal,
         })
 
-        window.dispatchEvent(new CustomEvent('chirp-show-toast', {
-          detail: {
-            message: `Added ${item.trackName} to your collection`,
-            type: 'success',
-            duration: 3000,
-          }
-        }))
+        window.dispatchEvent(
+          new CustomEvent('chirp-show-toast', {
+            detail: {
+              message: `Added ${item.trackName} to your collection`,
+              type: 'success',
+              duration: 3000,
+            },
+          })
+        )
       }
     })
   }

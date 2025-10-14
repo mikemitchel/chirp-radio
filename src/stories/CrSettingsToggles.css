@@ -54,7 +54,7 @@
   cursor: pointer;
 }
 
-.cr-settings-toggles .form-radio-item input[type="radio"] {
+.cr-settings-toggles .form-radio-item input[type='radio'] {
   width: 20px;
   height: 20px;
   min-width: 20px;
@@ -65,21 +65,21 @@
 }
 
 /* Radio button size variants */
-.cr-settings-toggles .form-radio-item--small input[type="radio"] {
+.cr-settings-toggles .form-radio-item--small input[type='radio'] {
   width: 16px;
   height: 16px;
   min-width: 16px;
   min-height: 16px;
 }
 
-.cr-settings-toggles .form-radio-item--medium input[type="radio"] {
+.cr-settings-toggles .form-radio-item--medium input[type='radio'] {
   width: 20px;
   height: 20px;
   min-width: 20px;
   min-height: 20px;
 }
 
-.cr-settings-toggles .form-radio-item--large input[type="radio"] {
+.cr-settings-toggles .form-radio-item--large input[type='radio'] {
   width: 28px;
   height: 28px;
   min-width: 28px;

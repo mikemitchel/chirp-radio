@@ -577,7 +577,14 @@ export default function CrIconsShowcase() {
                         },
                       },
                       [
-                        React.createElement('span', { key: 'min-label', style: { fontSize: '12px', color: 'var(--cr-default-700)' } }, '16px'),
+                        React.createElement(
+                          'span',
+                          {
+                            key: 'min-label',
+                            style: { fontSize: '12px', color: 'var(--cr-default-700)' },
+                          },
+                          '16px'
+                        ),
                         React.createElement('input', {
                           key: 'size-slider',
                           type: 'range',
@@ -590,7 +597,14 @@ export default function CrIconsShowcase() {
                             cursor: 'pointer',
                           },
                         }),
-                        React.createElement('span', { key: 'max-label', style: { fontSize: '12px', color: 'var(--cr-default-700)' } }, '128px'),
+                        React.createElement(
+                          'span',
+                          {
+                            key: 'max-label',
+                            style: { fontSize: '12px', color: 'var(--cr-default-700)' },
+                          },
+                          '128px'
+                        ),
                       ]
                     ),
                   ]),

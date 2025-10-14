@@ -16,10 +16,7 @@ const VolunteerResourcesPage: React.FC = () => {
       </section>
 
       <section className="volunteer-resources-intro">
-        <CrCard
-          variant="article"
-          imagePosition="none"
-        />
+        <CrCard variant="article" imagePosition="none" />
       </section>
 
       <section className="volunteer-resources-content">

@@ -1,7 +1,14 @@
 // src/pages/NotFoundPage.tsx
 import React from 'react'
 import { useNavigate } from 'react-router'
-import { PiMusicNotes, PiCalendarDots, PiReadCvLogo, PiVinylRecord, PiShoppingBag, PiHeart } from 'react-icons/pi'
+import {
+  PiMusicNotes,
+  PiCalendarDots,
+  PiReadCvLogo,
+  PiVinylRecord,
+  PiShoppingBag,
+  PiHeart,
+} from 'react-icons/pi'
 import CrButton from '../stories/CrButton'
 import CrButtonGroup from '../stories/CrButtonGroup'
 import CrPageHeader from '../stories/CrPageHeader'
@@ -18,53 +25,63 @@ const NotFoundPage: React.FC = () => {
             4<PiVinylRecord />4
           </div>
 
-          <h1 style={{ font: 'var(--cr-title-xl)', color: 'var(--cr-ink)', marginBottom: 'var(--cr-space-4)' }}>
+          <h1
+            style={{
+              font: 'var(--cr-title-xl)',
+              color: 'var(--cr-ink)',
+              marginBottom: 'var(--cr-space-4)',
+            }}
+          >
             Page Not Found
           </h1>
 
-          <p style={{
-            fontSize: 'var(--cr-body-lg)',
-            color: 'var(--cr-default-700)',
-            marginTop: 'var(--cr-space-6)',
-            marginBottom: 'var(--cr-space-8)',
-            maxWidth: '600px',
-            margin: '0 auto',
-            padding: 'var(--cr-space-6) 0'
-          }}>
-            Sorry, we couldn't find the page you're looking for. It may have been moved, deleted, or never existed in the first place.
+          <p
+            style={{
+              fontSize: 'var(--cr-body-lg)',
+              color: 'var(--cr-default-700)',
+              marginTop: 'var(--cr-space-6)',
+              marginBottom: 'var(--cr-space-8)',
+              maxWidth: '600px',
+              margin: '0 auto',
+              padding: 'var(--cr-space-6) 0',
+            }}
+          >
+            Sorry, we couldn't find the page you're looking for. It may have been moved, deleted, or
+            never existed in the first place.
           </p>
 
-          <div style={{
-            display: 'flex',
-            gap: 'var(--cr-space-12)',
-            justifyContent: 'center',
-            marginBottom: 'var(--cr-space-12)'
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: 'var(--cr-space-12)',
+              justifyContent: 'center',
+              marginBottom: 'var(--cr-space-12)',
+            }}
+          >
             <CrButton
               size="large"
               variant="outline"
               color="default"
-              leftIcon={<img src={chirpBirdLogo} alt="CHIRP" style={{ width: '24px', height: '24px' }} />}
+              leftIcon={
+                <img src={chirpBirdLogo} alt="CHIRP" style={{ width: '24px', height: '24px' }} />
+              }
               onClick={() => navigate('/')}
             >
               Home
             </CrButton>
-            <CrButton
-              size="large"
-              variant="solid"
-              color="primary"
-              onClick={() => navigate(-1)}
-            >
+            <CrButton size="large" variant="solid" color="primary" onClick={() => navigate(-1)}>
               Go Back
             </CrButton>
           </div>
 
           <div style={{ marginTop: 'var(--cr-space-12)' }}>
-            <h2 style={{
-              fontSize: 'var(--cr-title-md)',
-              marginBottom: 'var(--cr-space-6)',
-              color: 'var(--cr-ink)'
-            }}>
+            <h2
+              style={{
+                fontSize: 'var(--cr-title-md)',
+                marginBottom: 'var(--cr-space-6)',
+                color: 'var(--cr-ink)',
+              }}
+            >
               Try These Instead
             </h2>
 
@@ -73,33 +90,35 @@ const NotFoundPage: React.FC = () => {
                 {
                   label: 'Home',
                   value: 'home',
-                  rightIcon: <img src={chirpBirdLogo} alt="" style={{ width: '20px', height: '20px' }} />
+                  rightIcon: (
+                    <img src={chirpBirdLogo} alt="" style={{ width: '20px', height: '20px' }} />
+                  ),
                 },
                 {
                   label: 'Listen',
                   value: 'listen',
-                  rightIcon: <PiMusicNotes />
+                  rightIcon: <PiMusicNotes />,
                 },
                 {
                   label: 'Events',
                   value: 'events',
-                  rightIcon: <PiCalendarDots />
+                  rightIcon: <PiCalendarDots />,
                 },
                 {
                   label: 'Articles',
                   value: 'articles',
-                  rightIcon: <PiReadCvLogo />
+                  rightIcon: <PiReadCvLogo />,
                 },
                 {
                   label: 'Store',
                   value: 'store',
-                  rightIcon: <PiShoppingBag />
+                  rightIcon: <PiShoppingBag />,
                 },
                 {
                   label: 'Donate',
                   value: 'donate',
-                  rightIcon: <PiHeart />
-                }
+                  rightIcon: <PiHeart />,
+                },
               ]}
               onSelectionChange={(value) => {
                 const routes = {
@@ -108,7 +127,7 @@ const NotFoundPage: React.FC = () => {
                   events: '/events',
                   articles: '/articles',
                   store: '/shop',
-                  donate: '/donate'
+                  donate: '/donate',
                 }
                 navigate(routes[value])
               }}

@@ -168,18 +168,18 @@
    */
 
   /* Primary breakpoints - Use these for all layout changes */
-  --breakpoint-xxs: 380px;  /* XXS - Extra small mobile (CrStreamingMusicPlayer only) */
-  --breakpoint-xs: 480px;   /* XS - Small mobile (phone portrait) */
-  --breakpoint-sm: 640px;   /* SM - Large mobile (phone landscape / small tablet) */
-  --breakpoint-md: 768px;   /* MD - Tablet portrait (most common mobile→desktop transition) */
+  --breakpoint-xxs: 380px; /* XXS - Extra small mobile (CrStreamingMusicPlayer only) */
+  --breakpoint-xs: 480px; /* XS - Small mobile (phone portrait) */
+  --breakpoint-sm: 640px; /* SM - Large mobile (phone landscape / small tablet) */
+  --breakpoint-md: 768px; /* MD - Tablet portrait (most common mobile→desktop transition) */
   --breakpoint-near-lg: 968px; /* Near-LG - Footer and component-specific */
-  --breakpoint-lg: 1024px;  /* LG - Tablet landscape / small desktop */
+  --breakpoint-lg: 1024px; /* LG - Tablet landscape / small desktop */
   --breakpoint-near-xl: 1200px; /* Near-XL - Medium desktop */
-  --breakpoint-xl: 1280px;  /* XL - Desktop */
+  --breakpoint-xl: 1280px; /* XL - Desktop */
   --breakpoint-2xl: 1440px; /* 2XL - Large desktop / max content width */
 
   /* Component-specific breakpoints */
-  --breakpoint-520: 520px;  /* CrBrandBanner specific */
+  --breakpoint-520: 520px; /* CrBrandBanner specific */
 
   /* === TEXTURE SYSTEM === */
   /* Real texture images */
@@ -223,10 +223,10 @@
 }
 
 body {
-    font: var(--cr-body-reg);
-    background-color: var(--cr-background);
-    color: var(--cr-foreground);
-    overflow-x: hidden;
+  font: var(--cr-body-reg);
+  background-color: var(--cr-background);
+  color: var(--cr-foreground);
+  overflow-x: hidden;
 }
 
 /* === GLOBAL ANCHOR STYLES === */

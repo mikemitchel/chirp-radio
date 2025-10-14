@@ -87,7 +87,7 @@ const ContactPage: React.FC = () => {
               textLayout="inline"
               showTicketButton={false}
               showShareButton={false}
-              contentSummary={`${contactData.socialMedia.description}\n\n${contactData.socialMedia.platforms.map(p => `${p.name}: ${p.handle}`).join('\n')}`}
+              contentSummary={`${contactData.socialMedia.description}\n\n${contactData.socialMedia.platforms.map((p) => `${p.name}: ${p.handle}`).join('\n')}`}
               backgroundImage="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop"
             />
           </div>
@@ -135,7 +135,7 @@ const ContactPage: React.FC = () => {
                   day: 'numeric',
                   year: 'numeric',
                   hour: 'numeric',
-                  minute: '2-digit'
+                  minute: '2-digit',
                 })}
                 venue={events[0].venue.name}
                 showTicketButton={false}
@@ -149,7 +149,10 @@ const ContactPage: React.FC = () => {
           </div>
 
           {/* Articles Section */}
-          <div className="cr-bg-rice-d100" style={{ padding: 'var(--cr-space-6)', marginTop: 'var(--cr-space-6)' }}>
+          <div
+            className="cr-bg-rice-d100"
+            style={{ padding: 'var(--cr-space-6)', marginTop: 'var(--cr-space-6)' }}
+          >
             <CrPageHeader
               title="Recent Article"
               titleTag="h3"
@@ -175,7 +178,7 @@ const ContactPage: React.FC = () => {
                 eventDate={new Date(articles[0].publishedDate).toLocaleDateString('en-US', {
                   month: 'long',
                   day: 'numeric',
-                  year: 'numeric'
+                  year: 'numeric',
                 })}
                 showTicketButton={false}
                 onClick={() => handleArticleClick(articles[0])}

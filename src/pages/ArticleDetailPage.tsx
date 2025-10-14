@@ -18,9 +18,7 @@ const ArticleDetailPage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
 
   // Get 3 most recent articles excluding the current one
-  const recentArticles = allArticles
-    ?.filter(a => a.id !== article?.id)
-    .slice(0, 3) || []
+  const recentArticles = allArticles?.filter((a) => a.id !== article?.id).slice(0, 3) || []
 
   const handleArticleClick = (clickedArticle: any) => {
     navigate(`/articles/${clickedArticle.id}`, { state: { article: clickedArticle } })
@@ -42,7 +40,7 @@ const ArticleDetailPage: React.FC = () => {
         <CrBreadcrumb
           items={[
             { label: 'Articles', isClickable: true, onClick: () => navigate('/articles') },
-            { label: articleTitle, isClickable: false }
+            { label: articleTitle, isClickable: false },
           ]}
         />
       </section>
@@ -66,7 +64,7 @@ const ArticleDetailPage: React.FC = () => {
             eventDate={new Date(article.publishedDate).toLocaleDateString('en-US', {
               month: 'long',
               day: 'numeric',
-              year: 'numeric'
+              year: 'numeric',
             })}
             tags={article.tags}
             excerpt={article.excerpt}
@@ -78,35 +76,41 @@ const ArticleDetailPage: React.FC = () => {
 
           {/* YouTube Video Embed */}
           {article.youtubeVideoId && (
-            <div style={{
-              marginTop: 'var(--cr-space-8)',
-              maxWidth: '1000px',
-              padding: 'var(--cr-space-6)',
-              backgroundColor: 'var(--cr-paper)',
-              border: '1px solid var(--cr-default-300)',
-              borderRadius: 'var(--cr-space-2)'
-            }}>
-              <h2 style={{
-                font: 'var(--cr-title-sm)',
-                color: 'var(--cr-ink)',
-                marginBottom: 'var(--cr-space-4)'
-              }}>
+            <div
+              style={{
+                marginTop: 'var(--cr-space-8)',
+                maxWidth: '1000px',
+                padding: 'var(--cr-space-6)',
+                backgroundColor: 'var(--cr-paper)',
+                border: '1px solid var(--cr-default-300)',
+                borderRadius: 'var(--cr-space-2)',
+              }}
+            >
+              <h2
+                style={{
+                  font: 'var(--cr-title-sm)',
+                  color: 'var(--cr-ink)',
+                  marginBottom: 'var(--cr-space-4)',
+                }}
+              >
                 {article.videoTitle || 'Watch the Video'}
               </h2>
-              <div style={{
-                position: 'relative',
-                paddingBottom: '56.25%', // 16:9 aspect ratio
-                height: 0,
-                overflow: 'hidden',
-                borderRadius: 'var(--cr-space-1)'
-              }}>
+              <div
+                style={{
+                  position: 'relative',
+                  paddingBottom: '56.25%', // 16:9 aspect ratio
+                  height: 0,
+                  overflow: 'hidden',
+                  borderRadius: 'var(--cr-space-1)',
+                }}
+              >
                 <iframe
                   style={{
                     position: 'absolute',
                     top: 0,
                     left: 0,
                     width: '100%',
-                    height: '100%'
+                    height: '100%',
                   }}
                   src={`https://www.youtube.com/embed/${article.youtubeVideoId}`}
                   title="YouTube video player"
@@ -146,7 +150,7 @@ const ArticleDetailPage: React.FC = () => {
               eventDate={new Date(recentArticle.publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               contentSummary={recentArticle.excerpt}
               onClick={() => handleArticleClick(recentArticle)}

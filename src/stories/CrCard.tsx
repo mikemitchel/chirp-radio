@@ -141,11 +141,8 @@ export default function CrCard({
   isFavorite = false,
 }: CrCardProps) {
   // Determine active image aspect ratio based on variant
-  const activeImageAspectRatio = variant === 'article'
-    ? articleImageAspectRatio
-    : variant === 'small'
-      ? '1:1'
-      : imageAspectRatio
+  const activeImageAspectRatio =
+    variant === 'article' ? articleImageAspectRatio : variant === 'small' ? '1:1' : imageAspectRatio
 
   // Click handler
   const handleClick = () => {
@@ -329,27 +326,29 @@ export default function CrCard({
 
                         // Split into blocks first
                         const blocks = html.split('\n\n')
-                        const processedBlocks = blocks.map(block => {
-                          // Check if block contains ordered list items
-                          const lines = block.split('\n')
-                          const isOrderedList = lines.every(line =>
-                            line.trim() === '' || /^\d+\.\s/.test(line)
-                          ) && lines.some(line => /^\d+\.\s/.test(line))
+                        const processedBlocks = blocks
+                          .map((block) => {
+                            // Check if block contains ordered list items
+                            const lines = block.split('\n')
+                            const isOrderedList =
+                              lines.every((line) => line.trim() === '' || /^\d+\.\s/.test(line)) &&
+                              lines.some((line) => /^\d+\.\s/.test(line))
 
-                          if (isOrderedList) {
-                            const listItems = lines
-                              .filter(line => /^\d+\.\s/.test(line))
-                              .map(item => `<li>${item.replace(/^\d+\.\s/, '')}</li>`)
-                              .join('')
-                            return `<ol>${listItems}</ol>`
-                          }
+                            if (isOrderedList) {
+                              const listItems = lines
+                                .filter((line) => /^\d+\.\s/.test(line))
+                                .map((item) => `<li>${item.replace(/^\d+\.\s/, '')}</li>`)
+                                .join('')
+                              return `<ol>${listItems}</ol>`
+                            }
 
-                          // Otherwise wrap in paragraph
-                          return block.trim() ? `<p>${block}</p>` : ''
-                        }).filter(block => block !== '')
+                            // Otherwise wrap in paragraph
+                            return block.trim() ? `<p>${block}</p>` : ''
+                          })
+                          .filter((block) => block !== '')
 
                         return processedBlocks.join('')
-                      })()
+                      })(),
                     }}
                   />
                 )}

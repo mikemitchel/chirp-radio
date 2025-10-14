@@ -32,7 +32,7 @@ const PodcastPage: React.FC = () => {
     return new Date(podcast.episodes[0].publishedDate).toLocaleDateString('en-US', {
       month: 'long',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     })
   }
 

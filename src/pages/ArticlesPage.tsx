@@ -59,7 +59,7 @@ const ArticlesPage: React.FC = () => {
               eventDate={new Date(articles[0].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               tags={articles[0].tags}
               showTicketButton={false}
@@ -102,7 +102,7 @@ const ArticlesPage: React.FC = () => {
               eventDate={new Date(articles[1].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               tags={articles[1].tags}
               contentSummary={articles[1].excerpt}
@@ -123,7 +123,7 @@ const ArticlesPage: React.FC = () => {
               eventDate={new Date(articles[2].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               tags={articles[2].tags}
               contentSummary={articles[2].excerpt}
@@ -146,7 +146,7 @@ const ArticlesPage: React.FC = () => {
               eventDate={new Date(articles[3].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               tags={articles[3].tags}
               contentSummary={articles[3].excerpt}
@@ -167,7 +167,7 @@ const ArticlesPage: React.FC = () => {
               eventDate={new Date(articles[4].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               tags={articles[4].tags}
               contentSummary={articles[4].excerpt}
@@ -213,7 +213,7 @@ const ArticlesPage: React.FC = () => {
               eventDate={new Date(articles[5].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               tags={articles[5].tags}
               contentSummary={articles[5].excerpt}
@@ -237,7 +237,7 @@ const ArticlesPage: React.FC = () => {
               eventDate={new Date(articles[6].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               tags={articles[6].tags}
               contentSummary={articles[6].excerpt}
@@ -261,7 +261,7 @@ const ArticlesPage: React.FC = () => {
               eventDate={new Date(articles[7].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
-                year: 'numeric'
+                year: 'numeric',
               })}
               tags={articles[7].tags}
               contentSummary={articles[7].excerpt}
