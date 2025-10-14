@@ -43,6 +43,9 @@ import ListenPage from './pages/ListenPage';
 import LeadershipDirectoryPage from './pages/LeadershipDirectoryPage';
 import VolunteerDownloadsPage from './pages/VolunteerDownloadsPage';
 import WebsitesToRememberPage from './pages/WebsitesToRememberPage';
+import NotFoundPage from './pages/NotFoundPage';
+import ServerErrorPage from './pages/ServerErrorPage';
+import ForbiddenPage from './pages/ForbiddenPage';
 
 // Redirect component to route mobile app users to /app
 function RootRedirect() {
@@ -147,6 +150,13 @@ function App() {
         <Route path="/collection" element={<WebLayout><ProtectedRoute requireLogin={true}><YourCollection /></ProtectedRoute></WebLayout>} />
         <Route path="/request-song" element={<WebLayout><RequestSongPage /></WebLayout>} />
         <Route path="/thank-you" element={<WebLayout><ThankYouPage /></WebLayout>} />
+
+        {/* Error pages */}
+        <Route path="/403" element={<WebLayout><ForbiddenPage /></WebLayout>} />
+        <Route path="/500" element={<WebLayout><ServerErrorPage /></WebLayout>} />
+
+        {/* 404 catch-all route - must be last */}
+        <Route path="*" element={<WebLayout><NotFoundPage /></WebLayout>} />
         </Routes>
       </HashRouter>
     </CartProvider>

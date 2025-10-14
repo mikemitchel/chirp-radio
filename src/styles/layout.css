@@ -251,6 +251,20 @@
 }
 
 /* ============================================ */
+/* === ERROR PAGE STYLES === */
+/* ============================================ */
+
+.error-page-number {
+  font: var(--cr-title-2xl);
+  font-size: 120px;
+  color: var(--cr-primary-500);
+  margin-bottom: var(--cr-space-4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================ */
 /* === LAYOUT UTILITIES === */
 /* Reusable utility classes for consistent layouts */
 /* ============================================ */

@@ -43,6 +43,8 @@
 .cr-button-group {
   display: flex;
   gap: var(--cr-space-2);
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .cr-button-group--vertical {
