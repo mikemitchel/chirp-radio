@@ -15,6 +15,25 @@
   border-top: 4px solid var(--cr-primary-500);
 }
 
+/* Fixed Bottom Player */
+.web-layout-bottom-player {
+  position: fixed;
+  bottom: var(--cr-space-4);
+  right: var(--cr-space-4);
+  z-index: 100;
+  transform: translateY(calc(100% + var(--cr-space-4)));
+  transition: transform 0.3s ease-in-out;
+}
+
+.web-layout-bottom-player--visible {
+  transform: translateY(0);
+}
+
+/* Player styling in corner */
+.web-layout-bottom-player .cr-player {
+  width: 480px;
+}
+
 /* ============================================ */
 /* === STANDARD PAGE LAYOUTS === */
 /* Reusable layout patterns for all pages */

@@ -6,6 +6,7 @@ import CrFooter from '../stories/CrFooter'
 import CrSupportWithAds from '../stories/CrSupportWithAds'
 import CrSidebar from '../stories/CrSidebar'
 import CrScrim from '../stories/CrScrim'
+import CrStreamingMusicPlayer from '../stories/CrStreamingMusicPlayer'
 import GlobalNotifications from '../components/GlobalNotifications'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 import { NotificationProvider, useNotification } from '../contexts/NotificationContext'
@@ -26,8 +27,28 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
   const { showToast } = useNotification()
   const { data: currentShow } = useCurrentShow()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [showBottomPlayer, setShowBottomPlayer] = useState(false)
 
   const cartItemCount = getTotalItems()
+
+  // Scroll detection for bottom player
+  useEffect(() => {
+    const handleScroll = () => {
+      // Get the header height (CrAppHeader)
+      const header = document.querySelector('.cr-app-header')
+      const headerHeight = header ? header.offsetHeight : 200
+
+      // Show player when scrolled past header, hide when at top
+      if (window.scrollY > headerHeight) {
+        setShowBottomPlayer(true)
+      } else {
+        setShowBottomPlayer(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // Show toast if flags are set (for post-reload toasts)
   useEffect(() => {
@@ -192,6 +213,14 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
           <CrSupportWithAds />
         </div>
         <CrFooter />
+      </div>
+
+      {/* Fixed Bottom Player - slides up when scrolling past header */}
+      <div className={`web-layout-bottom-player ${showBottomPlayer ? 'web-layout-bottom-player--visible' : ''}`}>
+        <CrStreamingMusicPlayer
+          variant="mini-player"
+          autoFetch={true}
+        />
       </div>
 
       {/* Global Notifications - Toasts & Modals */}
