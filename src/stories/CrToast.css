@@ -321,10 +321,13 @@
 
 @media (max-width: 480px) {
   .cr-toast {
-    top: calc(env(safe-area-inset-top) + 80px) !important; /* Position below mobile header */
-    max-width: calc(100vw - 32px) !important; /* Account for padding */
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+    top: auto !important; /* Reset top positioning */
+    bottom: calc(80px + var(--cr-space-3)) !important; /* Position above mobile player (80px) with gap */
+    left: var(--cr-space-3) !important; /* Left margin */
+    right: var(--cr-space-3) !important; /* Right margin */
+    max-width: none !important; /* Allow full width */
+    width: auto !important; /* Fill available space between margins */
+    transform: none !important; /* Reset transform */
   }
 
   .cr-toast__content {
