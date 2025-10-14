@@ -34,7 +34,8 @@ export default function CrDjDonation({
         <div className="cr-dj-donation__content">
           <h3 className="cr-dj-donation__title">Support CHIRP Radio</h3>
           <p className="cr-dj-donation__description">
-            Donate to {djName}'s personal fundraising page and help them raise money for CHIRP this year!
+            Donate to {djName}'s personal fundraising page and help them raise money for CHIRP this
+            year!
           </p>
         </div>
         <div className="cr-dj-donation__action">

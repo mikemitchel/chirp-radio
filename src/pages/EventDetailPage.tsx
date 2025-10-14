@@ -21,9 +21,7 @@ const EventDetailPage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
 
   // Get 3 most recent events excluding the current one
-  const recentEvents = allEvents
-    ?.filter(e => e.id !== event?.id)
-    .slice(0, 3) || []
+  const recentEvents = allEvents?.filter((e) => e.id !== event?.id).slice(0, 3) || []
 
   const handleEventClick = (clickedEvent: any) => {
     navigate(`/events/${clickedEvent.id}`, { state: { event: clickedEvent } })
@@ -53,7 +51,7 @@ const EventDetailPage: React.FC = () => {
         <CrBreadcrumb
           items={[
             { label: 'Events', isClickable: true, onClick: () => navigate('/events') },
-            { label: eventTitle, isClickable: false }
+            { label: eventTitle, isClickable: false },
           ]}
         />
       </section>
@@ -78,7 +76,7 @@ const EventDetailPage: React.FC = () => {
               day: 'numeric',
               year: 'numeric',
               hour: 'numeric',
-              minute: '2-digit'
+              minute: '2-digit',
             })}
             venue={event.venue.name}
             ageRestriction={event.ageRestriction}
@@ -90,25 +88,31 @@ const EventDetailPage: React.FC = () => {
           />
 
           {/* Event Details Section */}
-          <div style={{
-            marginTop: 'var(--cr-space-8)',
-            maxWidth: '1000px',
-            padding: 'var(--cr-space-6)',
-            backgroundColor: 'var(--cr-paper)',
-            border: '1px solid var(--cr-default-300)',
-            borderRadius: 'var(--cr-space-2)'
-          }}>
-            <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: 'var(--cr-space-4)'
-            }}>
-              <h2 style={{
-                font: 'var(--cr-title-sm)',
-                color: 'var(--cr-ink)',
-                margin: 0
-              }}>
+          <div
+            style={{
+              marginTop: 'var(--cr-space-8)',
+              maxWidth: '1000px',
+              padding: 'var(--cr-space-6)',
+              backgroundColor: 'var(--cr-paper)',
+              border: '1px solid var(--cr-default-300)',
+              borderRadius: 'var(--cr-space-2)',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: 'var(--cr-space-4)',
+              }}
+            >
+              <h2
+                style={{
+                  font: 'var(--cr-title-sm)',
+                  color: 'var(--cr-ink)',
+                  margin: 0,
+                }}
+              >
                 Event Details
               </h2>
               <CrButton
@@ -125,85 +129,104 @@ const EventDetailPage: React.FC = () => {
               </CrButton>
             </div>
 
-            <div className="event-details-grid" style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: 'var(--cr-space-6)'
-            }}>
+            <div
+              className="event-details-grid"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: 'var(--cr-space-6)',
+              }}
+            >
               {/* Left Column - Date & Time */}
               <div>
-                <div style={{
-                  font: 'var(--cr-body-xs)',
-                  color: 'var(--cr-default-700)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  marginBottom: 'var(--cr-space-1)'
-                }}>
+                <div
+                  style={{
+                    font: 'var(--cr-body-xs)',
+                    color: 'var(--cr-default-700)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    marginBottom: 'var(--cr-space-1)',
+                  }}
+                >
                   Date & Time
                 </div>
-                <div style={{
-                  font: 'var(--cr-body-reg)',
-                  color: 'var(--cr-ink)',
-                  marginBottom: 'var(--cr-space-3)'
-                }}>
+                <div
+                  style={{
+                    font: 'var(--cr-body-reg)',
+                    color: 'var(--cr-ink)',
+                    marginBottom: 'var(--cr-space-3)',
+                  }}
+                >
                   {new Date(event.date).toLocaleString('en-US', {
                     weekday: 'long',
                     month: 'long',
                     day: 'numeric',
                     year: 'numeric',
                     hour: 'numeric',
-                    minute: '2-digit'
+                    minute: '2-digit',
                   })}
                 </div>
 
                 {/* Age Restriction Chip */}
-                <CrChip variant="secondary">
-                  {event.ageRestriction}
-                </CrChip>
+                <CrChip variant="secondary">{event.ageRestriction}</CrChip>
               </div>
 
               {/* Right Column - Venue */}
               <div>
-                <div style={{
-                  font: 'var(--cr-body-xs)',
-                  color: 'var(--cr-default-700)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                  marginBottom: 'var(--cr-space-1)'
-                }}>
+                <div
+                  style={{
+                    font: 'var(--cr-body-xs)',
+                    color: 'var(--cr-default-700)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    marginBottom: 'var(--cr-space-1)',
+                  }}
+                >
                   Venue
                 </div>
-                <div style={{
-                  font: 'var(--cr-body-reg)',
-                  color: 'var(--cr-ink)'
-                }}>
+                <div
+                  style={{
+                    font: 'var(--cr-body-reg)',
+                    color: 'var(--cr-ink)',
+                  }}
+                >
                   {event.venue.name}
                 </div>
 
                 {/* Address (no label) */}
                 {event.venue.address && (
-                  <div style={{
-                    font: 'var(--cr-body-reg)',
-                    color: 'var(--cr-ink)',
-                    marginTop: 'var(--cr-space-2)'
-                  }}>
+                  <div
+                    style={{
+                      font: 'var(--cr-body-reg)',
+                      color: 'var(--cr-ink)',
+                      marginTop: 'var(--cr-space-2)',
+                    }}
+                  >
                     {event.venue.address}
                     {event.venue.city && event.venue.state && (
-                      <><br />{event.venue.city}, {event.venue.state} {event.venue.zip}</>
+                      <>
+                        <br />
+                        {event.venue.city}, {event.venue.state} {event.venue.zip}
+                      </>
                     )}
                   </div>
                 )}
 
                 {/* Phone (no label) */}
                 {event.venue.phone && (
-                  <div style={{
-                    font: 'var(--cr-body-reg)',
-                    marginTop: 'var(--cr-space-2)'
-                  }}>
-                    <a href={`tel:${event.venue.phone}`} style={{
-                      color: 'var(--cr-secondary-700)',
-                      textDecoration: 'none'
-                    }}>
+                  <div
+                    style={{
+                      font: 'var(--cr-body-reg)',
+                      marginTop: 'var(--cr-space-2)',
+                    }}
+                  >
+                    <a
+                      href={`tel:${event.venue.phone}`}
+                      style={{
+                        color: 'var(--cr-secondary-700)',
+                        textDecoration: 'none',
+                      }}
+                    >
                       {event.venue.phone}
                     </a>
                   </div>
@@ -240,7 +263,7 @@ const EventDetailPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={recentEvent.venue.name}
               contentSummary={recentEvent.description}

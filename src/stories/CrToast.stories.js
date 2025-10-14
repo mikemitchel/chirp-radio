@@ -174,10 +174,12 @@ export const Default = {
       }
     }, [args.showToast])
 
-    return isVisible ? React.createElement(CrToast, {
-      ...args,
-      onClose: () => setIsVisible(false)
-    }) : null
+    return isVisible
+      ? React.createElement(CrToast, {
+          ...args,
+          onClose: () => setIsVisible(false),
+        })
+      : null
   },
   args: {
     type: 'success',
@@ -207,10 +209,12 @@ export const Success = {
       }
     }, [args.showToast])
 
-    return isVisible ? React.createElement(CrToast, {
-      ...args,
-      onClose: () => setIsVisible(false)
-    }) : null
+    return isVisible
+      ? React.createElement(CrToast, {
+          ...args,
+          onClose: () => setIsVisible(false),
+        })
+      : null
   },
   args: {
     type: 'success',
@@ -240,10 +244,12 @@ export const Info = {
       }
     }, [args.showToast])
 
-    return isVisible ? React.createElement(CrToast, {
-      ...args,
-      onClose: () => setIsVisible(false)
-    }) : null
+    return isVisible
+      ? React.createElement(CrToast, {
+          ...args,
+          onClose: () => setIsVisible(false),
+        })
+      : null
   },
   args: {
     type: 'info',
@@ -273,10 +279,12 @@ export const Warning = {
       }
     }, [args.showToast])
 
-    return isVisible ? React.createElement(CrToast, {
-      ...args,
-      onClose: () => setIsVisible(false)
-    }) : null
+    return isVisible
+      ? React.createElement(CrToast, {
+          ...args,
+          onClose: () => setIsVisible(false),
+        })
+      : null
   },
   args: {
     type: 'warning',
@@ -306,10 +314,12 @@ export const Error = {
       }
     }, [args.showToast])
 
-    return isVisible ? React.createElement(CrToast, {
-      ...args,
-      onClose: () => setIsVisible(false)
-    }) : null
+    return isVisible
+      ? React.createElement(CrToast, {
+          ...args,
+          onClose: () => setIsVisible(false),
+        })
+      : null
   },
   args: {
     type: 'error',
@@ -339,10 +349,12 @@ export const OverTextContent = {
       }
     }, [args.showToast])
 
-    return isVisible ? React.createElement(CrToast, {
-      ...args,
-      onClose: () => setIsVisible(false)
-    }) : null
+    return isVisible
+      ? React.createElement(CrToast, {
+          ...args,
+          onClose: () => setIsVisible(false),
+        })
+      : null
   },
   decorators: [withTextBackground],
   args: {
@@ -373,10 +385,12 @@ export const WithoutLink = {
       }
     }, [args.showToast])
 
-    return isVisible ? React.createElement(CrToast, {
-      ...args,
-      onClose: () => setIsVisible(false)
-    }) : null
+    return isVisible
+      ? React.createElement(CrToast, {
+          ...args,
+          onClose: () => setIsVisible(false),
+        })
+      : null
   },
   args: {
     type: 'success',
@@ -404,10 +418,12 @@ export const TitleOnly = {
       }
     }, [args.showToast])
 
-    return isVisible ? React.createElement(CrToast, {
-      ...args,
-      onClose: () => setIsVisible(false)
-    }) : null
+    return isVisible
+      ? React.createElement(CrToast, {
+          ...args,
+          onClose: () => setIsVisible(false),
+        })
+      : null
   },
   args: {
     type: 'info',
@@ -434,10 +450,12 @@ export const WithoutDismiss = {
       }
     }, [args.showToast])
 
-    return isVisible ? React.createElement(CrToast, {
-      ...args,
-      onClose: () => setIsVisible(false)
-    }) : null
+    return isVisible
+      ? React.createElement(CrToast, {
+          ...args,
+          onClose: () => setIsVisible(false),
+        })
+      : null
   },
   args: {
     type: 'success',
@@ -472,10 +490,12 @@ export const OnPlainBackground = {
       }
     }, [args.showToast])
 
-    return isVisible ? React.createElement(CrToast, {
-      ...args,
-      onClose: () => setIsVisible(false)
-    }) : null
+    return isVisible
+      ? React.createElement(CrToast, {
+          ...args,
+          onClose: () => setIsVisible(false),
+        })
+      : null
   },
   decorators: [],
   parameters: {

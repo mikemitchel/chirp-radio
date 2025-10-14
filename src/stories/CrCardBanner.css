@@ -105,7 +105,6 @@
   margin: 0;
 }
 
-
 /* Background variants */
 .cr-card-title-banner:not(.cr-bg-textured):not(.cr-bg-light) {
   background: transparent;

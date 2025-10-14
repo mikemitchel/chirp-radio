@@ -33,7 +33,9 @@
   text-transform: uppercase;
   letter-spacing: 0;
   padding: var(--cr-space-2) 0;
-  transition: color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    color 0.15s ease,
+    box-shadow 0.15s ease;
   font-variation-settings: 'wdth' 100;
   white-space: nowrap;
   display: flex;
@@ -321,7 +323,9 @@
   color: var(--cr-default-500);
   padding: var(--cr-space-1);
   border-radius: 50%;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
   flex-shrink: 0;
 }
 
@@ -383,7 +387,9 @@
   background: var(--cr-default-50);
   border-radius: var(--cr-space-2);
   cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.1s ease;
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
   text-align: left;
   margin-bottom: var(--cr-space-2);
 }

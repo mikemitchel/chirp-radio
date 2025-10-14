@@ -1,102 +1,102 @@
 // src/components/LoginRequiredModal.tsx
-import React, { useState } from 'react';
-import CrModal from '../stories/CrModal';
-import CrButton from '../stories/CrButton';
-import CrButtonGroup from '../stories/CrButtonGroup';
-import './LoginRequiredModal.css';
+import React, { useState } from 'react'
+import CrModal from '../stories/CrModal'
+import CrButton from '../stories/CrButton'
+import CrButtonGroup from '../stories/CrButtonGroup'
+import './LoginRequiredModal.css'
 
 interface LoginRequiredModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onLogin: (email: string, password: string) => void;
-  onSignUp: (email: string, password: string) => void;
+  isOpen: boolean
+  onClose: () => void
+  onLogin: (email: string, password: string) => void
+  onSignUp: (email: string, password: string) => void
 }
 
 export default function LoginRequiredModal({
   isOpen,
   onClose,
   onLogin,
-  onSignUp
+  onSignUp,
 }: LoginRequiredModalProps) {
-  const [mode, setMode] = useState<'login' | 'signup'>('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [mode, setMode] = useState<'login' | 'signup'>('login')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [errors, setErrors] = useState<{
-    email?: string;
-    password?: string;
-    confirmPassword?: string;
-  }>({});
+    email?: string
+    password?: string
+    confirmPassword?: string
+  }>({})
 
   const handleModeChange = (value: string) => {
-    setMode(value as 'login' | 'signup');
+    setMode(value as 'login' | 'signup')
     // Clear errors when switching modes
-    setErrors({});
-  };
+    setErrors({})
+  }
 
   const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // Validation
     const newErrors: {
-      email?: string;
-      password?: string;
-      confirmPassword?: string;
-    } = {};
+      email?: string
+      password?: string
+      confirmPassword?: string
+    } = {}
 
     if (!email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'Email is required'
     } else if (!validateEmail(email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = 'Please enter a valid email address'
     }
 
     if (!password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = 'Password is required'
     } else if (password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
+      newErrors.password = 'Password must be at least 8 characters'
     }
 
     if (mode === 'signup') {
       if (!confirmPassword) {
-        newErrors.confirmPassword = 'Please confirm your password';
+        newErrors.confirmPassword = 'Please confirm your password'
       } else if (password !== confirmPassword) {
-        newErrors.confirmPassword = 'Passwords do not match';
+        newErrors.confirmPassword = 'Passwords do not match'
       }
     }
 
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
+      setErrors(newErrors)
+      return
     }
 
     // Clear errors and submit
-    setErrors({});
+    setErrors({})
 
     if (mode === 'login') {
-      onLogin(email.trim(), password);
+      onLogin(email.trim(), password)
     } else {
-      onSignUp(email.trim(), password);
+      onSignUp(email.trim(), password)
     }
 
     // Clear form
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-  };
+    setEmail('')
+    setPassword('')
+    setConfirmPassword('')
+  }
 
   const handleCancel = () => {
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-    setErrors({});
-    setMode('login');
-    onClose();
-  };
+    setEmail('')
+    setPassword('')
+    setConfirmPassword('')
+    setErrors({})
+    setMode('login')
+    onClose()
+  }
 
   return (
     <CrModal
@@ -155,7 +155,9 @@ export default function LoginRequiredModal({
               className={`login-modal__input ${errors.password ? 'login-modal__input--error' : ''}`}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder={mode === 'login' ? 'Enter your password' : 'Create a password (min 8 characters)'}
+              placeholder={
+                mode === 'login' ? 'Enter your password' : 'Create a password (min 8 characters)'
+              }
             />
             {errors.password && <span className="login-modal__error">{errors.password}</span>}
           </div>
@@ -191,17 +193,12 @@ export default function LoginRequiredModal({
             >
               Cancel
             </CrButton>
-            <CrButton
-              type="submit"
-              variant="solid"
-              color="secondary"
-              size="medium"
-            >
+            <CrButton type="submit" variant="solid" color="secondary" size="medium">
               {mode === 'login' ? 'Log In' : 'Sign Up'}
             </CrButton>
           </div>
         </form>
       </div>
     </CrModal>
-  );
+  )
 }

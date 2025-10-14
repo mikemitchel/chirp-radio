@@ -1,26 +1,26 @@
 // src/components/GlobalNotifications.tsx
-import React from 'react';
-import CrModal from '../stories/CrModal';
-import CrToast from '../stories/CrToast';
-import CrButton from '../stories/CrButton';
-import { useNotification } from '../contexts/NotificationContext';
+import React from 'react'
+import CrModal from '../stories/CrModal'
+import CrToast from '../stories/CrToast'
+import CrButton from '../stories/CrButton'
+import { useNotification } from '../contexts/NotificationContext'
 
 export default function GlobalNotifications() {
-  const { toastState, modalState, hideModal } = useNotification();
+  const { toastState, modalState, hideModal } = useNotification()
 
   const handleModalConfirm = () => {
     if (modalState.onConfirm) {
-      modalState.onConfirm();
+      modalState.onConfirm()
     }
-    hideModal();
-  };
+    hideModal()
+  }
 
   const handleModalCancel = () => {
     if (modalState.onCancel) {
-      modalState.onCancel();
+      modalState.onCancel()
     }
-    hideModal();
-  };
+    hideModal()
+  }
 
   return (
     <>
@@ -34,25 +34,13 @@ export default function GlobalNotifications() {
         showCloseButton={true}
       >
         <div className="cr-modal__body">
-          <p className="cr-modal__text">
-            {modalState.message}
-          </p>
+          <p className="cr-modal__text">{modalState.message}</p>
 
           <div className="cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap">
-            <CrButton
-              variant="outline"
-              color="default"
-              size="medium"
-              onClick={handleModalCancel}
-            >
+            <CrButton variant="outline" color="default" size="medium" onClick={handleModalCancel}>
               {modalState.cancelText}
             </CrButton>
-            <CrButton
-              variant="solid"
-              color="primary"
-              size="medium"
-              onClick={handleModalConfirm}
-            >
+            <CrButton variant="solid" color="primary" size="medium" onClick={handleModalConfirm}>
               {modalState.confirmText}
             </CrButton>
           </div>
@@ -71,5 +59,5 @@ export default function GlobalNotifications() {
         />
       )}
     </>
-  );
+  )
 }

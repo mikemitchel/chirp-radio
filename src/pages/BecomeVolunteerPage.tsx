@@ -95,7 +95,7 @@ const BecomeVolunteerPage: React.FC = () => {
             textLayout="inline"
             showTicketButton={false}
             showShareButton={false}
-            contentSummary={`${volunteerData.benefits.description}\n\n${volunteerData.benefits.items.map(item => `• ${item}`).join('\n')}`}
+            contentSummary={`${volunteerData.benefits.description}\n\n${volunteerData.benefits.items.map((item) => `• ${item}`).join('\n')}`}
             backgroundImage="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800&h=600&fit=crop"
           />
 
@@ -158,7 +158,7 @@ const BecomeVolunteerPage: React.FC = () => {
                   day: 'numeric',
                   year: 'numeric',
                   hour: 'numeric',
-                  minute: '2-digit'
+                  minute: '2-digit',
                 })}
                 venue={events[0].venue.name}
                 showTicketButton={false}
@@ -172,7 +172,10 @@ const BecomeVolunteerPage: React.FC = () => {
           </div>
 
           {/* Articles Section */}
-          <div className="cr-bg-rice-d100" style={{ padding: 'var(--cr-space-6)', marginTop: 'var(--cr-space-6)' }}>
+          <div
+            className="cr-bg-rice-d100"
+            style={{ padding: 'var(--cr-space-6)', marginTop: 'var(--cr-space-6)' }}
+          >
             <CrPageHeader
               title="Recent Article"
               titleTag="h3"
@@ -198,7 +201,7 @@ const BecomeVolunteerPage: React.FC = () => {
                 eventDate={new Date(articles[0].publishedDate).toLocaleDateString('en-US', {
                   month: 'long',
                   day: 'numeric',
-                  year: 'numeric'
+                  year: 'numeric',
                 })}
                 showTicketButton={false}
                 onClick={() => handleArticleClick(articles[0])}

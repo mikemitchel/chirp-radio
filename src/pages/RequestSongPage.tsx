@@ -19,7 +19,9 @@ const RequestSongPage: React.FC = () => {
   const handleSubmit = (data: any) => {
     console.log('Song request submitted:', data)
     // TODO: Send request to API
-    alert(`Request submitted!\n\nSong: ${data.songTitle}\nArtist: ${data.artistName}\n\nThank you for your request!`)
+    alert(
+      `Request submitted!\n\nSong: ${data.songTitle}\nArtist: ${data.artistName}\n\nThank you for your request!`
+    )
   }
 
   const handleCancel = () => {
@@ -62,11 +64,13 @@ const RequestSongPage: React.FC = () => {
           {isLoggedIn ? (
             <>
               <div style={{ marginTop: 'var(--cr-space-4)' }}>
-                <h2 style={{
-                  font: 'var(--cr-title-lg)',
-                  marginBottom: 'var(--cr-space-4)',
-                  color: 'var(--cr-ink)'
-                }}>
+                <h2
+                  style={{
+                    font: 'var(--cr-title-lg)',
+                    marginBottom: 'var(--cr-space-4)',
+                    color: 'var(--cr-ink)',
+                  }}
+                >
                   Submit Your Request
                 </h2>
                 <CrCurrentDj
@@ -76,50 +80,44 @@ const RequestSongPage: React.FC = () => {
                   statusText="On-Air"
                 />
               </div>
-              <CrSongRequestForm
-                title=""
-                onSubmit={handleSubmit}
-                onCancel={handleCancel}
-              />
+              <CrSongRequestForm title="" onSubmit={handleSubmit} onCancel={handleCancel} />
             </>
           ) : (
-            <div style={{
-              padding: 'var(--cr-space-6)',
-              backgroundColor: 'var(--cr-paper)',
-              border: '1px solid var(--cr-default-300)',
-              borderRadius: 'var(--cr-space-2)',
-              marginTop: 'var(--cr-space-4)'
-            }}>
-              <h2 style={{
-                font: 'var(--cr-title-lg)',
-                marginBottom: 'var(--cr-space-4)',
-                color: 'var(--cr-ink)'
-              }}>
+            <div
+              style={{
+                padding: 'var(--cr-space-6)',
+                backgroundColor: 'var(--cr-paper)',
+                border: '1px solid var(--cr-default-300)',
+                borderRadius: 'var(--cr-space-2)',
+                marginTop: 'var(--cr-space-4)',
+              }}
+            >
+              <h2
+                style={{
+                  font: 'var(--cr-title-lg)',
+                  marginBottom: 'var(--cr-space-4)',
+                  color: 'var(--cr-ink)',
+                }}
+              >
                 Login to Submit a Request
               </h2>
-              <p style={{
-                marginBottom: 'var(--cr-space-4)',
-                font: 'var(--cr-body-lg)',
-                color: 'var(--cr-ink)'
-              }}>
-                To submit a song request through our online form, please log in to your CHIRP listener account. Don't have an account? You can still request songs via email, phone, or social media using the methods below!
+              <p
+                style={{
+                  marginBottom: 'var(--cr-space-4)',
+                  font: 'var(--cr-body-lg)',
+                  color: 'var(--cr-ink)',
+                }}
+              >
+                To submit a song request through our online form, please log in to your CHIRP
+                listener account. Don't have an account? You can still request songs via email,
+                phone, or social media using the methods below!
               </p>
 
               <div style={{ display: 'flex', gap: 'var(--cr-space-3)' }}>
-                <CrButton
-                  variant="solid"
-                  color="secondary"
-                  size="medium"
-                  onClick={handleSignUp}
-                >
+                <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUp}>
                   sign up
                 </CrButton>
-                <CrButton
-                  variant="outline"
-                  color="default"
-                  size="medium"
-                  onClick={handleLogin}
-                >
+                <CrButton variant="outline" color="default" size="medium" onClick={handleLogin}>
                   log in
                 </CrButton>
               </div>
@@ -158,7 +156,7 @@ const RequestSongPage: React.FC = () => {
             textLayout="inline"
             showTicketButton={false}
             showShareButton={false}
-            contentSummary={`${requestSongData.tips.description}\n\n${requestSongData.tips.items.map(item => `• ${item}`).join('\n')}`}
+            contentSummary={`${requestSongData.tips.description}\n\n${requestSongData.tips.items.map((item) => `• ${item}`).join('\n')}`}
             backgroundImage="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=600&fit=crop"
           />
 

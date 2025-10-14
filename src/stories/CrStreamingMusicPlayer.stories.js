@@ -8,11 +8,12 @@ export default {
   title: 'Templates/CrStreamingMusicPlayer',
   component: CrStreamingMusicPlayer,
   decorators: [
-    (Story) => React.createElement(
-      AuthProvider,
-      null,
-      React.createElement(AudioPlayerProvider, null, React.createElement(Story))
-    ),
+    (Story) =>
+      React.createElement(
+        AuthProvider,
+        null,
+        React.createElement(AudioPlayerProvider, null, React.createElement(Story))
+      ),
   ],
   parameters: {
     layout: 'centered',
@@ -116,7 +117,8 @@ export const MiniPlayer = {
   parameters: {
     docs: {
       description: {
-        story: 'Compact 60px height player with 40px play button - ideal for fixed bottom corner placement.',
+        story:
+          'Compact 60px height player with 40px play button - ideal for fixed bottom corner placement.',
       },
     },
   },

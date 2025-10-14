@@ -17,6 +17,8 @@
 }
 
 /* Remove bottom padding from banner when inside CrList */
-.cr-rating-card .cr-card-title-banner--tall.cr-card-title-banner--stacked .cr-card-title-banner__content {
+.cr-rating-card
+  .cr-card-title-banner--tall.cr-card-title-banner--stacked
+  .cr-card-title-banner__content {
   padding-bottom: 0;
 }

@@ -14,10 +14,11 @@ const ShopPage: React.FC = () => {
   const { data: playlistData } = usePlaylists()
   const { items: cartItems, removeItem, emptyCart } = useCart()
 
-  const recentPlaylistItems = playlistData?.tracks?.slice(0, 10).map(track => ({
-    ...track,
-    hourData: playlistData?.currentShow
-  })) || []
+  const recentPlaylistItems =
+    playlistData?.tracks?.slice(0, 10).map((track) => ({
+      ...track,
+      hourData: playlistData?.currentShow,
+    })) || []
 
   const handleCheckout = () => {
     navigate('/shop/checkout')
@@ -47,12 +48,17 @@ const ShopPage: React.FC = () => {
             actionButtonText="View Playlist"
             className="shop-recently-played-header"
           />
-          <CrPlaylistTable items={recentPlaylistItems} showHeader={false} groupByHour={false} variant="default" />
+          <CrPlaylistTable
+            items={recentPlaylistItems}
+            showHeader={false}
+            groupByHour={false}
+            variant="default"
+          />
         </div>
 
         <div className="page-layout-main-sidebar__main">
           <div className="shop-items-grid">
-            {shopItems?.map(item => (
+            {shopItems?.map((item) => (
               <CrStoreItemCard
                 key={item.id}
                 name={item.name}

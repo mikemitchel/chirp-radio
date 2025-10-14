@@ -130,7 +130,9 @@ export default function CrRecentlyPlayed({
           showChevron={false}
         />
 
-        <div className={`cr-recently-played__scroll-wrapper ${showGradient ? 'cr-recently-played__scroll-wrapper--gradient' : ''}`}>
+        <div
+          className={`cr-recently-played__scroll-wrapper ${showGradient ? 'cr-recently-played__scroll-wrapper--gradient' : ''}`}
+        >
           <div className="cr-recently-played__scroll-container" ref={scrollRef}>
             <div className="cr-recently-played__track-list">
               {displayedTracks.map((track, index) => (

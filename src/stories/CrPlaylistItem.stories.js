@@ -62,7 +62,8 @@ export default {
     },
     currentlyPlaying: {
       control: 'boolean',
-      description: 'Whether this track is currently playing (shows primary-500 outline on card variant)',
+      description:
+        'Whether this track is currently playing (shows primary-500 outline on card variant)',
     },
   },
   tags: ['autodocs'],

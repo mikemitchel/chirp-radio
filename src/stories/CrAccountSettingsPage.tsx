@@ -84,7 +84,11 @@ export default function CrAccountSettingsPage({
               <div className="cr-account-settings-page__avatar-container">
                 <div className="cr-account-settings-page__avatar">
                   {avatarSrc ? (
-                    <img src={avatarSrc} alt={avatarAlt} className="cr-account-settings-page__avatar-image" />
+                    <img
+                      src={avatarSrc}
+                      alt={avatarAlt}
+                      className="cr-account-settings-page__avatar-image"
+                    />
                   ) : (
                     <div className="cr-account-settings-page__avatar-placeholder">
                       <svg className="cr-account-settings-page__avatar-icon" viewBox="0 0 100 100">
@@ -146,7 +150,11 @@ export default function CrAccountSettingsPage({
                     <div className="cr-account-settings-page__social-link-item">
                       <CrSocialIcon platform="facebook" url={socialLinks.facebook} size={32} />
                       <a
-                        href={socialLinks.facebook.startsWith('http') ? socialLinks.facebook : `https://${socialLinks.facebook}`}
+                        href={
+                          socialLinks.facebook.startsWith('http')
+                            ? socialLinks.facebook
+                            : `https://${socialLinks.facebook}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cr-account-settings-page__social-url"
@@ -159,7 +167,11 @@ export default function CrAccountSettingsPage({
                     <div className="cr-account-settings-page__social-link-item">
                       <CrSocialIcon platform="instagram" url={socialLinks.instagram} size={32} />
                       <a
-                        href={socialLinks.instagram.startsWith('http') ? socialLinks.instagram : `https://${socialLinks.instagram}`}
+                        href={
+                          socialLinks.instagram.startsWith('http')
+                            ? socialLinks.instagram
+                            : `https://${socialLinks.instagram}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cr-account-settings-page__social-url"
@@ -172,7 +184,11 @@ export default function CrAccountSettingsPage({
                     <div className="cr-account-settings-page__social-link-item">
                       <CrSocialIcon platform="twitter" url={socialLinks.twitter} size={32} />
                       <a
-                        href={socialLinks.twitter.startsWith('http') ? socialLinks.twitter : `https://${socialLinks.twitter}`}
+                        href={
+                          socialLinks.twitter.startsWith('http')
+                            ? socialLinks.twitter
+                            : `https://${socialLinks.twitter}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cr-account-settings-page__social-url"
@@ -185,7 +201,11 @@ export default function CrAccountSettingsPage({
                     <div className="cr-account-settings-page__social-link-item">
                       <CrSocialIcon platform="linkedin" url={socialLinks.linkedin} size={32} />
                       <a
-                        href={socialLinks.linkedin.startsWith('http') ? socialLinks.linkedin : `https://${socialLinks.linkedin}`}
+                        href={
+                          socialLinks.linkedin.startsWith('http')
+                            ? socialLinks.linkedin
+                            : `https://${socialLinks.linkedin}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cr-account-settings-page__social-url"
@@ -198,7 +218,11 @@ export default function CrAccountSettingsPage({
                     <div className="cr-account-settings-page__social-link-item">
                       <CrSocialIcon platform="bluesky" url={socialLinks.bluesky} size={32} />
                       <a
-                        href={socialLinks.bluesky.startsWith('http') ? socialLinks.bluesky : `https://${socialLinks.bluesky}`}
+                        href={
+                          socialLinks.bluesky.startsWith('http')
+                            ? socialLinks.bluesky
+                            : `https://${socialLinks.bluesky}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="cr-account-settings-page__social-url"

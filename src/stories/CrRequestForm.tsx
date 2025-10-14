@@ -16,10 +16,7 @@ interface CrRequestFormProps {
   className?: string
 }
 
-export default function CrRequestForm({
-  onSubmit,
-  className = '',
-}: CrRequestFormProps) {
+export default function CrRequestForm({ onSubmit, className = '' }: CrRequestFormProps) {
   const [formData, setFormData] = useState<RequestFormData>({
     songTitle: '',
     artistName: '',

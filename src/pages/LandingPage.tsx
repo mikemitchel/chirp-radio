@@ -10,7 +10,16 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import HeroCarousel from '../components/HeroCarousel'
 import CrRecentlyPlayed from '../components/CrRecentlyPlayed'
-import { useFeaturedAnnouncement, useAnnouncements, useEvents, useArticles, useTracks, useCurrentShow, useScheduledDJs, useCurrentUser } from '../hooks/useData'
+import {
+  useFeaturedAnnouncement,
+  useAnnouncements,
+  useEvents,
+  useArticles,
+  useTracks,
+  useCurrentShow,
+  useScheduledDJs,
+  useCurrentUser,
+} from '../hooks/useData'
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate()
@@ -32,40 +41,45 @@ const LandingPage: React.FC = () => {
   }, [])
 
   // Get first non-featured active announcement for sidebar
-  const sidebarAnnouncement = announcements?.find(a => a.isActive && !a.featuredOnLanding)
+  const sidebarAnnouncement = announcements?.find((a) => a.isActive && !a.featuredOnLanding)
   // Transform events data for hero carousel (take first 3 featured events)
-  const heroSlides = events?.filter(e => e.featured).slice(0, 3).map(event => ({
-    backgroundImage: event.featuredImage,
-    imageCaption: '',
-    preheader: event.category,
-    title: event.title,
-    dateTime: new Date(event.date).toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit'
-    }),
-    venue: event.venue.name,
-    ageRestriction: event.ageRestriction,
-    contentSummary: event.description,
-    bannerButtonText: event.isFree ? 'Learn More' : 'Get Tickets',
-    shareButtonText: 'Share',
-  })) || []
+  const heroSlides =
+    events
+      ?.filter((e) => e.featured)
+      .slice(0, 3)
+      .map((event) => ({
+        backgroundImage: event.featuredImage,
+        imageCaption: '',
+        preheader: event.category,
+        title: event.title,
+        dateTime: new Date(event.date).toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+        }),
+        venue: event.venue.name,
+        ageRestriction: event.ageRestriction,
+        contentSummary: event.description,
+        bannerButtonText: event.isFree ? 'Learn More' : 'Get Tickets',
+        shareButtonText: 'Share',
+      })) || []
 
   // Transform tracks data for recently played (take first 6 from last 2 hours)
-  const recentlyPlayedTracks = tracks?.slice(0, 6).map(track => ({
-    albumArt: track.albumArt,
-    artistName: track.artistName,
-    trackName: track.trackName,
-    albumName: track.albumName,
-    labelName: track.labelName,
-    isLocal: track.isLocal,
-    timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit'
-    }),
-  })) || []
+  const recentlyPlayedTracks =
+    tracks?.slice(0, 6).map((track) => ({
+      albumArt: track.albumArt,
+      artistName: track.artistName,
+      trackName: track.trackName,
+      albumName: track.albumName,
+      labelName: track.labelName,
+      isLocal: track.isLocal,
+      timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+      }),
+    })) || []
 
   return (
     <div className="landing-page">
@@ -120,9 +134,7 @@ const LandingPage: React.FC = () => {
             />
           )}
 
-          <CrAdSpace
-            size="mobile-banner"
-          />
+          <CrAdSpace size="mobile-banner" />
         </div>
       </section>
 
@@ -149,7 +161,7 @@ const LandingPage: React.FC = () => {
             actionButtonIcon={<PiCalendarDots />}
             onActionClick={() => navigate('/events')}
           />
-          {events?.slice(0, 3).map(event => (
+          {events?.slice(0, 3).map((event) => (
             <CrCard
               key={event.id}
               variant="narrow"
@@ -164,7 +176,7 @@ const LandingPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
                 hour: 'numeric',
-                minute: '2-digit'
+                minute: '2-digit',
               })}
               venue={event.venue.name}
               ageRestriction={event.ageRestriction}
@@ -181,7 +193,7 @@ const LandingPage: React.FC = () => {
             actionButtonIcon={<PiReadCvLogo />}
             onActionClick={() => navigate('/articles')}
           />
-          {articles?.slice(0, 6).map(article => (
+          {articles?.slice(0, 6).map((article) => (
             <CrCard
               key={article.id}
               variant="small"
@@ -207,7 +219,7 @@ const LandingPage: React.FC = () => {
             actionButtonIcon={<PiVinylRecord />}
             onActionClick={() => navigate('/schedule')}
           />
-          {djs?.slice(0, 10).map(dj => (
+          {djs?.slice(0, 10).map((dj) => (
             <CrDjOverview
               key={dj.id}
               size="medium"
@@ -222,7 +234,6 @@ const LandingPage: React.FC = () => {
           ))}
         </div>
       </section>
-
     </div>
   )
 }

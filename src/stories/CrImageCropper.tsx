@@ -6,7 +6,11 @@ import CrModal from './CrModal'
 import './CrImageCropper.css'
 
 interface CrImageCropperProps {
-  onImageChange?: (imageData: { fullImage: string; croppedImage: string; orientation?: string }) => void
+  onImageChange?: (imageData: {
+    fullImage: string
+    croppedImage: string
+    orientation?: string
+  }) => void
   maxFileSize?: number
   acceptedFormats?: string
   initialFullImage?: string | null
@@ -38,7 +42,9 @@ export default function CrImageCropper({
   })
 
   // Image orientation state
-  const [orientation, setOrientation] = useState<'square' | 'landscape' | 'portrait'>(initialOrientation)
+  const [orientation, setOrientation] = useState<'square' | 'landscape' | 'portrait'>(
+    initialOrientation
+  )
 
   // UI state
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -490,8 +496,18 @@ export default function CrImageCropper({
                   alt="Full profile"
                   className="cr-image-cropper__image cr-image-cropper__image--full"
                   style={{
-                    width: orientation === 'landscape' ? '400px' : orientation === 'portrait' ? '225px' : '400px',
-                    height: orientation === 'landscape' ? '225px' : orientation === 'portrait' ? '400px' : '400px',
+                    width:
+                      orientation === 'landscape'
+                        ? '400px'
+                        : orientation === 'portrait'
+                          ? '225px'
+                          : '400px',
+                    height:
+                      orientation === 'landscape'
+                        ? '225px'
+                        : orientation === 'portrait'
+                          ? '400px'
+                          : '400px',
                     objectFit: 'cover',
                   }}
                 />
@@ -500,8 +516,18 @@ export default function CrImageCropper({
               <div
                 className="cr-image-cropper__placeholder-initial"
                 style={{
-                  width: orientation === 'landscape' ? '400px' : orientation === 'portrait' ? '225px' : '400px',
-                  height: orientation === 'landscape' ? '225px' : orientation === 'portrait' ? '400px' : '400px',
+                  width:
+                    orientation === 'landscape'
+                      ? '400px'
+                      : orientation === 'portrait'
+                        ? '225px'
+                        : '400px',
+                  height:
+                    orientation === 'landscape'
+                      ? '225px'
+                      : orientation === 'portrait'
+                        ? '400px'
+                        : '400px',
                 }}
               >
                 No image uploaded yet

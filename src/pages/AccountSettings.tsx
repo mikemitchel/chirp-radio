@@ -1,36 +1,48 @@
 // src/pages/AccountSettings.tsx
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router';
-import { PiPencilSimple, PiHandHeart, PiStorefront, PiDownloadSimple } from 'react-icons/pi';
-import CrPageHeader from '../stories/CrPageHeader';
-import CrProfileCard from '../stories/CrProfileCard';
-import CrTable from '../stories/CrTable';
-import CrButton from '../stories/CrButton';
-import CrChip from '../stories/CrChip';
-import CrModal from '../stories/CrModal';
-import CrAppIconSelector from '../stories/CrAppIconSelector';
-import { useAuth } from '../hooks/useAuth';
-import { useNotification } from '../contexts/NotificationContext';
-import { shouldShowIconSelector } from '../utils/deviceDetection';
-import './AccountSettings.css';
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router'
+import { PiPencilSimple, PiHandHeart, PiStorefront, PiDownloadSimple } from 'react-icons/pi'
+import CrPageHeader from '../stories/CrPageHeader'
+import CrProfileCard from '../stories/CrProfileCard'
+import CrTable from '../stories/CrTable'
+import CrButton from '../stories/CrButton'
+import CrChip from '../stories/CrChip'
+import CrModal from '../stories/CrModal'
+import CrAppIconSelector from '../stories/CrAppIconSelector'
+import { useAuth } from '../hooks/useAuth'
+import { useNotification } from '../contexts/NotificationContext'
+import { shouldShowIconSelector } from '../utils/deviceDetection'
+import './AccountSettings.css'
 
 export default function AccountSettings() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { isLoggedIn, user, login, logout, switchProfile, verifyPassword, requestEmailChange, verifyEmailChange, cancelEmailChange } = useAuth();
-  const { showToast } = useNotification();
+  const navigate = useNavigate()
+  const location = useLocation()
+  const {
+    isLoggedIn,
+    user,
+    login,
+    logout,
+    switchProfile,
+    verifyPassword,
+    requestEmailChange,
+    verifyEmailChange,
+    cancelEmailChange,
+  } = useAuth()
+  const { showToast } = useNotification()
 
   // State for profile edit mode
-  const [profileState, setProfileState] = useState<'view' | 'editProfile' | 'editVolunteer' | 'loggedOut'>('view');
+  const [profileState, setProfileState] = useState<
+    'view' | 'editProfile' | 'editVolunteer' | 'loggedOut'
+  >('view')
 
   // Form data state for editing
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<any>({})
 
   // Email change state
-  const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [passwordInput, setPasswordInput] = useState('');
-  const [pendingNewEmail, setPendingNewEmail] = useState<string>('');
-  const [emailChangeError, setEmailChangeError] = useState<string>('');
+  const [showPasswordModal, setShowPasswordModal] = useState(false)
+  const [passwordInput, setPasswordInput] = useState('')
+  const [pendingNewEmail, setPendingNewEmail] = useState<string>('')
+  const [emailChangeError, setEmailChangeError] = useState<string>('')
 
   // Initialize form data when user changes
   useEffect(() => {
@@ -57,132 +69,134 @@ export default function AccountSettings() {
         city: user.city || '',
         state: user.state || '',
         zipCode: user.zipCode || '',
-        socialLinks: user.socialLinks ? Object.entries(user.socialLinks).map(([platform, url]) => ({
-          platform,
-          url: url as string
-        })) : [],
-      });
+        socialLinks: user.socialLinks
+          ? Object.entries(user.socialLinks).map(([platform, url]) => ({
+              platform,
+              url: url as string,
+            }))
+          : [],
+      })
     }
-  }, [user]);
+  }, [user])
 
   // Get the appropriate storage based on login state
-  const getStorage = () => isLoggedIn ? localStorage : sessionStorage;
+  const getStorage = () => (isLoggedIn ? localStorage : sessionStorage)
 
   // Load dark mode preference
   const [darkMode, setDarkMode] = useState<'light' | 'dark' | 'device'>(() => {
-    const storage = getStorage();
-    const saved = storage.getItem('chirp-dark-mode');
+    const storage = getStorage()
+    const saved = storage.getItem('chirp-dark-mode')
     if (saved === 'light' || saved === 'dark' || saved === 'device') {
-      return saved;
+      return saved
     }
-    return 'light'; // Default to light mode
-  });
+    return 'light' // Default to light mode
+  })
 
   // Load streaming quality preference
   const [streamingQuality, setStreamingQuality] = useState(() => {
-    const storage = getStorage();
-    const saved = storage.getItem('chirp-streaming-quality');
-    return saved || '128';
-  });
+    const storage = getStorage()
+    const saved = storage.getItem('chirp-streaming-quality')
+    return saved || '128'
+  })
 
   // App icon state (only relevant for mobile app)
   const [currentAppIcon, setCurrentAppIcon] = useState(() => {
-    const storage = getStorage();
-    const saved = storage.getItem('chirp-app-icon');
-    return saved || 'icon1';
-  });
+    const storage = getStorage()
+    const saved = storage.getItem('chirp-app-icon')
+    return saved || 'icon1'
+  })
 
   // Check if we're in /app routes and should show icon selector
   // In production, only show on iOS 10.3+ with Capacitor
   // In development/browser, always show in /app routes for testing
-  const isInAppRoutes = location.pathname.startsWith('/app');
-  const showIconSelector = isInAppRoutes;
+  const isInAppRoutes = location.pathname.startsWith('/app')
+  const showIconSelector = isInAppRoutes
 
   // Load user's dark mode preference when user changes
   useEffect(() => {
     if (user && user.preferences && user.preferences.darkMode) {
-      setDarkMode(user.preferences.darkMode);
-      const storage = getStorage();
-      storage.setItem('chirp-dark-mode', user.preferences.darkMode);
+      setDarkMode(user.preferences.darkMode)
+      const storage = getStorage()
+      storage.setItem('chirp-dark-mode', user.preferences.darkMode)
     }
-  }, [user?.email]); // Only when user changes (by email as unique identifier)
+  }, [user?.email]) // Only when user changes (by email as unique identifier)
 
   // When login state changes, migrate settings and update profile state
   useEffect(() => {
     if (isLoggedIn) {
       // User just logged in - migrate session settings to localStorage
-      const sessionDarkMode = sessionStorage.getItem('chirp-dark-mode');
-      const sessionQuality = sessionStorage.getItem('chirp-streaming-quality');
+      const sessionDarkMode = sessionStorage.getItem('chirp-dark-mode')
+      const sessionQuality = sessionStorage.getItem('chirp-streaming-quality')
 
       if (sessionDarkMode !== null) {
-        localStorage.setItem('chirp-dark-mode', sessionDarkMode);
-        sessionStorage.removeItem('chirp-dark-mode');
+        localStorage.setItem('chirp-dark-mode', sessionDarkMode)
+        sessionStorage.removeItem('chirp-dark-mode')
       }
 
       if (sessionQuality !== null) {
-        localStorage.setItem('chirp-streaming-quality', sessionQuality);
-        sessionStorage.removeItem('chirp-streaming-quality');
+        localStorage.setItem('chirp-streaming-quality', sessionQuality)
+        sessionStorage.removeItem('chirp-streaming-quality')
       }
 
       // Reload settings from localStorage
-      const savedDarkMode = localStorage.getItem('chirp-dark-mode');
+      const savedDarkMode = localStorage.getItem('chirp-dark-mode')
       if (savedDarkMode === 'light' || savedDarkMode === 'dark' || savedDarkMode === 'device') {
-        setDarkMode(savedDarkMode);
+        setDarkMode(savedDarkMode)
       } else {
-        setDarkMode('light');
+        setDarkMode('light')
       }
-      setStreamingQuality(localStorage.getItem('chirp-streaming-quality') || '128');
+      setStreamingQuality(localStorage.getItem('chirp-streaming-quality') || '128')
 
       // Set profile to view mode
-      setProfileState('view');
+      setProfileState('view')
     } else {
       // User logged out - load from sessionStorage (or defaults if not set)
-      const savedDarkMode = sessionStorage.getItem('chirp-dark-mode');
+      const savedDarkMode = sessionStorage.getItem('chirp-dark-mode')
       if (savedDarkMode === 'light' || savedDarkMode === 'dark' || savedDarkMode === 'device') {
-        setDarkMode(savedDarkMode);
+        setDarkMode(savedDarkMode)
       } else {
-        setDarkMode('light');
+        setDarkMode('light')
       }
-      setStreamingQuality(sessionStorage.getItem('chirp-streaming-quality') || '128');
+      setStreamingQuality(sessionStorage.getItem('chirp-streaming-quality') || '128')
 
       // Set profile to logged out state
-      setProfileState('loggedOut');
+      setProfileState('loggedOut')
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn])
 
   // Apply dark mode on mount and when it changes
   useEffect(() => {
     const applyTheme = () => {
       if (darkMode === 'device') {
         // Follow system preference
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
         if (prefersDark) {
-          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.setAttribute('data-theme', 'dark')
         } else {
-          document.documentElement.removeAttribute('data-theme');
+          document.documentElement.removeAttribute('data-theme')
         }
       } else if (darkMode === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.setAttribute('data-theme', 'dark')
       } else {
-        document.documentElement.removeAttribute('data-theme');
+        document.documentElement.removeAttribute('data-theme')
       }
-    };
+    }
 
-    applyTheme();
+    applyTheme()
 
     // Listen for system preference changes (only if mode is 'device')
     if (darkMode === 'device') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      const handleChange = () => applyTheme();
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+      const handleChange = () => applyTheme()
+      mediaQuery.addEventListener('change', handleChange)
+      return () => mediaQuery.removeEventListener('change', handleChange)
     }
-  }, [darkMode]);
+  }, [darkMode])
 
   const handleDarkModeChange = (mode: 'light' | 'dark' | 'device') => {
-    setDarkMode(mode);
-    const storage = getStorage();
-    storage.setItem('chirp-dark-mode', mode);
+    setDarkMode(mode)
+    const storage = getStorage()
+    storage.setItem('chirp-dark-mode', mode)
 
     // Update user preferences if logged in
     if (user) {
@@ -190,37 +204,37 @@ export default function AccountSettings() {
         ...user,
         preferences: {
           ...user.preferences,
-          darkMode: mode
-        }
-      };
-      localStorage.setItem('chirp-user', JSON.stringify(updatedUser));
+          darkMode: mode,
+        },
+      }
+      localStorage.setItem('chirp-user', JSON.stringify(updatedUser))
     }
-  };
+  }
 
   const handleStreamingQualityChange = (quality: string) => {
-    setStreamingQuality(quality);
-    const storage = getStorage();
-    storage.setItem('chirp-streaming-quality', quality);
+    setStreamingQuality(quality)
+    const storage = getStorage()
+    storage.setItem('chirp-streaming-quality', quality)
 
     // Dispatch custom event for same-window updates
-    window.dispatchEvent(new CustomEvent('chirp-quality-change', { detail: quality }));
-  };
+    window.dispatchEvent(new CustomEvent('chirp-quality-change', { detail: quality }))
+  }
 
   const handlePushNotificationsChange = (checked: boolean) => {
     // TODO: Save notification preference
-  };
+  }
 
   const handleIconChange = (iconId: string) => {
     // Update local state immediately for preview
-    setCurrentAppIcon(iconId);
-  };
+    setCurrentAppIcon(iconId)
+  }
 
   const handleApplyIcon = async (iconId: string) => {
     try {
       // In a real Capacitor app, you would use the Capacitor API to change the icon
       // For now, we'll just save the preference
-      const storage = getStorage();
-      storage.setItem('chirp-app-icon', iconId);
+      const storage = getStorage()
+      storage.setItem('chirp-app-icon', iconId)
 
       // Update user preferences if logged in
       if (user) {
@@ -228,89 +242,92 @@ export default function AccountSettings() {
           ...user,
           preferences: {
             ...user.preferences,
-            appIcon: iconId
-          }
-        };
-        localStorage.setItem('chirp-user', JSON.stringify(updatedUser));
+            appIcon: iconId,
+          },
+        }
+        localStorage.setItem('chirp-user', JSON.stringify(updatedUser))
       }
 
       showToast({
         message: 'App icon updated successfully',
         type: 'success',
         duration: 3000,
-      });
+      })
 
       // In production with Capacitor, you would call:
       // const { Plugins } = await import('@capacitor/core');
       // await Plugins.App.setIcon({ name: iconId });
     } catch (error) {
-      console.error('Error changing app icon:', error);
+      console.error('Error changing app icon:', error)
       showToast({
         message: 'Failed to change app icon',
         type: 'error',
         duration: 3000,
-      });
-      throw error;
+      })
+      throw error
     }
-  };
+  }
 
   const handleLogin = () => {
     // For demo purposes, simulate login with a demo account
-    switchProfile('listener');
+    switchProfile('listener')
     showToast({
       message: 'Successfully logged in',
       type: 'success',
       duration: 5000,
-    });
-  };
+    })
+  }
 
   const handleLogout = () => {
-    logout();
+    logout()
     // Store toast flag for after redirect
-    sessionStorage.setItem('chirp-show-logout-toast', 'true');
+    sessionStorage.setItem('chirp-show-logout-toast', 'true')
     // Redirect to appropriate landing page based on current route
-    const isInAppRoutes = location.pathname.startsWith('/app');
-    navigate(isInAppRoutes ? '/app' : '/');
-  };
+    const isInAppRoutes = location.pathname.startsWith('/app')
+    navigate(isInAppRoutes ? '/app' : '/')
+  }
 
   const handleSignUp = () => {
     // TODO: Navigate to sign up flow
-  };
+  }
 
   const handleForgotPassword = () => {
     // TODO: Navigate to password recovery
-  };
+  }
 
   const handleShareApp = () => {
     // TODO: Open share dialog
-  };
+  }
 
   const handleLikeAppStore = () => {
     // TODO: Open app store link
-  };
+  }
 
   const handleAppSupport = () => {
     // TODO: Navigate to support page
-  };
+  }
 
   const handleTermsPrivacy = () => {
     // TODO: Navigate to terms and privacy page
-  };
+  }
 
   const handleViewDJProfile = () => {
     // Generate slug from DJ name and navigate to the DJ's profile page
     if (user?.djName) {
-      const slug = user.djName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-      navigate(`/djs/${slug}`);
+      const slug = user.djName
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+      navigate(`/djs/${slug}`)
     } else {
       // Fallback to ID if no DJ name
-      navigate('/djs/dj-001');
+      navigate('/djs/dj-001')
     }
-  };
+  }
 
   const handleEditProfile = () => {
-    setProfileState('editProfile');
-  };
+    setProfileState('editProfile')
+  }
 
   const handleCancelEdit = () => {
     // Reset form data to original user data
@@ -337,39 +354,41 @@ export default function AccountSettings() {
         city: user.city || '',
         state: user.state || '',
         zipCode: user.zipCode || '',
-        socialLinks: user.socialLinks ? Object.entries(user.socialLinks).map(([platform, url]) => ({
-          platform,
-          url: url as string
-        })) : [],
-      });
+        socialLinks: user.socialLinks
+          ? Object.entries(user.socialLinks).map(([platform, url]) => ({
+              platform,
+              url: url as string,
+            }))
+          : [],
+      })
     }
-    setProfileState('view');
-  };
+    setProfileState('view')
+  }
 
   const handleSaveProfile = async () => {
     // Check if email has changed
-    const emailChanged = formData.email !== user?.email;
+    const emailChanged = formData.email !== user?.email
 
     if (emailChanged) {
       // Trigger password confirmation flow
-      setPendingNewEmail(formData.email);
-      setShowPasswordModal(true);
-      setEmailChangeError('');
-      return;
+      setPendingNewEmail(formData.email)
+      setShowPasswordModal(true)
+      setEmailChangeError('')
+      return
     }
 
     // If email hasn't changed, proceed with normal save
     try {
-      const currentUser = JSON.parse(localStorage.getItem('chirp-user') || '{}');
+      const currentUser = JSON.parse(localStorage.getItem('chirp-user') || '{}')
 
       // Convert social links array back to object
-      const socialLinksObj: any = {};
+      const socialLinksObj: any = {}
       if (formData.socialLinks && Array.isArray(formData.socialLinks)) {
         formData.socialLinks.forEach((link: any) => {
           if (link.platform && link.url) {
-            socialLinksObj[link.platform] = link.url;
+            socialLinksObj[link.platform] = link.url
           }
-        });
+        })
       }
 
       const updatedUser = {
@@ -396,56 +415,56 @@ export default function AccountSettings() {
         state: formData.state,
         zipCode: formData.zipCode,
         socialLinks: socialLinksObj,
-      };
+      }
 
-      localStorage.setItem('chirp-user', JSON.stringify(updatedUser));
+      localStorage.setItem('chirp-user', JSON.stringify(updatedUser))
 
       showToast({
         message: 'Profile updated successfully',
         type: 'success',
         duration: 3000,
-      });
+      })
 
       setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+        window.location.reload()
+      }, 1000)
 
-      setProfileState('view');
+      setProfileState('view')
     } catch (error) {
-      console.error('Error saving profile:', error);
+      console.error('Error saving profile:', error)
       showToast({
         message: 'Failed to save profile',
         type: 'error',
         duration: 3000,
-      });
+      })
     }
-  };
+  }
 
   const handleProfileChange = (field: string, value: any) => {
     setFormData((prev: any) => ({
       ...prev,
       [field]: value,
-    }));
-  };
+    }))
+  }
 
   const handlePasswordConfirm = async () => {
     if (!verifyPassword(passwordInput)) {
-      setEmailChangeError('Incorrect password. Please try again.');
-      return;
+      setEmailChangeError('Incorrect password. Please try again.')
+      return
     }
 
     // Password verified, now save profile and initiate email change
     try {
-      const currentUser = JSON.parse(localStorage.getItem('chirp-user') || '{}');
+      const currentUser = JSON.parse(localStorage.getItem('chirp-user') || '{}')
 
       // Convert social links array back to object
-      const socialLinksObj: any = {};
+      const socialLinksObj: any = {}
       if (formData.socialLinks && Array.isArray(formData.socialLinks)) {
         formData.socialLinks.forEach((link: any) => {
           if (link.platform && link.url) {
-            socialLinksObj[link.platform] = link.url;
+            socialLinksObj[link.platform] = link.url
           }
-        });
+        })
       }
 
       const updatedUser = {
@@ -472,28 +491,28 @@ export default function AccountSettings() {
         state: formData.state,
         zipCode: formData.zipCode,
         socialLinks: socialLinksObj,
-      };
+      }
 
-      localStorage.setItem('chirp-user', JSON.stringify(updatedUser));
+      localStorage.setItem('chirp-user', JSON.stringify(updatedUser))
 
       // Generate verification token (in real app, this would be done server-side)
-      const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
+      const token = Math.random().toString(36).substring(2) + Date.now().toString(36)
 
       // Request email change
-      requestEmailChange(pendingNewEmail, token);
+      requestEmailChange(pendingNewEmail, token)
 
       // Close modal and reset
-      setShowPasswordModal(false);
-      setPasswordInput('');
-      setEmailChangeError('');
-      setProfileState('view');
+      setShowPasswordModal(false)
+      setPasswordInput('')
+      setEmailChangeError('')
+      setProfileState('view')
 
       // Show verification message
       showToast({
         message: 'Profile updated. Verification email sent to ' + pendingNewEmail,
         type: 'info',
         duration: 8000,
-      });
+      })
 
       // Also show notification to old email (simulated)
       setTimeout(() => {
@@ -501,8 +520,8 @@ export default function AccountSettings() {
           message: `Security notice sent to ${user?.email}`,
           type: 'info',
           duration: 5000,
-        });
-      }, 1000);
+        })
+      }, 1000)
 
       // For demo purposes, show verification button
       setTimeout(() => {
@@ -510,94 +529,94 @@ export default function AccountSettings() {
           message: 'Demo: Click "Verify Email Change" button in the banner to complete',
           type: 'warning',
           duration: 10000,
-        });
-      }, 2000);
+        })
+      }, 2000)
 
       // Reload to show updated profile
       setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+        window.location.reload()
+      }, 1000)
     } catch (error) {
-      console.error('Error saving profile:', error);
-      setEmailChangeError('Failed to save profile. Please try again.');
+      console.error('Error saving profile:', error)
+      setEmailChangeError('Failed to save profile. Please try again.')
     }
-  };
+  }
 
   const handleCancelPasswordModal = () => {
-    setShowPasswordModal(false);
-    setPasswordInput('');
-    setEmailChangeError('');
-    setPendingNewEmail('');
+    setShowPasswordModal(false)
+    setPasswordInput('')
+    setEmailChangeError('')
+    setPendingNewEmail('')
 
     // Reset email in form data to original
     if (user?.email) {
       setFormData((prev: any) => ({
         ...prev,
         email: user.email,
-      }));
+      }))
     }
-  };
+  }
 
   const handleVerifyEmailChange = () => {
-    if (!user?.pendingEmailToken) return;
+    if (!user?.pendingEmailToken) return
 
-    const success = verifyEmailChange(user.pendingEmailToken);
+    const success = verifyEmailChange(user.pendingEmailToken)
 
     if (success) {
       showToast({
         message: 'Email successfully updated!',
         type: 'success',
         duration: 5000,
-      });
+      })
 
       // Update form data
       setFormData((prev: any) => ({
         ...prev,
         email: user.pendingEmail,
-      }));
+      }))
 
       // Reload to pick up changes
       setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+        window.location.reload()
+      }, 1000)
     } else {
       showToast({
         message: 'Verification failed or expired',
         type: 'error',
         duration: 5000,
-      });
+      })
     }
-  };
+  }
 
   const handleCancelEmailChange = () => {
-    cancelEmailChange();
+    cancelEmailChange()
 
     // Reset email in form data to original
     if (user?.email) {
       setFormData((prev: any) => ({
         ...prev,
         email: user.email,
-      }));
+      }))
     }
 
     showToast({
       message: 'Email change cancelled',
       type: 'info',
       duration: 3000,
-    });
-  };
+    })
+  }
 
   const handleProfileStateChange = (state: string) => {
-    setProfileState(state as 'view' | 'editProfile' | 'editVolunteer' | 'loggedOut');
-  };
+    setProfileState(state as 'view' | 'editProfile' | 'editVolunteer' | 'loggedOut')
+  }
 
   const handleMakeDonation = () => {
-    navigate('/donate');
-  };
+    navigate('/donate')
+  }
 
   const handleVisitStore = () => {
-    navigate('/shop');
-  };
+    navigate('/shop')
+  }
 
   // Donation history table configuration
   const donationColumns = [
@@ -609,7 +628,7 @@ export default function AccountSettings() {
       sortable: true,
       width: 'narrow',
       align: 'right' as const,
-      render: (value: number) => `$${value}`
+      render: (value: number) => `$${value}`,
     },
     {
       key: 'receipt',
@@ -628,9 +647,9 @@ export default function AccountSettings() {
         >
           Receipt
         </CrButton>
-      )
+      ),
     },
-  ];
+  ]
 
   // Purchase history table configuration
   const purchaseColumns = [
@@ -642,26 +661,28 @@ export default function AccountSettings() {
       sortable: true,
       width: 'medium',
       align: 'right' as const,
-      render: (value: number) => typeof value === 'number' ? `$${value}` : value
+      render: (value: number) => (typeof value === 'number' ? `$${value}` : value),
     },
-  ];
+  ]
 
   // Convert user social links to CrProfileCard format
-  const socialLinksArray = user?.socialLinks ? Object.entries(user.socialLinks).map(([platform, url]) => ({
-    platform,
-    url: url as string
-  })) : [];
+  const socialLinksArray = user?.socialLinks
+    ? Object.entries(user.socialLinks).map(([platform, url]) => ({
+        platform,
+        url: url as string,
+      }))
+    : []
 
   // Format member since date to "Month Day, Year" format
   const formatMemberSince = (dateString?: string) => {
-    if (!dateString) return undefined;
-    const date = new Date(dateString);
+    if (!dateString) return undefined
+    const date = new Date(dateString)
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
-    });
-  };
+      day: 'numeric',
+    })
+  }
 
   return (
     <div className="account-settings-page">
@@ -699,33 +720,23 @@ export default function AccountSettings() {
                 onChange={(e) => setPasswordInput(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
-                    handlePasswordConfirm();
+                    handlePasswordConfirm()
                   } else if (e.key === 'Escape') {
-                    handleCancelPasswordModal();
+                    handleCancelPasswordModal()
                   }
                 }}
                 placeholder="Enter your password"
                 className="form-input"
                 autoFocus
               />
-              {emailChangeError && (
-                <p className="form-error">{emailChangeError}</p>
-              )}
+              {emailChangeError && <p className="form-error">{emailChangeError}</p>}
             </div>
 
             <div className="cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap">
-              <CrButton
-                variant="text"
-                color="default"
-                onClick={handleCancelPasswordModal}
-              >
+              <CrButton variant="text" color="default" onClick={handleCancelPasswordModal}>
                 Cancel
               </CrButton>
-              <CrButton
-                variant="filled"
-                color="primary"
-                onClick={handlePasswordConfirm}
-              >
+              <CrButton variant="filled" color="primary" onClick={handlePasswordConfirm}>
                 Confirm
               </CrButton>
             </div>
@@ -738,8 +749,8 @@ export default function AccountSettings() {
         <div className="email-verification-banner">
           <div className="email-verification-banner__content">
             <p>
-              <strong>Email verification pending:</strong> We've sent a verification link to <strong>{user.pendingEmail}</strong>.
-              Your email won't change until you verify.
+              <strong>Email verification pending:</strong> We've sent a verification link to{' '}
+              <strong>{user.pendingEmail}</strong>. Your email won't change until you verify.
             </p>
             <div className="email-verification-banner__actions">
               <CrButton
@@ -851,5 +862,5 @@ export default function AccountSettings() {
         </div>
       </div>
     </div>
-  );
+  )
 }

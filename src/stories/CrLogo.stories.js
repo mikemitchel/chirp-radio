@@ -21,7 +21,14 @@ export default {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['horizontal', 'horizontal-reversed', 'vertical', 'vertical-reversed', 'record', 'bird'],
+      options: [
+        'horizontal',
+        'horizontal-reversed',
+        'vertical',
+        'vertical-reversed',
+        'record',
+        'bird',
+      ],
       description: 'Logo variant - each loads a different SVG file',
     },
     color: {

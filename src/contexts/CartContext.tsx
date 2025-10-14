@@ -29,17 +29,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
     // Generate unique ID for cart item
     const cartItemId = `${item.name}-${item.size || 'nosize'}-${Date.now()}`
 
-    setItems(prevItems => [
+    setItems((prevItems) => [
       ...prevItems,
       {
         ...item,
         id: cartItemId,
-      }
+      },
     ])
   }
 
   const removeItem = (index: number) => {
-    setItems(prevItems => prevItems.filter((_, i) => i !== index))
+    setItems((prevItems) => prevItems.filter((_, i) => i !== index))
   }
 
   const emptyCart = () => {

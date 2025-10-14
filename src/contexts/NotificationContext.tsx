@@ -1,45 +1,45 @@
 // src/contexts/NotificationContext.tsx
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
 interface ToastConfig {
-  message: string;
-  type?: 'success' | 'info' | 'warning' | 'error';
-  duration?: number;
+  message: string
+  type?: 'success' | 'info' | 'warning' | 'error'
+  duration?: number
 }
 
 interface ModalConfig {
-  title: string;
-  message: string;
-  confirmText?: string;
-  cancelText?: string;
-  onConfirm?: () => void;
-  onCancel?: () => void;
-  size?: 'small' | 'default' | 'large';
+  title: string
+  message: string
+  confirmText?: string
+  cancelText?: string
+  onConfirm?: () => void
+  onCancel?: () => void
+  size?: 'small' | 'default' | 'large'
 }
 
 interface NotificationContextType {
-  showToast: (config: ToastConfig) => void;
-  showModal: (config: ModalConfig) => void;
-  hideModal: () => void;
+  showToast: (config: ToastConfig) => void
+  showModal: (config: ModalConfig) => void
+  hideModal: () => void
   toastState: {
-    isVisible: boolean;
-    message: string;
-    type: 'success' | 'info' | 'warning' | 'error';
-    duration: number;
-  };
+    isVisible: boolean
+    message: string
+    type: 'success' | 'info' | 'warning' | 'error'
+    duration: number
+  }
   modalState: {
-    isOpen: boolean;
-    title: string;
-    message: string;
-    confirmText: string;
-    cancelText: string;
-    onConfirm?: () => void;
-    onCancel?: () => void;
-    size: 'small' | 'default' | 'large';
-  };
+    isOpen: boolean
+    title: string
+    message: string
+    confirmText: string
+    cancelText: string
+    onConfirm?: () => void
+    onCancel?: () => void
+    size: 'small' | 'default' | 'large'
+  }
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+const NotificationContext = createContext<NotificationContextType | undefined>(undefined)
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
   const [toastState, setToastState] = useState({
@@ -47,7 +47,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     message: '',
     type: 'success' as const,
     duration: 5000,
-  });
+  })
 
   const [modalState, setModalState] = useState({
     isOpen: false,
@@ -58,7 +58,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     onConfirm: undefined as (() => void) | undefined,
     onCancel: undefined as (() => void) | undefined,
     size: 'small' as const,
-  });
+  })
 
   const showToast = ({ message, type = 'success', duration = 5000 }: ToastConfig) => {
     setToastState({
@@ -66,12 +66,12 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       message,
       type,
       duration,
-    });
-  };
+    })
+  }
 
   const hideToast = () => {
-    setToastState(prev => ({ ...prev, isVisible: false }));
-  };
+    setToastState((prev) => ({ ...prev, isVisible: false }))
+  }
 
   const showModal = ({
     title,
@@ -91,30 +91,30 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       onConfirm,
       onCancel,
       size,
-    });
-  };
+    })
+  }
 
   const hideModal = () => {
-    setModalState(prev => ({ ...prev, isOpen: false, onConfirm: undefined, onCancel: undefined }));
-  };
+    setModalState((prev) => ({ ...prev, isOpen: false, onConfirm: undefined, onCancel: undefined }))
+  }
 
   // Listen for custom toast events from other contexts
   useEffect(() => {
     const handleShowToast = (event: CustomEvent) => {
-      showToast(event.detail);
-    };
+      showToast(event.detail)
+    }
 
     const handleHideToast = () => {
-      hideToast();
-    };
+      hideToast()
+    }
 
-    window.addEventListener('chirp-show-toast', handleShowToast as EventListener);
-    window.addEventListener('chirp-hide-toast', handleHideToast);
+    window.addEventListener('chirp-show-toast', handleShowToast as EventListener)
+    window.addEventListener('chirp-hide-toast', handleHideToast)
     return () => {
-      window.removeEventListener('chirp-show-toast', handleShowToast as EventListener);
-      window.removeEventListener('chirp-hide-toast', handleHideToast);
-    };
-  }, []);
+      window.removeEventListener('chirp-show-toast', handleShowToast as EventListener)
+      window.removeEventListener('chirp-hide-toast', handleHideToast)
+    }
+  }, [])
 
   return (
     <NotificationContext.Provider
@@ -128,13 +128,13 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     >
       {children}
     </NotificationContext.Provider>
-  );
+  )
 }
 
 export function useNotification() {
-  const context = useContext(NotificationContext);
+  const context = useContext(NotificationContext)
   if (!context) {
-    throw new Error('useNotification must be used within a NotificationProvider');
+    throw new Error('useNotification must be used within a NotificationProvider')
   }
-  return context;
+  return context
 }

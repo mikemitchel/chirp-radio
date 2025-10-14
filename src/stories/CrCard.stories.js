@@ -188,7 +188,8 @@ export const WideClickable = {
     layout: 'fullscreen',
     docs: {
       description: {
-        story: 'Wide card with onClick handler - hover to see the lift effect and click interaction',
+        story:
+          'Wide card with onClick handler - hover to see the lift effect and click interaction',
       },
     },
   },
@@ -210,7 +211,8 @@ export const NarrowClickable = {
   parameters: {
     docs: {
       description: {
-        story: 'Narrow card with onClick handler - hover to see the lift effect and click interaction',
+        story:
+          'Narrow card with onClick handler - hover to see the lift effect and click interaction',
       },
     },
   },
@@ -232,7 +234,8 @@ export const SmallClickable = {
   parameters: {
     docs: {
       description: {
-        story: 'Small card with onClick handler - hover to see the lift effect and click interaction',
+        story:
+          'Small card with onClick handler - hover to see the lift effect and click interaction',
       },
     },
   },

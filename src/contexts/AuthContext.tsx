@@ -1,172 +1,172 @@
 // src/contexts/AuthContext.tsx
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
-export type UserRole = 'listener' | 'volunteer' | 'dj';
+export type UserRole = 'listener' | 'volunteer' | 'dj'
 
 interface SocialLinks {
-  facebook?: string;
-  instagram?: string;
-  twitter?: string;
-  bluesky?: string;
-  linkedin?: string;
+  facebook?: string
+  instagram?: string
+  twitter?: string
+  bluesky?: string
+  linkedin?: string
 }
 
 interface DonationHistory {
-  id: string;
-  date: string;
-  amount: number;
-  type: string;
-  status: string;
+  id: string
+  date: string
+  amount: number
+  type: string
+  status: string
 }
 
 interface PurchaseHistory {
-  id: string;
-  date: string;
-  item: string;
-  amount: number;
-  status: string;
+  id: string
+  date: string
+  item: string
+  amount: number
+  status: string
 }
 
 interface CollectionTrack {
-  id: string;
-  trackName: string;
-  artistName: string;
-  albumName: string;
-  albumArt: string;
-  labelName: string;
-  isLocal?: boolean;
-  dateAdded: string;
+  id: string
+  trackName: string
+  artistName: string
+  albumName: string
+  albumArt: string
+  labelName: string
+  isLocal?: boolean
+  dateAdded: string
 }
 
 interface UserPreferences {
-  emailNotifications?: boolean;
-  showNotifications?: boolean;
-  darkMode?: 'light' | 'dark' | 'device';
-  autoPlay?: boolean;
+  emailNotifications?: boolean
+  showNotifications?: boolean
+  darkMode?: 'light' | 'dark' | 'device'
+  autoPlay?: boolean
 }
 
 interface User {
-  email: string;
-  name: string;
-  firstName?: string;
-  lastName?: string;
-  location?: string;
-  role: UserRole;
-  avatar?: string;
-  fullProfileImage?: string;
-  profileImageOrientation?: 'square' | 'landscape' | 'portrait';
-  memberSince?: string;
-  socialLinks?: SocialLinks;
-  djName?: string;
-  showName?: string;
-  showTime?: string;
-  djExcerpt?: string;
-  djBio?: string;
-  djDonationLink?: string;
-  primaryPhoneType?: string;
-  primaryPhone?: string;
-  secondaryPhoneType?: string;
-  secondaryPhone?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zipCode?: string;
-  permissions?: string[];
-  donationHistory?: DonationHistory[];
-  purchaseHistory?: PurchaseHistory[];
-  collection?: CollectionTrack[];
-  preferences?: UserPreferences;
-  password?: string; // For demo purposes only
-  pendingEmail?: string;
-  pendingEmailToken?: string;
-  pendingEmailExpiry?: string;
-  age?: string;
-  education?: string;
-  employer?: string;
-  volunteerOrgs?: string[];
-  hasRadioExperience?: string;
-  radioStations?: string;
-  specialSkills?: string[];
-  hearAboutChirp?: string[];
-  interests?: string[];
-  wantsToDJ?: string;
-  djAvailability?: string[];
+  email: string
+  name: string
+  firstName?: string
+  lastName?: string
+  location?: string
+  role: UserRole
+  avatar?: string
+  fullProfileImage?: string
+  profileImageOrientation?: 'square' | 'landscape' | 'portrait'
+  memberSince?: string
+  socialLinks?: SocialLinks
+  djName?: string
+  showName?: string
+  showTime?: string
+  djExcerpt?: string
+  djBio?: string
+  djDonationLink?: string
+  primaryPhoneType?: string
+  primaryPhone?: string
+  secondaryPhoneType?: string
+  secondaryPhone?: string
+  address?: string
+  city?: string
+  state?: string
+  zipCode?: string
+  permissions?: string[]
+  donationHistory?: DonationHistory[]
+  purchaseHistory?: PurchaseHistory[]
+  collection?: CollectionTrack[]
+  preferences?: UserPreferences
+  password?: string // For demo purposes only
+  pendingEmail?: string
+  pendingEmailToken?: string
+  pendingEmailExpiry?: string
+  age?: string
+  education?: string
+  employer?: string
+  volunteerOrgs?: string[]
+  hasRadioExperience?: string
+  radioStations?: string
+  specialSkills?: string[]
+  hearAboutChirp?: string[]
+  interests?: string[]
+  wantsToDJ?: string
+  djAvailability?: string[]
 }
 
 interface AuthContextType {
-  isLoggedIn: boolean;
-  user: User | null;
-  login: (email: string, name?: string, role?: UserRole, avatar?: string) => void;
-  logout: () => void;
-  signup: (email: string, name?: string, role?: UserRole) => void;
-  switchProfile: (role: UserRole) => void;
-  verifyPassword: (password: string) => boolean;
-  requestEmailChange: (newEmail: string, token: string) => boolean;
-  verifyEmailChange: (token: string) => boolean;
-  cancelEmailChange: () => void;
+  isLoggedIn: boolean
+  user: User | null
+  login: (email: string, name?: string, role?: UserRole, avatar?: string) => void
+  logout: () => void
+  signup: (email: string, name?: string, role?: UserRole) => void
+  switchProfile: (role: UserRole) => void
+  verifyPassword: (password: string) => boolean
+  requestEmailChange: (newEmail: string, token: string) => boolean
+  verifyEmailChange: (token: string) => boolean
+  cancelEmailChange: () => void
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
-    const saved = localStorage.getItem('chirp-logged-in');
-    return saved === 'true';
-  });
+    const saved = localStorage.getItem('chirp-logged-in')
+    return saved === 'true'
+  })
 
   const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('chirp-user');
+    const saved = localStorage.getItem('chirp-user')
     if (saved) {
       try {
-        return JSON.parse(saved);
+        return JSON.parse(saved)
       } catch {
-        return null;
+        return null
       }
     }
-    return null;
-  });
+    return null
+  })
 
   // Sync login state to localStorage
   useEffect(() => {
-    localStorage.setItem('chirp-logged-in', String(isLoggedIn));
-  }, [isLoggedIn]);
+    localStorage.setItem('chirp-logged-in', String(isLoggedIn))
+  }, [isLoggedIn])
 
   // Sync user to localStorage
   useEffect(() => {
     if (user) {
-      localStorage.setItem('chirp-user', JSON.stringify(user));
+      localStorage.setItem('chirp-user', JSON.stringify(user))
     } else {
-      localStorage.removeItem('chirp-user');
+      localStorage.removeItem('chirp-user')
     }
-  }, [user]);
+  }, [user])
 
   const login = (email: string, name?: string, role?: UserRole, avatar?: string) => {
     const mockUser: User = {
       email,
       name: name || email.split('@')[0],
       role: role || 'listener',
-      avatar
-    };
-    setUser(mockUser);
-    setIsLoggedIn(true);
-  };
+      avatar,
+    }
+    setUser(mockUser)
+    setIsLoggedIn(true)
+  }
 
   const logout = () => {
-    setUser(null);
-    setIsLoggedIn(false);
-    localStorage.removeItem('chirp-user');
-    localStorage.removeItem('chirp-logged-in');
-  };
+    setUser(null)
+    setIsLoggedIn(false)
+    localStorage.removeItem('chirp-user')
+    localStorage.removeItem('chirp-logged-in')
+  }
 
   const signup = (email: string, name?: string, role?: UserRole) => {
     const mockUser: User = {
       email,
       name: name || email.split('@')[0],
-      role: role || 'listener'
-    };
-    setUser(mockUser);
-    setIsLoggedIn(true);
-  };
+      role: role || 'listener',
+    }
+    setUser(mockUser)
+    setIsLoggedIn(true)
+  }
 
   const switchProfile = (role: UserRole) => {
     const profiles: Record<UserRole, User> = {
@@ -177,7 +177,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         lastName: 'Johnson',
         location: 'Chicago, IL',
         role: 'listener',
-        avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces',
+        avatar:
+          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces',
         memberSince: '2018-03-15',
         password: 'demo123',
         donationHistory: [
@@ -195,37 +196,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             trackName: 'Cruel Summer',
             artistName: 'Taylor Swift',
             albumName: 'Lover',
-            albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
+            albumArt:
+              'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
             labelName: 'Republic Records',
-            dateAdded: '2024-12-01T14:30:00Z'
+            dateAdded: '2024-12-01T14:30:00Z',
           },
           {
             id: 'track-002',
             trackName: 'Pusha Man',
             artistName: 'Chance the Rapper',
             albumName: 'Acid Rap',
-            albumArt: 'https://upload.wikimedia.org/wikipedia/en/5/5b/Chance_the_rapper_acid_rap.jpg',
+            albumArt:
+              'https://upload.wikimedia.org/wikipedia/en/5/5b/Chance_the_rapper_acid_rap.jpg',
             labelName: 'Chance the Rapper',
             isLocal: true,
-            dateAdded: '2024-12-02T10:15:00Z'
+            dateAdded: '2024-12-02T10:15:00Z',
           },
           {
             id: 'track-003',
             trackName: 'Stupid Kid',
             artistName: 'Alkaline Trio',
             albumName: 'From Here to Infirmary',
-            albumArt: 'https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg',
+            albumArt:
+              'https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg',
             labelName: 'Vagrant Records',
             isLocal: true,
-            dateAdded: '2024-12-03T16:45:00Z'
+            dateAdded: '2024-12-03T16:45:00Z',
           },
         ],
         preferences: {
           emailNotifications: true,
           showNotifications: true,
           darkMode: 'dark',
-          autoPlay: true
-        }
+          autoPlay: true,
+        },
       },
       volunteer: {
         email: 'amanda.miller@chirpradio.org',
@@ -234,7 +238,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         lastName: 'Miller',
         location: 'Chicago, Illinois',
         role: 'volunteer',
-        avatar: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=200&h=200&fit=crop&crop=faces',
+        avatar:
+          'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=200&h=200&fit=crop&crop=faces',
         memberSince: '2021-01-20',
         password: 'demo123',
         permissions: ['Volunteer'],
@@ -256,7 +261,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         socialLinks: {
           facebook: 'www.facebook.com/amandamiller',
           instagram: 'www.instagram.com/amandamiller',
-          linkedin: 'www.linkedin.com/amandamiller'
+          linkedin: 'www.linkedin.com/amandamiller',
         },
         donationHistory: [
           { id: '1', date: '02/01/2024', amount: 150, type: 'Monthly', status: 'Active' },
@@ -275,37 +280,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             trackName: 'Pusha Man',
             artistName: 'Chance the Rapper',
             albumName: 'Acid Rap',
-            albumArt: 'https://upload.wikimedia.org/wikipedia/en/5/5b/Chance_the_rapper_acid_rap.jpg',
+            albumArt:
+              'https://upload.wikimedia.org/wikipedia/en/5/5b/Chance_the_rapper_acid_rap.jpg',
             labelName: 'Chance the Rapper',
             isLocal: true,
-            dateAdded: '2024-12-02T10:15:00Z'
+            dateAdded: '2024-12-02T10:15:00Z',
           },
           {
             id: 'track-005',
             trackName: 'Stupid Kid',
             artistName: 'Alkaline Trio',
             albumName: 'From Here to Infirmary',
-            albumArt: 'https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg',
+            albumArt:
+              'https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg',
             labelName: 'Vagrant Records',
             isLocal: true,
-            dateAdded: '2024-11-25T16:45:00Z'
+            dateAdded: '2024-11-25T16:45:00Z',
           },
           {
             id: 'track-006',
             trackName: 'Take Me Out',
             artistName: 'Franz Ferdinand',
             albumName: 'Franz Ferdinand',
-            albumArt: 'https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=200&h=200&fit=crop',
+            albumArt:
+              'https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=200&h=200&fit=crop',
             labelName: 'Domino Recording',
-            dateAdded: '2024-11-15T14:20:00Z'
+            dateAdded: '2024-11-15T14:20:00Z',
           },
         ],
         preferences: {
           emailNotifications: true,
           showNotifications: true,
           darkMode: 'light',
-          autoPlay: true
-        }
+          autoPlay: true,
+        },
       },
       dj: {
         email: 'alex.rivera@chirpradio.org',
@@ -314,15 +322,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         lastName: 'Rivera',
         location: 'Chicago, Illinois',
         role: 'dj',
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=faces',
-        fullProfileImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&h=800&fit=crop&crop=faces',
+        avatar:
+          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=faces',
+        fullProfileImage:
+          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&h=800&fit=crop&crop=faces',
         memberSince: '2017-09-15',
         password: 'demo123',
         djName: 'Alex Rivera',
         showName: 'Night Vibes',
         showTime: 'Fri 11pm - 1am',
-        djExcerpt: 'Late-night sonic adventurer bringing fearless genre-hopping and deep cuts to Chicago\'s insomniacs.',
-        djBio: 'Alex discovered their passion for radio while DJing college house parties, where they developed an ear for blending genres that shouldn\'t work together but somehow do. After graduating with a degree in Audio Production from Columbia College Chicago, they spent years working in commercial radio before finding their true home at CHIRP.\n\nKnown for fearless genre-hopping and deep cuts that surprise even the most seasoned music heads, Alex brings a fresh perspective to late-night radio. Their show has become a destination for night owls and insomniacs seeking sonic adventures.\n\nWhen not behind the mic, Alex produces electronic music in their home studio and teaches DJ workshops at local community centers. They\'re passionate about making radio accessible to underrepresented voices in Chicago\'s music scene.',
+        djExcerpt:
+          "Late-night sonic adventurer bringing fearless genre-hopping and deep cuts to Chicago's insomniacs.",
+        djBio:
+          "Alex discovered their passion for radio while DJing college house parties, where they developed an ear for blending genres that shouldn't work together but somehow do. After graduating with a degree in Audio Production from Columbia College Chicago, they spent years working in commercial radio before finding their true home at CHIRP.\n\nKnown for fearless genre-hopping and deep cuts that surprise even the most seasoned music heads, Alex brings a fresh perspective to late-night radio. Their show has become a destination for night owls and insomniacs seeking sonic adventures.\n\nWhen not behind the mic, Alex produces electronic music in their home studio and teaches DJ workshops at local community centers. They're passionate about making radio accessible to underrepresented voices in Chicago's music scene.",
         djDonationLink: 'https://www.chirpradio.org/donate/alex-rivera',
         profileImageOrientation: 'square',
         primaryPhoneType: 'mobile',
@@ -339,7 +351,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           instagram: 'www.instagram.com/alexrivera',
           twitter: 'www.twitter.com/alexrivera',
           linkedin: 'www.linkedin.com/alexrivera',
-          bluesky: 'bsky.app/profile/alexrivera.bsky.social'
+          bluesky: 'bsky.app/profile/alexrivera.bsky.social',
         },
         donationHistory: [
           { id: '1', date: '02/05/2024', amount: 250, type: 'Monthly', status: 'Active' },
@@ -363,7 +375,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             albumArt: 'https://f4.bcbits.com/img/a1076606024_16.jpg',
             labelName: 'Storchmasers',
             isLocal: true,
-            dateAdded: '2024-12-05T11:24:00Z'
+            dateAdded: '2024-12-05T11:24:00Z',
           },
           {
             id: 'track-008',
@@ -372,59 +384,60 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             albumName: 'Four Minute Mile',
             albumArt: 'https://upload.wikimedia.org/wikipedia/en/9/95/Gukfmm.jpg',
             labelName: 'Doghouse Records',
-            dateAdded: '2024-11-30T10:21:00Z'
+            dateAdded: '2024-11-30T10:21:00Z',
           },
           {
             id: 'track-009',
             trackName: 'Only Shallow',
             artistName: 'My Bloody Valentine',
             albumName: 'Loveless',
-            albumArt: 'https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=200&h=200&fit=crop',
+            albumArt:
+              'https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=200&h=200&fit=crop',
             labelName: 'Creation Records',
-            dateAdded: '2024-11-18T09:48:00Z'
+            dateAdded: '2024-11-18T09:48:00Z',
           },
         ],
         preferences: {
           emailNotifications: true,
           showNotifications: true,
           darkMode: 'light',
-          autoPlay: true
-        }
-      }
-    };
+          autoPlay: true,
+        },
+      },
+    }
 
-    const selectedProfile = profiles[role];
-    localStorage.setItem('chirp-user', JSON.stringify(selectedProfile));
-    localStorage.setItem('chirp-logged-in', 'true');
-    setUser(selectedProfile);
-    setIsLoggedIn(true);
-    console.log(`✅ Switched to ${role} profile:`, selectedProfile);
-  };
+    const selectedProfile = profiles[role]
+    localStorage.setItem('chirp-user', JSON.stringify(selectedProfile))
+    localStorage.setItem('chirp-logged-in', 'true')
+    setUser(selectedProfile)
+    setIsLoggedIn(true)
+    console.log(`✅ Switched to ${role} profile:`, selectedProfile)
+  }
 
   const verifyPassword = (password: string): boolean => {
-    return user?.password === password;
-  };
+    return user?.password === password
+  }
 
   const requestEmailChange = (newEmail: string, token: string) => {
-    if (!user) return false;
-    const expiry = new Date();
-    expiry.setHours(expiry.getHours() + 48);
+    if (!user) return false
+    const expiry = new Date()
+    expiry.setHours(expiry.getHours() + 48)
     const updatedUser = {
       ...user,
       pendingEmail: newEmail,
       pendingEmailToken: token,
       pendingEmailExpiry: expiry.toISOString(),
-    };
-    setUser(updatedUser);
-    return true;
-  };
+    }
+    setUser(updatedUser)
+    return true
+  }
 
   const verifyEmailChange = (token: string): boolean => {
-    if (!user || !user.pendingEmail || !user.pendingEmailToken) return false;
-    if (user.pendingEmailToken !== token) return false;
+    if (!user || !user.pendingEmail || !user.pendingEmailToken) return false
+    if (user.pendingEmailToken !== token) return false
     if (user.pendingEmailExpiry) {
-      const expiry = new Date(user.pendingEmailExpiry);
-      if (expiry < new Date()) return false;
+      const expiry = new Date(user.pendingEmailExpiry)
+      if (expiry < new Date()) return false
     }
     const updatedUser = {
       ...user,
@@ -432,21 +445,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       pendingEmail: undefined,
       pendingEmailToken: undefined,
       pendingEmailExpiry: undefined,
-    };
-    setUser(updatedUser);
-    return true;
-  };
+    }
+    setUser(updatedUser)
+    return true
+  }
 
   const cancelEmailChange = () => {
-    if (!user) return;
+    if (!user) return
     const updatedUser = {
       ...user,
       pendingEmail: undefined,
       pendingEmailToken: undefined,
       pendingEmailExpiry: undefined,
-    };
-    setUser(updatedUser);
-  };
+    }
+    setUser(updatedUser)
+  }
 
   return (
     <AuthContext.Provider
@@ -465,13 +478,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     >
       {children}
     </AuthContext.Provider>
-  );
+  )
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext)
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useAuth must be used within an AuthProvider')
   }
-  return context;
+  return context
 }

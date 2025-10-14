@@ -114,13 +114,15 @@ export default function CrTrackInfo({
         // Remove from collection
         const removed = removeFromCollection(trackId)
         if (removed) {
-          window.dispatchEvent(new CustomEvent('chirp-show-toast', {
-            detail: {
-              message: `Removed ${trackName} from your collection`,
-              type: 'success',
-              duration: 3000,
-            }
-          }))
+          window.dispatchEvent(
+            new CustomEvent('chirp-show-toast', {
+              detail: {
+                message: `Removed ${trackName} from your collection`,
+                type: 'success',
+                duration: 3000,
+              },
+            })
+          )
         }
       } else {
         // Add to collection
@@ -136,13 +138,15 @@ export default function CrTrackInfo({
           isLocal,
         })
 
-        window.dispatchEvent(new CustomEvent('chirp-show-toast', {
-          detail: {
-            message: `Added ${trackName} to your collection`,
-            type: 'success',
-            duration: 3000,
-          }
-        }))
+        window.dispatchEvent(
+          new CustomEvent('chirp-show-toast', {
+            detail: {
+              message: `Added ${trackName} to your collection`,
+              type: 'success',
+              duration: 3000,
+            },
+          })
+        )
       }
 
       // Call optional callback

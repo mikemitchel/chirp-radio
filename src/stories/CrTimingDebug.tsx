@@ -38,7 +38,7 @@ const convertToChicagoTime = (timestamp: string): string => {
       hour: '2-digit',
       minute: '2-digit',
       second: '2-digit',
-      hour12: true
+      hour12: true,
     })
   } catch (e) {
     console.error('Failed to convert timestamp:', timestamp, e)
@@ -73,7 +73,11 @@ export default function CrTimingDebug({
     if (playedAtGmt && detailsUpdatedAt && artist && track) {
       // Normalize playedAtGmt to UTC (add 'Z' if missing)
       let utcPlayedAt = playedAtGmt
-      if (!playedAtGmt.endsWith('Z') && !playedAtGmt.includes('+') && !playedAtGmt.includes('GMT')) {
+      if (
+        !playedAtGmt.endsWith('Z') &&
+        !playedAtGmt.includes('+') &&
+        !playedAtGmt.includes('GMT')
+      ) {
         utcPlayedAt = playedAtGmt.replace(/(\.\d+)?$/, '') + 'Z'
       }
 
@@ -175,42 +179,57 @@ export default function CrTimingDebug({
         <div className="cr-timing-debug__row">
           <span className="cr-timing-debug__label">Current Gap:</span>
           <span className="cr-timing-debug__value">
-            {playedAtGmt && detailsUpdatedAt ? (() => {
+            {playedAtGmt && detailsUpdatedAt
+              ? (() => {
+                  let utcPlayedAt = playedAtGmt
+                  if (
+                    !playedAtGmt.endsWith('Z') &&
+                    !playedAtGmt.includes('+') &&
+                    !playedAtGmt.includes('GMT')
+                  ) {
+                    utcPlayedAt = playedAtGmt.replace(/(\.\d+)?$/, '') + 'Z'
+                  }
+                  const playedAt = new Date(utcPlayedAt).getTime()
+                  const updatedAt = new Date(detailsUpdatedAt).getTime()
+                  const gapSeconds = Math.round((updatedAt - playedAt) / 1000)
+                  return formatGapTime(gapSeconds)
+                })()
+              : 'N/A'}
+          </span>
+        </div>
+        <div
+          className="cr-timing-debug__debug-info"
+          style={{
+            marginTop: 'var(--cr-space-2)',
+            fontSize: '10px',
+            color: 'var(--cr-default-600)',
+            fontFamily: 'monospace',
+          }}
+        >
+          <div>Raw playedAtGmt: {playedAtGmt || 'N/A'}</div>
+          <div>Raw detailsUpdatedAt: {detailsUpdatedAt || 'N/A'}</div>
+          {playedAtGmt &&
+            detailsUpdatedAt &&
+            (() => {
               let utcPlayedAt = playedAtGmt
-              if (!playedAtGmt.endsWith('Z') && !playedAtGmt.includes('+') && !playedAtGmt.includes('GMT')) {
+              if (
+                !playedAtGmt.endsWith('Z') &&
+                !playedAtGmt.includes('+') &&
+                !playedAtGmt.includes('GMT')
+              ) {
                 utcPlayedAt = playedAtGmt.replace(/(\.\d+)?$/, '') + 'Z'
               }
               const playedAt = new Date(utcPlayedAt).getTime()
               const updatedAt = new Date(detailsUpdatedAt).getTime()
-              const gapSeconds = Math.round((updatedAt - playedAt) / 1000)
-              return formatGapTime(gapSeconds)
-            })() : 'N/A'}
-          </span>
-        </div>
-        <div className="cr-timing-debug__debug-info" style={{
-          marginTop: 'var(--cr-space-2)',
-          fontSize: '10px',
-          color: 'var(--cr-default-600)',
-          fontFamily: 'monospace'
-        }}>
-          <div>Raw playedAtGmt: {playedAtGmt || 'N/A'}</div>
-          <div>Raw detailsUpdatedAt: {detailsUpdatedAt || 'N/A'}</div>
-          {playedAtGmt && detailsUpdatedAt && (() => {
-            let utcPlayedAt = playedAtGmt
-            if (!playedAtGmt.endsWith('Z') && !playedAtGmt.includes('+') && !playedAtGmt.includes('GMT')) {
-              utcPlayedAt = playedAtGmt.replace(/(\.\d+)?$/, '') + 'Z'
-            }
-            const playedAt = new Date(utcPlayedAt).getTime()
-            const updatedAt = new Date(detailsUpdatedAt).getTime()
-            return (
-              <>
-                <div>Normalized playedAt: {utcPlayedAt}</div>
-                <div>PlayedAt ms: {playedAt}</div>
-                <div>UpdatedAt ms: {updatedAt}</div>
-                <div>Diff ms: {updatedAt - playedAt}</div>
-              </>
-            )
-          })()}
+              return (
+                <>
+                  <div>Normalized playedAt: {utcPlayedAt}</div>
+                  <div>PlayedAt ms: {playedAt}</div>
+                  <div>UpdatedAt ms: {updatedAt}</div>
+                  <div>Diff ms: {updatedAt - playedAt}</div>
+                </>
+              )
+            })()}
         </div>
       </div>
 
@@ -218,16 +237,19 @@ export default function CrTimingDebug({
         <div className="cr-timing-debug__logs">
           <h4>Timing Gaps Log ({timingLogs.length} entries)</h4>
           <div className="cr-timing-debug__log-list">
-            {timingLogs.slice(-10).reverse().map((log, index) => (
-              <div key={index} className="cr-timing-debug__log-entry">
-                <div className="cr-timing-debug__log-song">
-                  {log.artist} - {log.track}
+            {timingLogs
+              .slice(-10)
+              .reverse()
+              .map((log, index) => (
+                <div key={index} className="cr-timing-debug__log-entry">
+                  <div className="cr-timing-debug__log-song">
+                    {log.artist} - {log.track}
+                  </div>
+                  <div className="cr-timing-debug__log-gap">
+                    Gap: <strong>{formatGapTime(log.gapSeconds)}</strong>
+                  </div>
                 </div>
-                <div className="cr-timing-debug__log-gap">
-                  Gap: <strong>{formatGapTime(log.gapSeconds)}</strong>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       )}

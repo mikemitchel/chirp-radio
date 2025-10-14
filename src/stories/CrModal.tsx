@@ -38,13 +38,7 @@ export default function CrModal({
   scrimOnClick,
   isOpen = false,
 }: CrModalProps) {
-  const modalClasses = [
-    'cr-modal',
-    `cr-modal--${size}`,
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ')
+  const modalClasses = ['cr-modal', `cr-modal--${size}`, className].filter(Boolean).join(' ')
 
   if (!isOpen) return null
 

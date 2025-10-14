@@ -1,9 +1,9 @@
 // src/utils/deviceDetection.ts
 
 interface IOSVersionInfo {
-  isIOS: boolean;
-  version: number | null;
-  supportsAlternateIcons: boolean;
+  isIOS: boolean
+  version: number | null
+  supportsAlternateIcons: boolean
 }
 
 /**
@@ -11,45 +11,45 @@ interface IOSVersionInfo {
  * @returns Object containing iOS detection and version info
  */
 export function getIOSVersion(): IOSVersionInfo {
-  const userAgent = window.navigator.userAgent;
+  const userAgent = window.navigator.userAgent
 
   // Check if the device is iOS (iPhone, iPad, iPod)
-  const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream;
+  const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream
 
   if (!isIOS) {
     return {
       isIOS: false,
       version: null,
       supportsAlternateIcons: false,
-    };
+    }
   }
 
   // Extract iOS version from user agent
   // User agent format: "... OS 14_5_1 ..." or "... OS 14_5 ..."
-  const versionMatch = userAgent.match(/OS (\d+)_?(\d+)?_?(\d+)?/);
+  const versionMatch = userAgent.match(/OS (\d+)_?(\d+)?_?(\d+)?/)
 
   if (!versionMatch) {
     return {
       isIOS: true,
       version: null,
       supportsAlternateIcons: false,
-    };
+    }
   }
 
-  const majorVersion = parseInt(versionMatch[1], 10);
-  const minorVersion = versionMatch[2] ? parseInt(versionMatch[2], 10) : 0;
+  const majorVersion = parseInt(versionMatch[1], 10)
+  const minorVersion = versionMatch[2] ? parseInt(versionMatch[2], 10) : 0
 
   // Create a comparable version number (e.g., 10.3 becomes 10.3)
-  const version = majorVersion + (minorVersion / 10);
+  const version = majorVersion + minorVersion / 10
 
   // Alternate app icons require iOS 10.3+
-  const supportsAlternateIcons = version >= 10.3;
+  const supportsAlternateIcons = version >= 10.3
 
   return {
     isIOS: true,
     version,
     supportsAlternateIcons,
-  };
+  }
 }
 
 /**
@@ -57,7 +57,7 @@ export function getIOSVersion(): IOSVersionInfo {
  * @returns true if device supports alternate icons (iOS 10.3+)
  */
 export function supportsAlternateIcons(): boolean {
-  return getIOSVersion().supportsAlternateIcons;
+  return getIOSVersion().supportsAlternateIcons
 }
 
 /**
@@ -65,7 +65,7 @@ export function supportsAlternateIcons(): boolean {
  * @returns true if running in Capacitor
  */
 export function isCapacitorApp(): boolean {
-  return !!(window as any).Capacitor;
+  return !!(window as any).Capacitor
 }
 
 /**
@@ -74,5 +74,5 @@ export function isCapacitorApp(): boolean {
  * @returns true if icon selector should be shown
  */
 export function shouldShowIconSelector(): boolean {
-  return isCapacitorApp() && supportsAlternateIcons();
+  return isCapacitorApp() && supportsAlternateIcons()
 }

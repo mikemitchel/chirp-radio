@@ -144,7 +144,6 @@
   height: 60%;
 }
 
-
 /* Settings Section */
 .cr-account-settings-page__settings {
   margin-bottom: var(--cr-space-6);
@@ -281,7 +280,6 @@
   border-top: 1px solid var(--cr-default-200);
   align-items: flex-start;
 }
-
 
 @media (max-width: 480px) {
   .cr-account-settings-page__content {

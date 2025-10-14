@@ -1,16 +1,16 @@
 // CrStreamingMusicPlayer.tsx
-import React, { useState, useEffect, useRef } from 'react';
-import { PiPlayFill, PiPauseFill } from 'react-icons/pi';
-import CrCurrentDj from './CrCurrentDj';
-import CrTrackInfo from './CrTrackInfo';
-import CrLogo from './CrLogo';
-import CrButton from './CrButton';
-import CrChip from './CrChip';
-import CrMobileHeader from './CrMobileHeader';
-import { useAudioPlayer } from '../contexts/AudioPlayerContext';
-import { useAuth } from '../hooks/useAuth';
-import LoginRequiredModal from '../components/LoginRequiredModal';
-import './CrStreamingMusicPlayer.css';
+import React, { useState, useEffect, useRef } from 'react'
+import { PiPlayFill, PiPauseFill } from 'react-icons/pi'
+import CrCurrentDj from './CrCurrentDj'
+import CrTrackInfo from './CrTrackInfo'
+import CrLogo from './CrLogo'
+import CrButton from './CrButton'
+import CrChip from './CrChip'
+import CrMobileHeader from './CrMobileHeader'
+import { useAudioPlayer } from '../contexts/AudioPlayerContext'
+import { useAuth } from '../hooks/useAuth'
+import LoginRequiredModal from '../components/LoginRequiredModal'
+import './CrStreamingMusicPlayer.css'
 
 // PlayPause button component that exactly matches the Figma design
 const PlayPauseButton = ({ isPlaying, onClick, size = 60 }) => {
@@ -93,8 +93,9 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false })
 
   useEffect(() => {
     // Track if src changed to empty/null (new track with no art vs waiting for art)
-    const srcChangedToEmpty = lastSrc.current !== src && !isValidImageUrl(src) && isValidImageUrl(lastSrc.current);
-    lastSrc.current = src;
+    const srcChangedToEmpty =
+      lastSrc.current !== src && !isValidImageUrl(src) && isValidImageUrl(lastSrc.current)
+    lastSrc.current = src
 
     if (!isValidImageUrl(src)) {
       // No valid URL - go directly to fallback (retries already happened in AudioPlayerContext)
@@ -167,8 +168,9 @@ const BackgroundImage = ({ src, isLoading }) => {
 
   useEffect(() => {
     // Track if src changed to empty/null
-    const srcChangedToEmpty = lastSrc.current !== src && !isValidImageUrl(src) && isValidImageUrl(lastSrc.current);
-    lastSrc.current = src;
+    const srcChangedToEmpty =
+      lastSrc.current !== src && !isValidImageUrl(src) && isValidImageUrl(lastSrc.current)
+    lastSrc.current = src
 
     if (!isValidImageUrl(src)) {
       // No valid URL - go directly to fallback (retries already happened in AudioPlayerContext)
@@ -262,77 +264,78 @@ export default function CrStreamingMusicPlayer({
     currentData,
     isTrackAdded: contextIsTrackAdded,
     togglePlayPause,
-    toggleAddTrack
-  } = useAudioPlayer();
+    toggleAddTrack,
+  } = useAudioPlayer()
 
   // Use auth hook to check login state
-  const { isLoggedIn, login } = useAuth();
+  const { isLoggedIn, login } = useAuth()
 
   // State for login required modal
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   // State to track if there's a pending add action (only for login, not signup)
-  const [hasPendingAdd, setHasPendingAdd] = useState(false);
+  const [hasPendingAdd, setHasPendingAdd] = useState(false)
 
   // Effect to handle pending add after login
   useEffect(() => {
     if (isLoggedIn && hasPendingAdd) {
-      toggleAddTrack();
-      setHasPendingAdd(false);
+      toggleAddTrack()
+      setHasPendingAdd(false)
     }
-  }, [isLoggedIn, hasPendingAdd]);
+  }, [isLoggedIn, hasPendingAdd])
 
   // Helper function to check if album art should use fallback
   const shouldUseFallback = (albumArtUrl) => {
-    return !albumArtUrl ||
-           albumArtUrl.trim() === '' ||
-           albumArtUrl === 'null' ||
-           albumArtUrl === 'undefined' ||
-           albumArtUrl.includes('null') ||
-           !albumArtUrl.startsWith('http') ||
-           // Treat placeholder URLs as fallback cases when autoFetch is true
-           (autoFetch && (
-             albumArtUrl.includes('codepen.io') ||
-             albumArtUrl.includes('picsum.photos') ||
-             albumArtUrl.includes('unsplash.com')
-           ));
-  };
+    return (
+      !albumArtUrl ||
+      albumArtUrl.trim() === '' ||
+      albumArtUrl === 'null' ||
+      albumArtUrl === 'undefined' ||
+      albumArtUrl.includes('null') ||
+      !albumArtUrl.startsWith('http') ||
+      // Treat placeholder URLs as fallback cases when autoFetch is true
+      (autoFetch &&
+        (albumArtUrl.includes('codepen.io') ||
+          albumArtUrl.includes('picsum.photos') ||
+          albumArtUrl.includes('unsplash.com')))
+    )
+  }
 
   // Play/pause handler using context
   const handlePlayPause = (event) => {
-    event.stopPropagation();
-    togglePlayPause();
-  };
+    event.stopPropagation()
+    togglePlayPause()
+  }
 
   // Handle add/remove track using context
   const handleToggleAdd = () => {
     if (!isLoggedIn) {
-      setHasPendingAdd(true); // Mark that user wants to add this song
-      setShowLoginModal(true);
-      return;
+      setHasPendingAdd(true) // Mark that user wants to add this song
+      setShowLoginModal(true)
+      return
     }
-    toggleAddTrack();
-  };
+    toggleAddTrack()
+  }
 
   const handleLoginModalClose = () => {
-    setShowLoginModal(false);
-    setHasPendingAdd(false); // Clear pending add if modal is closed
-  };
+    setShowLoginModal(false)
+    setHasPendingAdd(false) // Clear pending add if modal is closed
+  }
 
   const handleLogin = () => {
     // For demo purposes, simulate login with a demo account
-    login('demo@chirpradio.org');
+    login('demo@chirpradio.org')
     // The useEffect will automatically add the song after login
-    setShowLoginModal(false);
-  };
+    setShowLoginModal(false)
+  }
 
   const handleSignUp = () => {
-    console.log('Sign up clicked from player');
+    console.log('Sign up clicked from player')
     // TODO: Implement actual signup flow
     // Clear pending add for signup (as per requirements)
-    setHasPendingAdd(false);
-    setShowLoginModal(false);
-  };
+    setHasPendingAdd(false)
+    setShowLoginModal(false)
+  }
 
   // Render full player variant
   const renderFullPlayer = () => {
@@ -342,7 +345,11 @@ export default function CrStreamingMusicPlayer({
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
-            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" isLoading={isLoading} />
+            <AlbumArt
+              src={currentData.albumArt}
+              className="cr-player__album-art"
+              isLoading={isLoading}
+            />
           </div>
           <div className="cr-player__track-info-container">
             <CrTrackInfo
@@ -370,7 +377,11 @@ export default function CrStreamingMusicPlayer({
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
-            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" isLoading={isLoading} />
+            <AlbumArt
+              src={currentData.albumArt}
+              className="cr-player__album-art"
+              isLoading={isLoading}
+            />
           </div>
           <div className="cr-player__track-info-container">
             <CrTrackInfo
@@ -397,7 +408,11 @@ export default function CrStreamingMusicPlayer({
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
-            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" isLoading={isLoading} />
+            <AlbumArt
+              src={currentData.albumArt}
+              className="cr-player__album-art"
+              isLoading={isLoading}
+            />
           </div>
           <div className="cr-player__track-info-container">
             <CrTrackInfo

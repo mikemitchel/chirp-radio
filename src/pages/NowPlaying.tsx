@@ -1,5 +1,5 @@
 // src/pages/NowPlaying.tsx
-import React from 'react';
+import React from 'react'
 
 export default function NowPlaying() {
   return (
@@ -11,5 +11,5 @@ export default function NowPlaying() {
 
       {/* Content will be filled by CrStreamingMusicPlayer in landing variant */}
     </div>
-  );
+  )
 }

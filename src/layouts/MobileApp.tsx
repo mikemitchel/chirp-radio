@@ -28,16 +28,16 @@ const preloadNowPlayingData = async () => {
     const imageUrls = [
       nowPlaying.lastfm_urls?.large_image,
       nowPlaying.lastfm_urls?.med_image,
-      nowPlaying.lastfm_urls?.sm_image
+      nowPlaying.lastfm_urls?.sm_image,
     ]
-      .filter(url => url && url.trim() !== '')
-      .map(url => upgradeImageQuality(url)) // Upgrade to 348s for better quality
+      .filter((url) => url && url.trim() !== '')
+      .map((url) => upgradeImageQuality(url)) // Upgrade to 348s for better quality
 
     // Try to preload the first available image (now all upgraded to 348s)
     let albumArtUrl = ''
     if (imageUrls.length > 0) {
       try {
-        const timestampedUrls = imageUrls.map(url => `${url}?t=${Date.now()}`)
+        const timestampedUrls = imageUrls.map((url) => `${url}?t=${Date.now()}`)
         albumArtUrl = await preloadFirstAvailable(timestampedUrls)
       } catch (error) {
         console.warn('⚠️ [Album Art - Splash] All image URLs failed to load, using fallback')
@@ -193,37 +193,39 @@ export default function MobileApp() {
       >
         {/* Always render the app frame so it's ready */}
         <CrMobileAppFrame
-        variant={isLandingPage ? 'landing' : 'interior'}
-        pageTitle={getPageTitle()}
-        onLogoClick={handleHomeClick}
-        onHomeClick={handleHomeClick}
-        onNowPlayingClick={handleNowPlayingClick}
-        onRecentPlaylistClick={handleRecentlyPlayedClick}
-        onYourCollectionClick={handleYourCollectionClick}
-        onRequestClick={handleRequestClick}
-        onAccountSettingsClick={handleAccountSettingsClick}
-        onListenClick={handleListenClick}
-        onPlaylistClick={handlePlaylistClick}
-        onPodcastClick={handlePodcastClick}
-        onDjsClick={handleDjsClick}
-        onScheduleClick={handleScheduleClick}
-        onEventsClick={handleEventsClick}
-        onArticlesClick={handleArticlesClick}
-        onDonateClick={handleDonateClick}
-        onWaysToGiveClick={handleWaysToGiveClick}
-        onVinylCircleClick={handleVinylCircleClick}
-        onShopClick={handleShopClick}
-        onAboutClick={handleAboutClick}
-        onOtherWaysToListenClick={handleOtherWaysToListenClick}
-        onContactClick={handleContactClick}
-        onBecomeVolunteerClick={handleBecomeVolunteerClick}
-      >
-        <Outlet />
-      </CrMobileAppFrame>
+          variant={isLandingPage ? 'landing' : 'interior'}
+          pageTitle={getPageTitle()}
+          onLogoClick={handleHomeClick}
+          onHomeClick={handleHomeClick}
+          onNowPlayingClick={handleNowPlayingClick}
+          onRecentPlaylistClick={handleRecentlyPlayedClick}
+          onYourCollectionClick={handleYourCollectionClick}
+          onRequestClick={handleRequestClick}
+          onAccountSettingsClick={handleAccountSettingsClick}
+          onListenClick={handleListenClick}
+          onPlaylistClick={handlePlaylistClick}
+          onPodcastClick={handlePodcastClick}
+          onDjsClick={handleDjsClick}
+          onScheduleClick={handleScheduleClick}
+          onEventsClick={handleEventsClick}
+          onArticlesClick={handleArticlesClick}
+          onDonateClick={handleDonateClick}
+          onWaysToGiveClick={handleWaysToGiveClick}
+          onVinylCircleClick={handleVinylCircleClick}
+          onShopClick={handleShopClick}
+          onAboutClick={handleAboutClick}
+          onOtherWaysToListenClick={handleOtherWaysToListenClick}
+          onContactClick={handleContactClick}
+          onBecomeVolunteerClick={handleBecomeVolunteerClick}
+        >
+          <Outlet />
+        </CrMobileAppFrame>
 
         {/* Render splash on top when needed */}
         {showSplash && (
-          <CrMobileSplash className={`splash-animation splash-animation--${splashAnimationState}`} />
+          <CrMobileSplash
+            className={`splash-animation splash-animation--${splashAnimationState}`}
+          />
         )}
 
         {/* Global notifications (modal and toast) */}

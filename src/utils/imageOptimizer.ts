@@ -20,21 +20,19 @@ export function upgradeImageQuality(
   quality: 'low' | 'medium' | 'high' = 'high'
 ): string {
   if (!url || !url.includes('lastfm')) {
-    return url;
+    return url
   }
 
   // Map quality to size parameter
   const sizeMap = {
-    low: '174s',      // 174x174px - minimal data (~8.6KB WebP)
+    low: '174s', // 174x174px - minimal data (~8.6KB WebP)
     medium: '300x300', // 300x300px - moderate data (~20KB WebP)
-    high: '300x300',   // 300x300px - best quality (~20KB WebP)
-  };
+    high: '300x300', // 300x300px - best quality (~20KB WebP)
+  }
 
-  const size = sizeMap[quality];
+  const size = sizeMap[quality]
 
   // Replace any /u/###s/ or /u/###x###/ pattern with the desired size
   // Then convert to WebP format
-  return url
-    .replace(/\/u\/(\d+s|\d+x\d+)\//, `/u/${size}/`)
-    .replace(/\.(jpg|png)$/, '.webp');
+  return url.replace(/\/u\/(\d+s|\d+x\d+)\//, `/u/${size}/`).replace(/\.(jpg|png)$/, '.webp')
 }

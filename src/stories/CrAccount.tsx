@@ -125,17 +125,52 @@ export default function CrAccount({
   }, [])
 
   const userMenuOptions = [
-    { label: 'Your Profile', value: 'profile', onClick: onProfileClick, isActive: location.pathname === '/profile' },
-    { label: 'Your Collection', value: 'collection', onClick: onFavoritesClick, isActive: location.pathname === '/collection' },
+    {
+      label: 'Your Profile',
+      value: 'profile',
+      onClick: onProfileClick,
+      isActive: location.pathname === '/profile',
+    },
+    {
+      label: 'Your Collection',
+      value: 'collection',
+      onClick: onFavoritesClick,
+      isActive: location.pathname === '/collection',
+    },
     { label: 'Sign Out', value: 'signout', onClick: onSignOutClick, isActive: false },
   ]
 
   const volunteerMenuOptions = [
-    { label: 'Volunteer Directory', value: 'directory', onClick: onVolunteerDirectoryClick, isActive: location.pathname === '/volunteer-directory' },
-    { label: 'Leadership Directory', value: 'leadership', onClick: onLeadershipDirectoryClick, isActive: location.pathname === '/leadership-directory' },
-    { label: 'Volunteer Calendar', value: 'calendar', onClick: onVolunteerCalendarClick, isActive: location.pathname === '/volunteer-calendar' },
-    { label: 'Websites to Remember', value: 'websites', onClick: onWebsitesClick, isActive: location.pathname === '/websites-to-remember' },
-    { label: 'Volunteer Downloads', value: 'downloads', onClick: onDownloadsClick, isActive: location.pathname === '/volunteer-downloads' },
+    {
+      label: 'Volunteer Directory',
+      value: 'directory',
+      onClick: onVolunteerDirectoryClick,
+      isActive: location.pathname === '/volunteer-directory',
+    },
+    {
+      label: 'Leadership Directory',
+      value: 'leadership',
+      onClick: onLeadershipDirectoryClick,
+      isActive: location.pathname === '/leadership-directory',
+    },
+    {
+      label: 'Volunteer Calendar',
+      value: 'calendar',
+      onClick: onVolunteerCalendarClick,
+      isActive: location.pathname === '/volunteer-calendar',
+    },
+    {
+      label: 'Websites to Remember',
+      value: 'websites',
+      onClick: onWebsitesClick,
+      isActive: location.pathname === '/websites-to-remember',
+    },
+    {
+      label: 'Volunteer Downloads',
+      value: 'downloads',
+      onClick: onDownloadsClick,
+      isActive: location.pathname === '/volunteer-downloads',
+    },
   ]
 
   const handleUserMenuSelect = (option: any) => {
@@ -172,10 +207,7 @@ export default function CrAccount({
         </CrButton>
         {userMenuOpen && (
           <div className="cr-account__dropdown-menu">
-            <CrSelect
-              options={userMenuOptions}
-              onSelect={handleUserMenuSelect}
-            />
+            <CrSelect options={userMenuOptions} onSelect={handleUserMenuSelect} />
           </div>
         )}
       </div>
@@ -196,10 +228,7 @@ export default function CrAccount({
           </CrButton>
           {volunteerMenuOpen && (
             <div className="cr-account__dropdown-menu">
-              <CrSelect
-                options={volunteerMenuOptions}
-                onSelect={handleVolunteerMenuSelect}
-              />
+              <CrSelect options={volunteerMenuOptions} onSelect={handleVolunteerMenuSelect} />
             </div>
           )}
         </div>

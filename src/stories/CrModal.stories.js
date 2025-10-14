@@ -211,7 +211,8 @@ export const WithDjInfo = {
               'div',
               {
                 key: 'actions',
-                className: 'cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap',
+                className:
+                  'cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap',
               },
               [
                 React.createElement(
@@ -305,7 +306,8 @@ export const SmallSize = {
               'div',
               {
                 key: 'actions',
-                className: 'cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap',
+                className:
+                  'cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap',
               },
               [
                 React.createElement(
@@ -489,53 +491,58 @@ export const NoCloseButton = {
             ...args,
             isOpen: true,
           },
-          React.createElement('div', { key: 'modal-content-noclose', className: 'cr-modal__body' }, [
-            React.createElement(
-              'div',
-              {
-                key: 'icon',
-                className: 'cr-modal__icon',
-              },
-              React.createElement(PiMusicNotes, {
-                style: { color: 'var(--cr-primary-500)' },
-              })
-            ),
-            React.createElement(
-              'p',
-              {
-                key: 'message',
-                className: 'cr-modal__text cr-modal__text--center',
-              },
-              'This modal has no close button in the header. Users must use the action buttons to proceed.'
-            ),
-            React.createElement(
-              'div',
-              {
-                key: 'actions',
-                className: 'cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap',
-              },
-              [
-                React.createElement(
-                  CrButton,
-                  {
-                    key: 'later',
-                    variant: 'outline',
-                    color: 'default',
-                  },
-                  'Maybe Later'
-                ),
-                React.createElement(
-                  CrButton,
-                  {
-                    key: 'continue',
-                    variant: 'solid',
-                    color: 'primary',
-                  },
-                  'Continue'
-                ),
-              ]
-            ),
-          ])
+          React.createElement(
+            'div',
+            { key: 'modal-content-noclose', className: 'cr-modal__body' },
+            [
+              React.createElement(
+                'div',
+                {
+                  key: 'icon',
+                  className: 'cr-modal__icon',
+                },
+                React.createElement(PiMusicNotes, {
+                  style: { color: 'var(--cr-primary-500)' },
+                })
+              ),
+              React.createElement(
+                'p',
+                {
+                  key: 'message',
+                  className: 'cr-modal__text cr-modal__text--center',
+                },
+                'This modal has no close button in the header. Users must use the action buttons to proceed.'
+              ),
+              React.createElement(
+                'div',
+                {
+                  key: 'actions',
+                  className:
+                    'cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap',
+                },
+                [
+                  React.createElement(
+                    CrButton,
+                    {
+                      key: 'later',
+                      variant: 'outline',
+                      color: 'default',
+                    },
+                    'Maybe Later'
+                  ),
+                  React.createElement(
+                    CrButton,
+                    {
+                      key: 'continue',
+                      variant: 'solid',
+                      color: 'primary',
+                    },
+                    'Continue'
+                  ),
+                ]
+              ),
+            ]
+          )
         ),
       ]
     )

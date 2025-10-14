@@ -25,11 +25,7 @@
       "isFree": false,
       "ageRestriction": "21+",
       "featured": true,
-      "performers": [
-        "The Hecks",
-        "Retirement Party",
-        "Ratboys"
-      ]
+      "performers": ["The Hecks", "Retirement Party", "Ratboys"]
     },
     {
       "id": "event-002",
@@ -110,11 +106,7 @@
       "isFree": false,
       "ageRestriction": "18+",
       "featured": false,
-      "performers": [
-        "Whitney",
-        "Divino Niño",
-        "Deeper"
-      ]
+      "performers": ["Whitney", "Divino Niño", "Deeper"]
     },
     {
       "id": "event-005",
@@ -164,12 +156,7 @@
       "isFree": true,
       "ageRestriction": "All Ages",
       "featured": true,
-      "performers": [
-        "Modest Mouse",
-        "Built to Spill",
-        "The National",
-        "Local Natives"
-      ]
+      "performers": ["Modest Mouse", "Built to Spill", "The National", "Local Natives"]
     },
     {
       "id": "event-007",

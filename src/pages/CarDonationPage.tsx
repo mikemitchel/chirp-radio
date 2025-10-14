@@ -28,8 +28,12 @@ const CarDonationPage: React.FC = () => {
       <section className="page-container">
         <CrBreadcrumb
           items={[
-            { label: 'Other Ways to Give', isClickable: true, onClick: () => navigate('/other-ways-to-give') },
-            { label: 'Car Donation', isClickable: false }
+            {
+              label: 'Other Ways to Give',
+              isClickable: true,
+              onClick: () => navigate('/other-ways-to-give'),
+            },
+            { label: 'Car Donation', isClickable: false },
           ]}
         />
       </section>
@@ -132,7 +136,7 @@ But the most important reason is that your donation will help CHIRP Radio stay s
                   day: 'numeric',
                   year: 'numeric',
                   hour: 'numeric',
-                  minute: '2-digit'
+                  minute: '2-digit',
                 })}
                 venue={events[0].venue.name}
                 showTicketButton={false}
@@ -146,7 +150,10 @@ But the most important reason is that your donation will help CHIRP Radio stay s
           </div>
 
           {/* Articles Section */}
-          <div className="cr-bg-rice-d100" style={{ padding: 'var(--cr-space-6)', marginTop: 'var(--cr-space-6)' }}>
+          <div
+            className="cr-bg-rice-d100"
+            style={{ padding: 'var(--cr-space-6)', marginTop: 'var(--cr-space-6)' }}
+          >
             <CrPageHeader
               title="Recent Article"
               titleTag="h3"
@@ -172,7 +179,7 @@ But the most important reason is that your donation will help CHIRP Radio stay s
                 eventDate={new Date(articles[0].publishedDate).toLocaleDateString('en-US', {
                   month: 'long',
                   day: 'numeric',
-                  year: 'numeric'
+                  year: 'numeric',
                 })}
                 showTicketButton={false}
                 onClick={() => handleArticleClick(articles[0])}

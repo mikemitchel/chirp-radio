@@ -46,7 +46,8 @@ const sampleTracks = [
     timeAgo: '10:36am',
   },
   {
-    albumArt: 'https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg',
+    albumArt:
+      'https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg',
     artistName: 'Alkaline Trio',
     trackName: 'Stupid Kid',
     albumName: 'From Here to Infirmary',
@@ -80,7 +81,8 @@ const sampleTracks = [
     timeAgo: '10:21am',
   },
   {
-    albumArt: 'https://upload.wikimedia.org/wikipedia/en/2/23/Sugar_-_File_Under_Easy_Listening.jpg',
+    albumArt:
+      'https://upload.wikimedia.org/wikipedia/en/2/23/Sugar_-_File_Under_Easy_Listening.jpg',
     artistName: 'Sugar',
     trackName: 'Gee Angel',
     albumName: 'File Under: Easy Listening',
@@ -114,7 +116,8 @@ export const FewTracks = {
   parameters: {
     docs: {
       description: {
-        story: 'With only a few tracks, the scroll gradient may not appear if content fits in viewport.',
+        story:
+          'With only a few tracks, the scroll gradient may not appear if content fits in viewport.',
       },
     },
   },
@@ -129,7 +132,8 @@ export const ManyTracks = {
   parameters: {
     docs: {
       description: {
-        story: 'With many tracks, the horizontal scroll gradient helps indicate more content is available.',
+        story:
+          'With many tracks, the horizontal scroll gradient helps indicate more content is available.',
       },
     },
   },
