@@ -121,6 +121,14 @@
   margin: 0 auto;
 }
 
+/* Add padding at 1488px width */
+@media (max-width: 1488px) {
+  .page-layout-3col {
+    padding-left: var(--cr-space-6);
+    padding-right: var(--cr-space-6);
+  }
+}
+
 /* Masonry layout */
 .page-layout-masonry {
   column-count: 3;
