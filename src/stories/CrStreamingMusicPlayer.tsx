@@ -195,7 +195,7 @@ const BackgroundImage = ({ src, isLoading }) => {
       setHasConfirmedNoArt(true)
     }
     img.src = src
-  }, [src, displaySrc, hasConfirmedNoArt])
+  }, [src])
 
   const getFallbackUrl = () => '/images/chirp-logos/CHIRP_Logo_FM%20URL_record.svg'
 

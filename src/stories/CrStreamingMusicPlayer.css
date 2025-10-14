@@ -45,6 +45,7 @@
   transition: opacity 0.5s ease-in-out;
   z-index: 0;
   pointer-events: none;
+  will-change: background-image;
 }
 
 /* NEW: Color overlay layer for better text readability */

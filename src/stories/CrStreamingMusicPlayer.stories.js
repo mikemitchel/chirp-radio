@@ -2,12 +2,17 @@
 import React from 'react'
 import CrStreamingMusicPlayer from './CrStreamingMusicPlayer'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
+import { AuthProvider } from '../contexts/AuthContext'
 
 export default {
   title: 'Templates/CrStreamingMusicPlayer',
   component: CrStreamingMusicPlayer,
   decorators: [
-    (Story) => React.createElement(AudioPlayerProvider, null, React.createElement(Story)),
+    (Story) => React.createElement(
+      AuthProvider,
+      null,
+      React.createElement(AudioPlayerProvider, null, React.createElement(Story))
+    ),
   ],
   parameters: {
     layout: 'centered',
