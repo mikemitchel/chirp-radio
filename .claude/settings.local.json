@@ -14,7 +14,9 @@
       "Bash(npm run storybook:*)",
       "Bash(npm run dev:*)",
       "Read(//private/tmp/**)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(test:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
