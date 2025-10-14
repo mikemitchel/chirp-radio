@@ -1,6 +1,6 @@
 // src/pages/AccountSettings.tsx
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import { PiPencilSimple, PiHandHeart, PiStorefront, PiDownloadSimple } from 'react-icons/pi';
 import CrPageHeader from '../stories/CrPageHeader';
 import CrProfileCard from '../stories/CrProfileCard';
@@ -14,6 +14,7 @@ import './AccountSettings.css';
 
 export default function AccountSettings() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { isLoggedIn, user, login, logout, switchProfile, verifyPassword, requestEmailChange, verifyEmailChange, cancelEmailChange } = useAuth();
   const { showToast } = useNotification();
 
@@ -208,8 +209,9 @@ export default function AccountSettings() {
     logout();
     // Store toast flag for after redirect
     sessionStorage.setItem('chirp-show-logout-toast', 'true');
-    // Redirect to landing page
-    navigate('/');
+    // Redirect to appropriate landing page based on current route
+    const isInAppRoutes = location.pathname.startsWith('/app');
+    navigate(isInAppRoutes ? '/app' : '/');
   };
 
   const handleSignUp = () => {

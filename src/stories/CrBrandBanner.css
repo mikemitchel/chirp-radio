@@ -116,6 +116,11 @@
     padding: var(--cr-space-3) var(--cr-space-2); /* 12px 8px */
   }
 
+  .cr-logo-banner__container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .cr-logo-banner__logo-container {
     max-width: 100%;
   }
