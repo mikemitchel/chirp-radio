@@ -21,7 +21,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "prepare": "husky"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.3",
@@ -61,8 +62,10 @@
     "eslint-plugin-storybook": "^9.1.8",
     "gh-pages": "^6.3.0",
     "globals": "^16.4.0",
+    "husky": "^9.1.7",
     "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^27.0.0",
+    "lint-staged": "^16.2.4",
     "playwright": "^1.55.1",
     "prettier": "^3.6.2",
     "storybook": "^9.1.8",
@@ -73,5 +76,14 @@
     "vite": "^7.1.7",
     "vite-plugin-favicon2": "^1.1.5",
     "vitest": "^3.2.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,md}": [
+      "prettier --write"
+    ]
   }
 }
