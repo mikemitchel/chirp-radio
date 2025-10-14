@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">chirp-radio</string>
-    <string name="title_activity_main">chirp-radio</string>
+    <string name="app_name">CHIRP Radio</string>
+    <string name="title_activity_main">CHIRP Radio</string>
     <string name="package_name">org.chirpradio.app</string>
     <string name="custom_url_scheme">org.chirpradio.app</string>
 </resources>
