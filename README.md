@@ -67,6 +67,42 @@ npm run build
 
 - **Mobile Framework**: Capacitor 7 - See [MOBILE_DEVELOPMENT.md](./MOBILE_DEVELOPMENT.md)
 
+## Development Utilities
+
+### Logger
+
+The project includes a development-only logger utility (`src/utils/logger.ts`) that provides console logging that automatically gets stripped out in production builds.
+
+#### Usage
+
+```typescript
+import { createLogger } from '../utils/logger'
+
+const log = createLogger('ComponentName')
+
+// Use like console.log, but only logs in development
+log.log('Debug message:', someData)
+log.error('Error occurred:', error)
+log.warn('Warning:', warning)
+```
+
+#### When Logs Appear
+
+**Development Mode** (logs visible):
+
+- `npm run dev` - Web development server
+- `npm run cap:ios` - iOS simulator testing
+- `npm run cap:android` - Android emulator testing
+- `npm run storybook` - Storybook development
+
+**Production Mode** (logs removed):
+
+- `npm run build` - Production web build
+- `npm run build:mobile` - Production mobile builds
+- Any production deployment
+
+The logger uses Vite's `import.meta.env.DEV` flag and tree-shaking to completely remove all logging code from production builds, ensuring zero performance impact.
+
 ## Contributing
 
 Please ensure all code passes linting and formatting checks before committing:

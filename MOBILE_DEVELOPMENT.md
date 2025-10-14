@@ -7,6 +7,7 @@ This guide covers developing, testing, and deploying the CHIRP Radio mobile apps
 - [Prerequisites](#prerequisites)
 - [Initial Setup](#initial-setup)
 - [Development Workflow](#development-workflow)
+  - [Debugging Mobile Apps](#debugging-mobile-apps)
 - [Testing in Emulators](#testing-in-emulators)
 - [Building for Production](#building-for-production)
 - [Deployment](#deployment)
@@ -170,6 +171,41 @@ If you've already built the web app and just need to sync:
 ```bash
 npm run cap:sync
 ```
+
+### Debugging Mobile Apps
+
+#### Development Logger
+
+The project includes a development-only logger utility that provides console logging for debugging. Logs automatically appear when running in development mode and are stripped from production builds.
+
+**Viewing Logs:**
+
+**iOS (Safari Web Inspector):**
+
+1. Enable Developer menu in Safari: `Safari > Settings > Advanced > Show features for web developers`
+2. Run your app: `npm run cap:ios`
+3. In Safari: `Develop > [Your Device Name] > [App Name]`
+4. Open the Console tab to see logs
+
+**Android (Chrome DevTools):**
+
+1. Run your app: `npm run cap:android`
+2. In Chrome, navigate to: `chrome://inspect`
+3. Click "Inspect" under your app
+4. Open the Console tab to see logs
+
+**Log Examples:**
+
+```
+[AudioPlayerContext] Fetching now playing...
+[AudioPlayerContext] isNative: true
+[AudioPlayerContext] Parsed track data: { artist: "...", track: "..." }
+[MobileApp] Preloading data...
+```
+
+All debug logs are automatically prefixed with their source component name (e.g., `[AudioPlayerContext]`, `[MobileApp]`) to make debugging easier.
+
+**Note:** These logs will NOT appear in production builds (created via Xcode Archive or `./gradlew assembleRelease`).
 
 ## Testing in Emulators
 
@@ -430,6 +466,33 @@ npm run build
 npm run cap:sync
 ```
 
+#### Debugging API or Data Issues
+
+**Symptoms:** App runs but data doesn't load, or features don't work as expected.
+
+**Solution:**
+
+1. **Check the development logs** using Safari Web Inspector (iOS) or Chrome DevTools (Android):
+   - See the "Debugging Mobile Apps" section above for setup instructions
+   - Look for error messages or failed network requests
+   - Check for messages like:
+     ```
+     [AudioPlayerContext] Fetching now playing...
+     [AudioPlayerContext] Response status: 200
+     [AudioPlayerContext] Parsed track data: { artist: "...", track: "..." }
+     ```
+
+2. **Common log indicators:**
+   - `Response status: 200` = API call succeeded
+   - `Response status: 404` or `500` = API call failed
+   - `isNative: true` = App correctly detects it's running on mobile
+   - `fetchUrl: https://...` = App is using the correct API endpoint
+
+3. **If logs aren't appearing:**
+   - Ensure you're running in development mode (`npm run cap:ios` or `npm run cap:android`)
+   - Check that Safari Web Inspector or Chrome DevTools is properly connected
+   - Rebuild the app: `npm run build:mobile`
+
 #### CocoaPods Installation Fails
 
 **Solution:**
@@ -474,10 +537,14 @@ npm run build:mobile           # Build + sync to both platforms
 
 # Mobile Commands
 npm run cap:sync               # Sync web assets to native projects
-npm run cap:ios                # Run on iOS simulator
-npm run cap:android            # Run on Android emulator
+npm run cap:ios                # Run on iOS simulator (with debug logs)
+npm run cap:android            # Run on Android emulator (with debug logs)
 npm run cap:open:ios           # Open Xcode
 npm run cap:open:android       # Open Android Studio
+
+# Debugging
+# iOS: Safari > Develop > [Device] > [App] (Console tab)
+# Android: chrome://inspect (Console tab)
 
 # Testing
 npm run test                   # Run unit tests
