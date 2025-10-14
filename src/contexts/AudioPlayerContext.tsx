@@ -186,6 +186,24 @@ export function AudioPlayerProvider({
     }
     isFetchingRef.current = true;
 
+    // Check if we're in simulation mode
+    const simulationMode = sessionStorage.getItem('chirp-simulation-mode') === 'true';
+    if (simulationMode) {
+      // In simulation mode, read directly from sessionStorage without timestamp check
+      const cached = sessionStorage.getItem('chirp-now-playing');
+      if (cached) {
+        try {
+          const parsedCache = JSON.parse(cached);
+          setCurrentData(parsedCache);
+          setIsLoading(false);
+          isFetchingRef.current = false;
+          return;
+        } catch (e) {
+          console.error('Error parsing simulation data:', e);
+        }
+      }
+    }
+
     // Use proxy with aggressive cache busting
     const timestamp = Date.now();
     const random = Math.random();
@@ -430,6 +448,19 @@ export function AudioPlayerProvider({
       };
     }
   }, [autoFetch, apiUrl]);
+
+  // Listen for forced refresh (for devTools simulation)
+  useEffect(() => {
+    const handleForceRefresh = () => {
+      if (autoFetch) {
+        isFetchingRef.current = false; // Reset flag to allow immediate fetch
+        fetchNowPlaying();
+      }
+    };
+
+    window.addEventListener('chirp-force-refresh', handleForceRefresh);
+    return () => window.removeEventListener('chirp-force-refresh', handleForceRefresh);
+  }, [autoFetch]);
 
   // Debug test functions
   useEffect(() => {
