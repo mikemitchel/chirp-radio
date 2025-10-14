@@ -245,6 +245,19 @@
   padding: 0;
 }
 
+/* Small, Medium and Large button icon spacing */
+.cr-btn--small .cr-btn__icon--left,
+.cr-btn--medium .cr-btn__icon--left,
+.cr-btn--large .cr-btn__icon--left {
+  margin: 0 var(--cr-space-1) 0 var(--cr-space-2);
+}
+
+.cr-btn--small .cr-btn__icon--right,
+.cr-btn--medium .cr-btn__icon--right,
+.cr-btn--large .cr-btn__icon--right {
+  margin: 0 var(--cr-space-2) 0 var(--cr-space-1);
+}
+
 /* Icon sizes by button size */
 .cr-btn--large .cr-btn__icon svg {
   width: 26px;
