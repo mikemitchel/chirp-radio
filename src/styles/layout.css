@@ -199,6 +199,10 @@
     gap: var(--cr-space-4);
     padding: var(--cr-space-4);
   }
+
+  .page-layout-main-sidebar__sidebar {
+    padding-top: var(--cr-space-6) !important;
+  }
 }
 
 /* Desktop: 1200px */

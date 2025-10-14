@@ -8,8 +8,10 @@ import CrTable from '../stories/CrTable';
 import CrButton from '../stories/CrButton';
 import CrChip from '../stories/CrChip';
 import CrModal from '../stories/CrModal';
+import CrAppIconSelector from '../stories/CrAppIconSelector';
 import { useAuth } from '../hooks/useAuth';
 import { useNotification } from '../contexts/NotificationContext';
+import { shouldShowIconSelector } from '../utils/deviceDetection';
 import './AccountSettings.css';
 
 export default function AccountSettings() {
@@ -82,6 +84,19 @@ export default function AccountSettings() {
     const saved = storage.getItem('chirp-streaming-quality');
     return saved || '128';
   });
+
+  // App icon state (only relevant for mobile app)
+  const [currentAppIcon, setCurrentAppIcon] = useState(() => {
+    const storage = getStorage();
+    const saved = storage.getItem('chirp-app-icon');
+    return saved || 'icon1';
+  });
+
+  // Check if we're in /app routes and should show icon selector
+  // In production, only show on iOS 10.3+ with Capacitor
+  // In development/browser, always show in /app routes for testing
+  const isInAppRoutes = location.pathname.startsWith('/app');
+  const showIconSelector = isInAppRoutes;
 
   // Load user's dark mode preference when user changes
   useEffect(() => {
@@ -193,6 +208,50 @@ export default function AccountSettings() {
 
   const handlePushNotificationsChange = (checked: boolean) => {
     // TODO: Save notification preference
+  };
+
+  const handleIconChange = (iconId: string) => {
+    // Update local state immediately for preview
+    setCurrentAppIcon(iconId);
+  };
+
+  const handleApplyIcon = async (iconId: string) => {
+    try {
+      // In a real Capacitor app, you would use the Capacitor API to change the icon
+      // For now, we'll just save the preference
+      const storage = getStorage();
+      storage.setItem('chirp-app-icon', iconId);
+
+      // Update user preferences if logged in
+      if (user) {
+        const updatedUser = {
+          ...user,
+          preferences: {
+            ...user.preferences,
+            appIcon: iconId
+          }
+        };
+        localStorage.setItem('chirp-user', JSON.stringify(updatedUser));
+      }
+
+      showToast({
+        message: 'App icon updated successfully',
+        type: 'success',
+        duration: 3000,
+      });
+
+      // In production with Capacitor, you would call:
+      // const { Plugins } = await import('@capacitor/core');
+      // await Plugins.App.setIcon({ name: iconId });
+    } catch (error) {
+      console.error('Error changing app icon:', error);
+      showToast({
+        message: 'Failed to change app icon',
+        type: 'error',
+        duration: 3000,
+      });
+      throw error;
+    }
   };
 
   const handleLogin = () => {
@@ -748,6 +807,15 @@ export default function AccountSettings() {
             onTermsPrivacy={handleTermsPrivacy}
             onViewDJProfile={handleViewDJProfile}
           />
+
+          {/* App Icon Selector - Only shown in /app routes on iOS 10.3+ */}
+          {showIconSelector && (
+            <CrAppIconSelector
+              currentIcon={currentAppIcon}
+              onIconChange={handleIconChange}
+              onApply={handleApplyIcon}
+            />
+          )}
         </div>
 
         <div className="page-layout-main-sidebar__sidebar account-settings-page__sidebar">
