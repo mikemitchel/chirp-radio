@@ -38,6 +38,22 @@ export default function AccountSettings() {
         location: user.location || 'Chicago, Illinois',
         email: user.email || '',
         avatarSrc: user.avatar || '',
+        fullProfileImage: user.fullProfileImage || '',
+        profileImageOrientation: user.profileImageOrientation || 'square',
+        djName: user.djName || '',
+        showName: user.showName || '',
+        showTime: user.showTime || '',
+        djExcerpt: user.djExcerpt || '',
+        djBio: user.djBio || '',
+        djDonationLink: user.djDonationLink || '',
+        primaryPhoneType: user.primaryPhoneType || 'mobile',
+        primaryPhone: user.primaryPhone || '',
+        secondaryPhoneType: user.secondaryPhoneType || '',
+        secondaryPhone: user.secondaryPhone || '',
+        address: user.address || '',
+        city: user.city || '',
+        state: user.state || '',
+        zipCode: user.zipCode || '',
         socialLinks: user.socialLinks ? Object.entries(user.socialLinks).map(([platform, url]) => ({
           platform,
           url: url as string
@@ -65,6 +81,15 @@ export default function AccountSettings() {
     const saved = storage.getItem('chirp-streaming-quality');
     return saved || '128';
   });
+
+  // Load user's dark mode preference when user changes
+  useEffect(() => {
+    if (user && user.preferences && user.preferences.darkMode) {
+      setDarkMode(user.preferences.darkMode);
+      const storage = getStorage();
+      storage.setItem('chirp-dark-mode', user.preferences.darkMode);
+    }
+  }, [user?.email]); // Only when user changes (by email as unique identifier)
 
   // When login state changes, migrate settings and update profile state
   useEffect(() => {
@@ -142,6 +167,18 @@ export default function AccountSettings() {
     setDarkMode(mode);
     const storage = getStorage();
     storage.setItem('chirp-dark-mode', mode);
+
+    // Update user preferences if logged in
+    if (user) {
+      const updatedUser = {
+        ...user,
+        preferences: {
+          ...user.preferences,
+          darkMode: mode
+        }
+      };
+      localStorage.setItem('chirp-user', JSON.stringify(updatedUser));
+    }
   };
 
   const handleStreamingQualityChange = (quality: string) => {
@@ -199,6 +236,17 @@ export default function AccountSettings() {
     // TODO: Navigate to terms and privacy page
   };
 
+  const handleViewDJProfile = () => {
+    // Generate slug from DJ name and navigate to the DJ's profile page
+    if (user?.djName) {
+      const slug = user.djName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      navigate(`/djs/${slug}`);
+    } else {
+      // Fallback to ID if no DJ name
+      navigate('/djs/dj-001');
+    }
+  };
+
   const handleEditProfile = () => {
     setProfileState('editProfile');
   };
@@ -212,6 +260,22 @@ export default function AccountSettings() {
         location: user.location || 'Chicago, Illinois',
         email: user.email || '',
         avatarSrc: user.avatar || '',
+        fullProfileImage: user.fullProfileImage || '',
+        profileImageOrientation: user.profileImageOrientation || 'square',
+        djName: user.djName || '',
+        showName: user.showName || '',
+        showTime: user.showTime || '',
+        djExcerpt: user.djExcerpt || '',
+        djBio: user.djBio || '',
+        djDonationLink: user.djDonationLink || '',
+        primaryPhoneType: user.primaryPhoneType || 'mobile',
+        primaryPhone: user.primaryPhone || '',
+        secondaryPhoneType: user.secondaryPhoneType || '',
+        secondaryPhone: user.secondaryPhone || '',
+        address: user.address || '',
+        city: user.city || '',
+        state: user.state || '',
+        zipCode: user.zipCode || '',
         socialLinks: user.socialLinks ? Object.entries(user.socialLinks).map(([platform, url]) => ({
           platform,
           url: url as string
@@ -254,6 +318,22 @@ export default function AccountSettings() {
         name: `${formData.firstName} ${formData.lastName}`,
         location: formData.location,
         avatar: formData.avatarSrc,
+        fullProfileImage: formData.fullProfileImage,
+        profileImageOrientation: formData.profileImageOrientation,
+        djName: formData.djName,
+        showName: formData.showName,
+        showTime: formData.showTime,
+        djExcerpt: formData.djExcerpt,
+        djBio: formData.djBio,
+        djDonationLink: formData.djDonationLink,
+        primaryPhoneType: formData.primaryPhoneType,
+        primaryPhone: formData.primaryPhone,
+        secondaryPhoneType: formData.secondaryPhoneType,
+        secondaryPhone: formData.secondaryPhone,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zipCode: formData.zipCode,
         socialLinks: socialLinksObj,
       };
 
@@ -314,6 +394,22 @@ export default function AccountSettings() {
         name: `${formData.firstName} ${formData.lastName}`,
         location: formData.location,
         avatar: formData.avatarSrc,
+        fullProfileImage: formData.fullProfileImage,
+        profileImageOrientation: formData.profileImageOrientation,
+        djName: formData.djName,
+        showName: formData.showName,
+        showTime: formData.showTime,
+        djExcerpt: formData.djExcerpt,
+        djBio: formData.djBio,
+        djDonationLink: formData.djDonationLink,
+        primaryPhoneType: formData.primaryPhoneType,
+        primaryPhone: formData.primaryPhone,
+        secondaryPhoneType: formData.secondaryPhoneType,
+        secondaryPhone: formData.secondaryPhone,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zipCode: formData.zipCode,
         socialLinks: socialLinksObj,
       };
 
@@ -641,11 +737,15 @@ export default function AccountSettings() {
             email={formData.email || user?.email || 'account@gmail.com'}
             memberSince={formatMemberSince(user?.memberSince)}
             avatarSrc={formData.avatarSrc || user?.avatar}
+            fullProfileImage={formData.fullProfileImage || user?.fullProfileImage}
             socialLinks={formData.socialLinks || socialLinksArray}
-            permissions={user?.role ? [user.role] : []}
-            showPermissions={false}
+            permissions={user?.permissions || []}
+            showPermissions={!!(user?.permissions && user.permissions.length > 0)}
             isVolunteer={user?.role === 'volunteer' || user?.role === 'dj'}
             isDJ={user?.role === 'dj'}
+            djName={user?.djName}
+            showName={user?.showName}
+            showTime={user?.showTime}
             onStateChange={handleProfileStateChange}
             onSave={handleSaveProfile}
             onCancel={handleCancelEdit}
@@ -655,6 +755,8 @@ export default function AccountSettings() {
             onStreamingQualityChange={handleStreamingQualityChange}
             pushNotifications={false}
             onPushNotificationsChange={handlePushNotificationsChange}
+            darkMode={darkMode}
+            onDarkModeChange={handleDarkModeChange}
             onLogin={handleLogin}
             onLogout={handleLogout}
             onSignUp={handleSignUp}
@@ -663,6 +765,7 @@ export default function AccountSettings() {
             onLikeAppStore={handleLikeAppStore}
             onAppSupport={handleAppSupport}
             onTermsPrivacy={handleTermsPrivacy}
+            onViewDJProfile={handleViewDJProfile}
           />
         </div>
 

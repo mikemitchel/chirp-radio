@@ -247,6 +247,8 @@
 
   .cr-main-nav__search-button--responsive {
     display: flex;
+    order: -1; /* Keep search on first line */
+    margin-left: auto; /* Push to the right */
   }
 
   .cr-main-nav__nav-items {
@@ -254,10 +256,21 @@
     justify-content: space-between;
   }
 
-  .cr-main-nav__left,
+  .cr-main-nav__left {
+    flex: 1;
+    min-width: 0;
+  }
+
   .cr-main-nav__right {
-    justify-content: space-between;
-    width: 100%;
+    display: flex;
+    gap: var(--cr-space-8);
+  }
+
+  /* Store, Ways to Give, and Donate wrap to second line */
+  .cr-main-nav__store-button,
+  .cr-main-nav__ways-dropdown,
+  .cr-main-nav__right > a:last-child {
+    flex: 0 0 auto;
   }
 }
 

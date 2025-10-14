@@ -140,12 +140,16 @@ interface CrProfileCardProps {
   email?: string
   memberSince?: string
   avatarSrc?: string
+  fullProfileImage?: string
   avatarAlt?: string
   socialLinks?: Array<{ platform: string; url: string }>
   permissions?: string[]
   showPermissions?: boolean
   isVolunteer?: boolean
   isDJ?: boolean
+  djName?: string
+  showName?: string
+  showTime?: string
   onStateChange?: (state: string) => void
   onSave?: () => void
   onCancel?: () => void
@@ -158,6 +162,8 @@ interface CrProfileCardProps {
   onStreamingQualityChange?: (quality: string) => void
   pushNotifications?: boolean
   onPushNotificationsChange?: (checked: boolean) => void
+  darkMode?: 'light' | 'dark' | 'device'
+  onDarkModeChange?: (mode: 'light' | 'dark' | 'device') => void
   onLogin?: () => void
   onLogout?: () => void
   onSignUp?: () => void
@@ -166,6 +172,7 @@ interface CrProfileCardProps {
   onLikeAppStore?: () => void
   onAppSupport?: () => void
   onTermsPrivacy?: () => void
+  onViewDJProfile?: () => void
 }
 
 export default function CrProfileCard({
@@ -187,6 +194,7 @@ export default function CrProfileCard({
 
   // Avatar
   avatarSrc,
+  fullProfileImage,
   avatarAlt = 'User avatar',
 
   // Social links
@@ -205,6 +213,9 @@ export default function CrProfileCard({
   // User role for determining what edit options to show
   isVolunteer = false, // true if user has volunteer permissions
   isDJ = false, // true if user has DJ permissions
+  djName,
+  showName,
+  showTime,
 
   // State change handlers
   onStateChange, // Callback to change state between editProfile/editVolunteer
@@ -222,6 +233,8 @@ export default function CrProfileCard({
   onStreamingQualityChange,
   pushNotifications = false,
   onPushNotificationsChange,
+  darkMode = 'light',
+  onDarkModeChange,
   onLogin,
   onLogout,
   onSignUp,
@@ -230,13 +243,14 @@ export default function CrProfileCard({
   onLikeAppStore,
   onAppSupport,
   onTermsPrivacy,
+  onViewDJProfile,
 
   // Layout
   maxWidth = '860px',
   className = '',
 }: CrProfileCardProps) {
   // Track the original full image separately from the cropped avatar
-  const [originalFullImage, setOriginalFullImage] = useState(avatarSrc)
+  const [originalFullImage, setOriginalFullImage] = useState(fullProfileImage || avatarSrc)
 
   const componentClasses = ['cr-profile-card', `cr-profile-card--${state}`, className]
     .filter(Boolean)
@@ -321,7 +335,42 @@ export default function CrProfileCard({
               {firstName} {lastName}
             </h2>
 
+            {isDJ && onViewDJProfile && (
+              <div style={{ marginTop: 'var(--cr-space-3)', marginBottom: 'var(--cr-space-3)' }}>
+                <CrButton
+                  variant="outline"
+                  size="small"
+                  color="secondary"
+                  rightIcon={<PiUser />}
+                  onClick={onViewDJProfile}
+                >
+                  View DJ Profile
+                </CrButton>
+              </div>
+            )}
+
             <div className="cr-profile-card__details">
+              {isDJ && djName && (
+                <div className="cr-profile-card__detail-item">
+                  <span className="cr-profile-card__detail-label">DJ Name:</span>
+                  <span className="cr-profile-card__detail-value">{djName}</span>
+                </div>
+              )}
+
+              {isDJ && showName && (
+                <div className="cr-profile-card__detail-item">
+                  <span className="cr-profile-card__detail-label">Show Name:</span>
+                  <span className="cr-profile-card__detail-value">{showName}</span>
+                </div>
+              )}
+
+              {isDJ && showTime && (
+                <div className="cr-profile-card__detail-item">
+                  <span className="cr-profile-card__detail-label">DJ Schedule:</span>
+                  <span className="cr-profile-card__detail-value">{showTime}</span>
+                </div>
+              )}
+
               <div className="cr-profile-card__detail-item">
                 <span className="cr-profile-card__detail-label">Location:</span>
                 <span className="cr-profile-card__detail-value">{location}</span>
@@ -360,6 +409,19 @@ export default function CrProfileCard({
           </div>
         </section>
 
+        {showPermissions && (
+          <section className="cr-profile-card__permissions">
+            <div className="cr-profile-card__permissions-label">Permissions:</div>
+            <div className="cr-profile-card__permissions-chips">
+              {permissions.map((permission, index) => (
+                <CrChip key={index} variant="light" size="small">
+                  {permission}
+                </CrChip>
+              ))}
+            </div>
+          </section>
+        )}
+
         <section className="cr-profile-card__social-section">
           <div className="cr-profile-card__social-columns">
             <div className="cr-profile-card__social-column">
@@ -395,19 +457,6 @@ export default function CrProfileCard({
           </div>
         </section>
 
-        {showPermissions && (
-          <section className="cr-profile-card__permissions">
-            <div className="cr-profile-card__permissions-label">Permissions:</div>
-            <div className="cr-profile-card__permissions-chips">
-              {permissions.map((permission, index) => (
-                <CrChip key={index} variant="light" size="small">
-                  {permission}
-                </CrChip>
-              ))}
-            </div>
-          </section>
-        )}
-
         {/* Account Settings Section */}
         <section className="cr-profile-card__account-settings">
           <CrPageHeader
@@ -425,89 +474,11 @@ export default function CrProfileCard({
               onStreamingQualityChange={onStreamingQualityChange}
               pushNotifications={pushNotifications}
               onPushNotificationsChange={onPushNotificationsChange}
+              darkMode={darkMode}
+              onDarkModeChange={onDarkModeChange}
             />
           </div>
         </section>
-
-        {/* DJ Schedule Section - Only for DJs */}
-        {isDJ && (
-          <section className="cr-profile-card__dj-schedule">
-            <CrTable
-              columns={[
-                {
-                  key: 'date',
-                  title: 'Date',
-                  sortable: true,
-                  width: 'medium',
-                },
-                {
-                  key: 'time',
-                  title: 'Time',
-                  sortable: true,
-                  width: 'medium',
-                },
-                {
-                  key: 'show',
-                  title: 'Show',
-                  sortable: true,
-                  width: 'wide',
-                },
-                {
-                  key: 'status',
-                  title: 'Status',
-                  align: 'center',
-                  width: 'narrow',
-                  render: (value, row) => {
-                    return React.createElement(
-                      CrChip,
-                      {
-                        variant: row.status === 'Scheduled' ? 'primary' : 'light',
-                        size: 'small',
-                      },
-                      row.status
-                    )
-                  },
-                },
-              ]}
-              data={[
-                {
-                  id: '1',
-                  date: '09/25/2024',
-                  time: '8:00 PM - 10:00 PM',
-                  show: 'Underground Sounds with DJ Sarah',
-                  status: 'Scheduled',
-                },
-                {
-                  id: '2',
-                  date: '09/18/2024',
-                  time: '8:00 PM - 10:00 PM',
-                  show: 'Underground Sounds with DJ Sarah',
-                  status: 'Completed',
-                },
-                {
-                  id: '3',
-                  date: '09/11/2024',
-                  time: '8:00 PM - 10:00 PM',
-                  show: 'Underground Sounds with DJ Sarah',
-                  status: 'Completed',
-                },
-              ]}
-              variant="default"
-              striped={true}
-              bordered={false}
-              hover={true}
-              sortable={true}
-              loading={false}
-              empty={false}
-              initialSortColumn="date"
-              initialSortDirection="desc"
-              eyebrowText="CHIRP Radio"
-              tableTitle="Your DJ Schedule"
-              showEyebrow={true}
-              showActionButton={false}
-            />
-          </section>
-        )}
       </div>
     )
   }

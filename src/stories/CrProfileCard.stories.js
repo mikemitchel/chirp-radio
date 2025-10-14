@@ -82,6 +82,18 @@ export default {
       control: 'boolean',
       description: 'Whether user has DJ permissions',
     },
+    djName: {
+      control: 'text',
+      description: 'DJ on-air name (only shown when isDJ is true)',
+    },
+    showName: {
+      control: 'text',
+      description: 'DJ show name (only shown when isDJ is true)',
+    },
+    showTime: {
+      control: 'text',
+      description: 'DJ schedule (e.g., "Monday, 10pm - 12am") - only shown when isDJ is true',
+    },
   },
   tags: ['autodocs'],
 }
@@ -186,8 +198,8 @@ export const EditDJProfile = {
     eyebrowText: 'CHIRP Radio',
     title: 'Profile - Edit DJ',
     showEditButton: false,
-    firstName: 'DJ',
-    lastName: 'Mike',
+    firstName: 'Mike',
+    lastName: 'Johnson',
     location: 'Chicago, Illinois',
     email: 'dj.mike@chirpradio.org',
     memberSince: 'March 10, 2018',
@@ -202,6 +214,9 @@ export const EditDJProfile = {
     showPermissions: true,
     isVolunteer: true,
     isDJ: true,
+    djName: 'DJ Mike',
+    showName: 'Late Night Beats',
+    showTime: 'Friday, 10pm - 12am',
     formData: {
       djBio: 'Passionate about underground hip-hop and jazz fusion...',
       primaryPhoneType: 'mobile',
@@ -383,7 +398,7 @@ export const InteractiveDemo = {
     eyebrowText: 'CHIRP Radio',
     title: 'Profile - View',
     showEditButton: true,
-    firstName: 'DJ Sarah',
+    firstName: 'Sarah',
     lastName: 'Martinez',
     location: 'Chicago, Illinois',
     email: 'sarah.martinez@chirpradio.org',
@@ -399,6 +414,9 @@ export const InteractiveDemo = {
     showPermissions: true,
     isVolunteer: true,
     isDJ: true,
+    djName: 'DJ Sarah',
+    showName: 'Underground Sounds',
+    showTime: 'Wednesday, 8pm - 10pm',
     maxWidth: '860px',
   },
   render: (args) => {

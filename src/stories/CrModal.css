@@ -44,13 +44,12 @@
   max-width: 720px;
 }
 
-/* Header section - add bottom margin for proper spacing */
+/* Header section */
 .cr-modal__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   padding: var(--cr-space-6) var(--cr-space-6) 0 var(--cr-space-6);
-  margin-bottom: var(--cr-space-8); /* 32px spacing to content */
   gap: var(--cr-space-6);
 }
 
@@ -118,11 +117,12 @@
   color: inherit;
 }
 
-/* Content area - no padding to allow children to control their own spacing */
+/* Content area - consistent left/right padding for all modals */
 .cr-modal__content {
   overflow-y: auto;
   flex: 1;
   min-height: 0;
+  padding: 0 var(--cr-space-6);
 }
 
 /* Content body - standard padding for content */
@@ -267,7 +267,10 @@
 
   .cr-modal__header {
     padding: var(--cr-space-4) var(--cr-space-4) 0 var(--cr-space-4);
-    margin-bottom: 0;
+  }
+
+  .cr-modal__content {
+    padding: 0 var(--cr-space-4);
   }
 
   .cr-modal__body {

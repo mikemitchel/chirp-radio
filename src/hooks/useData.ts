@@ -10,7 +10,7 @@ import playlistsData from '../data/playlists.json'
 import podcastsData from '../data/podcasts.json'
 import usersData from '../data/users.json'
 import shopItemsData from '../data/shopItems.json'
-import djsData from '../data/djs.json'
+import { useAuth } from './useAuth'
 
 // Announcements
 export function useAnnouncements() {
@@ -130,8 +130,10 @@ export function useUsers() {
 
 export function useCurrentUser() {
   const { data, loading, error } = useUsers()
-  // For now, return first user as "logged in" user
-  const currentUser = data?.[0]
+  const { isLoggedIn } = useAuth()
+
+  // Only return user data if logged in
+  const currentUser = isLoggedIn ? data?.[0] : null
   return { data: currentUser, loading, error }
 }
 
@@ -163,9 +165,38 @@ export function useShopItems() {
   return { data, loading, error }
 }
 
+// Helper function to create URL-friendly slug from DJ name
+function createSlug(djName: string): string {
+  return djName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
 // DJs
 export function useDJs() {
-  const [data, setData] = useState(djsData.djs)
+  // Filter users who have DJ roles and map to DJ format
+  const djUsers = usersData.users
+    .filter(user => user.role && user.role.includes('DJ'))
+    .map(user => {
+      const djName = user.djName || user.firstName || 'DJ'
+      return {
+        id: user.id,
+        slug: createSlug(djName),
+        djName,
+        showName: user.showName || '',
+        showTime: user.showTime || '',
+        excerpt: user.djExcerpt || user.bio || '',
+        description: user.djBio || user.bio || '',
+        donationLink: user.djDonationLink || '',
+        imageSrc: user.profileImage || '',
+        fullProfileImage: user.fullProfileImage || user.profileImage || '',
+        profileImageOrientation: user.profileImageOrientation || 'square',
+        isSubstitute: user.role === 'Substitute DJ'
+      }
+    })
+
+  const [data, setData] = useState(djUsers)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 

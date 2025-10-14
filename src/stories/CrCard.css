@@ -18,7 +18,7 @@
   /* Image properties */
   --cr-card-image-margin: var(--cr-space-4);
   --cr-card-image-width-small: 300px;
-  --cr-card-image-width-large: 400px;
+  --cr-card-image-width-large: 480px;
 
   /* Text properties */
   --cr-card-text-color: var(--cr-ink);
@@ -322,6 +322,11 @@
 /* Article image sizing */
 .cr-card--article-large .cr-card__article-image {
   width: var(--cr-card-image-width-large);
+}
+
+/* Portrait orientation (9:16) should use narrower width so height matches landscape width */
+.cr-card--article-large.cr-card--9-16 .cr-card__article-image {
+  width: 270px; /* 480px * 9/16 - swaps landscape dimensions */
 }
 
 .cr-card--article-small .cr-card__article-image {

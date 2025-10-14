@@ -1,9 +1,12 @@
 // CrPlaylistTable.tsx
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import CrPlaylistHourBreak from './CrPlaylistHourBreak'
 import CrPlaylistItem from './CrPlaylistItem'
 import './CrPlaylistTable.css'
 import CrPlaylistTableHeader from './CrPlaylistTableHeader'
+import { useLoginRequired } from '../hooks/useLoginRequired'
+import LoginRequiredModal from '../components/LoginRequiredModal'
+import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
 
 interface CrPlaylistTableProps {
   items?: any[]
@@ -24,6 +27,75 @@ export default function CrPlaylistTable({
 }: CrPlaylistTableProps) {
   const [collapsedHours, setCollapsedHours] = useState({})
   const contentRefs = useRef({})
+  const { requireLogin, showLoginModal, handleLogin, handleSignUp, closeModal } = useLoginRequired()
+  const [itemsWithStatus, setItemsWithStatus] = useState(items)
+
+  // Update items with collection status
+  useEffect(() => {
+    const updateStatus = () => {
+      const updated = items.map(item => ({
+        ...item,
+        isAdded: isInCollection(item.artistName, item.trackName)
+      }))
+      setItemsWithStatus(updated)
+    }
+
+    updateStatus()
+
+    // Listen for collection updates
+    window.addEventListener('chirp-collection-updated', updateStatus)
+    return () => {
+      window.removeEventListener('chirp-collection-updated', updateStatus)
+    }
+  }, [items])
+
+  const handleItemAdd = (item: any, index: number) => {
+    requireLogin(() => {
+      // If parent provided a handler, use it (for custom behavior like remove from collection page)
+      if (onItemAddClick) {
+        onItemAddClick(item, index)
+        return
+      }
+
+      // Otherwise, handle add/remove internally
+      const trackId = item.id || `${item.artistName}-${item.trackName}`.replace(/\s+/g, '-').toLowerCase()
+
+      if (item.isAdded) {
+        // Remove from collection
+        const removed = removeFromCollection(trackId)
+        if (removed) {
+          window.dispatchEvent(new CustomEvent('chirp-show-toast', {
+            detail: {
+              message: `Removed ${item.trackName} from your collection`,
+              type: 'success',
+              duration: 3000,
+            }
+          }))
+        }
+      } else {
+        // Add to collection
+        const albumArtUrl = item.albumArt || '/src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg'
+
+        addToCollection({
+          id: trackId,
+          artistName: item.artistName,
+          trackName: item.trackName,
+          albumName: item.albumName,
+          labelName: item.labelName,
+          albumArt: albumArtUrl,
+          isLocal: item.isLocal,
+        })
+
+        window.dispatchEvent(new CustomEvent('chirp-show-toast', {
+          detail: {
+            message: `Added ${item.trackName} to your collection`,
+            type: 'success',
+            duration: 3000,
+          }
+        }))
+      }
+    })
+  }
 
   const toggleHour = (hourKey) => {
     setCollapsedHours((prev) => ({
@@ -34,7 +106,7 @@ export default function CrPlaylistTable({
 
   // Group items by hour if groupByHour is true
   const groupedItems = groupByHour
-    ? items.reduce((acc, item) => {
+    ? itemsWithStatus.reduce((acc, item) => {
         const hourKey = item.hourKey || 'unknown'
         if (!acc[hourKey]) {
           acc[hourKey] = {
@@ -108,7 +180,7 @@ export default function CrPlaylistTable({
                         showTime={item.showTime !== false}
                         isAdded={item.isAdded}
                         isLocal={item.isLocal}
-                        onToggleAdd={() => onItemAddClick && onItemAddClick(item, index)}
+                        onToggleAdd={() => handleItemAdd(item, index)}
                       />
                     ))}
                   </div>
@@ -127,7 +199,7 @@ export default function CrPlaylistTable({
       {showHeader && <CrPlaylistTableHeader />}
 
       <div className="cr-playlist-table__items">
-        {items.map((item, index) => (
+        {itemsWithStatus.map((item, index) => (
           <CrPlaylistItem
             key={item.id || index}
             variant={variant}
@@ -141,10 +213,17 @@ export default function CrPlaylistTable({
             showTime={item.showTime !== false}
             isAdded={item.isAdded}
             isLocal={item.isLocal}
-            onToggleAdd={() => onItemAddClick && onItemAddClick(item, index)}
+            onToggleAdd={() => handleItemAdd(item, index)}
           />
         ))}
       </div>
+
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={closeModal}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+      />
     </div>
   )
 }

@@ -38,6 +38,13 @@ interface CollectionTrack {
   dateAdded: string;
 }
 
+interface UserPreferences {
+  emailNotifications?: boolean;
+  showNotifications?: boolean;
+  darkMode?: 'light' | 'dark' | 'device';
+  autoPlay?: boolean;
+}
+
 interface User {
   email: string;
   name: string;
@@ -46,13 +53,29 @@ interface User {
   location?: string;
   role: UserRole;
   avatar?: string;
+  fullProfileImage?: string;
+  profileImageOrientation?: 'square' | 'landscape' | 'portrait';
   memberSince?: string;
   socialLinks?: SocialLinks;
   djName?: string;
   showName?: string;
+  showTime?: string;
+  djExcerpt?: string;
+  djBio?: string;
+  djDonationLink?: string;
+  primaryPhoneType?: string;
+  primaryPhone?: string;
+  secondaryPhoneType?: string;
+  secondaryPhone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  permissions?: string[];
   donationHistory?: DonationHistory[];
   purchaseHistory?: PurchaseHistory[];
   collection?: CollectionTrack[];
+  preferences?: UserPreferences;
   password?: string; // For demo purposes only
   pendingEmail?: string;
   pendingEmailToken?: string;
@@ -126,20 +149,15 @@ export function useAuth() {
   const switchProfile = (role: UserRole) => {
     const profiles: Record<UserRole, User> = {
       listener: {
-        email: 'listener@chirpradio.org',
-        name: 'Jane Listener',
-        firstName: 'Jane',
-        lastName: 'Listener',
-        location: 'Chicago, Illinois',
+        email: 'demo@chirpradio.org',
+        name: 'Alex Johnson',
+        firstName: 'Alex',
+        lastName: 'Johnson',
+        location: 'Chicago, IL',
         role: 'listener',
-        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop',
-        memberSince: '2020-03-15',
+        avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces',
+        memberSince: '2018-03-15',
         password: 'demo123', // For demo purposes only
-        socialLinks: {
-          instagram: 'www.instagram.com/janelistener',
-          twitter: 'www.twitter.com/janelistener',
-          bluesky: 'bsky.app/profile/janelistener.bsky.social'
-        },
         donationHistory: [
           { id: '1', date: '01/15/2024', amount: 50, type: 'One-time', status: 'Completed' },
           { id: '2', date: '12/01/2023', amount: 25, type: 'One-time', status: 'Completed' },
@@ -161,38 +179,62 @@ export function useAuth() {
           },
           {
             id: 'track-002',
-            trackName: 'Levitating',
-            artistName: 'Dua Lipa',
-            albumName: 'Future Nostalgia',
-            albumArt: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=200&fit=crop',
-            labelName: 'Warner Records',
-            dateAdded: '2024-11-28T09:15:00Z'
+            trackName: 'Pusha Man',
+            artistName: 'Chance the Rapper',
+            albumName: 'Acid Rap',
+            albumArt: 'https://upload.wikimedia.org/wikipedia/en/5/5b/Chance_the_rapper_acid_rap.jpg',
+            labelName: 'Chance the Rapper',
+            isLocal: true,
+            dateAdded: '2024-12-02T10:15:00Z'
           },
           {
             id: 'track-003',
-            trackName: 'Blinding Lights',
-            artistName: 'The Weeknd',
-            albumName: 'After Hours',
-            albumArt: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=200&h=200&fit=crop',
-            labelName: 'XO Records',
-            dateAdded: '2024-11-20T16:45:00Z'
+            trackName: 'Stupid Kid',
+            artistName: 'Alkaline Trio',
+            albumName: 'From Here to Infirmary',
+            albumArt: 'https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg',
+            labelName: 'Vagrant Records',
+            isLocal: true,
+            dateAdded: '2024-12-03T16:45:00Z'
           },
-        ]
+        ],
+        preferences: {
+          emailNotifications: true,
+          showNotifications: true,
+          darkMode: 'dark',
+          autoPlay: true
+        }
       },
       volunteer: {
-        email: 'volunteer@chirpradio.org',
-        name: 'Sam Volunteer',
-        firstName: 'Sam',
-        lastName: 'Volunteer',
+        email: 'amanda.miller@chirpradio.org',
+        name: 'Amanda Miller',
+        firstName: 'Amanda',
+        lastName: 'Miller',
         location: 'Chicago, Illinois',
         role: 'volunteer',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop',
-        memberSince: '2019-06-20',
+        avatar: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=200&h=200&fit=crop&crop=faces',
+        memberSince: '2021-01-20',
         password: 'demo123', // For demo purposes only
+        permissions: ['Volunteer'],
+        primaryPhoneType: 'mobile',
+        primaryPhone: '(773) 555-2891',
+        secondaryPhoneType: '',
+        secondaryPhone: '',
+        age: '35–44',
+        education: 'University of Illinois at Chicago',
+        employer: 'Starbucks',
+        volunteerOrgs: ['Greater Chicago Food Depository'],
+        hasRadioExperience: 'no',
+        radioStations: '',
+        specialSkills: ['Fundraising', 'Event planning'],
+        hearAboutChirp: ['Friend', 'Concert'],
+        interests: ['Event working', 'Fundraising', 'Community radio'],
+        wantsToDJ: 'no',
+        djAvailability: [],
         socialLinks: {
-          facebook: 'www.facebook.com/samvolunteer',
-          instagram: 'www.instagram.com/samvolunteer',
-          linkedin: 'www.linkedin.com/samvolunteer'
+          facebook: 'www.facebook.com/amandamiller',
+          instagram: 'www.instagram.com/amandamiller',
+          linkedin: 'www.linkedin.com/amandamiller'
         },
         donationHistory: [
           { id: '1', date: '02/01/2024', amount: 150, type: 'Monthly', status: 'Active' },
@@ -235,26 +277,47 @@ export function useAuth() {
             labelName: 'Domino Recording',
             dateAdded: '2024-11-15T14:20:00Z'
           },
-        ]
+        ],
+        preferences: {
+          emailNotifications: true,
+          showNotifications: true,
+          darkMode: 'light',
+          autoPlay: true
+        }
       },
       dj: {
-        email: 'dj@chirpradio.org',
-        name: 'Sally Smith',
-        firstName: 'Sally',
-        lastName: 'Smith',
+        email: 'alex.rivera@chirpradio.org',
+        name: 'Alex Rivera',
+        firstName: 'Alex',
+        lastName: 'Rivera',
         location: 'Chicago, Illinois',
         role: 'dj',
-        avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop',
-        memberSince: '2018-01-10',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=faces',
+        fullProfileImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&h=800&fit=crop&crop=faces',
+        memberSince: '2017-09-15',
         password: 'demo123', // For demo purposes only
-        djName: 'DJ Sally',
-        showName: 'Seashells by the Seashore',
+        djName: 'Alex Rivera',
+        showName: 'Night Vibes',
+        showTime: 'Fri 11pm - 1am',
+        djExcerpt: 'Late-night sonic adventurer bringing fearless genre-hopping and deep cuts to Chicago\'s insomniacs.',
+        djBio: 'Alex discovered their passion for radio while DJing college house parties, where they developed an ear for blending genres that shouldn\'t work together but somehow do. After graduating with a degree in Audio Production from Columbia College Chicago, they spent years working in commercial radio before finding their true home at CHIRP.\n\nKnown for fearless genre-hopping and deep cuts that surprise even the most seasoned music heads, Alex brings a fresh perspective to late-night radio. Their show has become a destination for night owls and insomniacs seeking sonic adventures.\n\nWhen not behind the mic, Alex produces electronic music in their home studio and teaches DJ workshops at local community centers. They\'re passionate about making radio accessible to underrepresented voices in Chicago\'s music scene.',
+        djDonationLink: 'https://www.chirpradio.org/donate/alex-rivera',
+        profileImageOrientation: 'square',
+        primaryPhoneType: 'mobile',
+        primaryPhone: '(773) 555-2847',
+        secondaryPhoneType: '',
+        secondaryPhone: '',
+        address: '1842 W Division St',
+        city: 'Chicago',
+        state: 'IL',
+        zipCode: '60622',
+        permissions: ['DJ', 'Content Publisher', 'Volunteer'],
         socialLinks: {
-          facebook: 'www.facebook.com/djsally',
-          instagram: 'www.instagram.com/djsally',
-          twitter: 'www.twitter.com/djsally',
-          linkedin: 'www.linkedin.com/djsally',
-          bluesky: 'bsky.app/profile/djsally.bsky.social'
+          facebook: 'www.facebook.com/alexrivera',
+          instagram: 'www.instagram.com/alexrivera',
+          twitter: 'www.twitter.com/alexrivera',
+          linkedin: 'www.linkedin.com/alexrivera',
+          bluesky: 'bsky.app/profile/alexrivera.bsky.social'
         },
         donationHistory: [
           { id: '1', date: '02/05/2024', amount: 250, type: 'Monthly', status: 'Active' },
@@ -298,7 +361,13 @@ export function useAuth() {
             labelName: 'Creation Records',
             dateAdded: '2024-11-18T09:48:00Z'
           },
-        ]
+        ],
+        preferences: {
+          emailNotifications: true,
+          showNotifications: true,
+          darkMode: 'light',
+          autoPlay: true
+        }
       }
     };
 

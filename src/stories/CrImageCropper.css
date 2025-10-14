@@ -313,3 +313,48 @@
     justify-content: center;
   }
 }
+
+/* Image Orientation Radio Buttons */
+.cr-image-cropper__orientation {
+  margin-top: var(--cr-space-6);
+  padding-top: var(--cr-space-4);
+  border-top: 1px solid var(--cr-default-300);
+}
+
+.cr-image-cropper__orientation-label {
+  font: var(--cr-nav-support);
+  font-weight: 600;
+  color: var(--cr-ink);
+  margin-bottom: var(--cr-space-3);
+}
+
+.cr-image-cropper__orientation-options {
+  display: flex;
+  gap: var(--cr-space-6);
+  flex-wrap: wrap;
+}
+
+.cr-image-cropper__orientation-option {
+  display: flex;
+  align-items: center;
+  gap: var(--cr-space-2);
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cr-image-cropper__orientation-option input[type='radio'] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--cr-secondary-500);
+  cursor: pointer;
+}
+
+.cr-image-cropper__orientation-option span {
+  cursor: pointer;
+}
+
+.cr-image-cropper__orientation-option:hover span {
+  color: var(--cr-secondary-700);
+}

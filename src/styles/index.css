@@ -878,15 +878,40 @@ select:focus {
 /* Placeholder styling */
 input::placeholder,
 textarea::placeholder {
-  color: var(--cr-default-500);
+  color: var(--cr-default-300);
+  font-style: italic;
 }
 
 /* Readonly state */
 input[readonly],
 textarea[readonly] {
-  background-color: var(--cr-default-50);
+  background-color: transparent;
   color: var(--cr-default-600);
   cursor: not-allowed;
+  border: none;
+  padding-left: 0;
+}
+
+/* Error state */
+input.form-input--error,
+textarea.form-input--error,
+select.form-input--error {
+  border-color: var(--cr-primary-500);
+  background-color: var(--cr-primary-100);
+}
+
+input.form-input--error:focus,
+textarea.form-input--error:focus,
+select.form-input--error:focus {
+  border-color: var(--cr-primary-700);
+  box-shadow: 0 0 0 3px var(--cr-primary-100);
+}
+
+.form-error {
+  color: var(--cr-primary-700);
+  font: var(--cr-body-sm);
+  margin-top: var(--cr-space-1);
+  display: block;
 }
 
 /* Form layout utility classes */

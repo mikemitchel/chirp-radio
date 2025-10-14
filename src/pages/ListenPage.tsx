@@ -514,24 +514,28 @@ const ListenPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          <CrPageHeader
-            title="A Few from Your Collection"
-            titleTag="h3"
-            titleSize="md"
-            showEyebrow={false}
-            showActionButton={true}
-            actionButtonText="Your Collection"
-            actionButtonIcon={<PiPlaylist />}
-            actionButtonSize="medium"
-            onActionClick={() => navigate('/collection')}
-          />
-          <CrPlaylistTable
-            items={userCollectionTracks}
-            showHeader={false}
-            groupByHour={false}
-            variant="default"
-            onItemAddClick={handleItemRemove}
-          />
+          {currentUser && collection.length > 0 && (
+            <>
+              <CrPageHeader
+                title="A Few from Your Collection"
+                titleTag="h3"
+                titleSize="md"
+                showEyebrow={false}
+                showActionButton={true}
+                actionButtonText="Your Collection"
+                actionButtonIcon={<PiPlaylist />}
+                actionButtonSize="medium"
+                onActionClick={() => navigate('/collection')}
+              />
+              <CrPlaylistTable
+                items={userCollectionTracks}
+                showHeader={false}
+                groupByHour={false}
+                variant="default"
+                onItemAddClick={handleItemRemove}
+              />
+            </>
+          )}
           <CrList
             preheader={halloweenChart?.preheader}
             title={halloweenChart?.title}

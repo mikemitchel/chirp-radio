@@ -140,7 +140,7 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
         showStoreBadge={true}
         isLoggedIn={isLoggedIn}
         isVolunteer={user?.role === 'volunteer' || user?.role === 'dj'}
-        userName={user?.djName || user?.name}
+        userName={user?.name}
         userAvatar={user?.avatar}
         onLoginClick={handleLoginClick}
         onSignUpClick={handleSignUpClick}
