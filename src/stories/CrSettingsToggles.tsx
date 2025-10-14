@@ -119,8 +119,8 @@ export default function CrSettingsToggles({
         </div>
       </div>
 
-      {/* Push Notifications */}
-      <div className="cr-settings-toggles__setting">
+      {/* Push Notifications - Hidden until email notification feature is implemented */}
+      {/* <div className="cr-settings-toggles__setting">
         <div className="cr-settings-toggles__setting-info">
           <span className="cr-settings-toggles__setting-label">Push Notifications</span>
         </div>
@@ -135,7 +135,7 @@ export default function CrSettingsToggles({
             size={size}
           />
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
