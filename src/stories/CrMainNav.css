@@ -21,14 +21,7 @@
 .cr-main-nav__left {
   display: flex;
   align-items: center;
-  gap: var(--cr-space-12);
-}
-
-/* Navigation items */
-.cr-main-nav__nav-items {
-  display: flex;
-  align-items: center;
-  gap: var(--cr-space-8);
+  gap: clamp(var(--cr-space-2), 2vw, var(--cr-space-10));
 }
 
 .cr-main-nav__nav-link {
@@ -64,14 +57,6 @@
   width: 16px;
   height: 16px;
   transition: transform 0.15s ease;
-}
-
-/* Center section */
-.cr-main-nav__center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
 }
 
 /* Search button */
@@ -112,7 +97,7 @@
 .cr-main-nav__right {
   display: flex;
   align-items: center;
-  gap: var(--cr-space-8);
+  gap: clamp(var(--cr-space-2), 1vw, var(--cr-space-8));
 }
 
 /* Store button */
@@ -223,12 +208,12 @@
   gap: var(--cr-space-3);
 }
 
-.cr-main-nav--mobile .cr-main-nav__nav-items {
+.cr-main-nav--mobile .cr-main-nav__nav-link {
   display: none; /* Hide nav items on mobile, show via menu */
 }
 
-.cr-main-nav--mobile .cr-main-nav__center {
-  display: none; /* Hide center search on mobile */
+.cr-main-nav--mobile .cr-main-nav__left .cr-main-nav__search-button {
+  display: none; /* Hide desktop search on mobile */
 }
 
 .cr-main-nav--mobile .cr-main-nav__search-button--responsive {
@@ -239,38 +224,16 @@
   gap: var(--cr-space-3);
 }
 
-/* Responsive behavior */
-@media (max-width: 968px) {
-  .cr-main-nav__center {
-    display: none;
+@media (max-width: 800px) {
+  .cr-main-nav__container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--cr-space-4);
   }
 
-  .cr-main-nav__search-button--responsive {
-    display: flex;
-    order: -1; /* Keep search on first line */
-    margin-left: auto; /* Push to the right */
-  }
-
-  .cr-main-nav__nav-items {
-    flex: 1;
-    justify-content: space-between;
-  }
-
-  .cr-main-nav__left {
-    flex: 1;
-    min-width: 0;
-  }
-
+  .cr-main-nav__left,
   .cr-main-nav__right {
-    display: flex;
-    gap: var(--cr-space-8);
-  }
-
-  /* Store, Ways to Give, and Donate wrap to second line */
-  .cr-main-nav__store-button,
-  .cr-main-nav__ways-dropdown,
-  .cr-main-nav__right > a:last-child {
-    flex: 0 0 auto;
+    justify-content: space-between;
   }
 }
 
