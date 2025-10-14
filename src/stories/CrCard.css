@@ -45,6 +45,15 @@
   animation-range: entry 0% entry 100%;
 }
 
+/* Disable scroll animations for the first card in main content area */
+.page-content > .cr-card:first-of-type,
+.page-layout-single > .cr-card:first-of-type,
+.page-layout-main-sidebar > * > .cr-card:first-of-type {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
 /* Disable scroll animations for masonry layouts */
 .page-layout-masonry .cr-card {
   animation: none;

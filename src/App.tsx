@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { HashRouter, Routes, Route, Navigate, useNavigate } from 'react-router';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router';
 import { CartProvider } from './contexts/CartContext';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -103,7 +103,7 @@ function App() {
 
   return (
     <CartProvider>
-      <HashRouter>
+      <BrowserRouter>
         <ScrollToTop />
         <Routes>
         {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
@@ -158,7 +158,7 @@ function App() {
         {/* 404 catch-all route - must be last */}
         <Route path="*" element={<WebLayout><NotFoundPage /></WebLayout>} />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </CartProvider>
   );
 }
