@@ -159,24 +159,6 @@ Example usage:
   showHelp: () => {
     console.log(`
 🛠️  CHIRP DevTools
-==================
-
-Profile Testing:
-  switchProfile('listener')   - Switch to listener profile
-  switchProfile('volunteer')  - Switch to volunteer profile
-  switchProfile('dj')         - Switch to DJ profile
-  logout()                    - Log out
-  showProfiles()              - Show profile details
-
-API Stream Testing:
-  simulateAPIStream()         - Cycle through mock tracks (5s intervals)
-  stopAPIStream()             - Stop the simulation
-  testImageLoad(url)          - Test image loading performance
-
-Example:
-  simulateAPIStream()         // Start cycling
-  stopAPIStream()             // Stop when done
-    `);
   }
 };
 
