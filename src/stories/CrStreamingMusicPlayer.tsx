@@ -217,7 +217,7 @@ const BackgroundImage = ({ src, isLoading }) => {
 }
 
 interface CrStreamingMusicPlayerProps {
-  variant?: 'full-player' | 'slim-player' | 'mobile-player'
+  variant?: 'full-player' | 'slim-player' | 'mini-player' | 'mobile-player'
   djName?: string
   showName?: string
   artistName?: string
@@ -237,7 +237,7 @@ interface CrStreamingMusicPlayerProps {
 }
 
 export default function CrStreamingMusicPlayer({
-  variant = 'full-player', // match Figma variants: 'full-player', 'slim-player', 'mobile-player'
+  variant = 'full-player', // match Figma variants: 'full-player', 'slim-player', 'mini-player', 'mobile-player'
   djName = 'DJ Current',
   showName = 'Current Show',
   artistName = 'Artist Name',
@@ -389,6 +389,33 @@ export default function CrStreamingMusicPlayer({
     )
   }
 
+  // Render mini player variant
+  const renderMiniPlayer = () => {
+    return (
+      <div className="cr-player__mini">
+        <BackgroundImage src={currentData.albumArt} isLoading={isLoading} />
+        <div className="cr-player__color-overlay" />
+        <div className="cr-player__content">
+          <div className="cr-player__album-container">
+            <AlbumArt src={currentData.albumArt} className="cr-player__album-art" isLoading={isLoading} />
+          </div>
+          <div className="cr-player__track-info-container">
+            <CrTrackInfo
+              trackName={currentData.track}
+              artistName={currentData.artist}
+              variant="minimal" // Use minimal variant (just song + artist)
+              isLocal={currentData.isLocal}
+              isAdded={contextIsTrackAdded}
+              onToggleAdd={handleToggleAdd}
+              className={`${isLoading ? 'cr-track-info--loading' : ''}`}
+            />
+          </div>
+          <PlayPauseButton isPlaying={isPlaying} onClick={handlePlayPause} size={40} />
+        </div>
+      </div>
+    )
+  }
+
   // Render mobile player variant
   const renderMobilePlayer = () => {
     return (
@@ -442,6 +469,8 @@ export default function CrStreamingMusicPlayer({
     switch (variant) {
       case 'slim-player':
         return renderSlimPlayer()
+      case 'mini-player':
+        return renderMiniPlayer()
       case 'mobile-player':
         return renderMobilePlayer()
       case 'full-player':
