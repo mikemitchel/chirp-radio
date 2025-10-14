@@ -5,6 +5,8 @@ import { upgradeImageQuality } from '../utils/imageOptimizer';
 import { useNetworkQuality } from '../hooks/useNetworkQuality';
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB';
 import { addRecentlyPlayed, updateRecentlyPlayedAlbumArt } from '../utils/recentlyPlayedDB';
+import { useAuth } from '../hooks/useAuth';
+import LoginRequiredModal from '../components/LoginRequiredModal';
 
 interface TrackData {
   dj: string;
@@ -125,6 +127,9 @@ export function AudioPlayerProvider({
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(autoFetch && !cachedData);
   const [currentData, setCurrentData] = useState<TrackData>(initialData);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const { isLoggedIn, login, signup } = useAuth();
   const [isTrackAdded, setIsTrackAdded] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -552,6 +557,12 @@ export function AudioPlayerProvider({
   };
 
   const toggleAddTrack = () => {
+    // Check if user is logged in
+    if (!isLoggedIn) {
+      setShowLoginModal(true);
+      return;
+    }
+
     const trackId = `${currentData.artist}-${currentData.track}`.replace(/\s+/g, '-').toLowerCase();
 
     if (isTrackAdded) {
@@ -592,6 +603,34 @@ export function AudioPlayerProvider({
     }
   };
 
+  const handleLogin = (email: string, password: string) => {
+    // TODO: Validate credentials with API
+    login(email, email.split('@')[0]); // For demo, use email prefix as name
+    setShowLoginModal(false);
+
+    window.dispatchEvent(new CustomEvent('chirp-show-toast', {
+      detail: {
+        message: 'Successfully logged in!',
+        type: 'success',
+        duration: 3000,
+      }
+    }));
+  };
+
+  const handleSignUp = (email: string, password: string) => {
+    // TODO: Create account with API
+    signup(email, email.split('@')[0]); // For demo, use email prefix as name
+    setShowLoginModal(false);
+
+    window.dispatchEvent(new CustomEvent('chirp-show-toast', {
+      detail: {
+        message: 'Account created successfully!',
+        type: 'success',
+        duration: 3000,
+      }
+    }));
+  };
+
   // Sync isTrackAdded with collection state
   useEffect(() => {
     const updateAddedStatus = () => {
@@ -625,6 +664,12 @@ export function AudioPlayerProvider({
       }}
     >
       {children}
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+      />
     </AudioPlayerContext.Provider>
   );
 }

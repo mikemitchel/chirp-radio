@@ -165,13 +165,14 @@ export default function YourCollection() {
 
   if (!isLoggedIn) {
     return (
-      <div>
+      <div className="page-container">
         <CrPageHeader
           eyebrowText="CHIRP Radio"
           title="Your Collection"
           showEyebrow={false}
           showActionButton={false}
-          titleSize="lg"
+          titleSize="xl"
+          titleTag="h1"
         />
 
         <div>
@@ -223,7 +224,7 @@ export default function YourCollection() {
   }
 
   return (
-    <div>
+    <div className="page-container">
       <CrPageHeader
         eyebrowText="CHIRP Radio"
         title="Your Collection"
@@ -231,7 +232,8 @@ export default function YourCollection() {
         showActionButton={true}
         actionButtonText="Download CSV"
         onActionClick={handleDownloadCollection}
-        titleSize="lg"
+        titleSize="xl"
+        titleTag="h1"
       />
 
       <CrPlaylistTable

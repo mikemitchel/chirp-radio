@@ -86,6 +86,7 @@ export default function CrCardBanner({
     `cr-card-title-banner--${height}`,
     `cr-card-title-banner--${actualTextLayout}`,
     backgroundColor === 'textured' ? 'cr-bg-textured cr-bg-natural-light' : '',
+    backgroundColor === 'light' ? 'cr-bg-light' : '',
     className,
   ]
     .filter(Boolean)

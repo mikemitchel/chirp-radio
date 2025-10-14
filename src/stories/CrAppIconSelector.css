@@ -1,0 +1,104 @@
+/* CrAppIconSelector.css */
+
+.cr-app-icon-selector {
+  width: 100%;
+  margin-top: var(--cr-space-6);
+}
+
+.cr-app-icon-selector__header {
+  margin-bottom: var(--cr-space-6);
+}
+
+.cr-app-icon-selector__title {
+  font: var(--cr-title-sm);
+  color: var(--cr-ink);
+  margin: 0 0 var(--cr-space-2) 0;
+}
+
+.cr-app-icon-selector__description {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink-light);
+  margin: 0;
+}
+
+.cr-app-icon-selector__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: space-around;
+}
+
+.cr-app-icon-selector__option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin-bottom: var(--cr-space-3);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cr-app-icon-selector__option:hover:not(.cr-app-icon-selector__option--selected) {
+  opacity: 0.8;
+}
+
+.cr-app-icon-selector__preview {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: var(--cr-space-3);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.cr-app-icon-selector__option--selected .cr-app-icon-selector__preview {
+  outline: 3px solid var(--cr-support-success-fg);
+  outline-offset: 4px;
+}
+
+.cr-app-icon-selector__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cr-app-icon-selector__check {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--cr-support-success-fg);
+  border: 3px solid var(--cr-support-success-fg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.cr-app-icon-selector__badge {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--cr-space-1) var(--cr-space-2);
+  background: var(--cr-secondary-500);
+  color: white;
+  font: var(--cr-body-xs);
+  font-weight: 600;
+  border-radius: var(--cr-space-1);
+  white-space: nowrap;
+}
+
+.cr-app-icon-selector__actions {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--cr-space-4);
+  border-top: 1px solid var(--cr-default-300);
+}

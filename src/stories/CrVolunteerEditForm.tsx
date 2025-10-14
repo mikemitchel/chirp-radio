@@ -30,13 +30,20 @@ export default function CrVolunteerEditForm({
         {/* Age */}
         <div className="form-group">
           <label className="form-label">Your Age (Generally) *</label>
-          <input
-            type="text"
-            value={formData.age || ''}
-            onChange={(e) => handleInputChange('age', e.target.value)}
-            placeholder="40+"
-            required
-          />
+          <div className="form-radio-group">
+            {['18–24', '25–34', '35–44', '45–54', '55–64', '65+'].map((ageRange) => (
+              <label key={ageRange} className="form-radio-item">
+                <input
+                  type="radio"
+                  name="age"
+                  checked={formData.age === ageRange}
+                  onChange={() => handleInputChange('age', ageRange)}
+                  required
+                />
+                {ageRange}
+              </label>
+            ))}
+          </div>
         </div>
 
         {/* Education */}
@@ -58,7 +65,7 @@ export default function CrVolunteerEditForm({
             type="text"
             value={formData.employer || ''}
             onChange={(e) => handleInputChange('employer', e.target.value)}
-            placeholder="Chicago Public Library"
+            placeholder="Portillos"
             required
           />
         </div>
@@ -73,66 +80,77 @@ export default function CrVolunteerEditForm({
               gap: 'var(--cr-space-4)',
             }}
           >
-            {(formData.volunteerOrgs || [{ org: '', type: '' }]).map((orgData, index) => (
-              <div key={index} className="form-row">
-                <div className="form-group">
-                  <input
-                    type="text"
-                    value={orgData.org || ''}
-                    onChange={(e) => {
-                      const newOrgs = [...(formData.volunteerOrgs || [])]
-                      newOrgs[index] = {
-                        ...newOrgs[index],
-                        org: e.target.value,
-                      }
-                      handleInputChange('volunteerOrgs', newOrgs)
-                    }}
-                    placeholder="American Cancer Society"
-                  />
-                </div>
-                <div className="form-group">
-                  <input
-                    type="text"
-                    value={orgData.type || ''}
-                    onChange={(e) => {
-                      const newOrgs = [...(formData.volunteerOrgs || [])]
-                      newOrgs[index] = {
-                        ...newOrgs[index],
-                        type: e.target.value,
-                      }
-                      handleInputChange('volunteerOrgs', newOrgs)
-                    }}
-                    placeholder="Arts"
-                  />
-                </div>
+            {(formData.volunteerOrgs || ['']).map((org, index) => (
+              <div key={index}>
+                <input
+                  type="text"
+                  value={org || ''}
+                  onChange={(e) => {
+                    const newOrgs = [...(formData.volunteerOrgs || [''])]
+                    newOrgs[index] = e.target.value
+                    handleInputChange('volunteerOrgs', newOrgs)
+                  }}
+                  placeholder="American Cancer Society"
+                />
               </div>
             ))}
-            <CrButton
-              size="small"
-              variant="outline"
-              color="default"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                const currentOrgs = formData.volunteerOrgs || []
-                handleInputChange('volunteerOrgs', [...currentOrgs, { org: '', type: '' }])
-              }}
-            >
-              + ADD ANOTHER
-            </CrButton>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <CrButton
+                size="small"
+                variant="outline"
+                color="default"
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  const currentOrgs = formData.volunteerOrgs || ['']
+                  handleInputChange('volunteerOrgs', [...currentOrgs, ''])
+                }}
+              >
+                + ADD ANOTHER
+              </CrButton>
+            </div>
           </div>
         </div>
 
-        {/* Radio Stations */}
+        {/* Radio Station Experience */}
         <div className="form-group">
-          <label className="form-label">What radio stations have you worked with?</label>
-          <input
-            type="text"
-            value={formData.radioStations || ''}
-            onChange={(e) => handleInputChange('radioStations', e.target.value)}
-            placeholder="WLUW"
-          />
+          <label className="form-label">Have you worked with a radio station before? *</label>
+          <div className="form-radio-group">
+            <label className="form-radio-item">
+              <input
+                type="radio"
+                name="hasRadioExperience"
+                checked={formData.hasRadioExperience === 'yes'}
+                onChange={() => handleInputChange('hasRadioExperience', 'yes')}
+                required
+              />
+              Yes
+            </label>
+            <label className="form-radio-item">
+              <input
+                type="radio"
+                name="hasRadioExperience"
+                checked={formData.hasRadioExperience === 'no'}
+                onChange={() => handleInputChange('hasRadioExperience', 'no')}
+                required
+              />
+              No
+            </label>
+          </div>
         </div>
+
+        {/* Radio Stations - conditional */}
+        {formData.hasRadioExperience === 'yes' && (
+          <div className="form-group">
+            <label className="form-label">What radio stations have you worked with?</label>
+            <input
+              type="text"
+              value={formData.radioStations || ''}
+              onChange={(e) => handleInputChange('radioStations', e.target.value)}
+              placeholder="WLUW"
+            />
+          </div>
+        )}
 
         {/* Special Skills */}
         <div className="form-group">

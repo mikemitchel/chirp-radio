@@ -8,7 +8,7 @@ interface CrLogoProps {
 }
 
 export default function CrLogo({
-  variant = 'horizontal', // 'horizontal', 'horizontal-reversed', 'vertical', 'record', 'bird'
+  variant = 'horizontal', // 'horizontal', 'horizontal-reversed', 'vertical', 'vertical-reversed', 'record', 'bird'
   color = 'primary', // 'primary' or 'white'
   className = '',
 }: CrLogoProps) {
@@ -18,6 +18,7 @@ export default function CrLogo({
       horizontal: '/images/chirp-logos/CHIRP_Logo_FM URL_horizontal.svg',
       'horizontal-reversed': '/images/chirp-logos/CHIRP_Logo_FM URL_horizontal-reversed.svg',
       vertical: '/images/chirp-logos/CHIRP_Logo_FM URL_vertical.svg',
+      'vertical-reversed': '/images/chirp-logos/CHIRP_Logo_FM URL_vertical-reversed.svg',
       record: '/images/chirp-logos/CHIRP_Logo_FM URL_record.svg',
       bird: '/images/chirp-logos/CHIRP-bird.svg',
     }
@@ -30,6 +31,7 @@ export default function CrLogo({
       horizontal: 'CHIRP Radio horizontal logo',
       'horizontal-reversed': 'CHIRP Radio horizontal reversed logo',
       vertical: 'CHIRP Radio vertical logo',
+      'vertical-reversed': 'CHIRP Radio vertical reversed logo',
       record: 'CHIRP Radio record logo',
       bird: 'CHIRP Radio bird icon',
     }

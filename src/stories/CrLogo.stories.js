@@ -13,7 +13,7 @@ export default {
     docs: {
       description: {
         component:
-          'CHIRP Radio brand logo component with multiple layout variants for different contexts. Supports horizontal, horizontal-reversed, vertical, record, and bird-only variants in both primary and white color schemes. The horizontal variant works best in headers and wide layouts, vertical for narrow spaces, record for music-related contexts, and bird icon for compact applications like avatars and favicons. Automatically loads the appropriate SVG asset based on variant selection. Includes proper alt text and ARIA labels for accessibility. Dark mode uses the same logo variants but may switch between primary and white colors based on background contrast needs through [data-theme="dark"] CSS selectors.',
+          'CHIRP Radio brand logo component with multiple layout variants for different contexts. Supports horizontal, horizontal-reversed, vertical, vertical-reversed, record, and bird-only variants in both primary and white color schemes. The horizontal variant works best in headers and wide layouts, vertical for narrow spaces, vertical-reversed for vertical layouts on colored backgrounds, record for music-related contexts, and bird icon for compact applications like avatars and favicons. Automatically loads the appropriate SVG asset based on variant selection. Includes proper alt text and ARIA labels for accessibility. Dark mode uses the same logo variants but may switch between primary and white colors based on background contrast needs through [data-theme="dark"] CSS selectors.',
       },
     },
   },
@@ -21,7 +21,7 @@ export default {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['horizontal', 'horizontal-reversed', 'vertical', 'record', 'bird'],
+      options: ['horizontal', 'horizontal-reversed', 'vertical', 'vertical-reversed', 'record', 'bird'],
       description: 'Logo variant - each loads a different SVG file',
     },
     color: {
@@ -102,6 +102,19 @@ export const Vertical = {
   parameters: {
     backgrounds: {
       default: 'light',
+    },
+  },
+}
+
+// Vertical reversed variant
+export const VerticalReversed = {
+  args: {
+    variant: 'vertical-reversed',
+    color: 'white',
+  },
+  parameters: {
+    backgrounds: {
+      default: 'primary',
     },
   },
 }

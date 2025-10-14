@@ -1,9 +1,13 @@
 import { useEffect } from 'react';
-import { HashRouter, Routes, Route } from 'react-router';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router';
+import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import ScrollToTop from './components/ScrollToTop';
+import ProtectedRoute from './components/ProtectedRoute';
+import './utils/devTools'; // Load development tools
 import MobileApp from './layouts/MobileApp';
 import WebLayout from './layouts/WebLayout';
+import { Capacitor } from '@capacitor/core';
 import NowPlaying from './pages/NowPlaying';
 import RecentlyPlayed from './pages/RecentlyPlayed';
 import YourCollection from './pages/YourCollection';
@@ -37,6 +41,31 @@ import ShopDetailPage from './pages/ShopDetailPage';
 import DonatePage from './pages/DonatePage';
 import VinylCirclePage from './pages/VinylCirclePage';
 import ListenPage from './pages/ListenPage';
+import LeadershipDirectoryPage from './pages/LeadershipDirectoryPage';
+import VolunteerDownloadsPage from './pages/VolunteerDownloadsPage';
+import WebsitesToRememberPage from './pages/WebsitesToRememberPage';
+import NotFoundPage from './pages/NotFoundPage';
+import ServerErrorPage from './pages/ServerErrorPage';
+import ForbiddenPage from './pages/ForbiddenPage';
+
+// Redirect component to route mobile app users to /app
+function RootRedirect() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // If running in Capacitor (native mobile app), redirect to /app
+    if (Capacitor.isNativePlatform()) {
+      navigate('/app', { replace: true });
+    }
+  }, [navigate]);
+
+  // For web browsers, show the web landing page
+  if (Capacitor.isNativePlatform()) {
+    return null; // Redirect happening
+  }
+
+  return <WebLayout><LandingPage /></WebLayout>;
+}
 
 function App() {
   // Apply dark mode preference on app initialization
@@ -74,19 +103,23 @@ function App() {
   }, []);
 
   return (
-    <CartProvider>
-      <HashRouter>
-        <ScrollToTop />
-        <Routes>
-        <Route path="/" element={<MobileApp />}>
+    <AuthProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+        {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
+        <Route index element={<RootRedirect />} />
+
+        {/* Mobile app routes (Capacitor only) */}
+        <Route path="/app" element={<MobileApp />}>
           <Route index element={<NowPlaying />} />
           <Route path="now-playing" element={<NowPlaying />} />
           <Route path="recently-played" element={<RecentlyPlayed />} />
-          <Route path="collection" element={<YourCollection />} />
+          <Route path="my-collection" element={<ProtectedRoute requireLogin={true}><YourCollection /></ProtectedRoute>} />
           <Route path="request" element={<MakeRequest />} />
-          <Route path="settings" element={<AccountSettings />} />
+          <Route path="settings" element={<ProtectedRoute requireLogin={true}><AccountSettings /></ProtectedRoute>} />
         </Route>
-        <Route path="/web" element={<WebLayout><LandingPage /></WebLayout>} />
         <Route path="/playlist" element={<WebLayout><PlaylistPage /></WebLayout>} />
         <Route path="/listen" element={<WebLayout><ListenPage /></WebLayout>} />
         <Route path="/other-ways-to-listen" element={<WebLayout><OtherWaysToListenPage /></WebLayout>} />
@@ -109,14 +142,27 @@ function App() {
         <Route path="/about" element={<WebLayout><AboutPage /></WebLayout>} />
         <Route path="/contact" element={<WebLayout><ContactPage /></WebLayout>} />
         <Route path="/volunteer" element={<WebLayout><BecomeVolunteerPage /></WebLayout>} />
-        <Route path="/volunteer/directory" element={<WebLayout><VolunteerDirectoryPage /></WebLayout>} />
-        <Route path="/volunteer/calendar" element={<WebLayout><VolunteerCalendarPage /></WebLayout>} />
-        <Route path="/volunteer/resources" element={<WebLayout><VolunteerResourcesPage /></WebLayout>} />
+        <Route path="/volunteer-directory" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><VolunteerDirectoryPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/volunteer-calendar" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><VolunteerCalendarPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/volunteer/resources" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><VolunteerResourcesPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/leadership-directory" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><LeadershipDirectoryPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/websites-to-remember" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><WebsitesToRememberPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/volunteer-downloads" element={<WebLayout><ProtectedRoute requiredRoles={['volunteer', 'dj']}><VolunteerDownloadsPage /></ProtectedRoute></WebLayout>} />
+        <Route path="/profile" element={<WebLayout><ProtectedRoute requireLogin={true}><AccountSettings /></ProtectedRoute></WebLayout>} />
+        <Route path="/collection" element={<WebLayout><ProtectedRoute requireLogin={true}><YourCollection /></ProtectedRoute></WebLayout>} />
         <Route path="/request-song" element={<WebLayout><RequestSongPage /></WebLayout>} />
         <Route path="/thank-you" element={<WebLayout><ThankYouPage /></WebLayout>} />
+
+        {/* Error pages */}
+        <Route path="/403" element={<WebLayout><ForbiddenPage /></WebLayout>} />
+        <Route path="/500" element={<WebLayout><ServerErrorPage /></WebLayout>} />
+
+        {/* 404 catch-all route - must be last */}
+        <Route path="*" element={<WebLayout><NotFoundPage /></WebLayout>} />
         </Routes>
-      </HashRouter>
-    </CartProvider>
+        </BrowserRouter>
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

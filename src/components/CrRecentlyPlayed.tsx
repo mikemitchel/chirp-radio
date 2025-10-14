@@ -31,6 +31,11 @@ interface CrRecentlyPlayedProps {
   showViewPlaylistButton?: boolean
   onViewPlaylist?: () => void
   maxItems?: number
+  djName?: string
+  showName?: string
+  startTime?: string
+  endTime?: string
+  djProfileUrl?: string
 }
 
 export default function CrRecentlyPlayed({
@@ -38,19 +43,23 @@ export default function CrRecentlyPlayed({
   showViewPlaylistButton = true,
   onViewPlaylist,
   maxItems = 6,
+  djName = 'Current DJ',
+  showName = 'Current Show',
+  startTime = '12:00pm',
+  endTime = '1:00pm',
+  djProfileUrl = '#',
 }: CrRecentlyPlayedProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [showGradient, setShowGradient] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
 
-  // DJ info should come from CrCurrentDj component, not fetched here
-  // Using default placeholder values for hour break display
+  // DJ info from props
   const djInfo: DjInfo = {
-    djName: 'Current DJ',
-    showName: 'Current Show',
-    startTime: '12:00pm',
-    endTime: '1:00pm',
-    djProfileUrl: '#',
+    djName,
+    showName,
+    startTime,
+    endTime,
+    djProfileUrl,
   }
 
   useEffect(() => {
@@ -93,8 +102,6 @@ export default function CrRecentlyPlayed({
 
   const displayedTracks = tracks.slice(0, maxItems)
 
-  console.log('CrRecentlyPlayed render - djInfo:', djInfo)
-
   return (
     <div className="cr-recently-played cr-bg-textured cr-bg-dust-d300">
       <div className="cr-recently-played__container">
@@ -103,7 +110,7 @@ export default function CrRecentlyPlayed({
           {showViewPlaylistButton && (
             <CrButton
               variant="outline"
-              size="large"
+              size="medium"
               color="secondary"
               rightIcon={<PiPlaylist />}
               onClick={onViewPlaylist}

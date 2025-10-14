@@ -6,15 +6,25 @@ import './CrDjDonation.css'
 
 interface CrDjDonationProps {
   djName?: string
+  donationLink?: string
   onDonateClick?: () => void
   className?: string
 }
 
 export default function CrDjDonation({
   djName = 'this DJ',
+  donationLink,
   onDonateClick,
   className = '',
 }: CrDjDonationProps) {
+  const handleDonateClick = () => {
+    if (donationLink) {
+      window.open(donationLink, '_blank')
+    } else if (onDonateClick) {
+      onDonateClick()
+    }
+  }
+
   return (
     <div className={`cr-dj-donation ${className}`}>
       <div className="cr-dj-donation__container">
@@ -31,7 +41,7 @@ export default function CrDjDonation({
           <CrButton
             variant="solid"
             color="primary"
-            onClick={onDonateClick}
+            onClick={handleDonateClick}
             rightIcon={<PiHandHeart />}
           >
             Donate Now

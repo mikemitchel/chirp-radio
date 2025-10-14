@@ -42,14 +42,14 @@
 
 .cr-playlist-hour-break__dj-link {
   font: var(--cr-player-dj);
-  color: var(--cr-ink);
+  color: var(--cr-ink) !important;
   text-decoration: none;
   flex-shrink: 0;
   transition: color 0.2s ease;
 }
 
 .cr-playlist-hour-break__dj-link:hover {
-  color: var(--cr-primary-500);
+  color: var(--cr-primary-500) !important;
   text-decoration: underline;
 }
 

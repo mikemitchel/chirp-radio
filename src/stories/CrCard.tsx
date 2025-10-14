@@ -55,6 +55,8 @@ interface CrCardProps {
   bannerBackgroundColor?: string
   showTicketButton?: boolean
   showShareButton?: boolean
+  showCardDetails?: boolean
+  showEyebrow?: boolean
   className?: string
   isFavorite?: boolean
 }
@@ -100,6 +102,8 @@ export default function CrCard({
   shareUrl,
   showShareButton = true,
   showTicketButton = true,
+  showCardDetails = true,
+  showEyebrow = true,
 
   // Event handlers
   onBannerTicketClick,
@@ -185,7 +189,8 @@ export default function CrCard({
           titleSize={titleSize}
           height={bannerHeight}
           textLayout={textLayout}
-          backgroundColor="none"
+          backgroundColor={bannerBackgroundColor === 'none' ? 'none' : bannerBackgroundColor}
+          showPreheader={showEyebrow}
           showTicketButton={showTicketButton}
           showShareButton={showShareButton}
           ticketButtonText={bannerButtonText}
@@ -214,6 +219,7 @@ export default function CrCard({
       titleSize,
       bannerHeight,
       textLayout,
+      bannerBackgroundColor,
       showName,
       scheduleInfo,
       bannerButtonText,
@@ -224,6 +230,7 @@ export default function CrCard({
       shareUrl,
       showTicketButton,
       showShareButton,
+      showEyebrow,
       onBannerTicketClick,
       onBannerShareClick,
       isFavorite,
@@ -273,7 +280,7 @@ export default function CrCard({
           >
             {ArticleHeader}
 
-            {type === 'article' && (
+            {showCardDetails && type === 'article' && (
               <CrCardDetails
                 type="article"
                 authorBy={authorBy}
@@ -283,7 +290,7 @@ export default function CrCard({
               />
             )}
 
-            {type === 'event' && (
+            {showCardDetails && type === 'event' && (
               <CrCardDetails
                 type="event"
                 dateTime={dateTime}

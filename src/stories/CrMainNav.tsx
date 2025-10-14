@@ -176,57 +176,53 @@ export default function CrMainNav({
         <div className="cr-main-nav__left">
           <CrMenuButton variant="dots" layout="icon-left" text="Menu" onClick={onMenuClick} />
 
-          <div className="cr-main-nav__nav-items">
-            {navigate ? (
-              <Link
-                to="/listen"
-                className={`cr-main-nav__nav-link ${location?.pathname === '/listen' ? 'cr-main-nav__nav-link--active' : ''}`}
-              >
-                Listen
-              </Link>
-            ) : (
-              <button
-                className="cr-main-nav__nav-link"
-                onClick={onListenClick}
-              >
-                Listen
-              </button>
-            )}
-            {navigate ? (
-              <Link
-                to="/events"
-                className={`cr-main-nav__nav-link ${location?.pathname === '/events' ? 'cr-main-nav__nav-link--active' : ''}`}
-              >
-                Events
-              </Link>
-            ) : (
-              <button
-                className="cr-main-nav__nav-link"
-                onClick={onEventsClick}
-              >
-                Events
-              </button>
-            )}
-            {navigate ? (
-              <Link
-                to="/articles"
-                className={`cr-main-nav__nav-link ${location?.pathname === '/articles' ? 'cr-main-nav__nav-link--active' : ''}`}
-              >
-                Articles
-              </Link>
-            ) : (
-              <button
-                className="cr-main-nav__nav-link"
-                onClick={onArticlesClick}
-              >
-                Articles
-              </button>
-            )}
-          </div>
-        </div>
+          {navigate ? (
+            <Link
+              to="/listen"
+              className={`cr-main-nav__nav-link ${location?.pathname === '/listen' ? 'cr-main-nav__nav-link--active' : ''}`}
+            >
+              Listen
+            </Link>
+          ) : (
+            <button
+              className="cr-main-nav__nav-link"
+              onClick={onListenClick}
+            >
+              Listen
+            </button>
+          )}
+          {navigate ? (
+            <Link
+              to="/events"
+              className={`cr-main-nav__nav-link ${location?.pathname === '/events' ? 'cr-main-nav__nav-link--active' : ''}`}
+            >
+              Events
+            </Link>
+          ) : (
+            <button
+              className="cr-main-nav__nav-link"
+              onClick={onEventsClick}
+            >
+              Events
+            </button>
+          )}
+          {navigate ? (
+            <Link
+              to="/articles"
+              className={`cr-main-nav__nav-link ${location?.pathname === '/articles' ? 'cr-main-nav__nav-link--active' : ''}`}
+            >
+              Articles
+            </Link>
+          ) : (
+            <button
+              className="cr-main-nav__nav-link"
+              onClick={onArticlesClick}
+            >
+              Articles
+            </button>
+          )}
 
-        {/* Center - Search */}
-        <div className="cr-main-nav__center">
+          {/* Search button - moved from center */}
           <button
             className="cr-main-nav__search-button"
             onClick={handleSearchOpen}

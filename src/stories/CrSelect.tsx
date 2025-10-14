@@ -31,7 +31,7 @@ export default function CrSelect({
           <li key={option.value} className="cr-dropdown-menu__option-wrapper">
             <button
               type="button"
-              className="cr-dropdown-menu__option"
+              className={`cr-dropdown-menu__option ${option.isActive ? 'cr-dropdown-menu__option--active' : ''}`}
               onClick={() => handleOptionClick(option)}
             >
               {option.label}

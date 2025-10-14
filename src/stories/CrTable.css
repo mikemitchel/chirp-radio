@@ -3,6 +3,8 @@
 /* Table Wrapper - contains page header and table */
 .cr-table-wrapper {
   width: 100%;
+  container-type: inline-size;
+  container-name: table-wrapper;
 }
 
 /* Container */
@@ -306,9 +308,9 @@
   opacity: 0.7;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  /* Hide table on mobile, show card layout instead */
+/* Responsive - using container queries */
+@container table-wrapper (max-width: 600px) {
+  /* Hide table in narrow containers, show card layout instead */
   .cr-table-container {
     border: none;
     background: transparent;
@@ -348,8 +350,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: var(--cr-space-2);
-    padding-bottom: var(--cr-space-2);
+    padding-bottom: var(--cr-space-1);
     border-bottom: 1px solid var(--cr-default-200);
   }
 
@@ -394,8 +395,8 @@
   }
 }
 
-/* Desktop: hide mobile layout */
-@media (min-width: 769px) {
+/* Wide containers: hide mobile layout */
+@container table-wrapper (min-width: 601px) {
   .cr-table__mobile-cards,
   .cr-table__mobile-loading,
   .cr-table__mobile-empty {

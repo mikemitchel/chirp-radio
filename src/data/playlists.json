@@ -1,10 +1,12 @@
 {
   "currentShow": {
-    "djName": "DJ Current",
-    "showName": "The Current Show",
-    "startTime": "5:00am",
-    "endTime": "6:00am",
-    "djImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces"
+    "djName": "Blake Cooper",
+    "showName": "Friday Morning Kickoff",
+    "startTime": "6:00am",
+    "endTime": "9:00am",
+    "djImage": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces",
+    "djProfileUrl": "/djs/dj-003",
+    "description": "Blake's radio journey started at 5 AM, literally. As a former morning show producer at multiple Chicago stations, they know what it takes to get people energized and out the door. Their transition to CHIRP allowed them to bring that same energy with better music and genuine community connection.\n\nA coffee enthusiast and dedicated cyclist, Blake often broadcasts live from different Chicago neighborhoods, bringing the sounds of the city into their morning show. They're known for interviewing local business owners and highlighting community events.\n\nBlake serves on CHIRP's Community Engagement committee and organizes the annual CHIRP bike ride fundraiser. Outside the station, they work in digital marketing and volunteer with World Bicycle Relief."
   },
   "tracks": [
     {

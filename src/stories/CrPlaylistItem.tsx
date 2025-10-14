@@ -1,9 +1,13 @@
 // CrPlaylistItem.tsx
+import { useEffect, useState } from 'react'
 import { PiPlusCircle } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
 import './CrPlaylistItem.css'
 import CrTrackInfo from './CrTrackInfo'
+import { useLoginRequired } from '../hooks/useLoginRequired'
+import LoginRequiredModal from '../components/LoginRequiredModal'
+import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
 
 interface CrPlaylistItemProps {
   albumArt?: string
@@ -32,7 +36,7 @@ export default function CrPlaylistItem({
   trackName = 'Track Name',
   albumName = 'Album Name',
   labelName = 'Label Name',
-  isAdded = false,
+  isAdded: isAddedProp,
   isLocal = false,
   onToggleAdd,
 
@@ -48,8 +52,74 @@ export default function CrPlaylistItem({
 
   className = '',
 }: CrPlaylistItemProps) {
+  const { requireLogin, showLoginModal, handleLogin, handleSignUp, closeModal } = useLoginRequired()
+  const [isAdded, setIsAdded] = useState(false)
+
+  // Check if track is in collection
+  useEffect(() => {
+    const checkCollection = () => {
+      setIsAdded(isInCollection(artistName, trackName))
+    }
+    checkCollection()
+
+    // Listen for collection updates
+    window.addEventListener('chirp-collection-updated', checkCollection)
+    return () => {
+      window.removeEventListener('chirp-collection-updated', checkCollection)
+    }
+  }, [artistName, trackName])
+
+  // Handle add/remove with authentication
+  const handleToggleAdd = () => {
+    requireLogin(() => {
+      // If parent provided a handler, use it
+      if (onToggleAdd) {
+        onToggleAdd()
+        return
+      }
+
+      // Otherwise, handle add/remove internally
+      const trackId = `${artistName}-${trackName}`.replace(/\s+/g, '-').toLowerCase()
+
+      if (isAdded) {
+        // Remove from collection
+        const removed = removeFromCollection(trackId)
+        if (removed) {
+          window.dispatchEvent(new CustomEvent('chirp-show-toast', {
+            detail: {
+              message: `Removed ${trackName} from your collection`,
+              type: 'success',
+              duration: 3000,
+            }
+          }))
+        }
+      } else {
+        // Add to collection
+        const albumArtUrl = albumArt || '/src/assets/chirp-logos/CHIRP_Logo_FM URL_record.svg'
+
+        addToCollection({
+          id: trackId,
+          artistName,
+          trackName,
+          albumName,
+          labelName,
+          albumArt: albumArtUrl,
+          isLocal,
+        })
+
+        window.dispatchEvent(new CustomEvent('chirp-show-toast', {
+          detail: {
+            message: `Added ${trackName} to your collection`,
+            type: 'success',
+            duration: 3000,
+          }
+        }))
+      }
+    })
+  }
   if (variant === 'table') {
     return (
+      <>
       <div className={`cr-playlist-item cr-playlist-item--table ${currentlyPlaying ? 'cr-playlist-item--currently-playing' : ''} ${className}`}>
         <div className="cr-playlist-item__table-album-art">
           <img src={albumArt} alt={albumArtAlt} className="cr-playlist-item__image" />
@@ -82,7 +152,7 @@ export default function CrPlaylistItem({
             size="xsmall"
             color="secondary"
             rightIcon={isAdded ? undefined : <PiPlusCircle />}
-            onClick={onToggleAdd}
+            onClick={handleToggleAdd}
           >
             {isAdded ? 'REMOVE' : 'ADD'}
           </CrButton>
@@ -96,19 +166,28 @@ export default function CrPlaylistItem({
             artistName={artistName}
             albumName={albumName}
             labelName={labelName}
-            isAdded={isAdded}
+            albumArt={albumArt}
             isLocal={isLocal}
             onToggleAdd={onToggleAdd}
           />
           {showTime && timeAgo && <div className="cr-playlist-item__time">{timeAgo}</div>}
         </div>
       </div>
+
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={closeModal}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+      />
+      </>
     )
   }
 
   // Card variant
   if (variant === 'card') {
     return (
+      <>
       <div className={`cr-playlist-item cr-playlist-item--card ${currentlyPlaying ? 'cr-playlist-item--currently-playing' : ''} ${className}`}>
         {/* Blurred background */}
         <div
@@ -144,7 +223,7 @@ export default function CrPlaylistItem({
                 size="xsmall"
                 color="secondary"
                 rightIcon={isAdded ? undefined : <PiPlusCircle />}
-                onClick={onToggleAdd}
+                onClick={handleToggleAdd}
               >
                 {isAdded ? 'REMOVE' : 'ADD'}
               </CrButton>
@@ -152,30 +231,47 @@ export default function CrPlaylistItem({
           </div>
         </div>
       </div>
+
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={closeModal}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+      />
+      </>
     )
   }
 
   // Default variant
   return (
-    <div className={`cr-playlist-item ${className}`}>
-      <div className="cr-playlist-item__album-art">
-        <img src={albumArt} alt={albumArtAlt} className="cr-playlist-item__image" />
+    <>
+      <div className={`cr-playlist-item ${className}`}>
+        <div className="cr-playlist-item__album-art">
+          <img src={albumArt} alt={albumArtAlt} className="cr-playlist-item__image" />
+        </div>
+
+        <div className="cr-playlist-item__content">
+          <CrTrackInfo
+            variant="full"
+            trackName={trackName}
+            artistName={artistName}
+            albumName={albumName}
+            labelName={labelName}
+            albumArt={albumArt}
+            isLocal={isLocal}
+            onToggleAdd={onToggleAdd}
+          />
+
+          {showTime && timeAgo && <div className="cr-playlist-item__time">{timeAgo}</div>}
+        </div>
       </div>
 
-      <div className="cr-playlist-item__content">
-        <CrTrackInfo
-          variant="full"
-          trackName={trackName}
-          artistName={artistName}
-          albumName={albumName}
-          labelName={labelName}
-          isAdded={isAdded}
-          isLocal={isLocal}
-          onToggleAdd={onToggleAdd}
-        />
-
-        {showTime && timeAgo && <div className="cr-playlist-item__time">{timeAgo}</div>}
-      </div>
-    </div>
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={closeModal}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+      />
+    </>
   )
 }
