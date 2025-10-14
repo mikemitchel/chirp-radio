@@ -22,7 +22,7 @@ const defaultIcons: IconOption[] = [
   {
     id: 'icon1',
     name: 'Icon 1',
-    preview: '/images/app-icons/icon1.png',
+    preview: '/images/app-icons/App Icon 1.png',
   },
   {
     id: 'icon2',
