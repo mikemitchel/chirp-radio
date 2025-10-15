@@ -34,3 +34,6 @@ playwright/.cache/
 
 # Visual regression baseline screenshots
 e2e/**/*-snapshots/
+
+# AI configs
+**/.claude/settings.local.json
