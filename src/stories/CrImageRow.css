@@ -4,6 +4,7 @@
   display: flex;
   gap: 24px;
   width: 100%;
+  margin-bottom: var(--cr-space-8);
 }
 
 .cr-image-row__image {

@@ -47,6 +47,9 @@ import WebsitesToRememberPage from './pages/WebsitesToRememberPage'
 import NotFoundPage from './pages/NotFoundPage'
 import ServerErrorPage from './pages/ServerErrorPage'
 import ForbiddenPage from './pages/ForbiddenPage'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
+import TermsOfServicePage from './pages/TermsOfServicePage'
+import SitemapPage from './pages/SitemapPage'
 
 // Redirect component to route mobile app users to /app
 function RootRedirect() {
@@ -408,6 +411,32 @@ function App() {
               element={
                 <WebLayout>
                   <ThankYouPage />
+                </WebLayout>
+              }
+            />
+
+            {/* Legal pages */}
+            <Route
+              path="/privacy-policy"
+              element={
+                <WebLayout>
+                  <PrivacyPolicyPage />
+                </WebLayout>
+              }
+            />
+            <Route
+              path="/terms-of-service"
+              element={
+                <WebLayout>
+                  <TermsOfServicePage />
+                </WebLayout>
+              }
+            />
+            <Route
+              path="/sitemap"
+              element={
+                <WebLayout>
+                  <SitemapPage />
                 </WebLayout>
               }
             />

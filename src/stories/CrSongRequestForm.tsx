@@ -148,7 +148,7 @@ export default function CrSongRequestForm({
             size="medium"
             onClick={handleCancel}
           >
-            Cancel
+            Clear
           </CrButton>
           <CrButton
             type="submit"
