@@ -1031,6 +1031,7 @@ input[type='radio'] {
 
 .form-radio-group {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--cr-space-6);
 }
 
@@ -1084,10 +1085,6 @@ input[type='radio'] {
   .form-row {
     flex-direction: column;
     gap: var(--cr-space-4);
-  }
-
-  .form-actions {
-    flex-direction: column-reverse;
   }
 
   .form-checkbox-grid {
