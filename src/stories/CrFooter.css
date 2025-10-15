@@ -52,6 +52,10 @@
   transition: color 0.2s ease;
 }
 
+.cr-footer a:visited {
+  color: var(--cr-secondary-700);
+}
+
 .cr-footer a:hover {
   color: var(--cr-secondary-500);
 }

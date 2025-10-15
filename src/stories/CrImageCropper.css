@@ -43,6 +43,7 @@
 .cr-image-cropper__image-container {
   position: relative;
   display: inline-block;
+  max-width: 100%;
 }
 
 .cr-image-cropper__image {
@@ -54,6 +55,8 @@
 .cr-image-cropper__image--full {
   border: 2px solid var(--cr-default-300);
   display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .cr-image-cropper__image--avatar {
@@ -65,6 +68,7 @@
 .cr-image-cropper__placeholder-initial {
   width: 400px;
   height: 300px;
+  max-width: 100%;
   border: 2px solid var(--cr-default-300);
   border-radius: var(--cr-space-2);
   background: var(--cr-default-100);
@@ -292,6 +296,10 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .cr-image-cropper__full-image {
+    min-width: 0;
+  }
+
   .cr-image-cropper__crop-area {
     width: 300px !important;
     height: 300px !important;
