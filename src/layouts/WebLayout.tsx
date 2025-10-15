@@ -146,6 +146,24 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
   const handleWebsitesClick = () => navigate('/websites-to-remember')
   const handleDownloadsClick = () => navigate('/volunteer-downloads')
 
+  // Footer handlers
+  const handlePrivacyPolicyClick = () => navigate('/privacy-policy')
+  const handleTermsOfServiceClick = () => navigate('/terms-of-service')
+  const handleSitemapClick = () => navigate('/sitemap')
+  const handleCallibrityClick = () => window.open('https://callibrity.com', '_blank')
+  const handleSocialClick = (platform: string) => {
+    const socialUrls: { [key: string]: string } = {
+      facebook: 'https://www.facebook.com/chirpradio',
+      instagram: 'https://www.instagram.com/chirpradio',
+      twitter: 'https://twitter.com/chirpradio',
+      bluesky: 'https://bsky.app/profile/chirpradio.org',
+      linkedin: 'https://www.linkedin.com/company/chirp-radio',
+    }
+    if (socialUrls[platform]) {
+      window.open(socialUrls[platform], '_blank')
+    }
+  }
+
   return (
     <AudioPlayerProvider
       autoFetch={true}
@@ -266,7 +284,13 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
         <div className="support-with-ads-wrapper">
           <CrSupportWithAds />
         </div>
-        <CrFooter />
+        <CrFooter
+          onPrivacyPolicyClick={handlePrivacyPolicyClick}
+          onTermsOfServiceClick={handleTermsOfServiceClick}
+          onSitemapClick={handleSitemapClick}
+          onCallibrityClick={handleCallibrityClick}
+          onSocialClick={handleSocialClick}
+        />
       </div>
 
       {/* Fixed Bottom Player - slides up when scrolling past header */}
