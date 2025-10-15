@@ -17,7 +17,8 @@
       "WebSearch",
       "Bash(test:*)",
       "Bash(cat:*)",
-      "WebFetch(domain:chirpradio.org)"
+      "WebFetch(domain:chirpradio.org)",
+      "Read(//Users/ryanwilson/Documents/Clients/CHIRP/fivepack-chirp-radio-4693cc54131c/**)"
     ],
     "deny": [],
     "ask": []
