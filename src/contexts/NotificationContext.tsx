@@ -116,6 +116,21 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  // Add console method for testing toasts
+  useEffect(() => {
+    ;(window as any).showToast = (message: string, type: any = 'success', duration = 5000) => {
+      setToastState({
+        isVisible: true,
+        message,
+        type,
+        duration,
+      })
+    }
+    return () => {
+      delete (window as any).showToast
+    }
+  }, [])
+
   return (
     <NotificationContext.Provider
       value={{

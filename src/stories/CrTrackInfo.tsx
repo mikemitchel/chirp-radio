@@ -108,6 +108,13 @@ export default function CrTrackInfo({
 
   const handleToggleAdd = () => {
     requireLogin(() => {
+      // If parent provided a handler, use it
+      if (onToggleAdd) {
+        onToggleAdd(!isAdded)
+        return
+      }
+
+      // Otherwise, handle add/remove internally
       const trackId = `${artistName}-${trackName}`.replace(/\s+/g, '-').toLowerCase()
 
       if (isAdded) {
@@ -147,11 +154,6 @@ export default function CrTrackInfo({
             },
           })
         )
-      }
-
-      // Call optional callback
-      if (onToggleAdd) {
-        onToggleAdd(!isAdded)
       }
     })
   }
