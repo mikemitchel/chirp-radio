@@ -477,13 +477,13 @@ export default function CrProfileEditForm({
 
       {/* Form Actions */}
       <div className="form-actions">
-        <CrButton size="medium" variant="text" color="default" onClick={onCancel}>
+        <CrButton size="large" variant="text" color="default" onClick={onCancel}>
           Cancel
         </CrButton>
         <CrButton
-          size="medium"
+          size="large"
           variant="solid"
-          color="default"
+          color="secondary"
           leftIcon={<PiFloppyDisk />}
           onClick={handleSave}
         >
