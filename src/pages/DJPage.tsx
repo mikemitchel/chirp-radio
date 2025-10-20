@@ -12,6 +12,7 @@ import {
   useCurrentUser,
 } from '../hooks/useData'
 import { useAuth } from '../hooks/useAuth'
+import { downloadDJShowCalendar } from '../utils/calendar'
 
 const DJPage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
@@ -73,6 +74,13 @@ const DJPage: React.FC = () => {
                 imageSrc={dj.imageSrc}
                 isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
                 onMoreClick={() => navigate(`/djs/${dj.slug}`)}
+                onAddToCalendarClick={() =>
+                  downloadDJShowCalendar({
+                    djName: dj.djName,
+                    showName: dj.showName,
+                    showTime: dj.showTime,
+                  })
+                }
               />
             ))}
           </div>
