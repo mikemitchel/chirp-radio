@@ -13,7 +13,7 @@ import { mockScheduleData } from '../stories/CrDjSchedule.stories'
 
 const DJSchedulePage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
-  const { data: currentUser } = useCurrentUser()
+  const { user: loggedInUser } = useAuth()
   const { data: allDJs } = useDJs()
 
   // Use real DJ data instead of mock
@@ -123,7 +123,7 @@ const DJSchedulePage: React.FC = () => {
       </section>
 
       <section className="page-container">
-        <CrDjSchedule scheduleData={mockScheduleData} currentUser={currentUser} djsData={allDJs} />
+        <CrDjSchedule scheduleData={mockScheduleData} currentUser={loggedInUser} djsData={allDJs} />
       </section>
 
       <div className="page-layout-main-sidebar">

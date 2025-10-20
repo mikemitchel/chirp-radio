@@ -9,7 +9,7 @@ import CrDjDonation from '../stories/CrDjDonation'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import CrChip from '../stories/CrChip'
-import { useDJs, useAnnouncements, useCurrentUser, updateUserFavoriteDJs } from '../hooks/useData'
+import { useDJs, useAnnouncements } from '../hooks/useData'
 import { useLoginRequired } from '../hooks/useLoginRequired'
 import { useAuth } from '../hooks/useAuth'
 import LoginRequiredModal from '../components/LoginRequiredModal'
@@ -19,15 +19,14 @@ const DJDetailPage: React.FC = () => {
   const { id: slugOrId } = useParams()
   const { data: allDJs } = useDJs()
   const { data: announcements } = useAnnouncements()
-  const { data: currentUser } = useCurrentUser()
-  const { user: loggedInUser } = useAuth()
+  const { user: loggedInUser, updateFavoriteDJs } = useAuth()
   const { requireLogin, showLoginModal, handleLogin, handleSignUp, closeModal } = useLoginRequired()
 
   // Find the DJ by slug (or fall back to ID for backwards compatibility)
   let dj = allDJs?.find((d) => d.slug === slugOrId || d.id === slugOrId)
 
   // If viewing the logged-in user's DJ profile, use their current data from localStorage
-  if (loggedInUser && loggedInUser.role === 'dj' && dj && dj.id === 'dj-001') {
+  if (loggedInUser && loggedInUser.role === 'dj' && dj && dj.id === loggedInUser.id) {
     // Create slug from logged-in user's DJ name
     const userSlug = loggedInUser.djName
       ? loggedInUser.djName
@@ -70,10 +69,10 @@ const DJDetailPage: React.FC = () => {
   const [isFavorite, setIsFavorite] = useState(false)
 
   useEffect(() => {
-    if (currentUser && dj) {
-      setIsFavorite(currentUser.favoriteDJs?.includes(dj.id) || false)
+    if (loggedInUser && dj) {
+      setIsFavorite(loggedInUser.favoriteDJs?.includes(dj.id) || false)
     }
-  }, [currentUser, dj])
+  }, [loggedInUser, dj])
 
   const handleFavoriteClick = () => {
     if (!dj) return
@@ -81,10 +80,11 @@ const DJDetailPage: React.FC = () => {
     requireLogin(() => {
       // Toggle favorite status
       const newFavoriteStatus = !isFavorite
+      console.log('[DJDetailPage] handleFavoriteClick - DJ:', dj.djName, 'ID:', dj.id, 'newFavoriteStatus:', newFavoriteStatus)
       setIsFavorite(newFavoriteStatus)
 
       // Update the user's favoriteDJs array
-      updateUserFavoriteDJs(dj.id, newFavoriteStatus)
+      updateFavoriteDJs(dj.id, newFavoriteStatus)
 
       console.log(`${newFavoriteStatus ? 'Favorited' : 'Unfavorited'} DJ:`, dj.djName)
     })

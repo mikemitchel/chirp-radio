@@ -9,7 +9,6 @@ import {
   useAnnouncements,
   useScheduledDJs,
   useSubstituteDJs,
-  useCurrentUser,
 } from '../hooks/useData'
 import { useAuth } from '../hooks/useAuth'
 import { downloadDJShowCalendar } from '../utils/calendar'
@@ -18,9 +17,11 @@ const DJPage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
   const { data: scheduledDJs } = useScheduledDJs()
   const { data: substituteDJs } = useSubstituteDJs()
-  const { data: currentUser } = useCurrentUser()
   const { user: loggedInUser } = useAuth()
   const navigate = useNavigate()
+
+  console.log('[DJPage] loggedInUser:', loggedInUser)
+  console.log('[DJPage] loggedInUser.favoriteDJs:', loggedInUser?.favoriteDJs)
 
   // Sort DJs alphabetically by name, and update logged-in user's data if they're viewing their own profile
   const sortedDJs = useMemo(() => {
@@ -28,7 +29,7 @@ const DJPage: React.FC = () => {
 
     // Map DJs and overlay logged-in user's data if applicable
     const updatedDJs = scheduledDJs.map((dj) => {
-      if (loggedInUser && loggedInUser.role === 'dj' && dj.id === 'dj-001') {
+      if (loggedInUser && loggedInUser.role === 'dj' && dj.id === loggedInUser.id) {
         const djName = loggedInUser.djName || dj.djName
         const userSlug = djName
           .toLowerCase()
@@ -143,7 +144,7 @@ const DJPage: React.FC = () => {
                     size="small"
                     djName={displayDJ.djName}
                     imageSrc={displayDJ.imageSrc}
-                    isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
+                    isFavorite={loggedInUser?.favoriteDJs?.includes(dj.id)}
                   />
                 </div>
               )
