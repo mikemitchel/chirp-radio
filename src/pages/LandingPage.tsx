@@ -18,8 +18,8 @@ import {
   useTracks,
   useCurrentShow,
   useScheduledDJs,
-  useCurrentUser,
 } from '../hooks/useData'
+import { useAuth } from '../hooks/useAuth'
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate()
@@ -30,7 +30,7 @@ const LandingPage: React.FC = () => {
   const { data: tracks } = useTracks()
   const { data: currentShow } = useCurrentShow()
   const { data: djs } = useScheduledDJs()
-  const { data: currentUser } = useCurrentUser()
+  const { user: loggedInUser } = useAuth()
 
   // Add landing-page class to body on mount, remove on unmount
   useEffect(() => {
@@ -228,7 +228,7 @@ const LandingPage: React.FC = () => {
               showContent={false}
               buttonText="Profile"
               imageSrc={dj.imageSrc}
-              isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
+              isFavorite={loggedInUser?.favoriteDJs?.includes(dj.id)}
               onMoreClick={() => navigate(`/djs/${dj.id}`)}
             />
           ))}
