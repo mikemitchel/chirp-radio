@@ -1,10 +1,15 @@
 // CrRecentlyPlayed.stories.js
 import React from 'react'
 import CrRecentlyPlayed from './CrRecentlyPlayed'
+import { AuthProvider } from '../contexts/AuthContext'
+import { BrowserRouter } from 'react-router-dom'
 
 export default {
   title: 'Organisms/CrRecentlyPlayed',
   component: CrRecentlyPlayed,
+  decorators: [
+    (Story) => React.createElement(BrowserRouter, null, React.createElement(AuthProvider, null, React.createElement(Story))),
+  ],
   parameters: {
     layout: 'fullscreen',
     docs: {

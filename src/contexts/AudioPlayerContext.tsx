@@ -615,11 +615,20 @@ export function AudioPlayerProvider({
   }, [])
 
   const play = async () => {
-    if (!audioRef.current) return
+    if (!audioRef.current) {
+      log.error('audioRef.current is null - cannot play')
+      return
+    }
     try {
       log.log('Playing audio...')
       log.log('Audio volume before play:', audioRef.current.volume)
       log.log('Stream URL:', streamUrl)
+      log.log('Audio element state:', {
+        paused: audioRef.current.paused,
+        ended: audioRef.current.ended,
+        readyState: audioRef.current.readyState,
+        networkState: audioRef.current.networkState
+      })
 
       await audioRef.current.play()
       setIsPlaying(true)
@@ -633,6 +642,9 @@ export function AudioPlayerProvider({
       }
     } catch (error) {
       log.error('Error playing audio:', error)
+      log.error('Error name:', error.name)
+      log.error('Error message:', error.message)
+      setIsPlaying(false)
     }
   }
 
