@@ -86,7 +86,7 @@
 /* Responsive */
 @media (max-width: 480px) {
   .login-modal {
-    padding: var(--cr-space-3);
+    padding: 0;
   }
 
   .login-modal__actions {
