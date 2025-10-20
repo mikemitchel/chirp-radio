@@ -5,8 +5,8 @@ import CrDjSchedule from '../stories/CrDjSchedule'
 import CrDjOverview from '../stories/CrDjOverview'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import { useAnnouncements, useDJs } from '../hooks/useData'
-import { useAuth } from '../hooks/useAuth'
+import { useAnnouncements, useCurrentUser, useDJs } from '../hooks/useData'
+import { downloadDJShowCalendar } from '../utils/calendar'
 
 // Import mock schedule data from stories file
 import { mockScheduleData } from '../stories/CrDjSchedule.stories'
@@ -145,7 +145,14 @@ const DJSchedulePage: React.FC = () => {
                 showTime={dj.showTime}
                 description={dj.description}
                 imageSrc={dj.imageSrc}
-                isFavorite={loggedInUser?.favoriteDJs?.includes(dj.id)}
+                isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
+                onAddToCalendarClick={() =>
+                  downloadDJShowCalendar({
+                    djName: dj.djName,
+                    showName: dj.showName,
+                    showTime: dj.showTime,
+                  })
+                }
               />
             ))}
           </div>

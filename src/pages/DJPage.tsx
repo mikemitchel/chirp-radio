@@ -11,6 +11,7 @@ import {
   useSubstituteDJs,
 } from '../hooks/useData'
 import { useAuth } from '../hooks/useAuth'
+import { downloadDJShowCalendar } from '../utils/calendar'
 
 const DJPage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
@@ -63,23 +64,26 @@ const DJPage: React.FC = () => {
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
           <div className="grid-2col-equal">
-            {sortedDJs.map((dj) => {
-              const isFavorite = loggedInUser?.favoriteDJs?.includes(dj.id)
-              console.log('[DJPage] DJ:', dj.djName, 'ID:', dj.id, 'isFavorite:', isFavorite)
-              return (
-                <CrDjOverview
-                  key={dj.id}
-                  size="medium"
-                  djName={dj.djName}
-                  content={dj.showName}
-                  showTime={dj.showTime}
-                  description={dj.description}
-                  imageSrc={dj.imageSrc}
-                  isFavorite={isFavorite}
-                  onMoreClick={() => navigate(`/djs/${dj.slug}`)}
-                />
-              )
-            })}
+            {sortedDJs.map((dj) => (
+              <CrDjOverview
+                key={dj.id}
+                size="medium"
+                djName={dj.djName}
+                content={dj.showName}
+                showTime={dj.showTime}
+                description={dj.description}
+                imageSrc={dj.imageSrc}
+                isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
+                onMoreClick={() => navigate(`/djs/${dj.slug}`)}
+                onAddToCalendarClick={() =>
+                  downloadDJShowCalendar({
+                    djName: dj.djName,
+                    showName: dj.showName,
+                    showTime: dj.showTime,
+                  })
+                }
+              />
+            ))}
           </div>
         </div>
 
