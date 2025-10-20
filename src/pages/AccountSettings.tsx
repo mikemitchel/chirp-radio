@@ -691,8 +691,11 @@ export default function AccountSettings() {
     })
   }
 
+  // Use page-container for logged out state (better mobile padding)
+  const containerClass = !isLoggedIn ? 'page-container' : 'account-settings-page'
+
   return (
-    <div className="account-settings-page">
+    <div className={containerClass}>
       {/* Password Confirmation Modal */}
       <CrModal
         isOpen={showPasswordModal}
@@ -781,9 +784,10 @@ export default function AccountSettings() {
         </div>
       )}
 
-      <div className="page-layout-main-sidebar">
-        <div className="page-layout-main-sidebar__main">
-          <CrProfileCard
+      {isLoggedIn ? (
+        <div className="page-layout-main-sidebar">
+          <div className="page-layout-main-sidebar__main">
+            <CrProfileCard
             state={profileState}
             eyebrowText="YOUR ACCOUNT"
             title="Your Profile"
@@ -826,8 +830,8 @@ export default function AccountSettings() {
             onViewDJProfile={handleViewDJProfile}
           />
 
-          {/* App Icon Selector - Only shown in /app routes on iOS 10.3+ */}
-          {showIconSelector && (
+          {/* App Icon Selector - Only shown in /app routes on iOS 10.3+ and when logged in */}
+          {showIconSelector && isLoggedIn && (
             <CrAppIconSelector
               currentIcon={currentAppIcon}
               onIconChange={handleIconChange}
@@ -836,38 +840,62 @@ export default function AccountSettings() {
           )}
         </div>
 
-        <div className="page-layout-main-sidebar__sidebar account-settings-page__sidebar">
-          <CrTable
-            tableTitle="Donation History"
-            columns={donationColumns}
-            data={user?.donationHistory || []}
-            sortable={true}
-            variant="compact"
-            tableTitleLevel={2}
-            tableTitleSize="lg"
-            showActionButton={true}
-            actionButtonText="Make a Donation"
-            actionButtonIcon={<PiHandHeart />}
-            actionButtonSize="medium"
-            onActionClick={handleMakeDonation}
-          />
+        {isLoggedIn && (
+          <div className="page-layout-main-sidebar__sidebar account-settings-page__sidebar">
+            <CrTable
+              tableTitle="Donation History"
+              columns={donationColumns}
+              data={user?.donationHistory || []}
+              sortable={true}
+              variant="compact"
+              tableTitleLevel={2}
+              tableTitleSize="lg"
+              showActionButton={true}
+              actionButtonText="Make a Donation"
+              actionButtonIcon={<PiHandHeart />}
+              actionButtonSize="medium"
+              onActionClick={handleMakeDonation}
+            />
 
-          <CrTable
-            tableTitle="Purchase History"
-            columns={purchaseColumns}
-            data={user?.purchaseHistory || []}
-            sortable={true}
-            variant="compact"
-            tableTitleLevel={2}
-            tableTitleSize="lg"
-            showActionButton={true}
-            actionButtonText="Visit Store"
-            actionButtonIcon={<PiStorefront />}
-            actionButtonSize="medium"
-            onActionClick={handleVisitStore}
-          />
+            <CrTable
+              tableTitle="Purchase History"
+              columns={purchaseColumns}
+              data={user?.purchaseHistory || []}
+              sortable={true}
+              variant="compact"
+              tableTitleLevel={2}
+              tableTitleSize="lg"
+              showActionButton={true}
+              actionButtonText="Visit Store"
+              actionButtonIcon={<PiStorefront />}
+              actionButtonSize="medium"
+              onActionClick={handleVisitStore}
+            />
+          </div>
+        )}
         </div>
-      </div>
+      ) : (
+        <CrProfileCard
+          state={profileState}
+          eyebrowText="YOUR ACCOUNT"
+          title="Your Profile"
+          showEditButton={false}
+          streamingQuality={streamingQuality}
+          onStreamingQualityChange={handleStreamingQualityChange}
+          pushNotifications={false}
+          onPushNotificationsChange={handlePushNotificationsChange}
+          darkMode={darkMode}
+          onDarkModeChange={handleDarkModeChange}
+          onLogin={handleLogin}
+          onLogout={handleLogout}
+          onSignUp={handleSignUp}
+          onForgotPassword={handleForgotPassword}
+          onShareApp={handleShareApp}
+          onLikeAppStore={handleLikeAppStore}
+          onAppSupport={handleAppSupport}
+          onTermsPrivacy={handleTermsPrivacy}
+        />
+      )}
     </div>
   )
 }

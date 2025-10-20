@@ -124,23 +124,9 @@ function App() {
               <Route index element={<NowPlaying />} />
               <Route path="now-playing" element={<NowPlaying />} />
               <Route path="recently-played" element={<RecentlyPlayed />} />
-              <Route
-                path="my-collection"
-                element={
-                  <ProtectedRoute requireLogin={true}>
-                    <YourCollection />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path="my-collection" element={<YourCollection />} />
               <Route path="request" element={<MakeRequest />} />
-              <Route
-                path="settings"
-                element={
-                  <ProtectedRoute requireLogin={true}>
-                    <AccountSettings />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path="settings" element={<AccountSettings />} />
             </Route>
             <Route
               path="/playlist"
@@ -382,9 +368,7 @@ function App() {
               path="/profile"
               element={
                 <WebLayout>
-                  <ProtectedRoute requireLogin={true}>
-                    <AccountSettings />
-                  </ProtectedRoute>
+                  <AccountSettings />
                 </WebLayout>
               }
             />
@@ -392,9 +376,7 @@ function App() {
               path="/collection"
               element={
                 <WebLayout>
-                  <ProtectedRoute requireLogin={true}>
-                    <YourCollection />
-                  </ProtectedRoute>
+                  <YourCollection />
                 </WebLayout>
               }
             />
