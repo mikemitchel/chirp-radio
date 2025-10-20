@@ -73,7 +73,7 @@ const DJPage: React.FC = () => {
                 showTime={dj.showTime}
                 description={dj.description}
                 imageSrc={dj.imageSrc}
-                isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
+                isFavorite={loggedInUser?.favoriteDJs?.includes(dj.id)}
                 onMoreClick={() => navigate(`/djs/${dj.slug}`)}
                 onAddToCalendarClick={() =>
                   downloadDJShowCalendar({
