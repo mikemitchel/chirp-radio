@@ -11,6 +11,7 @@ interface CrDjShowCardProps {
   isHighlighted?: boolean
   onClick?: () => void
   isFavorite?: boolean
+  djsData?: any[]
 }
 
 export default function CrDjShowCard({
@@ -22,6 +23,7 @@ export default function CrDjShowCard({
   isHighlighted = false,
   onClick,
   isFavorite = false,
+  djsData = [],
 }: CrDjShowCardProps) {
   // Safety checks for show data
   const djArray = show.dj && Array.isArray(show.dj) ? show.dj : ['Unknown DJ']
@@ -31,10 +33,21 @@ export default function CrDjShowCard({
   const isCHIRP = djArray[0] === 'CHIRP'
   const WrapperTag = isCHIRP ? 'div' : 'a'
 
+  // Find the DJ slug by matching DJ name from schedule data to djsData
+  const getDjSlug = () => {
+    if (isCHIRP || !djsData || djsData.length === 0) return showSlug
+
+    // Find DJ by matching name
+    const dj = djsData.find((d) => djArray.some((name) => d.djName === name))
+    return dj?.slug || showSlug
+  }
+
+  const djSlug = getDjSlug()
+
   const wrapperProps = isCHIRP
     ? {}
     : {
-        href: `/djs/${showSlug}`,
+        href: `/djs/${djSlug}`,
         'aria-label': `More about ${djArray.join(', ')}`,
       }
 

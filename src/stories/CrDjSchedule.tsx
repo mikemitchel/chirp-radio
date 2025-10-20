@@ -236,6 +236,7 @@ export default function CrDjSchedule({
                 isCurrentShow: isCurrent,
                 isHighlighted: isHighlighted,
                 isFavorite: isDjFavorited(show.dj),
+                djsData: djsData,
               })
             })}
           </div>

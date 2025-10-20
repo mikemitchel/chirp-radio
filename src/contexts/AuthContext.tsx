@@ -46,6 +46,7 @@ interface UserPreferences {
 }
 
 interface User {
+  id?: string
   email: string
   name: string
   firstName?: string
@@ -76,6 +77,7 @@ interface User {
   purchaseHistory?: PurchaseHistory[]
   collection?: CollectionTrack[]
   preferences?: UserPreferences
+  favoriteDJs?: string[]
   password?: string // For demo purposes only
   pendingEmail?: string
   pendingEmailToken?: string
@@ -104,6 +106,7 @@ interface AuthContextType {
   requestEmailChange: (newEmail: string, token: string) => boolean
   verifyEmailChange: (token: string) => boolean
   cancelEmailChange: () => void
+  updateFavoriteDJs: (djId: string, isFavorite: boolean) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -171,6 +174,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const switchProfile = (role: UserRole) => {
     const profiles: Record<UserRole, User> = {
       listener: {
+        id: 'user-001',
         email: 'demo@chirpradio.org',
         name: 'Alex Johnson',
         firstName: 'Alex',
@@ -232,6 +236,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         },
       },
       volunteer: {
+        id: 'vol-007',
         email: 'amanda.miller@chirpradio.org',
         name: 'Amanda Miller',
         firstName: 'Amanda',
@@ -316,6 +321,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         },
       },
       dj: {
+        id: 'dj-001',
         email: 'alex.rivera@chirpradio.org',
         name: 'Alex Rivera',
         firstName: 'Alex',
@@ -461,6 +467,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(updatedUser)
   }
 
+  const updateFavoriteDJs = (djId: string, isFavorite: boolean) => {
+    if (!user) return
+    const favoriteDJs = user.favoriteDJs || []
+    const updatedFavoriteDJs = isFavorite
+      ? [...favoriteDJs, djId]
+      : favoriteDJs.filter((id) => id !== djId)
+    const updatedUser = {
+      ...user,
+      favoriteDJs: updatedFavoriteDJs,
+    }
+    setUser(updatedUser)
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -474,6 +493,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         requestEmailChange,
         verifyEmailChange,
         cancelEmailChange,
+        updateFavoriteDJs,
       }}
     >
       {children}
