@@ -8,6 +8,7 @@ import { addRecentlyPlayed, updateRecentlyPlayedAlbumArt } from '../utils/recent
 import { useAuth } from '../hooks/useAuth'
 import LoginRequiredModal from '../components/LoginRequiredModal'
 import { createLogger } from '../utils/logger'
+import { parseDjAndShowName } from '../utils/djNameParser'
 
 const log = createLogger('AudioPlayerContext')
 
@@ -261,8 +262,15 @@ export function AudioPlayerProvider({
       songStartedMs = nowPlaying.played_at_gmt_ts * 1000 // Save for scheduling later
       const artist = nowPlaying.artist?.trim() || 'Unknown Artist'
       const track = nowPlaying.track?.trim() || 'Unknown Track'
-      const dj = nowPlaying.dj?.trim() || 'Unknown DJ'
-      const show = nowPlaying.show?.trim() || ''
+
+      // Parse DJ and show name - handle colon-separated format
+      const parsedDj = parseDjAndShowName(
+        nowPlaying.dj?.trim() || 'Unknown DJ',
+        nowPlaying.show?.trim() || ''
+      )
+      const dj = parsedDj.djName
+      const show = parsedDj.showName
+
       const label = nowPlaying.label?.trim() || 'Unknown Label'
       const album = nowPlaying.release?.trim() || 'Unknown Release'
       const isLocal = nowPlaying.artist_is_local || false
