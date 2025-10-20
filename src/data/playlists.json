@@ -1,7 +1,7 @@
 {
   "currentShow": {
-    "djName": "Blake Cooper",
-    "showName": "Friday Morning Kickoff",
+    "djName": "Jenny West: Music For Chameleons",
+    "showName": "",
     "startTime": "6:00am",
     "endTime": "9:00am",
     "djImage": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces",
@@ -21,6 +21,19 @@
       "hourKey": "5am",
       "djName": "DJ Current",
       "showName": "The Current Show"
+    },
+    {
+      "id": "track-2024-12-05-0554",
+      "albumArt": "https://upload.wikimedia.org/wikipedia/en/5/5b/Chance_the_rapper_acid_rap.jpg",
+      "artistName": "Test Artist",
+      "trackName": "Test Track",
+      "albumName": "Test Album",
+      "labelName": "Test Label",
+      "isLocal": false,
+      "playedAt": "2025-10-10T05:54:00",
+      "hourKey": "5am",
+      "djName": "Nicole Oppenheim: Ear Candy",
+      "showName": ""
     },
     {
       "id": "track-2024-12-05-0552",
