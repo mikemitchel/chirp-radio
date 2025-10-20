@@ -1,9 +1,15 @@
 // CrTopBanner.stories.tsx
+import React from 'react'
 import CrTopBanner from './CrTopBanner'
+import { AuthProvider } from '../contexts/AuthContext'
+import { BrowserRouter } from 'react-router-dom'
 
 export default {
   title: 'Molecules/CrTopBanner',
   component: CrTopBanner,
+  decorators: [
+    (Story) => React.createElement(BrowserRouter, null, React.createElement(AuthProvider, null, React.createElement(Story))),
+  ],
   parameters: {
     layout: 'fullscreen',
     docs: {

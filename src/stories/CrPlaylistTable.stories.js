@@ -1,10 +1,15 @@
 // CrPlaylistTable.stories.tsx
 import React from 'react'
 import CrPlaylistTable from './CrPlaylistTable'
+import { AuthProvider } from '../contexts/AuthContext'
+import { BrowserRouter } from 'react-router-dom'
 
 export default {
   title: 'Organisms/CrPlaylistTable',
   component: CrPlaylistTable,
+  decorators: [
+    (Story) => React.createElement(BrowserRouter, null, React.createElement(AuthProvider, null, React.createElement(Story))),
+  ],
   parameters: {
     layout: 'padded',
     docs: {
