@@ -169,6 +169,21 @@ Example usage:
   showHelp: () => {
     console.log(`
 🛠️  CHIRP DevTools
+=================
+
+Profile Management:
+  showProfiles()              - Show available test profiles
+  switchProfile('listener')   - Switch to listener profile
+  switchProfile('volunteer')  - Switch to volunteer profile
+  switchProfile('dj')         - Switch to DJ profile
+  logout()                    - Log out
+
+API Stream Simulation:
+  simulateAPIStream()         - Start simulating track changes
+  stopAPIStream()             - Stop simulation
+
+Image Testing:
+  testImageLoad(url)          - Test image loading performance
   `)
   },
 }

@@ -1,7 +1,7 @@
 // Custom hooks for data access
 // Currently reads from JSON files, will be updated to fetch from API later
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import announcementsData from '../data/announcements.json'
 import articlesData from '../data/articles.json'
 import chartsData from '../data/charts.json'
@@ -11,6 +11,7 @@ import podcastsData from '../data/podcasts.json'
 import usersData from '../data/users.json'
 import shopItemsData from '../data/shopItems.json'
 import { useAuth } from './useAuth'
+import { parseDjAndShowName } from '../utils/djNameParser'
 
 // Announcements
 export function useAnnouncements() {
@@ -91,12 +92,44 @@ export function usePlaylists() {
 
 export function useCurrentShow() {
   const { data, loading, error } = usePlaylists()
-  return { data: data?.currentShow, loading, error }
+
+  // Parse DJ name that might contain show name with colon
+  const parsedCurrentShow = useMemo(() => {
+    if (!data?.currentShow) return undefined
+
+    const parsed = parseDjAndShowName(
+      data.currentShow.djName || '',
+      data.currentShow.showName || ''
+    )
+
+    return {
+      ...data.currentShow,
+      djName: parsed.djName,
+      showName: parsed.showName,
+    }
+  }, [data?.currentShow])
+
+  return { data: parsedCurrentShow, loading, error }
 }
 
 export function useTracks() {
   const { data, loading, error } = usePlaylists()
-  return { data: data?.tracks, loading, error }
+
+  // Parse DJ names that might contain show names with colons
+  const parsedTracks = useMemo(() => {
+    if (!data?.tracks) return undefined
+
+    return data.tracks.map(track => {
+      const parsed = parseDjAndShowName(track.djName || '', track.showName || '')
+      return {
+        ...track,
+        djName: parsed.djName,
+        showName: parsed.showName,
+      }
+    })
+  }, [data?.tracks])
+
+  return { data: parsedTracks, loading, error }
 }
 
 // Podcasts
