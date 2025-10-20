@@ -19,7 +19,7 @@ import {
   useCurrentShow,
   useScheduledDJs,
 } from '../hooks/useData'
-import { useAuth } from '../hooks/useAuth'
+import { downloadDJShowCalendar } from '../utils/calendar'
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate()
@@ -230,6 +230,13 @@ const LandingPage: React.FC = () => {
               imageSrc={dj.imageSrc}
               isFavorite={loggedInUser?.favoriteDJs?.includes(dj.id)}
               onMoreClick={() => navigate(`/djs/${dj.id}`)}
+              onAddToCalendarClick={() =>
+                downloadDJShowCalendar({
+                  djName: dj.djName,
+                  showName: dj.showName,
+                  showTime: dj.showTime,
+                })
+              }
             />
           ))}
         </div>

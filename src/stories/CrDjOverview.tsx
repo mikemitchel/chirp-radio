@@ -1,7 +1,7 @@
 // CrDjOverview.tsx
 import CrButton from './CrButton'
 import CrChip from './CrChip'
-import { PiCaretRight, PiHeadphones } from 'react-icons/pi'
+import { PiCaretRight, PiHeadphones, PiCalendarPlus } from 'react-icons/pi'
 import { PiMusicNotes, PiChatCircleText } from 'react-icons/pi'
 import './CrDjOverview.css'
 
@@ -20,6 +20,7 @@ interface CrDjOverviewProps {
   onRequestClick?: () => void
   onMoreClick?: () => void
   onDjDetailsClick?: (e: any) => void
+  onAddToCalendarClick?: () => void
   isCHIRP?: boolean
   showTitle?: string
   isFavorite?: boolean
@@ -40,6 +41,7 @@ export default function CrDjOverview({
   onRequestClick,
   onMoreClick,
   onDjDetailsClick,
+  onAddToCalendarClick,
   // Schedule variant specific props
   isCHIRP = false,
   showTitle,
@@ -71,7 +73,16 @@ export default function CrDjOverview({
         </div>
         <div className="cr-dj-overview__content-text">{content}</div>
         <div className="cr-dj-overview__description">{description}</div>
-        <div className="cr-dj-overview__show-time">{showTime}</div>
+        <div className="cr-dj-overview__show-time-wrapper">
+          <div className="cr-dj-overview__show-time">{showTime}</div>
+          <button
+            className="cr-dj-overview__add-calendar-btn"
+            onClick={onAddToCalendarClick}
+            aria-label="Add to calendar"
+          >
+            <PiCalendarPlus />
+          </button>
+        </div>
         <div className="cr-dj-overview__actions">
           <CrButton
             size="small"
@@ -120,7 +131,16 @@ export default function CrDjOverview({
           )}
         </div>
         {showContent && <div className="cr-dj-overview__content-text">{content}</div>}
-        <div className="cr-dj-overview__show-time">{showTime}</div>
+        <div className="cr-dj-overview__show-time-wrapper">
+          <div className="cr-dj-overview__show-time">{showTime}</div>
+          <button
+            className="cr-dj-overview__add-calendar-btn"
+            onClick={onAddToCalendarClick}
+            aria-label="Add to calendar"
+          >
+            <PiCalendarPlus />
+          </button>
+        </div>
         <CrButton
           size="small"
           variant="outline"
