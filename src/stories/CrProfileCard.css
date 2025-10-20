@@ -403,7 +403,7 @@
 
 @media (max-width: 768px) {
   .cr-profile-card__not-logged-in-content {
-    padding: var(--cr-space-6);
+    padding: var(--cr-space-6) 0;
   }
 }
 

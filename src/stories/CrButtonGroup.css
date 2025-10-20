@@ -57,6 +57,10 @@
   align-items: center;
 }
 
+.cr-button-group.cr-button-group--horizontal.cr-button-group {
+  gap: var(--cr-space-6);
+}
+
 .cr-button-group__option {
   transition: all 0.15s ease;
 }

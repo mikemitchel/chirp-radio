@@ -95,7 +95,15 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
     const handleLogout = () => {
       logout()
       sessionStorage.setItem('chirp-show-logout-toast', 'true')
-      window.location.reload()
+      // Redirect to appropriate landing page based on current route
+      const isInAppRoutes = window.location.pathname.startsWith('/app')
+      if (isInAppRoutes) {
+        // For app routes, navigate to app landing then reload
+        window.location.href = '/app'
+      } else {
+        // For web routes, just reload
+        window.location.reload()
+      }
     }
 
     window.addEventListener('chirp-switch-profile', handleProfileSwitch as EventListener)
@@ -104,7 +112,7 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
       window.removeEventListener('chirp-switch-profile', handleProfileSwitch as EventListener)
       window.removeEventListener('chirp-logout', handleLogout)
     }
-  }, [switchProfile, logout])
+  }, [switchProfile, logout, navigate])
 
   const handleMenuClick = () => {
     setIsSidebarOpen(true)
@@ -136,7 +144,15 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
     logout()
     // Store toast flag for after redirect
     sessionStorage.setItem('chirp-show-logout-toast', 'true')
-    window.location.href = '/#/'
+    // Redirect to appropriate landing page based on current route
+    const isInAppRoutes = window.location.pathname.startsWith('/app')
+    if (isInAppRoutes) {
+      // For app routes, navigate to app landing
+      window.location.href = '/app'
+    } else {
+      // For web routes, just reload (stays on current page or goes to home if needed)
+      window.location.reload()
+    }
   }
 
   // Volunteer menu handlers
