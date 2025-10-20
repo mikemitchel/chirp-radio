@@ -51,6 +51,19 @@ export default function CrProfileEditForm({
   const [errors, setErrors] = useState<ValidationErrors>({})
   const [touched, setTouched] = useState<{ [key: string]: boolean }>({})
 
+  // Helper function to get character count excluding line breaks
+  const getCharCount = (text: string): number => {
+    if (!text) return 0
+    return text.replace(/\n/g, '').trim().length
+  }
+
+  // Helper function to get character counter color
+  const getCounterColor = (current: number, min: number, max: number): string => {
+    if (current < min) return 'var(--cr-error-500)'
+    if (current > max * 0.9) return 'var(--cr-warning-500)'
+    return 'var(--cr-success-500)'
+  }
+
   const validateField = (field: string, value: any): string => {
     // Required field validation
     if (field === 'firstName' || field === 'lastName' || field === 'email') {
@@ -79,11 +92,23 @@ export default function CrProfileEditForm({
       if (field === 'djName' && (!value || value.trim() === '')) {
         return 'DJ Name is required for DJs'
       }
-      if (field === 'djExcerpt' && (!value || value.trim() === '')) {
-        return 'DJ Excerpt is required for DJs'
+      if (field === 'djExcerpt') {
+        if (!value || value.trim() === '') {
+          return 'DJ Excerpt is required for DJs'
+        }
+        const charCount = getCharCount(value)
+        if (charCount < 65) {
+          return 'DJ Excerpt must be at least 65 characters (excluding line breaks)'
+        }
       }
-      if (field === 'djBio' && (!value || value.trim() === '')) {
-        return 'DJ Content is required for DJs'
+      if (field === 'djBio') {
+        if (!value || value.trim() === '') {
+          return 'DJ Content is required for DJs'
+        }
+        const charCount = getCharCount(value)
+        if (charCount < 180) {
+          return 'DJ Content must be at least 180 characters (excluding line breaks)'
+        }
       }
       if (field === 'djDonationLink' && (!value || value.trim() === '')) {
         return 'DJ Donation Link is required for DJs'
@@ -309,9 +334,15 @@ export default function CrProfileEditForm({
                 placeholder="Brief description of your style (shown on DJ cards)"
                 className={errors.djExcerpt ? 'form-input--error' : ''}
                 rows={2}
+                maxLength={180}
                 required
               />
-              {errors.djExcerpt && <span className="form-error">{errors.djExcerpt}</span>}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                {errors.djExcerpt && <span className="form-error">{errors.djExcerpt}</span>}
+                <span className="form-character-count" style={{ marginLeft: 'auto', fontSize: '12px', color: getCounterColor(getCharCount(formData.djExcerpt || ''), 65, 180) }}>
+                  {getCharCount(formData.djExcerpt || '')}/180
+                </span>
+              </div>
             </div>
             <div className="form-group">
               <label className="form-label">DJ Content *</label>
@@ -322,9 +353,15 @@ export default function CrProfileEditForm({
                 placeholder="Tell us about your DJ experience and background (shown in DJ Profile)"
                 className={errors.djBio ? 'form-input--error' : ''}
                 rows={4}
+                maxLength={1000}
                 required
               />
-              {errors.djBio && <span className="form-error">{errors.djBio}</span>}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                {errors.djBio && <span className="form-error">{errors.djBio}</span>}
+                <span className="form-character-count" style={{ marginLeft: 'auto', fontSize: '12px', color: getCounterColor(getCharCount(formData.djBio || ''), 180, 1000) }}>
+                  {getCharCount(formData.djBio || '')}/1000
+                </span>
+              </div>
             </div>
             <div className="form-group">
               <label className="form-label">DJ Donation Link *</label>

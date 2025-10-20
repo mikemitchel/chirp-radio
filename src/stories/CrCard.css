@@ -242,7 +242,6 @@
   color: var(--cr-card-text-color);
   margin: 0 0 var(--cr-space-4) 0;
   line-height: var(--cr-card-text-line-height);
-  text-align: justify;
 }
 
 .cr-card__content-text {
