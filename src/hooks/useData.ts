@@ -129,27 +129,97 @@ export function useUsers() {
 }
 
 export function useCurrentUser() {
-  const { data, loading, error } = useUsers()
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn, user: loggedInUser } = useAuth()
+  const [currentUser, setCurrentUser] = useState(() => {
+    console.log('[useCurrentUser] Initial state:', { isLoggedIn, loggedInUser })
+    if (isLoggedIn && loggedInUser) {
+      const user = usersState.find(u => u.id === loggedInUser.id) || null
+      console.log('[useCurrentUser] Found user in usersState:', user)
+      return user
+    }
+    return null
+  })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
-  // Only return user data if logged in
-  const currentUser = isLoggedIn ? data?.[0] : null
+  // Listen for favorite updates
+  useEffect(() => {
+    const handleUpdate = () => {
+      console.log('[useCurrentUser] userFavoritesUpdated event fired')
+      console.log('[useCurrentUser] isLoggedIn:', isLoggedIn)
+      console.log('[useCurrentUser] loggedInUser:', loggedInUser)
+      console.log('[useCurrentUser] loggedInUser.id:', loggedInUser?.id)
+      console.log('[useCurrentUser] usersState length:', usersState.length)
+      console.log('[useCurrentUser] usersState IDs:', usersState.map(u => u.id))
+      if (isLoggedIn && loggedInUser) {
+        const updatedUser = usersState.find(u => u.id === loggedInUser.id) || null
+        console.log('[useCurrentUser] Searching for user with id:', loggedInUser.id)
+        console.log('[useCurrentUser] Updated user from usersState:', updatedUser)
+        console.log('[useCurrentUser] Updated favoriteDJs:', updatedUser?.favoriteDJs)
+        setCurrentUser(updatedUser)
+      }
+    }
+    window.addEventListener('userFavoritesUpdated', handleUpdate)
+    return () => window.removeEventListener('userFavoritesUpdated', handleUpdate)
+  }, [isLoggedIn, loggedInUser])
+
+  // Update when auth state changes
+  useEffect(() => {
+    console.log('[useCurrentUser] Auth state changed:', { isLoggedIn, loggedInUser })
+    if (isLoggedIn && loggedInUser) {
+      const user = usersState.find(u => u.id === loggedInUser.id) || null
+      console.log('[useCurrentUser] Setting user:', user)
+      setCurrentUser(user)
+    } else {
+      setCurrentUser(null)
+    }
+  }, [isLoggedIn, loggedInUser])
+
+  console.log('[useCurrentUser] Returning currentUser:', currentUser)
   return { data: currentUser, loading, error }
 }
 
 // Update user's favorite DJs
-export function updateUserFavoriteDJs(djId: string, isFavorite: boolean) {
+export function updateUserFavoriteDJs(djId: string, isFavorite: boolean, userId?: string) {
+  console.log('[updateUserFavoriteDJs] Called with:', { djId, isFavorite, userId })
+
+  // Get the current logged-in user ID from localStorage if not provided
+  const targetUserId = userId || (() => {
+    const storedUser = localStorage.getItem('chirp-user')
+    console.log('[updateUserFavoriteDJs] storedUser from localStorage:', storedUser)
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser)
+        console.log('[updateUserFavoriteDJs] Parsed user:', user)
+        return user.id
+      } catch (e) {
+        console.error('Failed to parse user from localStorage', e)
+      }
+    }
+    return 'user-001' // Fallback to default user
+  })()
+
+  console.log('[updateUserFavoriteDJs] Target user ID:', targetUserId)
+  console.log('[updateUserFavoriteDJs] usersState before update:', JSON.parse(JSON.stringify(usersState)))
+
   usersState = usersState.map((user) => {
-    if (user.id === 'user-001') {
+    if (user.id === targetUserId) {
       // Current user
       const favoriteDJs = user.favoriteDJs || []
+      const updatedFavoriteDJs = isFavorite ? [...favoriteDJs, djId] : favoriteDJs.filter((id) => id !== djId)
+      console.log('[updateUserFavoriteDJs] Updating user:', user.id)
+      console.log('[updateUserFavoriteDJs] Old favoriteDJs:', favoriteDJs)
+      console.log('[updateUserFavoriteDJs] New favoriteDJs:', updatedFavoriteDJs)
       return {
         ...user,
-        favoriteDJs: isFavorite ? [...favoriteDJs, djId] : favoriteDJs.filter((id) => id !== djId),
+        favoriteDJs: updatedFavoriteDJs,
       }
     }
     return user
   })
+
+  console.log('[updateUserFavoriteDJs] usersState after update:', JSON.parse(JSON.stringify(usersState)))
+  console.log('[updateUserFavoriteDJs] Dispatching userFavoritesUpdated event')
 
   // Trigger re-render in all components using useUsers/useCurrentUser
   window.dispatchEvent(new Event('userFavoritesUpdated'))

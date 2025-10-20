@@ -5,14 +5,15 @@ import CrDjSchedule from '../stories/CrDjSchedule'
 import CrDjOverview from '../stories/CrDjOverview'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import { useAnnouncements, useCurrentUser, useDJs } from '../hooks/useData'
+import { useAnnouncements, useDJs } from '../hooks/useData'
+import { useAuth } from '../hooks/useAuth'
 
 // Import mock schedule data from stories file
 import { mockScheduleData } from '../stories/CrDjSchedule.stories'
 
 const DJSchedulePage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
-  const { data: currentUser } = useCurrentUser()
+  const { user: loggedInUser } = useAuth()
   const { data: allDJs } = useDJs()
 
   // Use real DJ data instead of mock
@@ -122,7 +123,7 @@ const DJSchedulePage: React.FC = () => {
       </section>
 
       <section className="page-container">
-        <CrDjSchedule scheduleData={mockScheduleData} currentUser={currentUser} djsData={allDJs} />
+        <CrDjSchedule scheduleData={mockScheduleData} currentUser={loggedInUser} djsData={allDJs} />
       </section>
 
       <div className="page-layout-main-sidebar">
@@ -144,7 +145,7 @@ const DJSchedulePage: React.FC = () => {
                 showTime={dj.showTime}
                 description={dj.description}
                 imageSrc={dj.imageSrc}
-                isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
+                isFavorite={loggedInUser?.favoriteDJs?.includes(dj.id)}
               />
             ))}
           </div>
