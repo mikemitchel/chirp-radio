@@ -1,10 +1,15 @@
 // CrPlaylistItem.stories.tsx
 import React from 'react'
 import CrPlaylistItem from './CrPlaylistItem'
+import { AuthProvider } from '../contexts/AuthContext'
+import { BrowserRouter } from 'react-router-dom'
 
 export default {
   title: 'Molecules/CrPlaylistItem',
   component: CrPlaylistItem,
+  decorators: [
+    (Story) => React.createElement(BrowserRouter, null, React.createElement(AuthProvider, null, React.createElement(Story))),
+  ],
   parameters: {
     layout: 'padded',
     docs: {

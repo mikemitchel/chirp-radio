@@ -1,9 +1,15 @@
 // CrTrackInfo.stories.tsx
+import React from 'react'
 import CrTrackInfo from './CrTrackInfo'
+import { AuthProvider } from '../contexts/AuthContext'
+import { BrowserRouter } from 'react-router-dom'
 
 export default {
   title: 'Molecules/CrTrackInfo',
   component: CrTrackInfo,
+  decorators: [
+    (Story) => React.createElement(BrowserRouter, null, React.createElement(AuthProvider, null, React.createElement(Story))),
+  ],
   parameters: {
     layout: 'centered',
     docs: {
