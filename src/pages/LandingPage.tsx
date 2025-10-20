@@ -19,6 +19,7 @@ import {
   useCurrentShow,
   useScheduledDJs,
 } from '../hooks/useData'
+import { useAuth } from '../hooks/useAuth'
 import { downloadDJShowCalendar } from '../utils/calendar'
 
 const LandingPage: React.FC = () => {

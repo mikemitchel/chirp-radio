@@ -38,7 +38,7 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
 
   if (!isLoggedIn) {
     return (
-      <div>
+      <div className="page-container">
         <CrPageHeader
           eyebrowText="CHIRP Radio"
           title="Make a Song Request"
@@ -53,12 +53,12 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
             coming from and ensures a better experience for everyone.
           </p>
 
-          <div>
-            <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUp}>
-              sign up
-            </CrButton>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--cr-space-3)' }}>
             <CrButton variant="outline" color="default" size="medium" onClick={handleLogin}>
               log in
+            </CrButton>
+            <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUp}>
+              sign up
             </CrButton>
           </div>
         </div>

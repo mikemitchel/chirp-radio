@@ -193,12 +193,12 @@ export default function YourCollection() {
             So create your profile today, and start getting the maximum benefit from CHIRPradio.org!
           </p>
 
-          <div>
-            <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUp}>
-              sign up
-            </CrButton>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--cr-space-3)' }}>
             <CrButton variant="outline" color="default" size="medium" onClick={handleLogin}>
               log in
+            </CrButton>
+            <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUp}>
+              sign up
             </CrButton>
           </div>
         </div>
