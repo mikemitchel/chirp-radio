@@ -127,7 +127,7 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  color: var(--cr-ink);
+  color: var(--cr-secondary-700);
   font-size: 20px;
   display: flex;
   align-items: center;
@@ -209,7 +209,7 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  color: var(--cr-ink);
+  color: var(--cr-secondary-700);
   font-size: 20px;
   display: flex;
   align-items: center;
