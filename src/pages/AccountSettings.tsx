@@ -12,6 +12,9 @@ import CrAppIconSelector from '../stories/CrAppIconSelector'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
 import { shouldShowIconSelector } from '../utils/deviceDetection'
+import { Capacitor } from '@capacitor/core'
+import { StatusBar, Style } from '@capacitor/status-bar'
+import AppIconPlugin from '../plugins/AppIconPlugin'
 import './AccountSettings.css'
 
 export default function AccountSettings() {
@@ -150,14 +153,11 @@ export default function AccountSettings() {
       // Set profile to view mode
       setProfileState('view')
     } else {
-      // User logged out - load from sessionStorage (or defaults if not set)
-      const savedDarkMode = sessionStorage.getItem('chirp-dark-mode')
-      if (savedDarkMode === 'light' || savedDarkMode === 'dark' || savedDarkMode === 'device') {
-        setDarkMode(savedDarkMode)
-      } else {
-        setDarkMode('light')
-      }
-      setStreamingQuality(sessionStorage.getItem('chirp-streaming-quality') || '128')
+      // User logged out - reset to light mode and default settings
+      setDarkMode('light')
+      sessionStorage.setItem('chirp-dark-mode', 'light')
+      setStreamingQuality('128')
+      sessionStorage.setItem('chirp-streaming-quality', '128')
 
       // Set profile to logged out state
       setProfileState('loggedOut')
@@ -166,19 +166,24 @@ export default function AccountSettings() {
 
   // Apply dark mode on mount and when it changes
   useEffect(() => {
-    const applyTheme = () => {
-      if (darkMode === 'device') {
-        // Follow system preference
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-        if (prefersDark) {
-          document.documentElement.setAttribute('data-theme', 'dark')
-        } else {
-          document.documentElement.removeAttribute('data-theme')
-        }
-      } else if (darkMode === 'dark') {
+    const applyTheme = async () => {
+      const isDark = darkMode === 'device'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches
+        : darkMode === 'dark'
+
+      if (isDark) {
         document.documentElement.setAttribute('data-theme', 'dark')
       } else {
         document.documentElement.removeAttribute('data-theme')
+      }
+
+      // Update status bar for native apps based on calculated isDark value
+      if (Capacitor.isNativePlatform()) {
+        try {
+          await StatusBar.setStyle({ style: isDark ? Style.Light : Style.Dark })
+        } catch (error) {
+          console.warn('Failed to update status bar style:', error)
+        }
       }
     }
 
@@ -231,8 +236,32 @@ export default function AccountSettings() {
 
   const handleApplyIcon = async (iconId: string) => {
     try {
-      // In a real Capacitor app, you would use the Capacitor API to change the icon
-      // For now, we'll just save the preference
+      // Map iconId to iOS icon name (icon1 is default, others map to Icon2, Icon3, etc.)
+      const iconName = iconId === 'icon1' ? null : `Icon${iconId.replace('icon', '')}`
+
+      console.log('[handleApplyIcon] iconId:', iconId, 'iconName:', iconName)
+
+      // Use native iOS API to change icon
+      if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios') {
+        try {
+          console.log('[handleApplyIcon] Calling AppIcon.change with:', { name: iconName, suppressNotification: false })
+
+          if (iconName === null) {
+            // Reset to default icon
+            await AppIconPlugin.reset({ suppressNotification: false })
+          } else {
+            // Change to alternate icon
+            await AppIconPlugin.change({ name: iconName, suppressNotification: false })
+          }
+
+          console.log('[handleApplyIcon] Icon changed successfully')
+        } catch (nativeError) {
+          console.error('[handleApplyIcon] Native icon change failed:', nativeError)
+          throw nativeError
+        }
+      }
+
+      // Save preference
       const storage = getStorage()
       storage.setItem('chirp-app-icon', iconId)
 
@@ -253,14 +282,10 @@ export default function AccountSettings() {
         type: 'success',
         duration: 3000,
       })
-
-      // In production with Capacitor, you would call:
-      // const { Plugins } = await import('@capacitor/core');
-      // await Plugins.App.setIcon({ name: iconId });
     } catch (error) {
-      console.error('Error changing app icon:', error)
+      console.error('[handleApplyIcon] Error changing app icon:', error)
       showToast({
-        message: 'Failed to change app icon',
+        message: 'Failed to change app icon. Please try again.',
         type: 'error',
         duration: 3000,
       })

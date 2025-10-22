@@ -1,6 +1,7 @@
 // src/contexts/AudioPlayerContext.tsx
 import React, { createContext, useContext, useState, useRef, useEffect, ReactNode } from 'react'
 import { Capacitor } from '@capacitor/core'
+import { CapacitorHttp } from '@capacitor/core'
 import { upgradeImageQuality } from '../utils/imageOptimizer'
 import { useNetworkQuality } from '../hooks/useNetworkQuality'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
@@ -9,6 +10,7 @@ import { useAuth } from '../hooks/useAuth'
 import LoginRequiredModal from '../components/LoginRequiredModal'
 import { createLogger } from '../utils/logger'
 import { parseDjAndShowName } from '../utils/djNameParser'
+import NowPlayingPlugin from '../plugins/NowPlayingPlugin'
 
 const log = createLogger('AudioPlayerContext')
 
@@ -243,18 +245,32 @@ export function AudioPlayerProvider({
     let songStartedMs: number | null = null // Track song start time for scheduling
 
     try {
-      const response = await fetch(fetchUrl, {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          Pragma: 'no-cache',
-          Expires: '0',
-        },
-      })
-      log.log('Response status:', response.status)
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+      let parsedData
 
-      const parsedData = await response.json()
+      // Use CapacitorHttp on native platforms for better compatibility
+      if (Capacitor.isNativePlatform()) {
+        const httpResponse = await CapacitorHttp.get({
+          url: fetchUrl,
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+          },
+        })
+        log.log('Response status:', httpResponse.status)
+        if (httpResponse.status !== 200) throw new Error(`HTTP error! Status: ${httpResponse.status}`)
+        parsedData = httpResponse.data
+      } else {
+        const response = await fetch(fetchUrl, {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            Pragma: 'no-cache',
+            Expires: '0',
+          },
+        })
+        log.log('Response status:', response.status)
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+        parsedData = await response.json()
+      }
 
       if (!parsedData || !parsedData.now_playing) throw new Error('Invalid API response')
 
@@ -464,6 +480,11 @@ export function AudioPlayerProvider({
       }
     } catch (error) {
       console.error('Error fetching now playing data:', error)
+      console.error('Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined,
+        error: JSON.stringify(error, null, 2)
+      })
       setIsLoading(false)
     }
 
@@ -644,6 +665,24 @@ export function AudioPlayerProvider({
       log.log('Audio playback started')
       log.log('Audio volume after play:', audioRef.current.volume)
 
+      // Update Now Playing info and playback state for lock screen
+      if (Capacitor.isNativePlatform()) {
+        // Set metadata
+        NowPlayingPlugin.updateNowPlaying({
+          title: currentData.track,
+          artist: currentData.artist,
+          album: currentData.album,
+          albumArt: currentData.albumArt || '',
+        }).catch((error) => {
+          log.error('Error updating Now Playing info in play():', error)
+        })
+
+        // Set playback state
+        NowPlayingPlugin.setPlaybackState({ isPlaying: true }).catch((error) => {
+          log.error('Error updating playback state:', error)
+        })
+      }
+
       // Immediately fetch latest track info when resuming playback
       if (autoFetch) {
         fetchNowPlaying()
@@ -660,6 +699,13 @@ export function AudioPlayerProvider({
     if (!audioRef.current) return
     audioRef.current.pause()
     setIsPlaying(false)
+
+    // Update Now Playing playback state for lock screen
+    if (Capacitor.isNativePlatform()) {
+      NowPlayingPlugin.setPlaybackState({ isPlaying: false }).catch((error) => {
+        log.error('Error updating playback state:', error)
+      })
+    }
   }
 
   const togglePlayPause = () => {
@@ -772,6 +818,55 @@ export function AudioPlayerProvider({
       window.removeEventListener('chirp-collection-updated', updateAddedStatus)
     }
   }, [currentData.artist, currentData.track])
+
+  // Update Now Playing Info (iOS lock screen / control center)
+  useEffect(() => {
+    // Only update if we're on native platform AND audio is playing
+    if (Capacitor.isNativePlatform() && isPlaying) {
+      log.log('Updating Now Playing info...')
+      log.log('  Title:', currentData.track)
+      log.log('  Artist:', currentData.artist)
+      log.log('  Album:', currentData.album)
+      log.log('  Album Art:', currentData.albumArt)
+      log.log('  Is Playing:', isPlaying)
+
+      NowPlayingPlugin.updateNowPlaying({
+        title: currentData.track,
+        artist: currentData.artist,
+        album: currentData.album,
+        albumArt: currentData.albumArt || '',
+      })
+        .then(() => {
+          log.log('Now Playing info updated successfully')
+        })
+        .catch((error) => {
+          log.error('Error updating Now Playing info:', error)
+        })
+    }
+  }, [currentData.track, currentData.artist, currentData.album, currentData.albumArt, isPlaying])
+
+  // Listen for remote control commands (from lock screen)
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return
+
+    const handleRemotePlay = () => {
+      log.log('Remote play command received')
+      play()
+    }
+
+    const handleRemotePause = () => {
+      log.log('Remote pause command received')
+      pause()
+    }
+
+    window.addEventListener('RemotePlay', handleRemotePlay)
+    window.addEventListener('RemotePause', handleRemotePause)
+
+    return () => {
+      window.removeEventListener('RemotePlay', handleRemotePlay)
+      window.removeEventListener('RemotePause', handleRemotePause)
+    }
+  }, [])
 
   return (
     <AudioPlayerContext.Provider

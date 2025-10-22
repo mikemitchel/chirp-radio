@@ -33,18 +33,15 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleDarkContent</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -54,21 +51,59 @@
 	<array>
 		<string>audio</string>
 	</array>
-	<key>UIApplicationSceneManifest</key>
+	<key>CFBundleIcons</key>
 	<dict>
-		<key>UIApplicationSupportsMultipleScenes</key>
-		<false/>
-		<key>UISceneConfigurations</key>
+		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>CPTemplateApplicationSceneSessionRoleApplication</key>
-			<array>
-				<dict>
-					<key>UISceneConfigurationName</key>
-					<string>CarPlay</string>
-					<key>UISceneDelegateClassName</key>
-					<string>$(PRODUCT_MODULE_NAME).CarPlayBridge</string>
-				</dict>
-			</array>
+			<key>Icon2</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Icon2</string>
+				</array>
+			</dict>
+			<key>Icon3</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Icon3</string>
+				</array>
+			</dict>
+			<key>Icon4</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Icon4</string>
+				</array>
+			</dict>
+			<key>Icon5</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Icon5</string>
+				</array>
+			</dict>
+			<key>Icon6</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Icon6</string>
+				</array>
+			</dict>
+			<key>Icon7</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Icon7</string>
+				</array>
+			</dict>
+			<key>Icon8</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Icon8</string>
+				</array>
+			</dict>
 		</dict>
 	</dict>
 </dict>

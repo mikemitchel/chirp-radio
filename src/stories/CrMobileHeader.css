@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: var(--cr-space-3) var(--cr-space-3) var(--cr-space-2);
+  padding: 0 var(--cr-space-3) var(--cr-space-2);
   position: relative;
   z-index: 3;
   background-color: var(--cr-paper);
@@ -20,7 +20,7 @@
   align-items: center;
   cursor: pointer;
   height: 60px;
-  width: auto;
+  width: 96px;
 }
 
 .cr-mobile-header__logo-image {

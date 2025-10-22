@@ -1,0 +1,6 @@
+{
+  "ios": {
+    "src": "App",
+    "name": "AppIconPlugin"
+  }
+}

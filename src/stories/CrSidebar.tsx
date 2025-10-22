@@ -1,5 +1,5 @@
 // CrSidebar.tsx
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from 'react-router'
 import { PiHandHeartLight, PiChatCircleTextLight, PiMusicNotes, PiGear } from 'react-icons/pi'
 import CrButton from './CrButton'
@@ -73,6 +73,21 @@ export default function CrSidebar({
   } catch (e) {
     // Router not available
   }
+
+  // Disable body scrolling when sidebar is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
   if (variant === 'mobile') {
     return (
       <>
@@ -104,7 +119,7 @@ export default function CrSidebar({
               {/* Mobile-specific top sections */}
               <div className="cr-sidebar__mobile-sections">
                 <button
-                  className="cr-sidebar__mobile-nav-item"
+                  className={`cr-sidebar__mobile-nav-item ${location?.pathname === '/app' ? 'cr-sidebar__mobile-nav-item--active' : ''}`}
                   onClick={() => {
                     onNowPlayingClick?.()
                     onClose?.()
@@ -113,7 +128,7 @@ export default function CrSidebar({
                   Now Playing
                 </button>
                 <button
-                  className="cr-sidebar__mobile-nav-item"
+                  className={`cr-sidebar__mobile-nav-item ${location?.pathname === '/app/recently-played' ? 'cr-sidebar__mobile-nav-item--active' : ''}`}
                   onClick={() => {
                     onRecentPlaylistClick?.()
                     onClose?.()
@@ -122,7 +137,7 @@ export default function CrSidebar({
                   Recently Played
                 </button>
                 <button
-                  className="cr-sidebar__mobile-nav-item"
+                  className={`cr-sidebar__mobile-nav-item ${location?.pathname === '/app/my-collection' ? 'cr-sidebar__mobile-nav-item--active' : ''}`}
                   onClick={() => {
                     onYourCollectionClick?.()
                     onClose?.()

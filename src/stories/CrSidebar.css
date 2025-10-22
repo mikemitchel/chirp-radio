@@ -81,6 +81,7 @@
 
 .cr-sidebar--mobile .cr-sidebar__close-button {
   top: calc(env(safe-area-inset-top) + 27px); /* Safe area + additional spacing */
+  right: -10px; /* Extend beyond edge to cover background menu button */
 }
 
 /* Header and Logo */
@@ -155,6 +156,7 @@
     box-shadow 0.15s ease;
   line-height: 1;
   display: inline-block;
+  width: fit-content;
   box-shadow: 0 3px 0 0 transparent;
 }
 
@@ -188,13 +190,9 @@
     box-shadow 0.15s ease;
   line-height: 1;
   display: inline-block;
+  width: fit-content;
   text-transform: uppercase;
   box-shadow: 0 3px 0 0 transparent;
-}
-
-.cr-sidebar__mobile-nav-link:hover:not(.cr-sidebar__mobile-nav-link--active) {
-  color: var(--cr-primary-700);
-  box-shadow: 0 3px 0 0 var(--cr-primary-700);
 }
 
 .cr-sidebar__mobile-nav-link--active {
@@ -279,7 +277,7 @@
 /* Button sections */
 .cr-sidebar__donate-section,
 .cr-sidebar__request-section {
-  margin: var(--cr-space-4) 0;
+  margin: var(--cr-space-2) 0;
 }
 
 .cr-sidebar__donate-section .cr-btn,
@@ -343,7 +341,7 @@
 
 .cr-sidebar__footer-bird {
   height: 30px;
-  width: auto;
+  width: 33px;
   flex-shrink: 0;
 }
 

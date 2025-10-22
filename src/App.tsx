@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router'
+import { BrowserRouter, HashRouter, Routes, Route, Navigate, useNavigate } from 'react-router'
 import { AuthProvider } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
 import ScrollToTop from './components/ScrollToTop'
@@ -8,6 +8,7 @@ import './utils/devTools' // Load development tools
 import MobileApp from './layouts/MobileApp'
 import WebLayout from './layouts/WebLayout'
 import { Capacitor } from '@capacitor/core'
+import { StatusBar, Style } from '@capacitor/status-bar'
 import NowPlaying from './pages/NowPlaying'
 import RecentlyPlayed from './pages/RecentlyPlayed'
 import YourCollection from './pages/YourCollection'
@@ -83,19 +84,24 @@ function App() {
       sessionStorage.getItem('chirp-dark-mode') ||
       'light'
 
-    const applyTheme = (mode: string) => {
-      if (mode === 'device') {
-        // Follow system preference
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-        if (prefersDark) {
-          document.documentElement.setAttribute('data-theme', 'dark')
-        } else {
-          document.documentElement.removeAttribute('data-theme')
-        }
-      } else if (mode === 'dark') {
+    const applyTheme = async (mode: string) => {
+      const isDark = mode === 'device'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches
+        : mode === 'dark'
+
+      if (isDark) {
         document.documentElement.setAttribute('data-theme', 'dark')
       } else {
         document.documentElement.removeAttribute('data-theme')
+      }
+
+      // Update status bar for native apps based on calculated isDark value
+      if (Capacitor.isNativePlatform()) {
+        try {
+          await StatusBar.setStyle({ style: isDark ? Style.Light : Style.Dark })
+        } catch (error) {
+          console.warn('Failed to update status bar style:', error)
+        }
       }
     }
 
@@ -110,10 +116,13 @@ function App() {
     }
   }, [])
 
+  // Use HashRouter for Capacitor (file:// protocol), BrowserRouter for web
+  const Router = Capacitor.isNativePlatform() ? HashRouter : BrowserRouter
+
   return (
     <AuthProvider>
       <CartProvider>
-        <BrowserRouter>
+        <Router>
           <ScrollToTop />
           <Routes>
             {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
@@ -451,7 +460,7 @@ function App() {
               }
             />
           </Routes>
-        </BrowserRouter>
+        </Router>
       </CartProvider>
     </AuthProvider>
   )
