@@ -1,5 +1,7 @@
 import UIKit
 import Capacitor
+import AVFoundation
+import MediaPlayer
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -8,7 +10,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
+        // Set window background to CHIRP red to prevent white flash
+        if let window = window {
+            window.backgroundColor = UIColor(red: 0.917647, green: 0.109804, blue: 0.172549, alpha: 1.0)
+        }
+
+        // Configure audio session for background playback
+        configureAudioSession()
+
+        // Set up remote command center (lock screen controls)
+        setupRemoteCommandCenter()
+
         return true
+    }
+
+    func configureAudioSession() {
+        do {
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playback, mode: .default)
+            try audioSession.setActive(true)
+        } catch {
+            print("Failed to configure audio session: \(error)")
+        }
+    }
+
+    func setupRemoteCommandCenter() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+
+        // Enable play command
+        commandCenter.playCommand.isEnabled = true
+        commandCenter.playCommand.addTarget { event in
+            NotificationCenter.default.post(name: NSNotification.Name("RemotePlay"), object: nil)
+            return .success
+        }
+
+        // Enable pause command
+        commandCenter.pauseCommand.isEnabled = true
+        commandCenter.pauseCommand.addTarget { event in
+            NotificationCenter.default.post(name: NSNotification.Name("RemotePause"), object: nil)
+            return .success
+        }
+
+        // Disable skip commands (for live stream)
+        commandCenter.skipForwardCommand.isEnabled = false
+        commandCenter.skipBackwardCommand.isEnabled = false
+        commandCenter.seekForwardCommand.isEnabled = false
+        commandCenter.seekBackwardCommand.isEnabled = false
+        commandCenter.nextTrackCommand.isEnabled = false
+        commandCenter.previousTrackCommand.isEnabled = false
+
+        // Required for lock screen controls to appear (even though Apple says it's deprecated)
+        UIApplication.shared.beginReceivingRemoteControlEvents()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

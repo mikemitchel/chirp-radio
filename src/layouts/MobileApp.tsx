@@ -1,8 +1,8 @@
 // src/layouts/MobileApp.tsx
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useLocation, Outlet } from 'react-router'
-import { Capacitor } from '@capacitor/core'
-import CrMobileSplash from '../stories/CrMobileSplash'
+import { Capacitor, CapacitorHttp } from '@capacitor/core'
+import { SplashScreen } from '@capacitor/splash-screen'
 import CrMobileAppFrame from '../stories/CrMobileAppFrame'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 import { NotificationProvider } from '../contexts/NotificationContext'
@@ -26,11 +26,21 @@ const preloadNowPlayingData = async () => {
   log.log('fetchUrl:', fetchUrl)
 
   try {
-    const response = await fetch(fetchUrl)
-    log.log('Response status:', response.status)
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+    log.log('Starting fetch to:', fetchUrl)
+    let parsedData
 
-    const parsedData = await response.json()
+    // Use CapacitorHttp on native platforms
+    if (isNative) {
+      const httpResponse = await CapacitorHttp.get({ url: fetchUrl })
+      log.log('Response received, status:', httpResponse.status)
+      if (httpResponse.status !== 200) throw new Error(`HTTP error! Status: ${httpResponse.status}`)
+      parsedData = httpResponse.data
+    } else {
+      const response = await fetch(fetchUrl)
+      log.log('Response received, status:', response.status)
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+      parsedData = await response.json()
+    }
 
     if (!parsedData || !parsedData.now_playing) throw new Error('Invalid API response')
 
@@ -82,67 +92,65 @@ const preloadNowPlayingData = async () => {
     return cachedData
   } catch (error) {
     console.error('Error preloading now playing data:', error)
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      name: error instanceof Error ? error.name : undefined,
+    })
     return null
   }
 }
 
 export default function MobileApp() {
-  const [showSplash, setShowSplash] = useState(() => {
-    // Check sessionStorage on initial mount
-    const splashShown = sessionStorage.getItem('chirp-splash-shown')
-    return splashShown !== 'true'
-  })
-  const [splashAnimationState, setSplashAnimationState] = useState<
-    'fade-in' | 'visible' | 'fade-out' | 'hidden'
-  >('visible')
   const navigate = useNavigate()
   const location = useLocation()
 
   useEffect(() => {
+    console.log('🚀 [SPLASH] MobileApp mounted at', new Date().toISOString())
+
     // Always navigate to Now Playing page on mount
     navigate('/app')
 
     // Check if splash has already been shown
     const hasShownSplash = sessionStorage.getItem('chirp-splash-shown') === 'true'
+    console.log('🔍 [SPLASH] Has shown splash this session:', hasShownSplash)
 
-    // Skip splash animation if already shown this session
-    if (hasShownSplash) {
-      setShowSplash(false)
-      return
-    }
-
-    let hideTimer: NodeJS.Timeout
-
-    // Start preloading data immediately and wait for it
+    // Start preloading data immediately
     const initializeApp = async () => {
+      console.log('⏱️ [SPLASH] Starting app initialization at', new Date().toISOString())
+
       // Start preloading
       const preloadPromise = preloadNowPlayingData()
 
-      // Animation sequence while data loads:
-      // 1. Visible immediately (splash blocks content)
-      // 2. Stay visible (at least 2s, but wait for data if needed)
-      // 3. Fade out (500ms)
+      // Wait for data to load (no minimum time on subsequent loads)
+      if (hasShownSplash) {
+        console.log('⏭️ [SPLASH] Subsequent load - hide splash immediately after data')
+        await preloadPromise
+        console.log('✅ [SPLASH] Data preloaded, hiding Capacitor splash')
+        if (Capacitor.isNativePlatform()) {
+          await SplashScreen.hide().catch((err) => console.warn('❌ [SPLASH] Failed to hide splash screen:', err))
+        }
+        console.log('🏁 [SPLASH] Splash hidden')
+      } else {
+        // First load - show splash for at least 2 seconds
+        console.log('⏳ [SPLASH] First load - waiting 2s and for data preload...')
+        await Promise.all([new Promise((resolve) => setTimeout(resolve, 2000)), preloadPromise])
+        console.log('✅ [SPLASH] Wait complete, data preloaded at', new Date().toISOString())
 
-      // Wait at least 2s for the visible state, but also wait for data
-      await Promise.all([new Promise((resolve) => setTimeout(resolve, 2000)), preloadPromise])
+        // Hide Capacitor splash with fade
+        if (Capacitor.isNativePlatform()) {
+          console.log('🎬 [SPLASH] Hiding Capacitor splash with fade')
+          await SplashScreen.hide().catch((err) => console.warn('❌ [SPLASH] Failed to hide splash screen:', err))
+          console.log('✓ [SPLASH] Capacitor splash hidden')
+        }
 
-      // Now start fade out
-      setSplashAnimationState('fade-out')
-
-      // Hide after fade out completes
-      hideTimer = setTimeout(() => {
-        setSplashAnimationState('hidden')
-        setShowSplash(false)
         // Mark splash as shown for this session
         sessionStorage.setItem('chirp-splash-shown', 'true')
-      }, 500)
+        console.log('🏁 [SPLASH] All splash transitions complete')
+      }
     }
 
     initializeApp()
-
-    return () => {
-      clearTimeout(hideTimer)
-    }
   }, [])
 
   // Determine if we're on the landing page (Now Playing)
@@ -233,13 +241,6 @@ export default function MobileApp() {
         >
           <Outlet />
         </CrMobileAppFrame>
-
-        {/* Render splash on top when needed */}
-        {showSplash && (
-          <CrMobileSplash
-            className={`splash-animation splash-animation--${splashAnimationState}`}
-          />
-        )}
 
         {/* Global notifications (modal and toast) */}
         <GlobalNotifications />

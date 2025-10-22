@@ -74,21 +74,49 @@ export default function CrAppIconSelector({
     setSelectedIcon(currentIcon)
   }, [currentIcon])
 
-  const handleIconSelect = (iconId: string) => {
+  const handleIconSelect = async (iconId: string) => {
+    console.log('[CrAppIconSelector] Icon selected:', iconId)
+
+    if (iconId === currentIcon) {
+      console.log('[CrAppIconSelector] Already using this icon, skipping')
+      return
+    }
+
     setSelectedIcon(iconId)
     if (onIconChange) {
       onIconChange(iconId)
     }
+
+    // Apply immediately on click
+    if (onApply) {
+      setIsApplying(true)
+      try {
+        console.log('[CrAppIconSelector] Auto-applying icon:', iconId)
+        await onApply(iconId)
+        console.log('[CrAppIconSelector] Icon change completed successfully')
+      } catch (error) {
+        console.error('[CrAppIconSelector] Failed to change icon:', error)
+      } finally {
+        setIsApplying(false)
+      }
+    }
   }
 
   const handleApply = async () => {
-    if (!onApply || selectedIcon === currentIcon) return
+    console.log('[CrAppIconSelector] handleApply called. selectedIcon:', selectedIcon, 'currentIcon:', currentIcon, 'onApply:', !!onApply)
 
+    if (!onApply || selectedIcon === currentIcon) {
+      console.log('[CrAppIconSelector] Skipping apply - no changes or no handler')
+      return
+    }
+
+    console.log('[CrAppIconSelector] Starting icon change to:', selectedIcon)
     setIsApplying(true)
     try {
       await onApply(selectedIcon)
+      console.log('[CrAppIconSelector] Icon change completed successfully')
     } catch (error) {
-      console.error('Failed to change icon:', error)
+      console.error('[CrAppIconSelector] Failed to change icon:', error)
     } finally {
       setIsApplying(false)
     }

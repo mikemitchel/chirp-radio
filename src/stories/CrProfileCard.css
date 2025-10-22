@@ -346,7 +346,8 @@
 }
 
 .cr-profile-card__not-logged-in-content {
-  padding: var(--cr-space-8);
+  padding: 0;
+  margin-bottom: var(--cr-space-8);
   background-color: var(--cr-default-50);
   border-radius: var(--cr-radius-md);
 }

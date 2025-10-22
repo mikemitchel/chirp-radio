@@ -46,6 +46,19 @@
   display: flex;
   flex-direction: column;
   padding-top: env(safe-area-inset-top);
+  position: relative;
+}
+
+/* Add solid background color to safe area for interior pages */
+.cr-mobile-frame--interior::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top);
+  background-color: var(--cr-paper);
+  z-index: 999;
 }
 
 .cr-mobile-frame--interior .cr-mobile-frame__header {
@@ -197,10 +210,7 @@
   }
 }
 
-/* Safe area handling for devices with notches */
-.cr-mobile-frame--landing .cr-mobile-frame__header {
-  padding-top: env(safe-area-inset-top);
-}
+/* Safe area handling is already applied via top positioning */
 
 /* === MOBILE SIDEBAR SLIDE ANIMATION OVERRIDE === */
 /* Override the CrSidebar mobile CSS to enable sliding */

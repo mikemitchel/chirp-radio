@@ -13,6 +13,7 @@ import {
   initializeSampleCollection,
   type CollectionTrack,
 } from '../utils/collectionDB'
+import './YourCollection.css'
 
 // Sample data - all items marked as added (isAdded: true) to show "remove" button
 const sampleCollectionItems = [
@@ -176,7 +177,7 @@ export default function YourCollection() {
         />
 
         <div>
-          <h2>Don't have a CHIRP Radio Account?</h2>
+          <h2 className="your-collection__title">Don't have a CHIRP Radio Account?</h2>
 
           <p>A profile allows you to interact with the site in all sorts of helpful ways:</p>
 

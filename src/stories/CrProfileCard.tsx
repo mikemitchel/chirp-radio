@@ -281,7 +281,6 @@ export default function CrProfileCard({
 
         <section className="cr-profile-card__not-logged-in">
           <div className="cr-profile-card__not-logged-in-content">
-            <h2 className="cr-profile-card__not-logged-in-title">Join CHIRP Radio Today</h2>
             <p className="cr-profile-card__not-logged-in-description">
               Create a CHIRP Radio account to unlock all the features and benefits of our community.
             </p>
