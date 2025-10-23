@@ -12,6 +12,9 @@ import CrAppIconSelector from '../stories/CrAppIconSelector'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
 import { shouldShowIconSelector } from '../utils/deviceDetection'
+import { Capacitor } from '@capacitor/core'
+import AppIconPlugin from '../plugins/AppIconPlugin'
+import LoginRequiredModal from '../components/LoginRequiredModal'
 import './AccountSettings.css'
 
 export default function AccountSettings() {
@@ -106,11 +109,14 @@ export default function AccountSettings() {
     return saved || 'icon1'
   })
 
+  // Login modal state
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [loginModalMode, setLoginModalMode] = useState<'login' | 'signup'>('login')
+
   // Check if we're in /app routes and should show icon selector
-  // In production, only show on iOS 10.3+ with Capacitor
-  // In development/browser, always show in /app routes for testing
+  // Only show on iOS (Android requires complex activity alias setup)
   const isInAppRoutes = location.pathname.startsWith('/app')
-  const showIconSelector = isInAppRoutes
+  const showIconSelector = isInAppRoutes && Capacitor.getPlatform() === 'ios'
 
   // Load user's dark mode preference when user changes
   useEffect(() => {
@@ -150,47 +156,20 @@ export default function AccountSettings() {
       // Set profile to view mode
       setProfileState('view')
     } else {
-      // User logged out - load from sessionStorage (or defaults if not set)
-      const savedDarkMode = sessionStorage.getItem('chirp-dark-mode')
-      if (savedDarkMode === 'light' || savedDarkMode === 'dark' || savedDarkMode === 'device') {
-        setDarkMode(savedDarkMode)
-      } else {
-        setDarkMode('light')
-      }
-      setStreamingQuality(sessionStorage.getItem('chirp-streaming-quality') || '128')
+      // User logged out - reset to light mode and default settings
+      setDarkMode('light')
+      sessionStorage.setItem('chirp-dark-mode', 'light')
+      setStreamingQuality('128')
+      sessionStorage.setItem('chirp-streaming-quality', '128')
 
       // Set profile to logged out state
       setProfileState('loggedOut')
     }
   }, [isLoggedIn])
 
-  // Apply dark mode on mount and when it changes
+  // Dispatch event when dark mode changes (App.tsx will handle the theme application)
   useEffect(() => {
-    const applyTheme = () => {
-      if (darkMode === 'device') {
-        // Follow system preference
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-        if (prefersDark) {
-          document.documentElement.setAttribute('data-theme', 'dark')
-        } else {
-          document.documentElement.removeAttribute('data-theme')
-        }
-      } else if (darkMode === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark')
-      } else {
-        document.documentElement.removeAttribute('data-theme')
-      }
-    }
-
-    applyTheme()
-
-    // Listen for system preference changes (only if mode is 'device')
-    if (darkMode === 'device') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      const handleChange = () => applyTheme()
-      mediaQuery.addEventListener('change', handleChange)
-      return () => mediaQuery.removeEventListener('change', handleChange)
-    }
+    window.dispatchEvent(new CustomEvent('chirp-dark-mode-change', { detail: darkMode }))
   }, [darkMode])
 
   const handleDarkModeChange = (mode: 'light' | 'dark' | 'device') => {
@@ -231,8 +210,32 @@ export default function AccountSettings() {
 
   const handleApplyIcon = async (iconId: string) => {
     try {
-      // In a real Capacitor app, you would use the Capacitor API to change the icon
-      // For now, we'll just save the preference
+      // Map iconId to iOS icon name (icon1 is default, others map to Icon2, Icon3, etc.)
+      const iconName = iconId === 'icon1' ? null : `Icon${iconId.replace('icon', '')}`
+
+      console.log('[handleApplyIcon] iconId:', iconId, 'iconName:', iconName)
+
+      // Use native iOS API to change icon
+      if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios') {
+        try {
+          console.log('[handleApplyIcon] Calling AppIcon.change with:', { name: iconName, suppressNotification: false })
+
+          if (iconName === null) {
+            // Reset to default icon
+            await AppIconPlugin.reset({ suppressNotification: false })
+          } else {
+            // Change to alternate icon
+            await AppIconPlugin.change({ name: iconName, suppressNotification: false })
+          }
+
+          console.log('[handleApplyIcon] Icon changed successfully')
+        } catch (nativeError) {
+          console.error('[handleApplyIcon] Native icon change failed:', nativeError)
+          throw nativeError
+        }
+      }
+
+      // Save preference
       const storage = getStorage()
       storage.setItem('chirp-app-icon', iconId)
 
@@ -253,14 +256,10 @@ export default function AccountSettings() {
         type: 'success',
         duration: 3000,
       })
-
-      // In production with Capacitor, you would call:
-      // const { Plugins } = await import('@capacitor/core');
-      // await Plugins.App.setIcon({ name: iconId });
     } catch (error) {
-      console.error('Error changing app icon:', error)
+      console.error('[handleApplyIcon] Error changing app icon:', error)
       showToast({
-        message: 'Failed to change app icon',
+        message: 'Failed to change app icon. Please try again.',
         type: 'error',
         duration: 3000,
       })
@@ -268,13 +267,34 @@ export default function AccountSettings() {
     }
   }
 
-  const handleLogin = () => {
+  const handleLoginClick = () => {
+    setLoginModalMode('login')
+    setShowLoginModal(true)
+  }
+
+  const handleSignUpClick = () => {
+    setLoginModalMode('signup')
+    setShowLoginModal(true)
+  }
+
+  const handleLogin = (email: string, _password: string) => {
     // For demo purposes, simulate login with a demo account
-    switchProfile('listener')
+    login(email, email.split('@')[0])
+    setShowLoginModal(false)
     showToast({
       message: 'Successfully logged in',
       type: 'success',
-      duration: 5000,
+      duration: 3000,
+    })
+  }
+
+  const handleSignUp = (email: string, _password: string) => {
+    signup(email, email.split('@')[0])
+    setShowLoginModal(false)
+    showToast({
+      message: 'Account created successfully!',
+      type: 'success',
+      duration: 3000,
     })
   }
 
@@ -285,10 +305,6 @@ export default function AccountSettings() {
     // Redirect to appropriate landing page based on current route
     const isInAppRoutes = location.pathname.startsWith('/app')
     navigate(isInAppRoutes ? '/app' : '/')
-  }
-
-  const handleSignUp = () => {
-    // TODO: Navigate to sign up flow
   }
 
   const handleForgotPassword = () => {
@@ -819,9 +835,9 @@ export default function AccountSettings() {
             onPushNotificationsChange={handlePushNotificationsChange}
             darkMode={darkMode}
             onDarkModeChange={handleDarkModeChange}
-            onLogin={handleLogin}
+            onLogin={handleLoginClick}
             onLogout={handleLogout}
-            onSignUp={handleSignUp}
+            onSignUp={handleSignUpClick}
             onForgotPassword={handleForgotPassword}
             onShareApp={handleShareApp}
             onLikeAppStore={handleLikeAppStore}
@@ -853,7 +869,7 @@ export default function AccountSettings() {
               showActionButton={true}
               actionButtonText="Make a Donation"
               actionButtonIcon={<PiHandHeart />}
-              actionButtonSize="medium"
+              actionButtonSize="small"
               onActionClick={handleMakeDonation}
             />
 
@@ -868,7 +884,7 @@ export default function AccountSettings() {
               showActionButton={true}
               actionButtonText="Visit Store"
               actionButtonIcon={<PiStorefront />}
-              actionButtonSize="medium"
+              actionButtonSize="small"
               onActionClick={handleVisitStore}
             />
           </div>
@@ -886,9 +902,9 @@ export default function AccountSettings() {
           onPushNotificationsChange={handlePushNotificationsChange}
           darkMode={darkMode}
           onDarkModeChange={handleDarkModeChange}
-          onLogin={handleLogin}
+          onLogin={handleLoginClick}
           onLogout={handleLogout}
-          onSignUp={handleSignUp}
+          onSignUp={handleSignUpClick}
           onForgotPassword={handleForgotPassword}
           onShareApp={handleShareApp}
           onLikeAppStore={handleLikeAppStore}
@@ -896,6 +912,14 @@ export default function AccountSettings() {
           onTermsPrivacy={handleTermsPrivacy}
         />
       )}
+
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+        initialMode={loginModalMode}
+      />
     </div>
   )
 }

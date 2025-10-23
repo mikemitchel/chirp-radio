@@ -1354,3 +1354,17 @@ input[type='radio'] {
   border-color: var(--cr-secondary-300);
   background: var(--cr-default-500);
 }
+
+/* === iOS TAP HIGHLIGHT FIX === */
+/* Remove gray tap highlight on iOS */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+/* Keep focus states for accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--cr-primary-500);
+  outline-offset: 2px;
+}

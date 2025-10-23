@@ -25,14 +25,13 @@ function escapeCsvField(value: any): string {
 }
 
 /**
- * Converts an array of track data to CSV format and triggers download
+ * Converts tracks to CSV string content
  * @param tracks - Array of track objects to export
- * @param filename - Name of the downloaded file (default: 'playlist.csv')
+ * @returns CSV string
  */
-export function downloadTracksAsCSV(tracks: TrackData[], filename: string = 'playlist.csv'): void {
+export function tracksToCSV(tracks: TrackData[]): string {
   if (!tracks || tracks.length === 0) {
-    console.warn('No tracks to export')
-    return
+    return ''
   }
 
   // Get current date for branding header
@@ -60,13 +59,26 @@ export function downloadTracksAsCSV(tracks: TrackData[], filename: string = 'pla
   ])
 
   // Combine branding, headers and rows
-  const csvContent = [
+  return [
     brandingHeader,
     dateHeader,
     emptyRow,
     headers.join(','),
     ...rows.map((row) => row.join(',')),
   ].join('\n')
+}
+
+/**
+ * Converts an array of track data to CSV format and triggers download
+ * @param tracks - Array of track objects to export
+ * @param filename - Name of the downloaded file (default: 'playlist.csv')
+ */
+export function downloadTracksAsCSV(tracks: TrackData[], filename: string = 'playlist.csv'): void {
+  const csvContent = tracksToCSV(tracks)
+  if (!csvContent) {
+    console.warn('No tracks to export')
+    return
+  }
 
   // Create blob and download
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router'
+import { BrowserRouter, HashRouter, Routes, Route, Navigate, useNavigate } from 'react-router'
 import { AuthProvider } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
 import ScrollToTop from './components/ScrollToTop'
@@ -8,6 +8,7 @@ import './utils/devTools' // Load development tools
 import MobileApp from './layouts/MobileApp'
 import WebLayout from './layouts/WebLayout'
 import { Capacitor } from '@capacitor/core'
+import { StatusBar, Style } from '@capacitor/status-bar'
 import NowPlaying from './pages/NowPlaying'
 import RecentlyPlayed from './pages/RecentlyPlayed'
 import YourCollection from './pages/YourCollection'
@@ -75,45 +76,78 @@ function RootRedirect() {
 }
 
 function App() {
-  // Apply dark mode preference on app initialization
+  // Apply dark mode preference on app initialization and when it changes
   useEffect(() => {
+    const applyTheme = async (mode: string) => {
+      const isDark = mode === 'device'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches
+        : mode === 'dark'
+
+      console.log('[App.tsx] applyTheme called - mode:', mode, 'isDark:', isDark)
+
+      if (isDark) {
+        document.documentElement.setAttribute('data-theme', 'dark')
+      } else {
+        document.documentElement.removeAttribute('data-theme')
+      }
+
+      // Update status bar for native apps based on calculated isDark value
+      // Android interprets these opposite to iOS:
+      // Style.Dark = light status bar text (for dark app backgrounds)
+      // Style.Light = dark status bar text (for light app backgrounds)
+      if (Capacitor.isNativePlatform()) {
+        const targetStyle = isDark ? Style.Dark : Style.Light
+        console.log('[App.tsx] Setting status bar style to:', targetStyle, '(isDark:', isDark, ')')
+        try {
+          await StatusBar.setStyle({ style: targetStyle })
+          console.log('[App.tsx] Status bar style set successfully')
+        } catch (error) {
+          console.warn('Failed to update status bar style:', error)
+        }
+      }
+    }
+
     // Check both localStorage (logged in) and sessionStorage (logged out)
     const savedMode =
       localStorage.getItem('chirp-dark-mode') ||
       sessionStorage.getItem('chirp-dark-mode') ||
       'light'
 
-    const applyTheme = (mode: string) => {
-      if (mode === 'device') {
-        // Follow system preference
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-        if (prefersDark) {
-          document.documentElement.setAttribute('data-theme', 'dark')
-        } else {
-          document.documentElement.removeAttribute('data-theme')
-        }
-      } else if (mode === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark')
-      } else {
-        document.documentElement.removeAttribute('data-theme')
+    applyTheme(savedMode)
+
+    // Listen for dark mode changes via custom event
+    const handleDarkModeChange = (event: CustomEvent<string>) => {
+      applyTheme(event.detail)
+    }
+
+    // Listen for system preference changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleSystemChange = () => {
+      const currentMode =
+        localStorage.getItem('chirp-dark-mode') ||
+        sessionStorage.getItem('chirp-dark-mode') ||
+        'light'
+      if (currentMode === 'device') {
+        applyTheme('device')
       }
     }
 
-    applyTheme(savedMode)
+    window.addEventListener('chirp-dark-mode-change', handleDarkModeChange as EventListener)
+    mediaQuery.addEventListener('change', handleSystemChange)
 
-    // Listen for system preference changes (only if mode is 'device')
-    if (savedMode === 'device') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      const handleChange = () => applyTheme('device')
-      mediaQuery.addEventListener('change', handleChange)
-      return () => mediaQuery.removeEventListener('change', handleChange)
+    return () => {
+      window.removeEventListener('chirp-dark-mode-change', handleDarkModeChange as EventListener)
+      mediaQuery.removeEventListener('change', handleSystemChange)
     }
   }, [])
+
+  // Use HashRouter for Capacitor (file:// protocol), BrowserRouter for web
+  const Router = Capacitor.isNativePlatform() ? HashRouter : BrowserRouter
 
   return (
     <AuthProvider>
       <CartProvider>
-        <BrowserRouter>
+        <Router>
           <ScrollToTop />
           <Routes>
             {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
@@ -451,7 +485,7 @@ function App() {
               }
             />
           </Routes>
-        </BrowserRouter>
+        </Router>
       </CartProvider>
     </AuthProvider>
   )

@@ -1,5 +1,5 @@
 // CrSidebar.tsx
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from 'react-router'
 import { PiHandHeartLight, PiChatCircleTextLight, PiMusicNotes, PiGear } from 'react-icons/pi'
 import CrButton from './CrButton'
@@ -73,6 +73,21 @@ export default function CrSidebar({
   } catch (e) {
     // Router not available
   }
+
+  // Disable body scrolling when sidebar is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
   if (variant === 'mobile') {
     return (
       <>
@@ -104,7 +119,7 @@ export default function CrSidebar({
               {/* Mobile-specific top sections */}
               <div className="cr-sidebar__mobile-sections">
                 <button
-                  className="cr-sidebar__mobile-nav-item"
+                  className={`cr-sidebar__mobile-nav-item ${location?.pathname === '/app' ? 'cr-sidebar__mobile-nav-item--active' : ''}`}
                   onClick={() => {
                     onNowPlayingClick?.()
                     onClose?.()
@@ -113,7 +128,7 @@ export default function CrSidebar({
                   Now Playing
                 </button>
                 <button
-                  className="cr-sidebar__mobile-nav-item"
+                  className={`cr-sidebar__mobile-nav-item ${location?.pathname === '/app/recently-played' ? 'cr-sidebar__mobile-nav-item--active' : ''}`}
                   onClick={() => {
                     onRecentPlaylistClick?.()
                     onClose?.()
@@ -122,7 +137,7 @@ export default function CrSidebar({
                   Recently Played
                 </button>
                 <button
-                  className="cr-sidebar__mobile-nav-item"
+                  className={`cr-sidebar__mobile-nav-item ${location?.pathname === '/app/my-collection' ? 'cr-sidebar__mobile-nav-item--active' : ''}`}
                   onClick={() => {
                     onYourCollectionClick?.()
                     onClose?.()
@@ -138,44 +153,44 @@ export default function CrSidebar({
             {/* Main Navigation */}
             <div className="cr-sidebar__mobile-nav">
               <button
-                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/podcast' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
-                onClick={onPodcastClick}
+                className="cr-sidebar__mobile-nav-link"
+                onClick={() => window.open('https://chirpradio.org/podcasts', '_blank')}
               >
                 Podcast
               </button>
               <button
-                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/djs' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
-                onClick={onDjsClick}
+                className="cr-sidebar__mobile-nav-link"
+                onClick={() => window.open('https://chirpradio.org/schedule', '_blank')}
               >
-                Djs
+                DJs
               </button>
               <button
-                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/schedule' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
-                onClick={onScheduleClick}
+                className="cr-sidebar__mobile-nav-link"
+                onClick={() => window.open('https://chirpradio.org/schedule', '_blank')}
               >
                 Schedule
               </button>
               <button
-                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/events' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
-                onClick={onEventsClick}
+                className="cr-sidebar__mobile-nav-link"
+                onClick={() => window.open('https://chirpradio.org/events', '_blank')}
               >
                 Events
               </button>
               <button
-                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/articles' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
-                onClick={onArticlesClick}
+                className="cr-sidebar__mobile-nav-link"
+                onClick={() => window.open('https://chirpradio.org/blog', '_blank')}
               >
                 Articles
               </button>
               <button
-                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/shop' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
-                onClick={onShopClick}
+                className="cr-sidebar__mobile-nav-link"
+                onClick={() => window.open('https://chirpradio.org/store', '_blank')}
               >
                 Store
               </button>
               <button
-                className={`cr-sidebar__mobile-nav-link ${location?.pathname === '/donate' || location?.pathname === '/vinyl-circle' || location?.pathname === '/car-donation' || location?.pathname === '/other-ways-to-give' ? 'cr-sidebar__mobile-nav-link--active' : ''}`}
-                onClick={onWaysToGiveClick}
+                className="cr-sidebar__mobile-nav-link"
+                onClick={() => window.open('https://chirpradio.org/donations', '_blank')}
               >
                 Ways to Give
               </button>
@@ -187,7 +202,7 @@ export default function CrSidebar({
                   variant="solid"
                   color="primary"
                   leftIcon={<PiHandHeartLight />}
-                  onClick={onDonateClick}
+                  onClick={() => window.open('https://chirpradio.app.neoncrm.com/forms/18', '_blank')}
                 >
                   Support Chirp Radio
                 </CrButton>
@@ -227,7 +242,10 @@ export default function CrSidebar({
               </CrButton>
 
               {/* CHIRPRADIO.ORG link with bird logo */}
-              <button className="cr-sidebar__footer-chirp" onClick={onLogoClick}>
+              <button
+                className="cr-sidebar__footer-chirp"
+                onClick={() => window.open('https://chirpradio.org/', '_blank')}
+              >
                 <CrLogo variant="bird" color="primary" className="cr-sidebar__footer-bird" />
                 <span className="cr-sidebar__footer-chirp-text">Chirpradio.org</span>
               </button>

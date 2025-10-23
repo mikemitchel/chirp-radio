@@ -1,0 +1,4 @@
+.your-collection__title {
+  font: var(--cr-title-md);
+  margin-bottom: var(--cr-space-4);
+}

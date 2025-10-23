@@ -96,8 +96,15 @@ export function removeFromCollection(trackId: string): boolean {
 
 /**
  * Check if a track is in the collection
+ * Returns false if user is not logged in
  */
 export function isInCollection(artistName: string, trackName: string): boolean {
+  // Check if user is logged in
+  const isLoggedIn = localStorage.getItem('chirp-logged-in') === 'true'
+  if (!isLoggedIn) {
+    return false
+  }
+
   const collection = getCollection()
   return collection.some((t) => t.artistName === artistName && t.trackName === trackName)
 }

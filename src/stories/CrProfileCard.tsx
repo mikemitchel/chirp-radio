@@ -281,10 +281,18 @@ export default function CrProfileCard({
 
         <section className="cr-profile-card__not-logged-in">
           <div className="cr-profile-card__not-logged-in-content">
-            <h2 className="cr-profile-card__not-logged-in-title">Join CHIRP Radio Today</h2>
             <p className="cr-profile-card__not-logged-in-description">
               Create a CHIRP Radio account to unlock all the features and benefits of our community.
             </p>
+
+            <div className="cr-profile-card__not-logged-in-actions">
+              <CrButton variant="outline" color="default" size="medium" onClick={onLogin}>
+                log in
+              </CrButton>
+              <CrButton variant="solid" color="secondary" size="medium" onClick={onSignUp}>
+                sign up
+              </CrButton>
+            </div>
 
             <h3 className="cr-profile-card__benefits-title">Benefits of Creating an Account:</h3>
             <ul className="cr-profile-card__benefits-list">
@@ -296,20 +304,6 @@ export default function CrProfileCard({
               <li>Get personalized recommendations based on your listening history</li>
               <li>Receive updates about upcoming shows and events</li>
             </ul>
-
-            <div className="cr-profile-card__not-logged-in-actions">
-              <CrButton variant="solid" color="secondary" size="large" onClick={onSignUp}>
-                sign up
-              </CrButton>
-              <div className="cr-profile-card__not-logged-in-divider">
-                <span className="cr-profile-card__not-logged-in-divider-text">
-                  Already have a CHIRP Radio account?
-                </span>
-              </div>
-              <CrButton variant="outline" color="default" size="large" onClick={onLogin}>
-                log in
-              </CrButton>
-            </div>
           </div>
         </section>
       </div>
@@ -330,25 +324,46 @@ export default function CrProfileCard({
         />
 
         <section className="cr-profile-card__profile">
-          <div className="cr-profile-card__profile-info">
-            <h2 className="cr-profile-card__name cr-title-lg">
-              {firstName} {lastName}
-            </h2>
-
-            {isDJ && onViewDJProfile && (
-              <div style={{ marginTop: 'var(--cr-space-3)', marginBottom: 'var(--cr-space-3)' }}>
-                <CrButton
-                  variant="outline"
-                  size="small"
-                  color="secondary"
-                  rightIcon={<PiUser />}
-                  onClick={onViewDJProfile}
-                >
-                  View DJ Profile
-                </CrButton>
+          {/* Header section: Avatar + Name + DJ Button (stays together) */}
+          <div className="cr-profile-card__header-section">
+            <div className="cr-profile-card__avatar-container">
+              <div className="cr-profile-card__avatar">
+                {avatarSrc ? (
+                  <img src={avatarSrc} alt={avatarAlt} className="cr-profile-card__avatar-image" />
+                ) : (
+                  <div className="cr-profile-card__avatar-placeholder">
+                    <svg className="cr-profile-card__avatar-icon" viewBox="0 0 100 100">
+                      <circle cx="50" cy="35" r="18" />
+                      <path d="M 20 85 Q 20 60, 50 60 T 80 85" />
+                    </svg>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
 
+            <div className="cr-profile-card__name-section">
+              <h2 className="cr-profile-card__name cr-title-lg">
+                {firstName} {lastName}
+              </h2>
+
+              {isDJ && onViewDJProfile && (
+                <div style={{ marginTop: 'var(--cr-space-2)' }}>
+                  <CrButton
+                    variant="outline"
+                    size="small"
+                    color="secondary"
+                    rightIcon={<PiUser />}
+                    onClick={onViewDJProfile}
+                  >
+                    View DJ Profile
+                  </CrButton>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Details section */}
+          <div className="cr-profile-card__profile-info">
             <div className="cr-profile-card__details">
               {isDJ && djName && (
                 <div className="cr-profile-card__detail-item">
@@ -380,7 +395,7 @@ export default function CrProfileCard({
                 <span className="cr-profile-card__detail-label">Email:</span>
                 <div className="cr-profile-card__detail-value-with-action">
                   <span className="cr-profile-card__detail-value">{email}</span>
-                  <CrButton variant="text" color="default" size="xsmall" onClick={onLogout}>
+                  <CrButton variant="outline" color="default" size="small" onClick={onLogout}>
                     log out
                   </CrButton>
                 </div>
@@ -393,20 +408,6 @@ export default function CrProfileCard({
             </div>
           </div>
 
-          <div className="cr-profile-card__avatar-container">
-            <div className="cr-profile-card__avatar">
-              {avatarSrc ? (
-                <img src={avatarSrc} alt={avatarAlt} className="cr-profile-card__avatar-image" />
-              ) : (
-                <div className="cr-profile-card__avatar-placeholder">
-                  <svg className="cr-profile-card__avatar-icon" viewBox="0 0 100 100">
-                    <circle cx="50" cy="35" r="18" />
-                    <path d="M20 80 Q20 65 50 65 Q80 65 80 80 L80 85 Q80 90 75 90 L25 90 Q20 90 20 85 Z" />
-                  </svg>
-                </div>
-              )}
-            </div>
-          </div>
         </section>
 
         {showPermissions && (
@@ -422,40 +423,42 @@ export default function CrProfileCard({
           </section>
         )}
 
-        <section className="cr-profile-card__social-section">
-          <div className="cr-profile-card__social-columns">
-            <div className="cr-profile-card__social-column">
-              {socialLinks.slice(0, Math.ceil(socialLinks.length / 2)).map((link, index) => (
-                <div key={`${link.platform}-${index}`} className="cr-profile-card__social-item">
-                  <CrSocialIcon platform={link.platform} size={24} url={link.url} />
-                  <a
-                    href={`https://${link.url}`}
-                    className="cr-profile-card__social-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {link.url}
-                  </a>
-                </div>
-              ))}
+        {socialLinks && socialLinks.length > 0 && (
+          <section className="cr-profile-card__social-section">
+            <div className="cr-profile-card__social-columns">
+              <div className="cr-profile-card__social-column">
+                {socialLinks.slice(0, Math.ceil(socialLinks.length / 2)).map((link, index) => (
+                  <div key={`${link.platform}-${index}`} className="cr-profile-card__social-item">
+                    <CrSocialIcon platform={link.platform} size={24} url={link.url} />
+                    <a
+                      href={`https://${link.url}`}
+                      className="cr-profile-card__social-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {link.url}
+                    </a>
+                  </div>
+                ))}
+              </div>
+              <div className="cr-profile-card__social-column">
+                {socialLinks.slice(Math.ceil(socialLinks.length / 2)).map((link, index) => (
+                  <div key={`${link.platform}-${index}`} className="cr-profile-card__social-item">
+                    <CrSocialIcon platform={link.platform} size={24} url={link.url} />
+                    <a
+                      href={`https://${link.url}`}
+                      className="cr-profile-card__social-link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {link.url}
+                    </a>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="cr-profile-card__social-column">
-              {socialLinks.slice(Math.ceil(socialLinks.length / 2)).map((link, index) => (
-                <div key={`${link.platform}-${index}`} className="cr-profile-card__social-item">
-                  <CrSocialIcon platform={link.platform} size={24} url={link.url} />
-                  <a
-                    href={`https://${link.url}`}
-                    className="cr-profile-card__social-link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {link.url}
-                  </a>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Account Settings Section */}
         <section className="cr-profile-card__account-settings">

@@ -1,5 +1,5 @@
 // src/components/LoginRequiredModal.tsx
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import CrModal from '../stories/CrModal'
 import CrButton from '../stories/CrButton'
 import CrButtonGroup from '../stories/CrButtonGroup'
@@ -10,6 +10,7 @@ interface LoginRequiredModalProps {
   onClose: () => void
   onLogin: (email: string, password: string) => void
   onSignUp: (email: string, password: string) => void
+  initialMode?: 'login' | 'signup'
 }
 
 export default function LoginRequiredModal({
@@ -17,8 +18,16 @@ export default function LoginRequiredModal({
   onClose,
   onLogin,
   onSignUp,
+  initialMode = 'login',
 }: LoginRequiredModalProps) {
-  const [mode, setMode] = useState<'login' | 'signup'>('login')
+  const [mode, setMode] = useState<'login' | 'signup'>(initialMode)
+
+  // Update mode when initialMode changes
+  useEffect(() => {
+    if (isOpen) {
+      setMode(initialMode)
+    }
+  }, [isOpen, initialMode])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -42,45 +51,11 @@ export default function LoginRequiredModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Validation
-    const newErrors: {
-      email?: string
-      password?: string
-      confirmPassword?: string
-    } = {}
-
-    if (!email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!validateEmail(email)) {
-      newErrors.email = 'Please enter a valid email address'
-    }
-
-    if (!password) {
-      newErrors.password = 'Password is required'
-    } else if (password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters'
-    }
-
-    if (mode === 'signup') {
-      if (!confirmPassword) {
-        newErrors.confirmPassword = 'Please confirm your password'
-      } else if (password !== confirmPassword) {
-        newErrors.confirmPassword = 'Passwords do not match'
-      }
-    }
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-      return
-    }
-
-    // Clear errors and submit
-    setErrors({})
-
+    // For demo purposes, just log in with demo account
     if (mode === 'login') {
-      onLogin(email.trim(), password)
+      onLogin('demo@chirpradio.org', 'password123')
     } else {
-      onSignUp(email.trim(), password)
+      onSignUp('demo@chirpradio.org', 'password123')
     }
 
     // Clear form
@@ -123,7 +98,7 @@ export default function LoginRequiredModal({
             onSelectionChange={handleModeChange}
             layout="horizontal"
             variant="schedule"
-            size="small"
+            size="medium"
           />
         </div>
 
@@ -183,7 +158,7 @@ export default function LoginRequiredModal({
           )}
 
           {/* Form Actions */}
-          <div className="login-modal__actions">
+          <div className="cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap">
             <CrButton
               type="button"
               variant="outline"

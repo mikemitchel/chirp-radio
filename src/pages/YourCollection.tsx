@@ -6,13 +6,19 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 import CrButton from '../stories/CrButton'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
-import { downloadTracksAsCSV } from '../utils/csvExport'
+import { PiShare } from 'react-icons/pi'
+import { tracksToCSV } from '../utils/csvExport'
+import { Share } from '@capacitor/share'
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
+import { Capacitor } from '@capacitor/core'
+import LoginRequiredModal from '../components/LoginRequiredModal'
 import {
   getCollection,
   removeFromCollection,
   initializeSampleCollection,
   type CollectionTrack,
 } from '../utils/collectionDB'
+import './YourCollection.css'
 
 // Sample data - all items marked as added (isAdded: true) to show "remove" button
 const sampleCollectionItems = [
@@ -79,9 +85,11 @@ const sampleCollectionItems = [
 ]
 
 export default function YourCollection() {
-  const { isLoggedIn, login } = useAuth()
+  const { isLoggedIn, login, signup, user } = useAuth()
   const { showModal, showToast } = useNotification()
   const [collection, setCollection] = useState<CollectionTrack[]>([])
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [loginModalMode, setLoginModalMode] = useState<'login' | 'signup'>('login')
 
   // Load collection on mount and when logged in
   useEffect(() => {
@@ -140,27 +148,103 @@ export default function YourCollection() {
     })
   }
 
-  const handleLogin = () => {
-    // For demo purposes, simulate login with a demo account
-    login('demo@chirpradio.org')
+  const handleLoginClick = () => {
+    setLoginModalMode('login')
+    setShowLoginModal(true)
   }
 
-  const handleSignUp = () => {
-    console.log('Sign up clicked from collection')
-    // TODO: Open signup modal or navigate to signup
+  const handleSignUpClick = () => {
+    setLoginModalMode('signup')
+    setShowLoginModal(true)
   }
 
-  const handleDownloadCollection = () => {
-    // Get current date for filename
-    const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD format
-    const filename = `chirp-radio-my-collection-${today}.csv`
-
-    downloadTracksAsCSV(collection, filename)
+  const handleLogin = (email: string, _password: string) => {
+    login(email, email.split('@')[0])
+    setShowLoginModal(false)
     showToast({
-      message: 'Your collection has been downloaded',
+      message: 'Successfully logged in!',
       type: 'success',
       duration: 3000,
     })
+  }
+
+  const handleSignUp = (email: string, _password: string) => {
+    signup(email, email.split('@')[0])
+    setShowLoginModal(false)
+    showToast({
+      message: 'Account created successfully!',
+      type: 'success',
+      duration: 3000,
+    })
+  }
+
+  const handleSendEmail = async () => {
+    try {
+      // Get current date for filename
+      const today = new Date().toISOString().split('T')[0] // YYYY-MM-DD format
+      const filename = `chirp-radio-my-collection-${today}.csv`
+
+      // Generate CSV content
+      const csvContent = tracksToCSV(collection)
+
+      if (!csvContent) {
+        showToast({
+          message: 'No tracks to share',
+          type: 'error',
+          duration: 3000,
+        })
+        return
+      }
+
+      // On native platforms, use Share API with file attachment
+      if (Capacitor.isNativePlatform()) {
+        // Write CSV to temporary file
+        const result = await Filesystem.writeFile({
+          path: filename,
+          data: csvContent,
+          directory: Directory.Cache,
+          encoding: Encoding.UTF8,
+        })
+
+        // Share the file
+        await Share.share({
+          title: `CHIRP Radio - My Collection - ${today}`,
+          text: `My CHIRP Radio collection from ${today}`,
+          url: result.uri,
+          dialogTitle: 'Share Your Collection',
+        })
+
+        showToast({
+          message: 'Opening share menu...',
+          type: 'info',
+          duration: 3000,
+        })
+      } else {
+        // Fallback for web: download the file
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = filename
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        URL.revokeObjectURL(url)
+
+        showToast({
+          message: 'Your collection has been downloaded',
+          type: 'success',
+          duration: 3000,
+        })
+      }
+    } catch (error) {
+      console.error('Error sharing collection:', error)
+      showToast({
+        message: 'Failed to share collection',
+        type: 'error',
+        duration: 3000,
+      })
+    }
   }
 
   if (!isLoggedIn) {
@@ -176,32 +260,38 @@ export default function YourCollection() {
         />
 
         <div>
-          <h2>Don't have a CHIRP Radio Account?</h2>
-
-          <p>A profile allows you to interact with the site in all sorts of helpful ways:</p>
-
-          <ul>
-            <li>
-              You can add songs to your collection that you hear across our web and mobile
-              applications so you don't forget them
-            </li>
-            <li>You can save your information for store purchases and donations</li>
-            <li>Your profile settings will be saved between your mobile and web experiences</li>
-          </ul>
-
-          <p>
-            So create your profile today, and start getting the maximum benefit from CHIRPradio.org!
+          <p className="cr-profile-card__not-logged-in-description">
+            A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--cr-space-3)' }}>
-            <CrButton variant="outline" color="default" size="medium" onClick={handleLogin}>
+          <div className="cr-profile-card__not-logged-in-actions">
+            <CrButton variant="outline" color="default" size="medium" onClick={handleLoginClick}>
               log in
             </CrButton>
-            <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUp}>
+            <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUpClick}>
               sign up
             </CrButton>
           </div>
+
+          <h3 className="cr-profile-card__benefits-title">Benefits of Creating an Account:</h3>
+          <ul className="cr-profile-card__benefits-list">
+            <li>Save your favorite songs from our live stream to your personal collection</li>
+            <li>Make song requests directly to our DJs during their shows</li>
+            <li>Access your saved tracks across web and mobile apps</li>
+            <li>Save your information for store purchases and donations</li>
+            <li>Sync your preferences and settings between devices</li>
+            <li>Get personalized recommendations based on your listening history</li>
+            <li>Receive updates about upcoming shows and events</li>
+          </ul>
         </div>
+
+        <LoginRequiredModal
+          isOpen={showLoginModal}
+          onClose={() => setShowLoginModal(false)}
+          onLogin={handleLogin}
+          onSignUp={handleSignUp}
+          initialMode={loginModalMode}
+        />
       </div>
     )
   }
@@ -213,8 +303,10 @@ export default function YourCollection() {
         title="Your Collection"
         showEyebrow={false}
         showActionButton={true}
-        actionButtonText="Download CSV"
-        onActionClick={handleDownloadCollection}
+        actionButtonText="Share Collection"
+        actionButtonSize="small"
+        actionButtonIcon={<PiShare />}
+        onActionClick={handleSendEmail}
         titleSize="xl"
         titleTag="h1"
       />
@@ -236,7 +328,7 @@ export default function YourCollection() {
 
       <CrAnnouncement
         variant="motivation"
-        textureBackground="cr-bg-natural-d100"
+        textureBackground="cr-bg-natural-s900"
         headlineText="Build your perfect playlist"
         bodyText="Add tracks as you discover them and create your own radio experience!"
         showLink={false}
