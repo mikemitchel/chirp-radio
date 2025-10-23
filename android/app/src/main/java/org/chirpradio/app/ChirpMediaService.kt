@@ -23,6 +23,7 @@ import androidx.media.session.MediaButtonReceiver
 class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.MediaSessionCallback {
 
     internal lateinit var mediaSessionManager: MediaSessionManager
+    private lateinit var audioPlayer: NativeAudioPlayer
     private var isForeground = false
 
     companion object {
@@ -30,11 +31,12 @@ class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.Media
         private const val LIVE_STREAM_ID = "chirp_live_stream"
         private const val NOTIFICATION_ID = 1
         private const val CHANNEL_ID = "chirp_playback_channel"
+        private const val STREAM_URL = "https://peridot.streamguys1.com:5185/live"
 
         // Static reference for plugin communication
         var instance: ChirpMediaService? = null
 
-        // Callbacks to web layer
+        // Callbacks to web layer (for media button events)
         var onPlayCommand: (() -> Unit)? = null
         var onPauseCommand: (() -> Unit)? = null
     }
@@ -42,6 +44,9 @@ class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.Media
     override fun onCreate() {
         super.onCreate()
         instance = this
+
+        // Create notification channel FIRST before anything else
+        createNotificationChannel()
 
         // Initialize media session manager
         mediaSessionManager = MediaSessionManager(this).apply {
@@ -51,11 +56,41 @@ class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.Media
         // Set session token for MediaBrowserService
         sessionToken = mediaSessionManager.getMediaSessionToken()
 
-        createNotificationChannel()
+        // Initialize audio player
+        audioPlayer = NativeAudioPlayer(this).apply {
+            setStreamUrl(STREAM_URL)
+            onPlaybackStateChanged = { isPlaying, isBuffering ->
+                // Only update notification if state actually changed
+                if (mediaSessionManager.isPlaying != isPlaying) {
+                    mediaSessionManager.updatePlaybackState(isPlaying)
+                    if (isForeground) {
+                        showNotification()
+                    }
+                }
+            }
+            onError = { error ->
+                android.util.Log.e("ChirpMediaService", "Audio player error: $error")
+            }
+        }
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        android.util.Log.d("ChirpMediaService", "onStartCommand called")
+
+        // Start as foreground service immediately with a basic notification
+        // This prevents Android from killing the service
+        try {
+            showNotification()
+        } catch (e: Exception) {
+            android.util.Log.e("ChirpMediaService", "Failed to start foreground", e)
+        }
+
+        return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        audioPlayer.release()
         mediaSessionManager.release()
         instance = null
         onPlayCommand = null
@@ -64,18 +99,39 @@ class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.Media
 
     // MediaSessionCallback implementation
     override fun onPlay() {
-        onPlayCommand?.invoke()
+        android.util.Log.d("ChirpMediaService", "onPlay called - starting playback")
+
+        // Start audio playback first
+        audioPlayer.play()
+
+        // Update state
         mediaSessionManager.updatePlaybackState(true)
+
+        // Show notification
         showNotification()
+
+        // Notify web layer for UI updates
+        onPlayCommand?.invoke()
     }
 
     override fun onPause() {
-        onPauseCommand?.invoke()
+        android.util.Log.d("ChirpMediaService", "onPause called - pausing playback")
+
+        // Pause audio first
+        audioPlayer.pause()
+
+        // Update state
         mediaSessionManager.updatePlaybackState(false)
+
+        // Update notification
         showNotification()
+
+        // Notify web layer
+        onPauseCommand?.invoke()
     }
 
     override fun onStop() {
+        audioPlayer.stop()
         onPauseCommand?.invoke()
         mediaSessionManager.updatePlaybackState(false)
         stopForeground(true)
@@ -129,6 +185,13 @@ class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.Media
     }
 
     fun updatePlaybackState(isPlaying: Boolean) {
+        // Sync native player state when web layer changes state
+        if (isPlaying && !audioPlayer.isPlaying()) {
+            audioPlayer.play()
+        } else if (!isPlaying && audioPlayer.isPlaying()) {
+            audioPlayer.pause()
+        }
+
         mediaSessionManager.updatePlaybackState(isPlaying)
         if (isPlaying && !isForeground) {
             showNotification()
@@ -156,73 +219,71 @@ class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.Media
     }
 
     private fun showNotification() {
-        val mediaSession = mediaSessionManager.getMediaSessionToken()
-        val controller = mediaSession?.let { MediaSessionCompat.Token.fromToken(it) }
+        try {
+            val mediaSession = mediaSessionManager.getMediaSessionToken()
 
-        // Intent to open app
-        val intent = packageManager.getLaunchIntentForPackage(packageName)?.apply {
-            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        }
-        val contentIntent = PendingIntent.getActivity(
-            this,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
+            // Intent to open app
+            val intent = packageManager.getLaunchIntentForPackage(packageName)?.apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            }
+            val contentIntent = PendingIntent.getActivity(
+                this,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
 
-        // Build notification
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle(mediaSessionManager.currentTitle.ifEmpty { "CHIRP Radio" })
-            .setContentText(mediaSessionManager.currentArtist.ifEmpty { "107.1 FM Chicago" })
-            .setSubText("DJ: ${mediaSessionManager.currentDj}")
-            .setSmallIcon(R.drawable.ic_notification) // You'll need to add this icon
-            .setContentIntent(contentIntent)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setOnlyAlertOnce(true)
-            .setShowWhen(false)
-            .apply {
-                // Add play/pause action
-                if (mediaSessionManager.isPlaying) {
-                    addAction(
-                        NotificationCompat.Action(
-                            R.drawable.ic_pause, // You'll need to add this icon
-                            "Pause",
-                            MediaButtonReceiver.buildMediaButtonPendingIntent(
-                                this@ChirpMediaService,
-                                PlaybackStateCompat.ACTION_PAUSE
+            // Build notification
+            val notification = NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle(mediaSessionManager.currentTitle.ifEmpty { "CHIRP Radio" })
+                .setContentText(mediaSessionManager.currentArtist.ifEmpty { "107.1 FM Chicago" })
+                .setSubText(if (mediaSessionManager.currentDj.isNotEmpty()) "DJ: ${mediaSessionManager.currentDj}" else "")
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentIntent(contentIntent)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setOnlyAlertOnce(true)
+                .setShowWhen(false)
+                .setOngoing(true)  // Keep notification persistent
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .apply {
+                    // Add play/pause action
+                    if (mediaSessionManager.isPlaying) {
+                        addAction(
+                            NotificationCompat.Action(
+                                R.drawable.ic_pause,
+                                "Pause",
+                                MediaButtonReceiver.buildMediaButtonPendingIntent(
+                                    this@ChirpMediaService,
+                                    PlaybackStateCompat.ACTION_PAUSE
+                                )
                             )
                         )
-                    )
-                } else {
-                    addAction(
-                        NotificationCompat.Action(
-                            R.drawable.ic_play, // You'll need to add this icon
-                            "Play",
-                            MediaButtonReceiver.buildMediaButtonPendingIntent(
-                                this@ChirpMediaService,
-                                PlaybackStateCompat.ACTION_PLAY
+                    } else {
+                        addAction(
+                            NotificationCompat.Action(
+                                R.drawable.ic_play,
+                                "Play",
+                                MediaButtonReceiver.buildMediaButtonPendingIntent(
+                                    this@ChirpMediaService,
+                                    PlaybackStateCompat.ACTION_PLAY
+                                )
                             )
                         )
+                    }
+
+                    // Set style for media - this makes controls show on lock screen
+                    setStyle(
+                        androidx.media.app.NotificationCompat.MediaStyle()
+                            .setMediaSession(mediaSession)
+                            .setShowActionsInCompactView(0)
                     )
                 }
+                .build()
 
-                // Set style for media
-                setStyle(
-                    androidx.media.app.NotificationCompat.MediaStyle()
-                        .setMediaSession(mediaSession)
-                        .setShowActionsInCompactView(0)
-                        .setShowCancelButton(true)
-                        .setCancelButtonIntent(
-                            MediaButtonReceiver.buildMediaButtonPendingIntent(
-                                this@ChirpMediaService,
-                                PlaybackStateCompat.ACTION_STOP
-                            )
-                        )
-                )
-            }
-            .build()
-
-        startForeground(NOTIFICATION_ID, notification)
-        isForeground = true
+            startForeground(NOTIFICATION_ID, notification)
+            isForeground = true
+        } catch (e: Exception) {
+            android.util.Log.e("ChirpMediaService", "Failed to show notification", e)
+        }
     }
 }
