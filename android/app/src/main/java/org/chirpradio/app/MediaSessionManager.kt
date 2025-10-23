@@ -74,8 +74,17 @@ class MediaSessionManager(private val context: Context) {
                 }
             })
 
+            // Set initial metadata so lock screen knows this is a media app
+            val initialMetadata = MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, "CHIRP Radio")
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, "107.1 FM Chicago")
+                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, "Independent Music")
+                .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, -1) // Live stream
+                .build()
+            setMetadata(initialMetadata)
+
             // Set initial playback state
-            setPlaybackState(buildPlaybackState(PlaybackStateCompat.STATE_STOPPED))
+            setPlaybackState(buildPlaybackState(PlaybackStateCompat.STATE_PAUSED))
 
             // Activate session
             isActive = true

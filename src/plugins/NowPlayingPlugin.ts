@@ -9,6 +9,11 @@ export interface NowPlayingPlugin {
   }): Promise<void>
 
   setPlaybackState(options: { isPlaying: boolean }): Promise<void>
+
+  addListener(
+    eventName: 'mediaCommand',
+    listenerFunc: (data: { command: string }) => void
+  ): any
 }
 
 const NowPlaying = registerPlugin<NowPlayingPlugin>('NowPlayingPlugin')
