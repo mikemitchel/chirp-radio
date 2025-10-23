@@ -66,7 +66,7 @@
   top: env(safe-area-inset-top);
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 1000;
   background-color: var(--cr-paper);
   border-bottom: 1px solid var(--cr-border);
   flex-shrink: 0;
@@ -84,7 +84,9 @@
   padding-left: var(--cr-space-3); /* 12px horizontal margin */
   padding-right: var(--cr-space-3); /* 12px horizontal margin */
   overflow-y: auto;
-  min-height: 100vh;
+  overflow-x: hidden;
+  min-height: calc(100vh - env(safe-area-inset-top));
+  max-height: calc(100vh - env(safe-area-inset-top));
   box-sizing: border-box;
 }
 
@@ -192,7 +194,7 @@
 /* === RESPONSIVE ADJUSTMENTS === */
 @media (max-width: 480px) {
   .cr-mobile-frame--interior .cr-mobile-frame__content {
-    padding-top: 120px;
+    padding-top: 96px;
     padding-bottom: 80px;
   }
 

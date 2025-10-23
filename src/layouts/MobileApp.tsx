@@ -10,6 +10,7 @@ import GlobalNotifications from '../components/GlobalNotifications'
 import { preloadFirstAvailable } from '../utils/imagePreloader'
 import { upgradeImageQuality } from '../utils/imageOptimizer'
 import { createLogger } from '../utils/logger'
+import { useAuth, type UserRole } from '../contexts/AuthContext'
 
 const log = createLogger('MobileApp')
 
@@ -104,6 +105,7 @@ const preloadNowPlayingData = async () => {
 export default function MobileApp() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { switchProfile, logout } = useAuth()
 
   useEffect(() => {
     console.log('🚀 [SPLASH] MobileApp mounted at', new Date().toISOString())
@@ -152,6 +154,29 @@ export default function MobileApp() {
 
     initializeApp()
   }, [])
+
+  // Listen for profile switch events from console (devTools)
+  useEffect(() => {
+    const handleProfileSwitch = (event: CustomEvent<UserRole>) => {
+      switchProfile(event.detail)
+      sessionStorage.setItem('chirp-show-login-toast', 'true')
+      window.location.reload()
+    }
+
+    const handleLogout = () => {
+      logout()
+      sessionStorage.setItem('chirp-show-logout-toast', 'true')
+      // For mobile app, always navigate to app landing then reload
+      window.location.href = '/app'
+    }
+
+    window.addEventListener('chirp-switch-profile', handleProfileSwitch as EventListener)
+    window.addEventListener('chirp-logout', handleLogout)
+    return () => {
+      window.removeEventListener('chirp-switch-profile', handleProfileSwitch as EventListener)
+      window.removeEventListener('chirp-logout', handleLogout)
+    }
+  }, [switchProfile, logout])
 
   // Determine if we're on the landing page (Now Playing)
   const isLandingPage = location.pathname === '/app' || location.pathname === '/app/now-playing'

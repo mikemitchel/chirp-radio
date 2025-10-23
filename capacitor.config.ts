@@ -21,8 +21,8 @@ const config: CapacitorConfig = {
       overlay: true, // Make status bar transparent/overlay
     },
     SplashScreen: {
-      launchShowDuration: 2000, // Show for 2 seconds
-      launchAutoHide: false, // Don't auto-hide, we'll control it
+      launchShowDuration: 3000, // Show for 3 seconds
+      launchAutoHide: true, // Auto-hide after duration
       backgroundColor: '#ea1c2c', // CHIRP red
       androidScaleType: 'CENTER_CROP',
       splashFullScreen: true,

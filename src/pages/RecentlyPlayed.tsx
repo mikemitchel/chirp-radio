@@ -4,8 +4,10 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import { useNotification } from '../contexts/NotificationContext'
+import { useAuth } from '../hooks/useAuth'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
 import { getRecentlyPlayed, groupByHour } from '../utils/recentlyPlayedDB'
+import LoginRequiredModal from '../components/LoginRequiredModal'
 
 // Sample data - will be replaced with API call
 const samplePlaylistItems = [
@@ -110,15 +112,29 @@ const samplePlaylistItems = [
 
 export default function RecentlyPlayed() {
   const { showToast } = useNotification()
+  const { isLoggedIn, login, signup } = useAuth()
   const [playlistItems, setPlaylistItems] = useState<any[]>([])
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   // Load recently played tracks and convert to playlist format
   const loadRecentlyPlayed = () => {
     const recentTracks = getRecentlyPlayed()
     const grouped = groupByHour(recentTracks)
 
+    // Get the 2 most recent hour blocks
+    const hourKeys = Object.keys(grouped).sort((a, b) => {
+      // Convert hourKey to comparable time (assumes format like "14:00")
+      const timeA = new Date(`1970-01-01T${a}:00`).getTime()
+      const timeB = new Date(`1970-01-01T${b}:00`).getTime()
+      return timeB - timeA // Sort descending (most recent first)
+    })
+
+    // Take only the first 2 hours
+    const recentHourKeys = hourKeys.slice(0, 2)
+
     const items: any[] = []
-    Object.entries(grouped).forEach(([hourKey, data]) => {
+    recentHourKeys.forEach((hourKey) => {
+      const data = grouped[hourKey]
       data.tracks.forEach((track: any) => {
         const playedDate = new Date(track.playedAt)
         const timeString = playedDate.toLocaleTimeString('en-US', {
@@ -183,6 +199,12 @@ export default function RecentlyPlayed() {
   }, [])
 
   const handleItemAdd = (item: any, index: number) => {
+    // Check if user is logged in
+    if (!isLoggedIn) {
+      setShowLoginModal(true)
+      return
+    }
+
     if (item.isAdded) {
       // Remove from collection
       const removed = removeFromCollection(item.id)
@@ -216,13 +238,40 @@ export default function RecentlyPlayed() {
     }
   }
 
+  const handleLogin = (email: string, _password: string) => {
+    login(email, email.split('@')[0])
+    setShowLoginModal(false)
+    showToast({
+      message: 'Successfully logged in!',
+      type: 'success',
+      duration: 3000,
+    })
+  }
+
+  const handleSignUp = (email: string, _password: string) => {
+    signup(email, email.split('@')[0])
+    setShowLoginModal(false)
+    showToast({
+      message: 'Account created successfully!',
+      type: 'success',
+      duration: 3000,
+    })
+  }
+
+  const handleCompletePlaylist = () => {
+    window.open('https://chirpradio.org/playlists', '_blank')
+  }
+
   return (
     <div>
       <CrPageHeader
         eyebrowText="CHIRP Radio"
         title="Recently Played"
         showEyebrow={false}
-        showActionButton={false}
+        showActionButton={true}
+        actionButtonText="Complete Playlist"
+        actionButtonSize="small"
+        onActionClick={handleCompletePlaylist}
         titleSize="lg"
       />
 
@@ -235,7 +284,7 @@ export default function RecentlyPlayed() {
 
       <CrAnnouncement
         variant="motivation"
-        textureBackground="cr-bg-natural-d100"
+        textureBackground="cr-bg-natural-d900"
         headlineText="Love what you're hearing?"
         bodyText="Save your favorite tracks and create custom playlists!"
         showLink={false}
@@ -243,6 +292,13 @@ export default function RecentlyPlayed() {
         button1Text="EXPLORE YOUR COLLECTION"
         button1Icon="mobile"
         button1OnClick={() => console.log('Navigate to collection')}
+      />
+
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
       />
     </div>
   )

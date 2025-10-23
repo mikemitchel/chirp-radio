@@ -13,8 +13,8 @@ import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
 import { shouldShowIconSelector } from '../utils/deviceDetection'
 import { Capacitor } from '@capacitor/core'
-import { StatusBar, Style } from '@capacitor/status-bar'
 import AppIconPlugin from '../plugins/AppIconPlugin'
+import LoginRequiredModal from '../components/LoginRequiredModal'
 import './AccountSettings.css'
 
 export default function AccountSettings() {
@@ -109,11 +109,14 @@ export default function AccountSettings() {
     return saved || 'icon1'
   })
 
+  // Login modal state
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [loginModalMode, setLoginModalMode] = useState<'login' | 'signup'>('login')
+
   // Check if we're in /app routes and should show icon selector
-  // In production, only show on iOS 10.3+ with Capacitor
-  // In development/browser, always show in /app routes for testing
+  // Only show on iOS (Android requires complex activity alias setup)
   const isInAppRoutes = location.pathname.startsWith('/app')
-  const showIconSelector = isInAppRoutes
+  const showIconSelector = isInAppRoutes && Capacitor.getPlatform() === 'ios'
 
   // Load user's dark mode preference when user changes
   useEffect(() => {
@@ -164,38 +167,9 @@ export default function AccountSettings() {
     }
   }, [isLoggedIn])
 
-  // Apply dark mode on mount and when it changes
+  // Dispatch event when dark mode changes (App.tsx will handle the theme application)
   useEffect(() => {
-    const applyTheme = async () => {
-      const isDark = darkMode === 'device'
-        ? window.matchMedia('(prefers-color-scheme: dark)').matches
-        : darkMode === 'dark'
-
-      if (isDark) {
-        document.documentElement.setAttribute('data-theme', 'dark')
-      } else {
-        document.documentElement.removeAttribute('data-theme')
-      }
-
-      // Update status bar for native apps based on calculated isDark value
-      if (Capacitor.isNativePlatform()) {
-        try {
-          await StatusBar.setStyle({ style: isDark ? Style.Light : Style.Dark })
-        } catch (error) {
-          console.warn('Failed to update status bar style:', error)
-        }
-      }
-    }
-
-    applyTheme()
-
-    // Listen for system preference changes (only if mode is 'device')
-    if (darkMode === 'device') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      const handleChange = () => applyTheme()
-      mediaQuery.addEventListener('change', handleChange)
-      return () => mediaQuery.removeEventListener('change', handleChange)
-    }
+    window.dispatchEvent(new CustomEvent('chirp-dark-mode-change', { detail: darkMode }))
   }, [darkMode])
 
   const handleDarkModeChange = (mode: 'light' | 'dark' | 'device') => {
@@ -293,13 +267,34 @@ export default function AccountSettings() {
     }
   }
 
-  const handleLogin = () => {
+  const handleLoginClick = () => {
+    setLoginModalMode('login')
+    setShowLoginModal(true)
+  }
+
+  const handleSignUpClick = () => {
+    setLoginModalMode('signup')
+    setShowLoginModal(true)
+  }
+
+  const handleLogin = (email: string, _password: string) => {
     // For demo purposes, simulate login with a demo account
-    switchProfile('listener')
+    login(email, email.split('@')[0])
+    setShowLoginModal(false)
     showToast({
       message: 'Successfully logged in',
       type: 'success',
-      duration: 5000,
+      duration: 3000,
+    })
+  }
+
+  const handleSignUp = (email: string, _password: string) => {
+    signup(email, email.split('@')[0])
+    setShowLoginModal(false)
+    showToast({
+      message: 'Account created successfully!',
+      type: 'success',
+      duration: 3000,
     })
   }
 
@@ -310,10 +305,6 @@ export default function AccountSettings() {
     // Redirect to appropriate landing page based on current route
     const isInAppRoutes = location.pathname.startsWith('/app')
     navigate(isInAppRoutes ? '/app' : '/')
-  }
-
-  const handleSignUp = () => {
-    // TODO: Navigate to sign up flow
   }
 
   const handleForgotPassword = () => {
@@ -844,9 +835,9 @@ export default function AccountSettings() {
             onPushNotificationsChange={handlePushNotificationsChange}
             darkMode={darkMode}
             onDarkModeChange={handleDarkModeChange}
-            onLogin={handleLogin}
+            onLogin={handleLoginClick}
             onLogout={handleLogout}
-            onSignUp={handleSignUp}
+            onSignUp={handleSignUpClick}
             onForgotPassword={handleForgotPassword}
             onShareApp={handleShareApp}
             onLikeAppStore={handleLikeAppStore}
@@ -878,7 +869,7 @@ export default function AccountSettings() {
               showActionButton={true}
               actionButtonText="Make a Donation"
               actionButtonIcon={<PiHandHeart />}
-              actionButtonSize="medium"
+              actionButtonSize="small"
               onActionClick={handleMakeDonation}
             />
 
@@ -893,7 +884,7 @@ export default function AccountSettings() {
               showActionButton={true}
               actionButtonText="Visit Store"
               actionButtonIcon={<PiStorefront />}
-              actionButtonSize="medium"
+              actionButtonSize="small"
               onActionClick={handleVisitStore}
             />
           </div>
@@ -911,9 +902,9 @@ export default function AccountSettings() {
           onPushNotificationsChange={handlePushNotificationsChange}
           darkMode={darkMode}
           onDarkModeChange={handleDarkModeChange}
-          onLogin={handleLogin}
+          onLogin={handleLoginClick}
           onLogout={handleLogout}
-          onSignUp={handleSignUp}
+          onSignUp={handleSignUpClick}
           onForgotPassword={handleForgotPassword}
           onShareApp={handleShareApp}
           onLikeAppStore={handleLikeAppStore}
@@ -921,6 +912,14 @@ export default function AccountSettings() {
           onTermsPrivacy={handleTermsPrivacy}
         />
       )}
+
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+        initialMode={loginModalMode}
+      />
     </div>
   )
 }

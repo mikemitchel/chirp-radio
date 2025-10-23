@@ -2,6 +2,7 @@ import UIKit
 import Capacitor
 import AVFoundation
 import MediaPlayer
+import WebKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +17,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.backgroundColor = UIColor(red: 0.917647, green: 0.109804, blue: 0.172549, alpha: 1.0)
         }
 
+        // Configure WKWebView to disable automatic media controls
+        configureWebViewMediaSettings()
+
+        // Register custom plugins after a delay to ensure bridge is ready
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if let bridge = (self.window?.rootViewController as? CAPBridgeViewController)?.bridge {
+                print("🎵 Registering custom plugins with bridge")
+                bridge.registerPluginInstance(NowPlayingPlugin())
+                bridge.registerPluginInstance(NativeAudioPlayer())
+                print("🎵 Custom plugins registered successfully")
+            } else {
+                print("❌ Failed to get bridge reference")
+            }
+        }
+
         // Configure audio session for background playback
         configureAudioSession()
 
@@ -25,13 +41,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func configureWebViewMediaSettings() {
+        // Configure WKWebView to prevent it from managing Now Playing Info
+        // This ensures our custom plugin has full control
+        if #available(iOS 14.5, *) {
+            let config = WKWebViewConfiguration()
+            config.allowsInlineMediaPlayback = true
+            config.mediaTypesRequiringUserActionForPlayback = []
+            print("✅ WebView media settings configured")
+        }
+    }
+
     func configureAudioSession() {
         do {
             let audioSession = AVAudioSession.sharedInstance()
-            try audioSession.setCategory(.playback, mode: .default)
+            try audioSession.setCategory(.playback, mode: .default, options: [])
             try audioSession.setActive(true)
+            print("✅ Audio session configured for background playback")
         } catch {
-            print("Failed to configure audio session: \(error)")
+            print("❌ Failed to configure audio session: \(error)")
         }
     }
 
@@ -41,6 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Enable play command
         commandCenter.playCommand.isEnabled = true
         commandCenter.playCommand.addTarget { event in
+            print("🎵 Remote PLAY command received")
             NotificationCenter.default.post(name: NSNotification.Name("RemotePlay"), object: nil)
             return .success
         }
@@ -48,17 +77,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Enable pause command
         commandCenter.pauseCommand.isEnabled = true
         commandCenter.pauseCommand.addTarget { event in
+            print("⏸️ Remote PAUSE command received")
             NotificationCenter.default.post(name: NSNotification.Name("RemotePause"), object: nil)
             return .success
         }
 
         // Disable skip commands (for live stream)
+        // IMPORTANT: We need to both disable AND add handlers that return .commandFailed
+        // This prevents iOS from showing the buttons at all
         commandCenter.skipForwardCommand.isEnabled = false
+        commandCenter.skipForwardCommand.addTarget { _ in .commandFailed }
+
         commandCenter.skipBackwardCommand.isEnabled = false
+        commandCenter.skipBackwardCommand.addTarget { _ in .commandFailed }
+
         commandCenter.seekForwardCommand.isEnabled = false
+        commandCenter.seekForwardCommand.addTarget { _ in .commandFailed }
+
         commandCenter.seekBackwardCommand.isEnabled = false
+        commandCenter.seekBackwardCommand.addTarget { _ in .commandFailed }
+
         commandCenter.nextTrackCommand.isEnabled = false
+        commandCenter.nextTrackCommand.addTarget { _ in .commandFailed }
+
         commandCenter.previousTrackCommand.isEnabled = false
+        commandCenter.previousTrackCommand.addTarget { _ in .commandFailed }
+
+        commandCenter.changePlaybackPositionCommand.isEnabled = false
+        commandCenter.changePlaybackPositionCommand.addTarget { _ in .commandFailed }
+
+        print("✅ Remote command center configured")
+        print("   - Skip forward enabled: \(commandCenter.skipForwardCommand.isEnabled)")
+        print("   - Skip backward enabled: \(commandCenter.skipBackwardCommand.isEnabled)")
 
         // Required for lock screen controls to appear (even though Apple says it's deprecated)
         UIApplication.shared.beginReceivingRemoteControlEvents()

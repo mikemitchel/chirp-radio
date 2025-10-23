@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.session.MediaSessionCompat
+import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.app.NotificationCompat
 import androidx.media.MediaBrowserServiceCompat
 import androidx.media.session.MediaButtonReceiver
@@ -21,7 +22,7 @@ import androidx.media.session.MediaButtonReceiver
  */
 class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.MediaSessionCallback {
 
-    private lateinit var mediaSessionManager: MediaSessionManager
+    internal lateinit var mediaSessionManager: MediaSessionManager
     private var isForeground = false
 
     companion object {
