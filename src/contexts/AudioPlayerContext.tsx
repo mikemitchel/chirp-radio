@@ -682,12 +682,13 @@ export function AudioPlayerProvider({
   }, [])
 
   const play = async () => {
-    const isIOS = Capacitor.getPlatform() === 'ios'
+    const platform = Capacitor.getPlatform()
+    const isIOS = platform === 'ios'
+    const isAndroid = platform === 'android'
 
     try {
       log.log('▶️ Playing audio...')
-      log.log('Platform:', Capacitor.getPlatform())
-      log.log('isIOS:', isIOS)
+      log.log('Platform:', platform)
 
       if (isIOS) {
         // Use native player on iOS
@@ -735,29 +736,41 @@ export function AudioPlayerProvider({
             alert('Audio playback failed. Please restart the app.')
           }
         }
+      } else if (isAndroid) {
+        // Use native player on Android through ChirpMediaService
+        log.log('🎵 Using native player for Android')
+
+        // Update Now Playing metadata (triggers service to update metadata and play)
+        log.log('Updating Now Playing metadata...')
+        await NowPlayingPlugin.updateNowPlaying({
+          title: currentData.track,
+          artist: currentData.artist,
+          album: currentData.album,
+          albumArt: currentData.albumArt || '',
+        }).catch((error) => {
+          log.error('❌ Error updating Now Playing info:', error)
+        })
+
+        // Set playback state to playing (triggers native audio playback)
+        log.log('Setting playback state to playing...')
+        await NowPlayingPlugin.setPlaybackState({
+          isPlaying: true,
+        }).catch((error) => {
+          log.error('❌ Error setting playback state:', error)
+        })
+
+        setIsPlaying(true)
+        log.log('✅ Android native playback started')
       } else {
-        // Use HTML5 audio for web/Android
+        // Use HTML5 audio for web
         if (!audioRef.current) {
           log.error('audioRef.current is null - cannot play')
           return
         }
 
-        log.log('Using HTML5 audio')
+        log.log('Using HTML5 audio for web')
         log.log('Audio volume before play:', audioRef.current.volume)
         log.log('Stream URL:', streamUrl)
-
-        // CRITICAL: Update Now Playing info BEFORE starting playback
-        if (Capacitor.isNativePlatform()) {
-          await NowPlayingPlugin.updateNowPlaying({
-            title: currentData.track,
-            artist: currentData.artist,
-            album: currentData.album,
-            albumArt: currentData.albumArt || '',
-          }).catch((error) => {
-            log.error('Error updating Now Playing info in play():', error)
-          })
-          log.log('Now Playing info set BEFORE audio.play()')
-        }
 
         await audioRef.current.play()
         setIsPlaying(true)
@@ -775,24 +788,25 @@ export function AudioPlayerProvider({
   }
 
   const pause = () => {
-    const isIOS = Capacitor.getPlatform() === 'ios'
+    const platform = Capacitor.getPlatform()
+    const isIOS = platform === 'ios'
+    const isAndroid = platform === 'android'
 
     if (isIOS) {
       // Use native player on iOS
       NativeAudioPlayer.pause().catch((error) => {
         log.error('Error pausing native audio:', error)
       })
+    } else if (isAndroid) {
+      // Use native player on Android
+      log.log('Pausing Android native audio')
+      NowPlayingPlugin.setPlaybackState({ isPlaying: false }).catch((error) => {
+        log.error('Error updating playback state:', error)
+      })
     } else {
-      // Use HTML5 audio for web/Android
+      // Use HTML5 audio for web
       if (!audioRef.current) return
       audioRef.current.pause()
-
-      // Update playback state for lock screen (Android only)
-      if (Capacitor.isNativePlatform()) {
-        NowPlayingPlugin.setPlaybackState({ isPlaying: false }).catch((error) => {
-          log.error('Error updating playback state:', error)
-        })
-      }
     }
 
     setIsPlaying(false)
@@ -972,7 +986,9 @@ export function AudioPlayerProvider({
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return
 
-    const isIOS = Capacitor.getPlatform() === 'ios'
+    const platform = Capacitor.getPlatform()
+    const isIOS = platform === 'ios'
+    const isAndroid = platform === 'android'
 
     if (isIOS) {
       // iOS: Listen for native player state changes via Capacitor plugin events
@@ -987,24 +1003,22 @@ export function AudioPlayerProvider({
       return () => {
         listener.remove()
       }
-    } else {
-      // Android: Listen for old-style remote events
-      const handleRemotePlay = () => {
-        log.log('Remote play command received')
-        play()
-      }
-
-      const handleRemotePause = () => {
-        log.log('Remote pause command received')
-        pause()
-      }
-
-      window.addEventListener('RemotePlay', handleRemotePlay)
-      window.addEventListener('RemotePause', handleRemotePause)
+    } else if (isAndroid) {
+      // Android: Listen for media command events from NowPlayingPlugin
+      const listener = NowPlayingPlugin.addListener(
+        'mediaCommand',
+        (data: { command: string }) => {
+          log.log('📡 Media command received from native:', data.command)
+          if (data.command === 'play') {
+            setIsPlaying(true)
+          } else if (data.command === 'pause') {
+            setIsPlaying(false)
+          }
+        }
+      )
 
       return () => {
-        window.removeEventListener('RemotePlay', handleRemotePlay)
-        window.removeEventListener('RemotePause', handleRemotePause)
+        listener.remove()
       }
     }
   }, [play, pause])
