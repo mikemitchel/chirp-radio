@@ -76,18 +76,14 @@ function RootRedirect() {
 }
 
 function App() {
-  // Apply dark mode preference on app initialization
+  // Apply dark mode preference on app initialization and when it changes
   useEffect(() => {
-    // Check both localStorage (logged in) and sessionStorage (logged out)
-    const savedMode =
-      localStorage.getItem('chirp-dark-mode') ||
-      sessionStorage.getItem('chirp-dark-mode') ||
-      'light'
-
     const applyTheme = async (mode: string) => {
       const isDark = mode === 'device'
         ? window.matchMedia('(prefers-color-scheme: dark)').matches
         : mode === 'dark'
+
+      console.log('[App.tsx] applyTheme called - mode:', mode, 'isDark:', isDark)
 
       if (isDark) {
         document.documentElement.setAttribute('data-theme', 'dark')
@@ -96,23 +92,52 @@ function App() {
       }
 
       // Update status bar for native apps based on calculated isDark value
+      // Android interprets these opposite to iOS:
+      // Style.Dark = light status bar text (for dark app backgrounds)
+      // Style.Light = dark status bar text (for light app backgrounds)
       if (Capacitor.isNativePlatform()) {
+        const targetStyle = isDark ? Style.Dark : Style.Light
+        console.log('[App.tsx] Setting status bar style to:', targetStyle, '(isDark:', isDark, ')')
         try {
-          await StatusBar.setStyle({ style: isDark ? Style.Light : Style.Dark })
+          await StatusBar.setStyle({ style: targetStyle })
+          console.log('[App.tsx] Status bar style set successfully')
         } catch (error) {
           console.warn('Failed to update status bar style:', error)
         }
       }
     }
 
+    // Check both localStorage (logged in) and sessionStorage (logged out)
+    const savedMode =
+      localStorage.getItem('chirp-dark-mode') ||
+      sessionStorage.getItem('chirp-dark-mode') ||
+      'light'
+
     applyTheme(savedMode)
 
-    // Listen for system preference changes (only if mode is 'device')
-    if (savedMode === 'device') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      const handleChange = () => applyTheme('device')
-      mediaQuery.addEventListener('change', handleChange)
-      return () => mediaQuery.removeEventListener('change', handleChange)
+    // Listen for dark mode changes via custom event
+    const handleDarkModeChange = (event: CustomEvent<string>) => {
+      applyTheme(event.detail)
+    }
+
+    // Listen for system preference changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleSystemChange = () => {
+      const currentMode =
+        localStorage.getItem('chirp-dark-mode') ||
+        sessionStorage.getItem('chirp-dark-mode') ||
+        'light'
+      if (currentMode === 'device') {
+        applyTheme('device')
+      }
+    }
+
+    window.addEventListener('chirp-dark-mode-change', handleDarkModeChange as EventListener)
+    mediaQuery.addEventListener('change', handleSystemChange)
+
+    return () => {
+      window.removeEventListener('chirp-dark-mode-change', handleDarkModeChange as EventListener)
+      mediaQuery.removeEventListener('change', handleSystemChange)
     }
   }, [])
 

@@ -80,7 +80,7 @@
 }
 
 .cr-sidebar--mobile .cr-sidebar__close-button {
-  top: calc(env(safe-area-inset-top) + 27px); /* Safe area + additional spacing */
+  top: calc(env(safe-area-inset-top) + 15px); /* Safe area + additional spacing */
   right: -10px; /* Extend beyond edge to cover background menu button */
 }
 
@@ -172,7 +172,7 @@
 .cr-sidebar__mobile-nav {
   display: flex;
   flex-direction: column;
-  gap: var(--cr-space-5);
+  gap: 2vh;
   margin-bottom: var(--cr-space-6);
   width: 100%;
 }

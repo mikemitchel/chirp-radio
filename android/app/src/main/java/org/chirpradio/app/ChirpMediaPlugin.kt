@@ -37,10 +37,10 @@ class ChirpMediaPlugin : Plugin() {
 
     @PluginMethod
     fun updateNowPlaying(call: PluginCall) {
-        val title = call.getString("title", "")
-        val artist = call.getString("artist", "")
+        val title = call.getString("title") ?: ""
+        val artist = call.getString("artist") ?: ""
         val albumArtUrl = call.getString("albumArtUrl")
-        val dj = call.getString("dj", "")
+        val dj = call.getString("dj") ?: ""
 
         // Ensure service is started
         ensureServiceStarted()

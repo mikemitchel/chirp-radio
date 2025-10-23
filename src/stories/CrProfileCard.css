@@ -17,6 +17,20 @@
   margin-bottom: var(--cr-space-6);
 }
 
+/* Header section: Avatar + Name stay together */
+.cr-profile-card__header-section {
+  display: flex;
+  flex-direction: row;
+  gap: var(--cr-space-4);
+  align-items: center;
+  margin-bottom: var(--cr-space-4);
+}
+
+.cr-profile-card__name-section {
+  flex: 1;
+  min-width: 0; /* Allow text to wrap */
+}
+
 .cr-profile-card__profile-info {
   flex: 1;
 }
@@ -24,7 +38,7 @@
 .cr-profile-card__name {
   font: var(--cr-title-xl);
   color: var(--cr-ink);
-  margin: 0 0 var(--cr-space-6) 0;
+  margin: 0;
   letter-spacing: -0.03em;
 }
 
@@ -57,16 +71,17 @@
 .cr-profile-card__detail-value-with-action {
   display: flex;
   align-items: center;
-  gap: var(--cr-space-3);
+  justify-content: space-between;
 }
 
 /* Profile layout for larger screens */
 @media (min-width: 768px) {
   .cr-profile-card__profile {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--cr-space-8);
+    flex-direction: column;
+  }
+
+  .cr-profile-card__header-section {
+    gap: var(--cr-space-6);
   }
 
   .cr-profile-card__profile-info {
@@ -75,7 +90,7 @@
   }
 
   .cr-profile-card__avatar-container {
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 }
 
@@ -368,6 +383,7 @@
   font: var(--cr-title-md);
   color: var(--cr-ink);
   margin: 0 0 var(--cr-space-4) 0;
+  padding-top: var(--cr-space-8);
 }
 
 .cr-profile-card__benefits-list {
@@ -384,8 +400,9 @@
 
 .cr-profile-card__not-logged-in-actions {
   display: flex;
-  flex-direction: column;
-  gap: var(--cr-space-4);
+  flex-direction: row;
+  justify-content: space-between;
+  gap: var(--cr-space-3);
   margin-top: var(--cr-space-6);
 }
 
@@ -404,7 +421,7 @@
 
 @media (max-width: 768px) {
   .cr-profile-card__not-logged-in-content {
-    padding: var(--cr-space-6) 0;
+    padding: 0;
   }
 }
 
@@ -564,11 +581,5 @@
   .cr-profile-card__avatar-icon {
     width: 50px;
     height: 50px;
-  }
-
-  .cr-profile-card__social-item {
-    flex-direction: column;
-    gap: var(--cr-space-1);
-    text-align: center;
   }
 }

@@ -71,29 +71,9 @@
   margin-top: calc(var(--cr-space-1) * -1);
 }
 
-/* Form Actions */
-.login-modal__actions {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--cr-space-4);
-  margin-top: var(--cr-space-2);
-}
-
-.login-modal__actions button {
-  flex: 1;
-}
-
 /* Responsive */
 @media (max-width: 480px) {
   .login-modal {
     padding: 0;
-  }
-
-  .login-modal__actions {
-    flex-direction: column-reverse;
-  }
-
-  .login-modal__actions button {
-    width: 100%;
   }
 }
