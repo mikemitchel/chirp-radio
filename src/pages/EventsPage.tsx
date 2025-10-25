@@ -24,7 +24,7 @@ const EventsPage: React.FC = () => {
   const events = allEvents?.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   const handleEventClick = (event: any) => {
-    navigate(`/events/${event.id}`, { state: { event } })
+    navigate(`/events/${event.slug}`)
   }
 
   const handlePageChange = (page: number) => {
@@ -51,7 +51,7 @@ const EventsPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={events[0].featuredImage}
-              preheader={events[0].category}
+              preheader={typeof events[0].category === "string" ? events[0].category : events[0].category?.name}
               title={events[0].title}
               dateTime={new Date(events[0].date).toLocaleString('en-US', {
                 month: 'short',
@@ -62,7 +62,7 @@ const EventsPage: React.FC = () => {
               })}
               venue={events[0].venue.name}
               ageRestriction={events[0].ageRestriction}
-              contentSummary={events[0].description}
+              contentSummary={events[0].excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[0])}
             />
@@ -97,7 +97,7 @@ const EventsPage: React.FC = () => {
               textLayout="stacked"
               imageAspectRatio="16:9"
               backgroundImage={events[1].featuredImage}
-              preheader={events[1].category}
+              preheader={typeof events[1].category === "string" ? events[1].category : events[1].category?.name}
               title={events[1].title}
               dateTime={new Date(events[1].date).toLocaleString('en-US', {
                 month: 'short',
@@ -108,7 +108,7 @@ const EventsPage: React.FC = () => {
               })}
               venue={events[1].venue.name}
               ageRestriction={events[1].ageRestriction}
-              contentSummary={events[1].description}
+              contentSummary={events[1].excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[1])}
             />
@@ -120,7 +120,7 @@ const EventsPage: React.FC = () => {
               textLayout="stacked"
               imageAspectRatio="16:9"
               backgroundImage={events[2].featuredImage}
-              preheader={events[2].category}
+              preheader={typeof events[2].category === "string" ? events[2].category : events[2].category?.name}
               title={events[2].title}
               dateTime={new Date(events[2].date).toLocaleString('en-US', {
                 month: 'short',
@@ -131,7 +131,7 @@ const EventsPage: React.FC = () => {
               })}
               venue={events[2].venue.name}
               ageRestriction={events[2].ageRestriction}
-              contentSummary={events[2].description}
+              contentSummary={events[2].excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[2])}
             />
@@ -145,7 +145,7 @@ const EventsPage: React.FC = () => {
               textLayout="stacked"
               imageAspectRatio="16:9"
               backgroundImage={events[3].featuredImage}
-              preheader={events[3].category}
+              preheader={typeof events[3].category === "string" ? events[3].category : events[3].category?.name}
               title={events[3].title}
               dateTime={new Date(events[3].date).toLocaleString('en-US', {
                 month: 'short',
@@ -156,7 +156,7 @@ const EventsPage: React.FC = () => {
               })}
               venue={events[3].venue.name}
               ageRestriction={events[3].ageRestriction}
-              contentSummary={events[3].description}
+              contentSummary={events[3].excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[3])}
             />
@@ -168,7 +168,7 @@ const EventsPage: React.FC = () => {
               textLayout="stacked"
               imageAspectRatio="16:9"
               backgroundImage={events[4].featuredImage}
-              preheader={events[4].category}
+              preheader={typeof events[4].category === "string" ? events[4].category : events[4].category?.name}
               title={events[4].title}
               dateTime={new Date(events[4].date).toLocaleString('en-US', {
                 month: 'short',
@@ -179,7 +179,7 @@ const EventsPage: React.FC = () => {
               })}
               venue={events[4].venue.name}
               ageRestriction={events[4].ageRestriction}
-              contentSummary={events[4].description}
+              contentSummary={events[4].excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[4])}
             />
@@ -214,7 +214,7 @@ const EventsPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={events[5].featuredImage}
-              preheader={events[5].category}
+              preheader={typeof events[5].category === "string" ? events[5].category : events[5].category?.name}
               title={events[5].title}
               dateTime={new Date(events[5].date).toLocaleString('en-US', {
                 month: 'short',
@@ -225,7 +225,7 @@ const EventsPage: React.FC = () => {
               })}
               venue={events[5].venue.name}
               ageRestriction={events[5].ageRestriction}
-              contentSummary={events[5].description}
+              contentSummary={events[5].excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[5])}
             />
@@ -236,7 +236,7 @@ const EventsPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={events[6].featuredImage}
-              preheader={events[6].category}
+              preheader={typeof events[6].category === "string" ? events[6].category : events[6].category?.name}
               title={events[6].title}
               dateTime={new Date(events[6].date).toLocaleString('en-US', {
                 month: 'short',
@@ -247,7 +247,7 @@ const EventsPage: React.FC = () => {
               })}
               venue={events[6].venue.name}
               ageRestriction={events[6].ageRestriction}
-              contentSummary={events[6].description}
+              contentSummary={events[6].excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[6])}
             />
@@ -260,7 +260,7 @@ const EventsPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={events[7].featuredImage}
-              preheader={events[7].category}
+              preheader={typeof events[7].category === "string" ? events[7].category : events[7].category?.name}
               title={events[7].title}
               dateTime={new Date(events[7].date).toLocaleString('en-US', {
                 month: 'short',
@@ -271,7 +271,7 @@ const EventsPage: React.FC = () => {
               })}
               venue={events[7].venue.name}
               ageRestriction={events[7].ageRestriction}
-              contentSummary={events[7].description}
+              contentSummary={events[7].excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[7])}
             />
@@ -282,7 +282,7 @@ const EventsPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={events[8]?.featuredImage}
-              preheader={events[8]?.category}
+              preheader={typeof events[8]?.category === "string" ? events[8]?.category : events[8]?.category?.name}
               title={events[8]?.title}
               dateTime={new Date(events[8]?.date).toLocaleString('en-US', {
                 month: 'short',
@@ -293,7 +293,7 @@ const EventsPage: React.FC = () => {
               })}
               venue={events[8]?.venue.name}
               ageRestriction={events[8]?.ageRestriction}
-              contentSummary={events[8]?.description}
+              contentSummary={events[8]?.excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[8])}
             />
@@ -306,7 +306,7 @@ const EventsPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={events[9].featuredImage}
-              preheader={events[9].category}
+              preheader={typeof events[9].category === "string" ? events[9].category : events[9].category?.name}
               title={events[9].title}
               dateTime={new Date(events[9].date).toLocaleString('en-US', {
                 month: 'short',
@@ -317,7 +317,7 @@ const EventsPage: React.FC = () => {
               })}
               venue={events[9].venue.name}
               ageRestriction={events[9].ageRestriction}
-              contentSummary={events[9].description}
+              contentSummary={events[9].excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[9])}
             />
@@ -328,7 +328,7 @@ const EventsPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={events[10].featuredImage}
-              preheader={events[10].category}
+              preheader={typeof events[10].category === "string" ? events[10].category : events[10].category?.name}
               title={events[10].title}
               dateTime={new Date(events[10].date).toLocaleString('en-US', {
                 month: 'short',
@@ -339,7 +339,7 @@ const EventsPage: React.FC = () => {
               })}
               venue={events[10].venue.name}
               ageRestriction={events[10].ageRestriction}
-              contentSummary={events[10].description}
+              contentSummary={events[10].excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[10])}
             />

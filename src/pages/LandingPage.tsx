@@ -51,7 +51,7 @@ const LandingPage: React.FC = () => {
       .map((event) => ({
         backgroundImage: event.featuredImage,
         imageCaption: '',
-        preheader: event.category,
+        preheader: typeof event.category === 'string' ? event.category : event.category?.name,
         title: event.title,
         dateTime: new Date(event.date).toLocaleString('en-US', {
           month: 'short',
@@ -60,11 +60,12 @@ const LandingPage: React.FC = () => {
           hour: 'numeric',
           minute: '2-digit',
         }),
-        venue: event.venue.name,
-        ageRestriction: event.ageRestriction,
-        contentSummary: event.description,
+        venue: typeof event.venue === 'string' ? event.venue : event.venue?.name,
+        ageRestriction: typeof event.ageRestriction === 'string' ? event.ageRestriction : event.ageRestriction?.age,
+        contentSummary: event.excerpt,
         bannerButtonText: event.isFree ? 'Learn More' : 'Get Tickets',
         shareButtonText: 'Share',
+        slug: event.slug,
       })) || []
 
   // Transform tracks data for recently played (take first 6 from last 2 hours)
@@ -170,7 +171,7 @@ const LandingPage: React.FC = () => {
               bannerHeight="tall"
               imageAspectRatio="16:9"
               backgroundImage={event.featuredImage}
-              preheader={event.category}
+              preheader={typeof event.category === 'string' ? event.category : event.category?.name}
               title={event.title}
               dateTime={new Date(event.date).toLocaleString('en-US', {
                 month: 'short',
@@ -179,9 +180,10 @@ const LandingPage: React.FC = () => {
                 hour: 'numeric',
                 minute: '2-digit',
               })}
-              venue={event.venue.name}
-              ageRestriction={event.ageRestriction}
-              contentSummary={event.description}
+              venue={typeof event.venue === 'string' ? event.venue : event.venue?.name}
+              ageRestriction={typeof event.ageRestriction === 'string' ? event.ageRestriction : event.ageRestriction?.age}
+              contentSummary={event.excerpt}
+              onClick={() => navigate(`/events/${event.slug}`)}
             />
           ))}
         </div>
@@ -204,9 +206,10 @@ const LandingPage: React.FC = () => {
               imageAspectRatio="16:9"
               bannerBackgroundColor="none"
               backgroundImage={article.featuredImage}
-              preheader={article.category}
+              preheader={typeof article.category === 'string' ? article.category : article.category?.name}
               title={article.title}
               contentSummary={article.excerpt}
+              onClick={() => navigate(`/articles/${article.slug}`)}
             />
           ))}
         </div>

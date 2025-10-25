@@ -24,7 +24,7 @@ const ArticlesPage: React.FC = () => {
   const articles = allArticles?.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   const handleArticleClick = (article: any) => {
-    navigate(`/articles/${article.id}`, { state: { article } })
+    navigate(`/articles/${article.slug}`)
   }
 
   const handlePageChange = (page: number) => {
@@ -52,10 +52,10 @@ const ArticlesPage: React.FC = () => {
               textLayout="stacked"
               type="article"
               backgroundImage={articles[0].featuredImage}
-              preheader={articles[0].category}
+              preheader={typeof articles[0].category === "string" ? articles[0].category : articles[0].category?.name}
               title={articles[0].title}
               contentSummary={articles[0].excerpt}
-              authorBy={`by ${articles[0].author.name}`}
+              authorBy={`by ${articles[0].author}`}
               eventDate={new Date(articles[0].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -96,9 +96,9 @@ const ArticlesPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={articles[1].featuredImage}
-              preheader={articles[1].category}
+              preheader={typeof articles[1].category === "string" ? articles[1].category : articles[1].category?.name}
               title={articles[1].title}
-              authorBy={`by ${articles[1].author.name}`}
+              authorBy={`by ${articles[1].author}`}
               eventDate={new Date(articles[1].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -117,9 +117,9 @@ const ArticlesPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={articles[2].featuredImage}
-              preheader={articles[2].category}
+              preheader={typeof articles[2].category === "string" ? articles[2].category : articles[2].category?.name}
               title={articles[2].title}
-              authorBy={`by ${articles[2].author.name}`}
+              authorBy={`by ${articles[2].author}`}
               eventDate={new Date(articles[2].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -140,9 +140,9 @@ const ArticlesPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={articles[3].featuredImage}
-              preheader={articles[3].category}
+              preheader={typeof articles[3].category === "string" ? articles[3].category : articles[3].category?.name}
               title={articles[3].title}
-              authorBy={`by ${articles[3].author.name}`}
+              authorBy={`by ${articles[3].author}`}
               eventDate={new Date(articles[3].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -161,9 +161,9 @@ const ArticlesPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={articles[4].featuredImage}
-              preheader={articles[4].category}
+              preheader={typeof articles[4].category === "string" ? articles[4].category : articles[4].category?.name}
               title={articles[4].title}
-              authorBy={`by ${articles[4].author.name}`}
+              authorBy={`by ${articles[4].author}`}
               eventDate={new Date(articles[4].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -207,9 +207,9 @@ const ArticlesPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={articles[5].featuredImage}
-              preheader={articles[5].category}
+              preheader={typeof articles[5].category === "string" ? articles[5].category : articles[5].category?.name}
               title={articles[5].title}
-              authorBy={`by ${articles[5].author.name}`}
+              authorBy={`by ${articles[5].author}`}
               eventDate={new Date(articles[5].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -231,9 +231,9 @@ const ArticlesPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={articles[6].featuredImage}
-              preheader={articles[6].category}
+              preheader={typeof articles[6].category === "string" ? articles[6].category : articles[6].category?.name}
               title={articles[6].title}
-              authorBy={`by ${articles[6].author.name}`}
+              authorBy={`by ${articles[6].author}`}
               eventDate={new Date(articles[6].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -255,9 +255,9 @@ const ArticlesPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={articles[7].featuredImage}
-              preheader={articles[7].category}
+              preheader={typeof articles[7].category === "string" ? articles[7].category : articles[7].category?.name}
               title={articles[7].title}
-              authorBy={`by ${articles[7].author.name}`}
+              authorBy={`by ${articles[7].author}`}
               eventDate={new Date(articles[7].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',

@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { BrowserRouter, HashRouter, Routes, Route, Navigate, useNavigate } from 'react-router'
+import { HelmetProvider } from 'react-helmet-async'
 import { AuthProvider } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
 import ScrollToTop from './components/ScrollToTop'
@@ -51,6 +52,7 @@ import ForbiddenPage from './pages/ForbiddenPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import TermsOfServicePage from './pages/TermsOfServicePage'
 import SitemapPage from './pages/SitemapPage'
+import AdvertisementPreviewPage from './pages/AdvertisementPreviewPage'
 
 // Redirect component to route mobile app users to /app
 function RootRedirect() {
@@ -145,11 +147,12 @@ function App() {
   const Router = Capacitor.isNativePlatform() ? HashRouter : BrowserRouter
 
   return (
-    <AuthProvider>
-      <CartProvider>
-        <Router>
-          <ScrollToTop />
-          <Routes>
+    <HelmetProvider>
+      <AuthProvider>
+        <CartProvider>
+          <Router>
+            <ScrollToTop />
+            <Routes>
             {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
             <Route index element={<RootRedirect />} />
 
@@ -195,7 +198,7 @@ function App() {
               }
             />
             <Route
-              path="/events/:id"
+              path="/events/:slug"
               element={
                 <WebLayout>
                   <EventDetailPage />
@@ -211,7 +214,7 @@ function App() {
               }
             />
             <Route
-              path="/articles/:id"
+              path="/articles/:slug"
               element={
                 <WebLayout>
                   <ArticleDetailPage />
@@ -227,7 +230,7 @@ function App() {
               }
             />
             <Route
-              path="/podcasts/:id"
+              path="/podcasts/:slug"
               element={
                 <WebLayout>
                   <PodcastDetailPage />
@@ -431,6 +434,9 @@ function App() {
               }
             />
 
+            {/* Preview pages */}
+            <Route path="/preview/advertisement/:id" element={<AdvertisementPreviewPage />} />
+
             {/* Legal pages */}
             <Route
               path="/privacy-policy"
@@ -488,6 +494,7 @@ function App() {
         </Router>
       </CartProvider>
     </AuthProvider>
+    </HelmetProvider>
   )
 }
 

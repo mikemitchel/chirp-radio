@@ -198,7 +198,7 @@ const VolunteerCalendarPage: React.FC = () => {
                 textLayout="stacked"
                 textureBackground="cr-bg-natural-d100"
                 backgroundImage={event.featuredImage}
-                preheader={event.category}
+                preheader={typeof event.category === 'string' ? event.category : event.category?.name}
                 title={event.title}
                 dateTime={new Date(event.date).toLocaleString('en-US', {
                   month: 'short',

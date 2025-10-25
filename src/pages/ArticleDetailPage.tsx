@@ -1,6 +1,6 @@
 // src/pages/ArticleDetailPage.tsx
 import React from 'react'
-import { useLocation, useParams, useNavigate } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
@@ -9,19 +9,30 @@ import { useArticles, useAnnouncements } from '../hooks/useData'
 
 const ArticleDetailPage: React.FC = () => {
   const navigate = useNavigate()
-  const location = useLocation()
-  const { id } = useParams()
-  const article = location.state?.article
-  const articleTitle = article?.title || 'Article Details'
+  const { slug } = useParams()
 
-  const { data: allArticles } = useArticles()
+  const { data: allArticles, isLoading } = useArticles()
   const { data: announcements } = useAnnouncements()
+
+  // Find article by slug from URL
+  const article = allArticles?.find((a) => a.slug === slug)
+  const articleTitle = article?.title || 'Article Details'
 
   // Get 3 most recent articles excluding the current one
   const recentArticles = allArticles?.filter((a) => a.id !== article?.id).slice(0, 3) || []
 
   const handleArticleClick = (clickedArticle: any) => {
-    navigate(`/articles/${clickedArticle.id}`, { state: { article: clickedArticle } })
+    navigate(`/articles/${clickedArticle.slug}`)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="article-detail-page">
+        <section className="page-container">
+          <p>Loading...</p>
+        </section>
+      </div>
+    )
   }
 
   if (!article) {
@@ -57,21 +68,17 @@ const ArticleDetailPage: React.FC = () => {
             imagePosition="right"
             articleImageAspectRatio="16:9"
             captionPosition="bottom"
-            backgroundImage={article.featuredImage}
-            preheader={article.category}
+            backgroundImage={article.featuredImage || article.featuredImageUrl}
+            preheader={typeof article.category === 'string' ? article.category : article.category?.name}
             title={article.title}
-            authorBy={`by ${article.author.name}`}
-            eventDate={new Date(article.publishedDate).toLocaleDateString('en-US', {
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric',
-            })}
+            authorBy={`by ${article.author}`}
+            eventDate={article.publishedDate ? `Published on ${new Date(article.publishedDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : (article.createdAt ? `Published on ${new Date(article.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : undefined)}
             tags={article.tags}
-            excerpt={article.excerpt}
+            excerpt={article.excerpt || article.description}
             content={article.content}
             showTicketButton={false}
             showShareButton={true}
-            shareUrl={`${window.location.origin}${window.location.pathname}#/articles/${article.id}`}
+            shareUrl={`${window.location.origin}${window.location.pathname}#/articles/${article.slug}`}
           />
 
           {/* YouTube Video Embed */}
@@ -144,9 +151,9 @@ const ArticleDetailPage: React.FC = () => {
               titleTag="h3"
               titleSize="sm"
               backgroundImage={recentArticle.featuredImage}
-              preheader={recentArticle.category}
+              preheader={typeof recentArticle.category === 'string' ? recentArticle.category : recentArticle.category?.name}
               title={recentArticle.title}
-              authorBy={`by ${recentArticle.author.name}`}
+              authorBy={`by ${recentArticle.author}`}
               eventDate={new Date(recentArticle.publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
