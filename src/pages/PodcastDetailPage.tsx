@@ -10,28 +10,30 @@ import { usePodcasts, useAnnouncements } from '../hooks/useData'
 
 const PodcastDetailPage: React.FC = () => {
   const navigate = useNavigate()
-  const location = useLocation()
-  const { id } = useParams()
-  const podcast = location.state?.podcast
-  const podcastTitle = podcast?.title || 'Podcast Details'
+  const { slug } = useParams()
 
-  const { data: allPodcasts } = usePodcasts()
+  const { data: allPodcasts, isLoading } = usePodcasts()
   const { data: announcements } = useAnnouncements()
+
+  // Find podcast by slug from URL
+  const podcast = allPodcasts?.find((p) => p.slug === slug)
+  const podcastTitle = podcast?.title || 'Podcast Details'
 
   // Get 3 most recent podcasts excluding the current one
   const recentPodcasts = allPodcasts?.filter((p) => p.id !== podcast?.id).slice(0, 3) || []
 
   const handlePodcastClick = (clickedPodcast: any) => {
-    navigate(`/podcasts/${clickedPodcast.id}`, { state: { podcast: clickedPodcast } })
+    navigate(`/podcasts/${clickedPodcast.slug}`)
   }
 
-  const formatPodcastDate = (podcastItem: any) => {
-    if (!podcastItem.episodes?.[0]?.publishedDate) return undefined
-    return new Date(podcastItem.episodes[0].publishedDate).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    })
+  if (isLoading) {
+    return (
+      <div className="podcast-detail-page">
+        <section className="page-container">
+          <p>Loading...</p>
+        </section>
+      </div>
+    )
   }
 
   if (!podcast) {
@@ -68,16 +70,16 @@ const PodcastDetailPage: React.FC = () => {
             articleImageAspectRatio="16:9"
             captionPosition="bottom"
             backgroundImage={podcast.coverArt}
-            preheader={podcast.category}
+            preheader={typeof podcast.category === 'string' ? podcast.category : podcast.category?.name}
             title={podcast.title}
             authorBy={`Produced by ${podcast.host}`}
-            eventDate={formatPodcastDate(podcast)}
+            eventDate={podcast.createdAt ? `Published on ${new Date(podcast.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : undefined}
             tags={podcast.tags}
             excerpt={podcast.excerpt}
             content={podcast.content}
             showTicketButton={false}
             showShareButton={true}
-            shareUrl={`${window.location.origin}${window.location.pathname}#/podcasts/${podcast.id}`}
+            shareUrl={`${window.location.origin}${window.location.pathname}#/podcasts/${podcast.slug}`}
           />
 
           {podcast.pullQuote && (
@@ -192,11 +194,11 @@ const PodcastDetailPage: React.FC = () => {
                   Listen to the Episode
                 </h2>
                 <CrButton
-                  label="Download Episode"
+                  label="Listen on SoundCloud"
                   size="small"
                   variant="outline"
                   color="default"
-                  onClick={() => window.open(podcast.episodes?.[0]?.audioUrl || '#', '_blank')}
+                  onClick={() => window.open(podcast.soundCloudEmbedUrl?.includes('soundcloud.com') ? podcast.soundCloudEmbedUrl.match(/url=([^&]+)/)?.[1] ? decodeURIComponent(podcast.soundCloudEmbedUrl.match(/url=([^&]+)/)[1]) : 'https://soundcloud.com/chirpradio' : 'https://soundcloud.com/chirpradio', '_blank')}
                 />
               </div>
               <iframe
@@ -270,11 +272,11 @@ const PodcastDetailPage: React.FC = () => {
               titleTag="h3"
               titleSize="sm"
               backgroundImage={recentPodcast.coverArt}
-              preheader={recentPodcast.category}
+              preheader={typeof recentPodcast.category === 'string' ? recentPodcast.category : recentPodcast.category?.name}
               title={recentPodcast.title}
               authorBy={`by ${recentPodcast.host}`}
-              eventDate={formatPodcastDate(recentPodcast)}
-              contentSummary={recentPodcast.description}
+              eventDate={recentPodcast.createdAt ? new Date(recentPodcast.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : undefined}
+              contentSummary={recentPodcast.excerpt}
               onClick={() => handlePodcastClick(recentPodcast)}
             />
           ))}

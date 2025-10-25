@@ -24,7 +24,7 @@ const PodcastPage: React.FC = () => {
   const podcasts = allPodcasts?.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   const handlePodcastClick = (podcast: any) => {
-    navigate(`/podcasts/${podcast.id}`, { state: { podcast } })
+    navigate(`/podcasts/${podcast.slug}`)
   }
 
   const formatPodcastDate = (podcast: any) => {
@@ -61,7 +61,7 @@ const PodcastPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={podcasts[0].coverArt}
-              preheader={podcasts[0].category}
+              preheader={typeof podcasts[0].category === "string" ? podcasts[0].category : podcasts[0].category?.name}
               title={podcasts[0].title}
               authorBy={`by ${podcasts[0].host}`}
               eventDate={formatPodcastDate(podcasts[0])}
@@ -102,7 +102,7 @@ const PodcastPage: React.FC = () => {
               textLayout="stacked"
               imageAspectRatio="16:9"
               backgroundImage={podcasts[1].coverArt}
-              preheader={podcasts[1].category}
+              preheader={typeof podcasts[1].category === "string" ? podcasts[1].category : podcasts[1].category?.name}
               title={podcasts[1].title}
               authorBy={`by ${podcasts[1].host}`}
               eventDate={formatPodcastDate(podcasts[1])}
@@ -121,7 +121,7 @@ const PodcastPage: React.FC = () => {
               textLayout="stacked"
               imageAspectRatio="16:9"
               backgroundImage={podcasts[2].coverArt}
-              preheader={podcasts[2].category}
+              preheader={typeof podcasts[2].category === "string" ? podcasts[2].category : podcasts[2].category?.name}
               title={podcasts[2].title}
               authorBy={`by ${podcasts[2].host}`}
               eventDate={formatPodcastDate(podcasts[2])}
@@ -142,7 +142,7 @@ const PodcastPage: React.FC = () => {
               textLayout="stacked"
               imageAspectRatio="16:9"
               backgroundImage={podcasts[3].coverArt}
-              preheader={podcasts[3].category}
+              preheader={typeof podcasts[3].category === "string" ? podcasts[3].category : podcasts[3].category?.name}
               title={podcasts[3].title}
               authorBy={`by ${podcasts[3].host}`}
               eventDate={formatPodcastDate(podcasts[3])}
@@ -161,7 +161,7 @@ const PodcastPage: React.FC = () => {
               textLayout="stacked"
               imageAspectRatio="16:9"
               backgroundImage={podcasts[4].coverArt}
-              preheader={podcasts[4].category}
+              preheader={typeof podcasts[4].category === "string" ? podcasts[4].category : podcasts[4].category?.name}
               title={podcasts[4].title}
               authorBy={`by ${podcasts[4].host}`}
               eventDate={formatPodcastDate(podcasts[4])}
@@ -204,7 +204,7 @@ const PodcastPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={podcasts[5].coverArt}
-              preheader={podcasts[5].category}
+              preheader={typeof podcasts[5].category === "string" ? podcasts[5].category : podcasts[5].category?.name}
               title={podcasts[5].title}
               authorBy={`by ${podcasts[5].host}`}
               eventDate={formatPodcastDate(podcasts[5])}
@@ -222,7 +222,7 @@ const PodcastPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={podcasts[6].coverArt}
-              preheader={podcasts[6].category}
+              preheader={typeof podcasts[6].category === "string" ? podcasts[6].category : podcasts[6].category?.name}
               title={podcasts[6].title}
               authorBy={`by ${podcasts[6].host}`}
               eventDate={formatPodcastDate(podcasts[6])}
@@ -242,7 +242,7 @@ const PodcastPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={podcasts[7].coverArt}
-              preheader={podcasts[7].category}
+              preheader={typeof podcasts[7].category === "string" ? podcasts[7].category : podcasts[7].category?.name}
               title={podcasts[7].title}
               authorBy={`by ${podcasts[7].host}`}
               eventDate={formatPodcastDate(podcasts[7])}
@@ -260,7 +260,7 @@ const PodcastPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={podcasts[8]?.coverArt}
-              preheader={podcasts[8]?.category}
+              preheader={typeof podcasts[8]?.category === "string" ? podcasts[8]?.category : podcasts[8]?.category?.name}
               title={podcasts[8]?.title}
               authorBy={`by ${podcasts[8]?.host}`}
               eventDate={formatPodcastDate(podcasts[8])}
@@ -280,7 +280,7 @@ const PodcastPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={podcasts[9].coverArt}
-              preheader={podcasts[9].category}
+              preheader={typeof podcasts[9].category === "string" ? podcasts[9].category : podcasts[9].category?.name}
               title={podcasts[9].title}
               authorBy={`by ${podcasts[9].host}`}
               eventDate={formatPodcastDate(podcasts[9])}
@@ -298,7 +298,7 @@ const PodcastPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={podcasts[10].coverArt}
-              preheader={podcasts[10].category}
+              preheader={typeof podcasts[10].category === "string" ? podcasts[10].category : podcasts[10].category?.name}
               title={podcasts[10].title}
               authorBy={`by ${podcasts[10].host}`}
               eventDate={formatPodcastDate(podcasts[10])}

@@ -1,6 +1,6 @@
 // src/pages/EventDetailPage.tsx
 import React from 'react'
-import { useLocation, useParams, useNavigate } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
@@ -12,19 +12,30 @@ import { useEvents, useAnnouncements } from '../hooks/useData'
 
 const EventDetailPage: React.FC = () => {
   const navigate = useNavigate()
-  const location = useLocation()
-  const { id } = useParams()
-  const event = location.state?.event
-  const eventTitle = event?.title || 'Event Details'
+  const { slug } = useParams()
 
-  const { data: allEvents } = useEvents()
+  const { data: allEvents, isLoading } = useEvents()
   const { data: announcements } = useAnnouncements()
+
+  // Find event by slug from URL
+  const event = allEvents?.find((e) => e.slug === slug)
+  const eventTitle = event?.title || 'Event Details'
 
   // Get 3 most recent events excluding the current one
   const recentEvents = allEvents?.filter((e) => e.id !== event?.id).slice(0, 3) || []
 
   const handleEventClick = (clickedEvent: any) => {
-    navigate(`/events/${clickedEvent.id}`, { state: { event: clickedEvent } })
+    navigate(`/events/${clickedEvent.slug}`)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="event-detail-page">
+        <section className="page-container">
+          <p>Loading...</p>
+        </section>
+      </div>
+    )
   }
 
   if (!event) {
@@ -68,8 +79,10 @@ const EventDetailPage: React.FC = () => {
             imagePosition="right"
             articleImageAspectRatio="16:9"
             captionPosition="bottom"
-            backgroundImage={event.featuredImage}
-            preheader={event.category}
+            backgroundImage={event.featuredImage || event.featuredImageUrl}
+            showPhotoCredit={event.showPhotoCredit || false}
+            photographerName={event.photographerName}
+            preheader={typeof event.category === 'string' ? event.category : event.category?.name}
             title={event.title}
             dateTime={new Date(event.date).toLocaleString('en-US', {
               month: 'short',
@@ -79,12 +92,12 @@ const EventDetailPage: React.FC = () => {
               minute: '2-digit',
             })}
             venue={event.venue.name}
-            ageRestriction={event.ageRestriction}
+            ageRestriction={typeof event.ageRestriction === 'string' ? event.ageRestriction : event.ageRestriction?.age}
             excerpt={event.excerpt}
             content={event.content}
             showTicketButton={false}
             showShareButton={true}
-            shareUrl={`${window.location.origin}${window.location.pathname}#/events/${event.id}`}
+            shareUrl={`${window.location.origin}${window.location.pathname}#/events/${event.slug}`}
           />
 
           {/* Event Details Section */}
@@ -168,7 +181,11 @@ const EventDetailPage: React.FC = () => {
                 </div>
 
                 {/* Age Restriction Chip */}
-                <CrChip variant="secondary">{event.ageRestriction}</CrChip>
+                {event.ageRestriction && (
+                  <CrChip variant="secondary">
+                    {typeof event.ageRestriction === 'string' ? event.ageRestriction : event.ageRestriction.age}
+                  </CrChip>
+                )}
               </div>
 
               {/* Right Column - Venue */}
@@ -256,7 +273,7 @@ const EventDetailPage: React.FC = () => {
               titleTag="h3"
               titleSize="sm"
               backgroundImage={recentEvent.featuredImage}
-              preheader={recentEvent.category}
+              preheader={typeof recentEvent.category === "string" ? recentEvent.category : recentEvent.category?.name}
               title={recentEvent.title}
               dateTime={new Date(recentEvent.date).toLocaleString('en-US', {
                 month: 'short',
@@ -266,7 +283,7 @@ const EventDetailPage: React.FC = () => {
                 minute: '2-digit',
               })}
               venue={recentEvent.venue.name}
-              contentSummary={recentEvent.description}
+              contentSummary={recentEvent.excerpt}
               onClick={() => handleEventClick(recentEvent)}
             />
           ))}

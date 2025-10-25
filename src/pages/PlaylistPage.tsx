@@ -174,9 +174,9 @@ const PlaylistPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={articles[0].featuredImage}
-              preheader={articles[0].category}
+              preheader={typeof articles[0].category === "string" ? articles[0].category : articles[0].category?.name}
               title={articles[0].title}
-              authorBy={`by ${articles[0].author.name}`}
+              authorBy={`by ${articles[0].author}`}
               eventDate={new Date(articles[0].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -195,9 +195,9 @@ const PlaylistPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={articles[1].featuredImage}
-              preheader={articles[1].category}
+              preheader={typeof articles[1].category === "string" ? articles[1].category : articles[1].category?.name}
               title={articles[1].title}
-              authorBy={`by ${articles[1].author.name}`}
+              authorBy={`by ${articles[1].author}`}
               eventDate={new Date(articles[1].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -216,9 +216,9 @@ const PlaylistPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={articles[2].featuredImage}
-              preheader={articles[2].category}
+              preheader={typeof articles[2].category === "string" ? articles[2].category : articles[2].category?.name}
               title={articles[2].title}
-              authorBy={`by ${articles[2].author.name}`}
+              authorBy={`by ${articles[2].author}`}
               eventDate={new Date(articles[2].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
