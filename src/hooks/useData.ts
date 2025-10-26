@@ -1,111 +1,23 @@
 // Custom hooks for data access
-// Fetches data from Payload CMS API
+// Now uses CMSContext for cached data instead of fetching independently
 
-import { useState, useEffect, useMemo } from 'react'
-
-// Convert Lexical JSON to HTML
-function lexicalToHtml(lexicalData: any): string | null {
-  if (!lexicalData || typeof lexicalData !== 'object' || !lexicalData.root) {
-    return null
-  }
-
-  const processNode = (node: any): string => {
-    if (!node) return ''
-
-    // Text node
-    if (node.type === 'text') {
-      let text = node.text || ''
-      if (node.format & 1) text = `<strong>${text}</strong>` // bold
-      if (node.format & 2) text = `<em>${text}</em>` // italic
-      if (node.format & 8) text = `<u>${text}</u>` // underline
-      return text
-    }
-
-    // Link node
-    if (node.type === 'link') {
-      const children = node.children?.map(processNode).join('') || ''
-      const url = node.fields?.url || '#'
-      const target = node.fields?.newTab ? ' target="_blank" rel="noopener noreferrer"' : ''
-      return `<a href="${url}"${target}>${children}</a>`
-    }
-
-    // Paragraph node
-    if (node.type === 'paragraph') {
-      const children = node.children?.map(processNode).join('') || ''
-      return `<p>${children}</p>`
-    }
-
-    // Heading node
-    if (node.type === 'heading') {
-      const children = node.children?.map(processNode).join('') || ''
-      const tag = node.tag || 'h2'
-      return `<${tag}>${children}</${tag}>`
-    }
-
-    // List node
-    if (node.type === 'list') {
-      const children = node.children?.map(processNode).join('') || ''
-      const tag = node.listType === 'number' ? 'ol' : 'ul'
-      return `<${tag}>${children}</${tag}>`
-    }
-
-    // List item node
-    if (node.type === 'listitem') {
-      const children = node.children?.map(processNode).join('') || ''
-      return `<li>${children}</li>`
-    }
-
-    // Root node or other container nodes
-    if (node.children) {
-      return node.children.map(processNode).join('')
-    }
-
-    return ''
-  }
-
-  return processNode(lexicalData.root)
-}
-import announcementsData from '../data/announcements.json'
-import articlesData from '../data/articles.json'
+import { useMemo } from 'react'
+import { useCMS } from '../contexts/CMSContext'
 import chartsData from '../data/charts.json'
-import eventsData from '../data/events.json'
 import playlistsData from '../data/playlists-recent.json'
-import podcastsData from '../data/podcasts.json'
 import usersData from '../data/users.json'
-import shopItemsData from '../data/shopItems.json'
 import { useAuth } from './useAuth'
 import { parseDjAndShowName } from '../utils/djNameParser'
-import { fetchFromCMS } from '../utils/api'
-
-// Feature flag to toggle between mock data and CMS API
-const USE_CMS_API = import.meta.env.VITE_USE_CMS_API === 'true'
 
 // Announcements
 export function useAnnouncements() {
-  const [data, setData] = useState(USE_CMS_API ? [] : announcementsData.announcements)
-  const [loading, setLoading] = useState(USE_CMS_API)
-  const [error, setError] = useState<Error | null>(null)
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
 
-  useEffect(() => {
-    if (!USE_CMS_API) return
-
-    setLoading(true)
-    fetchFromCMS<any>('announcements')
-      .then(docs => {
-        // Map announcements to convert Lexical content to HTML
-        const mappedDocs = docs.map((announcement: any) => ({
-          ...announcement,
-          bodyText: typeof announcement.bodyText === 'string'
-            ? announcement.bodyText
-            : lexicalToHtml(announcement.bodyText)
-        }))
-        setData(mappedDocs)
-      })
-      .catch(err => setError(err))
-      .finally(() => setLoading(false))
-  }, [])
-
-  return { data, loading, error }
+  return {
+    data: cmsData.announcements,
+    loading: cmsLoading.announcements,
+    error: cmsError.announcements,
+  }
 }
 
 // Get featured announcement for landing page
@@ -117,40 +29,22 @@ export function useFeaturedAnnouncement() {
 
 // Articles
 export function useArticles() {
-  const [data, setData] = useState(USE_CMS_API ? [] : articlesData.articles)
-  const [loading, setLoading] = useState(USE_CMS_API)
-  const [error, setError] = useState<Error | null>(null)
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
 
-  useEffect(() => {
-    if (!USE_CMS_API) return
-
-    setLoading(true)
-    fetchFromCMS<any>('articles', { sort: '-createdAt' })
-      .then(docs => {
-        // Map articles to use featuredImageUrl as fallback for featuredImage
-        // convert tags from objects to strings, and convert Lexical content to HTML
-        const mappedDocs = docs.map((article: any) => ({
-          ...article,
-          featuredImage: article.featuredImage || article.featuredImageUrl,
-          tags: article.tags?.map((t: any) => t.tag || t) || [],
-          content: typeof article.content === 'string' ? article.content : lexicalToHtml(article.content)
-        }))
-        setData(mappedDocs)
-      })
-      .catch(err => setError(err))
-      .finally(() => setLoading(false))
-  }, [])
-
-  return { data, loading, error }
+  return {
+    data: cmsData.articles,
+    loading: cmsLoading.articles,
+    error: cmsError.articles,
+  }
 }
 
-// Charts
+// Charts (still uses mock data - not in CMS)
 export function useCharts() {
-  const [data, setData] = useState(chartsData.charts)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-
-  return { data, loading, error }
+  return {
+    data: chartsData.charts,
+    loading: false,
+    error: null,
+  }
 }
 
 export function useTop25() {
@@ -170,71 +64,33 @@ export function useHalloween() {
 
 // Events
 export function useEvents() {
-  const [data, setData] = useState(USE_CMS_API ? [] : eventsData.events)
-  const [loading, setLoading] = useState(USE_CMS_API)
-  const [error, setError] = useState<Error | null>(null)
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
 
-  useEffect(() => {
-    if (!USE_CMS_API) return
-
-    setLoading(true)
-    fetchFromCMS<any>('events', { sort: '-date' })
-      .then(docs => {
-        // Map events to use featuredImageUrl as fallback for featuredImage
-        // and convert Lexical content to HTML
-        const mappedDocs = docs.map((event: any) => ({
-          ...event,
-          featuredImage: event.featuredImage || event.featuredImageUrl,
-          content: typeof event.content === 'string' ? event.content : lexicalToHtml(event.content)
-        }))
-        setData(mappedDocs)
-      })
-      .catch(err => setError(err))
-      .finally(() => setLoading(false))
-  }, [])
-
-  return { data, loading, error }
+  return {
+    data: cmsData.events,
+    loading: cmsLoading.events,
+    error: cmsError.events,
+  }
 }
 
 // Volunteer Calendar
 export function useVolunteerCalendar() {
-  const [data, setData] = useState<any[]>([])
-  const [loading, setLoading] = useState(USE_CMS_API)
-  const [error, setError] = useState<Error | null>(null)
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
 
-  useEffect(() => {
-    if (!USE_CMS_API) return
-
-    setLoading(true)
-    fetchFromCMS<any>('volunteerCalendar', { sort: 'startDate' })
-      .then(docs => {
-        // Transform data to match the expected format
-        const mappedDocs = docs.map((event: any) => ({
-          ...event,
-          // Convert ISO date strings to simple date format (YYYY-MM-DD)
-          startDate: event.startDate ? event.startDate.split('T')[0] : event.startDate,
-          endDate: event.endDate ? event.endDate.split('T')[0] : event.endDate,
-          // Transform eventDetails array from objects to strings
-          eventDetails: event.eventDetails?.map((item: any) =>
-            typeof item === 'string' ? item : item.detail
-          ) || []
-        }))
-        setData(mappedDocs)
-      })
-      .catch(err => setError(err))
-      .finally(() => setLoading(false))
-  }, [])
-
-  return { data, loading, error }
+  return {
+    data: cmsData.volunteerCalendar,
+    loading: cmsLoading.volunteerCalendar,
+    error: cmsError.volunteerCalendar,
+  }
 }
 
-// Playlists
+// Playlists (still uses mock data - not in CMS)
 export function usePlaylists() {
-  const [data, setData] = useState(playlistsData)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-
-  return { data, loading, error }
+  return {
+    data: playlistsData,
+    loading: false,
+    error: null,
+  }
 }
 
 export function useCurrentShow() {
@@ -281,158 +137,67 @@ export function useTracks() {
 
 // Podcasts
 export function usePodcasts() {
-  const [data, setData] = useState(USE_CMS_API ? [] : podcastsData.podcasts)
-  const [loading, setLoading] = useState(USE_CMS_API)
-  const [error, setError] = useState<Error | null>(null)
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
 
-  useEffect(() => {
-    if (!USE_CMS_API) return
-
-    setLoading(true)
-    fetchFromCMS<any>('podcasts', { sort: '-publishDate', depth: '1', limit: '100' })
-      .then(docs => {
-        // Map podcasts to use coverArtUrl as fallback for coverArt
-        // convert tags from objects to strings, and convert Lexical content to HTML
-        const mappedDocs = docs.map((podcast: any) => ({
-          ...podcast,
-          coverArt: podcast.coverArt || podcast.coverArtUrl,
-          tags: podcast.tags?.map((t: any) => t.tag || t) || [],
-          content: typeof podcast.content === 'string' ? podcast.content : lexicalToHtml(podcast.content)
-        }))
-        setData(mappedDocs)
-      })
-      .catch(err => setError(err))
-      .finally(() => setLoading(false))
-  }, [])
-
-  return { data, isLoading: loading, error }
+  return {
+    data: cmsData.podcasts,
+    isLoading: cmsLoading.podcasts,
+    error: cmsError.podcasts,
+  }
 }
 
 // Pages
 export function usePages() {
-  const [data, setData] = useState<any[]>([])
-  const [loading, setLoading] = useState(USE_CMS_API)
-  const [error, setError] = useState<Error | null>(null)
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
 
-  useEffect(() => {
-    if (!USE_CMS_API) return
-
-    setLoading(true)
-    fetchFromCMS<any>('pages', { depth: '2', limit: '100' })
-      .then(docs => {
-        // Process pages to convert richText content to HTML
-        const processedDocs = docs.map((page: any) => ({
-          ...page,
-          layout: page.layout?.map((block: any) => {
-            if (block.blockType === 'contentCard' && block.content) {
-              // If content is already a string, keep it. Otherwise convert Lexical to HTML
-              const htmlContent = typeof block.content === 'string'
-                ? block.content
-                : lexicalToHtml(block.content)
-              return { ...block, content: htmlContent }
-            }
-            return block
-          })
-        }))
-        setData(processedDocs)
-      })
-      .catch(err => setError(err))
-      .finally(() => setLoading(false))
-  }, [])
-
-  return { data, isLoading: loading, error }
+  return {
+    data: cmsData.pages,
+    isLoading: cmsLoading.pages,
+    error: cmsError.pages,
+  }
 }
 
 export function usePageBySlug(slug: string) {
   const { data: pages, isLoading, error } = usePages()
-  const page = pages.find((p: any) => p.slug === slug)
+  const page = pages.find((p) => p.slug === slug)
 
   return { data: page, isLoading, error }
 }
 
-// Users
+// Users (still uses mock data - TODO: Move to UserContext in Phase 2)
+// TEMPORARY: Keep module-level state for now, will be refactored in Phase 2
 let usersState = usersData.users
 
 export function useUsers() {
-  const [data, setData] = useState(usersState)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-
-  // Listen for favorite updates
-  useEffect(() => {
-    const handleUpdate = () => {
-      setData([...usersState])
-    }
-    window.addEventListener('userFavoritesUpdated', handleUpdate)
-    return () => window.removeEventListener('userFavoritesUpdated', handleUpdate)
-  }, [])
-
-  return { data, loading, error }
+  return {
+    data: usersState,
+    loading: false,
+    error: null,
+  }
 }
 
 export function useCurrentUser() {
   const { isLoggedIn, user: loggedInUser } = useAuth()
-  const [currentUser, setCurrentUser] = useState(() => {
-    console.log('[useCurrentUser] Initial state:', { isLoggedIn, loggedInUser })
+
+  const currentUser = useMemo(() => {
     if (isLoggedIn && loggedInUser) {
-      const user = usersState.find(u => u.id === loggedInUser.id) || null
-      console.log('[useCurrentUser] Found user in usersState:', user)
-      return user
+      return usersState.find(u => u.id === loggedInUser.id) || null
     }
     return null
-  })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-
-  // Listen for favorite updates
-  useEffect(() => {
-    const handleUpdate = () => {
-      console.log('[useCurrentUser] userFavoritesUpdated event fired')
-      console.log('[useCurrentUser] isLoggedIn:', isLoggedIn)
-      console.log('[useCurrentUser] loggedInUser:', loggedInUser)
-      console.log('[useCurrentUser] loggedInUser.id:', loggedInUser?.id)
-      console.log('[useCurrentUser] usersState length:', usersState.length)
-      console.log('[useCurrentUser] usersState IDs:', usersState.map(u => u.id))
-      if (isLoggedIn && loggedInUser) {
-        const updatedUser = usersState.find(u => u.id === loggedInUser.id) || null
-        console.log('[useCurrentUser] Searching for user with id:', loggedInUser.id)
-        console.log('[useCurrentUser] Updated user from usersState:', updatedUser)
-        console.log('[useCurrentUser] Updated favoriteDJs:', updatedUser?.favoriteDJs)
-        setCurrentUser(updatedUser)
-      }
-    }
-    window.addEventListener('userFavoritesUpdated', handleUpdate)
-    return () => window.removeEventListener('userFavoritesUpdated', handleUpdate)
   }, [isLoggedIn, loggedInUser])
 
-  // Update when auth state changes
-  useEffect(() => {
-    console.log('[useCurrentUser] Auth state changed:', { isLoggedIn, loggedInUser })
-    if (isLoggedIn && loggedInUser) {
-      const user = usersState.find(u => u.id === loggedInUser.id) || null
-      console.log('[useCurrentUser] Setting user:', user)
-      setCurrentUser(user)
-    } else {
-      setCurrentUser(null)
-    }
-  }, [isLoggedIn, loggedInUser])
-
-  console.log('[useCurrentUser] Returning currentUser:', currentUser)
-  return { data: currentUser, loading, error }
+  return { data: currentUser, loading: false, error: null }
 }
 
 // Update user's favorite DJs
+// TODO: This will be moved to UserContext in Phase 2
 export function updateUserFavoriteDJs(djId: string, isFavorite: boolean, userId?: string) {
-  console.log('[updateUserFavoriteDJs] Called with:', { djId, isFavorite, userId })
-
   // Get the current logged-in user ID from localStorage if not provided
   const targetUserId = userId || (() => {
     const storedUser = localStorage.getItem('chirp-user')
-    console.log('[updateUserFavoriteDJs] storedUser from localStorage:', storedUser)
     if (storedUser) {
       try {
         const user = JSON.parse(storedUser)
-        console.log('[updateUserFavoriteDJs] Parsed user:', user)
         return user.id
       } catch (e) {
         console.error('Failed to parse user from localStorage', e)
@@ -441,17 +206,12 @@ export function updateUserFavoriteDJs(djId: string, isFavorite: boolean, userId?
     return 'user-001' // Fallback to default user
   })()
 
-  console.log('[updateUserFavoriteDJs] Target user ID:', targetUserId)
-  console.log('[updateUserFavoriteDJs] usersState before update:', JSON.parse(JSON.stringify(usersState)))
-
   usersState = usersState.map((user) => {
     if (user.id === targetUserId) {
-      // Current user
       const favoriteDJs = user.favoriteDJs || []
-      const updatedFavoriteDJs = isFavorite ? [...favoriteDJs, djId] : favoriteDJs.filter((id) => id !== djId)
-      console.log('[updateUserFavoriteDJs] Updating user:', user.id)
-      console.log('[updateUserFavoriteDJs] Old favoriteDJs:', favoriteDJs)
-      console.log('[updateUserFavoriteDJs] New favoriteDJs:', updatedFavoriteDJs)
+      const updatedFavoriteDJs = isFavorite
+        ? [...favoriteDJs, djId]
+        : favoriteDJs.filter((id) => id !== djId)
       return {
         ...user,
         favoriteDJs: updatedFavoriteDJs,
@@ -460,48 +220,19 @@ export function updateUserFavoriteDJs(djId: string, isFavorite: boolean, userId?
     return user
   })
 
-  console.log('[updateUserFavoriteDJs] usersState after update:', JSON.parse(JSON.stringify(usersState)))
-  console.log('[updateUserFavoriteDJs] Dispatching userFavoritesUpdated event')
-
   // Trigger re-render in all components using useUsers/useCurrentUser
   window.dispatchEvent(new Event('userFavoritesUpdated'))
 }
 
 // Shop Items
 export function useShopItems() {
-  const [data, setData] = useState<any[]>(USE_CMS_API ? [] : shopItemsData.shopItems)
-  const [loading, setLoading] = useState(USE_CMS_API)
-  const [error, setError] = useState<Error | null>(null)
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
 
-  useEffect(() => {
-    if (!USE_CMS_API) return
-
-    setLoading(true)
-    fetchFromCMS<any>('shopItems')
-      .then(docs => {
-        // Map shop items to use imageUrl as fallback for images
-        // and convert sizes from {id, size} objects to string array
-        const mappedDocs = docs.map((item: any) => ({
-          ...item,
-          image: item.images && item.images.length > 0
-            ? item.images[0].image?.url
-            : item.imageUrl,
-          sizes: item.sizes && Array.isArray(item.sizes)
-            ? item.sizes.map((s: any) => typeof s === 'string' ? s : s.size)
-            : [],
-          itemType: item.category === 'apparel' ? 'Apparel'
-            : item.category === 'merchandise' ? 'Merchandise'
-            : item.category === 'accessories' ? 'Accessories'
-            : item.category === 'music' ? 'Music'
-            : item.itemType || 'Merchandise',
-        }))
-        setData(mappedDocs)
-      })
-      .catch(err => setError(err))
-      .finally(() => setLoading(false))
-  }, [])
-
-  return { data, loading, error }
+  return {
+    data: cmsData.shopItems,
+    loading: cmsLoading.shopItems,
+    error: cmsError.shopItems,
+  }
 }
 
 // Helper function to create URL-friendly slug from DJ name
@@ -558,21 +289,11 @@ export function useSubstituteDJs() {
 
 // Site Settings (Global)
 export function useSiteSettings() {
-  const [data, setData] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<Error | null>(null)
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
 
-  useEffect(() => {
-    setLoading(true)
-    fetch(`${import.meta.env.VITE_CMS_API_URL || 'http://localhost:3000/api'}/globals/siteSettings?depth=2`)
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch site settings')
-        return res.json()
-      })
-      .then(json => setData(json))
-      .catch(err => setError(err))
-      .finally(() => setLoading(false))
-  }, [])
-
-  return { data, loading, error }
+  return {
+    data: cmsData.siteSettings,
+    loading: cmsLoading.siteSettings,
+    error: cmsError.siteSettings,
+  }
 }
