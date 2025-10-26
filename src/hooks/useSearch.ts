@@ -1,5 +1,5 @@
 // Search hook that searches across all data sources
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useArticles, useEvents, useDJs, usePodcasts, useShopItems } from './useData'
 
 export interface SearchResult {
@@ -10,11 +10,10 @@ export interface SearchResult {
   description?: string
   image?: string
   url?: string
-  data?: any // The full original data object
+  data?: unknown // The full original data object
 }
 
 export function useSearch(query: string) {
-  const [results, setResults] = useState<SearchResult[]>([])
   const [isSearching, setIsSearching] = useState(false)
 
   const { data: articles } = useArticles()
@@ -23,22 +22,21 @@ export function useSearch(query: string) {
   const { data: podcasts } = usePodcasts()
   const { data: shopItems } = useShopItems()
 
-  useEffect(() => {
+  // Memoize search results to avoid infinite loops from array reference changes
+  const results = useMemo(() => {
     if (!query || query.trim().length < 2) {
-      setResults([])
-      setIsSearching(false)
-      return
+      return []
     }
-
-    setIsSearching(true)
 
     const searchTerm = query.toLowerCase().trim()
     const searchResults: SearchResult[] = []
 
     // Search articles
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     articles?.forEach((article: any) => {
       const authorName = typeof article.author === 'string' ? article.author : article.author?.name
-      const categoryName = typeof article.category === 'string' ? article.category : article.category?.name
+      const categoryName =
+        typeof article.category === 'string' ? article.category : article.category?.name
       if (
         article.title?.toLowerCase().includes(searchTerm) ||
         article.excerpt?.toLowerCase().includes(searchTerm) ||
@@ -60,10 +58,12 @@ export function useSearch(query: string) {
     })
 
     // Search events
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     events?.forEach((event: any) => {
       const venueName = typeof event.venue === 'string' ? event.venue : event.venue?.name
       const matchesArtists = Array.isArray(event.artists)
-        ? event.artists.some((artist: any) => {
+        ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          event.artists.some((artist: any) => {
             const artistName = typeof artist === 'string' ? artist : artist?.name
             return artistName?.toLowerCase().includes(searchTerm)
           })
@@ -89,6 +89,7 @@ export function useSearch(query: string) {
     })
 
     // Search DJs
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     djs?.forEach((dj: any) => {
       const djName = dj.djName || dj.name
       const matchesGenres = Array.isArray(dj.genres)
@@ -117,6 +118,7 @@ export function useSearch(query: string) {
     })
 
     // Search podcasts
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     podcasts?.forEach((podcast: any) => {
       if (
         podcast.title?.toLowerCase().includes(searchTerm) ||
@@ -137,6 +139,7 @@ export function useSearch(query: string) {
     })
 
     // Search shop items
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     shopItems?.forEach((item: any) => {
       const price = typeof item.price === 'number' ? item.price : parseFloat(item.price)
       if (
@@ -157,9 +160,20 @@ export function useSearch(query: string) {
       }
     })
 
-    setResults(searchResults)
-    setIsSearching(false)
+    return searchResults
   }, [query, articles, events, djs, podcasts, shopItems])
+
+  // Manage searching state separately
+  useEffect(() => {
+    if (!query || query.trim().length < 2) {
+      setIsSearching(false)
+    } else {
+      setIsSearching(true)
+      // Set to false after a brief delay to show the search is complete
+      const timer = setTimeout(() => setIsSearching(false), 100)
+      return () => clearTimeout(timer)
+    }
+  }, [query])
 
   return { results, isSearching }
 }

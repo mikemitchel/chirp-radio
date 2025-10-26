@@ -14,8 +14,10 @@ import { on } from '../utils/eventBus'
 import { createLogger } from '../utils/logger'
 import NowPlayingPlugin from '../plugins/NowPlayingPlugin'
 import NativeAudioPlayer from '../plugins/NativeAudioPlayer'
+import mockCurrentPlaylist from '../data/currentPlaylist.json'
 
 const log = createLogger('NowPlayingContext')
+const USE_MOCK_DATA = import.meta.env.DEV
 
 export interface TrackData {
   dj: string
@@ -101,13 +103,27 @@ export function NowPlayingProvider({
     if (!autoFetch) return
 
     try {
-      const response = await CapacitorHttp.get({
-        url: apiUrl,
-        headers: { 'Content-Type': 'application/json' },
-      })
+      let responseData
 
-      if (response.status === 200 && response.data) {
-        const newData = response.data
+      if (USE_MOCK_DATA) {
+        // In dev mode, use mock data to avoid CORS issues
+        log.log('Using mock current playlist data (dev mode)')
+        responseData = mockCurrentPlaylist.now_playing
+      } else {
+        // In production, fetch from API
+        const response = await CapacitorHttp.get({
+          url: apiUrl,
+          headers: { 'Content-Type': 'application/json' },
+        })
+
+        if (response.status !== 200 || !response.data) {
+          throw new Error(`HTTP error! Status: ${response.status}`)
+        }
+        responseData = response.data
+      }
+
+      if (responseData) {
+        const newData = responseData
 
         const newSong = `${newData.artist || 'Unknown'} - ${newData.track || 'Unknown'}`
           .toLowerCase()
@@ -128,6 +144,15 @@ export function NowPlayingProvider({
           let albumArtUrl = ''
           if (newData.albumArt) {
             albumArtUrl = upgradeImageQuality(newData.albumArt, networkInfo)
+          } else if (newData.lastfm_urls) {
+            // Handle API format with lastfm_urls
+            const bestImage =
+              newData.lastfm_urls.large_image ||
+              newData.lastfm_urls.med_image ||
+              newData.lastfm_urls.sm_image
+            if (bestImage) {
+              albumArtUrl = upgradeImageQuality(bestImage, networkInfo)
+            }
           }
 
           const trackData: TrackData = {
@@ -135,11 +160,11 @@ export function NowPlayingProvider({
             show: parsed.showName,
             artist: newData.artist || 'Unknown Artist',
             track: newData.track || 'Unknown Track',
-            album: newData.album || 'Unknown Album',
+            album: newData.album || newData.release || 'Unknown Album',
             label: newData.label || 'Unknown Label',
             albumArt: albumArtUrl,
-            isLocal: newData.isLocal || false,
-            playedAtGmt: newData.playedAtGmt,
+            isLocal: newData.isLocal || newData.artist_is_local || false,
+            playedAtGmt: newData.playedAtGmt || newData.played_at_gmt,
             detailsUpdatedAt: newData.detailsUpdatedAt,
           }
 
@@ -177,9 +202,22 @@ export function NowPlayingProvider({
           log.log(`No song change detected (${consecutiveNoChangeRef.current} times)`)
 
           // Retry album art if missing
-          if (!currentData.albumArt && newData.albumArt && albumArtRetryCountRef.current < 5) {
-            const retryAlbumArt = upgradeImageQuality(newData.albumArt, networkInfo)
-            if (retryAlbumArt !== lastAlbumArtUrlRef.current) {
+          const hasAlbumArtSource = newData.albumArt || newData.lastfm_urls
+          if (!currentData.albumArt && hasAlbumArtSource && albumArtRetryCountRef.current < 5) {
+            let retryAlbumArt = ''
+            if (newData.albumArt) {
+              retryAlbumArt = upgradeImageQuality(newData.albumArt, networkInfo)
+            } else if (newData.lastfm_urls) {
+              const bestImage =
+                newData.lastfm_urls.large_image ||
+                newData.lastfm_urls.med_image ||
+                newData.lastfm_urls.sm_image
+              if (bestImage) {
+                retryAlbumArt = upgradeImageQuality(bestImage, networkInfo)
+              }
+            }
+
+            if (retryAlbumArt && retryAlbumArt !== lastAlbumArtUrlRef.current) {
               log.log('Retrying album art:', retryAlbumArt)
               setCurrentData((prev) => ({ ...prev, albumArt: retryAlbumArt }))
               lastAlbumArtUrlRef.current = retryAlbumArt

@@ -7,6 +7,7 @@ import CrMobileAppFrame from '../stories/CrMobileAppFrame'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 import { NotificationProvider } from '../contexts/NotificationContext'
 import GlobalNotifications from '../components/GlobalNotifications'
+import DevModeBanner from '../components/DevModeBanner'
 import { preloadFirstAvailable } from '../utils/imagePreloader'
 import { upgradeImageQuality } from '../utils/imageOptimizer'
 import { createLogger } from '../utils/logger'
@@ -130,7 +131,9 @@ export default function MobileApp() {
         await preloadPromise
         console.log('✅ [SPLASH] Data preloaded, hiding Capacitor splash')
         if (Capacitor.isNativePlatform()) {
-          await SplashScreen.hide().catch((err) => console.warn('❌ [SPLASH] Failed to hide splash screen:', err))
+          await SplashScreen.hide().catch((err) =>
+            console.warn('❌ [SPLASH] Failed to hide splash screen:', err)
+          )
         }
         console.log('🏁 [SPLASH] Splash hidden')
       } else {
@@ -142,7 +145,9 @@ export default function MobileApp() {
         // Hide Capacitor splash with fade
         if (Capacitor.isNativePlatform()) {
           console.log('🎬 [SPLASH] Hiding Capacitor splash with fade')
-          await SplashScreen.hide().catch((err) => console.warn('❌ [SPLASH] Failed to hide splash screen:', err))
+          await SplashScreen.hide().catch((err) =>
+            console.warn('❌ [SPLASH] Failed to hide splash screen:', err)
+          )
           console.log('✓ [SPLASH] Capacitor splash hidden')
         }
 
@@ -153,6 +158,7 @@ export default function MobileApp() {
     }
 
     initializeApp()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Listen for profile switch events from console (devTools)
@@ -232,6 +238,7 @@ export default function MobileApp() {
 
   return (
     <NotificationProvider>
+      <DevModeBanner />
       <AudioPlayerProvider
         autoFetch={true}
         streamUrl="https://peridot.streamguys1.com:5185/live"
