@@ -1,7 +1,7 @@
 // CrSidebar.tsx
 import React, { useEffect } from 'react'
 import { useLocation } from 'react-router'
-import { PiHandHeartLight, PiChatCircleTextLight, PiMusicNotes, PiGear } from 'react-icons/pi'
+import { PiHandHeartLight, PiChatCircleTextLight, PiGear } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrLogo from './CrLogo'
 import CrMenuButton from './CrMenuButton'
@@ -67,11 +67,14 @@ export default function CrSidebar({
   onAccountSettingsClick,
 }: CrSidebarProps) {
   // Try to use location, but handle case where Router isn't available (e.g., Storybook)
+  // Note: Hook must be called unconditionally (Rules of Hooks)
   let location: { pathname: string } | null = null
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     location = useLocation()
-  } catch (e) {
-    // Router not available
+  } catch {
+    // Router not available (e.g., Storybook)
+    location = null
   }
 
   // Disable body scrolling when sidebar is open
@@ -202,7 +205,9 @@ export default function CrSidebar({
                   variant="solid"
                   color="primary"
                   leftIcon={<PiHandHeartLight />}
-                  onClick={() => window.open('https://chirpradio.app.neoncrm.com/forms/18', '_blank')}
+                  onClick={() =>
+                    window.open('https://chirpradio.app.neoncrm.com/forms/18', '_blank')
+                  }
                 >
                   Support Chirp Radio
                 </CrButton>

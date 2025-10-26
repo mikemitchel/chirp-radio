@@ -37,7 +37,7 @@ export default function CrAccount({
   tags = ['Hello World', 'Hello World', 'Hello World'],
   onLoginClick,
   onSignUpClick,
-  onVolunteerDropdown,
+  onVolunteerDropdown, // eslint-disable-line @typescript-eslint/no-unused-vars
   onProfileClick,
   onFavoritesClick,
   onSignOutClick,
@@ -60,8 +60,39 @@ export default function CrAccount({
     </svg>
   )
 
+  // All hooks must be called unconditionally at the top (Rules of Hooks)
   // Modal state
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
+  // Logged-in state hooks (will be used only when isLoggedIn is true)
+  let location = null
+  try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    location = useLocation()
+  } catch {
+    // Router not available
+  }
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [volunteerMenuOpen, setVolunteerMenuOpen] = useState(false)
+  const userMenuRef = useRef<HTMLDivElement>(null)
+  const volunteerMenuRef = useRef<HTMLDivElement>(null)
+
+  // Close menus when clicking outside (only relevant when logged in, but must be at top)
+  useEffect(() => {
+    if (!isLoggedIn) return // Skip effect when logged out
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setUserMenuOpen(false)
+      }
+      if (volunteerMenuRef.current && !volunteerMenuRef.current.contains(event.target as Node)) {
+        setVolunteerMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isLoggedIn])
 
   const handleLoginButtonClick = () => {
     setIsLoginModalOpen(true)
@@ -103,26 +134,7 @@ export default function CrAccount({
   }
 
   // Logged in state
-  const location = useLocation()
-  const [userMenuOpen, setUserMenuOpen] = useState(false)
-  const [volunteerMenuOpen, setVolunteerMenuOpen] = useState(false)
-  const userMenuRef = useRef<HTMLDivElement>(null)
-  const volunteerMenuRef = useRef<HTMLDivElement>(null)
-
-  // Close menus when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
-        setUserMenuOpen(false)
-      }
-      if (volunteerMenuRef.current && !volunteerMenuRef.current.contains(event.target as Node)) {
-        setVolunteerMenuOpen(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  // Note: All hooks have been moved to the top of the component
 
   const userMenuOptions = [
     {
@@ -173,6 +185,7 @@ export default function CrAccount({
     },
   ]
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUserMenuSelect = (option: any) => {
     if (option.onClick) {
       option.onClick()
@@ -180,6 +193,7 @@ export default function CrAccount({
     setUserMenuOpen(false)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleVolunteerMenuSelect = (option: any) => {
     if (option.onClick) {
       option.onClick()
