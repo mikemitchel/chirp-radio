@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BrowserRouter, HashRouter, Routes, Route, Navigate, useNavigate } from 'react-router'
+import { BrowserRouter, HashRouter, Routes, Route, useNavigate } from 'react-router'
 import { HelmetProvider } from 'react-helmet-async'
 import { CMSProvider } from './contexts/CMSContext'
 import { UserProvider } from './contexts/UserContext'
@@ -55,12 +55,10 @@ import TermsOfServicePage from './pages/TermsOfServicePage'
 import SitemapPage from './pages/SitemapPage'
 import AdvertisementPreviewPage from './pages/AdvertisementPreviewPage'
 import { AndroidAutoPage } from './pages/AndroidAutoPage'
-import { useState } from 'react'
 
 // Redirect component to route mobile app users to /app or /android-auto
 function RootRedirect() {
   const navigate = useNavigate()
-  const [isChecking, setIsChecking] = useState(true)
 
   useEffect(() => {
     const checkPlatform = async () => {
@@ -76,7 +74,6 @@ function RootRedirect() {
 
             if (result.isAutomotive) {
               navigate('/android-auto', { replace: true })
-              setIsChecking(false)
               return
             }
           } catch (error) {
@@ -87,8 +84,6 @@ function RootRedirect() {
         // Regular mobile app
         navigate('/app', { replace: true })
       }
-
-      setIsChecking(false)
     }
 
     checkPlatform()
