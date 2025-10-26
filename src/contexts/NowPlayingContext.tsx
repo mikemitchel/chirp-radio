@@ -17,7 +17,7 @@ import NativeAudioPlayer from '../plugins/NativeAudioPlayer'
 
 const log = createLogger('NowPlayingContext')
 
-interface TrackData {
+export interface TrackData {
   dj: string
   show: string
   artist: string
@@ -298,7 +298,3 @@ export function useNowPlaying(): NowPlayingContextType {
   }
   return context
 }
-
-// Export TrackData for use in composite contexts
-
-export type { TrackData }

@@ -8,7 +8,7 @@ import { useAuth } from '../hooks/useAuth'
 import { emit, on } from '../utils/eventBus'
 import LoginRequiredModal from '../components/LoginRequiredModal'
 
-interface Track {
+export interface Track {
   artist: string
   track: string
   album: string
@@ -157,7 +157,3 @@ export function useAudioCollection(): AudioCollectionContextType {
   }
   return context
 }
-
-// Export Track for use in composite contexts
-
-export type { Track }
