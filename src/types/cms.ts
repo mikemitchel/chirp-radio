@@ -1,67 +1,179 @@
 // TypeScript interfaces for CMS data models
 
+// Lexical Editor State type (from Payload CMS)
+export interface LexicalEditorState {
+  root: {
+    type: string
+    children?: Array<{
+      type: string
+      [key: string]: unknown
+    }>
+    [key: string]: unknown
+  }
+}
+
+// Content can be either a string (legacy/transformed) or Lexical JSON
+export type ContentField = string | LexicalEditorState | null
+
 export interface Announcement {
-  id?: string
-  title: string
-  bodyText?: string | null
-  message?: string // Mock data uses 'message' instead of 'bodyText'
-  featuredOnLanding?: boolean
-  isActive?: boolean
+  id?: string | number // CMS uses number, frontend normalizes to string
+  headlineText: string
+  bodyText: ContentField // Lexical Editor content from CMS
+  variant: 'donation' | 'motivation' | string
+  textureBackground?: string
+  showLink?: boolean
+  linkText?: string
+  linkUrl?: string
+  buttonCount?: 'none' | 'one' | 'two' | string
+  button1Text?: string
+  button1Icon?: string
+  button2Text?: string
+  button2Icon?: string
+  currentAmount?: number
+  targetAmount?: number
   createdAt?: string
   updatedAt?: string
-  [key: string]: unknown // Allow additional properties from mock data
+  [key: string]: unknown // Allow additional properties
+}
+
+// Category reference - can be ID or populated object
+export interface Category {
+  id: string | number
+  name?: string
+  slug?: string
+  [key: string]: unknown
+}
+
+// Media/Upload reference - can be ID or populated object
+export interface Media {
+  id: string | number
+  url?: string
+  filename?: string
+  alt?: string
+  [key: string]: unknown
 }
 
 export interface Article {
-  id?: string
+  id?: string | number // CMS uses number, frontend normalizes to string
   slug: string
   title: string
-  content?: string | null
+  content: ContentField // Lexical Editor content from CMS
   excerpt?: string
-  featuredImage?: string
-  featuredImageUrl?: string
-  tags?: string[]
   author?: string
+  category?: number | Category // Can be ID or populated object
+  featuredImage?: number | Media | string // Can be ID, populated object, or direct URL
+  featuredImageUrl?: string // External URL option
+  videoTitle?: string
+  youtubeVideoId?: string
+  tags?: Array<{ tag: string }> | string[] // CMS uses array of objects
   publishDate?: string
-  publishedDate?: string // Mock data uses this
+  publishedDate?: string // Alias for compatibility
   createdAt?: string
   updatedAt?: string
-  [key: string]: unknown // Allow additional properties from mock data
+  [key: string]: unknown // Allow additional properties
+}
+
+// Venue reference - can be ID or populated object
+export interface Venue {
+  id: string | number
+  name?: string
+  address?: string
+  city?: string
+  state?: string
+  zipCode?: string
+  [key: string]: unknown
+}
+
+// Age restriction reference
+export interface AgeGate {
+  id: string | number
+  name?: string
+  [key: string]: unknown
 }
 
 export interface Event {
-  id?: string
+  id?: string | number // CMS uses number, frontend normalizes to string
   slug: string
   title: string
-  content?: string | null
+  content?: ContentField // Lexical Editor content from CMS
   excerpt?: string
+  category?: number | Category // Can be ID or populated object
   date: string
   endDate?: string
   time?: string
-  location?: string
-  featuredImage?: string
-  featuredImageUrl?: string
+  venue?: number | Venue | string // Can be ID, populated object, or string
+  location?: string // Display location
+  featuredImage?: number | Media | string // Can be ID, populated object, or direct URL
+  featuredImageUrl?: string // External URL option
+  showPhotoCredit?: boolean
+  photographerName?: string
+  featured?: boolean
+  ageRestriction?: number | AgeGate // Can be ID or populated object
   ticketLink?: string
   createdAt?: string
   updatedAt?: string
-  [key: string]: unknown // Allow additional properties from mock data
+  [key: string]: unknown // Allow additional properties
 }
 
 export interface Podcast {
-  id?: string
+  id?: string | number // CMS uses number, frontend normalizes to string
   slug: string
   title: string
-  content?: string | null
+  content?: ContentField // Lexical Editor content from CMS
   excerpt?: string
   audioUrl?: string
   duration?: string
   publishDate?: string
   coverArt?: string
   coverArtUrl?: string
-  tags?: string[]
+  tags?: Array<{ tag: string }> | string[] // CMS uses array of objects
   createdAt?: string
   updatedAt?: string
-  [key: string]: unknown // Allow additional properties from mock data
+  [key: string]: unknown // Allow additional properties
+}
+
+export interface DJ {
+  id?: string | number // CMS uses number, frontend normalizes to string
+  email?: string
+  username?: string
+  firstName?: string
+  lastName?: string
+  djName: string
+  showName?: string
+  showTime?: string
+  role?: string
+  profileImage?: number | Media | string // Can be ID, populated object, or direct URL
+  profileImageUrl?: string // External URL option
+  bio?: string
+  djExcerpt?: string
+  djBio?: ContentField // Lexical Editor content from CMS
+  location?: string
+  // Contact fields
+  primaryPhoneType?: string
+  primaryPhone?: string
+  secondaryPhoneType?: string
+  secondaryPhone?: string
+  address?: string
+  city?: string
+  state?: string
+  zipCode?: string
+  // Professional fields
+  education?: string
+  employer?: string
+  memberSince?: string
+  hasRadioExperience?: string
+  radioStations?: string
+  // Skills and interests
+  specialSkills?: Array<{ skill: string }>
+  interests?: Array<{ interest: string }>
+  volunteerOrgs?: Array<{ org: string }>
+  wantsToDJ?: string
+  djAvailability?: Array<{ time: string }>
+  donorLevel?: string
+  age?: string
+  createdAt?: string
+  updatedAt?: string
+  [key: string]: unknown // Allow additional properties
 }
 
 export interface VolunteerCalendarEvent {
@@ -129,6 +241,7 @@ export interface CMSData {
   articles: Article[]
   events: Event[]
   podcasts: Podcast[]
+  djs: DJ[]
   volunteerCalendar: VolunteerCalendarEvent[]
   shopItems: ShopItem[]
   pages: Page[]
@@ -141,6 +254,7 @@ export interface CMSLoadingState {
   articles: boolean
   events: boolean
   podcasts: boolean
+  djs: boolean
   volunteerCalendar: boolean
   shopItems: boolean
   pages: boolean
@@ -153,6 +267,7 @@ export interface CMSErrorState {
   articles: Error | null
   events: Error | null
   podcasts: Error | null
+  djs: Error | null
   volunteerCalendar: Error | null
   shopItems: Error | null
   pages: Error | null
