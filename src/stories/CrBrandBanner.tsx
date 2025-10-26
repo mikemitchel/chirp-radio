@@ -5,6 +5,7 @@ import CrStreamingMusicPlayer from './CrStreamingMusicPlayer'
 import './CrBrandBanner.css'
 
 interface CrBrandBannerProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   streamingPlayerProps?: any
 }
 
@@ -19,11 +20,14 @@ export default function CrBrandBanner({
   },
 }: CrBrandBannerProps) {
   // Try to use navigate, but handle case where Router isn't available (e.g., Storybook)
+  // Note: Hook must be called unconditionally (Rules of Hooks)
   let navigate: ((path: string) => void) | null = null
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     navigate = useNavigate()
-  } catch (e) {
-    // Router not available
+  } catch {
+    // Router not available (e.g., Storybook)
+    navigate = null
   }
 
   return (

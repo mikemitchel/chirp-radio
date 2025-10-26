@@ -46,13 +46,18 @@ export default function CrMainNav({
   variant = 'desktop', // 'desktop' or 'mobile'
 }: CrMainNavProps) {
   // Try to use navigate and location, but handle case where Router isn't available (e.g., Storybook)
+  // Note: Hooks must be called unconditionally (Rules of Hooks)
   let navigate: ((path: string) => void) | null = null
   let location: { pathname: string } | null = null
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     navigate = useNavigate()
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     location = useLocation()
-  } catch (e) {
-    // Router not available, will use callback props instead
+  } catch {
+    // Router not available (e.g., Storybook), will use callback props instead
+    navigate = null
+    location = null
   }
 
   const [showWaysToGive, setShowWaysToGive] = useState(false)
@@ -73,6 +78,7 @@ export default function CrMainNav({
   const isWaysToGiveActive =
     location && waysToGiveOptions.some((option) => location.pathname === option.route)
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleWaysToGiveSelect = (option: any) => {
     if (option.route && navigate) {
       navigate(option.route)
@@ -82,6 +88,7 @@ export default function CrMainNav({
     setShowWaysToGive(false)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleNavClick = (path: string, callback?: () => void) => {
     if (navigate) {
       navigate(path)
