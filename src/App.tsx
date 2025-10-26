@@ -27,7 +27,6 @@ import ArticlesPage from './pages/ArticlesPage'
 import ContactPage from './pages/ContactPage'
 import OtherWaysToGivePage from './pages/OtherWaysToGivePage'
 import OtherWaysToListenPage from './pages/OtherWaysToListenPage'
-import VolunteerResourcesPage from './pages/VolunteerResourcesPage'
 import BecomeVolunteerPage from './pages/BecomeVolunteerPage'
 import RequestSongPage from './pages/RequestSongPage'
 import DJPage from './pages/DJPage'
@@ -357,16 +356,6 @@ function App() {
                 <WebLayout>
                   <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
                     <VolunteerCalendarPage />
-                  </ProtectedRoute>
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/volunteer/resources"
-              element={
-                <WebLayout>
-                  <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
-                    <VolunteerResourcesPage />
                   </ProtectedRoute>
                 </WebLayout>
               }

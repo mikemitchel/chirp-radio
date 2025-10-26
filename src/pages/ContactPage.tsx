@@ -19,6 +19,9 @@ const ContactPage: React.FC = () => {
   const { data: events } = useEvents()
   const { data: podcasts } = usePodcasts()
 
+  // Use CMS content if available, fallback to static data
+  const contentBlocks = pageConfig?.layout || []
+
   const handleArticleClick = (article: any) => {
     navigate(`/articles/${article.id}`, { state: { article } })
   }
@@ -76,74 +79,125 @@ const ContactPage: React.FC = () => {
       <div className="contact-page">
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
-          <CrCard
-            variant="article"
-            type="page"
-            imagePosition="right"
-            articleImageAspectRatio="16:9"
-            preheader="GET IN TOUCH"
-            title="Contact CHIRP Radio"
-            titleTag="h1"
-            titleSize="xl"
-            bannerHeight="tall"
-            textLayout="stacked"
-            bannerBackgroundColor="none"
-            showTicketButton={false}
-            showShareButton={false}
-            contentSummary={contactData.introText.join('\n\n')}
-            backgroundImage={contactData.heroImage}
-          />
+          {/* Render CMS content if available, otherwise show static content */}
+          {contentBlocks.length > 0 ? (
+            <>
+              {/* First block (header) */}
+              {contentBlocks[0] && (
+                <CrCard
+                  variant="article"
+                  type="page"
+                  imagePosition={contentBlocks[0].imagePosition || 'right'}
+                  articleImageAspectRatio="16:9"
+                  preheader={contentBlocks[0].preheader}
+                  title={contentBlocks[0].title}
+                  titleTag={contentBlocks[0].titleTag || 'h1'}
+                  titleSize="xl"
+                  bannerHeight="tall"
+                  textLayout="stacked"
+                  bannerBackgroundColor="none"
+                  showTicketButton={false}
+                  showShareButton={false}
+                  content={contentBlocks[0].content}
+                  backgroundImage={contentBlocks[0].backgroundImageUrl || contentBlocks[0].backgroundImage}
+                />
+              )}
 
-          <div className="grid-masonry">
-            {contactData.contactMethods.map((method) => (
+              {/* Remaining blocks in masonry grid */}
+              <div className="grid-masonry">
+                {contentBlocks.slice(1).map((block: any, index: number) => (
+                  <CrCard
+                    key={index}
+                    variant="article"
+                    type="page"
+                    imagePosition={block.imagePosition || 'none'}
+                    preheader={block.preheader}
+                    title={block.title}
+                    titleTag={block.titleTag || 'h2'}
+                    bannerHeight="narrow"
+                    textLayout="inline"
+                    bannerBackgroundColor="none"
+                    showTicketButton={false}
+                    showShareButton={false}
+                    content={block.content}
+                    backgroundImage={block.backgroundImageUrl || block.backgroundImage}
+                  />
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Fallback to static content */}
               <CrCard
-                key={method.id}
                 variant="article"
                 type="page"
-                imagePosition="none"
-                preheader=""
-                title={method.title}
-                bannerHeight="narrow"
-                textLayout="inline"
+                imagePosition="right"
+                articleImageAspectRatio="16:9"
+                preheader="GET IN TOUCH"
+                title="Contact CHIRP Radio"
+                titleTag="h1"
+                titleSize="xl"
+                bannerHeight="tall"
+                textLayout="stacked"
                 bannerBackgroundColor="none"
                 showTicketButton={false}
                 showShareButton={false}
-                content={method.content}
-                contentSummary={method.contentSummary}
-                backgroundImage={method.backgroundImage}
+                contentSummary={contactData.introText.join('\n\n')}
+                backgroundImage={contactData.heroImage}
               />
-            ))}
 
-            <CrCard
-              variant="article"
-              type="page"
-              imagePosition="none"
-              preheader=""
-              title={contactData.studioAddress.title}
-              bannerHeight="narrow"
-              textLayout="inline"
-              bannerBackgroundColor="none"
-              showTicketButton={false}
-              showShareButton={false}
-              contentSummary={`${contactData.studioAddress.address}\n\n${contactData.studioAddress.note}`}
-              backgroundImage={contactData.studioAddress.image}
-            />
+              <div className="grid-masonry">
+                {contactData.contactMethods.map((method) => (
+                  <CrCard
+                    key={method.id}
+                    variant="article"
+                    type="page"
+                    imagePosition="none"
+                    preheader=""
+                    title={method.title}
+                    bannerHeight="narrow"
+                    textLayout="inline"
+                    bannerBackgroundColor="none"
+                    showTicketButton={false}
+                    showShareButton={false}
+                    content={method.content}
+                    contentSummary={method.contentSummary}
+                    backgroundImage={method.backgroundImage}
+                  />
+                ))}
 
-            <CrCard
-              variant="article"
-              type="page"
-              imagePosition="none"
-              preheader=""
-              title={contactData.socialMedia.title}
-              bannerHeight="narrow"
-              textLayout="inline"
-              bannerBackgroundColor="none"
-              showTicketButton={false}
-              showShareButton={false}
-              contentSummary={`${contactData.socialMedia.description}\n\n${contactData.socialMedia.platforms.map((p) => `${p.name}: ${p.handle}`).join('\n')}`}
-              backgroundImage="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop"
-            />
-          </div>
+                <CrCard
+                  variant="article"
+                  type="page"
+                  imagePosition="none"
+                  preheader=""
+                  title={contactData.studioAddress.title}
+                  bannerHeight="narrow"
+                  textLayout="inline"
+                  bannerBackgroundColor="none"
+                  showTicketButton={false}
+                  showShareButton={false}
+                  contentSummary={`${contactData.studioAddress.address}\n\n${contactData.studioAddress.note}`}
+                  backgroundImage={contactData.studioAddress.image}
+                />
+
+                <CrCard
+                  variant="article"
+                  type="page"
+                  imagePosition="none"
+                  preheader=""
+                  title={contactData.socialMedia.title}
+                  bannerHeight="narrow"
+                  textLayout="inline"
+                  bannerBackgroundColor="none"
+                  showTicketButton={false}
+                  showShareButton={false}
+                  contentSummary={`${contactData.socialMedia.description}\n\n${contactData.socialMedia.platforms.map((p) => `${p.name}: ${p.handle}`).join('\n')}`}
+                  backgroundImage="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop"
+                />
+              </div>
+            </>
+          )}
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">

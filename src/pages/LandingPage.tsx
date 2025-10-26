@@ -18,12 +18,14 @@ import {
   useTracks,
   useCurrentShow,
   useScheduledDJs,
+  useSiteSettings,
 } from '../hooks/useData'
 import { useAuth } from '../hooks/useAuth'
 import { downloadDJShowCalendar } from '../utils/calendar'
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate()
+  const { data: siteSettings } = useSiteSettings()
   const { data: featuredAnnouncement } = useFeaturedAnnouncement()
   const { data: announcements } = useAnnouncements()
   const { data: events } = useEvents()
@@ -41,8 +43,34 @@ const LandingPage: React.FC = () => {
     }
   }, [])
 
-  // Get first non-featured active announcement for sidebar
-  const sidebarAnnouncement = announcements?.find((a) => a.isActive && !a.featuredOnLanding)
+  // Get configured announcements and advertisement from Site Settings
+  const topAnnouncementId =
+    typeof siteSettings?.topAnnouncement === 'string'
+      ? siteSettings.topAnnouncement
+      : siteSettings?.topAnnouncement?.id
+  const sidebarAnnouncementId =
+    typeof siteSettings?.sidebarAnnouncement === 'string'
+      ? siteSettings.sidebarAnnouncement
+      : siteSettings?.sidebarAnnouncement?.id
+  const sidebarAdvertisementId =
+    typeof siteSettings?.sidebarAdvertisement === 'string'
+      ? siteSettings.sidebarAdvertisement
+      : siteSettings?.sidebarAdvertisement?.id
+
+  // Get announcements by ID or fallback to first active
+  const displayTopAnnouncement =
+    (siteSettings?.showTopAnnouncement !== false &&
+      (topAnnouncementId
+        ? announcements?.find((a) => a.id === topAnnouncementId)
+        : featuredAnnouncement)) ||
+    null
+
+  const displaySidebarAnnouncement =
+    sidebarAnnouncementId
+      ? announcements?.find((a) => a.id === sidebarAnnouncementId)
+      : announcements?.find((a) => a.isActive && !a.featuredOnLanding)
+
+  const sidebarAdvertisement = siteSettings?.sidebarAdvertisement
   // Transform events data for hero carousel (take first 3 featured events)
   const heroSlides =
     events
@@ -86,18 +114,24 @@ const LandingPage: React.FC = () => {
   return (
     <div className="landing-page">
       {/* Top Announcement */}
-      {featuredAnnouncement && (
+      {displayTopAnnouncement && (
         <section className="page-section">
           <div className="page-container">
             <CrAnnouncement
-              variant={featuredAnnouncement.showDonationBar ? 'donation' : 'motivation'}
-              textureBackground={featuredAnnouncement.backgroundColor}
-              headlineText={featuredAnnouncement.title}
-              bodyText={featuredAnnouncement.message}
-              showLink={!!featuredAnnouncement.ctaText}
-              linkText={featuredAnnouncement.ctaText}
-              linkUrl={featuredAnnouncement.ctaUrl}
-              buttonCount="none"
+              variant={displayTopAnnouncement.variant}
+              textureBackground={displayTopAnnouncement.textureBackground}
+              headlineText={displayTopAnnouncement.headlineText}
+              bodyText={displayTopAnnouncement.bodyText}
+              showLink={displayTopAnnouncement.showLink}
+              linkText={displayTopAnnouncement.linkText}
+              linkUrl={displayTopAnnouncement.linkUrl}
+              buttonCount={displayTopAnnouncement.buttonCount}
+              button1Text={displayTopAnnouncement.button1Text}
+              button1Icon={displayTopAnnouncement.button1Icon}
+              button2Text={displayTopAnnouncement.button2Text}
+              button2Icon={displayTopAnnouncement.button2Icon}
+              currentAmount={displayTopAnnouncement.currentAmount}
+              targetAmount={displayTopAnnouncement.targetAmount}
             />
           </div>
         </section>
@@ -122,21 +156,42 @@ const LandingPage: React.FC = () => {
             />
           )}
 
-          {sidebarAnnouncement && (
+          {displaySidebarAnnouncement && (
             <CrAnnouncement
-              variant="motivation"
+              variant={displaySidebarAnnouncement.variant}
               widthVariant="third"
-              textureBackground={sidebarAnnouncement.backgroundColor}
-              headlineText={sidebarAnnouncement.title}
-              bodyText={sidebarAnnouncement.message}
-              showLink={!!sidebarAnnouncement.ctaText}
-              linkText={sidebarAnnouncement.ctaText}
-              linkUrl={sidebarAnnouncement.ctaUrl}
-              buttonCount="none"
+              textureBackground={displaySidebarAnnouncement.textureBackground}
+              headlineText={displaySidebarAnnouncement.headlineText}
+              bodyText={displaySidebarAnnouncement.bodyText}
+              showLink={displaySidebarAnnouncement.showLink}
+              linkText={displaySidebarAnnouncement.linkText}
+              linkUrl={displaySidebarAnnouncement.linkUrl}
+              buttonCount={displaySidebarAnnouncement.buttonCount}
+              button1Text={displaySidebarAnnouncement.button1Text}
+              button1Icon={displaySidebarAnnouncement.button1Icon}
+              button2Text={displaySidebarAnnouncement.button2Text}
+              button2Icon={displaySidebarAnnouncement.button2Icon}
+              currentAmount={displaySidebarAnnouncement.currentAmount}
+              targetAmount={displaySidebarAnnouncement.targetAmount}
             />
           )}
 
-          <CrAdSpace size="mobile-banner" />
+          {sidebarAdvertisement && (
+            <CrAdSpace
+              size={sidebarAdvertisement.size || 'mobile-banner'}
+              customWidth={sidebarAdvertisement.customWidth}
+              customHeight={sidebarAdvertisement.customHeight}
+              contentType={sidebarAdvertisement.contentType}
+              src={sidebarAdvertisement.imageUrl || sidebarAdvertisement.image?.url}
+              alt={sidebarAdvertisement.alt}
+              htmlContent={sidebarAdvertisement.htmlContent}
+              videoSrc={sidebarAdvertisement.videoUrl || sidebarAdvertisement.video?.url}
+              embedCode={sidebarAdvertisement.embedCode}
+              href={sidebarAdvertisement.href}
+              target={sidebarAdvertisement.target}
+              showLabel={sidebarAdvertisement.showLabel}
+            />
+          )}
         </div>
       </section>
 

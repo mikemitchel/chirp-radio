@@ -7,6 +7,7 @@ import CrPlaylistTable from '../stories/CrPlaylistTable'
 import CrPlaylistItem from '../stories/CrPlaylistItem'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrList from '../stories/CrList'
+import CrAdSpace from '../stories/CrAdSpace'
 import {
   useTracks,
   useCurrentUser,
@@ -14,6 +15,7 @@ import {
   useMostAdded,
   useHalloween,
   useAnnouncements,
+  useSiteSettings,
 } from '../hooks/useData'
 import { useNotification } from '../contexts/NotificationContext'
 import { getCollection, removeFromCollection, type CollectionTrack } from '../utils/collectionDB'
@@ -27,19 +29,58 @@ const ListenPage: React.FC = () => {
   const { data: mostAddedChart } = useMostAdded()
   const { data: halloweenChart } = useHalloween()
   const { data: announcements } = useAnnouncements()
+  const { data: siteSettings } = useSiteSettings()
   const { showModal, showToast } = useNotification()
   const [collection, setCollection] = useState<CollectionTrack[]>([])
 
   // Transform tracks for playlist table - only show last 2 hours
-  const recentlyPlayedTracks =
-    tracks
-      ?.filter((track, index, arr) => {
-        // Get unique hours from tracks
-        const uniqueHours = [...new Set(arr.map((t) => t.hourKey))]
-        // Only include tracks from the first 2 hours
-        return uniqueHours.slice(0, 2).includes(track.hourKey)
-      })
-      .map((track) => ({
+  const recentlyPlayedTracks = React.useMemo(() => {
+    if (!tracks) return []
+
+    // First, find the most recent 2 unique hours by sorting tracks by time
+    const tracksSortedByTime = [...tracks].sort(
+      (a, b) => new Date(b.playedAt).getTime() - new Date(a.playedAt).getTime()
+    )
+
+    // Get unique hours from sorted tracks (most recent hours first)
+    const uniqueHours: string[] = []
+    tracksSortedByTime.forEach((track) => {
+      if (!uniqueHours.includes(track.hourKey)) {
+        uniqueHours.push(track.hourKey)
+      }
+    })
+
+    // Get only the first 2 unique hours (most recent)
+    const recentHours = uniqueHours.slice(0, 2)
+
+    // Filter tracks from those 2 hours, then sort NEWEST to OLDEST (reverse chronological)
+    const filteredTracks = tracks
+      .filter((track) => recentHours.includes(track.hourKey))
+      .sort((a, b) => new Date(b.playedAt).getTime() - new Date(a.playedAt).getTime())
+
+    // Map to the format needed
+    return filteredTracks.map((track) => {
+      // Parse the hourKey to determine start/end times
+      const hourMatch = track.hourKey?.match(/(\d+)(am|pm)/i)
+      let startTime = '12:00am'
+      let endTime = '1:00am'
+
+      if (hourMatch) {
+        const hour = parseInt(hourMatch[1])
+        const period = hourMatch[2].toLowerCase()
+        startTime = `${hour}:00${period}`
+
+        // Calculate end time (next hour)
+        if (hour === 12) {
+          endTime = period === 'am' ? '1:00am' : '1:00pm'
+        } else if (hour === 11) {
+          endTime = period === 'am' ? '12:00pm' : '12:00am'
+        } else {
+          endTime = `${hour + 1}:00${period}`
+        }
+      }
+
+      return {
         albumArt: track.albumArt,
         artistName: track.artistName,
         trackName: track.trackName,
@@ -52,13 +93,15 @@ const ListenPage: React.FC = () => {
         }),
         hourKey: track.hourKey,
         hourData: {
-          startTime: track.hourKey === '5am' ? '5:00am' : '4:00am',
-          endTime: track.hourKey === '5am' ? '6:00am' : '5:00am',
+          startTime,
+          endTime,
           djName: track.djName,
           showName: track.showName,
           djProfileUrl: '#',
         },
-      })) || []
+      }
+    })
+  }, [tracks])
 
   // Load collection on mount
   useEffect(() => {
@@ -146,6 +189,32 @@ const ListenPage: React.FC = () => {
       year: 'numeric',
     })
   }
+
+  // Get sidebar content from Site Settings
+  const sidebarAnnouncementId =
+    typeof siteSettings?.listenSidebarAnnouncement === 'string'
+      ? siteSettings.listenSidebarAnnouncement
+      : siteSettings?.listenSidebarAnnouncement?.id
+
+  const sidebarAnnouncement = sidebarAnnouncementId
+    ? announcements?.find((a) => a.id === sidebarAnnouncementId)
+    : announcements?.[3] // fallback
+
+  const fullWidthAnnouncementId =
+    typeof siteSettings?.fullWidthAnnouncement === 'string'
+      ? siteSettings.fullWidthAnnouncement
+      : siteSettings?.fullWidthAnnouncement?.id
+
+  const fullWidthAnnouncement = fullWidthAnnouncementId
+    ? announcements?.find((a) => a.id === fullWidthAnnouncementId)
+    : announcements?.[2] // fallback
+
+  const sidebarAdvertisement = siteSettings?.listenSidebarAdvertisement
+
+  // Get weekly charts from Site Settings
+  const leftWeeklyChart = siteSettings?.leftWeeklyChart || top25Chart
+  const rightWeeklyChart = siteSettings?.rightWeeklyChart || mostAddedChart
+  const sidebarWeeklyChart = siteSettings?.listenSidebarWeeklyChart || halloweenChart
 
   // Dummy data for "This Week's Adds" - will be replaced when we have this data
   const weeksAddsTracks = [
@@ -522,7 +591,7 @@ const ListenPage: React.FC = () => {
             titleSize="lg"
             showEyebrow={false}
             showActionButton={true}
-            actionButtonText="Complete Playlist"
+            actionButtonText="Previous Plays"
             actionButtonIcon={<PiVinylRecord />}
             onActionClick={() => navigate('/playlist')}
           />
@@ -557,28 +626,35 @@ const ListenPage: React.FC = () => {
               />
             </>
           )}
-          <CrList
-            preheader={halloweenChart?.preheader}
-            title={halloweenChart?.title}
-            showActionButton={false}
-            showAddButton={false}
-            items={
-              halloweenChart?.tracks?.map((costume) => ({
-                songName: costume.costumeName,
-              })) || []
-            }
-          />
-          {announcements && announcements[3] && (
-            <CrAnnouncement
-              variant="motivation"
-              widthVariant="third"
-              textureBackground={announcements[3].backgroundColor}
-              headlineText={announcements[3].title}
-              bodyText={announcements[3].message}
-              showLink={!!announcements[3].ctaText}
-              linkText={announcements[3].ctaText}
-              linkUrl={announcements[3].ctaUrl}
-              buttonCount="one"
+          {sidebarWeeklyChart && (
+            <CrList
+              preheader={sidebarWeeklyChart.preheader}
+              title={sidebarWeeklyChart.title}
+              showActionButton={false}
+              showAddButton={false}
+              items={
+                sidebarWeeklyChart.tracks?.map((item: any) => ({
+                  songName: item.costumeName || item.trackName,
+                  artistName: item.artistName,
+                  recordCompany: item.labelName,
+                })) || []
+              }
+            />
+          )}
+          {sidebarAdvertisement && (
+            <CrAdSpace
+              size={sidebarAdvertisement.size || 'large-rectangle'}
+              customWidth={sidebarAdvertisement.customWidth}
+              customHeight={sidebarAdvertisement.customHeight}
+              contentType={sidebarAdvertisement.contentType}
+              src={sidebarAdvertisement.imageUrl || sidebarAdvertisement.image?.url}
+              alt={sidebarAdvertisement.alt}
+              htmlContent={sidebarAdvertisement.htmlContent}
+              videoSrc={sidebarAdvertisement.videoUrl || sidebarAdvertisement.video?.url}
+              embedCode={sidebarAdvertisement.embedCode}
+              href={sidebarAdvertisement.href}
+              target={sidebarAdvertisement.target}
+              showLabel={sidebarAdvertisement.showLabel}
             />
           )}
         </div>
@@ -586,16 +662,22 @@ const ListenPage: React.FC = () => {
 
       <section className="page-section">
         <div className="page-container">
-          {announcements && announcements[2] && (
+          {fullWidthAnnouncement && (
             <CrAnnouncement
-              variant="motivation"
-              textureBackground={announcements[2].backgroundColor}
-              headlineText={announcements[2].title}
-              bodyText={announcements[2].message}
-              showLink={!!announcements[2].ctaText}
-              linkText={announcements[2].ctaText}
-              linkUrl={announcements[2].ctaUrl}
-              buttonCount="two"
+              variant={fullWidthAnnouncement.variant}
+              textureBackground={fullWidthAnnouncement.textureBackground}
+              headlineText={fullWidthAnnouncement.headlineText}
+              bodyText={fullWidthAnnouncement.bodyText}
+              showLink={fullWidthAnnouncement.showLink}
+              linkText={fullWidthAnnouncement.linkText}
+              linkUrl={fullWidthAnnouncement.linkUrl}
+              buttonCount={fullWidthAnnouncement.buttonCount}
+              button1Text={fullWidthAnnouncement.button1Text}
+              button1Icon={fullWidthAnnouncement.button1Icon}
+              button2Text={fullWidthAnnouncement.button2Text}
+              button2Icon={fullWidthAnnouncement.button2Icon}
+              currentAmount={fullWidthAnnouncement.currentAmount}
+              targetAmount={fullWidthAnnouncement.targetAmount}
             />
           )}
         </div>
@@ -603,20 +685,36 @@ const ListenPage: React.FC = () => {
 
       <section className="page-layout-2col">
         <div className="page-layout-2col__column">
-          <CrList
-            preheader={`Week of ${getWeekOfDate()}`}
-            title={top25Chart?.title || 'Top 25'}
-            bannerButtonText="View Full Chart"
-            items={top25Items}
-          />
+          {leftWeeklyChart && (
+            <CrList
+              preheader={leftWeeklyChart.preheader || `Week of ${getWeekOfDate()}`}
+              title={leftWeeklyChart.title || 'Top 25'}
+              bannerButtonText="View Full Chart"
+              items={
+                leftWeeklyChart.tracks?.map((track: any) => ({
+                  songName: track.trackName,
+                  artistName: track.artistName,
+                  recordCompany: track.labelName,
+                })) || []
+              }
+            />
+          )}
         </div>
         <div className="page-layout-2col__column">
-          <CrList
-            preheader="Chicago Local Artists"
-            title={mostAddedChart?.title || 'Most Added'}
-            bannerButtonText="View All Local"
-            items={mostAddedItems}
-          />
+          {rightWeeklyChart && (
+            <CrList
+              preheader={rightWeeklyChart.preheader || 'Chicago Local Artists'}
+              title={rightWeeklyChart.title || 'Most Added'}
+              bannerButtonText="View All Local"
+              items={
+                rightWeeklyChart.tracks?.map((track: any) => ({
+                  songName: track.trackName,
+                  artistName: track.artistName,
+                  recordCompany: track.labelName,
+                })) || []
+              }
+            />
+          )}
         </div>
       </section>
     </div>

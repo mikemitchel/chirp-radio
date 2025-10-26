@@ -109,19 +109,33 @@ export default function CrPlaylistTable({
     }))
   }
 
-  // Group items by hour if groupByHour is true
+  // Group items by hour if groupByHour is true, preserving order
   const groupedItems = groupByHour
-    ? itemsWithStatus.reduce((acc, item) => {
-        const hourKey = item.hourKey || 'unknown'
-        if (!acc[hourKey]) {
-          acc[hourKey] = {
-            hourData: item.hourData || {},
-            items: [],
+    ? (() => {
+        const groups: { hourKey: string; hourData: any; items: any[] }[] = []
+        const seenHours = new Set<string>()
+
+        itemsWithStatus.forEach((item) => {
+          const hourKey = item.hourKey || 'unknown'
+
+          if (!seenHours.has(hourKey)) {
+            seenHours.add(hourKey)
+            groups.push({
+              hourKey,
+              hourData: item.hourData || {},
+              items: [item],
+            })
+          } else {
+            // Find the group and add item to it
+            const group = groups.find((g) => g.hourKey === hourKey)
+            if (group) {
+              group.items.push(item)
+            }
           }
-        }
-        acc[hourKey].items.push(item)
-        return acc
-      }, {})
+        })
+
+        return groups
+      })()
     : null
 
   if (groupByHour && groupedItems) {
@@ -130,9 +144,9 @@ export default function CrPlaylistTable({
         {showHeader && <CrPlaylistTableHeader />}
 
         <div className="cr-playlist-table__items">
-          {Object.entries(groupedItems).map(([hourKey, hourGroup]) => {
+          {groupedItems.map((hourGroup) => {
+            const { hourKey, hourData, items: hourItems } = hourGroup
             const isCollapsed = collapsedHours[hourKey]
-            const { hourData, items: hourItems } = hourGroup
 
             return (
               <div key={hourKey} className="cr-playlist-table__hour-group">

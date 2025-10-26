@@ -2,11 +2,13 @@
 import React, { useMemo } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import CrPageHeader from '../stories/CrPageHeader'
+import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrCard from '../stories/CrCard'
 import CrPagination from '../stories/CrPagination'
 import { useTracks, useCurrentShow, useArticles } from '../hooks/useData'
+import announcementsData from '../data/announcements.json'
 
 const HOURS_PER_PAGE = 4
 
@@ -19,6 +21,13 @@ const PlaylistPage: React.FC = () => {
 
   // Get current page from URL, default to 0
   const currentPage = parseInt(searchParams.get('page') || '0', 10)
+
+  // Select random announcement on mount
+  const randomAnnouncement = useMemo(() => {
+    const activeAnnouncements = announcementsData.announcements.filter(a => a.isActive)
+    if (activeAnnouncements.length === 0) return announcementsData.announcements[0]
+    return activeAnnouncements[Math.floor(Math.random() * activeAnnouncements.length)]
+  }, [])
 
   // Format tracks with hour data for grouping
   const formattedTracks =
@@ -59,41 +68,48 @@ const PlaylistPage: React.FC = () => {
       }
     }) || []
 
-  // Group tracks by hour and paginate
-  const { hourlyTracks, totalPages } = useMemo(() => {
-    if (!formattedTracks.length) return { hourlyTracks: [], totalPages: 0 }
+  // Group tracks by hour and paginate - split into first 2 hours and last 2 hours
+  const { firstTwoHours, lastTwoHours, totalPages } = useMemo(() => {
+    if (!formattedTracks.length) return { firstTwoHours: [], lastTwoHours: [], totalPages: 0 }
 
-    // Get unique hours from tracks (sorted by playedAt time, most recent first)
-    const tracksByHour = new Map<string, typeof formattedTracks>()
+    // First, sort to find unique hours (most recent first)
+    const tracksSortedByTime = [...formattedTracks].sort(
+      (a, b) => new Date(b.playedAt || 0).getTime() - new Date(a.playedAt || 0).getTime()
+    )
 
-    formattedTracks
-      .sort((a, b) => new Date(b.playedAt || 0).getTime() - new Date(a.playedAt || 0).getTime())
-      .forEach((track) => {
-        const hourKey = track.hourKey
-        if (!tracksByHour.has(hourKey)) {
-          tracksByHour.set(hourKey, [])
-        }
-        tracksByHour.get(hourKey)!.push(track)
-      })
-
-    // Convert to array of [hourKey, tracks[]] and sort by most recent track in each hour
-    const hourGroups = Array.from(tracksByHour.entries()).sort((a, b) => {
-      // Sort hour groups by the most recent track in each group
-      const aTime = new Date(a[1][0]?.playedAt || 0).getTime()
-      const bTime = new Date(b[1][0]?.playedAt || 0).getTime()
-      return bTime - aTime
+    // Get unique hours in order (most recent hours first)
+    const uniqueHours: string[] = []
+    tracksSortedByTime.forEach((track) => {
+      if (!uniqueHours.includes(track.hourKey)) {
+        uniqueHours.push(track.hourKey)
+      }
     })
 
-    // Calculate pagination
-    const pages = Math.ceil(hourGroups.length / HOURS_PER_PAGE)
+    // Calculate pagination based on hours
+    const pages = Math.ceil(uniqueHours.length / HOURS_PER_PAGE)
     const startIndex = currentPage * HOURS_PER_PAGE
     const endIndex = startIndex + HOURS_PER_PAGE
 
-    // Get tracks for current page's hours (4 hour sections)
-    const currentHourGroups = hourGroups.slice(startIndex, endIndex)
+    // Get the hours for the current page
+    const currentPageHours = uniqueHours.slice(startIndex, endIndex)
+
+    // Split into first 2 hours and last 2 hours
+    const firstTwoPageHours = currentPageHours.slice(0, 2)
+    const lastTwoPageHours = currentPageHours.slice(2, 4)
+
+    // Get tracks for first 2 hours
+    const tracksForFirstTwo = formattedTracks
+      .filter((track) => firstTwoPageHours.includes(track.hourKey))
+      .sort((a, b) => new Date(b.playedAt || 0).getTime() - new Date(a.playedAt || 0).getTime())
+
+    // Get tracks for last 2 hours
+    const tracksForLastTwo = formattedTracks
+      .filter((track) => lastTwoPageHours.includes(track.hourKey))
+      .sort((a, b) => new Date(b.playedAt || 0).getTime() - new Date(a.playedAt || 0).getTime())
 
     return {
-      hourlyTracks: currentHourGroups.map(([_, tracks]) => tracks),
+      firstTwoHours: tracksForFirstTwo,
+      lastTwoHours: tracksForLastTwo,
       totalPages: pages,
     }
   }, [formattedTracks, currentPage])
@@ -114,25 +130,27 @@ const PlaylistPage: React.FC = () => {
   return (
     <div className="playlist-page">
       <section className="page-container">
-        <CrPageHeader title="Playlist Archive" showEyebrow={false} showActionButton={false} />
+        <CrBreadcrumb
+          items={[
+            { label: 'Listen', isClickable: true, onClick: () => navigate('/listen') },
+            { label: 'Playlist', isClickable: false }
+          ]}
+        />
       </section>
 
       <section className="page-container">
         <CrPageHeader
-          title="Current Playlist"
-          titleTag="h2"
-          titleSize="lg"
+          title="Playlist"
           showEyebrow={false}
-          showActionButton={true}
-          actionButtonText="Download Playlist"
+          showActionButton={false}
         />
       </section>
 
-      {/* First 2 hours of playlist */}
-      {hourlyTracks[0] && hourlyTracks[1] && (
+      {/* First 2 hours */}
+      {firstTwoHours.length > 0 && (
         <section className="page-container">
           <CrPlaylistTable
-            items={[...hourlyTracks[0], ...hourlyTracks[1]]}
+            items={firstTwoHours}
             showHeader={true}
             groupByHour={true}
           />
@@ -142,16 +160,40 @@ const PlaylistPage: React.FC = () => {
       {/* Announcement */}
       <section className="page-section">
         <div className="page-container">
-          <CrAnnouncement variant="motivation" textureBackground="cr-bg-natural-d100" />
+          <CrAnnouncement
+            variant="motivation"
+            textureBackground={randomAnnouncement.backgroundColor || "cr-bg-natural-d100"}
+            headlineText={randomAnnouncement.title}
+            bodyText={randomAnnouncement.message}
+            showLink={!!randomAnnouncement.ctaText}
+            linkText={randomAnnouncement.ctaText || undefined}
+            linkUrl={randomAnnouncement.ctaUrl || undefined}
+            buttonCount="none"
+          />
         </div>
       </section>
 
-      {/* Third hour of playlist */}
-      {hourlyTracks[2] && (
+      {/* Last 2 hours */}
+      {lastTwoHours.length > 0 && (
         <section className="page-container">
-          <CrPlaylistTable items={hourlyTracks[2]} showHeader={true} groupByHour={true} />
+          <CrPlaylistTable
+            items={lastTwoHours}
+            showHeader={false}
+            groupByHour={true}
+          />
         </section>
       )}
+
+      {/* Pagination */}
+      <section className="page-section">
+        <div className="page-container">
+          <CrPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      </section>
 
       {/* Three article cards in 1/3 1/3 1/3 layout */}
       <section className="page-container">
@@ -228,24 +270,6 @@ const PlaylistPage: React.FC = () => {
               onClick={() => handleArticleClick(articles[2])}
             />
           )}
-        </div>
-      </section>
-
-      {/* Fourth hour of playlist */}
-      {hourlyTracks[3] && (
-        <section className="page-container">
-          <CrPlaylistTable items={hourlyTracks[3]} showHeader={true} groupByHour={true} />
-        </section>
-      )}
-
-      {/* Pagination */}
-      <section className="page-section">
-        <div className="page-container">
-          <CrPagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
         </div>
       </section>
     </div>

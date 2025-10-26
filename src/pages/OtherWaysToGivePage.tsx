@@ -14,12 +14,15 @@ import { getAdvertisementProps } from '../utils/categoryHelpers'
 
 const OtherWaysToGivePage: React.FC = () => {
   const navigate = useNavigate()
-  const [section1, section2] = waysToGiveData.sections
   const { data: pageConfig } = usePageBySlug('other-ways-to-give')
   const { data: announcements } = useAnnouncements()
   const { data: articles } = useArticles()
   const { data: events } = useEvents()
   const { data: podcasts } = usePodcasts()
+
+  // Use CMS content if available, fallback to static data
+  const contentBlocks = pageConfig?.layout || []
+  const [section1, section2] = waysToGiveData.sections
 
   const handleArticleClick = (article: any) => {
     navigate(`/articles/${article.id}`, { state: { article } })
@@ -78,89 +81,182 @@ const OtherWaysToGivePage: React.FC = () => {
       <div className="ways-to-give-page">
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
-          <CrCard
-            variant="article"
-            type="page"
-            imagePosition="right"
-            articleImageAspectRatio="16:9"
-            preheader="DONATE TO CHIRP"
-            title="Other Ways to Give"
-            titleTag="h1"
-            titleSize="xl"
-            bannerHeight="tall"
-            textLayout="stacked"
-            bannerBackgroundColor="none"
-            showTicketButton={false}
-            showShareButton={false}
-            contentSummary={waysToGiveData.introText.join('\n\n')}
-            backgroundImage={section1.image}
-          />
-
-          <div className="grid-2col-equal">
-            <div>
-              <CrCard
-                variant="article"
-                type="page"
-                imagePosition="none"
-                preheader=""
-                title={section1.title}
-                bannerHeight="narrow"
-                textLayout="inline"
-                bannerBackgroundColor="none"
-                showTicketButton={false}
-                showShareButton={false}
-                contentSummary={`${section1.description}\n\n${section1.items.join('\n')}`}
-                backgroundImage={section1.image}
-              />
-              <CrCard
-                variant="article"
-                type="page"
-                imagePosition="none"
-                preheader=""
-                title={section2.title}
-                bannerHeight="narrow"
-                textLayout="inline"
-                bannerBackgroundColor="none"
-                showTicketButton={false}
-                showShareButton={false}
-                contentSummary={`${section2.description}\n\n${section2.items.join('\n')}\n\n${section2.footer}`}
-                backgroundImage={section2.image}
-              />
-            </div>
-            <div>
-              {waysToGiveData.donationCards.map((card) => (
+          {/* Render CMS content if available, otherwise show static content */}
+          {contentBlocks.length > 0 ? (
+            <>
+              {/* First block (header) */}
+              {contentBlocks[0] && (
                 <CrCard
-                  key={card.id}
                   variant="article"
                   type="page"
-                  imagePosition="none"
-                  preheader=""
-                  title={card.title}
-                  bannerHeight="narrow"
-                  textLayout="inline"
+                  imagePosition={contentBlocks[0].imagePosition || 'right'}
+                  articleImageAspectRatio="16:9"
+                  preheader={contentBlocks[0].preheader}
+                  title={contentBlocks[0].title}
+                  titleTag={contentBlocks[0].titleTag || 'h1'}
+                  titleSize="xl"
+                  bannerHeight="tall"
+                  textLayout="stacked"
                   bannerBackgroundColor="none"
                   showTicketButton={false}
                   showShareButton={false}
-                  content={card.content}
-                  contentSummary={card.contentSummary}
-                  backgroundImage={card.backgroundImage}
+                  content={contentBlocks[0].content}
+                  backgroundImage={contentBlocks[0].backgroundImageUrl || contentBlocks[0].backgroundImage}
                 />
-              ))}
-            </div>
-          </div>
-          <CrCard
-            variant="article"
-            type="page"
-            imagePosition="right"
-            articleImageAspectRatio="16:9"
-            preheader=""
-            title={waysToGiveData.vinylCircle.title}
-            bannerBackgroundColor="none"
-            contentSummary={waysToGiveData.vinylCircle.contentSummary}
-            backgroundImage={waysToGiveData.vinylCircle.backgroundImage}
-            showTicketButton={false}
-            showShareButton={false}
-          />
+              )}
+
+              {/* Remaining blocks in grid layout */}
+              <div className="grid-2col-equal">
+                <div>
+                  {/* Blocks 1-2 (Support When You Shop, Wishlist) */}
+                  {contentBlocks.slice(1, 3).map((block: any, index: number) => (
+                    <CrCard
+                      key={index}
+                      variant="article"
+                      type="page"
+                      imagePosition={block.imagePosition || 'none'}
+                      preheader={block.preheader}
+                      title={block.title}
+                      titleTag={block.titleTag || 'h2'}
+                      bannerHeight="narrow"
+                      textLayout="inline"
+                      bannerBackgroundColor="none"
+                      showTicketButton={false}
+                      showShareButton={false}
+                      content={block.content}
+                      backgroundImage={block.backgroundImageUrl || block.backgroundImage}
+                    />
+                  ))}
+                </div>
+                <div>
+                  {/* Blocks 3-5 (Donation cards) */}
+                  {contentBlocks.slice(3, 6).map((block: any, index: number) => (
+                    <CrCard
+                      key={index}
+                      variant="article"
+                      type="page"
+                      imagePosition={block.imagePosition || 'none'}
+                      preheader={block.preheader}
+                      title={block.title}
+                      titleTag={block.titleTag || 'h2'}
+                      bannerHeight="narrow"
+                      textLayout="inline"
+                      bannerBackgroundColor="none"
+                      showTicketButton={false}
+                      showShareButton={false}
+                      content={block.content}
+                      backgroundImage={block.backgroundImageUrl || block.backgroundImage}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Block 6 (Vinyl Circle) */}
+              {contentBlocks[6] && (
+                <CrCard
+                  variant="article"
+                  type="page"
+                  imagePosition={contentBlocks[6].imagePosition || 'right'}
+                  articleImageAspectRatio="16:9"
+                  preheader={contentBlocks[6].preheader}
+                  title={contentBlocks[6].title}
+                  titleTag={contentBlocks[6].titleTag || 'h2'}
+                  bannerBackgroundColor="none"
+                  content={contentBlocks[6].content}
+                  backgroundImage={contentBlocks[6].backgroundImageUrl || contentBlocks[6].backgroundImage}
+                  showTicketButton={false}
+                  showShareButton={false}
+                />
+              )}
+            </>
+          ) : (
+            <>
+              {/* Fallback to static content */}
+              <CrCard
+                variant="article"
+                type="page"
+                imagePosition="right"
+                articleImageAspectRatio="16:9"
+                preheader="DONATE TO CHIRP"
+                title="Other Ways to Give"
+                titleTag="h1"
+                titleSize="xl"
+                bannerHeight="tall"
+                textLayout="stacked"
+                bannerBackgroundColor="none"
+                showTicketButton={false}
+                showShareButton={false}
+                contentSummary={waysToGiveData.introText.join('\n\n')}
+                backgroundImage={section1.image}
+              />
+
+              <div className="grid-2col-equal">
+                <div>
+                  <CrCard
+                    variant="article"
+                    type="page"
+                    imagePosition="none"
+                    preheader=""
+                    title={section1.title}
+                    bannerHeight="narrow"
+                    textLayout="inline"
+                    bannerBackgroundColor="none"
+                    showTicketButton={false}
+                    showShareButton={false}
+                    contentSummary={`${section1.description}\n\n${section1.items.join('\n')}`}
+                    backgroundImage={section1.image}
+                  />
+                  <CrCard
+                    variant="article"
+                    type="page"
+                    imagePosition="none"
+                    preheader=""
+                    title={section2.title}
+                    bannerHeight="narrow"
+                    textLayout="inline"
+                    bannerBackgroundColor="none"
+                    showTicketButton={false}
+                    showShareButton={false}
+                    contentSummary={`${section2.description}\n\n${section2.items.join('\n')}\n\n${section2.footer}`}
+                    backgroundImage={section2.image}
+                  />
+                </div>
+                <div>
+                  {waysToGiveData.donationCards.map((card) => (
+                    <CrCard
+                      key={card.id}
+                      variant="article"
+                      type="page"
+                      imagePosition="none"
+                      preheader=""
+                      title={card.title}
+                      bannerHeight="narrow"
+                      textLayout="inline"
+                      bannerBackgroundColor="none"
+                      showTicketButton={false}
+                      showShareButton={false}
+                      content={card.content}
+                      contentSummary={card.contentSummary}
+                      backgroundImage={card.backgroundImage}
+                    />
+                  ))}
+                </div>
+              </div>
+              <CrCard
+                variant="article"
+                type="page"
+                imagePosition="right"
+                articleImageAspectRatio="16:9"
+                preheader=""
+                title={waysToGiveData.vinylCircle.title}
+                bannerBackgroundColor="none"
+                contentSummary={waysToGiveData.vinylCircle.contentSummary}
+                backgroundImage={waysToGiveData.vinylCircle.backgroundImage}
+                showTicketButton={false}
+                showShareButton={false}
+              />
+            </>
+          )}
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">

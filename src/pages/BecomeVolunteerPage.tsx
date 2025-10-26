@@ -20,6 +20,9 @@ const BecomeVolunteerPage: React.FC = () => {
   const { data: events } = useEvents()
   const { data: podcasts } = usePodcasts()
 
+  // Use CMS content if available, fallback to static data
+  const contentBlocks = pageConfig?.layout || []
+
   const handleArticleClick = (article: any) => {
     navigate(`/articles/${article.id}`, { state: { article } })
   }
@@ -77,80 +80,150 @@ const BecomeVolunteerPage: React.FC = () => {
       <div className="become-volunteer-page">
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
-          <CrCard
-            variant="article"
-            type="page"
-            imagePosition="right"
-            articleImageAspectRatio="16:9"
-            preheader="JOIN OUR TEAM"
-            title="Become a CHIRP Volunteer"
-            titleTag="h1"
-            titleSize="xl"
-            bannerHeight="tall"
-            textLayout="stacked"
-            bannerBackgroundColor="none"
-            showTicketButton={false}
-            showShareButton={false}
-            contentSummary={volunteerData.introText.join('\n\n')}
-            backgroundImage={volunteerData.heroImage}
-          />
+          {/* Render CMS content if available, otherwise show static content */}
+          {contentBlocks.length > 0 ? (
+            <>
+              {/* First block (header) */}
+              {contentBlocks[0] && (
+                <CrCard
+                  variant="article"
+                  type="page"
+                  imagePosition={contentBlocks[0].imagePosition || 'right'}
+                  articleImageAspectRatio="16:9"
+                  preheader={contentBlocks[0].preheader}
+                  title={contentBlocks[0].title}
+                  titleTag={contentBlocks[0].titleTag || 'h1'}
+                  titleSize="xl"
+                  bannerHeight="tall"
+                  textLayout="stacked"
+                  bannerBackgroundColor="none"
+                  showTicketButton={false}
+                  showShareButton={false}
+                  content={contentBlocks[0].content}
+                  backgroundImage={contentBlocks[0].backgroundImageUrl || contentBlocks[0].backgroundImage}
+                />
+              )}
 
-          {/* Call to Action */}
-          <CrCard
-            variant="article"
-            type="page"
-            imagePosition="none"
-            preheader=""
-            title={volunteerData.callToAction.title}
-            bannerHeight="narrow"
-            textLayout="inline"
-            bannerBackgroundColor="none"
-            showTicketButton={true}
-            showShareButton={false}
-            bannerButtonText={volunteerData.callToAction.buttonText}
-            bannerButtonIcon={<PiArrowRight />}
-            onBannerTicketClick={() => window.open(volunteerData.callToAction.buttonUrl, '_blank')}
-            contentSummary={`${volunteerData.callToAction.description}\n\n${volunteerData.callToAction.note}`}
-            backgroundImage="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&h=600&fit=crop"
-          />
+              {/* Second block (call to action if present) */}
+              {contentBlocks[1] && (
+                <CrCard
+                  variant="article"
+                  type="page"
+                  imagePosition={contentBlocks[1].imagePosition || 'none'}
+                  preheader={contentBlocks[1].preheader}
+                  title={contentBlocks[1].title}
+                  titleTag={contentBlocks[1].titleTag || 'h2'}
+                  bannerHeight="narrow"
+                  textLayout="inline"
+                  bannerBackgroundColor="none"
+                  showTicketButton={false}
+                  showShareButton={false}
+                  content={contentBlocks[1].content}
+                  backgroundImage={contentBlocks[1].backgroundImageUrl || contentBlocks[1].backgroundImage}
+                />
+              )}
 
-          {/* Departments Grid */}
-          <div className="grid-masonry">
-            {volunteerData.departments.map((dept) => (
+              {/* Remaining blocks in masonry grid */}
+              <div className="grid-masonry">
+                {contentBlocks.slice(2).map((block: any, index: number) => (
+                  <CrCard
+                    key={index}
+                    variant="article"
+                    type="page"
+                    imagePosition={block.imagePosition || 'none'}
+                    preheader={block.preheader}
+                    title={block.title}
+                    titleTag={block.titleTag || 'h2'}
+                    bannerHeight="narrow"
+                    textLayout="inline"
+                    bannerBackgroundColor="none"
+                    showTicketButton={false}
+                    showShareButton={false}
+                    content={block.content}
+                    backgroundImage={block.backgroundImageUrl || block.backgroundImage}
+                  />
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Fallback to static content */}
               <CrCard
-                key={dept.id}
+                variant="article"
+                type="page"
+                imagePosition="right"
+                articleImageAspectRatio="16:9"
+                preheader="JOIN OUR TEAM"
+                title="Become a CHIRP Volunteer"
+                titleTag="h1"
+                titleSize="xl"
+                bannerHeight="tall"
+                textLayout="stacked"
+                bannerBackgroundColor="none"
+                showTicketButton={false}
+                showShareButton={false}
+                contentSummary={volunteerData.introText.join('\n\n')}
+                backgroundImage={volunteerData.heroImage}
+              />
+
+              {/* Call to Action */}
+              <CrCard
                 variant="article"
                 type="page"
                 imagePosition="none"
                 preheader=""
-                title={dept.title}
+                title={volunteerData.callToAction.title}
+                bannerHeight="narrow"
+                textLayout="inline"
+                bannerBackgroundColor="none"
+                showTicketButton={true}
+                showShareButton={false}
+                bannerButtonText={volunteerData.callToAction.buttonText}
+                bannerButtonIcon={<PiArrowRight />}
+                onBannerTicketClick={() => window.open(volunteerData.callToAction.buttonUrl, '_blank')}
+                contentSummary={`${volunteerData.callToAction.description}\n\n${volunteerData.callToAction.note}`}
+                backgroundImage="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=800&h=600&fit=crop"
+              />
+
+              {/* Departments Grid */}
+              <div className="grid-masonry">
+                {volunteerData.departments.map((dept) => (
+                  <CrCard
+                    key={dept.id}
+                    variant="article"
+                    type="page"
+                    imagePosition="none"
+                    preheader=""
+                    title={dept.title}
+                    bannerHeight="narrow"
+                    textLayout="inline"
+                    bannerBackgroundColor="none"
+                    showTicketButton={false}
+                    showShareButton={false}
+                    content={dept.content}
+                    contentSummary={dept.contentSummary}
+                    backgroundImage={dept.backgroundImage}
+                  />
+                ))}
+              </div>
+
+              {/* Benefits Section */}
+              <CrCard
+                variant="article"
+                type="page"
+                imagePosition="none"
+                preheader=""
+                title={volunteerData.benefits.title}
                 bannerHeight="narrow"
                 textLayout="inline"
                 bannerBackgroundColor="none"
                 showTicketButton={false}
                 showShareButton={false}
-                content={dept.content}
-                contentSummary={dept.contentSummary}
-                backgroundImage={dept.backgroundImage}
+                contentSummary={`${volunteerData.benefits.description}\n\n${volunteerData.benefits.items.map((item) => `• ${item}`).join('\n')}`}
+                backgroundImage="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800&h=600&fit=crop"
               />
-            ))}
-          </div>
-
-          {/* Benefits Section */}
-          <CrCard
-            variant="article"
-            type="page"
-            imagePosition="none"
-            preheader=""
-            title={volunteerData.benefits.title}
-            bannerHeight="narrow"
-            textLayout="inline"
-            bannerBackgroundColor="none"
-            showTicketButton={false}
-            showShareButton={false}
-            contentSummary={`${volunteerData.benefits.description}\n\n${volunteerData.benefits.items.map((item) => `• ${item}`).join('\n')}`}
-            backgroundImage="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=800&h=600&fit=crop"
-          />
+            </>
+          )}
 
           {/* Commitment Section */}
           <CrCard

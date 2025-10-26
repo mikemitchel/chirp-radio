@@ -70,6 +70,7 @@ const ShopDetailPage: React.FC = () => {
             name={shopItem.name}
             price={shopItem.price}
             image={shopItem.image}
+            additionalImages={shopItem.additionalImageUrls || []}
             itemType={shopItem.itemType}
             description={shopItem.description}
             sizeOptions={shopItem.sizes}

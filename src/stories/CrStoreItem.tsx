@@ -4,11 +4,17 @@ import CrButton from './CrButton'
 import CrChip from './CrChip'
 import './CrStoreItem.css'
 
+interface ImageData {
+  url: string
+  alt?: string
+}
+
 interface CrStoreItemProps {
   name?: string
   price?: number
   description?: string
   image?: string
+  additionalImages?: ImageData[]
   itemType?: string
   sizeOptions?: string[]
   sizeLabel?: string
@@ -29,6 +35,7 @@ export default function CrStoreItem({
   price = 25.0,
   description = 'Standard and fitted styles available. Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Cras mattis consectetur purus sit amet fermentum. Maecenas faucibus mollis interdum. Etiam porta sem malesuada magna mollis euismod.',
   image = 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=600&fit=crop',
+  additionalImages = [],
   itemType = 'Item Type',
 
   // Form options
@@ -52,6 +59,13 @@ export default function CrStoreItem({
   // Internal state for uncontrolled usage
   const [internalSize, setInternalSize] = useState(selectedSize || '')
   const [internalQuantity, setInternalQuantity] = useState(1)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+
+  // Build array of all images (main + additional)
+  const allImages = [
+    { url: image, alt: name },
+    ...additionalImages
+  ]
 
   // Use controlled values if provided, otherwise use internal state
   const currentSize = selectedSize !== undefined ? selectedSize : internalSize
@@ -88,9 +102,29 @@ export default function CrStoreItem({
 
   return (
     <div className={`cr-store-item ${className}`}>
-      {/* Product Image */}
+      {/* Product Image Gallery */}
       <div className="cr-store-item__image-container">
-        <img src={image} alt={name} className="cr-store-item__image" />
+        <img
+          src={allImages[currentImageIndex].url}
+          alt={allImages[currentImageIndex].alt || name}
+          className="cr-store-item__image"
+        />
+
+        {/* Image Thumbnails - only show if there are multiple images */}
+        {allImages.length > 1 && (
+          <div className="cr-store-item__thumbnails">
+            {allImages.map((img, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentImageIndex(index)}
+                className={`cr-store-item__thumbnail ${index === currentImageIndex ? 'cr-store-item__thumbnail--active' : ''}`}
+                aria-label={`View image ${index + 1}`}
+              >
+                <img src={img.url} alt={img.alt || `${name} - image ${index + 1}`} />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Product Details */}
