@@ -1,8 +1,10 @@
 // src/pages/WebsitesToRememberPage.tsx
 import React from 'react'
 import { useNavigate } from 'react-router'
+import { Helmet } from 'react-helmet-async'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
+import { usePageBySlug } from '../hooks/useData'
 
 const websiteSections = [
   {
@@ -131,6 +133,7 @@ const websiteSections = [
 
 export default function WebsitesToRememberPage() {
   const navigate = useNavigate()
+  const { data: pageConfig } = usePageBySlug('websites-to-remember')
 
   const renderLinksContent = (links: { text: string; description?: string; url: string }[]) => {
     if (links.length === 0) return ''
@@ -145,46 +148,95 @@ export default function WebsitesToRememberPage() {
       .join('')
   }
 
+  // Extract header content (first block) and section cards (remaining blocks)
+  const headerBlock = pageConfig?.layout?.[0]
+  const sectionBlocks = pageConfig?.layout?.slice(1) || []
+
   return (
-    <div className="websites-to-remember-page">
-      <section className="page-container">
-        <CrPageHeader
-          eyebrowText="CHIRP RADIO - VOLUNTEERS"
-          title="Websites to Remember"
-          titleTag="h1"
-          titleSize="xl"
-          showEyebrow={true}
-          showActionButton={false}
-        />
+    <>
+      <Helmet>
+        <title>{pageConfig?.title || 'Websites to Remember | CHIRP Radio'}</title>
+        {pageConfig?.excerpt && <meta name="description" content={pageConfig.excerpt} />}
+      </Helmet>
+      <div className="websites-to-remember-page">
+        <section className="page-container">
+          {headerBlock ? (
+            <>
+              <CrPageHeader
+                eyebrowText="CHIRP RADIO - VOLUNTEERS"
+                title={headerBlock.title}
+                titleTag={headerBlock.titleTag || 'h1'}
+                titleSize="xl"
+                showEyebrow={true}
+                showActionButton={false}
+              />
+              {headerBlock.content && (
+                <div
+                  style={{ marginBottom: 'var(--cr-space-8)' }}
+                  dangerouslySetInnerHTML={{
+                    __html: headerBlock.content.root ?
+                      headerBlock.content.root.children.map((child: any) =>
+                        `<p>${child.children.map((c: any) => c.text).join('')}</p>`
+                      ).join('') : ''
+                  }}
+                />
+              )}
+            </>
+          ) : (
+            <>
+              <CrPageHeader
+                eyebrowText="CHIRP RADIO - VOLUNTEERS"
+                title="Websites to Remember"
+                titleTag="h1"
+                titleSize="xl"
+                showEyebrow={true}
+                showActionButton={false}
+              />
+              <p style={{ marginBottom: 'var(--cr-space-8)' }}>
+                Welcome to your volunteer resource hub! This page contains essential links and tools you'll need as a CHIRP volunteer. From logging your hours to booking the production studio, accessing DJ resources, and joining mailing lists — everything you need is organized here for easy reference. Bookmark this page and check back regularly for updates.
+              </p>
+            </>
+          )}
+        </section>
 
-        <p style={{ marginBottom: 'var(--cr-space-8)' }}>
-          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean eu leo quam.
-          Pellentesque ornare sem lacinia quam venenatis vestibulum. Praesent commodo cursus magna,
-          vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
-          faucibus dolor auctor. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec
-          id elit non mi porta gravida at eget metus. Aenean eu leo quam. Pellentesque ornare sem
-          lacinia quam venenatis vestibulum.
-        </p>
-      </section>
-
-      <section className="page-layout-masonry">
-        {websiteSections.map((section) => (
-          <div key={section.id}>
-            <CrCard
-              variant="article"
-              imagePosition="none"
-              title={section.title}
-              titleSize="sm"
-              content={`<p>${section.description}</p>${section.links.length > 0 ? renderLinksContent(section.links) : ''}`}
-              showTicketButton={false}
-              showShareButton={false}
-              showCardDetails={false}
-              showEyebrow={false}
-              bannerBackgroundColor="light"
-            />
-          </div>
-        ))}
-      </section>
-    </div>
+        <section className="page-layout-masonry">
+          {sectionBlocks.length > 0 ? (
+            sectionBlocks.map((block: any, index: number) => (
+              <div key={index}>
+                <CrCard
+                  variant="article"
+                  imagePosition="none"
+                  title={block.title}
+                  titleSize="sm"
+                  content={block.content}
+                  showTicketButton={false}
+                  showShareButton={false}
+                  showCardDetails={false}
+                  showEyebrow={false}
+                  bannerBackgroundColor="light"
+                />
+              </div>
+            ))
+          ) : (
+            websiteSections.map((section) => (
+              <div key={section.id}>
+                <CrCard
+                  variant="article"
+                  imagePosition="none"
+                  title={section.title}
+                  titleSize="sm"
+                  content={`<p>${section.description}</p>${section.links.length > 0 ? renderLinksContent(section.links) : ''}`}
+                  showTicketButton={false}
+                  showShareButton={false}
+                  showCardDetails={false}
+                  showEyebrow={false}
+                  bannerBackgroundColor="light"
+                />
+              </div>
+            ))
+          )}
+        </section>
+      </div>
+    </>
   )
 }

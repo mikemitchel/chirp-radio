@@ -32,6 +32,18 @@ export default {
       control: 'text',
       description: 'Product image URL',
     },
+    showAdditionalImages: {
+      control: 'boolean',
+      description: 'Show additional images in gallery',
+      mapping: {
+        true: [
+          { url: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=600&fit=crop', alt: 'View 1' },
+          { url: 'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&h=600&fit=crop', alt: 'View 2' },
+          { url: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&h=600&fit=crop', alt: 'View 3' }
+        ],
+        false: []
+      }
+    },
     itemType: {
       control: 'text',
       description: 'Product category/type for the chip',
@@ -83,6 +95,7 @@ export const Default = {
     description:
       'Standard and fitted styles available. Nullam id dolor id nibh ultricies vehicula ut id elit. Curabitur blandit tempus porttitor. Cras mattis consectetur purus sit amet fermentum. Maecenas faucibus mollis interdum. Etiam porta sem malesuada magna mollis euismod.',
     image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=600&fit=crop',
+    showAdditionalImages: false,
     itemType: 'Item Type',
     sizeOptions: ['S', 'M', 'L', 'XL'],
     sizeLabel: 'T-Shirt Size',
@@ -90,6 +103,12 @@ export const Default = {
     maxQuantity: 10,
   },
   render: (args) => {
+    const { showAdditionalImages, ...otherArgs } = args
+    const additionalImages = showAdditionalImages ? [
+      { url: 'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&h=600&fit=crop', alt: 'View 2' },
+      { url: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&h=600&fit=crop', alt: 'View 3' }
+    ] : []
+
     return React.createElement(
       'div',
       {
@@ -99,7 +118,7 @@ export const Default = {
           margin: '0 auto',
         },
       },
-      React.createElement(CrStoreItem, args)
+      React.createElement(CrStoreItem, { ...otherArgs, additionalImages })
     )
   },
   parameters: {
@@ -107,6 +126,49 @@ export const Default = {
       description: {
         story:
           'Default store item component matching the Figma design exactly with product image, details, size/quantity selection, and add to cart button.',
+      },
+    },
+  },
+}
+
+// Image Gallery example
+export const WithImageGallery = {
+  args: {
+    name: 'CHIRP Baby Onesie',
+    price: 15.0,
+    description:
+      'This Gildan Softstyle light blue onesie is perfect for the youngest CHIRP fans! Click the thumbnails below to view different angles of the product.',
+    image: 'https://chirpradio.org/_/files/store/Baby_onesie-3.jpeg',
+    showAdditionalImages: true,
+    itemType: 'Apparel',
+    sizeOptions: ['6M', '12M', '18M', '2T', '3T', '4T'],
+    sizeLabel: 'Size',
+    quantityLabel: 'How Many?',
+    maxQuantity: 5,
+  },
+  render: (args) => {
+    const { showAdditionalImages, ...otherArgs } = args
+    const additionalImages = showAdditionalImages ? [
+      { url: 'https://chirpradio.org/_/files/store/Baby_onesie_2021-2.jpeg', alt: 'CHIRP Baby Onesie - Side View' },
+      { url: 'https://chirpradio.org/_/files/store/Baby_onesie_2021.jpg', alt: 'CHIRP Baby Onesie - Back View' }
+    ] : []
+
+    return React.createElement(
+      'div',
+      {
+        style: {
+          maxWidth: '1200px',
+          width: '100%',
+          margin: '0 auto',
+        },
+      },
+      React.createElement(CrStoreItem, { ...otherArgs, additionalImages })
+    )
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Product with multiple images showing thumbnail gallery navigation. Toggle "Show Additional Images" to see the gallery in action.',
       },
     },
   },
@@ -120,6 +182,7 @@ export const TShirt = {
     description:
       'High-quality cotton t-shirt featuring the iconic CHIRP Radio logo. Available in standard and fitted styles. Perfect for showing your support for community radio. Comfortable, durable, and stylish - ideal for concerts, events, or everyday wear.',
     image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&h=600&fit=crop',
+    showAdditionalImages: false,
     itemType: 'Apparel',
     sizeOptions: ['XS', 'S', 'M', 'L', 'XL', '2XL'],
     sizeLabel: 'T-Shirt Size',
@@ -127,6 +190,12 @@ export const TShirt = {
     maxQuantity: 5,
   },
   render: (args) => {
+    const { showAdditionalImages, ...otherArgs } = args
+    const additionalImages = showAdditionalImages ? [
+      { url: 'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&h=600&fit=crop', alt: 'View 2' },
+      { url: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&h=600&fit=crop', alt: 'View 3' }
+    ] : []
+
     return React.createElement(
       'div',
       {
@@ -136,7 +205,7 @@ export const TShirt = {
           margin: '0 auto',
         },
       },
-      React.createElement(CrStoreItem, args)
+      React.createElement(CrStoreItem, { ...otherArgs, additionalImages })
     )
   },
   parameters: {

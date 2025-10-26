@@ -1,6 +1,7 @@
 // CrFooter.tsx
 import CrSocialIcon from './CrSocialIcon'
 import './CrFooter.css'
+import { useSiteSettings } from '../hooks/useData'
 
 interface CrFooterProps {
   onPrivacyPolicyClick?: () => void
@@ -18,13 +19,15 @@ const CrFooter = ({
   onSocialClick,
 }: CrFooterProps) => {
   const currentYear = new Date().getFullYear()
-  const socialPlatforms = ['facebook', 'instagram', 'twitter', 'bluesky', 'linkedin']
+  const { data: siteSettings, loading } = useSiteSettings()
 
   const handleSocialClick = (platform) => {
     if (onSocialClick) {
       onSocialClick(platform)
     }
   }
+
+  if (loading) return null
 
   return (
     <footer className="cr-footer cr-bg-textured cr-bg-rice-d100">
@@ -33,8 +36,8 @@ const CrFooter = ({
         <div className="cr-footer__left">
           <div className="cr-footer__copyright">
             <p>
-              ©2008–{currentYear} Chicago Independent Radio Project. CHIRP, CHIRP Radio, and
-              Chicago Independent Radio Project are registered trademarks.
+              {siteSettings?.copyrightText?.replace('{year}', currentYear.toString()) ||
+                `©2008–${currentYear} Chicago Independent Radio Project. CHIRP, CHIRP Radio, and Chicago Independent Radio Project are registered trademarks.`}
             </p>
           </div>
 
@@ -73,10 +76,10 @@ const CrFooter = ({
           </div>
 
           <div className="cr-footer__social">
-            {socialPlatforms.map((platform) => (
+            {siteSettings?.socialLinks?.map((link) => (
               <CrSocialIcon
-                key={platform}
-                platform={platform}
+                key={link.platform}
+                platform={link.platform}
                 size={32}
                 onClick={handleSocialClick}
                 className="cr-footer__social-button"
@@ -87,21 +90,44 @@ const CrFooter = ({
 
         {/* Middle section - Event images */}
         <div className="cr-footer__middle">
-          <button
-            className="cr-footer__event-image cr-footer__event-image--film-fest"
-            onClick={() => console.log('Film Fest image clicked')}
-            aria-label="CHIRP Film Fest"
-          >
-            <img src="/images/chirp-logos/chirp-film-fest.jpg" alt="CHIRP Film Fest Logo" />
-          </button>
+          {siteSettings?.showChirpFilmFestLogo && (
+            <button
+              className="cr-footer__event-image cr-footer__event-image--film-fest"
+              onClick={() => {
+                if (siteSettings.chirpFilmFestLogoUrl) {
+                  window.open(siteSettings.chirpFilmFestLogoUrl, '_blank')
+                }
+              }}
+              aria-label="CHIRP Film Fest"
+            >
+              <img
+                src={
+                  siteSettings.chirpFilmFestLogo?.url ||
+                  '/images/chirp-logos/chirp-film-fest.jpg'
+                }
+                alt="CHIRP Film Fest Logo"
+              />
+            </button>
+          )}
 
-          <button
-            className="cr-footer__event-image cr-footer__event-image--first-time"
-            onClick={() => console.log('First Time Listening image clicked')}
-            aria-label="First Time Listening"
-          >
-            <img src="/images/chirp-logos/FirstTimeLogo.png" alt="First Time Listening Logo" />
-          </button>
+          {siteSettings?.showFirstTimeLogo && (
+            <button
+              className="cr-footer__event-image cr-footer__event-image--first-time"
+              onClick={() => {
+                if (siteSettings.firstTimeLogoUrl) {
+                  window.open(siteSettings.firstTimeLogoUrl, '_blank')
+                }
+              }}
+              aria-label="First Time Listening"
+            >
+              <img
+                src={
+                  siteSettings.firstTimeLogo?.url || '/images/chirp-logos/FirstTimeLogo.png'
+                }
+                alt="First Time Listening Logo"
+              />
+            </button>
+          )}
         </div>
 
         {/* Right section - Callibrity */}
