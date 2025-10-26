@@ -17,6 +17,27 @@ npm run dev
 npm run build
 ```
 
+## CMS Integration
+
+The app can fetch content from the Payload CMS or use local mock data for development.
+
+**Using Mock Data (default):**
+
+- No configuration needed
+- Mock data is loaded from `src/data/*.json` files
+- Perfect for development without running the CMS server
+
+**Using CMS API:**
+
+1. Copy the sample environment file:
+   ```bash
+   cp sample.env .env
+   ```
+2. Start the CMS server (see [chirp-cms](../chirp-cms) repository)
+3. The frontend will now fetch live content from the CMS
+
+See `sample.env` for available configuration options.
+
 ## Project Structure
 
 - **Web App**: React + TypeScript + Vite
