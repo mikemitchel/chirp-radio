@@ -3,6 +3,7 @@
 
 import { useMemo } from 'react'
 import { useCMS } from '../contexts/CMSContext'
+import { useUsers as useUserContext } from '../contexts/UserContext'
 import chartsData from '../data/charts.json'
 import playlistsData from '../data/playlists-recent.json'
 import usersData from '../data/users.json'
@@ -164,13 +165,11 @@ export function usePageBySlug(slug: string) {
   return { data: page, isLoading, error }
 }
 
-// Users (still uses mock data - TODO: Move to UserContext in Phase 2)
-// TEMPORARY: Keep module-level state for now, will be refactored in Phase 2
-let usersState = usersData.users
-
+// Users - Now uses UserContext instead of module-level state
 export function useUsers() {
+  const { users } = useUserContext()
   return {
-    data: usersState,
+    data: users,
     loading: false,
     error: null,
   }
@@ -178,21 +177,21 @@ export function useUsers() {
 
 export function useCurrentUser() {
   const { isLoggedIn, user: loggedInUser } = useAuth()
+  const { getUserById } = useUserContext()
 
   const currentUser = useMemo(() => {
-    if (isLoggedIn && loggedInUser) {
-      return usersState.find(u => u.id === loggedInUser.id) || null
+    if (isLoggedIn && loggedInUser?.id) {
+      return getUserById(loggedInUser.id) || loggedInUser
     }
     return null
-  }, [isLoggedIn, loggedInUser])
+  }, [isLoggedIn, loggedInUser, getUserById])
 
   return { data: currentUser, loading: false, error: null }
 }
 
-// Update user's favorite DJs
-// TODO: This will be moved to UserContext in Phase 2
+// Update user's favorite DJs - Now delegates to UserContext
 export function updateUserFavoriteDJs(djId: string, isFavorite: boolean, userId?: string) {
-  // Get the current logged-in user ID from localStorage if not provided
+  // Get the target user ID
   const targetUserId = userId || (() => {
     const storedUser = localStorage.getItem('chirp-user')
     if (storedUser) {
@@ -206,22 +205,13 @@ export function updateUserFavoriteDJs(djId: string, isFavorite: boolean, userId?
     return 'user-001' // Fallback to default user
   })()
 
-  usersState = usersState.map((user) => {
-    if (user.id === targetUserId) {
-      const favoriteDJs = user.favoriteDJs || []
-      const updatedFavoriteDJs = isFavorite
-        ? [...favoriteDJs, djId]
-        : favoriteDJs.filter((id) => id !== djId)
-      return {
-        ...user,
-        favoriteDJs: updatedFavoriteDJs,
-      }
-    }
-    return user
-  })
-
-  // Trigger re-render in all components using useUsers/useCurrentUser
-  window.dispatchEvent(new Event('userFavoritesUpdated'))
+  // Dispatch an event that UserContext listens to
+  // This maintains backward compatibility
+  window.dispatchEvent(
+    new CustomEvent('updateUserFavoriteDJs', {
+      detail: { userId: targetUserId, djId, isFavorite }
+    })
+  )
 }
 
 // Shop Items

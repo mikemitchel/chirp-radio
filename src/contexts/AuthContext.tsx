@@ -1,5 +1,6 @@
 // src/contexts/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { useUsers } from './UserContext'
 
 export type UserRole = 'listener' | 'volunteer' | 'dj'
 
@@ -112,36 +113,30 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const { getUserById, setCurrentUserId, currentUserId, updateUserFavoriteDJs: updateUserFavoriteDJsInContext } = useUsers()
+
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
     const saved = localStorage.getItem('chirp-logged-in')
     return saved === 'true'
   })
 
-  const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('chirp-user')
-    if (saved) {
-      try {
-        return JSON.parse(saved)
-      } catch {
-        return null
-      }
-    }
-    return null
-  })
+  // Get user from UserContext instead of local state
+  const user = currentUserId ? getUserById(currentUserId) : null
 
   // Sync login state to localStorage
   useEffect(() => {
     localStorage.setItem('chirp-logged-in', String(isLoggedIn))
   }, [isLoggedIn])
 
-  // Sync user to localStorage
+  // Sync user to localStorage and UserContext
   useEffect(() => {
     if (user) {
       localStorage.setItem('chirp-user', JSON.stringify(user))
     } else {
       localStorage.removeItem('chirp-user')
+      setCurrentUserId(null)
     }
-  }, [user])
+  }, [user, setCurrentUserId])
 
   const login = (email: string, name?: string, role?: UserRole, avatar?: string) => {
     const mockUser: User = {
@@ -150,12 +145,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       role: role || 'listener',
       avatar,
     }
-    setUser(mockUser)
+    localStorage.setItem('chirp-user', JSON.stringify(mockUser))
+    if (mockUser.id) {
+      setCurrentUserId(mockUser.id)
+    }
     setIsLoggedIn(true)
   }
 
   const logout = () => {
-    setUser(null)
+    setCurrentUserId(null)
     setIsLoggedIn(false)
     localStorage.removeItem('chirp-user')
     localStorage.removeItem('chirp-logged-in')
@@ -167,12 +165,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       name: name || email.split('@')[0],
       role: role || 'listener',
     }
-    setUser(mockUser)
+    localStorage.setItem('chirp-user', JSON.stringify(mockUser))
+    if (mockUser.id) {
+      setCurrentUserId(mockUser.id)
+    }
     setIsLoggedIn(true)
   }
 
   const switchProfile = (role: UserRole) => {
-    const profiles: Record<UserRole, User> = {
+    // Define profile data
+    const profiles: Record<UserRole, Partial<User>> = {
       listener: {
         id: 'user-001',
         email: 'demo@chirpradio.org',
@@ -415,7 +417,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const selectedProfile = profiles[role]
     localStorage.setItem('chirp-user', JSON.stringify(selectedProfile))
     localStorage.setItem('chirp-logged-in', 'true')
-    setUser(selectedProfile)
+    if (selectedProfile.id) {
+      setCurrentUserId(selectedProfile.id)
+    }
     setIsLoggedIn(true)
     console.log(`✅ Switched to ${role} profile:`, selectedProfile)
   }
@@ -434,7 +438,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       pendingEmailToken: token,
       pendingEmailExpiry: expiry.toISOString(),
     }
-    setUser(updatedUser)
+    localStorage.setItem('chirp-user', JSON.stringify(updatedUser))
     return true
   }
 
@@ -452,7 +456,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       pendingEmailToken: undefined,
       pendingEmailExpiry: undefined,
     }
-    setUser(updatedUser)
+    localStorage.setItem('chirp-user', JSON.stringify(updatedUser))
     return true
   }
 
@@ -464,20 +468,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       pendingEmailToken: undefined,
       pendingEmailExpiry: undefined,
     }
-    setUser(updatedUser)
+    localStorage.setItem('chirp-user', JSON.stringify(updatedUser))
   }
 
   const updateFavoriteDJs = (djId: string, isFavorite: boolean) => {
-    if (!user) return
-    const favoriteDJs = user.favoriteDJs || []
-    const updatedFavoriteDJs = isFavorite
-      ? [...favoriteDJs, djId]
-      : favoriteDJs.filter((id) => id !== djId)
-    const updatedUser = {
-      ...user,
-      favoriteDJs: updatedFavoriteDJs,
-    }
-    setUser(updatedUser)
+    if (!user?.id) return
+    // Use UserContext to update favorites
+    updateUserFavoriteDJsInContext(user.id, djId, isFavorite)
   }
 
   return (
