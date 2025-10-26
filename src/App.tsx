@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { BrowserRouter, HashRouter, Routes, Route, Navigate, useNavigate } from 'react-router'
 import { HelmetProvider } from 'react-helmet-async'
+import { CMSProvider } from './contexts/CMSContext'
 import { AuthProvider } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
 import ScrollToTop from './components/ScrollToTop'
@@ -209,11 +210,12 @@ function App() {
 
   return (
     <HelmetProvider>
-      <AuthProvider>
-        <CartProvider>
-          <Router>
-            <ScrollToTop />
-            <Routes>
+      <CMSProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Router>
+              <ScrollToTop />
+              <Routes>
             {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
             <Route index element={<RootRedirect />} />
 
@@ -544,10 +546,11 @@ function App() {
                 </WebLayout>
               }
             />
-          </Routes>
-        </Router>
-      </CartProvider>
-    </AuthProvider>
+            </Routes>
+          </Router>
+        </CartProvider>
+      </AuthProvider>
+    </CMSProvider>
     </HelmetProvider>
   )
 }
