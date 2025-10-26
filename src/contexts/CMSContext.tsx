@@ -13,6 +13,7 @@ import type {
   SiteSettings,
 } from '../types/cms'
 import { fetchFromCMS } from '../utils/api'
+import { on } from '../utils/eventBus'
 
 // Import mock data
 import announcementsData from '../data/announcements.json'
