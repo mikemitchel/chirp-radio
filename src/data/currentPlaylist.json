@@ -1,0 +1,18 @@
+{
+  "now_playing": {
+    "artist": "Khruangbin",
+    "track": "María También",
+    "release": "Con Todo El Mundo",
+    "label": "Dead Oceans",
+    "dj": "Meredith",
+    "show": "Miniature World",
+    "played_at_gmt": "2024-10-26T18:00:00Z",
+    "played_at_gmt_ts": 1729965600,
+    "artist_is_local": false,
+    "lastfm_urls": {
+      "sm_image": "https://lastfm.freetls.fastly.net/i/u/174s/2a96cbd8b46e442fc41c2b86b821562f.png",
+      "med_image": "https://lastfm.freetls.fastly.net/i/u/300x300/2a96cbd8b46e442fc41c2b86b821562f.png",
+      "large_image": "https://lastfm.freetls.fastly.net/i/u/348x348/2a96cbd8b46e442fc41c2b86b821562f.png"
+    }
+  }
+}

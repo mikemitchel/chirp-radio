@@ -8,6 +8,7 @@ import CrSidebar from '../stories/CrSidebar'
 import CrScrim from '../stories/CrScrim'
 import CrStreamingMusicPlayer from '../stories/CrStreamingMusicPlayer'
 import GlobalNotifications from '../components/GlobalNotifications'
+import DevModeBanner from '../components/DevModeBanner'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 import { NotificationProvider, useNotification } from '../contexts/NotificationContext'
 import { useCart } from '../contexts/CartContext'
@@ -181,144 +182,147 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
   }
 
   return (
-    <AudioPlayerProvider
-      autoFetch={true}
-      streamUrl="https://peridot.streamguys1.com:5185/live"
-      apiUrl="https://chirpradio.appspot.com/api/current_playlist"
-    >
-      <CrAppHeader
-        autoFetch={false}
-        djName={currentShow?.djName}
-        showName={currentShow?.showName}
-        onMenuClick={handleMenuClick}
-        storeBadgeCount={cartItemCount}
-        showStoreBadge={true}
-        isLoggedIn={isLoggedIn}
-        isVolunteer={user?.role === 'volunteer' || user?.role === 'dj'}
-        userName={user?.name}
-        userAvatar={user?.avatar}
-        onLoginClick={handleLoginClick}
-        onSignUpClick={handleSignUpClick}
-        onProfileClick={handleProfileClick}
-        onFavoritesClick={handleFavoritesClick}
-        onSignOutClick={handleSignOutClick}
-        onVolunteerDirectoryClick={handleVolunteerDirectoryClick}
-        onLeadershipDirectoryClick={handleLeadershipDirectoryClick}
-        onVolunteerCalendarClick={handleVolunteerCalendarClick}
-        onWebsitesClick={handleWebsitesClick}
-        onDownloadsClick={handleDownloadsClick}
-      />
-
-      <CrSidebar
-        variant="web"
-        isOpen={isSidebarOpen}
-        onClose={handleCloseSidebar}
-        onLogoClick={() => {
-          navigate('/')
-          handleCloseSidebar()
-        }}
-        onHomeClick={() => {
-          navigate('/')
-          handleCloseSidebar()
-        }}
-        onListenClick={() => {
-          navigate('/listen')
-          handleCloseSidebar()
-        }}
-        onPlaylistClick={() => {
-          navigate('/playlist')
-          handleCloseSidebar()
-        }}
-        onPodcastClick={() => {
-          navigate('/podcasts')
-          handleCloseSidebar()
-        }}
-        onDjsClick={() => {
-          navigate('/djs')
-          handleCloseSidebar()
-        }}
-        onScheduleClick={() => {
-          navigate('/schedule')
-          handleCloseSidebar()
-        }}
-        onEventsClick={() => {
-          navigate('/events')
-          handleCloseSidebar()
-        }}
-        onArticlesClick={() => {
-          navigate('/articles')
-          handleCloseSidebar()
-        }}
-        onDonateClick={() => {
-          navigate('/donate')
-          handleCloseSidebar()
-        }}
-        onWaysToGiveClick={() => {
-          navigate('/other-ways-to-give')
-          handleCloseSidebar()
-        }}
-        onVinylCircleClick={() => {
-          navigate('/vinyl-circle')
-          handleCloseSidebar()
-        }}
-        onShopClick={() => {
-          navigate('/shop')
-          handleCloseSidebar()
-        }}
-        onAboutClick={() => {
-          navigate('/about')
-          handleCloseSidebar()
-        }}
-        onOtherWaysToListenClick={() => {
-          navigate('/other-ways-to-listen')
-          handleCloseSidebar()
-        }}
-        onContactClick={() => {
-          navigate('/contact')
-          handleCloseSidebar()
-        }}
-        onBecomeVolunteerClick={() => {
-          navigate('/volunteer')
-          handleCloseSidebar()
-        }}
-        onRequestClick={() => {
-          navigate('/request-song')
-          handleCloseSidebar()
-        }}
-      />
-
-      <CrScrim
-        isVisible={isSidebarOpen}
-        onClick={handleCloseSidebar}
-        zIndex={999}
-        center={false}
-        padding={false}
-      />
-
-      <main>{children}</main>
-      <div className="web-layout-footer-container">
-        <div className="support-with-ads-wrapper">
-          <CrSupportWithAds />
-        </div>
-        <CrFooter
-          onPrivacyPolicyClick={handlePrivacyPolicyClick}
-          onTermsOfServiceClick={handleTermsOfServiceClick}
-          onSitemapClick={handleSitemapClick}
-          onCallibrityClick={handleCallibrityClick}
-          onSocialClick={handleSocialClick}
-        />
-      </div>
-
-      {/* Fixed Bottom Player - slides up when scrolling past header */}
-      <div
-        className={`web-layout-bottom-player ${showBottomPlayer ? 'web-layout-bottom-player--visible' : ''}`}
+    <>
+      <DevModeBanner />
+      <AudioPlayerProvider
+        autoFetch={true}
+        streamUrl="https://peridot.streamguys1.com:5185/live"
+        apiUrl="https://chirpradio.appspot.com/api/current_playlist"
       >
-        <CrStreamingMusicPlayer variant="mini-player" autoFetch={true} />
-      </div>
+        <CrAppHeader
+          autoFetch={false}
+          djName={currentShow?.djName}
+          showName={currentShow?.showName}
+          onMenuClick={handleMenuClick}
+          storeBadgeCount={cartItemCount}
+          showStoreBadge={true}
+          isLoggedIn={isLoggedIn}
+          isVolunteer={user?.role === 'volunteer' || user?.role === 'dj'}
+          userName={user?.name}
+          userAvatar={user?.avatar}
+          onLoginClick={handleLoginClick}
+          onSignUpClick={handleSignUpClick}
+          onProfileClick={handleProfileClick}
+          onFavoritesClick={handleFavoritesClick}
+          onSignOutClick={handleSignOutClick}
+          onVolunteerDirectoryClick={handleVolunteerDirectoryClick}
+          onLeadershipDirectoryClick={handleLeadershipDirectoryClick}
+          onVolunteerCalendarClick={handleVolunteerCalendarClick}
+          onWebsitesClick={handleWebsitesClick}
+          onDownloadsClick={handleDownloadsClick}
+        />
 
-      {/* Global Notifications - Toasts & Modals */}
-      <GlobalNotifications />
-    </AudioPlayerProvider>
+        <CrSidebar
+          variant="web"
+          isOpen={isSidebarOpen}
+          onClose={handleCloseSidebar}
+          onLogoClick={() => {
+            navigate('/')
+            handleCloseSidebar()
+          }}
+          onHomeClick={() => {
+            navigate('/')
+            handleCloseSidebar()
+          }}
+          onListenClick={() => {
+            navigate('/listen')
+            handleCloseSidebar()
+          }}
+          onPlaylistClick={() => {
+            navigate('/playlist')
+            handleCloseSidebar()
+          }}
+          onPodcastClick={() => {
+            navigate('/podcasts')
+            handleCloseSidebar()
+          }}
+          onDjsClick={() => {
+            navigate('/djs')
+            handleCloseSidebar()
+          }}
+          onScheduleClick={() => {
+            navigate('/schedule')
+            handleCloseSidebar()
+          }}
+          onEventsClick={() => {
+            navigate('/events')
+            handleCloseSidebar()
+          }}
+          onArticlesClick={() => {
+            navigate('/articles')
+            handleCloseSidebar()
+          }}
+          onDonateClick={() => {
+            navigate('/donate')
+            handleCloseSidebar()
+          }}
+          onWaysToGiveClick={() => {
+            navigate('/other-ways-to-give')
+            handleCloseSidebar()
+          }}
+          onVinylCircleClick={() => {
+            navigate('/vinyl-circle')
+            handleCloseSidebar()
+          }}
+          onShopClick={() => {
+            navigate('/shop')
+            handleCloseSidebar()
+          }}
+          onAboutClick={() => {
+            navigate('/about')
+            handleCloseSidebar()
+          }}
+          onOtherWaysToListenClick={() => {
+            navigate('/other-ways-to-listen')
+            handleCloseSidebar()
+          }}
+          onContactClick={() => {
+            navigate('/contact')
+            handleCloseSidebar()
+          }}
+          onBecomeVolunteerClick={() => {
+            navigate('/volunteer')
+            handleCloseSidebar()
+          }}
+          onRequestClick={() => {
+            navigate('/request-song')
+            handleCloseSidebar()
+          }}
+        />
+
+        <CrScrim
+          isVisible={isSidebarOpen}
+          onClick={handleCloseSidebar}
+          zIndex={999}
+          center={false}
+          padding={false}
+        />
+
+        <main>{children}</main>
+        <div className="web-layout-footer-container">
+          <div className="support-with-ads-wrapper">
+            <CrSupportWithAds />
+          </div>
+          <CrFooter
+            onPrivacyPolicyClick={handlePrivacyPolicyClick}
+            onTermsOfServiceClick={handleTermsOfServiceClick}
+            onSitemapClick={handleSitemapClick}
+            onCallibrityClick={handleCallibrityClick}
+            onSocialClick={handleSocialClick}
+          />
+        </div>
+
+        {/* Fixed Bottom Player - slides up when scrolling past header */}
+        <div
+          className={`web-layout-bottom-player ${showBottomPlayer ? 'web-layout-bottom-player--visible' : ''}`}
+        >
+          <CrStreamingMusicPlayer variant="mini-player" autoFetch={true} />
+        </div>
+
+        {/* Global Notifications - Toasts & Modals */}
+        <GlobalNotifications />
+      </AudioPlayerProvider>
+    </>
   )
 }
 
