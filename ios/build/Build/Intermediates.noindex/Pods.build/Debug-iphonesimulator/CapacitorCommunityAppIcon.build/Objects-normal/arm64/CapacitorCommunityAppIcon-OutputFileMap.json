@@ -1,0 +1,19 @@
+{
+  "" : {
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/CapacitorCommunityAppIcon-primary.dia",
+    "emit-module-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/CapacitorCommunityAppIcon-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/CapacitorCommunityAppIcon-primary-emit-module.dia",
+    "pch" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/CapacitorCommunityAppIcon-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/CapacitorCommunityAppIcon-primary.swiftdeps"
+  },
+  "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor-community/app-icon/ios/Sources/AppIconPlugin/AppIconPlugin.swift" : {
+    "const-values" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/AppIconPlugin.swiftconstvalues",
+    "dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/AppIconPlugin.d",
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/AppIconPlugin.dia",
+    "index-unit-output-path" : "/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/AppIconPlugin.o",
+    "llvm-bc" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/AppIconPlugin.bc",
+    "object" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/AppIconPlugin.o",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/AppIconPlugin.swiftdeps",
+    "swiftmodule" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCommunityAppIcon.build/Objects-normal/arm64/AppIconPlugin~partial.swiftmodule"
+  }
+}

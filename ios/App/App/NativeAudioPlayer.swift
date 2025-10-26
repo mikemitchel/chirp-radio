@@ -115,43 +115,37 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     private func setupRemoteCommands() {
         let commandCenter = MPRemoteCommandCenter.shared()
 
-        // Enable play command
+        print("🎵 NativeAudioPlayer: Setting up remote commands")
+
+        // Set up direct command handlers (no NotificationCenter delay)
         commandCenter.playCommand.isEnabled = true
         commandCenter.playCommand.addTarget { [weak self] event in
-            print("🎵 Remote PLAY command received (native)")
+            print("🎵 NativeAudioPlayer: Direct PLAY command")
             self?.handleRemotePlay()
             return .success
         }
 
-        // Enable pause command
         commandCenter.pauseCommand.isEnabled = true
         commandCenter.pauseCommand.addTarget { [weak self] event in
-            print("⏸️ Remote PAUSE command received (native)")
+            print("⏸️ NativeAudioPlayer: Direct PAUSE command")
             self?.handleRemotePause()
             return .success
         }
 
-        // Disable all skip/seek commands for live stream
-        commandCenter.skipForwardCommand.isEnabled = false
-        commandCenter.skipBackwardCommand.isEnabled = false
-        commandCenter.seekForwardCommand.isEnabled = false
-        commandCenter.seekBackwardCommand.isEnabled = false
-        commandCenter.nextTrackCommand.isEnabled = false
-        commandCenter.previousTrackCommand.isEnabled = false
-        commandCenter.changePlaybackPositionCommand.isEnabled = false
-
-        print("✅ Native remote commands configured")
+        print("✅ NativeAudioPlayer: Direct remote commands configured")
     }
 
     private func handleRemotePlay() {
+        print("🎵 NativeAudioPlayer.handleRemotePlay() called")
         playAudio()
-        // Notify JavaScript - use simple event
+        updateNowPlayingPlaybackState()
         notifyJavaScriptStateChange(isPlaying: true)
     }
 
     private func handleRemotePause() {
+        print("⏸️ NativeAudioPlayer.handleRemotePause() called")
         pauseAudio()
-        // Notify JavaScript - use simple event
+        updateNowPlayingPlaybackState()
         notifyJavaScriptStateChange(isPlaying: false)
     }
 
@@ -162,6 +156,15 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
                 "isPlaying": isPlaying
             ])
             print("📡 Notified listeners: isPlaying = \(isPlaying)")
+        }
+    }
+
+    private func updateNowPlayingPlaybackState() {
+        // Update Now Playing Info playback rate
+        if var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo {
+            nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+            print("🔄 Updated Now Playing playback rate: \(isPlaying ? 1.0 : 0.0)")
         }
     }
 
@@ -356,7 +359,7 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func play(_ call: CAPPluginCall) {
-        print("▶️ Play called")
+        print("▶️ Play called from JavaScript")
 
         // Check if player exists
         guard let player = player else {
@@ -378,6 +381,7 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         print("📊 Current isPlaying state: \(isPlaying)")
 
         playAudio()
+        updateNowPlayingPlaybackState()
         call.resolve(["isPlaying": true])
     }
 
@@ -406,31 +410,19 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         player.play()
         isPlaying = true
 
-        // Update Now Playing playback rate
-        if var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo {
-            nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-        }
-
         print("✅ Native playback started - rate: \(player.rate)")
     }
 
     @objc func pause(_ call: CAPPluginCall) {
-        print("⏸️ Pause called")
+        print("⏸️ Pause called from JavaScript")
         pauseAudio()
+        updateNowPlayingPlaybackState()
         call.resolve(["isPlaying": false])
     }
 
     private func pauseAudio() {
         player?.pause()
         isPlaying = false
-
-        // Update Now Playing playback rate
-        if var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo {
-            nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0.0
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-        }
-
         print("✅ Native playback paused")
     }
 
@@ -448,10 +440,12 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         let album = call.getString("album") ?? ""
         let albumArtUrl = call.getString("albumArt") ?? ""
 
-        print("📝 Updating metadata:")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print("📝 NativeAudioPlayer.updateMetadata() called")
         print("   Title: \(title)")
         print("   Artist: \(artist)")
         print("   Album: \(album)")
+        print("   Current playback state: \(isPlaying ? "PLAYING" : "PAUSED")")
 
         var nowPlayingInfo = [String: Any]()
         nowPlayingInfo[MPMediaItemPropertyTitle] = title
@@ -480,17 +474,23 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
                     DispatchQueue.main.async {
                         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
                         print("✅ Metadata set WITH artwork")
+                        print("   Lock screen should now show: \(nowPlayingInfo[MPMediaItemPropertyTitle] as? String ?? "")")
+                        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                     }
                 } else {
                     DispatchQueue.main.async {
                         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
                         print("✅ Metadata set WITHOUT artwork")
+                        print("   Lock screen should now show: \(nowPlayingInfo[MPMediaItemPropertyTitle] as? String ?? "")")
+                        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                     }
                 }
             }.resume()
         } else {
             MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
             print("✅ Metadata set (no artwork)")
+            print("   Lock screen should now show: \(nowPlayingInfo[MPMediaItemPropertyTitle] as? String ?? "")")
+            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
         }
 
         call.resolve()

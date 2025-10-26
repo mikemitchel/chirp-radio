@@ -6,9 +6,12 @@ export interface NowPlayingPlugin {
     artist: string
     album: string
     albumArt?: string
+    dj?: string
   }): Promise<void>
 
   setPlaybackState(options: { isPlaying: boolean }): Promise<void>
+
+  isAutomotive(): Promise<{ isAutomotive: boolean }>
 
   addListener(
     eventName: 'mediaCommand',

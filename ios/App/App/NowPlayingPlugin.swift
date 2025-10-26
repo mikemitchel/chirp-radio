@@ -126,17 +126,33 @@ public class NowPlayingPlugin: CAPPlugin, CAPBridgedPlugin {
     private func configureRemoteCommands() {
         let commandCenter = MPRemoteCommandCenter.shared()
 
-        // Aggressively disable all skip/seek commands
+        // CRITICAL FOR CARPLAY: Remove all targets AND disable
+        // Simply disabling isn't enough - must remove targets too
         commandCenter.skipForwardCommand.isEnabled = false
-        commandCenter.skipBackwardCommand.isEnabled = false
-        commandCenter.seekForwardCommand.isEnabled = false
-        commandCenter.seekBackwardCommand.isEnabled = false
-        commandCenter.nextTrackCommand.isEnabled = false
-        commandCenter.previousTrackCommand.isEnabled = false
-        commandCenter.changePlaybackPositionCommand.isEnabled = false
-        commandCenter.changePlaybackRateCommand.isEnabled = false
+        commandCenter.skipForwardCommand.removeTarget(nil)
 
-        print("🔒 Remote commands re-configured (skip/seek disabled)")
+        commandCenter.skipBackwardCommand.isEnabled = false
+        commandCenter.skipBackwardCommand.removeTarget(nil)
+
+        commandCenter.seekForwardCommand.isEnabled = false
+        commandCenter.seekForwardCommand.removeTarget(nil)
+
+        commandCenter.seekBackwardCommand.isEnabled = false
+        commandCenter.seekBackwardCommand.removeTarget(nil)
+
+        commandCenter.nextTrackCommand.isEnabled = false
+        commandCenter.nextTrackCommand.removeTarget(nil)
+
+        commandCenter.previousTrackCommand.isEnabled = false
+        commandCenter.previousTrackCommand.removeTarget(nil)
+
+        commandCenter.changePlaybackPositionCommand.isEnabled = false
+        commandCenter.changePlaybackPositionCommand.removeTarget(nil)
+
+        commandCenter.changePlaybackRateCommand.isEnabled = false
+        commandCenter.changePlaybackRateCommand.removeTarget(nil)
+
+        print("🔒 Remote commands re-configured (skip/seek disabled and targets removed)")
     }
 
     @objc func setPlaybackState(_ call: CAPPluginCall) {
@@ -221,11 +237,21 @@ public class NowPlayingPlugin: CAPPlugin, CAPBridgedPlugin {
         let commandCenter = MPRemoteCommandCenter.shared()
         if commandCenter.skipForwardCommand.isEnabled || commandCenter.skipBackwardCommand.isEnabled {
             commandCenter.skipForwardCommand.isEnabled = false
+            commandCenter.skipForwardCommand.removeTarget(nil)
+
             commandCenter.skipBackwardCommand.isEnabled = false
+            commandCenter.skipBackwardCommand.removeTarget(nil)
+
             commandCenter.changePlaybackPositionCommand.isEnabled = false
+            commandCenter.changePlaybackPositionCommand.removeTarget(nil)
+
             commandCenter.seekForwardCommand.isEnabled = false
+            commandCenter.seekForwardCommand.removeTarget(nil)
+
             commandCenter.seekBackwardCommand.isEnabled = false
-            print("⚡ ENFORCEMENT: Re-disabled skip commands")
+            commandCenter.seekBackwardCommand.removeTarget(nil)
+
+            print("⚡ ENFORCEMENT: Re-disabled skip commands and removed targets")
         }
     }
 }

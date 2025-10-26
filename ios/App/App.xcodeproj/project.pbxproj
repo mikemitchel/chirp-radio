@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1806300D2EA85C9400967067 /* NowPlayingPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1806300B2EA85C9400967067 /* NowPlayingPlugin.swift */; };
 		180630102EA982E500967067 /* NativeAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1806300F2EA982E500967067 /* NativeAudioPlayer.swift */; };
+		1866A3B32EAD4B5C00187AAD /* WebAudioBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1866A3B22EAD4B5C00187AAD /* WebAudioBridge.swift */; };
+		1866A3B42EAD4B5C00187AAD /* CarPlayBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1866A3B12EAD4B5C00187AAD /* CarPlayBridge.swift */; };
+		1866A3BB2EAD51F800187AAD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1866A3BA2EAD51F800187AAD /* SceneDelegate.swift */; };
 		2FAD9763203C412B000D30F8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD9762203C412B000D30F8 /* config.xml */; };
 		50379B232058CBB4000EE86E /* capacitor.config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50379B222058CBB4000EE86E /* capacitor.config.json */; };
 		504EC3081FED79650016851F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EC3071FED79650016851F /* AppDelegate.swift */; };
@@ -23,6 +26,10 @@
 		1806300B2EA85C9400967067 /* NowPlayingPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingPlugin.swift; sourceTree = "<group>"; };
 		1806300E2EA85C9700967067 /* App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "App-Bridging-Header.h"; sourceTree = "<group>"; };
 		1806300F2EA982E500967067 /* NativeAudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeAudioPlayer.swift; sourceTree = "<group>"; };
+		1866A3B12EAD4B5C00187AAD /* CarPlayBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarPlayBridge.swift; sourceTree = "<group>"; };
+		1866A3B22EAD4B5C00187AAD /* WebAudioBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebAudioBridge.swift; sourceTree = "<group>"; };
+		1866A3B72EAD50AE00187AAD /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
+		1866A3BA2EAD51F800187AAD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		50379B222058CBB4000EE86E /* capacitor.config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = capacitor.config.json; sourceTree = "<group>"; };
 		504EC3041FED79650016851F /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +85,10 @@
 		504EC3061FED79650016851F /* App */ = {
 			isa = PBXGroup;
 			children = (
+				1866A3BA2EAD51F800187AAD /* SceneDelegate.swift */,
+				1866A3B72EAD50AE00187AAD /* App.entitlements */,
+				1866A3B12EAD4B5C00187AAD /* CarPlayBridge.swift */,
+				1866A3B22EAD4B5C00187AAD /* WebAudioBridge.swift */,
 				1806300F2EA982E500967067 /* NativeAudioPlayer.swift */,
 				1806300B2EA85C9400967067 /* NowPlayingPlugin.swift */,
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
@@ -137,7 +148,6 @@
 					504EC3031FED79650016851F = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 2600;
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -221,6 +231,9 @@
 				1806300D2EA85C9400967067 /* NowPlayingPlugin.swift in Sources */,
 				180630102EA982E500967067 /* NativeAudioPlayer.swift in Sources */,
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
+				1866A3B32EAD4B5C00187AAD /* WebAudioBridge.swift in Sources */,
+				1866A3B42EAD4B5C00187AAD /* CarPlayBridge.swift in Sources */,
+				1866A3BB2EAD51F800187AAD /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +293,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -345,6 +359,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -376,8 +391,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NK83Y8D8Z5;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -386,8 +403,9 @@
 				);
 				MARKETING_VERSION = 1.0;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DDEBUG\"";
-				PRODUCT_BUNDLE_IDENTIFIER = org.chirpradio.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryanwilson.chirpradio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "App/App-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -402,8 +420,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NK83Y8D8Z5;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -411,8 +431,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.chirpradio.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryanwilson.chirpradio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "App/App-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
