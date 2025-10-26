@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react'
 import usersData from '../data/users.json'
+import { emit, on } from '../utils/eventBus'
 
 // User type matching the data structure
 interface User {
@@ -105,8 +106,8 @@ export function UserProvider({ children }: UserProviderProps) {
         return updatedUsers
       })
 
-      // Dispatch event for any components still listening to legacy events
-      window.dispatchEvent(new Event('userFavoritesUpdated'))
+      // Emit typed event
+      emit('userFavoritesUpdated')
     },
     [currentUserId]
   )
@@ -131,16 +132,13 @@ export function UserProvider({ children }: UserProviderProps) {
     return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
 
-  // Listen for updateUserFavoriteDJs events (backward compatibility)
+  // Listen for updateUserFavoriteDJs events using typed event bus
   useEffect(() => {
-    const handleUpdateFavorites = (event: Event) => {
-      const customEvent = event as CustomEvent<{ userId: string; djId: string; isFavorite: boolean }>
-      const { userId, djId, isFavorite } = customEvent.detail
-      updateUserFavoriteDJs(userId, djId, isFavorite)
-    }
+    const unsubscribe = on('updateUserFavoriteDJs', (payload) => {
+      updateUserFavoriteDJs(payload.userId, payload.djId, payload.isFavorite)
+    })
 
-    window.addEventListener('updateUserFavoriteDJs', handleUpdateFavorites)
-    return () => window.removeEventListener('updateUserFavoriteDJs', handleUpdateFavorites)
+    return unsubscribe
   }, [updateUserFavoriteDJs])
 
   const value: UserContextValue = {

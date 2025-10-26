@@ -1,5 +1,6 @@
 // src/contexts/NotificationContext.tsx
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { on } from '../utils/eventBus'
 
 interface ToastConfig {
   message: string
@@ -98,21 +99,19 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     setModalState((prev) => ({ ...prev, isOpen: false, onConfirm: undefined, onCancel: undefined }))
   }
 
-  // Listen for custom toast events from other contexts
+  // Listen for toast events using typed event bus
   useEffect(() => {
-    const handleShowToast = (event: CustomEvent) => {
-      showToast(event.detail)
-    }
+    const unsubscribeShow = on('chirp-show-toast', (payload) => {
+      showToast(payload)
+    })
 
-    const handleHideToast = () => {
+    const unsubscribeHide = on('chirp-hide-toast', () => {
       hideToast()
-    }
+    })
 
-    window.addEventListener('chirp-show-toast', handleShowToast as EventListener)
-    window.addEventListener('chirp-hide-toast', handleHideToast)
     return () => {
-      window.removeEventListener('chirp-show-toast', handleShowToast as EventListener)
-      window.removeEventListener('chirp-hide-toast', handleHideToast)
+      unsubscribeShow()
+      unsubscribeHide()
     }
   }, [])
 

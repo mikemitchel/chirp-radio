@@ -4,6 +4,7 @@
 import { useMemo } from 'react'
 import { useCMS } from '../contexts/CMSContext'
 import { useUsers as useUserContext } from '../contexts/UserContext'
+import { emit } from '../utils/eventBus'
 import chartsData from '../data/charts.json'
 import playlistsData from '../data/playlists-recent.json'
 import usersData from '../data/users.json'
@@ -205,13 +206,8 @@ export function updateUserFavoriteDJs(djId: string, isFavorite: boolean, userId?
     return 'user-001' // Fallback to default user
   })()
 
-  // Dispatch an event that UserContext listens to
-  // This maintains backward compatibility
-  window.dispatchEvent(
-    new CustomEvent('updateUserFavoriteDJs', {
-      detail: { userId: targetUserId, djId, isFavorite }
-    })
-  )
+  // Emit typed event that UserContext listens to
+  emit('updateUserFavoriteDJs', { userId: targetUserId, djId, isFavorite })
 }
 
 // Shop Items
