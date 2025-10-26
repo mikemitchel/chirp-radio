@@ -38,18 +38,19 @@ export function useSearch(query: string) {
     // Search articles
     articles?.forEach((article: any) => {
       const authorName = typeof article.author === 'string' ? article.author : article.author?.name
+      const categoryName = typeof article.category === 'string' ? article.category : article.category?.name
       if (
         article.title?.toLowerCase().includes(searchTerm) ||
         article.excerpt?.toLowerCase().includes(searchTerm) ||
         authorName?.toLowerCase().includes(searchTerm) ||
-        article.category?.toLowerCase().includes(searchTerm) ||
+        categoryName?.toLowerCase().includes(searchTerm) ||
         article.tags?.some((tag: string) => tag.toLowerCase().includes(searchTerm))
       ) {
         searchResults.push({
           id: article.id,
           type: 'article',
           title: article.title,
-          subtitle: authorName || article.category,
+          subtitle: authorName || categoryName,
           description: article.excerpt,
           image: article.featuredImage || article.coverImage,
           url: `/articles/${article.slug}`,

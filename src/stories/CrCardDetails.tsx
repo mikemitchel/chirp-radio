@@ -7,7 +7,7 @@ import './CrCardDetails.css'
 interface CrCardDetailsProps {
   dateTime?: string
   venue?: string
-  ageRestriction?: string
+  ageRestriction?: string | { age: string }
   authorBy?: string
   eventDate?: string
   tags?: string[]
@@ -63,7 +63,7 @@ export default function CrCardDetails({
 
             {ageRestriction && (
               <CrChip variant="secondary" size="large">
-                {ageRestriction}
+                {typeof ageRestriction === 'string' ? ageRestriction : ageRestriction.age}
               </CrChip>
             )}
           </div>
@@ -77,7 +77,7 @@ export default function CrCardDetails({
             <div className="cr-card-details__tags">
               {tags.map((tag, index) => (
                 <CrChip key={index} variant="secondary" size="medium">
-                  {tag}
+                  {typeof tag === 'string' ? tag : tag.tag}
                 </CrChip>
               ))}
             </div>

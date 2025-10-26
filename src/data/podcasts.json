@@ -1,443 +1,231 @@
 {
   "podcasts": [
     {
-      "id": "podcast-001",
+      "category": "Music Interview",
       "title": "Transmission",
       "slug": "transmission",
-      "description": "Weekly deep dives into the stories behind the music, featuring interviews with artists, producers, and industry insiders.",
       "excerpt": "Weekly deep dives into the stories behind the music, featuring interviews with artists, producers, and industry insiders.",
       "content": "Transmission takes you behind the scenes of the music you love. Each week, host Sarah Martinez sits down with artists, producers, and industry insiders for conversations that go deeper than the typical interview. We explore the creative process, the business of music, and the personal stories that shape the sounds we hear.\n\nFrom bedroom producers to stadium headliners, our guests share the trials, triumphs, and unexpected moments that define a life in music. We discuss the technical aspects of recording, the emotional weight of songwriting, and everything in between. Whether it's a legendary producer explaining their approach to capturing live drums or an emerging artist detailing their journey from open mics to record deals, Transmission illuminates the human side of music-making.\n\nThe show also explores broader themes in music culture: the evolution of genres, the impact of technology on creativity, the challenges facing independent artists in the streaming era. Our conversations are substantive but accessible, informative but never dry. We believe the best interviews happen when both host and guest are genuinely curious, when the conversation flows naturally rather than following a rigid script.\n\nNew episodes drop every Monday morning. Subscribe wherever you get your podcasts, and join us as we transmit the stories that don't make it into press releases or liner notes—the real, unfiltered experiences of people who dedicate their lives to making music.",
+      "host": "Sarah Martinez",
+      "coverArtUrl": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "The best albums come from moments of complete honesty. You can't fake vulnerability, and listeners know when you're holding back.",
       "pullQuoteAttribution": "Producer John Congleton on creating authentic recordings",
       "additionalInfo": "John Congleton has produced albums for St. Vincent, The War on Drugs, and numerous other artists. His studio, Elmwood Recording, is located in Dallas, Texas.",
       "transcriptUrl": "https://example.com/transcripts/john-congleton-interview",
-      "coverArt": "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=400&fit=crop",
-      "host": "Sarah Martinez",
-      "category": "Music Interview",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["interviews", "music history", "indie"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-001",
-          "episodeNumber": 42,
-          "title": "The Evolution of Midwest Emo",
-          "description": "We trace the roots of midwest emo from Champaign basements to sold-out shows across the country.",
-          "audioUrl": "https://example.com/podcasts/transmission-042.mp3",
-          "duration": 3420,
-          "publishedDate": "2024-12-01T10:00:00Z",
-          "guests": ["Cap'n Jazz", "American Football"]
-        },
-        {
-          "id": "episode-002",
-          "episodeNumber": 41,
-          "title": "DIY Venues: Past, Present, Future",
-          "description": "The history and future of DIY spaces in Chicago with venue owners and organizers.",
-          "audioUrl": "https://example.com/podcasts/transmission-041.mp3",
-          "duration": 3180,
-          "publishedDate": "2024-11-24T10:00:00Z",
-          "guests": ["The Burlington Bar", "Sleeping Village"]
-        },
-        {
-          "id": "episode-003",
-          "episodeNumber": 40,
-          "title": "Behind the Board: Legendary Producers",
-          "description": "Conversations with the producers shaping the sound of indie music.",
-          "audioUrl": "https://example.com/podcasts/transmission-040.mp3",
-          "duration": 3600,
-          "publishedDate": "2024-11-17T10:00:00Z",
-          "guests": ["Steve Albini", "John Congleton"]
-        }
+      "tags": [
+        "interviews",
+        "music history",
+        "indie"
       ]
     },
     {
-      "id": "podcast-002",
+      "category": "Local Music",
       "title": "Local Frequency",
       "slug": "local-frequency",
-      "description": "Spotlighting Chicago's vibrant local music scene, one artist at a time.",
       "excerpt": "Spotlighting Chicago's vibrant local music scene, one artist at a time.",
       "content": "Local Frequency celebrates the artists who make Chicago's music scene one of the most exciting in the world. Each episode features an in-depth conversation with a local musician, exploring their creative process, their connection to the city, and the journey that brought them to where they are today.\n\nHost Alex Johnson has been part of Chicago's indie scene for over a decade, first as a musician and now as a documentarian of the community that shaped him. His interviews go beyond the surface, creating space for artists to reflect on their work with honesty and nuance. The result is a podcast that feels less like promotional content and more like eavesdropping on a conversation between friends.\n\nFrom punk bands playing basements to soul singers headlining festivals, Local Frequency captures the full spectrum of Chicago's musical landscape. We talk about the practical realities of being an artist—finding practice spaces, booking tours, balancing day jobs with creative ambitions. But we also dive into the inspiration, the craft, and the moments of transcendence that make all the struggle worthwhile.\n\nChicago's music scene thrives because of its community, and Local Frequency is part of that ecosystem. By giving artists a platform to tell their stories in their own words, we're preserving the oral history of a scene that deserves to be documented and celebrated.",
+      "host": "Alex Johnson",
+      "coverArtUrl": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "So if you think that you're experiencing it by watching a video on YouTube or something, I got to tell you that every single person that I've ever talked to that's seen it for the first time, whether it be an agent or a club owner or a fan, they've all said, 'oh, I thought I knew what it was, but I had no idea it was going to be like this.'",
       "pullQuoteAttribution": "Mike Odd on Mac Sabbath's theatrical live performances",
       "additionalInfo": "Mac Sabbath will be playing the Weird Al stage at Riot Fest on Friday, September 19th, and Reggie's on Thursday, September 18th.",
       "transcriptUrl": "https://example.com/transcripts/mac-sabbath-interview",
-      "coverArt": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop",
-      "host": "Alex Johnson",
-      "category": "Local Music",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["chicago", "local artists", "interviews"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-004",
-          "episodeNumber": 28,
-          "title": "Ratboys: Growing Up in Public",
-          "description": "Julia Steiner and Dave Sagan talk about their journey from house shows to international tours.",
-          "audioUrl": "https://example.com/podcasts/local-frequency-028.mp3",
-          "duration": 2700,
-          "publishedDate": "2024-12-03T14:00:00Z",
-          "guests": ["Ratboys"]
-        },
-        {
-          "id": "episode-005",
-          "episodeNumber": 27,
-          "title": "Divino Niño's Sound Evolution",
-          "description": "How this Chicago band blends psychedelic rock with Latin influences.",
-          "audioUrl": "https://example.com/podcasts/local-frequency-027.mp3",
-          "duration": 2520,
-          "publishedDate": "2024-11-26T14:00:00Z",
-          "guests": ["Divino Niño"]
-        },
-        {
-          "id": "episode-006",
-          "episodeNumber": 26,
-          "title": "The Hecks: Punk Energy Meets Pop Hooks",
-          "description": "Dissecting the raw energy and melodic sensibility of one of Chicago's best punk bands.",
-          "audioUrl": "https://example.com/podcasts/local-frequency-026.mp3",
-          "duration": 2340,
-          "publishedDate": "2024-11-19T14:00:00Z",
-          "guests": ["The Hecks"]
-        }
+      "tags": [
+        "chicago",
+        "local artists",
+        "interviews"
       ]
     },
     {
-      "id": "podcast-003",
+      "category": "Record Talk",
       "title": "Crate Diggers",
       "slug": "crate-diggers",
-      "description": "CHIRP DJs share the stories behind their favorite records and deep cuts.",
       "excerpt": "CHIRP DJs share the stories behind their favorite records and deep cuts.",
       "content": "Crate Diggers is where CHIRP's diverse roster of volunteer DJs gets personal about the records that changed their lives. Each episode features a different DJ diving deep into their collection, pulling out the albums that shaped their musical identity and explaining why these particular pieces of vinyl mean so much to them.\n\nThe show celebrates the tactile, physical relationship music lovers have with records. We're not just talking about streaming playlists or algorithm recommendations—we're talking about the records our DJs have carried with them through moves, protected during floods, and refused to sell no matter how tight money got. These are the albums with worn covers, skip marks in all the right places, and memories attached to every groove.\n\nFrom obscure private pressings discovered in basement record stores to classic albums that everyone knows but our DJs have unique perspectives on, Crate Diggers explores the full spectrum of recorded music. Our DJs come from different backgrounds and champion different genres, which means you'll hear everything from punk seven-inches to jazz imports, soul compilations to experimental noise records.\n\nEach episode is an intimate peek into a music obsessive's world, complete with stories about where and when they found each record, what was happening in their life when they first heard it, and how it influenced their approach to DJing. Whether you're a serious collector or just someone who loves discovering new music, Crate Diggers will send you down rabbit holes you never knew existed.",
+      "host": "Various DJs",
+      "coverArtUrl": "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "I found this record at a garage sale in 1987 for fifty cents. The woman selling it had no idea what she had. I played it on my show that night and got three phone calls asking what it was. That's the magic of digging—you never know when you'll find treasure.",
       "pullQuoteAttribution": "Morning Mike on discovering rare soul records",
       "additionalInfo": "Want to share your own crate digging stories? Email us at cratediggers@chirpradio.org with photos of your favorite finds.",
       "transcriptUrl": "https://example.com/transcripts/crate-diggers-morning-mike",
-      "coverArt": "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=400&h=400&fit=crop",
-      "host": "Various DJs",
-      "category": "Record Talk",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["vinyl", "record collecting", "music discovery"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-007",
-          "episodeNumber": 15,
-          "title": "Morning Mike's Guilty Pleasures",
-          "description": "The records Morning Mike won't admit he loves (but totally does).",
-          "audioUrl": "https://example.com/podcasts/crate-diggers-015.mp3",
-          "duration": 1800,
-          "publishedDate": "2024-11-30T09:00:00Z",
-          "guests": ["Morning Mike"]
-        },
-        {
-          "id": "episode-008",
-          "episodeNumber": 14,
-          "title": "Rush Hour Ryan's Commute Classics",
-          "description": "The perfect records for Chicago traffic.",
-          "audioUrl": "https://example.com/podcasts/crate-diggers-014.mp3",
-          "duration": 1920,
-          "publishedDate": "2024-11-23T09:00:00Z",
-          "guests": ["Rush Hour Ryan"]
-        },
-        {
-          "id": "episode-009",
-          "episodeNumber": 13,
-          "title": "Night Owl Nina's After Dark Selections",
-          "description": "The moody, atmospheric records that soundtrack the late night.",
-          "audioUrl": "https://example.com/podcasts/crate-diggers-013.mp3",
-          "duration": 2100,
-          "publishedDate": "2024-11-16T09:00:00Z",
-          "guests": ["Night Owl Nina"]
-        }
+      "tags": [
+        "vinyl",
+        "record collecting",
+        "music discovery"
       ]
     },
     {
-      "id": "podcast-004",
+      "category": "Album Discussion",
       "title": "The CHIRP Record Club",
       "slug": "chirp-record-club",
-      "description": "Each month, we pick an album and discuss it in depth with special guests and listeners.",
       "excerpt": "Each month, we pick an album and discuss it in depth with special guests and listeners.",
       "content": "The CHIRP Record Club brings together music lovers for deep, thoughtful conversations about albums that matter. Each month, hosts Alex Johnson and Sarah Martinez select one record for the community to listen to, then gather to discuss it track by track, exploring its creation, context, impact, and enduring significance.\n\nWe approach albums as complete artistic statements, not just collections of songs. In an era of playlist culture and algorithmic shuffle, Record Club celebrates the art of sequencing, the intentionality of album-side pacing, and the way great records tell stories from first note to last. Whether it's a certified classic or an overlooked gem, we give each selection the attention it deserves.\n\nOur discussions draw on listener call-ins, emails, and social media contributions, making this a truly communal experience. We hear from first-time listeners discovering albums decades after release, longtime fans sharing personal connections, musicians offering technical insights, and everyone in between. The result is a rich, multifaceted exploration that reveals new dimensions of familiar records.\n\nPast selections have ranged across decades and genres, from landmark albums that defined their eras to cult classics that influenced countless artists despite limited commercial success. We don't limit ourselves to any particular style—the only requirement is that the album rewards close listening and generates compelling conversation.",
+      "host": "Alex Johnson & Sarah Martinez",
+      "coverArtUrl": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "What makes OK Computer timeless isn't just the prescient lyrics about technology and alienation—it's that Radiohead captured a very specific anxiety and made it universal. Every generation finds new relevance in these songs.",
       "pullQuoteAttribution": "Sarah Martinez on Radiohead's enduring influence",
       "additionalInfo": "Join our Record Club Discord server to participate in monthly listening parties and discussions with fellow music enthusiasts.",
       "transcriptUrl": "https://example.com/transcripts/record-club-ok-computer",
-      "coverArt": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop",
-      "host": "Alex Johnson & Sarah Martinez",
-      "category": "Album Discussion",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["albums", "deep dive", "discussion"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-010",
-          "episodeNumber": 8,
-          "title": "OK Computer at 27",
-          "description": "Revisiting Radiohead's landmark album and its lasting influence.",
-          "audioUrl": "https://example.com/podcasts/record-club-008.mp3",
-          "duration": 4200,
-          "publishedDate": "2024-12-01T16:00:00Z",
-          "guests": []
-        },
-        {
-          "id": "episode-011",
-          "episodeNumber": 7,
-          "title": "In the Aeroplane Over the Sea",
-          "description": "The cult classic that launched a thousand indie bands.",
-          "audioUrl": "https://example.com/podcasts/record-club-007.mp3",
-          "duration": 3900,
-          "publishedDate": "2024-11-01T16:00:00Z",
-          "guests": []
-        },
-        {
-          "id": "episode-012",
-          "episodeNumber": 6,
-          "title": "Funeral by Arcade Fire",
-          "description": "How this debut album changed indie rock forever.",
-          "audioUrl": "https://example.com/podcasts/record-club-006.mp3",
-          "duration": 3780,
-          "publishedDate": "2024-10-01T16:00:00Z",
-          "guests": []
-        }
+      "tags": [
+        "albums",
+        "deep dive",
+        "discussion"
       ]
     },
     {
-      "id": "podcast-005",
+      "category": "Tour Stories",
       "title": "Soundcheck",
       "slug": "soundcheck",
-      "description": "Behind-the-scenes conversations with touring musicians about life on the road.",
       "excerpt": "Behind-the-scenes conversations with touring musicians about life on the road.",
       "content": "Soundcheck takes you backstage, into the van, and onto the tour bus for honest conversations about what it really means to be a touring musician. Host Marcus Chen, himself a former tour manager, knows all the right questions to ask about the unglamorous realities of life on the road—and musicians open up to him in ways they rarely do in traditional interviews.\n\nTouring is often romanticized, but the reality involves sleeping on floors, navigating interpersonal dynamics in cramped spaces, dealing with broken-down vehicles, playing to empty rooms, and constantly being away from loved ones. But it's also where bands become tight, where musicians grow, where magic happens on stage, and where lifelong friendships form. Soundcheck explores all of it.\n\nWe hear about the practical challenges—booking DIY tours, managing finances, staying healthy on the road, dealing with gear failures mid-set. We also dig into the emotional and psychological aspects—homesickness, creative differences, the toll of constant travel, and the unique high of connecting with audiences in different cities night after night.\n\nFrom bands touring in beat-up vans to established acts with crew and production, Soundcheck covers the full spectrum of the touring experience. Whether you're a musician planning your first tour or a fan curious about what happens between songs, these conversations offer invaluable insights into one of music's most essential and challenging aspects.",
+      "host": "Marcus Chen",
+      "coverArtUrl": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "You haven't truly bonded with your bandmates until you've been stuck in a van for eight hours in the middle of nowhere because the transmission died. That's when you find out who has a sense of humor and who's going to crack.",
       "pullQuoteAttribution": "Twin Peaks guitarist on the realities of van tour life",
       "additionalInfo": "Check out our Spotify playlist featuring road trip classics recommended by our touring musician guests.",
       "transcriptUrl": "https://example.com/transcripts/soundcheck-van-life",
-      "coverArt": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=400&fit=crop",
-      "host": "Marcus Chen",
-      "category": "Tour Stories",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["touring", "musicians", "behind-the-scenes"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-013",
-          "episodeNumber": 24,
-          "title": "The Van Life Chronicles",
-          "description": "Stories from bands who've spent years living in vans.",
-          "audioUrl": "https://example.com/podcasts/soundcheck-024.mp3",
-          "duration": 2850,
-          "publishedDate": "2024-11-29T12:00:00Z",
-          "guests": ["Twin Peaks", "Whitney"]
-        }
+      "tags": [
+        "touring",
+        "musicians",
+        "behind-the-scenes"
       ]
     },
     {
-      "id": "podcast-006",
+      "category": "Experimental",
       "title": "Noise Floor",
       "slug": "noise-floor",
-      "description": "Exploring experimental and avant-garde music from around the world.",
       "excerpt": "Exploring experimental and avant-garde music from around the world.",
       "content": "Noise Floor ventures into the outer edges of sound, exploring experimental and avant-garde music that challenges conventional notions of what music can be. Host Dr. Elena Rodriguez, a musicologist specializing in contemporary experimental composition, guides listeners through sonic landscapes that might initially seem alien but reveal profound depth and beauty upon closer listening.\n\nThe show covers an expansive range of experimental approaches: musique concrète, noise music, drone, electroacoustic composition, sound art installations, improvised music, and genre-defying works that resist categorization. We feature both historical pioneers and contemporary innovators, examining how experimental practices have evolved and what new territories artists are exploring today.\n\nEach episode provides context and entry points for understanding challenging music. Elena breaks down compositional techniques, explains the aesthetic philosophies driving different movements, and draws connections between seemingly disparate artists and traditions. The goal isn't to make experimental music \"easy\" but to make it accessible—to help listeners develop ears for sounds they might initially find difficult.\n\nNoise Floor also addresses the broader questions experimental music raises: What is the boundary between music and noise? How do we listen to music that doesn't follow traditional structures? What can experimental approaches teach us about sound, perception, and creativity? These conversations expand beyond music into philosophy, technology, psychology, and contemporary art.",
+      "host": "Dr. Elena Rodriguez",
+      "coverArtUrl": "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "Field recording isn't about capturing perfect sound quality—it's about preserving the acoustic signature of a moment and place. The traffic noise, the bird calls, the electrical hum—these are all part of the composition. You're not just recording sound, you're documenting an environment.",
       "pullQuoteAttribution": "Dr. Elena Rodriguez on the art of field recording",
       "additionalInfo": "Explore our curated listening guide for newcomers to experimental music, featuring accessible entry points organized by interest and background.",
       "transcriptUrl": "https://example.com/transcripts/noise-floor-field-recording",
-      "coverArt": "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=400&h=400&fit=crop",
-      "host": "Dr. Elena Rodriguez",
-      "category": "Experimental",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["experimental", "avant-garde", "sound art"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-014",
-          "episodeNumber": 16,
-          "title": "The Art of Field Recording",
-          "description": "How artists use environmental sounds to create music.",
-          "audioUrl": "https://example.com/podcasts/noise-floor-016.mp3",
-          "duration": 3200,
-          "publishedDate": "2024-11-27T15:00:00Z",
-          "guests": []
-        }
+      "tags": [
+        "experimental",
+        "avant-garde",
+        "sound art"
       ]
     },
     {
-      "id": "podcast-007",
+      "category": "Hip-Hop",
       "title": "Beat Street",
       "slug": "beat-street",
-      "description": "Hip-hop culture, history, and the beats that defined generations.",
       "excerpt": "Hip-hop culture, history, and the beats that defined generations.",
       "content": "Beat Street is a deep dive into hip-hop's rich history, cultural impact, and continuous evolution. Host DJ Spinnz, a veteran of Chicago's hip-hop scene with over two decades behind the decks, brings encyclopedic knowledge and genuine passion to conversations about the music, the culture, and the social movements that hip-hop both reflects and shapes.\n\nThe show explores hip-hop across all its elements—not just the music, but the DJing, MCing, breaking, graffiti, and fashion that comprise the culture. We trace the genre's evolution from block parties in the Bronx through its global explosion, examining how regional scenes developed distinct sounds and styles while maintaining connections to hip-hop's foundational principles.\n\nEach episode might focus on a particular era (the golden age of sampling, the rise of trap), a regional scene (Atlanta's Dungeon Family, the Bay Area hyphy movement), a production technique (the evolution of drum programming, the art of chopping samples), or a cultural moment (hip-hop's influence on fashion, the emergence of conscious rap). Spinnz brings in guests who were there—producers, MCs, DJs, b-boys, graffiti artists—to share first-hand perspectives.\n\nBeat Street also addresses hip-hop's complex relationship with mainstream culture, its role in social justice movements, ongoing debates about authenticity and commercialization, and the ways new generations honor and challenge tradition. Whether you're a hip-hop head or a curious newcomer, these conversations offer invaluable context for understanding one of the world's most influential cultural forces.",
+      "host": "DJ Spinnz",
+      "coverArtUrl": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "The golden age wasn't just about sampling—it was about producers being musical archaeologists. They were digging through decades of music, finding obscure breaks, and creating something entirely new. That cratedigging ethic defined an entire era of hip-hop.",
       "pullQuoteAttribution": "DJ Spinnz on the art of sampling in 90s hip-hop",
       "additionalInfo": "Follow our Beat Street playlist on Spotify for a curated selection of tracks discussed in each episode, organized chronologically by era.",
       "transcriptUrl": "https://example.com/transcripts/beat-street-sampling",
-      "coverArt": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop",
-      "host": "DJ Spinnz",
-      "category": "Hip-Hop",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["hip-hop", "beats", "culture"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-015",
-          "episodeNumber": 52,
-          "title": "The Golden Age of Sampling",
-          "description": "How sampling transformed hip-hop in the 90s.",
-          "audioUrl": "https://example.com/podcasts/beat-street-052.mp3",
-          "duration": 3100,
-          "publishedDate": "2024-11-25T18:00:00Z",
-          "guests": ["DJ Premier", "Q-Tip"]
-        }
+      "tags": [
+        "hip-hop",
+        "beats",
+        "culture"
       ]
     },
     {
-      "id": "podcast-008",
+      "category": "Production",
       "title": "Bedroom Producers",
       "slug": "bedroom-producers",
-      "description": "Tips, tricks, and inspiration for home recording enthusiasts.",
       "excerpt": "Tips, tricks, and inspiration for home recording enthusiasts.",
       "content": "Bedroom Producers is for anyone making music at home, from complete beginners setting up their first interface to experienced producers refining their craft. Host Jamie Park, a producer and engineer who's worked everywhere from multi-million dollar studios to literal bedrooms, knows that great music can come from anywhere—and that constraints often breed creativity.\n\nThe show covers the full spectrum of home recording: choosing and using equipment on any budget, acoustic treatment for non-ideal spaces, recording techniques for various instruments, mixing strategies, production workflows, and overcoming creative blocks. Jamie demystifies technical concepts without dumbing them down, helping listeners develop both practical skills and critical listening abilities.\n\nEach episode combines practical instruction with inspiration. We break down production techniques from famous records, demonstrate how professional sounds were achieved with minimal gear, troubleshoot common problems, and share before-and-after examples that illustrate key concepts. Jamie also interviews producers and artists who've created successful music in home studios, learning how they work and what lessons they've learned.\n\nBedroom Producers acknowledges that home recording has unique challenges—neighbors, budget limitations, imperfect acoustics, wearing multiple hats as performer-engineer-producer—but also unique advantages: unlimited time, no hourly studio fees, complete creative control, and the freedom to experiment. The goal is to help listeners make the best music possible with whatever resources they have.",
+      "host": "Jamie Park",
+      "coverArtUrl": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "Professional studios have great gear, but you know what else they have? Deadlines and hourly rates. In your bedroom, you can spend three days getting one snare sound perfect if that's what the song needs. That freedom is incredibly valuable.",
       "pullQuoteAttribution": "Jamie Park on the advantages of home recording",
       "additionalInfo": "Download our free bedroom recording starter guide, including recommended budget gear, acoustic treatment DIY plans, and essential mixing checklists.",
       "transcriptUrl": "https://example.com/transcripts/bedroom-producers-drums",
-      "coverArt": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=400&fit=crop",
-      "host": "Jamie Park",
-      "category": "Production",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["production", "recording", "DIY"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-016",
-          "episodeNumber": 34,
-          "title": "Recording Drums in Small Spaces",
-          "description": "Getting professional drum sounds without a big studio.",
-          "audioUrl": "https://example.com/podcasts/bedroom-producers-034.mp3",
-          "duration": 2400,
-          "publishedDate": "2024-11-22T11:00:00Z",
-          "guests": []
-        }
+      "tags": [
+        "production",
+        "recording",
+        "DIY"
       ]
     },
     {
-      "id": "podcast-009",
+      "category": "Live Performance",
       "title": "Live from the Archive",
       "slug": "live-from-the-archive",
-      "description": "Unearthing rare live performances from CHIRP's extensive concert archive.",
       "excerpt": "Unearthing rare live performances from CHIRP's extensive concert archive.",
       "content": "Live from the Archive showcases rare and remarkable live performances from CHIRP Radio's extensive concert archive. Over the years, we've recorded hundreds of shows at venues across Chicago—intimate club gigs, festival sets, in-studio sessions, and special broadcasts. This podcast brings those recordings out of the vault and into your ears.\n\nEach episode features a complete live performance, introduced with context about the show, the venue, the moment in the artist's career, and what makes this particular recording special. Some are historically significant—legendary bands captured at crucial moments. Others showcase beloved local acts at the height of their powers. All of them preserve the energy and spontaneity that makes live music irreplaceable.\n\nWe've got incredible moments in these archives: artists testing new material that would later become hits, reunions of influential bands, breakthrough performances by then-unknown artists, and unexpected collaborations. The recordings themselves range from professional multi-track mixes to rough but spirited board recordings—whatever best captures the essence of the performance.\n\nLive from the Archive serves as both a podcast and a historical document of Chicago's music scene. Each episode preserves not just performances but moments in time—snapshots of artists, venues, and audiences at specific points in their journeys. It's a celebration of live music's ephemeral magic and the importance of archiving cultural history.",
+      "host": "Archive Team",
+      "coverArtUrl": "https://images.unsplash.com/photo-1501612780327-45045538702b?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "This Wilco show at The Hideout in 2001 is legendary in Chicago music lore. It was right before Yankee Hotel Foxtrot came out, when nobody knew if the band would even survive. Hearing them work through these songs in such an intimate setting, you can feel the intensity and uncertainty.",
       "pullQuoteAttribution": "Archive curator on the significance of the Wilco recording",
       "additionalInfo": "Explore our digital archive at archive.chirpradio.org to browse the full collection of live recordings, photos, and setlists from two decades of Chicago shows.",
       "transcriptUrl": "https://example.com/transcripts/archive-wilco-hideout",
-      "coverArt": "https://images.unsplash.com/photo-1501612780327-45045538702b?w=400&h=400&fit=crop",
-      "host": "Archive Team",
-      "category": "Live Performance",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["live music", "archive", "performances"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-017",
-          "episodeNumber": 19,
-          "title": "Wilco at The Hideout 2001",
-          "description": "A legendary intimate show before Yankee Hotel Foxtrot.",
-          "audioUrl": "https://example.com/podcasts/archive-019.mp3",
-          "duration": 4500,
-          "publishedDate": "2024-11-20T14:00:00Z",
-          "guests": []
-        }
+      "tags": [
+        "live music",
+        "archive",
+        "performances"
       ]
     },
     {
-      "id": "podcast-010",
+      "category": "Genre Exploration",
       "title": "Genre Benders",
       "slug": "genre-benders",
-      "description": "Artists who defy categorization and blend unexpected styles.",
       "excerpt": "Artists who defy categorization and blend unexpected styles.",
       "content": "Genre Benders celebrates artists who refuse to stay in their lane, exploring music that exists in the spaces between traditional categories. Host Taylor Kim seeks out musicians, producers, and bands whose work defies easy classification—artists blending jazz with electronic music, folk with hip-hop, classical with noise, and countless other unexpected combinations.\n\nThe show examines both the creative and practical aspects of genre-blending. We discuss the musical techniques that allow disparate styles to merge successfully, the cultural contexts that make certain fusions meaningful, and the challenges artists face when their work doesn't fit neatly into existing categories. We also celebrate the freedom and innovation that comes from ignoring boundaries.\n\nEach episode features in-depth conversations with genre-defying artists about their influences, creative process, and philosophy. How do they decide which elements from different traditions to combine? What reactions do they get from purists in each genre? How do they navigate an industry built around categorization? These discussions reveal the intentionality and artistry behind music that might initially sound like chaos.\n\nGenre Benders argues that the most exciting music often happens at intersections—when artists bring together seemingly incompatible influences and find unexpected common ground. From early fusion pioneers to contemporary bedroom producers mixing global influences, we trace the ongoing evolution of musical cross-pollination.",
+      "host": "Taylor Kim",
+      "coverArtUrl": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "Genre is just a filing system. It's useful for record stores, but it's not how creativity works. When Flying Lotus blends jazz, hip-hop, and electronic music, he's not thinking 'how do I make this genre-bending?'—he's just following where his ears lead him.",
       "pullQuoteAttribution": "Taylor Kim on the artificial nature of genre boundaries",
       "additionalInfo": "Subscribe to our Genre Benders companion playlist, updated monthly with new genre-defying discoveries from around the world.",
       "transcriptUrl": "https://example.com/transcripts/genre-benders-flying-lotus",
-      "coverArt": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=400&h=400&fit=crop",
-      "host": "Taylor Kim",
-      "category": "Genre Exploration",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["genre-blending", "innovation", "crossover"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-018",
-          "episodeNumber": 12,
-          "title": "When Jazz Meets Electronic",
-          "description": "Exploring the fusion of acoustic jazz and electronic production.",
-          "audioUrl": "https://example.com/podcasts/genre-benders-012.mp3",
-          "duration": 2900,
-          "publishedDate": "2024-11-18T13:00:00Z",
-          "guests": ["Flying Lotus", "Thundercat"]
-        }
+      "tags": [
+        "genre-blending",
+        "innovation",
+        "crossover"
       ]
     },
     {
-      "id": "podcast-011",
+      "category": "Music Business",
       "title": "Merch Table Talk",
       "slug": "merch-table-talk",
-      "description": "The business side of independent music, from merch to marketing.",
       "excerpt": "The business side of independent music, from merch to marketing.",
       "content": "Merch Table Talk addresses the unglamorous but essential business realities of being an independent musician. Host Robin Davis, who spent years managing indie artists before becoming a music business educator, provides practical, actionable advice on everything from selling t-shirts to building sustainable careers in music.\n\nThe show demystifies the business side of music, covering topics like merchandise design and fulfillment, social media strategy, email marketing, crowdfunding, rights management, royalty collection, booking shows, working with publicists, building a street team, and creating multiple revenue streams. We break down exactly how successful independent artists make a living from their music.\n\nEach episode features interviews with musicians, managers, booking agents, publicists, and other music industry professionals who share their strategies, failures, and hard-won lessons. We're not interested in get-rich-quick schemes or viral marketing hacks—we focus on sustainable, ethical approaches to building careers that last.\n\nMerch Table Talk acknowledges that many musicians feel uncomfortable with the business side of music, but argues that understanding these realities is essential for artistic freedom. The more you know about how the industry works, the better equipped you are to make decisions that serve your creative vision while keeping the lights on.",
+      "host": "Robin Davis",
+      "coverArtUrl": "https://images.unsplash.com/photo-1524650359799-842906ca1c06?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "The most successful independent artists I know aren't the ones with the biggest social media followings—they're the ones who built real relationships with their fans. That means collecting emails, staying in touch, and treating your audience like people, not numbers.",
       "pullQuoteAttribution": "Robin Davis on sustainable fanbase building",
       "additionalInfo": "Download our free independent artist business toolkit, including contract templates, budget spreadsheets, and a comprehensive release planning checklist.",
       "transcriptUrl": "https://example.com/transcripts/merch-table-fanbase",
-      "coverArt": "https://images.unsplash.com/photo-1524650359799-842906ca1c06?w=400&h=400&fit=crop",
-      "host": "Robin Davis",
-      "category": "Music Business",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["business", "independent", "marketing"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-019",
-          "episodeNumber": 28,
-          "title": "Building a Fanbase Without a Label",
-          "description": "How modern artists connect directly with fans.",
-          "audioUrl": "https://example.com/podcasts/merch-table-028.mp3",
-          "duration": 2650,
-          "publishedDate": "2024-11-15T10:00:00Z",
-          "guests": []
-        }
+      "tags": [
+        "business",
+        "independent",
+        "marketing"
       ]
     },
     {
-      "id": "podcast-012",
+      "category": "Performance",
       "title": "Setlist Stories",
       "slug": "setlist-stories",
-      "description": "Musicians break down their most memorable setlists song by song.",
       "excerpt": "Musicians break down their most memorable setlists song by song.",
       "content": "Setlist Stories explores the art and strategy of live performance through detailed discussions of memorable setlists. Host Chris Morgan invites musicians to walk through specific shows song by song, explaining why they chose each track, how they sequenced the set, and what happened during the performance itself.\n\nSetlist construction is both art and science—balancing crowd-pleasers with deep cuts, managing energy ebbs and flows, accounting for technical considerations, responding to the specific venue and audience, and creating an arc that feels satisfying from first song to encore. This show reveals the thought process behind those decisions and the improvisation required when plans change mid-set.\n\nWe discuss different contexts for performances: the considerations for festival sets versus headlining shows, opening slots versus co-bills, hometown crowds versus new markets, intimate clubs versus large venues. Each context demands different approaches, and hearing artists explain their strategies provides invaluable insight into the craft of live performance.\n\nSetlist Stories celebrates live music's spontaneity and imperfection. We hear about equipment failures, unexpected audience reactions, moments of transcendence, and the countless variables that make every show unique. For musicians, the show offers practical wisdom about live performance. For fans, it deepens appreciation for the artistry involved in creating memorable concert experiences.",
+      "host": "Chris Morgan",
+      "coverArtUrl": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
+      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
       "pullQuote": "Festival sets are all about conversion—you've got 45 minutes to turn people who've never heard of you into fans. That means opening strong, hitting them with your best songs, and making sure they remember your name when you're done.",
       "pullQuoteAttribution": "Japanese Breakfast on crafting the perfect festival set",
       "additionalInfo": "Browse our setlist archive featuring annotated setlists from every episode, complete with Spotify playlists you can listen to in sequence.",
       "transcriptUrl": "https://example.com/transcripts/setlist-stories-festival-set",
-      "coverArt": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop",
-      "host": "Chris Morgan",
-      "category": "Performance",
-      "soundCloudEmbedUrl": "https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2170647135&color=ff5500",
-      "tags": ["setlists", "concerts", "storytelling"],
-      "isActive": true,
-      "episodes": [
-        {
-          "id": "episode-020",
-          "episodeNumber": 31,
-          "title": "The Perfect Festival Set",
-          "description": "Crafting a 45-minute set that wins over new fans.",
-          "audioUrl": "https://example.com/podcasts/setlist-stories-031.mp3",
-          "duration": 2750,
-          "publishedDate": "2024-11-12T16:00:00Z",
-          "guests": ["Japanese Breakfast", "Lucy Dacus"]
-        }
+      "tags": [
+        "setlists",
+        "concerts",
+        "storytelling"
       ]
     }
   ]

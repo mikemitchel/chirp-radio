@@ -1,158 +1,134 @@
 {
   "articles": [
     {
-      "id": "article-001",
+      "category": "Music Scene",
       "title": "A Deep Dive into Chicago's Underground Scene",
       "slug": "chicago-underground-music-scene",
-      "author": {
-        "name": "Sarah Martinez",
-        "id": "user-002",
-        "profileImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces"
-      },
-      "featuredImage": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=400&fit=crop",
+      "author": "Sarah Martinez",
+      "featuredImageUrl": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=400&fit=crop",
       "excerpt": "Exploring the vibrant underground music venues that make Chicago's indie scene thrive.",
       "content": "Chicago has long been home to a thriving underground music scene, but it's the small, dimly-lit venues tucked away in neighborhoods like Logan Square, Pilsen, and Bridgeport that truly define the city's musical identity. These spaces, often operating on shoestring budgets and powered by passionate volunteers, create an intimacy between artist and audience that larger venues simply can't replicate.\n\nThe Empty Bottle, a staple since 1992, continues to be the breeding ground for experimental sounds and genre-defying acts. Its DIY ethos has launched countless careers, from local noise-rock bands to internationally touring indie acts. Walking through its graffiti-covered entrance feels like stepping into a musical time capsule where authenticity matters more than polish.\n\nFurther south, in Pilsen's arts district, newer venues like The Co-Prosperity Sphere are redefining what a music space can be. Part gallery, part performance venue, part community center, these hybrid spaces reflect the evolving nature of underground music culture. Here, you're as likely to encounter a harsh noise set as you are a folk singer-songwriter, often on the same bill.\n\nWhat makes Chicago's underground scene particularly resilient is its community-first mentality. Venue owners, promoters, and musicians see themselves as stewards of a culture rather than entrepreneurs chasing profits. This manifests in sliding-scale door prices, all-ages shows, and a genuine commitment to providing space for voices that might not find purchase in more commercial settings.\n\nThe pandemic tested this ecosystem severely, with many beloved venues closing permanently. Yet the scene has shown remarkable resilience, with new spaces emerging and old favorites adapting. The lesson learned is clear: Chicago's underground music scene isn't defined by any single venue or era, but by an enduring commitment to artistic freedom and community connection that transcends any temporary setback.",
-      "category": "Music Scene",
-      "tags": ["chicago", "indie", "underground", "venues"],
-      "publishedDate": "2024-12-01T10:00:00Z",
-      "updatedDate": "2024-12-01T10:00:00Z",
-      "featured": true,
-      "readTime": 8
+      "tags": [
+        "chicago",
+        "indie",
+        "underground",
+        "venues"
+      ],
+      "publishedDate": "2024-12-01T10:00:00Z"
     },
     {
-      "id": "article-002",
+      "category": "Interview",
       "title": "Local Heroes Bring Post-Punk Revival",
       "slug": "local-heroes-post-punk-revival",
-      "author": {
-        "name": "Alex Johnson",
-        "id": "user-001",
-        "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces"
-      },
-      "featuredImage": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=400&fit=crop",
+      "author": "Alex Johnson",
+      "featuredImageUrl": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&h=400&fit=crop",
       "excerpt": "We sit down with the band making waves in Chicago's post-punk scene.",
       "content": "Post-punk is experiencing a renaissance in Chicago, and at the forefront of this revival is a band that refuses to be pigeonholed. Formed in a Pilsen practice space three years ago, they've become the soundtrack to a generation of listeners who crave angular guitars, driving basslines, and lyrics that bite.\n\nTheir sound draws from the genre's classic era—Joy Division, Wire, Gang of Four—but filters it through a distinctly contemporary lens. \"We're not trying to recreate 1979,\" explains their guitarist over coffee at a Bridgeport café. \"We love those records, but we're making music about living in Chicago right now. The anxiety, the economic pressure, the weird beauty of it all.\"\n\nWhat sets them apart is their refusal to lean on nostalgia as a crutch. While many post-punk revivalists content themselves with surface-level aesthetics, this band digs deeper. Their lyrics confront gentrification, labor exploitation, and mental health with the same urgency that made the original post-punk movement so vital.\n\nTheir live shows have become legendary in local circles. Stripped of rock-show posturing, they deliver taut, intense performances that feel more like exorcisms than concerts. The Empty Bottle, Schubas, and Beat Kitchen have all hosted packed rooms of sweaty fans moving as one to their hypnotic rhythms.\n\nWith a debut album set to drop next month on a local independent label, they're poised to break beyond Chicago's city limits. But success hasn't changed their approach. \"We're still the same people who started this in a basement,\" their vocalist says. \"We just want to make music that matters, that connects with people who feel like we do.\"",
-      "youtubeVideoId": "UirfhY2TTG8",
       "videoTitle": "Watch Their Most Recent Video",
-      "category": "Interview",
-      "tags": ["interview", "post-punk", "chicago", "local"],
-      "publishedDate": "2024-11-28T14:30:00Z",
-      "updatedDate": "2024-11-28T14:30:00Z",
-      "featured": true,
-      "readTime": 12
+      "youtubeVideoId": "UirfhY2TTG8",
+      "tags": [
+        "interview",
+        "post-punk",
+        "chicago",
+        "local"
+      ],
+      "publishedDate": "2024-11-28T14:30:00Z"
     },
     {
-      "id": "article-003",
+      "category": "Vinyl Culture",
       "title": "Why Records Are Making a Comeback",
       "slug": "vinyl-culture-comeback",
-      "author": {
-        "name": "Sarah Martinez",
-        "id": "user-002",
-        "profileImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces"
-      },
-      "featuredImage": "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=800&h=400&fit=crop",
+      "author": "Sarah Martinez",
+      "featuredImageUrl": "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=800&h=400&fit=crop",
       "excerpt": "The resurgence of vinyl isn't just nostalgia—it's a cultural shift.",
       "content": "In an age of streaming, vinyl sales have reached their highest point in three decades. But this isn't just baby boomers reliving their youth—it's a diverse, cross-generational movement driven by listeners seeking a more intentional relationship with music.\n\nWalk into any Chicago record store on a Saturday afternoon and you'll find teenagers flipping through crates alongside their parents. The format's tactile nature offers something streaming can't: the ritual of handling an album, studying artwork, carefully placing a needle. It's music as experience rather than background noise.\n\nThe sound quality argument is real but often overstated. What matters more is the listening behavior vinyl encourages. You can't skip tracks as easily. You have to flip the record. These \"limitations\" force engagement, transforming passive consumption into active participation. Albums become complete artistic statements again, not just playlists to be shuffled.\n\nLocal pressing plants are struggling to keep up with demand. Chicago's Archer Record Pressing has a six-month waitlist, testimony to vinyl's transformation from nostalgic novelty to legitimate format. Independent artists increasingly view vinyl releases as essential, not optional—a physical artifact that streaming simply can't replace.\n\nThe environmental cost of vinyl production remains a valid concern, and the industry must address it. But for now, the format's resurgence represents something deeper than trend: a collective pushback against disposable culture, a desire for permanence in an ephemeral digital age.",
-      "category": "Vinyl Culture",
-      "tags": ["vinyl", "culture", "music", "collecting"],
-      "publishedDate": "2024-11-25T09:00:00Z",
-      "updatedDate": "2024-11-25T09:00:00Z",
-      "featured": false,
-      "readTime": 6
+      "tags": [
+        "vinyl",
+        "culture",
+        "music",
+        "collecting"
+      ],
+      "publishedDate": "2024-11-25T09:00:00Z"
     },
     {
-      "id": "article-004",
+      "category": "Album Reviews",
       "title": "Best New Indie Releases This Month",
       "slug": "best-new-indie-releases-december",
-      "author": {
-        "name": "Alex Johnson",
-        "id": "user-001",
-        "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces"
-      },
-      "featuredImage": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=400&fit=crop",
+      "author": "Alex Johnson",
+      "featuredImageUrl": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&h=400&fit=crop",
       "excerpt": "Our curated list of the month's most exciting indie releases.",
       "content": "December brings a stellar lineup of indie releases that deserve your attention. From bedroom pop to experimental electronic, this month showcases the breadth and vitality of independent music.\n\nTopping our list is a Chicago native's sophomore album that expands on their lo-fi debut with lush production and devastating honesty. Recorded in a converted warehouse studio, the album captures the isolation and beauty of winter in the Midwest. Standout tracks layer hushed vocals over shimmering guitars, creating soundscapes that feel both intimate and expansive.\n\nAn experimental electronic artist from Brooklyn drops their most accessible work yet, blending glitchy beats with unexpectedly melodic hooks. What could have been cold and clinical instead feels warm and human, proof that electronic music can have soul. The production is immaculate—each sound precisely placed yet feeling spontaneous.\n\nA folk duo from North Carolina delivers an album of stark, haunting ballads that recall the best of 1970s singer-songwriters. Their harmonies are breathtaking, their lyrics unflinching in their examination of grief, love, and resilience. Stripped-down arrangements let their voices shine, each song a small, perfect gem.\n\nRounding out the month, a post-hardcore band from Seattle releases their angriest, most cathartic record yet. After years of polished production, they've returned to raw, live-sounding recordings that capture their intensity. It's music that demands to be played loud, a necessary reminder that sometimes beauty lives in chaos.",
-      "category": "Album Reviews",
-      "tags": ["reviews", "indie", "new releases", "december"],
-      "publishedDate": "2024-12-03T11:00:00Z",
-      "updatedDate": "2024-12-03T11:00:00Z",
-      "featured": true,
-      "readTime": 10
+      "tags": [
+        "reviews",
+        "indie",
+        "new releases",
+        "december"
+      ],
+      "publishedDate": "2024-12-03T11:00:00Z"
     },
     {
-      "id": "article-005",
+      "category": "CHIRP History",
       "title": "20 Years Strong",
       "slug": "chirp-radio-20-years",
-      "author": {
-        "name": "Sarah Martinez",
-        "id": "user-002",
-        "profileImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces"
-      },
-      "featuredImage": "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=800&h=400&fit=crop",
+      "author": "Sarah Martinez",
+      "featuredImageUrl": "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=800&h=400&fit=crop",
       "excerpt": "Celebrating two decades of independent radio and community connection.",
       "content": "Twenty years ago, a group of passionate volunteers came together with a simple but radical idea: create a radio station that actually reflected Chicago's diverse musical landscape. No corporate playlists, no focus groups, no algorithms—just real people sharing music they genuinely loved.\n\nThe early days were scrappy. Equipment was borrowed or bought secondhand. DJs learned on the job, sometimes literally reading equipment manuals between songs. The station broadcast from a cramped office space, and technical glitches were frequent. But what they lacked in polish, they made up for in passion and authenticity.\n\nTwo decades later, CHIRP has become an institution. Hundreds of volunteers have passed through its doors, each bringing their unique musical perspective. The station has championed countless local artists, provided a platform for underrepresented voices, and built a community that extends far beyond the airwaves.\n\nWhat's remarkable isn't just longevity—it's relevance. In an era where algorithms increasingly dictate our cultural consumption, CHIRP remains defiantly human. Every song chosen by a person, every playlist reflecting genuine taste rather than data-driven optimization. It's a reminder that curation is an art form, that discovery works best when guided by human passion rather than machine learning.\n\nAs CHIRP enters its third decade, the challenge remains the same: staying true to the founding vision while adapting to a changing media landscape. But if the past twenty years have proven anything, it's that there will always be listeners hungry for something real, something human, something that can't be reduced to an algorithm.",
-      "category": "CHIRP History",
-      "tags": ["chirp", "history", "anniversary", "community"],
-      "publishedDate": "2024-11-20T08:00:00Z",
-      "updatedDate": "2024-11-20T08:00:00Z",
-      "featured": false,
-      "readTime": 15
+      "tags": [
+        "chirp",
+        "history",
+        "anniversary",
+        "community"
+      ],
+      "publishedDate": "2024-11-20T08:00:00Z"
     },
     {
-      "id": "article-006",
+      "category": "Community Guide",
       "title": "Supporting Local Artists Beyond Streaming",
       "slug": "support-local-artists",
-      "author": {
-        "name": "Alex Johnson",
-        "id": "user-001",
-        "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces"
-      },
-      "featuredImage": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=400&fit=crop",
+      "author": "Alex Johnson",
+      "featuredImageUrl": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=400&fit=crop",
       "excerpt": "Practical ways to help your favorite local musicians thrive.",
       "content": "Streaming pays fractions of a penny per play. An artist needs roughly 3,000 streams to earn what they'd make from a single album sale. For local musicians, this model is unsustainable. But there are tangible ways fans can make a real difference.\n\nBuy physical music directly from artists. Whether vinyl, CDs, or cassettes, direct sales provide the highest return. At a show, that $10 album puts money immediately in a musician's pocket—far more than months of streaming ever would. Plus, you get album art, liner notes, and something physical to treasure.\n\nAttend live shows and arrive early. Ticket sales matter, but so does creating atmosphere. Artists remember packed rooms, enthusiastic crowds, and people who show up for openers. If you can, buy merchandise—bands often make more from merch than from door splits. That t-shirt or tote bag becomes a walking advertisement while directly supporting the artist.\n\nFollow and engage on social media, but go further. Share their posts, tag friends who might dig their sound, leave genuine comments. When they announce a show or release, that engagement helps algorithms surface their content to new listeners. Word of mouth still matters, maybe more than ever.\n\nIf you have skills, offer them. Can you take photos? Book shows? Design posters? Build websites? Local artists often can't afford professional help. Your skills could be the difference between a musician reaching the next level or burning out from exhaustion. Community support isn't just about money—it's about building infrastructure together.",
-      "category": "Community Guide",
-      "tags": ["local", "support", "artists", "community"],
-      "publishedDate": "2024-11-18T13:00:00Z",
-      "updatedDate": "2024-11-18T13:00:00Z",
-      "featured": false,
-      "readTime": 7
+      "tags": [
+        "local",
+        "support",
+        "artists",
+        "community"
+      ],
+      "publishedDate": "2024-11-18T13:00:00Z"
     },
     {
-      "id": "article-007",
+      "category": "Venue Guide",
       "title": "Top 10 Chicago Spots You Need to Visit",
       "slug": "top-chicago-music-venues",
-      "author": {
-        "name": "Sarah Martinez",
-        "id": "user-002",
-        "profileImage": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces"
-      },
-      "featuredImage": "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&h=400&fit=crop",
+      "author": "Sarah Martinez",
+      "featuredImageUrl": "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&h=400&fit=crop",
       "excerpt": "From intimate clubs to legendary halls, these venues define Chicago music.",
       "content": "Chicago's music venues are as diverse as the music they host. From basement clubs to historic theaters, each space contributes to the city's rich musical ecosystem. Here are ten essential venues every music lover should experience.\n\nThe Empty Bottle remains the beating heart of Chicago's indie scene. This Ukrainian Village institution has hosted everyone from early Arcade Fire to contemporary noise acts. The sound is impeccable, the sight lines perfect, and the vibe unpretentious. It's where bands prove themselves before moving to larger rooms.\n\nMetro and its smaller sibling Smart Bar offer a one-two punch in Wrigleyville. Metro's hosted legendary shows for four decades—Nirvana, R.E.M., Pearl Jam all played there on their way up. Smart Bar downstairs serves the dance music community with world-class DJs and a sound system that makes the floor vibrate.\n\nSchubas Tavern in Lakeview provides intimacy that larger venues can't match. The listening room holds just 165 people, forcing a quiet attentiveness. It's where you go to really hear music, not just see a show. The attached restaurant serves solid comfort food, making it easy to arrive early and settle in.\n\nThalia Hall anchors Pilsen's arts scene in a gorgeously restored 1890s building. The main room's ornate architecture provides visual drama, while the downstairs Punch House and adjacent Dusek's restaurant create a complete night out. Book a diverse array of acts from indie folk to experimental electronic.\n\nFor jazz, the Green Mill is non-negotiable. This Uptown institution has hosted musicians since the 1920s, and sitting in its art deco interior listening to late-night sets feels like time travel. The Sunday poetry slam is legendary, but Saturday nights are for serious jazz heads.",
-      "category": "Venue Guide",
-      "tags": ["chicago", "venues", "live music", "guide"],
-      "publishedDate": "2024-11-15T10:00:00Z",
-      "updatedDate": "2024-11-15T10:00:00Z",
-      "featured": false,
-      "readTime": 9
+      "tags": [
+        "chicago",
+        "venues",
+        "live music",
+        "guide"
+      ],
+      "publishedDate": "2024-11-15T10:00:00Z"
     },
     {
-      "id": "article-008",
+      "category": "Behind the Scenes",
       "title": "A Day in the Life of a CHIRP DJ",
       "slug": "day-in-life-chirp-dj",
-      "author": {
-        "name": "Alex Johnson",
-        "id": "user-001",
-        "profileImage": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces"
-      },
-      "featuredImage": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=400&fit=crop",
+      "author": "Alex Johnson",
+      "featuredImageUrl": "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&h=400&fit=crop",
       "excerpt": "What does it take to curate and broadcast a radio show? We shadow a DJ to find out.",
       "content": "It's 5:45 AM when DJ Morning Mike arrives at the station, coffee in hand and a bag of records slung over his shoulder. Most people are still asleep, but for volunteer DJs like Mike, these early morning hours are sacred—a chance to share music with Chicago as the city wakes up.\n\nHis preparation started days ago. Mike spent hours combing through new releases, digging through his personal collection, and mapping out transitions. A good radio show isn't just a playlist—it's a narrative, a journey that takes listeners somewhere unexpected. He's planned for two hours but brought four hours of music. Flexibility matters when you're live.\n\nThe booth is compact but organized. Turntables, CD players, and a computer for digital files all feed into the mixing board. Mike cues up his first track while logging into the station's system to broadcast the required station IDs and PSAs. Community radio means navigating FCC regulations while maintaining creative freedom—it's a balance every DJ learns to strike.\n\nAs 6 AM approaches, he does a final sound check and takes a breath. Then: \"Good morning Chicago, you're listening to CHIRP Radio.\" His voice is warm, conversational—like talking to a friend rather than an audience. Between songs, he shares brief stories about the artists, contextualizes the music, makes connections that might surprise listeners.\n\nThe two hours fly by. Calls and texts come in from listeners—someone asking about a track, another thanking him for the discovery. These moments make the early wake-up worthwhile. As he signs off at 8 AM, the next DJ arrives, and the cycle continues. This is community radio: people sharing music they love, hoping to connect with others who might love it too.",
-      "category": "Behind the Scenes",
-      "tags": ["dj", "radio", "behind the scenes", "chirp"],
-      "publishedDate": "2024-11-12T07:00:00Z",
-      "updatedDate": "2024-11-12T07:00:00Z",
-      "featured": false,
-      "readTime": 11
+      "tags": [
+        "dj",
+        "radio",
+        "behind the scenes",
+        "chirp"
+      ],
+      "publishedDate": "2024-11-12T07:00:00Z"
     }
   ]
 }

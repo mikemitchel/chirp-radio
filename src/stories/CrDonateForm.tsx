@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import CrButtonGroup from './CrButtonGroup'
 import CrDonateAmount from './CrDonateAmount' // Keep using original CrDonateAmount
-import CrPageHeader from './CrPageHeader'
+import CrCard from './CrCard'
 import CrButton from './CrButton'
 import { PiArrowRight, PiCaretRight, PiVinylRecord } from 'react-icons/pi'
 import './CrDonateForm.css'
@@ -120,11 +120,19 @@ export default function CrDonateForm({
 
   return (
     <div className={componentClasses}>
-      <CrPageHeader
-        eyebrowText={content.eyebrowText}
+      <CrCard
+        variant="article"
+        showCardDetails={false}
+        showTicketButton={false}
+        showShareButton={false}
+        textLayout="stacked"
+        bannerHeight="tall"
+        bannerBackgroundColor="none"
+        preheader={content.eyebrowText}
         title={title || content.title}
-        description={description || content.description}
-        showActionButton={false}
+        titleTag="h1"
+        titleSize="xl"
+        content={description || content.description}
       />
 
       <form className="cr-donate-form__form" onSubmit={handleSubmit}>

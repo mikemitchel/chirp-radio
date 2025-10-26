@@ -1,149 +1,26 @@
 // src/pages/VolunteerCalendarPage.tsx
 import React from 'react'
 import { useNavigate } from 'react-router'
+import { Helmet } from 'react-helmet-async'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrCalendarEvent from '../stories/CrCalendarEvent'
-import { useEvents } from '../hooks/useData'
-
-// Sample volunteer events data - formatted for CrCalendarEvent component
-const volunteerEvents = [
-  {
-    name: 'New Volunteer Orientation',
-    startDate: '2025-10-15',
-    endDate: '2025-10-15',
-    dateTime: 'Wednesday, October 15, 2025 at 6:00 PM',
-    description:
-      'Welcome session for new CHIRP Radio volunteers. Learn about our mission, meet the team, and discover how you can contribute to independent radio.',
-    location: 'CHIRP Radio Studio, 4045 N Rockwell St',
-    eventDetails: [
-      'Introduction to CHIRP Radio',
-      'Tour of the studio facilities',
-      'Overview of volunteer opportunities',
-      'Meet current volunteers and staff',
-      'Q&A session',
-    ],
-    moreInfoUrl: 'https://chirpradio.org/volunteer',
-  },
-  {
-    name: 'DJ Training Workshop - Level 1',
-    startDate: '2025-10-18',
-    endDate: '2025-10-18',
-    dateTime: 'Saturday, October 18, 2025 at 10:00 AM',
-    description:
-      'Hands-on training for aspiring DJs. Learn the basics of radio broadcasting, equipment operation, and show preparation.',
-    location: 'CHIRP Radio Studio, 4045 N Rockwell St',
-    eventDetails: [
-      'Introduction to radio broadcasting',
-      'Equipment and studio walkthrough',
-      'FCC regulations and best practices',
-      'Music selection and programming',
-      'Voice training basics',
-    ],
-    moreInfoUrl: 'https://chirpradio.org/volunteer',
-  },
-  {
-    name: 'Volunteer Appreciation Mixer',
-    startDate: '2025-10-22',
-    endDate: '2025-10-22',
-    dateTime: 'Wednesday, October 22, 2025 at 7:00 PM',
-    description:
-      'Join us for an evening celebrating our amazing volunteer community. Food, drinks, and music provided.',
-    location: 'Empty Bottle, 1035 N Western Ave',
-    eventDetails: [
-      'Complimentary food and drinks',
-      'Live DJ set from CHIRP volunteers',
-      'Networking with fellow volunteers',
-      'Recognition awards',
-      '21+ event',
-    ],
-  },
-  {
-    name: 'Content Team Meeting',
-    startDate: '2025-10-25',
-    endDate: '2025-10-25',
-    dateTime: 'Saturday, October 25, 2025 at 2:00 PM',
-    description:
-      'Monthly meeting for volunteers involved in content creation, social media, and web development.',
-    location: 'Virtual Meeting (Zoom)',
-    eventDetails: [
-      'Review current content initiatives',
-      'Plan upcoming campaigns',
-      'Discuss website improvements',
-      'Social media strategy',
-      'Open discussion and ideas',
-    ],
-  },
-  {
-    name: 'Record Fair Volunteer Day',
-    startDate: '2025-11-01',
-    endDate: '2025-11-01',
-    dateTime: 'Sunday, November 1, 2025 at 9:00 AM',
-    description:
-      'Help staff the CHIRP booth at the Chicago Record Fair. Great opportunity to connect with music lovers and promote the station.',
-    location: 'Plumbers Hall, 1340 W Washington Blvd',
-    eventDetails: [
-      'Setup at 9:00 AM',
-      'Event runs 10:00 AM - 5:00 PM',
-      'Shifts available throughout the day',
-      'Free admission for volunteers',
-      'Discount on record purchases',
-    ],
-  },
-  {
-    name: 'DJ Training Workshop - Level 2',
-    startDate: '2025-11-08',
-    endDate: '2025-11-08',
-    dateTime: 'Sunday, November 8, 2025 at 1:00 PM',
-    description:
-      'Advanced DJ training covering show structure, guest interviews, and live performance techniques.',
-    location: 'CHIRP Radio Studio, 4045 N Rockwell St',
-    eventDetails: [
-      'Advanced board operation',
-      'Interview techniques',
-      'Live performance coordination',
-      'Show planning and structure',
-      'Prerequisite: Level 1 training',
-    ],
-    moreInfoUrl: 'https://chirpradio.org/volunteer',
-  },
-  {
-    name: 'Fundraiser Planning Committee',
-    startDate: '2025-11-12',
-    endDate: '2025-11-12',
-    dateTime: 'Thursday, November 12, 2025 at 6:30 PM',
-    description:
-      'Help plan our winter fundraiser concert. All volunteers welcome to contribute ideas and assist with event logistics.',
-    location: 'CHIRP Radio Studio, 4045 N Rockwell St',
-    eventDetails: [
-      'Review venue options',
-      'Discuss potential performers',
-      'Plan promotional strategy',
-      'Assign volunteer roles',
-      'Budget review',
-    ],
-  },
-  {
-    name: 'Music Library Organization Day',
-    startDate: '2025-11-16',
-    endDate: '2025-11-16',
-    dateTime: 'Monday, November 16, 2025 at 5:00 PM',
-    description:
-      'Help organize and catalog our vinyl and CD collection. Perfect for music enthusiasts who want to get hands-on with our library.',
-    location: 'CHIRP Radio Studio, 4045 N Rockwell St',
-    eventDetails: [
-      'Catalog new arrivals',
-      'Organize by genre and artist',
-      'Quality check existing inventory',
-      'Digital database updates',
-      'Pizza provided!',
-    ],
-  },
-]
+import CrAnnouncement from '../stories/CrAnnouncement'
+import CrAdSpace from '../stories/CrAdSpace'
+import { useEvents, useVolunteerCalendar, useAnnouncements, useArticles, usePodcasts, usePageBySlug } from '../hooks/useData'
+import { getAdvertisementProps } from '../utils/categoryHelpers'
 
 const VolunteerCalendarPage: React.FC = () => {
   const navigate = useNavigate()
+  const { data: pageConfig } = usePageBySlug('volunteer-calendar')
+  const { data: cmsVolunteerCalendar } = useVolunteerCalendar()
+  const { data: announcements } = useAnnouncements()
+  const { data: articles } = useArticles()
   const { data: events } = useEvents()
+  const { data: podcasts } = usePodcasts()
+
+  // Use CMS events only (no static fallback)
+  const displayEvents = cmsVolunteerCalendar || []
 
   const handleEventClick = (event: any) => {
     console.log('Event clicked:', event)
@@ -157,64 +34,151 @@ const VolunteerCalendarPage: React.FC = () => {
     console.log('Add to calendar clicked:', event)
   }
 
+  const handleArticleClick = (article: any) => {
+    navigate(`/articles/${article.id}`, { state: { article } })
+  }
+
   const handleChirpEventClick = (event: any) => {
-    navigate(`/events/${event.id}`, { state: { event } })
+    navigate(`/events/${event.slug}`)
+  }
+
+  const handlePodcastClick = (podcast: any) => {
+    navigate(`/podcasts/${podcast.slug}`)
+  }
+
+  // Get the announcement specified in CMS or fallback to index 0
+  const selectedAnnouncement = pageConfig?.sidebarAnnouncement || announcements?.[0]
+
+  // Get the content type specified in CMS or fallback to 'events'
+  const sidebarContentType = pageConfig?.sidebarContentType || 'events'
+
+  // Get the advertisement props from CMS
+  const adProps = getAdvertisementProps(pageConfig?.sidebarAdvertisement)
+
+  // Determine which content to display in sidebar
+  let sidebarContent: any[] = []
+  let sidebarTitle = ''
+  let sidebarActionText = ''
+  let sidebarActionPath = ''
+  let handleSidebarClick: ((item: any) => void) | undefined
+
+  if (sidebarContentType === 'articles') {
+    sidebarContent = articles?.slice(0, 3) || []
+    sidebarTitle = 'Recent Articles'
+    sidebarActionText = 'All Articles'
+    sidebarActionPath = '/articles'
+    handleSidebarClick = handleArticleClick
+  } else if (sidebarContentType === 'podcasts') {
+    sidebarContent = podcasts?.slice(0, 3) || []
+    sidebarTitle = 'Recent Podcasts'
+    sidebarActionText = 'All Podcasts'
+    sidebarActionPath = '/podcasts'
+    handleSidebarClick = handlePodcastClick
+  } else if (sidebarContentType === 'events') {
+    sidebarContent = events?.slice(0, 3) || []
+    sidebarTitle = 'Upcoming Events'
+    sidebarActionText = 'All Events'
+    sidebarActionPath = '/events'
+    handleSidebarClick = handleChirpEventClick
   }
 
   return (
-    <div className="volunteer-calendar-page">
-      <div className="page-layout-main-sidebar volunteer-calendar-page__layout">
-        <div className="page-layout-main-sidebar__main">
-          <CrPageHeader
-            eyebrowText="FOR VOLUNTEERS"
-            title="Volunteer Calendar"
-            titleTag="h1"
-            titleSize="xl"
-            showEyebrow={true}
-            showActionButton={false}
-          />
-          <CrCalendarEvent
-            events={volunteerEvents}
-            onEventClick={handleEventClick}
-            onLocationClick={handleLocationClick}
-            onAddToCalendarClick={handleAddToCalendarClick}
-          />
-        </div>
+    <>
+      <Helmet>
+        <title>{pageConfig?.title || 'Volunteer Calendar | CHIRP Radio'}</title>
+        {pageConfig?.excerpt && <meta name="description" content={pageConfig.excerpt} />}
+      </Helmet>
+      <div className="volunteer-calendar-page">
+        <div className="page-layout-main-sidebar volunteer-calendar-page__layout">
+          <div className="page-layout-main-sidebar__main">
+            <CrPageHeader
+              eyebrowText="FOR VOLUNTEERS"
+              title="Volunteer Calendar"
+              titleTag="h1"
+              titleSize="xl"
+              showEyebrow={true}
+              showActionButton={false}
+            />
+            {displayEvents.length > 0 ? (
+              <CrCalendarEvent
+                events={displayEvents}
+                onEventClick={handleEventClick}
+                onLocationClick={handleLocationClick}
+                onAddToCalendarClick={handleAddToCalendarClick}
+              />
+            ) : (
+              <div style={{ padding: 'var(--cr-space-6)', textAlign: 'center' }}>
+                <p style={{ fontSize: 'var(--cr-font-size-lg)', color: 'var(--cr-color-text-secondary)' }}>
+                  No upcoming volunteer events at this time. Check back soon!
+                </p>
+              </div>
+            )}
+          </div>
 
-        <div className="page-layout-main-sidebar__sidebar">
-          <CrPageHeader
-            title="Upcoming Events"
-            titleSize="large"
-            titleTag="h2"
-            showEyebrow={false}
-            showActionButton={false}
-          />
-          {events &&
-            events.slice(0, 3).map((event) => (
+          <div className="page-layout-main-sidebar__sidebar">
+            {selectedAnnouncement && (
+              <CrAnnouncement
+                title={selectedAnnouncement.title}
+                description={selectedAnnouncement.description}
+                actionText={selectedAnnouncement.actionText}
+                actionUrl={selectedAnnouncement.actionUrl}
+                icon={selectedAnnouncement.icon}
+              />
+            )}
+
+            <CrPageHeader
+              title={sidebarTitle}
+              titleSize="large"
+              titleTag="h2"
+              showEyebrow={false}
+              showActionButton={false}
+            />
+            {sidebarContent.map((item) => (
               <CrCard
-                key={event.id}
+                key={item.id}
                 variant="small"
                 bannerHeight="tall"
                 textLayout="stacked"
                 textureBackground="cr-bg-natural-d100"
-                backgroundImage={event.featuredImage}
-                preheader={event.category}
-                title={event.title}
-                dateTime={new Date(event.date).toLocaleString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-                  hour: 'numeric',
-                  minute: '2-digit',
-                })}
-                venue={event.venue.name}
-                contentSummary={event.excerpt || event.description}
-                onClick={() => handleChirpEventClick(event)}
+                backgroundImage={item.featuredImage || item.coverArt}
+                preheader={
+                  typeof item.category === 'string'
+                    ? item.category
+                    : item.category?.name || item.genre
+                }
+                title={item.title}
+                dateTime={
+                  item.date
+                    ? new Date(item.date).toLocaleString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                      })
+                    : item.publishDate
+                }
+                venue={item.venue?.name}
+                contentSummary={item.excerpt || item.description}
+                onClick={() => handleSidebarClick?.(item)}
               />
             ))}
+
+            {adProps && (
+              <CrAdSpace
+                size={adProps.size}
+                format={adProps.format}
+                content={adProps.content}
+                externalUrl={adProps.externalUrl}
+                htmlCode={adProps.htmlCode}
+                embedCode={adProps.embedCode}
+                videoUrl={adProps.videoUrl}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

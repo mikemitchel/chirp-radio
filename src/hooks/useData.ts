@@ -1,33 +1,109 @@
 // Custom hooks for data access
-// Currently reads from JSON files, will be updated to fetch from API later
+// Fetches data from Payload CMS API
 
 import { useState, useEffect, useMemo } from 'react'
+
+// Convert Lexical JSON to HTML
+function lexicalToHtml(lexicalData: any): string | null {
+  if (!lexicalData || typeof lexicalData !== 'object' || !lexicalData.root) {
+    return null
+  }
+
+  const processNode = (node: any): string => {
+    if (!node) return ''
+
+    // Text node
+    if (node.type === 'text') {
+      let text = node.text || ''
+      if (node.format & 1) text = `<strong>${text}</strong>` // bold
+      if (node.format & 2) text = `<em>${text}</em>` // italic
+      if (node.format & 8) text = `<u>${text}</u>` // underline
+      return text
+    }
+
+    // Link node
+    if (node.type === 'link') {
+      const children = node.children?.map(processNode).join('') || ''
+      const url = node.fields?.url || '#'
+      const target = node.fields?.newTab ? ' target="_blank" rel="noopener noreferrer"' : ''
+      return `<a href="${url}"${target}>${children}</a>`
+    }
+
+    // Paragraph node
+    if (node.type === 'paragraph') {
+      const children = node.children?.map(processNode).join('') || ''
+      return `<p>${children}</p>`
+    }
+
+    // Heading node
+    if (node.type === 'heading') {
+      const children = node.children?.map(processNode).join('') || ''
+      const tag = node.tag || 'h2'
+      return `<${tag}>${children}</${tag}>`
+    }
+
+    // List node
+    if (node.type === 'list') {
+      const children = node.children?.map(processNode).join('') || ''
+      const tag = node.listType === 'number' ? 'ol' : 'ul'
+      return `<${tag}>${children}</${tag}>`
+    }
+
+    // List item node
+    if (node.type === 'listitem') {
+      const children = node.children?.map(processNode).join('') || ''
+      return `<li>${children}</li>`
+    }
+
+    // Root node or other container nodes
+    if (node.children) {
+      return node.children.map(processNode).join('')
+    }
+
+    return ''
+  }
+
+  return processNode(lexicalData.root)
+}
 import announcementsData from '../data/announcements.json'
 import articlesData from '../data/articles.json'
 import chartsData from '../data/charts.json'
 import eventsData from '../data/events.json'
-import playlistsData from '../data/playlists.json'
+import playlistsData from '../data/playlists-recent.json'
 import podcastsData from '../data/podcasts.json'
 import usersData from '../data/users.json'
 import shopItemsData from '../data/shopItems.json'
 import { useAuth } from './useAuth'
 import { parseDjAndShowName } from '../utils/djNameParser'
+import { fetchFromCMS } from '../utils/api'
+
+// Feature flag to toggle between mock data and CMS API
+const USE_CMS_API = import.meta.env.VITE_USE_CMS_API === 'true'
 
 // Announcements
 export function useAnnouncements() {
-  const [data, setData] = useState(announcementsData.announcements)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [data, setData] = useState(USE_CMS_API ? [] : announcementsData.announcements)
+  const [loading, setLoading] = useState(USE_CMS_API)
+  const [error, setError] = useState<Error | null>(null)
 
-  // When backend is ready, replace with:
-  // useEffect(() => {
-  //   setLoading(true)
-  //   fetch('/api/announcements')
-  //     .then(res => res.json())
-  //     .then(data => setData(data.announcements))
-  //     .catch(err => setError(err))
-  //     .finally(() => setLoading(false))
-  // }, [])
+  useEffect(() => {
+    if (!USE_CMS_API) return
+
+    setLoading(true)
+    fetchFromCMS<any>('announcements')
+      .then(docs => {
+        // Map announcements to convert Lexical content to HTML
+        const mappedDocs = docs.map((announcement: any) => ({
+          ...announcement,
+          bodyText: typeof announcement.bodyText === 'string'
+            ? announcement.bodyText
+            : lexicalToHtml(announcement.bodyText)
+        }))
+        setData(mappedDocs)
+      })
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
 
   return { data, loading, error }
 }
@@ -41,9 +117,29 @@ export function useFeaturedAnnouncement() {
 
 // Articles
 export function useArticles() {
-  const [data, setData] = useState(articlesData.articles)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [data, setData] = useState(USE_CMS_API ? [] : articlesData.articles)
+  const [loading, setLoading] = useState(USE_CMS_API)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    if (!USE_CMS_API) return
+
+    setLoading(true)
+    fetchFromCMS<any>('articles', { sort: '-createdAt' })
+      .then(docs => {
+        // Map articles to use featuredImageUrl as fallback for featuredImage
+        // convert tags from objects to strings, and convert Lexical content to HTML
+        const mappedDocs = docs.map((article: any) => ({
+          ...article,
+          featuredImage: article.featuredImage || article.featuredImageUrl,
+          tags: article.tags?.map((t: any) => t.tag || t) || [],
+          content: typeof article.content === 'string' ? article.content : lexicalToHtml(article.content)
+        }))
+        setData(mappedDocs)
+      })
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
 
   return { data, loading, error }
 }
@@ -74,9 +170,60 @@ export function useHalloween() {
 
 // Events
 export function useEvents() {
-  const [data, setData] = useState(eventsData.events)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [data, setData] = useState(USE_CMS_API ? [] : eventsData.events)
+  const [loading, setLoading] = useState(USE_CMS_API)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    if (!USE_CMS_API) return
+
+    setLoading(true)
+    fetchFromCMS<any>('events', { sort: '-date' })
+      .then(docs => {
+        // Map events to use featuredImageUrl as fallback for featuredImage
+        // and convert Lexical content to HTML
+        const mappedDocs = docs.map((event: any) => ({
+          ...event,
+          featuredImage: event.featuredImage || event.featuredImageUrl,
+          content: typeof event.content === 'string' ? event.content : lexicalToHtml(event.content)
+        }))
+        setData(mappedDocs)
+      })
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
+
+  return { data, loading, error }
+}
+
+// Volunteer Calendar
+export function useVolunteerCalendar() {
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(USE_CMS_API)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    if (!USE_CMS_API) return
+
+    setLoading(true)
+    fetchFromCMS<any>('volunteerCalendar', { sort: 'startDate' })
+      .then(docs => {
+        // Transform data to match the expected format
+        const mappedDocs = docs.map((event: any) => ({
+          ...event,
+          // Convert ISO date strings to simple date format (YYYY-MM-DD)
+          startDate: event.startDate ? event.startDate.split('T')[0] : event.startDate,
+          endDate: event.endDate ? event.endDate.split('T')[0] : event.endDate,
+          // Transform eventDetails array from objects to strings
+          eventDetails: event.eventDetails?.map((item: any) =>
+            typeof item === 'string' ? item : item.detail
+          ) || []
+        }))
+        setData(mappedDocs)
+      })
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
 
   return { data, loading, error }
 }
@@ -134,11 +281,73 @@ export function useTracks() {
 
 // Podcasts
 export function usePodcasts() {
-  const [data, setData] = useState(podcastsData.podcasts)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [data, setData] = useState(USE_CMS_API ? [] : podcastsData.podcasts)
+  const [loading, setLoading] = useState(USE_CMS_API)
+  const [error, setError] = useState<Error | null>(null)
 
-  return { data, loading, error }
+  useEffect(() => {
+    if (!USE_CMS_API) return
+
+    setLoading(true)
+    fetchFromCMS<any>('podcasts', { sort: '-publishDate', depth: '1', limit: '100' })
+      .then(docs => {
+        // Map podcasts to use coverArtUrl as fallback for coverArt
+        // convert tags from objects to strings, and convert Lexical content to HTML
+        const mappedDocs = docs.map((podcast: any) => ({
+          ...podcast,
+          coverArt: podcast.coverArt || podcast.coverArtUrl,
+          tags: podcast.tags?.map((t: any) => t.tag || t) || [],
+          content: typeof podcast.content === 'string' ? podcast.content : lexicalToHtml(podcast.content)
+        }))
+        setData(mappedDocs)
+      })
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
+
+  return { data, isLoading: loading, error }
+}
+
+// Pages
+export function usePages() {
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(USE_CMS_API)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    if (!USE_CMS_API) return
+
+    setLoading(true)
+    fetchFromCMS<any>('pages', { depth: '2', limit: '100' })
+      .then(docs => {
+        // Process pages to convert richText content to HTML
+        const processedDocs = docs.map((page: any) => ({
+          ...page,
+          layout: page.layout?.map((block: any) => {
+            if (block.blockType === 'contentCard' && block.content) {
+              // If content is already a string, keep it. Otherwise convert Lexical to HTML
+              const htmlContent = typeof block.content === 'string'
+                ? block.content
+                : lexicalToHtml(block.content)
+              return { ...block, content: htmlContent }
+            }
+            return block
+          })
+        }))
+        setData(processedDocs)
+      })
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
+
+  return { data, isLoading: loading, error }
+}
+
+export function usePageBySlug(slug: string) {
+  const { data: pages, isLoading, error } = usePages()
+  const page = pages.find((p: any) => p.slug === slug)
+
+  return { data: page, isLoading, error }
 }
 
 // Users
@@ -260,9 +469,37 @@ export function updateUserFavoriteDJs(djId: string, isFavorite: boolean, userId?
 
 // Shop Items
 export function useShopItems() {
-  const [data, setData] = useState(shopItemsData.shopItems)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [data, setData] = useState<any[]>(USE_CMS_API ? [] : shopItemsData.shopItems)
+  const [loading, setLoading] = useState(USE_CMS_API)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    if (!USE_CMS_API) return
+
+    setLoading(true)
+    fetchFromCMS<any>('shopItems')
+      .then(docs => {
+        // Map shop items to use imageUrl as fallback for images
+        // and convert sizes from {id, size} objects to string array
+        const mappedDocs = docs.map((item: any) => ({
+          ...item,
+          image: item.images && item.images.length > 0
+            ? item.images[0].image?.url
+            : item.imageUrl,
+          sizes: item.sizes && Array.isArray(item.sizes)
+            ? item.sizes.map((s: any) => typeof s === 'string' ? s : s.size)
+            : [],
+          itemType: item.category === 'apparel' ? 'Apparel'
+            : item.category === 'merchandise' ? 'Merchandise'
+            : item.category === 'accessories' ? 'Accessories'
+            : item.category === 'music' ? 'Music'
+            : item.itemType || 'Merchandise',
+        }))
+        setData(mappedDocs)
+      })
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
 
   return { data, loading, error }
 }
@@ -317,4 +554,25 @@ export function useSubstituteDJs() {
   const { data, loading, error } = useDJs()
   const substituteDJs = data?.filter((dj) => dj.isSubstitute)
   return { data: substituteDJs, loading, error }
+}
+
+// Site Settings (Global)
+export function useSiteSettings() {
+  const [data, setData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    setLoading(true)
+    fetch(`${import.meta.env.VITE_CMS_API_URL || 'http://localhost:3000/api'}/globals/siteSettings?depth=2`)
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch site settings')
+        return res.json()
+      })
+      .then(json => setData(json))
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
+
+  return { data, loading, error }
 }

@@ -1,5 +1,6 @@
 // HeroCarousel.tsx
 import React, { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 import useEmblaCarousel from 'embla-carousel-react'
 import Autoplay from 'embla-carousel-autoplay'
 import CrCard from '../stories/CrCard'
@@ -17,6 +18,7 @@ interface HeroCarouselProps {
     contentSummary?: string
     bannerButtonText?: string
     shareButtonText?: string
+    slug?: string
   }>
   autoplay?: boolean
   autoplayDelay?: number
@@ -27,6 +29,7 @@ export default function HeroCarousel({
   autoplay = true,
   autoplayDelay = 8000,
 }: HeroCarouselProps) {
+  const navigate = useNavigate()
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true },
     autoplay ? [Autoplay({ delay: autoplayDelay, stopOnInteraction: true })] : []
@@ -86,6 +89,7 @@ export default function HeroCarousel({
                 contentSummary={slide.contentSummary}
                 bannerButtonText={slide.bannerButtonText}
                 shareButtonText={slide.shareButtonText}
+                onClick={() => slide.slug && navigate(`/events/${slide.slug}`)}
               />
             </div>
           ))}

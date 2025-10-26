@@ -10,9 +10,11 @@ import './CrCard.css'
 interface CrCardProps {
   backgroundImage?: string
   imageCaption?: string
+  showPhotoCredit?: boolean
+  photographerName?: string
   dateTime?: string
   venue?: string
-  ageRestriction?: string
+  ageRestriction?: string | { age: string }
   contentSummary?: string
   excerpt?: string
   content?: string
@@ -65,6 +67,8 @@ export default function CrCard({
   // Image
   backgroundImage = 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop',
   imageCaption = 'Photo credit - John Dough',
+  showPhotoCredit = false,
+  photographerName,
 
   // Card Details props
   dateTime = 'September 30, 2025 @ 10:00pm',
@@ -245,21 +249,27 @@ export default function CrCard({
   )
 
   const ImageWithCaption = React.useCallback(
-    () => (
-      <div className="cr-card__image-wrapper">
-        <div className="cr-card__image" style={{ backgroundImage: `url(${backgroundImage})` }}>
-          {captionPosition === 'overlay' && (
-            <div className="cr-card__image-caption cr-card__image-caption--overlay">
-              {imageCaption}
-            </div>
+    () => {
+      const displayCaption = showPhotoCredit && photographerName
+        ? `Photo credit - ${photographerName}`
+        : (showPhotoCredit ? imageCaption : imageCaption)
+
+      return (
+        <div className="cr-card__image-wrapper">
+          <div className="cr-card__image" style={{ backgroundImage: `url(${backgroundImage})` }}>
+            {captionPosition === 'overlay' && showPhotoCredit && displayCaption && (
+              <div className="cr-card__image-caption cr-card__image-caption--overlay">
+                {displayCaption}
+              </div>
+            )}
+          </div>
+          {captionPosition === 'bottom' && showPhotoCredit && displayCaption && (
+            <div className="cr-card__image-caption">{displayCaption}</div>
           )}
         </div>
-        {captionPosition === 'bottom' && (
-          <div className="cr-card__image-caption">{imageCaption}</div>
-        )}
-      </div>
-    ),
-    [backgroundImage, captionPosition, imageCaption]
+      )
+    },
+    [backgroundImage, captionPosition, imageCaption, showPhotoCredit, photographerName]
   )
 
   // Optimized render logic with early returns
@@ -507,7 +517,7 @@ export default function CrCard({
                       <div style={{ display: 'flex', gap: 'var(--cr-space-2)', flexWrap: 'wrap' }}>
                         {tags.map((tag, index) => (
                           <CrChip key={index} variant="secondary" size="medium">
-                            {tag}
+                            {typeof tag === 'string' ? tag : tag.tag}
                           </CrChip>
                         ))}
                       </div>
@@ -528,7 +538,7 @@ export default function CrCard({
                   <>
                     {ageRestriction && (
                       <CrChip variant="secondary" size="large">
-                        {ageRestriction}
+                        {typeof ageRestriction === 'string' ? ageRestriction : ageRestriction.age}
                       </CrChip>
                     )}
 

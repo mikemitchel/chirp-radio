@@ -6,7 +6,7 @@ import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import CrPagination from '../stories/CrPagination'
-import { useArticles, useAnnouncements } from '../hooks/useData'
+import { useArticles, useAnnouncements, useSiteSettings } from '../hooks/useData'
 
 const ITEMS_PER_PAGE = 8
 
@@ -15,6 +15,7 @@ const ArticlesPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const { data: allArticles } = useArticles()
   const { data: announcements } = useAnnouncements()
+  const { data: siteSettings } = useSiteSettings()
 
   // Get current page from URL, default to 0
   const currentPage = parseInt(searchParams.get('page') || '0', 10)
@@ -24,7 +25,7 @@ const ArticlesPage: React.FC = () => {
   const articles = allArticles?.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
   const handleArticleClick = (article: any) => {
-    navigate(`/articles/${article.id}`, { state: { article } })
+    navigate(`/articles/${article.slug}`)
   }
 
   const handlePageChange = (page: number) => {
@@ -35,6 +36,27 @@ const ArticlesPage: React.FC = () => {
     }
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  // Get sidebar content from Site Settings
+  const sidebarAnnouncementId =
+    typeof siteSettings?.articlesSidebarAnnouncement === 'string'
+      ? siteSettings.articlesSidebarAnnouncement
+      : siteSettings?.articlesSidebarAnnouncement?.id
+
+  const sidebarAnnouncement = sidebarAnnouncementId
+    ? announcements?.find((a) => a.id === sidebarAnnouncementId)
+    : announcements?.[3] // fallback
+
+  const fullWidthAnnouncementId =
+    typeof siteSettings?.articlesFullWidthAnnouncement === 'string'
+      ? siteSettings.articlesFullWidthAnnouncement
+      : siteSettings?.articlesFullWidthAnnouncement?.id
+
+  const fullWidthAnnouncement = fullWidthAnnouncementId
+    ? announcements?.find((a) => a.id === fullWidthAnnouncementId)
+    : announcements?.[2] // fallback
+
+  const sidebarAdvertisement = siteSettings?.articlesSidebarAdvertisement
 
   return (
     <div className="articles-page">
@@ -52,10 +74,10 @@ const ArticlesPage: React.FC = () => {
               textLayout="stacked"
               type="article"
               backgroundImage={articles[0].featuredImage}
-              preheader={articles[0].category}
+              preheader={typeof articles[0].category === "string" ? articles[0].category : articles[0].category?.name}
               title={articles[0].title}
               contentSummary={articles[0].excerpt}
-              authorBy={`by ${articles[0].author.name}`}
+              authorBy={`by ${articles[0].author}`}
               eventDate={new Date(articles[0].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -69,20 +91,41 @@ const ArticlesPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {announcements && announcements[3] && (
+          {sidebarAnnouncement && (
             <CrAnnouncement
-              variant="motivation"
+              variant={sidebarAnnouncement.variant}
               widthVariant="third"
-              textureBackground={announcements[3].backgroundColor}
-              headlineText={announcements[3].title}
-              bodyText={announcements[3].message}
-              showLink={!!announcements[3].ctaText}
-              linkText={announcements[3].ctaText}
-              linkUrl={announcements[3].ctaUrl}
-              buttonCount="none"
+              textureBackground={sidebarAnnouncement.textureBackground}
+              headlineText={sidebarAnnouncement.headlineText}
+              bodyText={sidebarAnnouncement.bodyText}
+              showLink={sidebarAnnouncement.showLink}
+              linkText={sidebarAnnouncement.linkText}
+              linkUrl={sidebarAnnouncement.linkUrl}
+              buttonCount={sidebarAnnouncement.buttonCount}
+              button1Text={sidebarAnnouncement.button1Text}
+              button1Icon={sidebarAnnouncement.button1Icon}
+              button2Text={sidebarAnnouncement.button2Text}
+              button2Icon={sidebarAnnouncement.button2Icon}
+              currentAmount={sidebarAnnouncement.currentAmount}
+              targetAmount={sidebarAnnouncement.targetAmount}
             />
           )}
-          <CrAdSpace size="large-rectangle" />
+          {sidebarAdvertisement && (
+            <CrAdSpace
+              size={sidebarAdvertisement.size || 'large-rectangle'}
+              customWidth={sidebarAdvertisement.customWidth}
+              customHeight={sidebarAdvertisement.customHeight}
+              contentType={sidebarAdvertisement.contentType}
+              src={sidebarAdvertisement.imageUrl || sidebarAdvertisement.image?.url}
+              alt={sidebarAdvertisement.alt}
+              htmlContent={sidebarAdvertisement.htmlContent}
+              videoSrc={sidebarAdvertisement.videoUrl || sidebarAdvertisement.video?.url}
+              embedCode={sidebarAdvertisement.embedCode}
+              href={sidebarAdvertisement.href}
+              target={sidebarAdvertisement.target}
+              showLabel={sidebarAdvertisement.showLabel}
+            />
+          )}
         </div>
       </div>
 
@@ -96,9 +139,9 @@ const ArticlesPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={articles[1].featuredImage}
-              preheader={articles[1].category}
+              preheader={typeof articles[1].category === "string" ? articles[1].category : articles[1].category?.name}
               title={articles[1].title}
-              authorBy={`by ${articles[1].author.name}`}
+              authorBy={`by ${articles[1].author}`}
               eventDate={new Date(articles[1].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -117,9 +160,9 @@ const ArticlesPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={articles[2].featuredImage}
-              preheader={articles[2].category}
+              preheader={typeof articles[2].category === "string" ? articles[2].category : articles[2].category?.name}
               title={articles[2].title}
-              authorBy={`by ${articles[2].author.name}`}
+              authorBy={`by ${articles[2].author}`}
               eventDate={new Date(articles[2].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -140,9 +183,9 @@ const ArticlesPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={articles[3].featuredImage}
-              preheader={articles[3].category}
+              preheader={typeof articles[3].category === "string" ? articles[3].category : articles[3].category?.name}
               title={articles[3].title}
-              authorBy={`by ${articles[3].author.name}`}
+              authorBy={`by ${articles[3].author}`}
               eventDate={new Date(articles[3].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -161,9 +204,9 @@ const ArticlesPage: React.FC = () => {
               bannerHeight="tall"
               textLayout="stacked"
               backgroundImage={articles[4].featuredImage}
-              preheader={articles[4].category}
+              preheader={typeof articles[4].category === "string" ? articles[4].category : articles[4].category?.name}
               title={articles[4].title}
-              authorBy={`by ${articles[4].author.name}`}
+              authorBy={`by ${articles[4].author}`}
               eventDate={new Date(articles[4].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -181,16 +224,22 @@ const ArticlesPage: React.FC = () => {
       {/* Announcement */}
       <section className="page-section">
         <div className="page-container">
-          {announcements && announcements[2] && (
+          {fullWidthAnnouncement && (
             <CrAnnouncement
-              variant="motivation"
-              textureBackground={announcements[2].backgroundColor}
-              headlineText={announcements[2].title}
-              bodyText={announcements[2].message}
-              showLink={!!announcements[2].ctaText}
-              linkText={announcements[2].ctaText}
-              linkUrl={announcements[2].ctaUrl}
-              buttonCount="none"
+              variant={fullWidthAnnouncement.variant}
+              textureBackground={fullWidthAnnouncement.textureBackground}
+              headlineText={fullWidthAnnouncement.headlineText}
+              bodyText={fullWidthAnnouncement.bodyText}
+              showLink={fullWidthAnnouncement.showLink}
+              linkText={fullWidthAnnouncement.linkText}
+              linkUrl={fullWidthAnnouncement.linkUrl}
+              buttonCount={fullWidthAnnouncement.buttonCount}
+              button1Text={fullWidthAnnouncement.button1Text}
+              button1Icon={fullWidthAnnouncement.button1Icon}
+              button2Text={fullWidthAnnouncement.button2Text}
+              button2Icon={fullWidthAnnouncement.button2Icon}
+              currentAmount={fullWidthAnnouncement.currentAmount}
+              targetAmount={fullWidthAnnouncement.targetAmount}
             />
           )}
         </div>
@@ -207,9 +256,9 @@ const ArticlesPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={articles[5].featuredImage}
-              preheader={articles[5].category}
+              preheader={typeof articles[5].category === "string" ? articles[5].category : articles[5].category?.name}
               title={articles[5].title}
-              authorBy={`by ${articles[5].author.name}`}
+              authorBy={`by ${articles[5].author}`}
               eventDate={new Date(articles[5].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -231,9 +280,9 @@ const ArticlesPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={articles[6].featuredImage}
-              preheader={articles[6].category}
+              preheader={typeof articles[6].category === "string" ? articles[6].category : articles[6].category?.name}
               title={articles[6].title}
-              authorBy={`by ${articles[6].author.name}`}
+              authorBy={`by ${articles[6].author}`}
               eventDate={new Date(articles[6].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
@@ -255,9 +304,9 @@ const ArticlesPage: React.FC = () => {
               textLayout="stacked"
               showMetaTop={true}
               backgroundImage={articles[7].featuredImage}
-              preheader={articles[7].category}
+              preheader={typeof articles[7].category === "string" ? articles[7].category : articles[7].category?.name}
               title={articles[7].title}
-              authorBy={`by ${articles[7].author.name}`}
+              authorBy={`by ${articles[7].author}`}
               eventDate={new Date(articles[7].publishedDate).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
