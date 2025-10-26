@@ -52,6 +52,7 @@ const LandingPage: React.FC = () => {
     typeof siteSettings?.sidebarAnnouncement === 'string'
       ? siteSettings.sidebarAnnouncement
       : siteSettings?.sidebarAnnouncement?.id
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const sidebarAdvertisementId =
     typeof siteSettings?.sidebarAdvertisement === 'string'
       ? siteSettings.sidebarAdvertisement
@@ -65,10 +66,9 @@ const LandingPage: React.FC = () => {
         : featuredAnnouncement)) ||
     null
 
-  const displaySidebarAnnouncement =
-    sidebarAnnouncementId
-      ? announcements?.find((a) => a.id === sidebarAnnouncementId)
-      : announcements?.find((a) => a.isActive && !a.featuredOnLanding)
+  const displaySidebarAnnouncement = sidebarAnnouncementId
+    ? announcements?.find((a) => a.id === sidebarAnnouncementId)
+    : announcements?.find((a) => a.isActive && !a.featuredOnLanding)
 
   const sidebarAdvertisement = siteSettings?.sidebarAdvertisement
   // Transform events data for hero carousel (take first 3 featured events)
@@ -89,7 +89,10 @@ const LandingPage: React.FC = () => {
           minute: '2-digit',
         }),
         venue: typeof event.venue === 'string' ? event.venue : event.venue?.name,
-        ageRestriction: typeof event.ageRestriction === 'string' ? event.ageRestriction : event.ageRestriction?.age,
+        ageRestriction:
+          typeof event.ageRestriction === 'string'
+            ? event.ageRestriction
+            : event.ageRestriction?.age,
         contentSummary: event.excerpt,
         bannerButtonText: event.isFree ? 'Learn More' : 'Get Tickets',
         shareButtonText: 'Share',
@@ -212,6 +215,7 @@ const LandingPage: React.FC = () => {
       <section className="page-layout-3col">
         <div className="page-layout-3col__column page-layout-3col__column--container">
           <CrPageHeader
+            key="events-header"
             showEyebrow={false}
             title="Events"
             actionButtonText="See More Events"
@@ -236,7 +240,11 @@ const LandingPage: React.FC = () => {
                 minute: '2-digit',
               })}
               venue={typeof event.venue === 'string' ? event.venue : event.venue?.name}
-              ageRestriction={typeof event.ageRestriction === 'string' ? event.ageRestriction : event.ageRestriction?.age}
+              ageRestriction={
+                typeof event.ageRestriction === 'string'
+                  ? event.ageRestriction
+                  : event.ageRestriction?.age
+              }
               contentSummary={event.excerpt}
               onClick={() => navigate(`/events/${event.slug}`)}
             />
@@ -245,6 +253,7 @@ const LandingPage: React.FC = () => {
 
         <div className="page-layout-3col__column page-layout-3col__column--container page-layout-3col__column--bg page-layout-3col__column--articles">
           <CrPageHeader
+            key="articles-header"
             showEyebrow={false}
             title="Articles"
             actionButtonText="View More Articles"
@@ -261,7 +270,9 @@ const LandingPage: React.FC = () => {
               imageAspectRatio="16:9"
               bannerBackgroundColor="none"
               backgroundImage={article.featuredImage}
-              preheader={typeof article.category === 'string' ? article.category : article.category?.name}
+              preheader={
+                typeof article.category === 'string' ? article.category : article.category?.name
+              }
               title={article.title}
               contentSummary={article.excerpt}
               onClick={() => navigate(`/articles/${article.slug}`)}
@@ -271,6 +282,7 @@ const LandingPage: React.FC = () => {
 
         <div className="page-layout-3col__column page-layout-3col__column--container page-layout-3col__column--large-gap">
           <CrPageHeader
+            key="djs-header"
             showEyebrow={false}
             title="Our DJs"
             showActionButton={true}
