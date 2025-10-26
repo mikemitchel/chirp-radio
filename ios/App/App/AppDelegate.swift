@@ -3,34 +3,16 @@ import Capacitor
 import AVFoundation
 import MediaPlayer
 import WebKit
+import CarPlay
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        // Set window background to CHIRP red to prevent white flash
-        if let window = window {
-            window.backgroundColor = UIColor(red: 0.917647, green: 0.109804, blue: 0.172549, alpha: 1.0)
-        }
-
         // Configure WKWebView to disable automatic media controls
         configureWebViewMediaSettings()
-
-        // Register custom plugins after a delay to ensure bridge is ready
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            if let bridge = (self.window?.rootViewController as? CAPBridgeViewController)?.bridge {
-                print("🎵 Registering custom plugins with bridge")
-                bridge.registerPluginInstance(NowPlayingPlugin())
-                bridge.registerPluginInstance(NativeAudioPlayer())
-                print("🎵 Custom plugins registered successfully")
-            } else {
-                print("❌ Failed to get bridge reference")
-            }
-        }
 
         // Configure audio session for background playback
         configureAudioSession()
@@ -66,45 +48,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupRemoteCommandCenter() {
         let commandCenter = MPRemoteCommandCenter.shared()
 
-        // Enable play command
-        commandCenter.playCommand.isEnabled = true
-        commandCenter.playCommand.addTarget { event in
-            print("🎵 Remote PLAY command received")
-            NotificationCenter.default.post(name: NSNotification.Name("RemotePlay"), object: nil)
-            return .success
-        }
+        print("🎛️ Setting up Remote Command Center...")
 
-        // Enable pause command
-        commandCenter.pauseCommand.isEnabled = true
-        commandCenter.pauseCommand.addTarget { event in
-            print("⏸️ Remote PAUSE command received")
-            NotificationCenter.default.post(name: NSNotification.Name("RemotePause"), object: nil)
-            return .success
-        }
-
-        // Disable skip commands (for live stream)
-        // IMPORTANT: We need to both disable AND add handlers that return .commandFailed
-        // This prevents iOS from showing the buttons at all
+        // Commands are set up in NativeAudioPlayer plugin
+        // Just disable skip/seek commands for live stream
         commandCenter.skipForwardCommand.isEnabled = false
-        commandCenter.skipForwardCommand.addTarget { _ in .commandFailed }
+        commandCenter.skipForwardCommand.removeTarget(nil)
 
         commandCenter.skipBackwardCommand.isEnabled = false
-        commandCenter.skipBackwardCommand.addTarget { _ in .commandFailed }
+        commandCenter.skipBackwardCommand.removeTarget(nil)
 
         commandCenter.seekForwardCommand.isEnabled = false
-        commandCenter.seekForwardCommand.addTarget { _ in .commandFailed }
+        commandCenter.seekForwardCommand.removeTarget(nil)
 
         commandCenter.seekBackwardCommand.isEnabled = false
-        commandCenter.seekBackwardCommand.addTarget { _ in .commandFailed }
+        commandCenter.seekBackwardCommand.removeTarget(nil)
 
         commandCenter.nextTrackCommand.isEnabled = false
-        commandCenter.nextTrackCommand.addTarget { _ in .commandFailed }
+        commandCenter.nextTrackCommand.removeTarget(nil)
 
         commandCenter.previousTrackCommand.isEnabled = false
-        commandCenter.previousTrackCommand.addTarget { _ in .commandFailed }
+        commandCenter.previousTrackCommand.removeTarget(nil)
 
         commandCenter.changePlaybackPositionCommand.isEnabled = false
-        commandCenter.changePlaybackPositionCommand.addTarget { _ in .commandFailed }
+        commandCenter.changePlaybackPositionCommand.removeTarget(nil)
+
+        commandCenter.changePlaybackRateCommand.isEnabled = false
+        commandCenter.changePlaybackRateCommand.removeTarget(nil)
 
         print("✅ Remote command center configured")
         print("   - Skip forward enabled: \(commandCenter.skipForwardCommand.isEnabled)")
@@ -147,6 +117,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Feel free to add additional processing here, but if you want the App API to support
         // tracking app url opens, make sure to keep this call
         return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
+    }
+
+    // MARK: - UISceneSession Lifecycle
+
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        // Called when a new scene session is being created.
+        // Use this method to select a configuration to create the new scene with.
+
+        print("🚗 Scene connecting with role: \(connectingSceneSession.role.rawValue)")
+
+        if connectingSceneSession.role == UISceneSession.Role(rawValue: "CPTemplateApplicationSceneSessionRoleApplication") {
+            // CarPlay scene
+            print("🚗 Creating CarPlay scene configuration")
+            let sceneConfig = UISceneConfiguration(name: "CarPlay", sessionRole: connectingSceneSession.role)
+            sceneConfig.delegateClass = CarPlayBridge.self
+            return sceneConfig
+        }
+
+        // Main app scene
+        print("📱 Creating main app scene configuration")
+        let sceneConfig = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        sceneConfig.delegateClass = SceneDelegate.self
+        return sceneConfig
+    }
+
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+        // Called when the user discards a scene session.
     }
 
 }

@@ -1,0 +1,23 @@
+{
+  "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/Capacitor/Capacitor/CAPBridgeProtocol.swift" : {
+    "const-values" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPBridgeProtocol.swiftconstvalues",
+    "dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPBridgeProtocol.d",
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPBridgeProtocol.dia",
+    "object" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPBridgeProtocol.o",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPBridgeProtocol.swiftdeps"
+  },
+  "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/Capacitor/Capacitor/CAPBridgeViewController.swift" : {
+    "const-values" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPBridgeViewController.swiftconstvalues",
+    "dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPBridgeViewController.d",
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPBridgeViewController.dia",
+    "object" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPBridgeViewController.o",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPBridgeViewController.swiftdeps"
+  },
+  "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/Capacitor/Capacitor/CAPFile.swift" : {
+    "const-values" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPFile.swiftconstvalues",
+    "dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPFile.d",
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPFile.dia",
+    "object" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPFile.o",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/CAPFile.swiftdeps"
+  }
+}

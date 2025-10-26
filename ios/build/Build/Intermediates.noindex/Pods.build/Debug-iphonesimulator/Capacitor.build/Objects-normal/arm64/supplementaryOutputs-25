@@ -1,0 +1,23 @@
+{
+  "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/Capacitor/Capacitor/KeyValueStore.swift" : {
+    "const-values" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/KeyValueStore.swiftconstvalues",
+    "dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/KeyValueStore.d",
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/KeyValueStore.dia",
+    "object" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/KeyValueStore.o",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/KeyValueStore.swiftdeps"
+  },
+  "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/Capacitor/Capacitor/NotificationHandlerProtocol.swift" : {
+    "const-values" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/NotificationHandlerProtocol.swiftconstvalues",
+    "dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/NotificationHandlerProtocol.d",
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/NotificationHandlerProtocol.dia",
+    "object" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/NotificationHandlerProtocol.o",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/NotificationHandlerProtocol.swiftdeps"
+  },
+  "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/Capacitor/Capacitor/NotificationRouter.swift" : {
+    "const-values" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/NotificationRouter.swiftconstvalues",
+    "dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/NotificationRouter.d",
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/NotificationRouter.dia",
+    "object" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/NotificationRouter.o",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/arm64/NotificationRouter.swiftdeps"
+  }
+}

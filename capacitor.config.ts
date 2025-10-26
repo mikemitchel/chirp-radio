@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'org.chirpradio.app',
-  appName: 'chirp-radio',
+  appId: 'com.ryanwilson.chirpradio',
+  appName: 'CHIRP Radio',
   webDir: 'dist',
   server: {
     // Allow the app to make requests to external APIs
@@ -21,7 +21,7 @@ const config: CapacitorConfig = {
       overlay: true, // Make status bar transparent/overlay
     },
     SplashScreen: {
-      launchShowDuration: 3000, // Show for 3 seconds
+      launchShowDuration: 500, // Show for 0.5 seconds (faster for dev testing)
       launchAutoHide: true, // Auto-hide after duration
       backgroundColor: '#ea1c2c', // CHIRP red
       androidScaleType: 'CENTER_CROP',

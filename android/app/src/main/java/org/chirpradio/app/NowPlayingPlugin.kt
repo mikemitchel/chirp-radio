@@ -1,7 +1,9 @@
 package org.chirpradio.app
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
+import com.getcapacitor.JSObject
 import com.getcapacitor.Plugin
 import com.getcapacitor.PluginCall
 import com.getcapacitor.PluginMethod
@@ -57,15 +59,17 @@ class NowPlayingPlugin : Plugin() {
             val artist = call.getString("artist") ?: ""
             val album = call.getString("album") ?: ""
             val albumArt = call.getString("albumArt")
+            val dj = call.getString("dj") ?: album
 
-            android.util.Log.d("NowPlayingPlugin", "updateNowPlaying called: title=$title, artist=$artist, album=$album, albumArt=$albumArt")
+            android.util.Log.d("NowPlayingPlugin", "updateNowPlaying called: title=$title, artist=$artist, album=$album, dj=$dj, albumArt=$albumArt")
 
             ensureServiceStarted()
 
             val service = ChirpMediaService.instance
             if (service != null) {
                 android.util.Log.d("NowPlayingPlugin", "Service is available, updating metadata")
-                service.updateNowPlaying(title, artist, albumArt, album)
+                // ChirpMediaService expects: title, artist, albumArtUrl, dj
+                service.updateNowPlaying(title, artist, albumArt, dj)
             } else {
                 android.util.Log.e("NowPlayingPlugin", "Service is still null after ensureServiceStarted")
             }
@@ -98,6 +102,23 @@ class NowPlayingPlugin : Plugin() {
         } catch (e: Exception) {
             android.util.Log.e("NowPlayingPlugin", "Failed to set playback state", e)
             call.reject("Failed to set playback state", e)
+        }
+    }
+
+    @PluginMethod
+    fun isAutomotive(call: PluginCall) {
+        try {
+            val context = activity ?: context
+            val isAutomotive = context.packageManager.hasSystemFeature(PackageManager.FEATURE_AUTOMOTIVE)
+
+            android.util.Log.d("NowPlayingPlugin", "isAutomotive called: result=$isAutomotive")
+
+            val ret = JSObject()
+            ret.put("isAutomotive", isAutomotive)
+            call.resolve(ret)
+        } catch (e: Exception) {
+            android.util.Log.e("NowPlayingPlugin", "Failed to check automotive", e)
+            call.reject("Failed to check automotive", e)
         }
     }
 }

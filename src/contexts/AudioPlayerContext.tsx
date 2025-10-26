@@ -747,6 +747,7 @@ export function AudioPlayerProvider({
           artist: currentData.artist,
           album: currentData.album,
           albumArt: currentData.albumArt || '',
+          dj: currentData.dj,
         }).catch((error) => {
           log.error('❌ Error updating Now Playing info:', error)
         })
@@ -971,6 +972,7 @@ export function AudioPlayerProvider({
           artist: currentData.artist,
           album: currentData.album,
           albumArt: currentData.albumArt || '',
+          dj: currentData.dj,
         })
           .then(() => {
             log.log('Now Playing info updated successfully')
