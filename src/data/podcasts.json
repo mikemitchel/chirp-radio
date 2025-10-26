@@ -1,7 +1,7 @@
 {
   "podcasts": [
     {
-      "category": "Music Interview",
+      "category": { "id": 1, "name": "Music Interview", "slug": "music-interview" },
       "title": "Transmission",
       "slug": "transmission",
       "excerpt": "Weekly deep dives into the stories behind the music, featuring interviews with artists, producers, and industry insiders.",
@@ -13,14 +13,10 @@
       "pullQuoteAttribution": "Producer John Congleton on creating authentic recordings",
       "additionalInfo": "John Congleton has produced albums for St. Vincent, The War on Drugs, and numerous other artists. His studio, Elmwood Recording, is located in Dallas, Texas.",
       "transcriptUrl": "https://example.com/transcripts/john-congleton-interview",
-      "tags": [
-        "interviews",
-        "music history",
-        "indie"
-      ]
+      "tags": ["interviews", "music history", "indie"]
     },
     {
-      "category": "Local Music",
+      "category": { "id": 2, "name": "Local Music", "slug": "local-music" },
       "title": "Local Frequency",
       "slug": "local-frequency",
       "excerpt": "Spotlighting Chicago's vibrant local music scene, one artist at a time.",
@@ -32,14 +28,10 @@
       "pullQuoteAttribution": "Mike Odd on Mac Sabbath's theatrical live performances",
       "additionalInfo": "Mac Sabbath will be playing the Weird Al stage at Riot Fest on Friday, September 19th, and Reggie's on Thursday, September 18th.",
       "transcriptUrl": "https://example.com/transcripts/mac-sabbath-interview",
-      "tags": [
-        "chicago",
-        "local artists",
-        "interviews"
-      ]
+      "tags": ["chicago", "local artists", "interviews"]
     },
     {
-      "category": "Record Talk",
+      "category": { "id": 3, "name": "Record Talk", "slug": "record-talk" },
       "title": "Crate Diggers",
       "slug": "crate-diggers",
       "excerpt": "CHIRP DJs share the stories behind their favorite records and deep cuts.",
@@ -51,14 +43,10 @@
       "pullQuoteAttribution": "Morning Mike on discovering rare soul records",
       "additionalInfo": "Want to share your own crate digging stories? Email us at cratediggers@chirpradio.org with photos of your favorite finds.",
       "transcriptUrl": "https://example.com/transcripts/crate-diggers-morning-mike",
-      "tags": [
-        "vinyl",
-        "record collecting",
-        "music discovery"
-      ]
+      "tags": ["vinyl", "record collecting", "music discovery"]
     },
     {
-      "category": "Album Discussion",
+      "category": { "id": 4, "name": "Album Discussion", "slug": "album-discussion" },
       "title": "The CHIRP Record Club",
       "slug": "chirp-record-club",
       "excerpt": "Each month, we pick an album and discuss it in depth with special guests and listeners.",
@@ -70,14 +58,10 @@
       "pullQuoteAttribution": "Sarah Martinez on Radiohead's enduring influence",
       "additionalInfo": "Join our Record Club Discord server to participate in monthly listening parties and discussions with fellow music enthusiasts.",
       "transcriptUrl": "https://example.com/transcripts/record-club-ok-computer",
-      "tags": [
-        "albums",
-        "deep dive",
-        "discussion"
-      ]
+      "tags": ["albums", "deep dive", "discussion"]
     },
     {
-      "category": "Tour Stories",
+      "category": { "id": 5, "name": "Tour Stories", "slug": "tour-stories" },
       "title": "Soundcheck",
       "slug": "soundcheck",
       "excerpt": "Behind-the-scenes conversations with touring musicians about life on the road.",
@@ -89,14 +73,10 @@
       "pullQuoteAttribution": "Twin Peaks guitarist on the realities of van tour life",
       "additionalInfo": "Check out our Spotify playlist featuring road trip classics recommended by our touring musician guests.",
       "transcriptUrl": "https://example.com/transcripts/soundcheck-van-life",
-      "tags": [
-        "touring",
-        "musicians",
-        "behind-the-scenes"
-      ]
+      "tags": ["touring", "musicians", "behind-the-scenes"]
     },
     {
-      "category": "Experimental",
+      "category": { "id": 6, "name": "Experimental", "slug": "experimental" },
       "title": "Noise Floor",
       "slug": "noise-floor",
       "excerpt": "Exploring experimental and avant-garde music from around the world.",
@@ -108,14 +88,10 @@
       "pullQuoteAttribution": "Dr. Elena Rodriguez on the art of field recording",
       "additionalInfo": "Explore our curated listening guide for newcomers to experimental music, featuring accessible entry points organized by interest and background.",
       "transcriptUrl": "https://example.com/transcripts/noise-floor-field-recording",
-      "tags": [
-        "experimental",
-        "avant-garde",
-        "sound art"
-      ]
+      "tags": ["experimental", "avant-garde", "sound art"]
     },
     {
-      "category": "Hip-Hop",
+      "category": { "id": 7, "name": "Hip-Hop", "slug": "hip-hop" },
       "title": "Beat Street",
       "slug": "beat-street",
       "excerpt": "Hip-hop culture, history, and the beats that defined generations.",
@@ -127,14 +103,10 @@
       "pullQuoteAttribution": "DJ Spinnz on the art of sampling in 90s hip-hop",
       "additionalInfo": "Follow our Beat Street playlist on Spotify for a curated selection of tracks discussed in each episode, organized chronologically by era.",
       "transcriptUrl": "https://example.com/transcripts/beat-street-sampling",
-      "tags": [
-        "hip-hop",
-        "beats",
-        "culture"
-      ]
+      "tags": ["hip-hop", "beats", "culture"]
     },
     {
-      "category": "Production",
+      "category": { "id": 8, "name": "Production", "slug": "production" },
       "title": "Bedroom Producers",
       "slug": "bedroom-producers",
       "excerpt": "Tips, tricks, and inspiration for home recording enthusiasts.",
@@ -146,14 +118,10 @@
       "pullQuoteAttribution": "Jamie Park on the advantages of home recording",
       "additionalInfo": "Download our free bedroom recording starter guide, including recommended budget gear, acoustic treatment DIY plans, and essential mixing checklists.",
       "transcriptUrl": "https://example.com/transcripts/bedroom-producers-drums",
-      "tags": [
-        "production",
-        "recording",
-        "DIY"
-      ]
+      "tags": ["production", "recording", "DIY"]
     },
     {
-      "category": "Live Performance",
+      "category": { "id": 9, "name": "Live Performance", "slug": "live-performance" },
       "title": "Live from the Archive",
       "slug": "live-from-the-archive",
       "excerpt": "Unearthing rare live performances from CHIRP's extensive concert archive.",
@@ -165,14 +133,10 @@
       "pullQuoteAttribution": "Archive curator on the significance of the Wilco recording",
       "additionalInfo": "Explore our digital archive at archive.chirpradio.org to browse the full collection of live recordings, photos, and setlists from two decades of Chicago shows.",
       "transcriptUrl": "https://example.com/transcripts/archive-wilco-hideout",
-      "tags": [
-        "live music",
-        "archive",
-        "performances"
-      ]
+      "tags": ["live music", "archive", "performances"]
     },
     {
-      "category": "Genre Exploration",
+      "category": { "id": 10, "name": "Genre Exploration", "slug": "genre-exploration" },
       "title": "Genre Benders",
       "slug": "genre-benders",
       "excerpt": "Artists who defy categorization and blend unexpected styles.",
@@ -184,14 +148,10 @@
       "pullQuoteAttribution": "Taylor Kim on the artificial nature of genre boundaries",
       "additionalInfo": "Subscribe to our Genre Benders companion playlist, updated monthly with new genre-defying discoveries from around the world.",
       "transcriptUrl": "https://example.com/transcripts/genre-benders-flying-lotus",
-      "tags": [
-        "genre-blending",
-        "innovation",
-        "crossover"
-      ]
+      "tags": ["genre-blending", "innovation", "crossover"]
     },
     {
-      "category": "Music Business",
+      "category": { "id": 11, "name": "Music Business", "slug": "music-business" },
       "title": "Merch Table Talk",
       "slug": "merch-table-talk",
       "excerpt": "The business side of independent music, from merch to marketing.",
@@ -203,14 +163,10 @@
       "pullQuoteAttribution": "Robin Davis on sustainable fanbase building",
       "additionalInfo": "Download our free independent artist business toolkit, including contract templates, budget spreadsheets, and a comprehensive release planning checklist.",
       "transcriptUrl": "https://example.com/transcripts/merch-table-fanbase",
-      "tags": [
-        "business",
-        "independent",
-        "marketing"
-      ]
+      "tags": ["business", "independent", "marketing"]
     },
     {
-      "category": "Performance",
+      "category": { "id": 12, "name": "Performance", "slug": "performance" },
       "title": "Setlist Stories",
       "slug": "setlist-stories",
       "excerpt": "Musicians break down their most memorable setlists song by song.",
@@ -222,11 +178,7 @@
       "pullQuoteAttribution": "Japanese Breakfast on crafting the perfect festival set",
       "additionalInfo": "Browse our setlist archive featuring annotated setlists from every episode, complete with Spotify playlists you can listen to in sequence.",
       "transcriptUrl": "https://example.com/transcripts/setlist-stories-festival-set",
-      "tags": [
-        "setlists",
-        "concerts",
-        "storytelling"
-      ]
+      "tags": ["setlists", "concerts", "storytelling"]
     }
   ]
 }

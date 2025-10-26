@@ -1,7 +1,7 @@
 {
   "events": [
     {
-      "category": "Fundraiser",
+      "category": { "id": 1, "name": "Fundraiser", "slug": "fundraiser" },
       "title": "CHIRP Winter Fundraiser Concert",
       "slug": "winter-fundraiser-concert-2024",
       "excerpt": "Join us for our annual winter fundraiser featuring performances from local Chicago artists.",
@@ -21,10 +21,10 @@
       "date": "2024-12-15T19:00:00Z",
       "endDate": "2024-12-15T23:00:00Z",
       "featured": true,
-      "ageRestriction": "21+"
+      "ageRestriction": { "id": 1, "name": "21+" }
     },
     {
-      "category": "Community Event",
+      "category": { "id": 2, "name": "Community Event", "slug": "community-event" },
       "title": "Record Store Day Celebration",
       "slug": "record-store-day-2024",
       "excerpt": "CHIRP DJs will be spinning at various record stores across Chicago throughout the day.",
@@ -44,10 +44,10 @@
       "date": "2024-04-20T10:00:00Z",
       "endDate": "2024-04-20T18:00:00Z",
       "featured": true,
-      "ageRestriction": "All Ages"
+      "ageRestriction": { "id": 2, "name": "All Ages" }
     },
     {
-      "category": "Live Session",
+      "category": { "id": 3, "name": "Live Session", "slug": "live-session" },
       "title": "Live at CHIRP: Signals Midwest",
       "slug": "live-at-chirp-signals-midwest",
       "excerpt": "Intimate in-studio performance and interview with midwest emo legends Signals Midwest.",
@@ -67,10 +67,10 @@
       "date": "2024-12-18T15:00:00Z",
       "endDate": "2024-12-18T16:30:00Z",
       "featured": true,
-      "ageRestriction": "All Ages"
+      "ageRestriction": { "id": 2, "name": "All Ages" }
     },
     {
-      "category": "Concert",
+      "category": { "id": 4, "name": "Concert", "slug": "concert" },
       "title": "CHIRP Night at Thalia Hall",
       "slug": "chirp-night-thalia-hall",
       "excerpt": "A showcase of Chicago's finest indie talent curated by CHIRP DJs at the beautiful Thalia Hall.",
@@ -90,10 +90,10 @@
       "date": "2025-01-25T20:00:00Z",
       "endDate": "2025-01-26T00:00:00Z",
       "featured": false,
-      "ageRestriction": "18+"
+      "ageRestriction": { "id": 3, "name": "18+" }
     },
     {
-      "category": "Workshop",
+      "category": { "id": 5, "name": "Workshop", "slug": "workshop" },
       "title": "DJ Workshop: Learn to Mix",
       "slug": "dj-workshop-learn-to-mix",
       "excerpt": "Want to become a radio DJ? Learn the basics from experienced CHIRP volunteers in this hands-on workshop.",
@@ -113,10 +113,10 @@
       "date": "2025-01-10T18:00:00Z",
       "endDate": "2025-01-10T20:00:00Z",
       "featured": false,
-      "ageRestriction": "All Ages"
+      "ageRestriction": { "id": 2, "name": "All Ages" }
     },
     {
-      "category": "Festival",
+      "category": { "id": 6, "name": "Festival", "slug": "festival" },
       "title": "CHIRP Summer Block Party",
       "slug": "summer-block-party-2025",
       "excerpt": "Our biggest event of the year! Free outdoor concert featuring local and national acts.",
@@ -136,10 +136,10 @@
       "date": "2025-07-12T12:00:00Z",
       "endDate": "2025-07-12T22:00:00Z",
       "featured": true,
-      "ageRestriction": "All Ages"
+      "ageRestriction": { "id": 2, "name": "All Ages" }
     },
     {
-      "category": "Community Event",
+      "category": { "id": 2, "name": "Community Event", "slug": "community-event" },
       "title": "Vinyl Swap Meet",
       "slug": "vinyl-swap-meet-december",
       "excerpt": "Bring your records to trade, sell, or just browse hundreds of vinyl selections from local collectors.",
@@ -159,10 +159,10 @@
       "date": "2024-12-21T10:00:00Z",
       "endDate": "2024-12-21T16:00:00Z",
       "featured": false,
-      "ageRestriction": "All Ages"
+      "ageRestriction": { "id": 2, "name": "All Ages" }
     },
     {
-      "category": "Fundraiser",
+      "category": { "id": 1, "name": "Fundraiser", "slug": "fundraiser" },
       "title": "Annual Membership Drive Kickoff",
       "slug": "membership-drive-2025",
       "excerpt": "Help us reach our 2025 membership goals! Special perks for new members who sign up during the event.",
@@ -182,10 +182,10 @@
       "date": "2025-02-01T10:00:00Z",
       "endDate": "2025-02-28T23:59:59Z",
       "featured": false,
-      "ageRestriction": "All Ages"
+      "ageRestriction": { "id": 2, "name": "All Ages" }
     },
     {
-      "category": "Concert",
+      "category": { "id": 4, "name": "Concert", "slug": "concert" },
       "title": "Indie Rock Showcase",
       "slug": "indie-rock-showcase",
       "excerpt": "Featuring up-and-coming indie rock bands from the Chicago music scene.",
@@ -205,10 +205,10 @@
       "date": "2025-03-15T20:00:00Z",
       "endDate": "2025-03-16T00:00:00Z",
       "featured": false,
-      "ageRestriction": "21+"
+      "ageRestriction": { "id": 1, "name": "21+" }
     },
     {
-      "category": "Concert",
+      "category": { "id": 4, "name": "Concert", "slug": "concert" },
       "title": "Jazz Night at the Green Mill",
       "slug": "jazz-night-green-mill",
       "excerpt": "CHIRP presents a special jazz night at Chicago's legendary Green Mill.",
@@ -228,10 +228,10 @@
       "date": "2025-03-22T21:00:00Z",
       "endDate": "2025-03-23T01:00:00Z",
       "featured": false,
-      "ageRestriction": "21+"
+      "ageRestriction": { "id": 1, "name": "21+" }
     },
     {
-      "category": "Festival",
+      "category": { "id": 6, "name": "Festival", "slug": "festival" },
       "title": "Electronic Music Festival",
       "slug": "electronic-music-festival",
       "excerpt": "All-day electronic music festival featuring local and international DJs.",
@@ -251,7 +251,7 @@
       "date": "2025-04-05T14:00:00Z",
       "endDate": "2025-04-06T02:00:00Z",
       "featured": false,
-      "ageRestriction": "18+"
+      "ageRestriction": { "id": 3, "name": "18+" }
     }
   ]
 }
