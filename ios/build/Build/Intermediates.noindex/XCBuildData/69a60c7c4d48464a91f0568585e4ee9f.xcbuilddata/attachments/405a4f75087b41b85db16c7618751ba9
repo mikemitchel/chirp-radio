@@ -1,0 +1,4 @@
+
+module CapacitorCommunityAppIcon.__Swift {
+  exclude header "CapacitorCommunityAppIcon-Swift.h"
+}

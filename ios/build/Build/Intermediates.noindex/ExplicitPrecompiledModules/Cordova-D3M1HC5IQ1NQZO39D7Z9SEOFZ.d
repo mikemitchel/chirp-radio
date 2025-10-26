@@ -1,0 +1,22 @@
+moduledependenciestarget: \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorCordova.build/module.modulemap \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/CapacitorCordova.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/UIKit.framework/Modules/module.modulemap \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/Foundation.framework/Modules/module.modulemap \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/AppDelegate.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVViewController.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDV.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVAvailability.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVPlugin.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVPluginResult.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVCommandDelegate.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVInvokedUrlCommand.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.0.sdk/System/Library/Frameworks/WebKit.framework/Modules/module.modulemap \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVURLProtocol.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVScreenOrientationDelegate.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVWebViewProcessPoolFactory.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVCommandDelegateImpl.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVPluginManager.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVConfigParser.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/CDVPlugin+Resources.h \
+  /Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/CapacitorCordova/CapacitorCordova/Classes/Public/NSDictionary+CordovaPreferences.h

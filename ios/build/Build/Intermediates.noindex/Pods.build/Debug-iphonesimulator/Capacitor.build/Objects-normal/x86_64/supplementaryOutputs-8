@@ -1,0 +1,23 @@
+{
+  "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/Capacitor/Capacitor/Data+Capacitor.swift" : {
+    "const-values" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/Data+Capacitor.swiftconstvalues",
+    "dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/Data+Capacitor.d",
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/Data+Capacitor.dia",
+    "object" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/Data+Capacitor.o",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/Data+Capacitor.swiftdeps"
+  },
+  "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/Capacitor/Capacitor/DocLinks.swift" : {
+    "const-values" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/DocLinks.swiftconstvalues",
+    "dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/DocLinks.d",
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/DocLinks.dia",
+    "object" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/DocLinks.o",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/DocLinks.swiftdeps"
+  },
+  "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/ios/Capacitor/Capacitor/Plugins/HttpRequestHandler.swift" : {
+    "const-values" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/HttpRequestHandler.swiftconstvalues",
+    "dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/HttpRequestHandler.d",
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/HttpRequestHandler.dia",
+    "object" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/HttpRequestHandler.o",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/Capacitor.build/Objects-normal/x86_64/HttpRequestHandler.swiftdeps"
+  }
+}

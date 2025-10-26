@@ -53,16 +53,44 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import TermsOfServicePage from './pages/TermsOfServicePage'
 import SitemapPage from './pages/SitemapPage'
 import AdvertisementPreviewPage from './pages/AdvertisementPreviewPage'
+import { AndroidAutoPage } from './pages/AndroidAutoPage'
+import { useState } from 'react'
 
-// Redirect component to route mobile app users to /app
+// Redirect component to route mobile app users to /app or /android-auto
 function RootRedirect() {
   const navigate = useNavigate()
+  const [isChecking, setIsChecking] = useState(true)
 
   useEffect(() => {
-    // If running in Capacitor (native mobile app), redirect to /app
-    if (Capacitor.isNativePlatform()) {
-      navigate('/app', { replace: true })
+    const checkPlatform = async () => {
+      // If running in Capacitor (native mobile app)
+      if (Capacitor.isNativePlatform()) {
+        const isAndroid = Capacitor.getPlatform() === 'android'
+
+        if (isAndroid) {
+          try {
+            // Check if Android Automotive
+            const NowPlayingPlugin = (await import('./plugins/NowPlayingPlugin')).default
+            const result = await NowPlayingPlugin.isAutomotive()
+
+            if (result.isAutomotive) {
+              navigate('/android-auto', { replace: true })
+              setIsChecking(false)
+              return
+            }
+          } catch (error) {
+            console.error('[RootRedirect] Failed to detect Android Automotive:', error)
+          }
+        }
+
+        // Regular mobile app
+        navigate('/app', { replace: true })
+      }
+
+      setIsChecking(false)
     }
+
+    checkPlatform()
   }, [navigate])
 
   // For web browsers, show the web landing page
@@ -143,6 +171,40 @@ function App() {
     }
   }, [])
 
+  // Detect Android Automotive OS and add body class
+  useEffect(() => {
+    const detectAndroidAutomotive = async () => {
+      const isAndroid = Capacitor.getPlatform() === 'android'
+
+      if (!isAndroid) {
+        console.log('[App.tsx] Not Android platform')
+        return
+      }
+
+      try {
+        // Use native API to detect Android Automotive OS
+        const NowPlayingPlugin = (await import('./plugins/NowPlayingPlugin')).default
+        const result = await NowPlayingPlugin.isAutomotive()
+        const isAutomotive = result.isAutomotive
+
+        console.log(`[App.tsx] Android Automotive detection: isAutomotive=${isAutomotive}`)
+
+        if (isAutomotive) {
+          document.body.classList.add('android-automotive')
+          console.log('[App.tsx] ✅ Android Automotive OS detected - applying car-optimized UI')
+        } else {
+          document.body.classList.remove('android-automotive')
+          console.log('[App.tsx] ❌ Not Android Automotive OS')
+        }
+      } catch (error) {
+        console.error('[App.tsx] Failed to detect Android Automotive:', error)
+      }
+    }
+
+    // Initial detection
+    detectAndroidAutomotive()
+  }, [])
+
   // Use HashRouter for Capacitor (file:// protocol), BrowserRouter for web
   const Router = Capacitor.isNativePlatform() ? HashRouter : BrowserRouter
 
@@ -155,6 +217,9 @@ function App() {
             <Routes>
             {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
             <Route index element={<RootRedirect />} />
+
+            {/* Android Automotive route (standalone, no layout) */}
+            <Route path="/android-auto" element={<AndroidAutoPage />} />
 
             {/* Mobile app routes (Capacitor only) */}
             <Route path="/app" element={<MobileApp />}>
