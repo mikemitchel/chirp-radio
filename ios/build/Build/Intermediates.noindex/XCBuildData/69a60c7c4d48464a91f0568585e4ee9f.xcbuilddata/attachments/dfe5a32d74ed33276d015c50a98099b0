@@ -1,0 +1,19 @@
+{
+  "" : {
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/CapacitorShare-primary.dia",
+    "emit-module-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/CapacitorShare-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/CapacitorShare-primary-emit-module.dia",
+    "pch" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/CapacitorShare-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/CapacitorShare-primary.swiftdeps"
+  },
+  "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/node_modules/@capacitor/share/ios/Sources/SharePlugin/SharePlugin.swift" : {
+    "const-values" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/SharePlugin.swiftconstvalues",
+    "dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/SharePlugin.d",
+    "diagnostics" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/SharePlugin.dia",
+    "index-unit-output-path" : "/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/SharePlugin.o",
+    "llvm-bc" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/SharePlugin.bc",
+    "object" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/SharePlugin.o",
+    "swift-dependencies" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/SharePlugin.swiftdeps",
+    "swiftmodule" : "/Users/ryanwilson/Documents/Clients/CHIRP/chirp-radio/ios/build/Build/Intermediates.noindex/Pods.build/Debug-iphonesimulator/CapacitorShare.build/Objects-normal/arm64/SharePlugin~partial.swiftmodule"
+  }
+}

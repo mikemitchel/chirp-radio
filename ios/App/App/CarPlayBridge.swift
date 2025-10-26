@@ -2,88 +2,128 @@
 //  CarPlayBridge.swift
 //  App
 //
-//  Updated CarPlay integration using WebAudioBridge
+//  CarPlay integration - provides audio app interface
 //
 
 import CarPlay
+import MediaPlayer
+import UIKit
 
 class CarPlayBridge: UIResponder, CPTemplateApplicationSceneDelegate {
+
+    weak var interfaceController: CPInterfaceController?
+    private var nowPlayingTemplate: CPNowPlayingTemplate?
+    private var tabBarTemplate: CPTabBarTemplate?
+
+    // Shared singleton for direct access from NativeAudioPlayer
+    static var shared: CarPlayBridge?
 
     // CarPlay connected
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene,
                                   didConnect interfaceController: CPInterfaceController) {
 
-        // Create the list item with default text and image
-        let item = CPListItem(
-            text: "CHIRP Radio",
-            detailText: nil,
-            image: UIImage(named: "AppIcon"),
-            accessoryImage: nil,
-            accessoryType: .disclosureIndicator
-        )
+        print("🚗🎵 CarPlay scene connected! Setting up audio app interface...")
 
-        // Set it to push the "now playing" template on selection
-        item.handler = { item, completion in
-            interfaceController.pushTemplate(CPNowPlayingTemplate.shared, animated: true, completion: nil)
+        self.interfaceController = interfaceController
+        CarPlayBridge.shared = self
 
-            // If not playing, start playback when user taps
-            if !WebAudioBridge.shared.isPlaying {
-                NotificationCenter.default.post(
-                    name: Notification.Name("webAudioCommand"),
-                    object: nil,
-                    userInfo: ["command": "play"]
-                )
-            }
+        // Create Now Playing template
+        nowPlayingTemplate = CPNowPlayingTemplate.shared
+        configureLiveStreamNowPlaying()
 
-            completion()
-        }
+        // Create tab bar with CHIRP Radio icon
+        let nowPlayingTab = CPTemplate()
+        nowPlayingTab.tabTitle = "CHIRP Radio"
+        nowPlayingTab.tabImage = UIImage(named: "AppIcon") ?? UIImage(systemName: "radio")
 
-        // Populate album/artist info
-        updateListItem(item)
+        // Create tab bar template
+        tabBarTemplate = CPTabBarTemplate(templates: [nowPlayingTemplate!])
 
-        // Subscribe to updates
-        NotificationCenter.default.addObserver(
-            forName: Notification.Name("needRecentlyPlayedUpdate"),
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.updateListItem(item)
-        }
+        // Set tab bar as root template - this makes CHIRP Radio appear as an app
+        interfaceController.setRootTemplate(tabBarTemplate!, animated: false, completion: nil)
 
-        let section = CPListSection(items: [item])
-        let listTemplate = CPListTemplate(title: "CHIRP Radio", sections: [section])
-        interfaceController.setRootTemplate(listTemplate, animated: true, completion: nil)
-    }
+        print("🚗 CarPlay tab bar interface configured")
+        print("🚗 CHIRP Radio should now appear in CarPlay app grid")
 
-    private func updateListItem(_ listItem: CPListItem) {
-        let bridge = WebAudioBridge.shared
+        // Debug current state
+        debugNowPlayingInfo()
+        debugRemoteCommands()
 
-        if !bridge.currentSongName.isEmpty {
-            listItem.setText(bridge.currentSongName)
-        }
-
-        if !bridge.currentArtistName.isEmpty {
-            listItem.setDetailText(bridge.currentArtistName)
-        }
-
-        if bridge.currentAlbumArtURL != nil {
-            Task {
-                let image = await getAlbumArtwork()
-                await MainActor.run {
-                    listItem.setImage(image)
-                }
-            }
+        // Listen for metadata updates
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.checkForMetadataUpdates()
         }
     }
 
-    private func getAlbumArtwork() async -> UIImage {
-        let bridge = WebAudioBridge.shared
-        guard let urlString = bridge.currentAlbumArtURL,
-              let url = URL(string: urlString),
-              let data = try? Data(contentsOf: url),
-              let image = UIImage(data: data) else {
-            return UIImage(named: "AppIcon") ?? UIImage()
+    func templateApplicationSceneDidDisconnect(_ templateApplicationScene: CPTemplateApplicationScene) {
+        print("🚗 CarPlay disconnected")
+        CarPlayBridge.shared = nil
+    }
+
+    private var lastMetadataHash: Int = 0
+
+    private func checkForMetadataUpdates() {
+        guard let info = MPNowPlayingInfoCenter.default().nowPlayingInfo else {
+            return
         }
-        return image
+
+        // Create a simple hash of the metadata to detect changes
+        let title = info[MPMediaItemPropertyTitle] as? String ?? ""
+        let artist = info[MPMediaItemPropertyArtist] as? String ?? ""
+        let hashValue = (title + artist).hashValue
+
+        if hashValue != lastMetadataHash && hashValue != 0 {
+            lastMetadataHash = hashValue
+            print("🚗 Metadata changed detected - refreshing CarPlay")
+            debugNowPlayingInfo()
+        }
+    }
+
+
+    private func configureLiveStreamNowPlaying() {
+        guard let nowPlayingTemplate = nowPlayingTemplate else { return }
+
+        // For live streams, we want album art to display but no skip/seek controls
+        // The play/pause will come from MPRemoteCommandCenter automatically
+
+        // Set isUpNextButtonEnabled to false since this is a live stream
+        nowPlayingTemplate.isUpNextButtonEnabled = false
+
+        // Set isAlbumArtistButtonEnabled to false - we don't need navigation to artist
+        nowPlayingTemplate.isAlbumArtistButtonEnabled = false
+
+        // Empty button array - rely entirely on MPRemoteCommandCenter for play/pause
+        nowPlayingTemplate.updateNowPlayingButtons([])
+
+        print("🚗 Configured Now Playing as live stream (no skip, no up next)")
+    }
+
+    private func debugNowPlayingInfo() {
+        let info = MPNowPlayingInfoCenter.default().nowPlayingInfo
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print("🚗 CarPlay - Current Now Playing Info:")
+        if let info = info {
+            print("   Title: \(info[MPMediaItemPropertyTitle] as? String ?? "nil")")
+            print("   Artist: \(info[MPMediaItemPropertyArtist] as? String ?? "nil")")
+            print("   Album: \(info[MPMediaItemPropertyAlbumTitle] as? String ?? "nil")")
+            print("   Is Live Stream: \(info[MPNowPlayingInfoPropertyIsLiveStream] as? Bool ?? false)")
+            print("   Has Artwork: \(info[MPMediaItemPropertyArtwork] != nil)")
+        } else {
+            print("   ⚠️ NOW PLAYING INFO IS NIL - waiting for audio to start")
+        }
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    }
+
+    private func debugRemoteCommands() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print("🚗 CarPlay - Remote Command Center Status:")
+        print("   Play enabled: \(commandCenter.playCommand.isEnabled)")
+        print("   Pause enabled: \(commandCenter.pauseCommand.isEnabled)")
+        print("   Skip forward enabled: \(commandCenter.skipForwardCommand.isEnabled)")
+        print("   Skip backward enabled: \(commandCenter.skipBackwardCommand.isEnabled)")
+        print("   Next track enabled: \(commandCenter.nextTrackCommand.isEnabled)")
+        print("   Previous track enabled: \(commandCenter.previousTrackCommand.isEnabled)")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     }
 }
