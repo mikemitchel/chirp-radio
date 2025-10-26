@@ -222,9 +222,9 @@ const LandingPage: React.FC = () => {
             actionButtonIcon={<PiCalendarDots />}
             onActionClick={() => navigate('/events')}
           />
-          {events?.slice(0, 3).map((event) => (
+          {events?.slice(0, 3).map((event, index) => (
             <CrCard
-              key={event.id}
+              key={event.slug || event.id || `event-${index}`}
               variant="narrow"
               textLayout="stacked"
               bannerHeight="tall"
@@ -260,9 +260,9 @@ const LandingPage: React.FC = () => {
             actionButtonIcon={<PiReadCvLogo />}
             onActionClick={() => navigate('/articles')}
           />
-          {articles?.slice(0, 6).map((article) => (
+          {articles?.slice(0, 6).map((article, index) => (
             <CrCard
-              key={article.id}
+              key={article.slug || article.id || `article-${index}`}
               variant="small"
               type="article"
               textLayout="stacked"
@@ -290,9 +290,9 @@ const LandingPage: React.FC = () => {
             actionButtonIcon={<PiVinylRecord />}
             onActionClick={() => navigate('/schedule')}
           />
-          {djs?.slice(0, 10).map((dj) => (
+          {djs?.slice(0, 10).map((dj, index) => (
             <CrDjOverview
-              key={dj.id}
+              key={dj.slug || dj.id || `dj-${index}`}
               size="medium"
               djName={dj.djName}
               showTime={dj.showTime}
