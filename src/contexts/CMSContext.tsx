@@ -408,15 +408,14 @@ export function CMSProvider({ children }: CMSProviderProps) {
     initializeData()
   }, [refresh])
 
-  // Listen for CMS update events (for future real-time updates)
+  // Listen for CMS update events using typed event bus
   useEffect(() => {
-    const handleCMSUpdate = () => {
+    const unsubscribe = on('cms-data-updated', () => {
       console.log('[CMSContext] CMS update event received, refreshing data...')
       refresh()
-    }
+    })
 
-    window.addEventListener('cms-data-updated', handleCMSUpdate)
-    return () => window.removeEventListener('cms-data-updated', handleCMSUpdate)
+    return unsubscribe
   }, [refresh])
 
   const value: CMSContextValue = {

@@ -5,6 +5,7 @@ import { CMSProvider } from './contexts/CMSContext'
 import { UserProvider } from './contexts/UserContext'
 import { AuthProvider } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
+import { on } from './utils/eventBus'
 import ScrollToTop from './components/ScrollToTop'
 import ProtectedRoute from './components/ProtectedRoute'
 import './utils/devTools' // Load development tools
@@ -141,10 +142,10 @@ function App() {
 
     applyTheme(savedMode)
 
-    // Listen for dark mode changes via custom event
-    const handleDarkModeChange = (event: CustomEvent<string>) => {
-      applyTheme(event.detail)
-    }
+    // Listen for dark mode changes via typed event bus
+    const unsubscribeDarkMode = on('chirp-dark-mode-change', (mode) => {
+      applyTheme(mode)
+    })
 
     // Listen for system preference changes
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
@@ -158,11 +159,10 @@ function App() {
       }
     }
 
-    window.addEventListener('chirp-dark-mode-change', handleDarkModeChange as EventListener)
     mediaQuery.addEventListener('change', handleSystemChange)
 
     return () => {
-      window.removeEventListener('chirp-dark-mode-change', handleDarkModeChange as EventListener)
+      unsubscribeDarkMode()
       mediaQuery.removeEventListener('change', handleSystemChange)
     }
   }, [])
