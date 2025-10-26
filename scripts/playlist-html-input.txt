@@ -1,0 +1,2030 @@
+<table>
+
+
+        <tbody><tr>
+          <td colspan="5" class="date-heading">
+            10/26 - 12am hour
+          </td>
+        </tr>
+
+        <tr><td colspan="5" class="dj">CHIRP DJ</td></tr>        <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/f6501f29a9ce7db8e930ecbea2182bd8.jpg" alt="The Mysteries of Life - Blue Jay album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            12:44am
+          </td>
+          <td class="artist" data-label="Artist:">
+            The Mysteries of Life <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            Blue Jay
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Blue Jay</em> (self-released)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4kxcslgjda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/eee51069133a42d6a9777adc66411d8f.png" alt="The Spinners - The Spinners album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            12:40am
+          </td>
+          <td class="artist" data-label="Artist:">
+            The Spinners
+          </td>
+          <td class="track" data-label="Song:">
+            One Of A Kind (Love Affair)
+          </td>
+          <td class="album" data-label="Album:">
+            <em>The Spinners</em> (Atlantic)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mwe1bojda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/d346b3b471c3a0d06677b5b71204a1de.jpg" alt="Dreamer Isioma - StarX Lover album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            12:38am
+          </td>
+          <td class="artist" data-label="Artist:">
+            Dreamer Isioma <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            Born 2 Live
+          </td>
+          <td class="album" data-label="Album:">
+            <em>StarX Lover</em> (self-released)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mxrsrcjda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/a9e42a7e06a5f346aa75edbe9da30626.png" alt="Purity Ring - purity ring album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            12:35am
+          </td>
+          <td class="artist" data-label="Artist:">
+            Purity Ring
+          </td>
+          <td class="track" data-label="Song:">
+            place of my own
+          </td>
+          <td class="album" data-label="Album:">
+            <em>purity ring</em> (The Fellowship)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jww878jda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            12:32am
+          </td>
+          <td class="artist" data-label="Artist:">
+            John Prine
+          </td>
+          <td class="track" data-label="Song:">
+            Please Don't Bury Me
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Single</em> ()
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mxzzbsjda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/0eaa26428a030e5fd44677e2275b47d5.png" alt="Japanese Breakfast - Jubilee album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            12:29am
+          </td>
+          <td class="artist" data-label="Artist:">
+            Japanese Breakfast
+          </td>
+          <td class="track" data-label="Song:">
+            Be Sweet
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Jubilee</em> (Dead Oceans)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mxzsaojda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/a21ae3371430568da843a6023ec809f0.jpg" alt="Atmosphere - Jestures album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            12:27am
+          </td>
+          <td class="artist" data-label="Artist:">
+            Atmosphere
+          </td>
+          <td class="track" data-label="Song:">
+            Daley
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Jestures</em> (Rhymesayers Entertainment )
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4oxup7sjda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/1ebc460738af0f59ddfe78fb4c8f09d7.jpg" alt="Angel Bat Dawid - The Oracle album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            12:23am
+          </td>
+          <td class="artist" data-label="Artist:">
+            Angel Bat Dawid <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            What Shall I Tell My Children Who Are Black (Dr. Margaret Burroughs)
+          </td>
+          <td class="album" data-label="Album:">
+            <em>The Oracle</em> (International Anthem)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4kx3v70jda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+        <tr><td colspan="5" class="dj">Yang</td></tr>        <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            12:01am
+          </td>
+          <td class="artist" data-label="Artist:">
+            Gary Granada
+          </td>
+          <td class="track" data-label="Song:">
+            Makibaka, Wag Matakot
+          </td>
+          <td class="album" data-label="Album:">
+            <em>LEAN A Filipino Musical</em> (Self-released)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jwhomqlda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+        <tr>
+          <td colspan="5" class="date-heading">
+            10/25 - 11pm hour
+          </td>
+        </tr>
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/0e94415e93a5a627fa99c9e2e5b3dc37.png" alt="Fruit Bats - Baby Man album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            11:50pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Fruit Bats <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            Puddle Jumper
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Baby Man</em> (Merge)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mxkm-glda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/ce138a27d64b4740c77e935aae7d26ca.jpg" alt="XTC - Apple Venus album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            11:46pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            XTC
+          </td>
+          <td class="track" data-label="Song:">
+            Frivolous Tonight
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Apple Venus</em> (TVT/Idea)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mwf2_akda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/37a6c2d0ddf747155f12754a425bf1e5.png" alt="Ramsey Lewis - Sun Goddess album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            11:41pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Ramsey Lewis <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            Jungle Strut
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Sun Goddess</em> (Columbia)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4oxxz5qjda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/cf9d2f0d465b3e7d2b2089b02be0dadf.jpg" alt="The Cords - The Cords album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            11:36pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            The Cords
+          </td>
+          <td class="track" data-label="Song:">
+            Rather Not Stay
+          </td>
+          <td class="album" data-label="Album:">
+            <em>The Cords</em> (Slumberland)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4kwm1lqkda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            11:33pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Paul Weller
+          </td>
+          <td class="track" data-label="Song:">
+            Nova
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Kind Revolution</em> (Parlophone)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4iwk3sgkda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/5e6be99c934d4f7dbacabd3d7416a0a1.jpg" alt="Olivia Barton - For Myself and For You album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            11:25pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Olivia Barton
+          </td>
+          <td class="track" data-label="Song:">
+            My First House
+          </td>
+          <td class="album" data-label="Album:">
+            <em>For Myself and For You</em> (self-released)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4owq5zqlda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+        <tr class="ads">
+          <td colspan="5">
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            11:22pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Dolph Chaney
+          </td>
+          <td class="track" data-label="Song:">
+            This Halloween
+          </td>
+          <td class="album" data-label="Album:">
+            <em>(Singlel)</em> (Self-released)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+            <strong>Track Notes:</strong> Requested by Matthew (:
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jxa1iylda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/842e6cbaacae129bb96426f5c917a53f.jpg" alt="Say She She - Cut &amp; Rewind album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            11:18pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Say She She
+          </td>
+          <td class="track" data-label="Song:">
+            She Who Dares
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Cut &amp; Rewind</em> (drink sum wtr)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4nxmstakda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            11:11pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Razorhouse <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            Rabbit Run
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Songs About Bunnies &amp; Crocodiles</em> (Underwear Factory Toy)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4iwmoyukda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/a590970a617e4ca0a45692a4001ebff2.png" alt="Diane Coffee - My Friend Fish album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            11:04pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Diane Coffee
+          </td>
+          <td class="track" data-label="Song:">
+            Tale of a Dead Dog
+          </td>
+          <td class="album" data-label="Album:">
+            <em>My Friend Fish</em> (Western Vinyl)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jx89auida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/68e5bb88733c78378d6c21f3970fc94b.jpg" alt="Sudan Archives - The BPM album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            11:02pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Sudan Archives
+          </td>
+          <td class="track" data-label="Song:">
+            SHE'S GOT PAIN
+          </td>
+          <td class="album" data-label="Album:">
+            <em>The BPM</em> (Stones Throw)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4pm2lpuida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+        <tr>
+          <td colspan="5" class="date-heading">
+            10/25 - 10pm hour
+          </td>
+        </tr>
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/1592d3fde58949a9c9cf57e9b313dd8f.png" alt="Soft Machine - The Soft Machine album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            10:57pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Soft Machine
+          </td>
+          <td class="track" data-label="Song:">
+            We Did It Again
+          </td>
+          <td class="album" data-label="Album:">
+            <em>The Soft Machine</em> (Probe)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4kwns50lda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/98904a95a08b43a6ad630da21c04236b.jpg" alt="The Dead Milkmen - Metaphysical Graffiti album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            10:54pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            The Dead Milkmen
+          </td>
+          <td class="track" data-label="Song:">
+            In Praise Of Sha Na Na
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Metaphysical Graffiti</em> (Enigma)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4pmuhl4lda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/bd2a5c49de08cea9a02d00b367a29596.jpg" alt="Meat Wave - Volcano Park album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            10:51pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Meat Wave <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            For Sale
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Volcano Park</em> (Big Scary Monsters)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4owqs40jda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/29cd52e0f2ba0d5dcf2b2684cc71ef58.jpg" alt="Tame Impala - Deadbeat album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            10:46pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Tame Impala
+          </td>
+          <td class="track" data-label="Song:">
+            No Reply
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Deadbeat</em> (Columbia)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4nxmstaida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/fd422afaf22474c47d7947f41e71aef2.jpg" alt="Real Estate - The Main Thing album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            10:44pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Real Estate
+          </td>
+          <td class="track" data-label="Song:">
+            Shallow Sun
+          </td>
+          <td class="album" data-label="Album:">
+            <em>The Main Thing</em> (Domino)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jxa1iyjda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/e0a88f68d085f41bc20daf7c18f0e868.jpg" alt="Skullcrusher - And Your Song is Like a Circle album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            10:39pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Skullcrusher
+          </td>
+          <td class="track" data-label="Song:">
+            Changes
+          </td>
+          <td class="album" data-label="Album:">
+            <em>And Your Song is Like a Circle</em> (Dirty Hit)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jwhomqjda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/d1befa31c85eefcdb3ffc1ec3343d324.jpg" alt="Melkbelly - Nothing Valley album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            10:30pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Melkbelly <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            Petrified
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Nothing Valley</em> (Carpark)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4ixk8omlda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/7b7221263182e1d248995e1108fca8dc.jpg" alt="Laura Lee &amp; the Jettes - Tough Love Paradigm album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            10:27pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Laura Lee &amp; the Jettes
+          </td>
+          <td class="track" data-label="Song:">
+            Vandalize
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Tough Love Paradigm</em> (The Orchard)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mxa2ioida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/a67151d436e672b06e8cf3aaeb41d3fe.jpg" alt="good flying birds - Talulah" s="" tape="" album="" artwork'="" width="40" height="40">
+          </td>
+          <td class="time">
+            10:23pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            good flying birds
+          </td>
+          <td class="track" data-label="Song:">
+            every day is another
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Talulah's Tape</em> (Carpark)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4ixk8omjda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            10:14pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Madi Diaz
+          </td>
+          <td class="track" data-label="Song:">
+            Hope Less
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Fatal Optimist</em> (Anti-)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jxa1iykda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+        <tr><td colspan="5" class="dj">Yang</td></tr>        <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/129fd3950243ea83166a0a5dd7845fb2.jpg" alt="Boys Don" t="" fight="" -="" boys="" don't="" album="" artwork'="" width="40" height="40">
+          </td>
+          <td class="time">
+            10:09pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Boys Don't Fight
+          </td>
+          <td class="track" data-label="Song:">
+            Rescue
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Boys Don't Fight</em> (self-released)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jxe_bikda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/403866569510001621f028f799f4226c.jpg" alt="Cate Le Bon - Michelangelo Dying album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            10:03pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Cate Le Bon
+          </td>
+          <td class="track" data-label="Song:">
+            I Know What's Nice
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Michelangelo Dying</em> (Mexican Summer)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jwhomqkda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/18470d4c595a0a33e852977cc8d0e111.jpg" alt="Mitski - Laurel Hell album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            10:00pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Mitski
+          </td>
+          <td class="track" data-label="Song:">
+            The Only Heartbreaker
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Laurel Hell</em> (Dead Oceans)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4pmuhl4jda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+        <tr>
+          <td colspan="5" class="date-heading">
+            10/25 - 9pm hour
+          </td>
+        </tr>
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/b5cf72d9b406f2f3c5466d8d172dd08e.png" alt="Nation of Language - Dance Called Memory album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            9:56pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Nation of Language
+          </td>
+          <td class="track" data-label="Song:">
+            In Another Life
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Dance Called Memory</em> (Sub Pop)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mxkm-gjda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            9:49pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Banoffee
+          </td>
+          <td class="track" data-label="Song:">
+            Contagious
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Look At Us Now Dad</em> (Cascine)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4ixk8omkda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/e952b04a9c2a4884c82a20ec43f2cb2d.png" alt="Twin Shadow - Eclipse album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            9:46pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Twin Shadow
+          </td>
+          <td class="track" data-label="Song:">
+            Turn Me Up
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Eclipse</em> (Warner Bros.)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4ixn7icida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/96bfd9ff8d50682269c10634d3c065a8.jpg" alt="Giant Day - Alarm album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            9:43pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Giant Day
+          </td>
+          <td class="track" data-label="Song:">
+            Golden Times
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Alarm</em> (The Elephant 6 Recording Company)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4kx1z_wkda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/e1480a9c28b74b22ae90e944d76244c9.jpg" alt="Say Hi to Your Mom - Impeccable Blahs album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            9:36pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Say Hi to Your Mom
+          </td>
+          <td class="track" data-label="Song:">
+            Not As Goth As They Say We Are
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Impeccable Blahs</em> (Euphobia)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mxk_5kkda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            9:33pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Things That Fly <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            Confidence
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Things That Fly EP</em> (self-released)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jxa1iyida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/f801f06f059b4f378b8c0195b0061ee8.jpg" alt="Tiger High - Catacombs After Party album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            9:28pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Tiger High
+          </td>
+          <td class="track" data-label="Song:">
+            Lightspeed
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Catacombs After Party</em> (Trashy Creatures)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4oxxz5qkda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/6f4b5dc3c0e3bd9aae396c48861ba1fd.jpg" alt="Hannah Frances - Nested in Tangles album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            9:17pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Hannah Frances <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            Heavy Light
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Nested in Tangles</em> (Fire Talk)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mwo2juida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/5506823d9f17c06229c3dfbf5cb2a683.jpg" alt="Rafiq Bhatia - Environments album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            9:08pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Rafiq Bhatia
+          </td>
+          <td class="track" data-label="Song:">
+            Rain On The Canopy Melting Sky
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Environments</em> (Anti-)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4kwauuikda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/ef99428051e5bd9694a30c44df2acc2d.jpg" alt="Jeff Tweedy - Twilight Override album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            9:02pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Jeff Tweedy <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            Feel Free
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Twilight Override</em> (dBpm)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4owq5zqjda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+        <tr>
+          <td colspan="5" class="date-heading">
+            10/25 - 8pm hour
+          </td>
+        </tr>
+
+        <tr><td colspan="5" class="dj">Willie McDonagh</td></tr>        <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/68a2a6fcb844d9a41514f1f81f13377c.jpg" alt="Jenny Hval - Classic Objects album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            8:52pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Jenny Hval
+          </td>
+          <td class="track" data-label="Song:">
+            Jupiter
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Classic Objects</em> (4AD)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jxe_biida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/2205b383ea9b4519bdb8be62ab61a081.jpg" alt="Mary Timony Band - The Shapes We Make album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            8:46pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Mary Timony Band
+          </td>
+          <td class="track" data-label="Song:">
+            Window
+          </td>
+          <td class="album" data-label="Album:">
+            <em>The Shapes We Make</em> (Kill Rock Stars)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jxe_dilda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+        <tr class="ads">
+          <td colspan="5">
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            8:42pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            MYDGE <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            Watch Me Now
+          </td>
+          <td class="album" data-label="Album:">
+            <em>single</em> (self-released)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jx89cujda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/8f5a15fd427cbfd5664201c579c3cf2a.jpg" alt="Reet Hendrikson - Reet album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            8:39pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Reet Hendrikson
+          </td>
+          <td class="track" data-label="Song:">
+            Kui mina alles noor veel olin
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Reet</em> (Reindeer)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4ixgsqyida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/24ff26e5b82a04ea90af15a63fcfd48a.jpg" alt="Maywood - Different Worlds album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            8:36pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Maywood
+          </td>
+          <td class="track" data-label="Song:">
+            You're the One
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Different Worlds</em> (EMI)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4pmuhl4ida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            8:30pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Jascha Heifetz
+          </td>
+          <td class="track" data-label="Song:">
+            Hebrew Melody
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Heifetz: Gershwin and Encores</em> (RCA Victor Gold Seal)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+            <strong>Track Notes:</strong> composer: Joseph Achron; arranger: Leopold Auer; recorded 1946
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jxawjslda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            8:26pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Modney
+          </td>
+          <td class="track" data-label="Song:">
+            Hardanger Transcriptions: Thomasklukkud'n på Filefjell
+          </td>
+          <td class="album" data-label="Album:">
+            <em>As I Write This: Songs &amp; Solos of Aaron Helgeson</em> (New Focus)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mxir9aida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/e0a88f68d085f41bc20daf7c18f0e868.jpg" alt="Skullcrusher - And Your Song is Like a Circle album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            8:22pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Skullcrusher
+          </td>
+          <td class="track" data-label="Song:">
+            Maelstrom
+          </td>
+          <td class="album" data-label="Album:">
+            <em>And Your Song is Like a Circle</em> (Dirty Hit)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mwtxiakda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/403866569510001621f028f799f4226c.jpg" alt="Cate Le Bon - Michelangelo Dying album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            8:16pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Cate Le Bon
+          </td>
+          <td class="track" data-label="Song:">
+            Is It Worth It (Happy Birthday)
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Michelangelo Dying</em> (Mexican Summer)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4owq5zqida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/cce91f570607ca22a3a0a88bc80d0b27.jpg" alt="Plebeian Grandstand - False Highs, True Lows album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            8:11pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Plebeian Grandstand
+          </td>
+          <td class="track" data-label="Song:">
+            Low Empire
+          </td>
+          <td class="album" data-label="Album:">
+            <em>False Highs, True Lows</em> (Throatruiner)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jxe_dijda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/d91d5885193c2494cbee4cbaa0c34364.jpg" alt="chelliah - an oceanic feeling album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            8:05pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            chelliah <mark>Local</mark>
+          </td>
+          <td class="track" data-label="Song:">
+            meltdown!
+          </td>
+          <td class="album" data-label="Album:">
+            <em>an oceanic feeling</em> (self-released)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4kxo4p4lda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+        <tr>
+          <td colspan="5" class="date-heading">
+            10/25 - 7pm hour
+          </td>
+        </tr>
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/3542a4dc69125d52f77b3040746219fa.jpg" alt="Norman Connors - Dance of Magic album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            7:59pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Norman Connors
+          </td>
+          <td class="track" data-label="Song:">
+            Morning Change
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Dance of Magic</em> (Cobblestone)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4kwm1lqida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/a912dc4ac03771691d590fd8a83fe872.jpg" alt="Kengo Tokusashi - Music for Sauna album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            7:52pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Kengo Tokusashi
+          </td>
+          <td class="track" data-label="Song:">
+            Section 4
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Music for Sauna</em> (Vihta)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4oxxz5qida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            7:46pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Yehudi Wyner, Lydian String Quartet
+          </td>
+          <td class="track" data-label="Song:">
+            II. Suite: Schubert Finds Himself in a Hall of Mirrors
+          </td>
+          <td class="album" data-label="Album:">
+            <em>John Harbison: String Quartet No 1 - String Quartet No 2 - November 19, 1828</em> (Harmonia Mundi)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4jwbpdoida/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/07c6312f2e9b41e0b3b2e20b2f2374fc.png" alt="Kraftwerk - Trans-Europe Express album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            7:41pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Kraftwerk
+          </td>
+          <td class="track" data-label="Song:">
+            Franz Schubert
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Trans-Europe Express</em> (Kling Klang)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4kwm1nqlda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details odd">
+          <td rowspan="2" class="artwork">
+            <img src="/_/img/placeholders/album-art.png" alt="" width="40" height="40">
+          </td>
+          <td class="time">
+            7:38pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            OMFO
+          </td>
+          <td class="track" data-label="Song:">
+            Dolia
+          </td>
+          <td class="album" data-label="Album:">
+            <em>Trans Balkan Express</em> (Essay)
+          </td>
+        </tr>
+        <tr class="odd">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4mwx4y8kda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+
+
+                <tr class="details even">
+          <td rowspan="2" class="artwork">
+            <img src="https://lastfm.freetls.fastly.net/i/u/64s/8ce665d142d02ab5777787cf0ff27c2b.jpg" alt="Meklit - A Piece of Infinity album artwork" width="40" height="40">
+          </td>
+          <td class="time">
+            7:32pm
+          </td>
+          <td class="artist" data-label="Artist:">
+            Meklit
+          </td>
+          <td class="track" data-label="Song:">
+            Stars in a Wide Field
+          </td>
+          <td class="album" data-label="Album:">
+            <em>A Piece of Infinity</em> (Smithsonian Folkways)
+          </td>
+        </tr>
+        <tr class="even">
+          <td class="notes" colspan="3">
+
+          </td>
+          <td class="purchase">
+
+
+        <a class="collection add" href="https://chirpradio.org/collection/ahbzfmnoaxjwcmfkaw8tahjkcholeg1qbgf5bglzdev2zw50gica4pm8smmkda/add"><i class="icon-collection"></i>Add to Collection</a>
+
+
+          </td>
+        </tr>
+
+
+      </tbody></table>

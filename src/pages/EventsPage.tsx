@@ -6,7 +6,7 @@ import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import CrPagination from '../stories/CrPagination'
-import { useEvents, useAnnouncements } from '../hooks/useData'
+import { useEvents, useAnnouncements, useSiteSettings } from '../hooks/useData'
 
 const ITEMS_PER_PAGE = 11
 
@@ -15,6 +15,7 @@ const EventsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const { data: allEvents } = useEvents()
   const { data: announcements } = useAnnouncements()
+  const { data: siteSettings } = useSiteSettings()
 
   // Get current page from URL, default to 0
   const currentPage = parseInt(searchParams.get('page') || '0', 10)
@@ -35,6 +36,28 @@ const EventsPage: React.FC = () => {
     }
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  // Get sidebar content from Site Settings
+  const sidebarAnnouncementId =
+    typeof siteSettings?.eventsSidebarAnnouncement === 'string'
+      ? siteSettings.eventsSidebarAnnouncement
+      : siteSettings?.eventsSidebarAnnouncement?.id
+
+  const sidebarAnnouncement = sidebarAnnouncementId
+    ? announcements?.find((a) => a.id === sidebarAnnouncementId)
+    : announcements?.[5] // fallback
+
+  const sidebarAdvertisement = siteSettings?.eventsSidebarAdvertisement
+
+  // Get full-width announcement from Site Settings
+  const fullWidthAnnouncementId =
+    typeof siteSettings?.eventsFullWidthAnnouncement === 'string'
+      ? siteSettings.eventsFullWidthAnnouncement
+      : siteSettings?.eventsFullWidthAnnouncement?.id
+
+  const fullWidthAnnouncement = fullWidthAnnouncementId
+    ? announcements?.find((a) => a.id === fullWidthAnnouncementId)
+    : announcements?.[4] // fallback
 
   return (
     <div className="events-page">
@@ -70,20 +93,41 @@ const EventsPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {announcements && announcements[5] && (
+          {sidebarAnnouncement && (
             <CrAnnouncement
-              variant="motivation"
+              variant={sidebarAnnouncement.variant}
               widthVariant="third"
-              textureBackground={announcements[5].backgroundColor}
-              headlineText={announcements[5].title}
-              bodyText={announcements[5].message}
-              showLink={!!announcements[5].ctaText}
-              linkText={announcements[5].ctaText}
-              linkUrl={announcements[5].ctaUrl}
-              buttonCount="none"
+              textureBackground={sidebarAnnouncement.textureBackground}
+              headlineText={sidebarAnnouncement.headlineText}
+              bodyText={sidebarAnnouncement.bodyText}
+              showLink={sidebarAnnouncement.showLink}
+              linkText={sidebarAnnouncement.linkText}
+              linkUrl={sidebarAnnouncement.linkUrl}
+              buttonCount={sidebarAnnouncement.buttonCount}
+              button1Text={sidebarAnnouncement.button1Text}
+              button1Icon={sidebarAnnouncement.button1Icon}
+              button2Text={sidebarAnnouncement.button2Text}
+              button2Icon={sidebarAnnouncement.button2Icon}
+              currentAmount={sidebarAnnouncement.currentAmount}
+              targetAmount={sidebarAnnouncement.targetAmount}
             />
           )}
-          <CrAdSpace size="large-rectangle" />
+          {sidebarAdvertisement && (
+            <CrAdSpace
+              size={sidebarAdvertisement.size || 'large-rectangle'}
+              customWidth={sidebarAdvertisement.customWidth}
+              customHeight={sidebarAdvertisement.customHeight}
+              contentType={sidebarAdvertisement.contentType}
+              src={sidebarAdvertisement.imageUrl || sidebarAdvertisement.image?.url}
+              alt={sidebarAdvertisement.alt}
+              htmlContent={sidebarAdvertisement.htmlContent}
+              videoSrc={sidebarAdvertisement.videoUrl || sidebarAdvertisement.video?.url}
+              embedCode={sidebarAdvertisement.embedCode}
+              href={sidebarAdvertisement.href}
+              target={sidebarAdvertisement.target}
+              showLabel={sidebarAdvertisement.showLabel}
+            />
+          )}
         </div>
       </div>
 
@@ -190,16 +234,22 @@ const EventsPage: React.FC = () => {
       {/* Announcement */}
       <section className="page-section">
         <div className="page-container">
-          {announcements && announcements[4] && (
+          {fullWidthAnnouncement && (
             <CrAnnouncement
-              variant="motivation"
-              textureBackground={announcements[4].backgroundColor}
-              headlineText={announcements[4].title}
-              bodyText={announcements[4].message}
-              showLink={!!announcements[4].ctaText}
-              linkText={announcements[4].ctaText}
-              linkUrl={announcements[4].ctaUrl}
-              buttonCount="none"
+              variant={fullWidthAnnouncement.variant}
+              textureBackground={fullWidthAnnouncement.textureBackground}
+              headlineText={fullWidthAnnouncement.headlineText}
+              bodyText={fullWidthAnnouncement.bodyText}
+              showLink={fullWidthAnnouncement.showLink}
+              linkText={fullWidthAnnouncement.linkText}
+              linkUrl={fullWidthAnnouncement.linkUrl}
+              buttonCount={fullWidthAnnouncement.buttonCount}
+              button1Text={fullWidthAnnouncement.button1Text}
+              button1Icon={fullWidthAnnouncement.button1Icon}
+              button2Text={fullWidthAnnouncement.button2Text}
+              button2Icon={fullWidthAnnouncement.button2Icon}
+              currentAmount={fullWidthAnnouncement.currentAmount}
+              targetAmount={fullWidthAnnouncement.targetAmount}
             />
           )}
         </div>

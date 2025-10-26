@@ -1,8 +1,10 @@
 // src/pages/VolunteerDownloadsPage.tsx
 import React from 'react'
 import { useNavigate } from 'react-router'
+import { Helmet } from 'react-helmet-async'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
+import { usePageBySlug } from '../hooks/useData'
 
 const downloadSections = [
   {
@@ -113,6 +115,7 @@ const downloadSections = [
 
 export default function VolunteerDownloadsPage() {
   const navigate = useNavigate()
+  const { data: pageConfig } = usePageBySlug('volunteer-downloads')
 
   const renderLinksContent = (links: { text: string; url: string }[]) => {
     if (links.length === 0) return ''
@@ -120,46 +123,95 @@ export default function VolunteerDownloadsPage() {
     return links.map((link) => `<li><a href="${link.url}">${link.text}</a></li>`).join('')
   }
 
+  // Extract header content (first block) and section cards (remaining blocks)
+  const headerBlock = pageConfig?.layout?.[0]
+  const sectionBlocks = pageConfig?.layout?.slice(1) || []
+
   return (
-    <div className="volunteer-downloads-page">
-      <section className="page-container">
-        <CrPageHeader
-          eyebrowText="CHIRP RADIO - VOLUNTEERS"
-          title="Volunteer Downloads"
-          titleTag="h1"
-          titleSize="xl"
-          showEyebrow={true}
-          showActionButton={false}
-        />
+    <>
+      <Helmet>
+        <title>{pageConfig?.title || 'Volunteer Downloads | CHIRP Radio'}</title>
+        {pageConfig?.excerpt && <meta name="description" content={pageConfig.excerpt} />}
+      </Helmet>
+      <div className="volunteer-downloads-page">
+        <section className="page-container">
+          {headerBlock ? (
+            <>
+              <CrPageHeader
+                eyebrowText="CHIRP RADIO - VOLUNTEERS"
+                title={headerBlock.title}
+                titleTag={headerBlock.titleTag || 'h1'}
+                titleSize="xl"
+                showEyebrow={true}
+                showActionButton={false}
+              />
+              {headerBlock.content && (
+                <div
+                  style={{ marginBottom: 'var(--cr-space-8)' }}
+                  dangerouslySetInnerHTML={{
+                    __html: headerBlock.content.root ?
+                      headerBlock.content.root.children.map((child: any) =>
+                        `<p>${child.children.map((c: any) => c.text).join('')}</p>`
+                      ).join('') : ''
+                  }}
+                />
+              )}
+            </>
+          ) : (
+            <>
+              <CrPageHeader
+                eyebrowText="CHIRP RADIO - VOLUNTEERS"
+                title="Volunteer Downloads"
+                titleTag="h1"
+                titleSize="xl"
+                showEyebrow={true}
+                showActionButton={false}
+              />
+              <p style={{ marginBottom: 'var(--cr-space-8)' }}>
+                Access essential documents, forms, guides, and resources for CHIRP volunteers. From production guides to marketing materials, DJ forms to legal documents — everything you need to support your volunteer work is here.
+              </p>
+            </>
+          )}
+        </section>
 
-        <p style={{ marginBottom: 'var(--cr-space-8)' }}>
-          Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean eu leo quam.
-          Pellentesque ornare sem lacinia quam venenatis vestibulum. Praesent commodo cursus magna,
-          vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
-          faucibus dolor auctor. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec
-          id elit non mi porta gravida at eget metus. Aenean eu leo quam. Pellentesque ornare sem
-          lacinia quam venenatis vestibulum.
-        </p>
-      </section>
-
-      <section className="page-layout-masonry">
-        {downloadSections.map((section) => (
-          <div key={section.id}>
-            <CrCard
-              variant="article"
-              imagePosition="none"
-              title={section.title}
-              titleSize="sm"
-              content={`<p>${section.description}</p>${section.links.length > 0 ? `<ul>${renderLinksContent(section.links)}</ul>` : ''}`}
-              showTicketButton={false}
-              showShareButton={false}
-              showCardDetails={false}
-              showEyebrow={false}
-              bannerBackgroundColor="light"
-            />
-          </div>
-        ))}
-      </section>
-    </div>
+        <section className="page-layout-masonry">
+          {sectionBlocks.length > 0 ? (
+            sectionBlocks.map((block: any, index: number) => (
+              <div key={index}>
+                <CrCard
+                  variant="article"
+                  imagePosition="none"
+                  title={block.title}
+                  titleSize="sm"
+                  content={block.content}
+                  showTicketButton={false}
+                  showShareButton={false}
+                  showCardDetails={false}
+                  showEyebrow={false}
+                  bannerBackgroundColor="light"
+                />
+              </div>
+            ))
+          ) : (
+            downloadSections.map((section) => (
+              <div key={section.id}>
+                <CrCard
+                  variant="article"
+                  imagePosition="none"
+                  title={section.title}
+                  titleSize="sm"
+                  content={`<p>${section.description}</p>${section.links.length > 0 ? `<ul>${renderLinksContent(section.links)}</ul>` : ''}`}
+                  showTicketButton={false}
+                  showShareButton={false}
+                  showCardDetails={false}
+                  showEyebrow={false}
+                  bannerBackgroundColor="light"
+                />
+              </div>
+            ))
+          )}
+        </section>
+      </div>
+    </>
   )
 }

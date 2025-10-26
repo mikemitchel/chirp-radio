@@ -1,7 +1,62 @@
 // CrAnnouncement.tsx
 import CrDonationBar from './CrDonationBar'
 import CrButton from './CrButton'
-import { PiHandHeartLight, PiArrowRight } from 'react-icons/pi'
+import {
+  PiHandHeartLight,
+  PiArrowRight,
+  PiArrowSquareUp,
+  PiCaretLeft,
+  PiCaretRight,
+  PiCaretUp,
+  PiCaretDown,
+  PiCaretUpDown,
+  PiX,
+  PiXBold,
+  PiMagnifyingGlass,
+  PiDotsThreeOutlineVerticalFill,
+  PiPlus,
+  PiMinus,
+  PiCalendarBlank,
+  PiCalendarDot,
+  PiCalendarDots,
+  PiCalendarPlus,
+  PiTicket,
+  PiVinylRecord,
+  PiMusicNote,
+  PiMusicNotes,
+  PiPlaylist,
+  PiPlayFill,
+  PiPauseFill,
+  PiHeadphones,
+  PiMicrophone,
+  PiHeart,
+  PiHeartFill,
+  PiHandHeart,
+  PiUser,
+  PiUserCircle,
+  PiChatCircleText,
+  PiChatCircleTextLight,
+  PiSignIn,
+  PiReadCvLogo,
+  PiNotepad,
+  PiPaperclip,
+  PiNewspaper,
+  PiMapTrifold,
+  PiPaperPlaneRight,
+  PiPaperPlaneTilt,
+  PiGear,
+  PiFloppyDisk,
+  PiPencilSimple,
+  PiUploadSimple,
+  PiShoppingBag,
+  PiEye,
+  PiEyeSlash,
+  PiDownload,
+  PiDownloadSimple,
+  PiExport,
+  PiPlusCircle,
+  PiPlusSquare,
+} from 'react-icons/pi'
 import './CrAnnouncement.css'
 
 interface CrAnnouncementProps {
@@ -59,7 +114,82 @@ export default function CrAnnouncement({
     .filter(Boolean)
     .join(' ')
 
+  // Map of icon names to React Icon components
+  const iconMap = {
+    // Navigation & Actions
+    PiArrowRight,
+    PiArrowSquareUp,
+    PiCaretLeft,
+    PiCaretRight,
+    PiCaretUp,
+    PiCaretDown,
+    PiCaretUpDown,
+    PiX,
+    PiXBold,
+    PiMagnifyingGlass,
+    PiDotsThreeOutlineVerticalFill,
+    PiPlus,
+    PiMinus,
+    // Calendar & Events
+    PiCalendarBlank,
+    PiCalendarDot,
+    PiCalendarDots,
+    PiCalendarPlus,
+    PiTicket,
+    // Music & Media
+    PiVinylRecord,
+    PiMusicNote,
+    PiMusicNotes,
+    PiPlaylist,
+    PiPlayFill,
+    PiPauseFill,
+    PiHeadphones,
+    PiMicrophone,
+    // User & Social
+    PiHeart,
+    PiHeartFill,
+    PiHandHeart,
+    PiHandHeartLight,
+    PiUser,
+    PiUserCircle,
+    PiChatCircleText,
+    PiChatCircleTextLight,
+    PiSignIn,
+    // Content & Documents
+    PiReadCvLogo,
+    PiNotepad,
+    PiPaperclip,
+    PiNewspaper,
+    PiMapTrifold,
+    // Communication
+    PiPaperPlaneRight,
+    PiPaperPlaneTilt,
+    // Settings & Tools
+    PiGear,
+    PiFloppyDisk,
+    PiPencilSimple,
+    PiUploadSimple,
+    // Shopping & Commerce
+    PiShoppingBag,
+    // Visibility & Display
+    PiEye,
+    PiEyeSlash,
+    PiDownload,
+    PiDownloadSimple,
+    PiExport,
+    // Collection & Add
+    PiPlusCircle,
+    PiPlusSquare,
+  }
+
   const renderIcon = (iconType) => {
+    // Handle new Phosphor icons
+    if (iconMap[iconType]) {
+      const IconComponent = iconMap[iconType]
+      return <IconComponent size={24} />
+    }
+
+    // Legacy support for custom SVGs
     if (iconType === 'speaker') {
       return (
         <svg
@@ -79,6 +209,8 @@ export default function CrAnnouncement({
         </svg>
       )
     }
+
+    // Default to mobile icon for legacy support
     return (
       <svg
         className="cr-announcement__icon"
@@ -114,7 +246,7 @@ export default function CrAnnouncement({
       <div className="cr-announcement__wrapper">
         {/* Body Text on Left */}
         <div className="cr-announcement__content">
-          <p className="cr-announcement__body">{bodyText}</p>
+          <div className="cr-announcement__body" dangerouslySetInnerHTML={{ __html: bodyText }} />
 
           {/* Optional Link Button */}
           {showLink && (

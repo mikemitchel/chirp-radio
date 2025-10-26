@@ -69,7 +69,7 @@ import announcementsData from '../data/announcements.json'
 import articlesData from '../data/articles.json'
 import chartsData from '../data/charts.json'
 import eventsData from '../data/events.json'
-import playlistsData from '../data/playlists.json'
+import playlistsData from '../data/playlists-recent.json'
 import podcastsData from '../data/podcasts.json'
 import usersData from '../data/users.json'
 import shopItemsData from '../data/shopItems.json'
@@ -91,7 +91,16 @@ export function useAnnouncements() {
 
     setLoading(true)
     fetchFromCMS<any>('announcements')
-      .then(docs => setData(docs))
+      .then(docs => {
+        // Map announcements to convert Lexical content to HTML
+        const mappedDocs = docs.map((announcement: any) => ({
+          ...announcement,
+          bodyText: typeof announcement.bodyText === 'string'
+            ? announcement.bodyText
+            : lexicalToHtml(announcement.bodyText)
+        }))
+        setData(mappedDocs)
+      })
       .catch(err => setError(err))
       .finally(() => setLoading(false))
   }, [])
@@ -177,6 +186,38 @@ export function useEvents() {
           ...event,
           featuredImage: event.featuredImage || event.featuredImageUrl,
           content: typeof event.content === 'string' ? event.content : lexicalToHtml(event.content)
+        }))
+        setData(mappedDocs)
+      })
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
+
+  return { data, loading, error }
+}
+
+// Volunteer Calendar
+export function useVolunteerCalendar() {
+  const [data, setData] = useState<any[]>([])
+  const [loading, setLoading] = useState(USE_CMS_API)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    if (!USE_CMS_API) return
+
+    setLoading(true)
+    fetchFromCMS<any>('volunteerCalendar', { sort: 'startDate' })
+      .then(docs => {
+        // Transform data to match the expected format
+        const mappedDocs = docs.map((event: any) => ({
+          ...event,
+          // Convert ISO date strings to simple date format (YYYY-MM-DD)
+          startDate: event.startDate ? event.startDate.split('T')[0] : event.startDate,
+          endDate: event.endDate ? event.endDate.split('T')[0] : event.endDate,
+          // Transform eventDetails array from objects to strings
+          eventDetails: event.eventDetails?.map((item: any) =>
+            typeof item === 'string' ? item : item.detail
+          ) || []
         }))
         setData(mappedDocs)
       })
@@ -428,9 +469,37 @@ export function updateUserFavoriteDJs(djId: string, isFavorite: boolean, userId?
 
 // Shop Items
 export function useShopItems() {
-  const [data, setData] = useState(shopItemsData.shopItems)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [data, setData] = useState<any[]>(USE_CMS_API ? [] : shopItemsData.shopItems)
+  const [loading, setLoading] = useState(USE_CMS_API)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    if (!USE_CMS_API) return
+
+    setLoading(true)
+    fetchFromCMS<any>('shopItems')
+      .then(docs => {
+        // Map shop items to use imageUrl as fallback for images
+        // and convert sizes from {id, size} objects to string array
+        const mappedDocs = docs.map((item: any) => ({
+          ...item,
+          image: item.images && item.images.length > 0
+            ? item.images[0].image?.url
+            : item.imageUrl,
+          sizes: item.sizes && Array.isArray(item.sizes)
+            ? item.sizes.map((s: any) => typeof s === 'string' ? s : s.size)
+            : [],
+          itemType: item.category === 'apparel' ? 'Apparel'
+            : item.category === 'merchandise' ? 'Merchandise'
+            : item.category === 'accessories' ? 'Accessories'
+            : item.category === 'music' ? 'Music'
+            : item.itemType || 'Merchandise',
+        }))
+        setData(mappedDocs)
+      })
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
 
   return { data, loading, error }
 }
@@ -485,4 +554,25 @@ export function useSubstituteDJs() {
   const { data, loading, error } = useDJs()
   const substituteDJs = data?.filter((dj) => dj.isSubstitute)
   return { data: substituteDJs, loading, error }
+}
+
+// Site Settings (Global)
+export function useSiteSettings() {
+  const [data, setData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  useEffect(() => {
+    setLoading(true)
+    fetch(`${import.meta.env.VITE_CMS_API_URL || 'http://localhost:3000/api'}/globals/siteSettings?depth=2`)
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch site settings')
+        return res.json()
+      })
+      .then(json => setData(json))
+      .catch(err => setError(err))
+      .finally(() => setLoading(false))
+  }, [])
+
+  return { data, loading, error }
 }

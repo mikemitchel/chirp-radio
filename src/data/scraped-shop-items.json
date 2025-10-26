@@ -1,0 +1,138 @@
+{
+  "shopItems": [
+    {
+      "id": "item-001",
+      "name": "CHIRP Baby Onesie",
+      "price": 15,
+      "image": "https://chirpradio.org/_/files/store/Baby_onesie-3.jpeg",
+      "itemType": "Apparel",
+      "category": "baby-onesies-kid-stuff",
+      "description": "CHIRP Baby Onesie from CHIRP Radio's official store.",
+      "details": "High-quality materials",
+      "sizes": [
+        "6M",
+        "12M",
+        "18M",
+        "2T",
+        "3T",
+        "4T"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "item-002",
+      "name": "CHIRP 2013 Poster",
+      "price": 30,
+      "image": "https://chirpradio.org/_/files/store/CHIRP_spring_2013_design.jpg",
+      "itemType": "Poster",
+      "category": "posters",
+      "description": "CHIRP 2013 Poster from CHIRP Radio's official store.",
+      "details": "18x24 inches, printed on premium matte paper",
+      "sizes": [],
+      "inStock": true
+    },
+    {
+      "id": "item-003",
+      "name": "CHIRP Record Fair 2015 poster",
+      "price": 20,
+      "image": "https://chirpradio.org/_/files/store/Record_Fair_2015.jpg",
+      "itemType": "Poster",
+      "category": "posters",
+      "description": "CHIRP Record Fair 2015 poster from CHIRP Radio's official store.",
+      "details": "18x24 inches, printed on premium matte paper",
+      "sizes": [],
+      "inStock": true
+    },
+    {
+      "id": "item-004",
+      "name": "CHIRP Record Fair 2019 Poster",
+      "price": 15,
+      "image": "https://chirpradio.org/_/files/store/CHiRP2019_Poster_11x17.jpg",
+      "itemType": "Poster",
+      "category": "posters",
+      "description": "CHIRP Record Fair 2019 Poster from CHIRP Radio's official store.",
+      "details": "18x24 inches, printed on premium matte paper",
+      "sizes": [],
+      "inStock": true
+    },
+    {
+      "id": "item-005",
+      "name": "CHIRP Record Fair 2018 poster",
+      "price": 20,
+      "image": "https://chirpradio.org/_/files/store/20180227-CHIRP-RF-poster.jpg",
+      "itemType": "Poster",
+      "category": "posters",
+      "description": "CHIRP Record Fair 2018 poster from CHIRP Radio's official store.",
+      "details": "18x24 inches, printed on premium matte paper",
+      "sizes": [],
+      "inStock": true
+    },
+    {
+      "id": "item-006",
+      "name": "CHIRP Record Fair 2017 Poster",
+      "price": 20,
+      "image": "https://chirpradio.org/_/files/store/RF_poster_2017_-_2.jpg",
+      "itemType": "Poster",
+      "category": "posters",
+      "description": "CHIRP Record Fair 2017 Poster from CHIRP Radio's official store.",
+      "details": "18x24 inches, printed on premium matte paper",
+      "sizes": [],
+      "inStock": true
+    },
+    {
+      "id": "item-007",
+      "name": "CHIRP Sandcastle Toddler T-Shirt",
+      "price": 14,
+      "image": "https://chirpradio.org/_/files/store/image5.jpeg",
+      "itemType": "Apparel",
+      "category": "shirts",
+      "description": "CHIRP Sandcastle Toddler T-Shirt from CHIRP Radio's official store.",
+      "details": "High-quality materials",
+      "sizes": [
+        "6M",
+        "12M",
+        "18M",
+        "2T",
+        "3T",
+        "4T"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "item-008",
+      "name": "chirpradio.org Record Logo Shirt (standard and fitted styles available)",
+      "price": 20,
+      "image": "https://chirpradio.org/_/files/store/Red_CHIRP_shirt_3.JPG",
+      "itemType": "Apparel",
+      "category": "shirts",
+      "description": "chirpradio.org Record Logo Shirt (standard and fitted styles available) from CHIRP Radio's official store.",
+      "details": "High-quality materials",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "inStock": true
+    },
+    {
+      "id": "item-009",
+      "name": "107.1FM CHIRP logo shirt (standard and fitted styles available)",
+      "price": 20,
+      "image": "https://chirpradio.org/_/files/store/Shawn_chirp_shirt.jpg",
+      "itemType": "Apparel",
+      "category": "shirts",
+      "description": "107.1FM CHIRP logo shirt (standard and fitted styles available) from CHIRP Radio's official store.",
+      "details": "High-quality materials",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "inStock": true
+    }
+  ]
+}

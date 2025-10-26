@@ -6,7 +6,7 @@ import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import CrPagination from '../stories/CrPagination'
-import { useArticles, useAnnouncements } from '../hooks/useData'
+import { useArticles, useAnnouncements, useSiteSettings } from '../hooks/useData'
 
 const ITEMS_PER_PAGE = 8
 
@@ -15,6 +15,7 @@ const ArticlesPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const { data: allArticles } = useArticles()
   const { data: announcements } = useAnnouncements()
+  const { data: siteSettings } = useSiteSettings()
 
   // Get current page from URL, default to 0
   const currentPage = parseInt(searchParams.get('page') || '0', 10)
@@ -35,6 +36,27 @@ const ArticlesPage: React.FC = () => {
     }
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  // Get sidebar content from Site Settings
+  const sidebarAnnouncementId =
+    typeof siteSettings?.articlesSidebarAnnouncement === 'string'
+      ? siteSettings.articlesSidebarAnnouncement
+      : siteSettings?.articlesSidebarAnnouncement?.id
+
+  const sidebarAnnouncement = sidebarAnnouncementId
+    ? announcements?.find((a) => a.id === sidebarAnnouncementId)
+    : announcements?.[3] // fallback
+
+  const fullWidthAnnouncementId =
+    typeof siteSettings?.articlesFullWidthAnnouncement === 'string'
+      ? siteSettings.articlesFullWidthAnnouncement
+      : siteSettings?.articlesFullWidthAnnouncement?.id
+
+  const fullWidthAnnouncement = fullWidthAnnouncementId
+    ? announcements?.find((a) => a.id === fullWidthAnnouncementId)
+    : announcements?.[2] // fallback
+
+  const sidebarAdvertisement = siteSettings?.articlesSidebarAdvertisement
 
   return (
     <div className="articles-page">
@@ -69,20 +91,41 @@ const ArticlesPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {announcements && announcements[3] && (
+          {sidebarAnnouncement && (
             <CrAnnouncement
-              variant="motivation"
+              variant={sidebarAnnouncement.variant}
               widthVariant="third"
-              textureBackground={announcements[3].backgroundColor}
-              headlineText={announcements[3].title}
-              bodyText={announcements[3].message}
-              showLink={!!announcements[3].ctaText}
-              linkText={announcements[3].ctaText}
-              linkUrl={announcements[3].ctaUrl}
-              buttonCount="none"
+              textureBackground={sidebarAnnouncement.textureBackground}
+              headlineText={sidebarAnnouncement.headlineText}
+              bodyText={sidebarAnnouncement.bodyText}
+              showLink={sidebarAnnouncement.showLink}
+              linkText={sidebarAnnouncement.linkText}
+              linkUrl={sidebarAnnouncement.linkUrl}
+              buttonCount={sidebarAnnouncement.buttonCount}
+              button1Text={sidebarAnnouncement.button1Text}
+              button1Icon={sidebarAnnouncement.button1Icon}
+              button2Text={sidebarAnnouncement.button2Text}
+              button2Icon={sidebarAnnouncement.button2Icon}
+              currentAmount={sidebarAnnouncement.currentAmount}
+              targetAmount={sidebarAnnouncement.targetAmount}
             />
           )}
-          <CrAdSpace size="large-rectangle" />
+          {sidebarAdvertisement && (
+            <CrAdSpace
+              size={sidebarAdvertisement.size || 'large-rectangle'}
+              customWidth={sidebarAdvertisement.customWidth}
+              customHeight={sidebarAdvertisement.customHeight}
+              contentType={sidebarAdvertisement.contentType}
+              src={sidebarAdvertisement.imageUrl || sidebarAdvertisement.image?.url}
+              alt={sidebarAdvertisement.alt}
+              htmlContent={sidebarAdvertisement.htmlContent}
+              videoSrc={sidebarAdvertisement.videoUrl || sidebarAdvertisement.video?.url}
+              embedCode={sidebarAdvertisement.embedCode}
+              href={sidebarAdvertisement.href}
+              target={sidebarAdvertisement.target}
+              showLabel={sidebarAdvertisement.showLabel}
+            />
+          )}
         </div>
       </div>
 
@@ -181,16 +224,22 @@ const ArticlesPage: React.FC = () => {
       {/* Announcement */}
       <section className="page-section">
         <div className="page-container">
-          {announcements && announcements[2] && (
+          {fullWidthAnnouncement && (
             <CrAnnouncement
-              variant="motivation"
-              textureBackground={announcements[2].backgroundColor}
-              headlineText={announcements[2].title}
-              bodyText={announcements[2].message}
-              showLink={!!announcements[2].ctaText}
-              linkText={announcements[2].ctaText}
-              linkUrl={announcements[2].ctaUrl}
-              buttonCount="none"
+              variant={fullWidthAnnouncement.variant}
+              textureBackground={fullWidthAnnouncement.textureBackground}
+              headlineText={fullWidthAnnouncement.headlineText}
+              bodyText={fullWidthAnnouncement.bodyText}
+              showLink={fullWidthAnnouncement.showLink}
+              linkText={fullWidthAnnouncement.linkText}
+              linkUrl={fullWidthAnnouncement.linkUrl}
+              buttonCount={fullWidthAnnouncement.buttonCount}
+              button1Text={fullWidthAnnouncement.button1Text}
+              button1Icon={fullWidthAnnouncement.button1Icon}
+              button2Text={fullWidthAnnouncement.button2Text}
+              button2Icon={fullWidthAnnouncement.button2Icon}
+              currentAmount={fullWidthAnnouncement.currentAmount}
+              targetAmount={fullWidthAnnouncement.targetAmount}
             />
           )}
         </div>
