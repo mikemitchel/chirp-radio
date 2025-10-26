@@ -124,7 +124,7 @@ export function useTracks() {
   const parsedTracks = useMemo(() => {
     if (!data?.tracks) return undefined
 
-    return data.tracks.map(track => {
+    return data.tracks.map((track) => {
       const parsed = parseDjAndShowName(track.djName || '', track.showName || '')
       return {
         ...track,
@@ -193,18 +193,20 @@ export function useCurrentUser() {
 // Update user's favorite DJs - Now delegates to UserContext
 export function updateUserFavoriteDJs(djId: string, isFavorite: boolean, userId?: string) {
   // Get the target user ID
-  const targetUserId = userId || (() => {
-    const storedUser = localStorage.getItem('chirp-user')
-    if (storedUser) {
-      try {
-        const user = JSON.parse(storedUser)
-        return user.id
-      } catch (e) {
-        console.error('Failed to parse user from localStorage', e)
+  const targetUserId =
+    userId ||
+    (() => {
+      const storedUser = localStorage.getItem('chirp-user')
+      if (storedUser) {
+        try {
+          const user = JSON.parse(storedUser)
+          return user.id
+        } catch (e) {
+          console.error('Failed to parse user from localStorage', e)
+        }
       }
-    }
-    return 'user-001' // Fallback to default user
-  })()
+      return 'user-001' // Fallback to default user
+    })()
 
   // Emit typed event that UserContext listens to
   emit('updateUserFavoriteDJs', { userId: targetUserId, djId, isFavorite })
@@ -252,11 +254,7 @@ export function useDJs() {
       }
     })
 
-  const [data, setData] = useState(djUsers)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
-
-  return { data, loading, error }
+  return { data: djUsers, loading: false, error: null }
 }
 
 // Get scheduled DJs (not substitutes)
