@@ -154,9 +154,10 @@ export function CMSProvider({ children }: CMSProviderProps) {
 
       const mappedDocs = docs.map((announcement) => ({
         ...announcement,
-        bodyText: typeof announcement.bodyText === 'string'
-          ? announcement.bodyText
-          : lexicalToHtml(announcement.bodyText),
+        bodyText:
+          typeof announcement.bodyText === 'string'
+            ? announcement.bodyText
+            : lexicalToHtml(announcement.bodyText),
       })) as Announcement[]
 
       setData((prev) => ({ ...prev, announcements: mappedDocs }))
@@ -180,12 +181,12 @@ export function CMSProvider({ children }: CMSProviderProps) {
       const mappedDocs = docs.map((article) => ({
         ...article,
         featuredImage: article.featuredImage || article.featuredImageUrl,
-        tags: (article.tags as Array<Record<string, unknown> | string>)?.map((t) =>
-          typeof t === 'string' ? t : (t.tag as string)
-        ) || [],
-        content: typeof article.content === 'string'
-          ? article.content
-          : lexicalToHtml(article.content),
+        tags:
+          (article.tags as Array<Record<string, unknown> | string>)?.map((t) =>
+            typeof t === 'string' ? t : (t.tag as string)
+          ) || [],
+        content:
+          typeof article.content === 'string' ? article.content : lexicalToHtml(article.content),
       })) as Article[]
 
       setData((prev) => ({ ...prev, articles: mappedDocs }))
@@ -209,9 +210,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
       const mappedDocs = docs.map((event) => ({
         ...event,
         featuredImage: event.featuredImage || event.featuredImageUrl,
-        content: typeof event.content === 'string'
-          ? event.content
-          : lexicalToHtml(event.content),
+        content: typeof event.content === 'string' ? event.content : lexicalToHtml(event.content),
       })) as Event[]
 
       setData((prev) => ({ ...prev, events: mappedDocs }))
@@ -233,18 +232,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
       const docs = await fetchFromCMS<Record<string, unknown>>('podcasts', {
         sort: '-publishDate',
         depth: '1',
-        limit: '100'
+        limit: '100',
       })
 
       const mappedDocs = docs.map((podcast) => ({
         ...podcast,
         coverArt: podcast.coverArt || podcast.coverArtUrl,
-        tags: (podcast.tags as Array<Record<string, unknown> | string>)?.map((t) =>
-          typeof t === 'string' ? t : (t.tag as string)
-        ) || [],
-        content: typeof podcast.content === 'string'
-          ? podcast.content
-          : lexicalToHtml(podcast.content),
+        tags:
+          (podcast.tags as Array<Record<string, unknown> | string>)?.map((t) =>
+            typeof t === 'string' ? t : (t.tag as string)
+          ) || [],
+        content:
+          typeof podcast.content === 'string' ? podcast.content : lexicalToHtml(podcast.content),
       })) as Podcast[]
 
       setData((prev) => ({ ...prev, podcasts: mappedDocs }))
@@ -264,16 +263,17 @@ export function CMSProvider({ children }: CMSProviderProps) {
 
     try {
       const docs = await fetchFromCMS<Record<string, unknown>>('volunteerCalendar', {
-        sort: 'startDate'
+        sort: 'startDate',
       })
 
       const mappedDocs = docs.map((event) => ({
         ...event,
         startDate: event.startDate ? String(event.startDate).split('T')[0] : event.startDate,
         endDate: event.endDate ? String(event.endDate).split('T')[0] : event.endDate,
-        eventDetails: (event.eventDetails as Array<Record<string, unknown> | string>)?.map((item) =>
-          typeof item === 'string' ? item : (item.detail as string)
-        ) || [],
+        eventDetails:
+          (event.eventDetails as Array<Record<string, unknown> | string>)?.map((item) =>
+            typeof item === 'string' ? item : (item.detail as string)
+          ) || [],
       })) as VolunteerCalendarEvent[]
 
       setData((prev) => ({ ...prev, volunteerCalendar: mappedDocs }))
@@ -296,17 +296,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
 
       const mappedDocs = docs.map((item) => ({
         ...item,
-        image: (item.images as Array<Record<string, unknown>>)?.length > 0
-          ? ((item.images as Array<Record<string, unknown>>)[0].image as Record<string, unknown>)?.url
-          : item.imageUrl,
-        sizes: (item.sizes as Array<Record<string, unknown> | string>)?.map((s) =>
-          typeof s === 'string' ? s : (s.size as string)
-        ) || [],
-        itemType: item.category === 'apparel' ? 'Apparel'
-          : item.category === 'merchandise' ? 'Merchandise'
-          : item.category === 'accessories' ? 'Accessories'
-          : item.category === 'music' ? 'Music'
-          : item.itemType || 'Merchandise',
+        image:
+          (item.images as Array<Record<string, unknown>>)?.length > 0
+            ? ((item.images as Array<Record<string, unknown>>)[0].image as Record<string, unknown>)
+                ?.url
+            : item.imageUrl,
+        sizes:
+          (item.sizes as Array<Record<string, unknown> | string>)?.map((s) =>
+            typeof s === 'string' ? s : (s.size as string)
+          ) || [],
+        itemType:
+          item.category === 'apparel'
+            ? 'Apparel'
+            : item.category === 'merchandise'
+              ? 'Merchandise'
+              : item.category === 'accessories'
+                ? 'Accessories'
+                : item.category === 'music'
+                  ? 'Music'
+                  : item.itemType || 'Merchandise',
       })) as ShopItem[]
 
       setData((prev) => ({ ...prev, shopItems: mappedDocs }))
@@ -327,16 +335,15 @@ export function CMSProvider({ children }: CMSProviderProps) {
     try {
       const docs = await fetchFromCMS<Record<string, unknown>>('pages', {
         depth: '2',
-        limit: '100'
+        limit: '100',
       })
 
       const processedDocs = docs.map((page) => ({
         ...page,
         layout: (page.layout as Array<Record<string, unknown>>)?.map((block) => {
           if (block.blockType === 'contentCard' && block.content) {
-            const htmlContent = typeof block.content === 'string'
-              ? block.content
-              : lexicalToHtml(block.content)
+            const htmlContent =
+              typeof block.content === 'string' ? block.content : lexicalToHtml(block.content)
             return { ...block, content: htmlContent }
           }
           return block
@@ -429,6 +436,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
   return <CMSContext.Provider value={value}>{children}</CMSContext.Provider>
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCMS(): CMSContextValue {
   const context = useContext(CMSContext)
   if (context === undefined) {

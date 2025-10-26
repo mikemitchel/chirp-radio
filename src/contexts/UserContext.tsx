@@ -152,6 +152,7 @@ export function UserProvider({ children }: UserProviderProps) {
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useUsers(): UserContextValue {
   const context = useContext(UserContext)
   if (context === undefined) {
@@ -161,6 +162,7 @@ export function useUsers(): UserContextValue {
 }
 
 // Export for backward compatibility with existing code
+// eslint-disable-next-line react-refresh/only-export-components
 export function useUserContext(): UserContextValue {
   return useUsers()
 }
