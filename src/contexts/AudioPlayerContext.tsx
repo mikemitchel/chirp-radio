@@ -4,8 +4,10 @@
 
 import React, { ReactNode } from 'react'
 import { AudioPlaybackProvider, useAudioPlayback } from './AudioPlaybackContext'
-import { NowPlayingProvider, useNowPlaying, TrackData } from './NowPlayingContext'
-import { AudioCollectionProvider, useAudioCollection, Track } from './AudioCollectionContext'
+import { NowPlayingProvider, useNowPlaying } from './NowPlayingContext'
+import type { TrackData } from './NowPlayingContext'
+import { AudioCollectionProvider, useAudioCollection } from './AudioCollectionContext'
+import type { Track } from './AudioCollectionContext'
 
 // Re-export TrackData for backward compatibility
 export type { TrackData }
