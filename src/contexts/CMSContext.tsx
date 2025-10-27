@@ -484,24 +484,6 @@ export function CMSProvider({ children }: CMSProviderProps) {
                   : lexicalToHtml(settings.notLoggedInMessage.message),
             }
           : undefined,
-        firstLaunchWelcome: settings.firstLaunchWelcome
-          ? {
-              ...settings.firstLaunchWelcome,
-              content:
-                typeof settings.firstLaunchWelcome.content === 'string'
-                  ? settings.firstLaunchWelcome.content
-                  : lexicalToHtml(settings.firstLaunchWelcome.content),
-            }
-          : undefined,
-        termsAcceptance: settings.termsAcceptance
-          ? {
-              ...settings.termsAcceptance,
-              content:
-                typeof settings.termsAcceptance.content === 'string'
-                  ? settings.termsAcceptance.content
-                  : lexicalToHtml(settings.termsAcceptance.content),
-            }
-          : undefined,
       }
 
       setData((prev) => ({ ...prev, mobileAppSettings: processedSettings as MobileAppSettings }))
