@@ -7,6 +7,7 @@ import CrButton from '../stories/CrButton'
 import { useAuth } from '../hooks/useAuth'
 import { useAudioPlayer } from '../contexts/AudioPlayerContext'
 import { useNotification } from '../contexts/NotificationContext'
+import { useMobilePageByIdentifier, useMobileAppSettings } from '../hooks/useData'
 import LoginRequiredModal from '../components/LoginRequiredModal'
 
 interface MakeRequestProps {
@@ -18,6 +19,8 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
   const { isLoggedIn, login, signup } = useAuth()
   const { currentData } = useAudioPlayer()
   const { showToast } = useNotification()
+  const { data: pageContent } = useMobilePageByIdentifier('make-request')
+  const { data: appSettings } = useMobileAppSettings()
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [loginModalMode, setLoginModalMode] = useState<'login' | 'signup'>('login')
 
@@ -61,29 +64,38 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
     })
   }
 
+  // Derived values from CMS
+  const pageTitle = pageContent?.pageTitle || 'Make a Song Request'
+  const notLoggedInMessage =
+    pageContent?.customNotLoggedInMessage ||
+    appSettings?.notLoggedInMessage?.message ||
+    'You need to be logged in to make a song request. This helps us know who the request is coming from and ensures a better experience for everyone.'
+  const loginButtonText = appSettings?.notLoggedInMessage?.loginButtonText || 'log in'
+  const signupButtonText = appSettings?.notLoggedInMessage?.signupButtonText || 'sign up'
+
   if (!isLoggedIn) {
     return (
       <div className="page-container">
         <CrPageHeader
           eyebrowText="CHIRP Radio"
-          title="Make a Song Request"
+          title={pageTitle}
           showEyebrow={false}
           showActionButton={false}
           titleSize="lg"
         />
 
         <div>
-          <p className="cr-profile-card__not-logged-in-description">
-            You need to be logged in to make a song request. This helps us know who the request is
-            coming from and ensures a better experience for everyone.
-          </p>
+          <div
+            className="cr-profile-card__not-logged-in-description"
+            dangerouslySetInnerHTML={{ __html: notLoggedInMessage }}
+          />
 
           <div className="cr-profile-card__not-logged-in-actions">
             <CrButton variant="outline" color="default" size="medium" onClick={handleLoginClick}>
-              log in
+              {loginButtonText}
             </CrButton>
             <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUpClick}>
-              sign up
+              {signupButtonText}
             </CrButton>
           </div>
 
@@ -114,11 +126,18 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
     <div>
       <CrPageHeader
         eyebrowText="CHIRP Radio"
-        title="Make a Request"
+        title={pageTitle}
         showEyebrow={false}
         showActionButton={false}
         titleSize="lg"
       />
+
+      {pageContent?.introContent && (
+        <div
+          className="page-intro-content"
+          dangerouslySetInnerHTML={{ __html: pageContent.introContent }}
+        />
+      )}
 
       <div>
         <CrCurrentDj
