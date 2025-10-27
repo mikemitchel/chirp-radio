@@ -17,7 +17,8 @@ import NativeAudioPlayer from '../plugins/NativeAudioPlayer'
 import mockCurrentPlaylist from '../data/currentPlaylist.json'
 
 const log = createLogger('NowPlayingContext')
-const USE_MOCK_DATA = import.meta.env.DEV
+// Always use real API - CORS errors in web dev are harmless console warnings
+const USE_MOCK_DATA = false
 
 export interface TrackData {
   dj: string
@@ -45,15 +46,19 @@ interface NowPlayingProviderProps {
   children: ReactNode
   autoFetch?: boolean
   apiUrl?: string
+  isPlayingProp?: boolean
 }
 
 export function NowPlayingProvider({
   children,
   autoFetch = false,
-  apiUrl = 'https://chirpradio.appspot.com/api/current_playlist',
+  apiUrl = import.meta.env.DEV
+    ? '/api/current_playlist' // Use Vite proxy in dev to avoid CORS
+    : 'https://chirpradio.appspot.com/api/current_playlist', // Direct in production/native
+  isPlayingProp = false,
 }: NowPlayingProviderProps) {
   const networkInfo = useNetworkQuality()
-  const { isPlaying } = useAudioPlayback()
+  const isPlaying = isPlayingProp
 
   // Check for cached data
   const getCachedData = (): TrackData | null => {
@@ -110,16 +115,32 @@ export function NowPlayingProvider({
         log.log('Using mock current playlist data (dev mode)')
         responseData = mockCurrentPlaylist.now_playing
       } else {
-        // In production, fetch from API
-        const response = await CapacitorHttp.get({
-          url: apiUrl,
-          headers: { 'Content-Type': 'application/json' },
-        })
+        // Use native HTTP for iOS/Android, fetch for web
+        const isNative = Capacitor.getPlatform() !== 'web'
 
-        if (response.status !== 200 || !response.data) {
-          throw new Error(`HTTP error! Status: ${response.status}`)
+        if (isNative) {
+          // Native: Use CapacitorHttp (bypasses CORS)
+          const response = await CapacitorHttp.get({
+            url: apiUrl,
+            headers: { 'Content-Type': 'application/json' },
+          })
+
+          if (response.status !== 200 || !response.data) {
+            throw new Error(`HTTP error! Status: ${response.status}`)
+          }
+          responseData = response.data.now_playing
+        } else {
+          // Web: Use fetch (works with Vite proxy)
+          const response = await fetch(apiUrl, {
+            headers: { 'Content-Type': 'application/json' },
+          })
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`)
+          }
+          const data = await response.json()
+          responseData = data.now_playing
         }
-        responseData = response.data
       }
 
       if (responseData) {
@@ -143,7 +164,7 @@ export function NowPlayingProvider({
           // Determine album art URL
           let albumArtUrl = ''
           if (newData.albumArt) {
-            albumArtUrl = upgradeImageQuality(newData.albumArt, networkInfo)
+            albumArtUrl = upgradeImageQuality(newData.albumArt, networkInfo.quality)
           } else if (newData.lastfm_urls) {
             // Handle API format with lastfm_urls
             const bestImage =
@@ -151,7 +172,7 @@ export function NowPlayingProvider({
               newData.lastfm_urls.med_image ||
               newData.lastfm_urls.sm_image
             if (bestImage) {
-              albumArtUrl = upgradeImageQuality(bestImage, networkInfo)
+              albumArtUrl = upgradeImageQuality(bestImage, networkInfo.quality)
             }
           }
 
@@ -206,14 +227,14 @@ export function NowPlayingProvider({
           if (!currentData.albumArt && hasAlbumArtSource && albumArtRetryCountRef.current < 5) {
             let retryAlbumArt = ''
             if (newData.albumArt) {
-              retryAlbumArt = upgradeImageQuality(newData.albumArt, networkInfo)
+              retryAlbumArt = upgradeImageQuality(newData.albumArt, networkInfo.quality)
             } else if (newData.lastfm_urls) {
               const bestImage =
                 newData.lastfm_urls.large_image ||
                 newData.lastfm_urls.med_image ||
                 newData.lastfm_urls.sm_image
               if (bestImage) {
-                retryAlbumArt = upgradeImageQuality(bestImage, networkInfo)
+                retryAlbumArt = upgradeImageQuality(bestImage, networkInfo.quality)
               }
             }
 

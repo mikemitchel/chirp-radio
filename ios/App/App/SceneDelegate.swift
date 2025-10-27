@@ -26,16 +26,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
 
-        // Register custom plugins after a delay to ensure bridge is ready
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            if let bridge = rootViewController.bridge {
-                print("🎵 Registering custom plugins with bridge")
-                bridge.registerPluginInstance(NowPlayingPlugin())
-                bridge.registerPluginInstance(NativeAudioPlayer())
-                print("🎵 Custom plugins registered successfully")
-            } else {
-                print("❌ Failed to get bridge reference")
-            }
+        // Register custom plugins immediately - bridge is ready at this point
+        if let bridge = rootViewController.bridge {
+            print("🎵 Registering custom plugins with bridge")
+            bridge.registerPluginInstance(NowPlayingPlugin())
+            bridge.registerPluginInstance(NativeAudioPlayer())
+            print("🎵 Custom plugins registered successfully")
+        } else {
+            print("❌ Failed to get bridge reference")
         }
     }
 

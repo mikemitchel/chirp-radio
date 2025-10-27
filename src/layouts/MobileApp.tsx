@@ -242,7 +242,6 @@ export default function MobileApp() {
       <AudioPlayerProvider
         autoFetch={true}
         streamUrl="https://peridot.streamguys1.com:5185/live"
-        apiUrl="https://chirpradio.appspot.com/api/current_playlist"
       >
         {/* Always render the app frame so it's ready */}
         <CrMobileAppFrame
