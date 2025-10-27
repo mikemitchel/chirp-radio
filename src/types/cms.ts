@@ -264,6 +264,14 @@ export interface MobileAppSettings {
     loginButtonText?: string
     signupButtonText?: string
   }
+  loginModal?: {
+    loginMessage?: ContentField
+    signupMessage?: ContentField
+  }
+  accountBenefits?: {
+    title?: string
+    benefits?: Array<{ benefit: string }>
+  }
   firstLaunchWelcome?: {
     isEnabled?: boolean
     title?: string
