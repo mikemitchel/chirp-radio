@@ -198,11 +198,31 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         // Set audio to prefer high quality
         player?.automaticallyWaitsToMinimizeStalling = true
 
+        // Enable external playback for CarPlay
+        player?.allowsExternalPlayback = true
+        player?.usesExternalPlaybackWhileExternalScreenIsActive = true
+        print("✅ External playback enabled for CarPlay")
+
         // Set up player item monitoring
         setupPlayerItemMonitoring()
 
+        // Set initial Now Playing info for CarPlay to recognize the app
+        setInitialNowPlayingInfo()
+
         print("✅ Stream URL set and player initialized")
         call.resolve()
+    }
+
+    private func setInitialNowPlayingInfo() {
+        var nowPlayingInfo = [String: Any]()
+        nowPlayingInfo[MPMediaItemPropertyTitle] = "CHIRP Radio"
+        nowPlayingInfo[MPMediaItemPropertyArtist] = "Chicago Independent Radio Project"
+        nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "Live Stream"
+        nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
+        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0.0 // Not playing yet
+
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+        print("🎵 Initial Now Playing info set for CarPlay discovery")
     }
 
     private func setupPlayerItemMonitoring() {

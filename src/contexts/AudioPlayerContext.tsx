@@ -40,14 +40,34 @@ export function AudioPlayerProvider({
   children,
   streamUrl = 'https://peridot.streamguys1.com:5185/live',
   autoFetch = false,
-  apiUrl = 'https://chirpradio.appspot.com/api/current_playlist',
+  apiUrl = import.meta.env.DEV
+    ? '/api/current_playlist' // Use Vite proxy in dev to avoid CORS
+    : 'https://chirpradio.appspot.com/api/current_playlist', // Direct in production/native
 }: AudioPlayerProviderProps) {
   return (
     <AudioPlaybackProvider defaultStreamUrl={streamUrl}>
-      <NowPlayingProvider autoFetch={autoFetch} apiUrl={apiUrl}>
+      <NowPlayingProviderWrapper autoFetch={autoFetch} apiUrl={apiUrl}>
         <AudioCollectionWrapper>{children}</AudioCollectionWrapper>
-      </NowPlayingProvider>
+      </NowPlayingProviderWrapper>
     </AudioPlaybackProvider>
+  )
+}
+
+// Wrapper to access isPlaying from AudioPlaybackContext
+function NowPlayingProviderWrapper({
+  children,
+  autoFetch,
+  apiUrl,
+}: {
+  children: ReactNode
+  autoFetch: boolean
+  apiUrl?: string
+}) {
+  const { isPlaying } = useAudioPlayback()
+  return (
+    <NowPlayingProvider autoFetch={autoFetch} apiUrl={apiUrl} isPlayingProp={isPlaying}>
+      {children}
+    </NowPlayingProvider>
   )
 }
 

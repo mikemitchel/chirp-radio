@@ -22,28 +22,39 @@ class CarPlayBridge: UIResponder, CPTemplateApplicationSceneDelegate {
     func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene,
                                   didConnect interfaceController: CPInterfaceController) {
 
-        print("🚗🎵 CarPlay scene connected! Setting up audio app interface...")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print("🚗🎵 CarPlay scene connected!")
+        print("🚗 Template scene: \(templateApplicationScene)")
+        print("🚗 Interface controller: \(interfaceController)")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         self.interfaceController = interfaceController
         CarPlayBridge.shared = self
 
         // Create Now Playing template
+        print("🚗 Creating CPNowPlayingTemplate.shared...")
         nowPlayingTemplate = CPNowPlayingTemplate.shared
+        print("🚗 ✅ Now Playing template created: \(String(describing: nowPlayingTemplate))")
+
         configureLiveStreamNowPlaying()
 
-        // Create tab bar with CHIRP Radio icon
-        let nowPlayingTab = CPTemplate()
-        nowPlayingTab.tabTitle = "CHIRP Radio"
-        nowPlayingTab.tabImage = UIImage(named: "AppIcon") ?? UIImage(systemName: "radio")
-
-        // Create tab bar template
+        // Create tab bar template - REMOVE the extra tab, just use nowPlayingTemplate
+        print("🚗 Creating tab bar template with Now Playing...")
         tabBarTemplate = CPTabBarTemplate(templates: [nowPlayingTemplate!])
+        print("🚗 ✅ Tab bar template created")
 
-        // Set tab bar as root template - this makes CHIRP Radio appear as an app
-        interfaceController.setRootTemplate(tabBarTemplate!, animated: false, completion: nil)
+        // Set tab bar as root template
+        print("🚗 Setting root template...")
+        interfaceController.setRootTemplate(tabBarTemplate!, animated: false) { success, error in
+            if let error = error {
+                print("🚗 ❌ Error setting root template: \(error)")
+            } else {
+                print("🚗 ✅ Root template set successfully, success: \(success)")
+            }
+        }
 
-        print("🚗 CarPlay tab bar interface configured")
-        print("🚗 CHIRP Radio should now appear in CarPlay app grid")
+        print("🚗 CarPlay interface configuration complete")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         // Debug current state
         debugNowPlayingInfo()
@@ -56,8 +67,23 @@ class CarPlayBridge: UIResponder, CPTemplateApplicationSceneDelegate {
     }
 
     func templateApplicationSceneDidDisconnect(_ templateApplicationScene: CPTemplateApplicationScene) {
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
         print("🚗 CarPlay disconnected")
+        print("🚗 Template scene: \(templateApplicationScene)")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
         CarPlayBridge.shared = nil
+        interfaceController = nil
+    }
+
+    func templateApplicationScene(_ templateApplicationScene: CPTemplateApplicationScene,
+                                  didDisconnect interfaceController: CPInterfaceController,
+                                  from window: CPWindow) {
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print("🚗 CarPlay disconnected from window")
+        print("🚗 Template scene: \(templateApplicationScene)")
+        print("🚗 Interface controller: \(interfaceController)")
+        print("🚗 Window: \(window)")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     }
 
     private var lastMetadataHash: Int = 0
