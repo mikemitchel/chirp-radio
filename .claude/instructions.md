@@ -32,6 +32,19 @@
 - Album art accuracy (API polling issue with fallback images)
 - Cached API content strategy
 - Mobile-specific CMS collections for page content
+- **TODO: Fix CMS API integration in Capacitor iOS builds** - Environment variables not loading properly in production builds, preventing CMS data from being fetched in the mobile app. Needs investigation into Vite env var handling with Capacitor builds.
+- **TODO: Create HTML email template for MailChimp** - Design and build responsive HTML email template for CHIRP Radio's email campaigns.
+- **TODO: Integrate PayPal into Store/Shop** - Add PayPal payment processing to the store checkout flow.
+- **TODO: Integrate Neon for donations** - Integrate Neon CRM donation components into the donation flow.
+- **TODO: Add existing analytics** - Integrate existing analytics tracking (Issue #22)
+- **TODO: Set up HotJar free account** - Configure HotJar for user behavior tracking (Issue #21)
+- **TODO: Create comprehensive README.md** - Document installation, setup, Capacitor usage, Storybook, linting/formatting, and technical notes (Issue #6)
+- **TODO: Android APK side-load testing** - Complete Android APK testing checklist covering core functionality, lock screen, notifications, settings, background/multitasking, and Android Auto compatibility (Issue #32)
+
+**Future Features:**
+- Email notifications when Favorite DJ is about to start (15 min before) (Issue #9)
+- Collection grouping - Allow users to create folders/tags and group songs in their collection (Issue #10)
+- App icon chooser - Implement alternate app icons using @capacitor-community/alternate-icons (Issue #7)
 
 ---
 
@@ -120,6 +133,104 @@ src/
 - **iOS/CarPlay:** iPhone + CarPlay setup (owner has)
 - **Android/Android Auto:** Borrowed device + neighbor's car for Android Auto
 - **Emulators:** Xcode and Android Studio for initial testing
+
+---
+
+## CarPlay Integration Status
+
+### Implementation Complete ✅
+The CarPlay integration code is **fully implemented and ready**, but requires Apple's entitlement approval before testing.
+
+**Files Configured:**
+- `ios/App/App/Info.plist` - CarPlay scene configuration
+- `ios/App/App/App.entitlements` - `com.apple.developer.playable-content` entitlement
+- `ios/App/App/CarPlayBridge.swift` - CarPlay UI bridge (Now Playing template)
+- `ios/App/App/NativeAudioPlayer.swift` - Native audio player with CarPlay support
+- `ios/App/App/SceneDelegate.swift` - Plugin registration
+- `src/contexts/AudioPlaybackContext.tsx` - Singleton pattern for iOS playback
+
+**Key Features Implemented:**
+- ✅ Native AVPlayer with external playback enabled for CarPlay
+- ✅ Singleton pattern prevents multiple initializations across hot reloads
+- ✅ Play/pause sync between phone app and CarPlay
+- ✅ Now Playing metadata with album art
+- ✅ Lock screen controls
+- ✅ Background audio playback
+- ✅ Remote command center integration
+
+### Waiting for Apple Approval ⏳
+
+**Current Status:** Entitlement requested from Apple, awaiting approval
+
+**What to do when approved:**
+
+1. **Check for approval email** from Apple Developer Program
+   - Subject: "CarPlay Audio App Entitlement Request - Approved"
+   - Check spam folder if not in inbox
+
+2. **Update provisioning profiles:**
+   ```bash
+   # In Apple Developer Portal:
+   # 1. Go to Certificates, Identifiers & Profiles
+   # 2. Select your App ID (com.ryanwilson.chirpradio)
+   # 3. Verify "CarPlay Audio" capability is enabled
+   # 4. Regenerate provisioning profiles
+   # 5. Download new profiles
+   ```
+
+3. **Install new profiles in Xcode:**
+   - Open Xcode preferences → Accounts
+   - Select your Apple ID
+   - Click "Download Manual Profiles"
+   - Or drag new .mobileprovision files to Xcode
+
+4. **Clean and rebuild:**
+   ```bash
+   cd ios/App
+   xcodebuild clean
+   # Then rebuild in Xcode (Cmd+B)
+   ```
+
+5. **Test in CarPlay Simulator:**
+   - Xcode → Open Developer Tool → Simulator
+   - Run your app
+   - I/O → External Displays → CarPlay
+   - App should appear in CarPlay grid
+   - Tap to open, should show Now Playing interface
+
+### Troubleshooting
+
+**If CarPlay shows "Unable to connect" after approval:**
+- Verify provisioning profile includes CarPlay entitlement
+- Check Xcode console for CarPlay logs (look for 🚗 emoji)
+- Ensure Now Playing info is set (happens automatically)
+- Verify audio session is active
+
+**Common issues:**
+- **No CarPlay scene connection** → Entitlement not approved yet
+- **App appears but can't connect** → Provisioning profile needs regeneration
+- **No play/pause sync** → Remote command center not configured (should be automatic)
+
+### Testing Checklist (After Approval)
+
+**CarPlay Simulator:**
+- [ ] App appears in CarPlay grid
+- [ ] Tapping app shows Now Playing interface
+- [ ] Album art displays correctly
+- [ ] Track metadata shows (song, artist, album)
+- [ ] Play button starts stream
+- [ ] Pause button stops stream
+- [ ] Play/pause syncs with phone app
+- [ ] Now Playing shows "CHIRP Radio" when idle
+
+**Real CarPlay (in vehicle):**
+- [ ] App appears in CarPlay
+- [ ] Audio plays through car speakers
+- [ ] Play/pause works from CarPlay
+- [ ] Play/pause works from steering wheel controls
+- [ ] Lock screen controls work
+- [ ] Switching apps doesn't stop playback
+- [ ] Incoming call pauses/resumes correctly
 
 ---
 
