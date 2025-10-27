@@ -66,6 +66,8 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
 
   // Derived values from CMS
   const pageTitle = pageContent?.pageTitle || 'Make a Song Request'
+  const pageSubtitle = pageContent?.pageSubtitle || undefined
+  const formHintText = pageContent?.formHintText || 'Keep it friendly and respectful'
   const notLoggedInMessage =
     pageContent?.customNotLoggedInMessage ||
     appSettings?.notLoggedInMessage?.message ||
@@ -148,7 +150,13 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
         />
       </div>
 
-      <CrSongRequestForm title="" onSubmit={handleSubmit} onCancel={handleCancel} />
+      <CrSongRequestForm
+        title=""
+        bodyContent={pageSubtitle}
+        hintText={formHintText}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+      />
     </div>
   )
 }
