@@ -1,10 +1,10 @@
 // Search hook that searches across all data sources
 import { useState, useEffect, useMemo } from 'react'
-import { useArticles, useEvents, useDJs, usePodcasts, useShopItems } from './useData'
+import { useArticles, useEvents, useDJs, usePodcasts, useShopItems, useWeeklyCharts } from './useData'
 
 export interface SearchResult {
   id: string
-  type: 'article' | 'event' | 'dj' | 'podcast' | 'shop'
+  type: 'article' | 'event' | 'dj' | 'podcast' | 'shop' | 'weeklyChart'
   title: string
   subtitle?: string
   description?: string
@@ -21,6 +21,7 @@ export function useSearch(query: string) {
   const { data: djs } = useDJs()
   const { data: podcasts } = usePodcasts()
   const { data: shopItems } = useShopItems()
+  const { data: weeklyCharts } = useWeeklyCharts()
 
   // Memoize search results to avoid infinite loops from array reference changes
   const results = useMemo(() => {
@@ -82,7 +83,7 @@ export function useSearch(query: string) {
           subtitle: venueName,
           description: event.description,
           image: event.image,
-          url: `/events/${event.id}`,
+          url: `/events/${event.slug || event.id}`,
           data: event,
         })
       }
@@ -111,7 +112,7 @@ export function useSearch(query: string) {
           subtitle: dj.showName || dj.showTime,
           description: dj.excerpt || dj.description,
           image: dj.profileImage || dj.imageSrc,
-          url: `/djs/${dj.id}`,
+          url: `/djs/${dj.slug || dj.id}`,
           data: dj,
         })
       }
@@ -132,7 +133,7 @@ export function useSearch(query: string) {
           subtitle: podcast.host,
           description: podcast.description,
           image: podcast.coverImage,
-          url: `/podcasts/${podcast.id}`,
+          url: `/podcasts/${podcast.slug || podcast.id}`,
           data: podcast,
         })
       }
@@ -154,14 +155,33 @@ export function useSearch(query: string) {
           subtitle: !isNaN(price) ? `$${price.toFixed(2)}` : item.category,
           description: item.description,
           image: Array.isArray(item.images) ? item.images[0] : item.image,
-          url: `/shop/${item.id}`,
+          url: `/shop/${item.slug || item.id}`,
           data: item,
         })
       }
     })
 
+    // Search weekly charts (chart titles only)
+    weeklyCharts?.forEach((chart) => {
+      // Search chart title and preheader
+      if (
+        chart.title?.toLowerCase().includes(searchTerm) ||
+        chart.preheader?.toLowerCase().includes(searchTerm)
+      ) {
+        searchResults.push({
+          id: chart.id?.toString() || chart.slug || '',
+          type: 'weeklyChart',
+          title: chart.title,
+          subtitle: chart.preheader,
+          description: `${chart.tracks?.length || 0} items`,
+          url: `/listen`,
+          data: chart,
+        })
+      }
+    })
+
     return searchResults
-  }, [query, articles, events, djs, podcasts, shopItems])
+  }, [query, articles, events, djs, podcasts, shopItems, weeklyCharts])
 
   // Manage searching state separately
   useEffect(() => {
