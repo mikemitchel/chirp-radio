@@ -12,6 +12,8 @@ import type {
   Page,
   SiteSettings,
   WeeklyChart,
+  MobilePageContent,
+  MobileAppSettings,
 } from '../types/cms'
 import { fetchFromCMS } from '../utils/api'
 import { on } from '../utils/eventBus'
@@ -120,6 +122,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     pages: [],
     siteSettings: null,
     weeklyCharts: [],
+    mobilePageContent: [],
+    mobileAppSettings: null,
   })
 
   // Loading state
@@ -134,6 +138,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     pages: USE_CMS_API,
     siteSettings: USE_CMS_API,
     weeklyCharts: USE_CMS_API,
+    mobilePageContent: USE_CMS_API,
+    mobileAppSettings: USE_CMS_API,
   })
 
   // Error state
@@ -148,6 +154,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     pages: null,
     siteSettings: null,
     weeklyCharts: null,
+    mobilePageContent: null,
+    mobileAppSettings: null,
   })
 
   // Fetch announcements
@@ -414,6 +422,96 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
   }, [])
 
+  // Fetch mobile page content
+  const fetchMobilePageContent = useCallback(async () => {
+    if (!USE_CMS_API) return
+
+    setLoading((prev) => ({ ...prev, mobilePageContent: true }))
+    setError((prev) => ({ ...prev, mobilePageContent: null }))
+
+    try {
+      const docs = await fetchFromCMS<Record<string, unknown>>('mobilePageContent', {
+        limit: '100',
+      })
+
+      const mappedDocs = docs.map((page) => ({
+        ...page,
+        id: page.id?.toString(),
+        introContent:
+          typeof page.introContent === 'string'
+            ? page.introContent
+            : lexicalToHtml(page.introContent),
+        customNotLoggedInMessage:
+          typeof page.customNotLoggedInMessage === 'string'
+            ? page.customNotLoggedInMessage
+            : lexicalToHtml(page.customNotLoggedInMessage),
+      })) as MobilePageContent[]
+
+      setData((prev) => ({ ...prev, mobilePageContent: mappedDocs }))
+    } catch (err) {
+      setError((prev) => ({ ...prev, mobilePageContent: err as Error }))
+    } finally {
+      setLoading((prev) => ({ ...prev, mobilePageContent: false }))
+    }
+  }, [])
+
+  // Fetch mobile app settings
+  const fetchMobileAppSettings = useCallback(async () => {
+    if (!USE_CMS_API) return
+
+    setLoading((prev) => ({ ...prev, mobileAppSettings: true }))
+    setError((prev) => ({ ...prev, mobileAppSettings: null }))
+
+    try {
+      const apiUrl = import.meta.env.VITE_CMS_API_URL || 'http://localhost:3000/api'
+      const response = await fetch(`${apiUrl}/globals/mobileAppSettings`)
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch mobile app settings')
+      }
+
+      const settings = await response.json()
+
+      // Convert Lexical fields to HTML
+      const processedSettings = {
+        ...settings,
+        notLoggedInMessage: settings.notLoggedInMessage
+          ? {
+              ...settings.notLoggedInMessage,
+              message:
+                typeof settings.notLoggedInMessage.message === 'string'
+                  ? settings.notLoggedInMessage.message
+                  : lexicalToHtml(settings.notLoggedInMessage.message),
+            }
+          : undefined,
+        firstLaunchWelcome: settings.firstLaunchWelcome
+          ? {
+              ...settings.firstLaunchWelcome,
+              content:
+                typeof settings.firstLaunchWelcome.content === 'string'
+                  ? settings.firstLaunchWelcome.content
+                  : lexicalToHtml(settings.firstLaunchWelcome.content),
+            }
+          : undefined,
+        termsAcceptance: settings.termsAcceptance
+          ? {
+              ...settings.termsAcceptance,
+              content:
+                typeof settings.termsAcceptance.content === 'string'
+                  ? settings.termsAcceptance.content
+                  : lexicalToHtml(settings.termsAcceptance.content),
+            }
+          : undefined,
+      }
+
+      setData((prev) => ({ ...prev, mobileAppSettings: processedSettings as MobileAppSettings }))
+    } catch (err) {
+      setError((prev) => ({ ...prev, mobileAppSettings: err as Error }))
+    } finally {
+      setLoading((prev) => ({ ...prev, mobileAppSettings: false }))
+    }
+  }, [])
+
   // Refresh all data
   const refresh = useCallback(async () => {
     await Promise.all([
@@ -426,6 +524,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
       fetchPages(),
       fetchSiteSettings(),
       fetchWeeklyCharts(),
+      fetchMobilePageContent(),
+      fetchMobileAppSettings(),
     ])
   }, [
     fetchAnnouncements,
@@ -437,6 +537,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     fetchPages,
     fetchSiteSettings,
     fetchWeeklyCharts,
+    fetchMobilePageContent,
+    fetchMobileAppSettings,
   ])
 
   // Initial fetch on mount
