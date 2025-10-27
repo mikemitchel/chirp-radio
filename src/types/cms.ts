@@ -264,29 +264,6 @@ export interface MobileAppSettings {
     loginButtonText?: string
     signupButtonText?: string
   }
-  firstLaunchWelcome?: {
-    isEnabled?: boolean
-    title?: string
-    subtitle?: string
-    content?: ContentField
-    heroImage?: number | Media
-    ctaButtonText?: string
-  }
-  termsAcceptance?: {
-    isRequired?: boolean
-    title?: string
-    content?: ContentField
-    acceptanceText?: string
-    termsUrl?: string
-    privacyPolicyUrl?: string
-  }
-  errorMessages?: {
-    networkError?: string
-    serverError?: string
-    authenticationError?: string
-    notFoundError?: string
-    permissionError?: string
-  }
   [key: string]: unknown
 }
 
