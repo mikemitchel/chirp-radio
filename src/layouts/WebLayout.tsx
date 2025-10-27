@@ -187,7 +187,6 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
       <AudioPlayerProvider
         autoFetch={true}
         streamUrl="https://peridot.streamguys1.com:5185/live"
-        apiUrl="https://chirpradio.appspot.com/api/current_playlist"
       >
         <CrAppHeader
           autoFetch={false}
