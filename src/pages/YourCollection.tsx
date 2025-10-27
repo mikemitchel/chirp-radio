@@ -6,6 +6,7 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 import CrButton from '../stories/CrButton'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
+import { useMobileAppSettings, useMobilePageByIdentifier } from '../hooks/useData'
 import { PiShare } from 'react-icons/pi'
 import { tracksToCSV } from '../utils/csvExport'
 import { Share } from '@capacitor/share'
@@ -20,76 +21,38 @@ import {
 } from '../utils/collectionDB'
 import './YourCollection.css'
 
-// Sample data - all items marked as added (isAdded: true) to show "remove" button
-const sampleCollectionItems = [
-  {
-    id: '1',
-    albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
-    albumArtAlt: 'Kind of Blue album cover',
-    artistName: 'Miles Davis',
-    trackName: 'So What',
-    albumName: 'Kind of Blue',
-    labelName: 'Columbia Records',
-    timeAgo: '2:45pm',
-    isLocal: false,
-    isAdded: true,
-  },
-  {
-    id: '2',
-    albumArt: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=200&fit=crop',
-    albumArtAlt: 'Giant Steps album cover',
-    artistName: 'John Coltrane',
-    trackName: 'Giant Steps',
-    albumName: 'Giant Steps',
-    labelName: 'Atlantic Records',
-    timeAgo: '2:30pm',
-    isLocal: true,
-    isAdded: true,
-  },
-  {
-    id: '3',
-    albumArt: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=200&h=200&fit=crop',
-    albumArtAlt: 'Time Out album cover',
-    artistName: 'Dave Brubeck',
-    trackName: 'Take Five',
-    albumName: 'Time Out',
-    labelName: 'Columbia Records',
-    timeAgo: '2:15pm',
-    isLocal: false,
-    isAdded: true,
-  },
-  {
-    id: '4',
-    albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
-    albumArtAlt: "Takin' Off album cover",
-    artistName: 'Herbie Hancock',
-    trackName: 'Watermelon Man',
-    albumName: "Takin' Off",
-    labelName: 'Blue Note Records',
-    timeAgo: '1:45pm',
-    isLocal: false,
-    isAdded: true,
-  },
-  {
-    id: '5',
-    albumArt: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=200&fit=crop',
-    albumArtAlt: 'A Love Supreme album cover',
-    artistName: 'John Coltrane',
-    trackName: 'Acknowledgement',
-    albumName: 'A Love Supreme',
-    labelName: 'Impulse! Records',
-    timeAgo: '1:15pm',
-    isLocal: false,
-    isAdded: true,
-  },
-]
-
 export default function YourCollection() {
   const { isLoggedIn, login, signup, user } = useAuth()
   const { showModal, showToast } = useNotification()
+  const { data: appSettings } = useMobileAppSettings()
+  const { data: pageContent } = useMobilePageByIdentifier('my-collection')
   const [collection, setCollection] = useState<CollectionTrack[]>([])
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [loginModalMode, setLoginModalMode] = useState<'login' | 'signup'>('login')
+
+  // Derived values from CMS
+  const pageTitle = pageContent?.pageTitle || 'Your Collection'
+  const notLoggedInDescription =
+    pageContent?.customNotLoggedInMessage ||
+    'A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!'
+  const actionButtonText = pageContent?.actionButtonText || 'Share Collection'
+
+  const benefitsTitle = appSettings?.accountBenefitsTitle || 'Benefits of Creating an Account:'
+  const benefitsContent = appSettings?.accountBenefitsContent || `
+    <ul>
+      <li>Save your favorite songs from our live stream to your personal collection</li>
+      <li>Make song requests directly to our DJs during their shows</li>
+      <li>Access your saved tracks across web and mobile apps</li>
+      <li>Save your information for store purchases and donations</li>
+      <li>Sync your preferences and settings between devices</li>
+      <li>Get personalized recommendations based on your listening history</li>
+      <li>Receive updates about upcoming shows and events</li>
+    </ul>
+  `
+
+  // Get the announcement from CMS (now populated and transformed with depth: 1)
+  const selectedAnnouncement =
+    typeof pageContent?.announcement === 'object' ? pageContent?.announcement : null
 
   // Load collection on mount and when logged in
   useEffect(() => {
@@ -252,7 +215,7 @@ export default function YourCollection() {
       <div className="page-container">
         <CrPageHeader
           eyebrowText="CHIRP Radio"
-          title="Your Collection"
+          title={pageTitle}
           showEyebrow={false}
           showActionButton={false}
           titleSize="xl"
@@ -260,9 +223,10 @@ export default function YourCollection() {
         />
 
         <div>
-          <p className="cr-profile-card__not-logged-in-description">
-            A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!
-          </p>
+          <p
+            className="cr-profile-card__not-logged-in-description"
+            dangerouslySetInnerHTML={{ __html: notLoggedInDescription }}
+          />
 
           <div className="cr-profile-card__not-logged-in-actions">
             <CrButton variant="outline" color="default" size="medium" onClick={handleLoginClick}>
@@ -273,16 +237,11 @@ export default function YourCollection() {
             </CrButton>
           </div>
 
-          <h3 className="cr-profile-card__benefits-title">Benefits of Creating an Account:</h3>
-          <ul className="cr-profile-card__benefits-list">
-            <li>Save your favorite songs from our live stream to your personal collection</li>
-            <li>Make song requests directly to our DJs during their shows</li>
-            <li>Access your saved tracks across web and mobile apps</li>
-            <li>Save your information for store purchases and donations</li>
-            <li>Sync your preferences and settings between devices</li>
-            <li>Get personalized recommendations based on your listening history</li>
-            <li>Receive updates about upcoming shows and events</li>
-          </ul>
+          <h3 className="cr-profile-card__benefits-title">{benefitsTitle}</h3>
+          <div
+            className="cr-profile-card__benefits-content"
+            dangerouslySetInnerHTML={{ __html: benefitsContent }}
+          />
         </div>
 
         <LoginRequiredModal
@@ -300,10 +259,10 @@ export default function YourCollection() {
     <div className="page-container">
       <CrPageHeader
         eyebrowText="CHIRP Radio"
-        title="Your Collection"
+        title={pageTitle}
         showEyebrow={false}
         showActionButton={true}
-        actionButtonText="Share Collection"
+        actionButtonText={actionButtonText}
         actionButtonSize="small"
         actionButtonIcon={<PiShare />}
         onActionClick={handleSendEmail}
@@ -326,17 +285,24 @@ export default function YourCollection() {
         onItemAddClick={handleItemRemove}
       />
 
-      <CrAnnouncement
-        variant="motivation"
-        textureBackground="cr-bg-natural-s900"
-        headlineText="Build your perfect playlist"
-        bodyText="Add tracks as you discover them and create your own radio experience!"
-        showLink={false}
-        buttonCount="one"
-        button1Text="DISCOVER MORE MUSIC"
-        button1Icon="mobile"
-        button1OnClick={() => console.log('Navigate to recently played')}
-      />
+      {selectedAnnouncement && (
+        <CrAnnouncement
+          variant={selectedAnnouncement.variant}
+          textureBackground={selectedAnnouncement.textureBackground}
+          headlineText={selectedAnnouncement.headlineText}
+          bodyText={selectedAnnouncement.bodyText}
+          showLink={selectedAnnouncement.showLink}
+          linkText={selectedAnnouncement.linkText}
+          linkUrl={selectedAnnouncement.linkUrl}
+          buttonCount={selectedAnnouncement.buttonCount}
+          button1Text={selectedAnnouncement.button1Text}
+          button1Icon={selectedAnnouncement.button1Icon}
+          button2Text={selectedAnnouncement.button2Text}
+          button2Icon={selectedAnnouncement.button2Icon}
+          currentAmount={selectedAnnouncement.currentAmount}
+          targetAmount={selectedAnnouncement.targetAmount}
+        />
+      )}
     </div>
   )
 }

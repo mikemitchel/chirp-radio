@@ -4,6 +4,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-bottom: var(--cr-space-6);
 }
 
 .cr-playlist-table__items {
