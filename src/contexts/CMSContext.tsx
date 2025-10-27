@@ -432,20 +432,35 @@ export function CMSProvider({ children }: CMSProviderProps) {
     try {
       const docs = await fetchFromCMS<Record<string, unknown>>('mobilePageContent', {
         limit: '100',
+        depth: '1',
       })
 
-      const mappedDocs = docs.map((page) => ({
-        ...page,
-        id: page.id?.toString(),
-        introContent:
-          typeof page.introContent === 'string'
-            ? page.introContent
-            : lexicalToHtml(page.introContent),
-        customNotLoggedInMessage:
-          typeof page.customNotLoggedInMessage === 'string'
-            ? page.customNotLoggedInMessage
-            : lexicalToHtml(page.customNotLoggedInMessage),
-      })) as MobilePageContent[]
+      const mappedDocs = docs.map((page) => {
+        // Transform the populated announcement if it exists
+        let transformedAnnouncement = page.announcement
+        if (typeof page.announcement === 'object' && page.announcement !== null) {
+          const ann = page.announcement as Record<string, unknown>
+          transformedAnnouncement = {
+            ...ann,
+            bodyText:
+              typeof ann.bodyText === 'string' ? ann.bodyText : lexicalToHtml(ann.bodyText),
+          }
+        }
+
+        return {
+          ...page,
+          id: page.id?.toString(),
+          announcement: transformedAnnouncement,
+          introContent:
+            typeof page.introContent === 'string'
+              ? page.introContent
+              : lexicalToHtml(page.introContent),
+          customNotLoggedInMessage:
+            typeof page.customNotLoggedInMessage === 'string'
+              ? page.customNotLoggedInMessage
+              : lexicalToHtml(page.customNotLoggedInMessage),
+        }
+      }) as MobilePageContent[]
 
       setData((prev) => ({ ...prev, mobilePageContent: mappedDocs }))
     } catch (err) {
@@ -484,6 +499,10 @@ export function CMSProvider({ children }: CMSProviderProps) {
                   : lexicalToHtml(settings.notLoggedInMessage.message),
             }
           : undefined,
+        accountBenefitsContent:
+          typeof settings.accountBenefitsContent === 'string'
+            ? settings.accountBenefitsContent
+            : lexicalToHtml(settings.accountBenefitsContent),
       }
 
       setData((prev) => ({ ...prev, mobileAppSettings: processedSettings as MobileAppSettings }))

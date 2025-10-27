@@ -74,6 +74,18 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
     'You need to be logged in to make a song request. This helps us know who the request is coming from and ensures a better experience for everyone.'
   const loginButtonText = appSettings?.notLoggedInMessage?.loginButtonText || 'log in'
   const signupButtonText = appSettings?.notLoggedInMessage?.signupButtonText || 'sign up'
+  const benefitsTitle = appSettings?.accountBenefitsTitle || 'Benefits of Creating an Account:'
+  const benefitsContent = appSettings?.accountBenefitsContent || `
+    <ul>
+      <li>Save your favorite songs from our live stream to your personal collection</li>
+      <li>Make song requests directly to our DJs during their shows</li>
+      <li>Access your saved tracks across web and mobile apps</li>
+      <li>Save your information for store purchases and donations</li>
+      <li>Sync your preferences and settings between devices</li>
+      <li>Get personalized recommendations based on your listening history</li>
+      <li>Receive updates about upcoming shows and events</li>
+    </ul>
+  `
 
   if (!isLoggedIn) {
     return (
@@ -101,16 +113,11 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
             </CrButton>
           </div>
 
-          <h3 className="cr-profile-card__benefits-title">Benefits of Creating an Account:</h3>
-          <ul className="cr-profile-card__benefits-list">
-            <li>Save your favorite songs from our live stream to your personal collection</li>
-            <li>Make song requests directly to our DJs during their shows</li>
-            <li>Access your saved tracks across web and mobile apps</li>
-            <li>Save your information for store purchases and donations</li>
-            <li>Sync your preferences and settings between devices</li>
-            <li>Get personalized recommendations based on your listening history</li>
-            <li>Receive updates about upcoming shows and events</li>
-          </ul>
+          <h3 className="cr-profile-card__benefits-title">{benefitsTitle}</h3>
+          <div
+            className="cr-profile-card__benefits-content"
+            dangerouslySetInnerHTML={{ __html: benefitsContent }}
+          />
         </div>
 
         <LoginRequiredModal

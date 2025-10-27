@@ -40,6 +40,12 @@
 - **TODO: Set up HotJar free account** - Configure HotJar for user behavior tracking (Issue #21)
 - **TODO: Create comprehensive README.md** - Document installation, setup, Capacitor usage, Storybook, linting/formatting, and technical notes (Issue #6)
 - **TODO: Android APK side-load testing** - Complete Android APK testing checklist covering core functionality, lock screen, notifications, settings, background/multitasking, and Android Auto compatibility (Issue #32)
+- **TODO: Test Listen Page CMS Integration** - Manually test the new CMS fields for Listen page text content:
+  1. CMS Side (http://localhost:3000/admin) - Navigate to Globals → Website Settings → Listen Page tab and verify the 5 new text fields appear (listenPageTitle, listenCurrentPlaylistTitle, listenPreviousPlaysButtonText, listenUserCollectionTitle, listenYourCollectionButtonText)
+  2. Website Side (http://localhost:5173/listen) - Verify page loads and displays default text correctly
+  3. Integration Test - Change text values in CMS, refresh website, verify changes appear
+  4. Fallback Test - Clear CMS values to verify fallbacks work correctly
+  5. User State Test - Test with/without being logged in to see user collection section behavior
 
 **Future Features:**
 - Email notifications when Favorite DJ is about to start (15 min before) (Issue #9)
