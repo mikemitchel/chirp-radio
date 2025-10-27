@@ -6,6 +6,7 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 import CrButton from '../stories/CrButton'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
+import { useMobilePageByIdentifier, useMobileAppSettings } from '../hooks/useData'
 import { PiShare } from 'react-icons/pi'
 import { tracksToCSV } from '../utils/csvExport'
 import { Share } from '@capacitor/share'
@@ -87,9 +88,30 @@ const sampleCollectionItems = [
 export default function YourCollection() {
   const { isLoggedIn, login, signup, user } = useAuth()
   const { showModal, showToast } = useNotification()
+  const { data: pageContent } = useMobilePageByIdentifier('my-collection')
+  const { data: appSettings } = useMobileAppSettings()
   const [collection, setCollection] = useState<CollectionTrack[]>([])
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [loginModalMode, setLoginModalMode] = useState<'login' | 'signup'>('login')
+
+  // Derived values from CMS
+  const pageTitle = pageContent?.pageTitle || 'Your Collection'
+  const notLoggedInMessage =
+    pageContent?.customNotLoggedInMessage ||
+    appSettings?.notLoggedInMessage?.message ||
+    'A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!'
+  const loginButtonText = appSettings?.notLoggedInMessage?.loginButtonText || 'log in'
+  const signupButtonText = appSettings?.notLoggedInMessage?.signupButtonText || 'sign up'
+  const benefitsTitle = appSettings?.accountBenefits?.title || 'Benefits of Creating an Account:'
+  const benefits = appSettings?.accountBenefits?.benefits || [
+    { benefit: 'Save your favorite songs from our live stream to your personal collection' },
+    { benefit: 'Make song requests directly to our DJs during their shows' },
+    { benefit: 'Access your saved tracks across web and mobile apps' },
+    { benefit: 'Save your information for store purchases and donations' },
+    { benefit: 'Sync your preferences and settings between devices' },
+    { benefit: 'Get personalized recommendations based on your listening history' },
+    { benefit: 'Receive updates about upcoming shows and events' },
+  ]
 
   // Load collection on mount and when logged in
   useEffect(() => {
@@ -252,7 +274,7 @@ export default function YourCollection() {
       <div className="page-container">
         <CrPageHeader
           eyebrowText="CHIRP Radio"
-          title="Your Collection"
+          title={pageTitle}
           showEyebrow={false}
           showActionButton={false}
           titleSize="xl"
@@ -260,28 +282,25 @@ export default function YourCollection() {
         />
 
         <div>
-          <p className="cr-profile-card__not-logged-in-description">
-            A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!
-          </p>
+          <div
+            className="cr-profile-card__not-logged-in-description"
+            dangerouslySetInnerHTML={{ __html: notLoggedInMessage }}
+          />
 
           <div className="cr-profile-card__not-logged-in-actions">
             <CrButton variant="outline" color="default" size="medium" onClick={handleLoginClick}>
-              log in
+              {loginButtonText}
             </CrButton>
             <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUpClick}>
-              sign up
+              {signupButtonText}
             </CrButton>
           </div>
 
-          <h3 className="cr-profile-card__benefits-title">Benefits of Creating an Account:</h3>
+          <h3 className="cr-profile-card__benefits-title">{benefitsTitle}</h3>
           <ul className="cr-profile-card__benefits-list">
-            <li>Save your favorite songs from our live stream to your personal collection</li>
-            <li>Make song requests directly to our DJs during their shows</li>
-            <li>Access your saved tracks across web and mobile apps</li>
-            <li>Save your information for store purchases and donations</li>
-            <li>Sync your preferences and settings between devices</li>
-            <li>Get personalized recommendations based on your listening history</li>
-            <li>Receive updates about upcoming shows and events</li>
+            {benefits.map((item, index) => (
+              <li key={index}>{item.benefit}</li>
+            ))}
           </ul>
         </div>
 

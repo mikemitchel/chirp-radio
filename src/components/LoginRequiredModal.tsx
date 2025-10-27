@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import CrModal from '../stories/CrModal'
 import CrButton from '../stories/CrButton'
 import CrButtonGroup from '../stories/CrButtonGroup'
+import { useMobileAppSettings } from '../hooks/useData'
 import './LoginRequiredModal.css'
 
 interface LoginRequiredModalProps {
@@ -20,6 +21,7 @@ export default function LoginRequiredModal({
   onSignUp,
   initialMode = 'login',
 }: LoginRequiredModalProps) {
+  const { data: appSettings } = useMobileAppSettings()
   const [mode, setMode] = useState<'login' | 'signup'>(initialMode)
 
   // Update mode when initialMode changes
@@ -36,6 +38,14 @@ export default function LoginRequiredModal({
     password?: string
     confirmPassword?: string
   }>({})
+
+  // Derived values from CMS
+  const loginMessage =
+    appSettings?.loginModal?.loginMessage ||
+    'Log in to your CHIRP Radio listener account to add songs to your collection.'
+  const signupMessage =
+    appSettings?.loginModal?.signupMessage ||
+    'Create a CHIRP Radio listener account to save songs to your collection and more.'
 
   const handleModeChange = (value: string) => {
     setMode(value as 'login' | 'signup')
@@ -82,11 +92,12 @@ export default function LoginRequiredModal({
       size="small"
     >
       <div className="login-modal">
-        <p className="login-modal__message">
-          {mode === 'login'
-            ? 'Log in to your CHIRP Radio listener account to add songs to your collection.'
-            : 'Create a CHIRP Radio listener account to save songs to your collection and more.'}
-        </p>
+        <div
+          className="login-modal__message"
+          dangerouslySetInnerHTML={{
+            __html: mode === 'login' ? loginMessage : signupMessage,
+          }}
+        />
 
         <div className="login-modal__mode-toggle">
           <CrButtonGroup

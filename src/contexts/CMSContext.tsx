@@ -484,6 +484,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
                   : lexicalToHtml(settings.notLoggedInMessage.message),
             }
           : undefined,
+        loginModal: settings.loginModal
+          ? {
+              loginMessage:
+                typeof settings.loginModal.loginMessage === 'string'
+                  ? settings.loginModal.loginMessage
+                  : lexicalToHtml(settings.loginModal.loginMessage),
+              signupMessage:
+                typeof settings.loginModal.signupMessage === 'string'
+                  ? settings.loginModal.signupMessage
+                  : lexicalToHtml(settings.loginModal.signupMessage),
+            }
+          : undefined,
         firstLaunchWelcome: settings.firstLaunchWelcome
           ? {
               ...settings.firstLaunchWelcome,
