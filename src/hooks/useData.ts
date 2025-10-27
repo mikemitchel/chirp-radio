@@ -281,3 +281,22 @@ export function useSiteSettings() {
     error: cmsError.siteSettings,
   }
 }
+
+// Weekly Charts
+export function useWeeklyCharts() {
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
+
+  return {
+    data: cmsData.weeklyCharts,
+    loading: cmsLoading.weeklyCharts,
+    error: cmsError.weeklyCharts,
+  }
+}
+
+// Get a specific weekly chart by slug or ID
+export function useWeeklyChartBySlug(slug: string) {
+  const { data: charts, loading, error } = useWeeklyCharts()
+  const chart = charts?.find((c) => c.slug === slug || c.id === slug)
+
+  return { data: chart, loading, error }
+}

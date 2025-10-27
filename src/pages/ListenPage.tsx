@@ -11,9 +11,6 @@ import CrAdSpace from '../stories/CrAdSpace'
 import {
   useTracks,
   useCurrentUser,
-  useTop25,
-  useMostAdded,
-  useHalloween,
   useAnnouncements,
   useSiteSettings,
 } from '../hooks/useData'
@@ -25,9 +22,6 @@ const ListenPage: React.FC = () => {
   const navigate = useNavigate()
   const { data: tracks } = useTracks()
   const { data: currentUser } = useCurrentUser()
-  const { data: top25Chart } = useTop25()
-  const { data: mostAddedChart } = useMostAdded()
-  const { data: halloweenChart } = useHalloween()
   const { data: announcements } = useAnnouncements()
   const { data: siteSettings } = useSiteSettings()
   const { showModal, showToast } = useNotification()
@@ -157,25 +151,10 @@ const ListenPage: React.FC = () => {
     })}`,
   }))
 
-  // Transform chart data for lists
-  const top25Items =
-    top25Chart?.tracks?.map((track) => ({
-      songName: track.trackName,
-      artistName: track.artistName,
-      recordCompany: track.labelName,
-    })) || []
-
-  const mostAddedItems =
-    mostAddedChart?.tracks?.map((track) => ({
-      songName: track.trackName,
-      artistName: track.artistName,
-      recordCompany: track.labelName,
-    })) || []
-
-  // Get week date for headers
-  const getWeekOfDate = () => {
-    if (top25Chart?.weekOf) {
-      return new Date(top25Chart.weekOf).toLocaleDateString('en-US', {
+  // Helper to format week date
+  const getWeekOfDate = (weekOf?: string) => {
+    if (weekOf) {
+      return new Date(weekOf).toLocaleDateString('en-US', {
         month: 'long',
         day: 'numeric',
         year: 'numeric',
@@ -211,10 +190,15 @@ const ListenPage: React.FC = () => {
 
   const sidebarAdvertisement = siteSettings?.listenSidebarAdvertisement
 
-  // Get weekly charts from Site Settings
-  const leftWeeklyChart = siteSettings?.leftWeeklyChart || top25Chart
-  const rightWeeklyChart = siteSettings?.rightWeeklyChart || mostAddedChart
-  const sidebarWeeklyChart = siteSettings?.listenSidebarWeeklyChart || halloweenChart
+  // Get weekly charts from Site Settings (these are populated WeeklyChart objects from CMS)
+  const leftWeeklyChart =
+    typeof siteSettings?.leftWeeklyChart === 'object' ? siteSettings.leftWeeklyChart : null
+  const rightWeeklyChart =
+    typeof siteSettings?.rightWeeklyChart === 'object' ? siteSettings.rightWeeklyChart : null
+  const sidebarWeeklyChart =
+    typeof siteSettings?.listenSidebarWeeklyChart === 'object'
+      ? siteSettings.listenSidebarWeeklyChart
+      : null
 
   // Dummy data for "This Week's Adds" - will be replaced when we have this data
   const weeksAddsTracks = [
@@ -632,13 +616,7 @@ const ListenPage: React.FC = () => {
               title={sidebarWeeklyChart.title}
               showActionButton={false}
               showAddButton={false}
-              items={
-                sidebarWeeklyChart.tracks?.map((item: any) => ({
-                  songName: item.costumeName || item.trackName,
-                  artistName: item.artistName,
-                  recordCompany: item.labelName,
-                })) || []
-              }
+              items={sidebarWeeklyChart.tracks || []}
             />
           )}
           {sidebarAdvertisement && (
@@ -687,32 +665,20 @@ const ListenPage: React.FC = () => {
         <div className="page-layout-2col__column">
           {leftWeeklyChart && (
             <CrList
-              preheader={leftWeeklyChart.preheader || `Week of ${getWeekOfDate()}`}
+              preheader={leftWeeklyChart.preheader}
               title={leftWeeklyChart.title || 'Top 25'}
               bannerButtonText="View Full Chart"
-              items={
-                leftWeeklyChart.tracks?.map((track: any) => ({
-                  songName: track.trackName,
-                  artistName: track.artistName,
-                  recordCompany: track.labelName,
-                })) || []
-              }
+              items={leftWeeklyChart.tracks || []}
             />
           )}
         </div>
         <div className="page-layout-2col__column">
           {rightWeeklyChart && (
             <CrList
-              preheader={rightWeeklyChart.preheader || 'Chicago Local Artists'}
+              preheader={rightWeeklyChart.preheader}
               title={rightWeeklyChart.title || 'Most Added'}
               bannerButtonText="View All Local"
-              items={
-                rightWeeklyChart.tracks?.map((track: any) => ({
-                  songName: track.trackName,
-                  artistName: track.artistName,
-                  recordCompany: track.labelName,
-                })) || []
-              }
+              items={rightWeeklyChart.tracks || []}
             />
           )}
         </div>
