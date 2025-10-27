@@ -300,3 +300,33 @@ export function useWeeklyChartBySlug(slug: string) {
 
   return { data: chart, loading, error }
 }
+
+// Mobile Page Content
+export function useMobilePageContent() {
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
+
+  return {
+    data: cmsData.mobilePageContent,
+    loading: cmsLoading.mobilePageContent,
+    error: cmsError.mobilePageContent,
+  }
+}
+
+// Get mobile page content by page identifier
+export function useMobilePageByIdentifier(pageId: string) {
+  const { data: pages, loading, error } = useMobilePageContent()
+  const page = pages?.find((p) => p.pageIdentifier === pageId && p.isActive !== false)
+
+  return { data: page, loading, error }
+}
+
+// Mobile App Settings (Global)
+export function useMobileAppSettings() {
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
+
+  return {
+    data: cmsData.mobileAppSettings,
+    loading: cmsLoading.mobileAppSettings,
+    error: cmsError.mobileAppSettings,
+  }
+}

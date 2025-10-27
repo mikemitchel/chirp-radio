@@ -240,6 +240,56 @@ export interface WeeklyChart {
   [key: string]: unknown
 }
 
+// Mobile Page Content
+export interface MobilePageContent {
+  id?: string | number
+  pageIdentifier: 'make-request' | 'now-playing' | 'recently-played' | 'my-collection' | 'account-settings' | 'android-auto'
+  pageTitle?: string
+  pageSubtitle?: string
+  introContent?: ContentField
+  formHintText?: string
+  customNotLoggedInMessage?: ContentField
+  isLoginRequired?: boolean
+  isActive?: boolean
+  createdAt?: string
+  updatedAt?: string
+}
+
+// Mobile App Settings (Global)
+export interface MobileAppSettings {
+  id: string
+  notLoggedInMessage?: {
+    title?: string
+    message?: ContentField
+    loginButtonText?: string
+    signupButtonText?: string
+  }
+  firstLaunchWelcome?: {
+    isEnabled?: boolean
+    title?: string
+    subtitle?: string
+    content?: ContentField
+    heroImage?: number | Media
+    ctaButtonText?: string
+  }
+  termsAcceptance?: {
+    isRequired?: boolean
+    title?: string
+    content?: ContentField
+    acceptanceText?: string
+    termsUrl?: string
+    privacyPolicyUrl?: string
+  }
+  errorMessages?: {
+    networkError?: string
+    serverError?: string
+    authenticationError?: string
+    notFoundError?: string
+    permissionError?: string
+  }
+  [key: string]: unknown
+}
+
 export interface SiteSettings {
   id: string
   siteName?: string
@@ -291,6 +341,8 @@ export interface CMSData {
   pages: Page[]
   siteSettings: SiteSettings | null
   weeklyCharts: WeeklyChart[]
+  mobilePageContent: MobilePageContent[]
+  mobileAppSettings: MobileAppSettings | null
 }
 
 // Loading state for each data type
@@ -305,6 +357,8 @@ export interface CMSLoadingState {
   pages: boolean
   siteSettings: boolean
   weeklyCharts: boolean
+  mobilePageContent: boolean
+  mobileAppSettings: boolean
 }
 
 // Error state for each data type
@@ -319,4 +373,6 @@ export interface CMSErrorState {
   pages: Error | null
   siteSettings: Error | null
   weeklyCharts: Error | null
+  mobilePageContent: Error | null
+  mobileAppSettings: Error | null
 }
