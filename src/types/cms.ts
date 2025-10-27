@@ -220,6 +220,26 @@ export interface PageBlock {
   [key: string]: unknown
 }
 
+// Item in a weekly chart/list
+export interface WeeklyChartTrack {
+  songName: string
+  artistName: string
+  recordCompany?: string
+  [key: string]: unknown
+}
+
+// Weekly Chart/List (e.g., Top 25, Most Added, etc.)
+export interface WeeklyChart {
+  id?: string | number
+  slug?: string
+  title: string
+  preheader?: string
+  tracks: WeeklyChartTrack[]
+  createdAt?: string
+  updatedAt?: string
+  [key: string]: unknown
+}
+
 export interface SiteSettings {
   id: string
   siteName?: string
@@ -232,6 +252,30 @@ export interface SiteSettings {
   }
   streamUrl?: string
   donationLink?: string
+  // Weekly Charts displayed on Listen page
+  leftWeeklyChart?: number | WeeklyChart // Can be ID or populated object
+  rightWeeklyChart?: number | WeeklyChart // Can be ID or populated object
+  listenSidebarWeeklyChart?: number | WeeklyChart // Can be ID or populated object
+  // Announcements
+  listenSidebarAnnouncement?: number | Announcement | string // Can be ID or populated object
+  fullWidthAnnouncement?: number | Announcement | string // Can be ID or populated object
+  // Advertisements
+  listenSidebarAdvertisement?: {
+    size?: string
+    customWidth?: number
+    customHeight?: number
+    contentType?: string
+    imageUrl?: string
+    image?: { url?: string }
+    alt?: string
+    htmlContent?: string
+    videoUrl?: string
+    video?: { url?: string }
+    embedCode?: string
+    href?: string
+    target?: string
+    showLabel?: boolean
+  }
   [key: string]: unknown
 }
 
@@ -246,6 +290,7 @@ export interface CMSData {
   shopItems: ShopItem[]
   pages: Page[]
   siteSettings: SiteSettings | null
+  weeklyCharts: WeeklyChart[]
 }
 
 // Loading state for each data type
@@ -259,6 +304,7 @@ export interface CMSLoadingState {
   shopItems: boolean
   pages: boolean
   siteSettings: boolean
+  weeklyCharts: boolean
 }
 
 // Error state for each data type
@@ -272,4 +318,5 @@ export interface CMSErrorState {
   shopItems: Error | null
   pages: Error | null
   siteSettings: Error | null
+  weeklyCharts: Error | null
 }

@@ -11,6 +11,7 @@ import type {
   ShopItem,
   Page,
   SiteSettings,
+  WeeklyChart,
 } from '../types/cms'
 import { fetchFromCMS } from '../utils/api'
 import { on } from '../utils/eventBus'
@@ -118,6 +119,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     shopItems: USE_CMS_API ? [] : (shopItemsData.shopItems as ShopItem[]),
     pages: [],
     siteSettings: null,
+    weeklyCharts: [],
   })
 
   // Loading state
@@ -131,6 +133,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     shopItems: USE_CMS_API,
     pages: USE_CMS_API,
     siteSettings: USE_CMS_API,
+    weeklyCharts: USE_CMS_API,
   })
 
   // Error state
@@ -144,6 +147,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     shopItems: null,
     pages: null,
     siteSettings: null,
+    weeklyCharts: null,
   })
 
   // Fetch announcements
@@ -384,6 +388,32 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
   }, [])
 
+  // Fetch weekly charts
+  const fetchWeeklyCharts = useCallback(async () => {
+    if (!USE_CMS_API) return
+
+    setLoading((prev) => ({ ...prev, weeklyCharts: true }))
+    setError((prev) => ({ ...prev, weeklyCharts: null }))
+
+    try {
+      const docs = await fetchFromCMS<Record<string, unknown>>('weeklyCharts', {
+        sort: '-weekOf',
+        limit: '100',
+      })
+
+      const mappedDocs = docs.map((chart) => ({
+        ...chart,
+        id: chart.id?.toString(),
+      })) as WeeklyChart[]
+
+      setData((prev) => ({ ...prev, weeklyCharts: mappedDocs }))
+    } catch (err) {
+      setError((prev) => ({ ...prev, weeklyCharts: err as Error }))
+    } finally {
+      setLoading((prev) => ({ ...prev, weeklyCharts: false }))
+    }
+  }, [])
+
   // Refresh all data
   const refresh = useCallback(async () => {
     await Promise.all([
@@ -395,6 +425,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
       fetchShopItems(),
       fetchPages(),
       fetchSiteSettings(),
+      fetchWeeklyCharts(),
     ])
   }, [
     fetchAnnouncements,
@@ -405,6 +436,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     fetchShopItems,
     fetchPages,
     fetchSiteSettings,
+    fetchWeeklyCharts,
   ])
 
   // Initial fetch on mount
