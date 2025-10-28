@@ -1,5 +1,5 @@
 // src/contexts/AuthContext.tsx
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 import { useUsers } from './UserContext'
 
 export type UserRole = 'listener' | 'volunteer' | 'dj'
@@ -193,8 +193,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           { id: '3', date: '10/15/2023', amount: 100, type: 'One-time', status: 'Completed' },
         ],
         purchaseHistory: [
-          { id: '1', date: '01/20/2024', item: 'CHIRP Logo T-Shirt', amount: 25 },
-          { id: '2', date: '12/15/2023', item: 'Chicago Skyline Music Poster', amount: 20 },
+          { id: '1', date: '01/20/2024', item: 'CHIRP Logo T-Shirt', amount: 25, status: 'Completed' },
+          { id: '2', date: '12/15/2023', item: 'Chicago Skyline Music Poster', amount: 20, status: 'Completed' },
         ],
         collection: [
           {
@@ -277,9 +277,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           { id: '4', date: '09/15/2023', amount: 200, type: 'One-time', status: 'Completed' },
         ],
         purchaseHistory: [
-          { id: '1', date: '02/10/2024', item: 'Vintage Radio Waves Poster', amount: 20 },
-          { id: '2', date: '01/05/2024', item: 'CHIRP Logo Hoodie', amount: 45 },
-          { id: '3', date: '11/28/2023', item: 'CHIRP Enamel Mug', amount: 15 },
+          { id: '1', date: '02/10/2024', item: 'Vintage Radio Waves Poster', amount: 20, status: 'Completed' },
+          { id: '2', date: '01/05/2024', item: 'CHIRP Logo Hoodie', amount: 45, status: 'Completed' },
+          { id: '3', date: '11/28/2023', item: 'CHIRP Enamel Mug', amount: 15, status: 'Completed' },
         ],
         collection: [
           {
@@ -369,10 +369,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           { id: '5', date: '08/15/2023', amount: 100, type: 'One-time', status: 'Completed' },
         ],
         purchaseHistory: [
-          { id: '1', date: '01/25/2024', item: 'CHIRP 20th Anniversary Poster', amount: 20 },
-          { id: '2', date: '12/20/2023', item: 'Underground Music Scene Poster', amount: 20 },
-          { id: '3', date: '11/15/2023', item: 'CHIRP Baseball Cap', amount: 22 },
-          { id: '4', date: '10/10/2023', item: 'CHIRP Vinyl Tote Bag', amount: 18 },
+          { id: '1', date: '01/25/2024', item: 'CHIRP 20th Anniversary Poster', amount: 20, status: 'Completed' },
+          { id: '2', date: '12/20/2023', item: 'Underground Music Scene Poster', amount: 20, status: 'Completed' },
+          { id: '3', date: '11/15/2023', item: 'CHIRP Baseball Cap', amount: 22, status: 'Completed' },
+          { id: '4', date: '10/10/2023', item: 'CHIRP Vinyl Tote Bag', amount: 18, status: 'Completed' },
         ],
         collection: [
           {
@@ -428,7 +428,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return user?.password === password
   }
 
-  const requestEmailChange = (newEmail: string, token: string) => {
+  const requestEmailChange = (newEmail: string, token: string): boolean => {
     if (!user) return false
     const expiry = new Date()
     expiry.setHours(expiry.getHours() + 48)
@@ -481,7 +481,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         isLoggedIn,
-        user,
+        user: user ?? null,
         login,
         logout,
         signup,

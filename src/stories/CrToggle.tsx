@@ -1,10 +1,9 @@
 // CrToggle.tsx
-import React from 'react'
 import './CrToggle.css'
 
 interface CrToggleProps {
   checked?: boolean
-  onChange?: (checked: boolean, event: any) => void
+  onChange?: (checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void
   disabled?: boolean
   size?: string
   variant?: string
@@ -26,7 +25,7 @@ export default function CrToggle({
   id,
   ...props
 }: CrToggleProps) {
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!disabled && onChange) {
       onChange(event.target.checked, event)
     }

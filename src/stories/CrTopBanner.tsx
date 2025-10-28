@@ -1,5 +1,5 @@
 // CrTopBanner.tsx
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import CrAccount from './CrAccount'
 import CrCurrentDj from './CrCurrentDj'
 import './CrTopBanner.css'
@@ -16,7 +16,6 @@ interface CrTopBannerProps {
   onVolunteerDropdown?: () => void
   onProfileClick?: () => void
   onFavoritesClick?: () => void
-  onDonationsClick?: () => void
   onPurchasesClick?: () => void
   onSignOutClick?: () => void
   onVolunteerDirectoryClick?: () => void
@@ -45,7 +44,6 @@ export default function CrTopBanner({
   onVolunteerDropdown,
   onProfileClick,
   onFavoritesClick,
-  onDonationsClick,
   onPurchasesClick,
   onSignOutClick,
   onVolunteerDirectoryClick,
@@ -140,7 +138,6 @@ export default function CrTopBanner({
             onVolunteerDropdown={onVolunteerDropdown}
             onProfileClick={onProfileClick}
             onFavoritesClick={onFavoritesClick}
-            onDonationsClick={onDonationsClick}
             onPurchasesClick={onPurchasesClick}
             onSignOutClick={onSignOutClick}
             onVolunteerDirectoryClick={onVolunteerDirectoryClick}
