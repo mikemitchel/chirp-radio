@@ -6,6 +6,8 @@ import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.os.PowerManager
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
@@ -29,6 +31,7 @@ class NativeAudioPlayer(private val context: Context) {
     private var audioManager: AudioManager? = null
     private var audioFocusRequest: AudioFocusRequest? = null
     private var wakeLock: PowerManager.WakeLock? = null
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     // Callbacks
     var onPlaybackStateChanged: ((isPlaying: Boolean, isBuffering: Boolean) -> Unit)? = null
@@ -55,24 +58,17 @@ class NativeAudioPlayer(private val context: Context) {
                 // Set up player listener
                 addListener(object : Player.Listener {
                     override fun onPlaybackStateChanged(playbackState: Int) {
+                        // Don't report playing state here - let onIsPlayingChanged handle it
+                        // This prevents false "paused" states during buffering
                         when (playbackState) {
-                            Player.STATE_BUFFERING -> {
-                                onPlaybackStateChanged?.invoke(false, true)
-                            }
-                            Player.STATE_READY -> {
-                                onPlaybackStateChanged?.invoke(player?.isPlaying == true, false)
-                            }
                             Player.STATE_ENDED -> {
-                                onPlaybackStateChanged?.invoke(false, false)
                                 releaseAudioFocus()
-                            }
-                            Player.STATE_IDLE -> {
-                                onPlaybackStateChanged?.invoke(false, false)
                             }
                         }
                     }
 
                     override fun onIsPlayingChanged(isPlaying: Boolean) {
+                        // This is the authoritative source for playing state
                         onPlaybackStateChanged?.invoke(isPlaying, false)
                         if (isPlaying) {
                             wakeLock?.acquire(10 * 60 * 60 * 1000L /*10 hours*/)
@@ -104,7 +100,7 @@ class NativeAudioPlayer(private val context: Context) {
                         .setContentType(androidx.media3.common.C.AUDIO_CONTENT_TYPE_MUSIC)
                         .setUsage(androidx.media3.common.C.USAGE_MEDIA)
                         .build(),
-                    true // Handle audio focus automatically
+                    false // Don't handle audio focus - let MediaSession handle it for Android Auto compatibility
                 )
 
                 // Prepare for streaming
@@ -152,46 +148,55 @@ class NativeAudioPlayer(private val context: Context) {
     fun setStreamUrl(url: String) {
         streamUrl = url
 
-        // Create media source for HLS stream
-        val dataSourceFactory = DefaultHttpDataSource.Factory()
-            .setAllowCrossProtocolRedirects(true)
-            .setConnectTimeoutMs(10000)
-            .setReadTimeoutMs(10000)
+        // Ensure player operations run on main thread
+        mainHandler.post {
+            // Create media source for HLS stream
+            val dataSourceFactory = DefaultHttpDataSource.Factory()
+                .setAllowCrossProtocolRedirects(true)
+                .setConnectTimeoutMs(10000)
+                .setReadTimeoutMs(10000)
 
-        val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(MediaItem.fromUri(Uri.parse(url)))
+            val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(MediaItem.fromUri(Uri.parse(url)))
 
-        player?.apply {
-            setMediaSource(mediaSource)
-            prepare()
+            player?.apply {
+                setMediaSource(mediaSource)
+                prepare()
+            }
         }
     }
 
     fun play() {
-        if (!isInitialized) {
-            initializePlayer()
-        }
+        mainHandler.post {
+            if (!isInitialized) {
+                initializePlayer()
+            }
 
-        if (streamUrl == null) {
-            onError?.invoke("No stream URL set")
-            return
-        }
+            if (streamUrl == null) {
+                onError?.invoke("No stream URL set")
+                return@post
+            }
 
-        // Request audio focus before playing
-        if (requestAudioFocus()) {
-            player?.play()
-        } else {
-            onError?.invoke("Failed to gain audio focus")
+            // Request audio focus before playing
+            if (requestAudioFocus()) {
+                player?.play()
+            } else {
+                onError?.invoke("Failed to gain audio focus")
+            }
         }
     }
 
     fun pause() {
-        player?.pause()
+        mainHandler.post {
+            player?.pause()
+        }
     }
 
     fun stop() {
-        player?.stop()
-        releaseAudioFocus()
+        mainHandler.post {
+            player?.stop()
+            releaseAudioFocus()
+        }
     }
 
     fun isPlaying(): Boolean {
