@@ -1,8 +1,43 @@
 import type { Preview } from '@storybook/react-vite'
 import type { Decorator } from '@storybook/react'
+import React from 'react'
+import { BrowserRouter } from 'react-router'
+import { HelmetProvider } from 'react-helmet-async'
+import { UserProvider } from '../src/contexts/UserContext'
+import { CMSProvider } from '../src/contexts/CMSContext'
+import { AuthProvider } from '../src/contexts/AuthContext'
+import { NotificationProvider } from '../src/contexts/NotificationContext'
 import '../src/styles/index.css'
 import '../src/styles/style-guide.css'
 import '../src/styles/accessibility.css'
+
+const withProviders: Decorator = (Story) => {
+  return React.createElement(
+    HelmetProvider,
+    null,
+    React.createElement(
+      BrowserRouter,
+      null,
+      React.createElement(
+        UserProvider,
+        null,
+        React.createElement(
+          CMSProvider,
+          null,
+          React.createElement(
+            AuthProvider,
+            null,
+            React.createElement(
+              NotificationProvider,
+              null,
+              React.createElement(Story)
+            )
+          )
+        )
+      )
+    )
+  )
+}
 
 const withTheme: Decorator = (Story, context) => {
   if (typeof document !== 'undefined') {
@@ -64,7 +99,7 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [withTheme],
+  decorators: [withProviders, withTheme],
 };
 
 export default preview;
