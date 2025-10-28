@@ -2,14 +2,13 @@
 // Handles now playing metadata fetching, polling, and album art management
 // Separated from playback/collection concerns for better performance
 
-import React, { createContext, useContext, useState, useRef, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, useRef, useEffect, type ReactNode } from 'react'
 import { Capacitor } from '@capacitor/core'
 import { CapacitorHttp } from '@capacitor/core'
 import { useNetworkQuality } from '../hooks/useNetworkQuality'
 import { upgradeImageQuality } from '../utils/imageOptimizer'
 import { parseDjAndShowName } from '../utils/djNameParser'
 import { addRecentlyPlayed, updateRecentlyPlayedAlbumArt } from '../utils/recentlyPlayedDB'
-import { useAudioPlayback } from './AudioPlaybackContext'
 import { on } from '../utils/eventBus'
 import { createLogger } from '../utils/logger'
 import NowPlayingPlugin from '../plugins/NowPlayingPlugin'

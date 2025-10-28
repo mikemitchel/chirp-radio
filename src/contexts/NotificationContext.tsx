@@ -1,5 +1,5 @@
 // src/contexts/NotificationContext.tsx
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 import { on } from '../utils/eventBus'
 
 interface ToastConfig {
@@ -65,7 +65,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     setToastState({
       isVisible: true,
       message,
-      type,
+      type: type || 'success',
       duration,
     })
   }
@@ -91,7 +91,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       cancelText,
       onConfirm,
       onCancel,
-      size,
+      size: size || 'small',
     })
   }
 
