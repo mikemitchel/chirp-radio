@@ -144,7 +144,7 @@ export const off = eventBus.off.bind(eventBus)
 
 // Type guard for checking if an event has a payload
 export function hasPayload<K extends keyof AppEventMap>(
-  event: K
-): event is K & { payload: AppEventMap[K] } {
+  _event: K
+): _event is K & { payload: AppEventMap[K] } {
   return true
 }

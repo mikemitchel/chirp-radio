@@ -25,7 +25,7 @@ export function getCollection(): CollectionTrack[] {
     const collection = JSON.parse(data)
     // Sort by dateAdded, newest first
     return collection.sort(
-      (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
+      (a: CollectionTrack, b: CollectionTrack) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
     )
   } catch (error) {
     console.error('Error reading collection:', error)

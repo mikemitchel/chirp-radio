@@ -53,11 +53,6 @@ export default function LoginRequiredModal({
     setErrors({})
   }
 
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 

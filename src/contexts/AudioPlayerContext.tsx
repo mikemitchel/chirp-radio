@@ -2,7 +2,7 @@
 // Composite context that combines playback, metadata, and collection contexts
 // This maintains backward compatibility while improving performance through separation
 
-import React, { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { AudioPlaybackProvider, useAudioPlayback } from './AudioPlaybackContext'
 import { NowPlayingProvider, useNowPlaying } from './NowPlayingContext'
 import type { TrackData } from './NowPlayingContext'

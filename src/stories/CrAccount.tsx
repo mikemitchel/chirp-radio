@@ -1,5 +1,5 @@
 // CrAccount.tsx
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useLocation } from 'react-router'
 import CrAvatar from './CrAvatar'
 import CrChip from './CrChip'
@@ -37,7 +37,6 @@ export default function CrAccount({
   tags = ['Hello World', 'Hello World', 'Hello World'],
   onLoginClick,
   onSignUpClick,
-  onVolunteerDropdown, // eslint-disable-line @typescript-eslint/no-unused-vars
   onProfileClick,
   onFavoritesClick,
   onSignOutClick,
@@ -141,13 +140,13 @@ export default function CrAccount({
       label: 'Your Profile',
       value: 'profile',
       onClick: onProfileClick,
-      isActive: location.pathname === '/profile',
+      isActive: location?.pathname === '/profile',
     },
     {
       label: 'Your Collection',
       value: 'collection',
       onClick: onFavoritesClick,
-      isActive: location.pathname === '/collection',
+      isActive: location?.pathname === '/collection',
     },
     { label: 'Sign Out', value: 'signout', onClick: onSignOutClick, isActive: false },
   ]
@@ -157,31 +156,31 @@ export default function CrAccount({
       label: 'Volunteer Directory',
       value: 'directory',
       onClick: onVolunteerDirectoryClick,
-      isActive: location.pathname === '/volunteer-directory',
+      isActive: location?.pathname === '/volunteer-directory',
     },
     {
       label: 'Leadership Directory',
       value: 'leadership',
       onClick: onLeadershipDirectoryClick,
-      isActive: location.pathname === '/leadership-directory',
+      isActive: location?.pathname === '/leadership-directory',
     },
     {
       label: 'Volunteer Calendar',
       value: 'calendar',
       onClick: onVolunteerCalendarClick,
-      isActive: location.pathname === '/volunteer-calendar',
+      isActive: location?.pathname === '/volunteer-calendar',
     },
     {
       label: 'Websites to Remember',
       value: 'websites',
       onClick: onWebsitesClick,
-      isActive: location.pathname === '/websites-to-remember',
+      isActive: location?.pathname === '/websites-to-remember',
     },
     {
       label: 'Volunteer Downloads',
       value: 'downloads',
       onClick: onDownloadsClick,
-      isActive: location.pathname === '/volunteer-downloads',
+      isActive: location?.pathname === '/volunteer-downloads',
     },
   ]
 

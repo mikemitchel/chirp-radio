@@ -1,15 +1,13 @@
 import { useAudioPlayer } from '../hooks/useAudioPlayer'
 
 export function AudioPlayerUI() {
-  const { play, pause, toggle, seek, isPlaying, currentTime, duration, setVolume } = useAudioPlayer(
-    {
-      src: '/audio/sample.mp3',
-      autoPlay: false,
-      volume: 0.8,
-      loop: false,
-      onEnd: () => console.log('Track finished'),
-    }
-  )
+  const { toggle, seek, isPlaying, currentTime, duration, setVolume } = useAudioPlayer({
+    src: '/audio/sample.mp3',
+    autoPlay: false,
+    volume: 0.8,
+    loop: false,
+    onEnd: () => console.log('Track finished'),
+  })
 
   return (
     <div>

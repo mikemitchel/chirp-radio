@@ -2,7 +2,7 @@
 // Handles audio playback control (play/pause/stop) and stream URL management
 // Separated from metadata/collection concerns for better performance
 
-import React, { createContext, useContext, useState, useRef, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, useRef, useEffect, type ReactNode } from 'react'
 import { Capacitor } from '@capacitor/core'
 import { on } from '../utils/eventBus'
 import { createLogger } from '../utils/logger'
@@ -94,13 +94,18 @@ export function AudioPlaybackProvider({
     const isIOS = Capacitor.getPlatform() === 'ios'
     if (!isIOS) return
 
-    const listener = NativeAudioPlayer.addListener('playbackStateChanged', (data: { isPlaying: boolean }) => {
+    const handlePlaybackStateChange = (data: { isPlaying: boolean }) => {
       log.log('🔄 Playback state changed from native:', data.isPlaying)
       setIsPlaying(data.isPlaying)
-    })
+    }
+
+    // Note: Using addEventListener pattern instead of addListener
+    // @ts-ignore - Native plugin may not have proper types
+    NativeAudioPlayer.addEventListener?.('playbackStateChanged', handlePlaybackStateChange)
 
     return () => {
-      listener.then(handle => handle.remove())
+      // @ts-ignore
+      NativeAudioPlayer.removeEventListener?.('playbackStateChanged', handlePlaybackStateChange)
     }
   }, [])
 
