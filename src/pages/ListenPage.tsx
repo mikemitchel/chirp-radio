@@ -200,382 +200,29 @@ const ListenPage: React.FC = () => {
       ? siteSettings.listenSidebarWeeklyChart
       : null
 
-  // Dummy data for "This Week's Adds" - will be replaced when we have this data
-  const weeksAddsTracks = [
-    {
-      albumArt: 'https://upload.wikimedia.org/wikipedia/en/5/5b/Chance_the_rapper_acid_rap.jpg',
-      artistName: 'Chance the Rapper',
-      trackName: 'Pusha Man',
-      albumName: 'Acid Rap',
-      labelName: 'Chance the Rapper',
-      isLocal: true,
-      timeAgo: '10:36am',
-      hourKey: '10am',
-      hourData: {
-        startTime: '10:00am',
-        endTime: '11:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt:
-        'https://upload.wikimedia.org/wikipedia/en/c/ce/Alkaline_Trio_-_From_Here_to_Infirmary_cover.jpg',
-      artistName: 'Alkaline Trio',
-      trackName: 'Stupid Kid',
-      albumName: 'From Here to Infirmary',
-      labelName: 'Vagrant Records',
-      isLocal: true,
-      timeAgo: '10:30am',
-      hourKey: '10am',
-      hourData: {
-        startTime: '10:00am',
-        endTime: '11:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://f4.bcbits.com/img/a3263361162_16.jpg',
-      artistName: 'Signals Midwest',
-      trackName: 'Your New, Old Apartment',
-      albumName: 'Pin',
-      labelName: 'Lauren Records',
-      timeAgo: '10:27am',
-      hourKey: '10am',
-      hourData: {
-        startTime: '10:00am',
-        endTime: '11:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://f4.bcbits.com/img/a1076606024_16.jpg',
-      artistName: 'Into It. Over It.',
-      trackName: 'Vis Major',
-      albumName: 'Standards',
-      labelName: 'Storchmasers',
-      isLocal: true,
-      timeAgo: '10:24am',
-      hourKey: '10am',
-      hourData: {
-        startTime: '10:00am',
-        endTime: '11:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://upload.wikimedia.org/wikipedia/en/9/95/Gukfmm.jpg',
-      artistName: 'The Get Up Kids',
-      trackName: 'Last Place You Look',
-      albumName: 'Four Minute Mile',
-      labelName: 'Doghouse Records',
-      timeAgo: '10:21am',
-      hourKey: '10am',
-      hourData: {
-        startTime: '10:00am',
-        endTime: '11:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt:
-        'https://upload.wikimedia.org/wikipedia/en/2/23/Sugar_-_File_Under_Easy_Listening.jpg',
-      artistName: 'Sugar',
-      trackName: 'Gee Angel',
-      albumName: 'File Under: Easy Listening',
-      labelName: 'Creation Records',
-      timeAgo: '10:17am',
-      hourKey: '10am',
-      hourData: {
-        startTime: '10:00am',
-        endTime: '11:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1619983081563-430f63602796?w=200&h=200&fit=crop',
-      artistName: 'Dinosaur Jr.',
-      trackName: 'Little Fury Things',
-      albumName: "You're Living All Over Me",
-      labelName: 'SST Records',
-      timeAgo: '10:14am',
-      hourKey: '10am',
-      hourData: {
-        startTime: '10:00am',
-        endTime: '11:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=200&h=200&fit=crop',
-      artistName: 'Pavement',
-      trackName: 'Summer Babe',
-      albumName: 'Slanted and Enchanted',
-      labelName: 'Matador Records',
-      timeAgo: '10:10am',
-      hourKey: '10am',
-      hourData: {
-        startTime: '10:00am',
-        endTime: '11:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1598387993281-cecf8b71a8f8?w=200&h=200&fit=crop',
-      artistName: 'Sonic Youth',
-      trackName: 'Teen Age Riot',
-      albumName: 'Daydream Nation',
-      labelName: 'Enigma Records',
-      timeAgo: '10:06am',
-      hourKey: '10am',
-      hourData: {
-        startTime: '10:00am',
-        endTime: '11:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=200&h=200&fit=crop',
-      artistName: 'Pixies',
-      trackName: 'Debaser',
-      albumName: 'Doolittle',
-      labelName: '4AD Records',
-      timeAgo: '10:02am',
-      hourKey: '10am',
-      hourData: {
-        startTime: '10:00am',
-        endTime: '11:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1526478806334-5fd488fcaabc?w=200&h=200&fit=crop',
-      artistName: 'The Smiths',
-      trackName: 'The Queen Is Dead',
-      albumName: 'The Queen Is Dead',
-      labelName: 'Rough Trade',
-      timeAgo: '9:56am',
-      hourKey: '9am',
-      hourData: {
-        startTime: '9:00am',
-        endTime: '10:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?w=200&h=200&fit=crop',
-      artistName: 'Joy Division',
-      trackName: 'Disorder',
-      albumName: 'Unknown Pleasures',
-      labelName: 'Factory Records',
-      timeAgo: '9:52am',
-      hourKey: '9am',
-      hourData: {
-        startTime: '9:00am',
-        endTime: '10:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=200&h=200&fit=crop',
-      artistName: 'My Bloody Valentine',
-      trackName: 'Only Shallow',
-      albumName: 'Loveless',
-      labelName: 'Creation Records',
-      isLocal: false,
-      timeAgo: '9:48am',
-      hourKey: '9am',
-      hourData: {
-        startTime: '9:00am',
-        endTime: '10:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=200&h=200&fit=crop',
-      artistName: 'Ride',
-      trackName: 'Vapour Trail',
-      albumName: 'Nowhere',
-      labelName: 'Creation Records',
-      timeAgo: '9:44am',
-      hourKey: '9am',
-      hourData: {
-        startTime: '9:00am',
-        endTime: '10:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=200&h=200&fit=crop',
-      artistName: 'Slowdive',
-      trackName: 'Alison',
-      albumName: 'Souvlaki',
-      labelName: 'Creation Records',
-      timeAgo: '9:40am',
-      hourKey: '9am',
-      hourData: {
-        startTime: '9:00am',
-        endTime: '10:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=200&fit=crop',
-      artistName: 'The Jesus and Mary Chain',
-      trackName: 'Just Like Honey',
-      albumName: 'Psychocandy',
-      labelName: 'Blanco y Negro',
-      timeAgo: '9:36am',
-      hourKey: '9am',
-      hourData: {
-        startTime: '9:00am',
-        endTime: '10:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=200&h=200&fit=crop',
-      artistName: 'Hüsker Dü',
-      trackName: 'Something I Learned Today',
-      albumName: 'Zen Arcade',
-      labelName: 'SST Records',
-      timeAgo: '9:32am',
-      hourKey: '9am',
-      hourData: {
-        startTime: '9:00am',
-        endTime: '10:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-    {
-      albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
-      artistName: 'The Replacements',
-      trackName: 'I Will Dare',
-      albumName: 'Let It Be',
-      labelName: 'Twin/Tone Records',
-      timeAgo: '9:28am',
-      hourKey: '9am',
-      hourData: {
-        startTime: '9:00am',
-        endTime: '10:00am',
-        djName: 'DJ Current',
-        showName: 'The Current Show',
-        djProfileUrl: '#',
-      },
-    },
-  ]
+  // Get page text content from CMS with fallbacks
+  const pageTitle = siteSettings?.listenPageTitle || 'Listen'
+  const currentPlaylistTitle = siteSettings?.listenCurrentPlaylistTitle || 'Current Playlist'
+  const previousPlaysButtonText = siteSettings?.listenPreviousPlaysButtonText || 'Previous Plays'
+  const userCollectionTitle = siteSettings?.listenUserCollectionTitle || 'A Few from Your Collection'
+  const yourCollectionButtonText = siteSettings?.listenYourCollectionButtonText || 'Your Collection'
 
-  const collectionTracks = [
-    {
-      id: '1',
-      albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
-      albumArtAlt: 'Kind of Blue album cover',
-      artistName: 'Miles Davis',
-      trackName: 'So What',
-      albumName: 'Kind of Blue',
-      labelName: 'Columbia Records',
-      timeAgo: '2:45pm',
-      isLocal: false,
-      isAdded: true,
-    },
-    {
-      id: '2',
-      albumArt: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=200&fit=crop',
-      albumArtAlt: 'Giant Steps album cover',
-      artistName: 'John Coltrane',
-      trackName: 'Giant Steps',
-      albumName: 'Giant Steps',
-      labelName: 'Atlantic Records',
-      timeAgo: '2:30pm',
-      isLocal: true,
-      isAdded: true,
-    },
-    {
-      id: '3',
-      albumArt: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=200&h=200&fit=crop',
-      albumArtAlt: 'Time Out album cover',
-      artistName: 'Dave Brubeck',
-      trackName: 'Take Five',
-      albumName: 'Time Out',
-      labelName: 'Columbia Records',
-      timeAgo: '2:15pm',
-      isLocal: false,
-      isAdded: true,
-    },
-    {
-      id: '4',
-      albumArt: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=200&h=200&fit=crop',
-      albumArtAlt: "Takin' Off album cover",
-      artistName: 'Herbie Hancock',
-      trackName: 'Watermelon Man',
-      albumName: "Takin' Off",
-      labelName: 'Blue Note Records',
-      timeAgo: '1:45pm',
-      isLocal: false,
-      isAdded: true,
-    },
-    {
-      id: '5',
-      albumArt: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&h=200&fit=crop',
-      albumArtAlt: 'A Love Supreme album cover',
-      artistName: 'John Coltrane',
-      trackName: 'Acknowledgement',
-      albumName: 'A Love Supreme',
-      labelName: 'Impulse! Records',
-      timeAgo: '1:15pm',
-      isLocal: false,
-      isAdded: true,
-    },
-  ]
 
   return (
     <div className="listen-page">
       <section className="page-container">
-        <CrPageHeader title="Listen" showEyebrow={false} showActionButton={false} />
+        <CrPageHeader title={pageTitle} showEyebrow={false} showActionButton={false} />
       </section>
 
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
           <CrPageHeader
-            title="Current Playlist"
+            title={currentPlaylistTitle}
             titleTag="h2"
             titleSize="lg"
             showEyebrow={false}
             showActionButton={true}
-            actionButtonText="Previous Plays"
+            actionButtonText={previousPlaysButtonText}
             actionButtonIcon={<PiVinylRecord />}
             onActionClick={() => navigate('/playlist')}
           />
@@ -591,12 +238,12 @@ const ListenPage: React.FC = () => {
           {currentUser && collection.length > 0 && (
             <>
               <CrPageHeader
-                title="A Few from Your Collection"
+                title={userCollectionTitle}
                 titleTag="h3"
                 titleSize="md"
                 showEyebrow={false}
                 showActionButton={true}
-                actionButtonText="Your Collection"
+                actionButtonText={yourCollectionButtonText}
                 actionButtonIcon={<PiPlaylist />}
                 actionButtonSize="medium"
                 onActionClick={() => navigate('/collection')}

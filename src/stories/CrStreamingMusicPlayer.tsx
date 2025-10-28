@@ -219,7 +219,7 @@ const BackgroundImage = ({ src, isLoading }) => {
 }
 
 interface CrStreamingMusicPlayerProps {
-  variant?: 'full-player' | 'slim-player' | 'mini-player' | 'mobile-player'
+  variant?: 'full-player' | 'slim-player' | 'mini-player' | 'mobile-player' | 'android-auto'
   djName?: string
   showName?: string
   artistName?: string
@@ -284,6 +284,20 @@ export default function CrStreamingMusicPlayer({
     }
   }, [isLoggedIn, hasPendingAdd])
 
+  // Determine which data to display: props or context
+  const displayData = autoFetch
+    ? currentData
+    : {
+        track: trackName,
+        artist: artistName,
+        album: albumName,
+        label: labelName,
+        albumArt: albumArt,
+        isLocal: isLocal,
+        dj: djName,
+        show: showName,
+      }
+
   // Helper function to check if album art should use fallback
   const shouldUseFallback = (albumArtUrl) => {
     return (
@@ -341,23 +355,23 @@ export default function CrStreamingMusicPlayer({
   const renderFullPlayer = () => {
     return (
       <div className="cr-player__full">
-        <BackgroundImage src={currentData.albumArt} isLoading={isLoading} />
+        <BackgroundImage src={displayData.albumArt} isLoading={isLoading} />
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
             <AlbumArt
-              src={currentData.albumArt}
+              src={displayData.albumArt}
               className="cr-player__album-art"
               isLoading={isLoading}
             />
           </div>
           <div className="cr-player__track-info-container">
             <CrTrackInfo
-              trackName={currentData.track}
-              artistName={currentData.artist}
-              albumName={currentData.album}
-              labelName={currentData.label}
-              isLocal={currentData.isLocal}
+              trackName={displayData.track}
+              artistName={displayData.artist}
+              albumName={displayData.album}
+              labelName={displayData.label}
+              isLocal={displayData.isLocal}
               isAdded={contextIsTrackAdded}
               onToggleAdd={handleToggleAdd}
               className={isLoading ? 'cr-track-info--loading' : ''}
@@ -373,22 +387,22 @@ export default function CrStreamingMusicPlayer({
   const renderSlimPlayer = () => {
     return (
       <div className="cr-player__slim">
-        <BackgroundImage src={currentData.albumArt} isLoading={isLoading} />
+        <BackgroundImage src={displayData.albumArt} isLoading={isLoading} />
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
             <AlbumArt
-              src={currentData.albumArt}
+              src={displayData.albumArt}
               className="cr-player__album-art"
               isLoading={isLoading}
             />
           </div>
           <div className="cr-player__track-info-container">
             <CrTrackInfo
-              trackName={currentData.track}
-              artistName={currentData.artist}
+              trackName={displayData.track}
+              artistName={displayData.artist}
               variant="minimal" // Use minimal variant (just song + artist)
-              isLocal={currentData.isLocal}
+              isLocal={displayData.isLocal}
               isAdded={contextIsTrackAdded}
               onToggleAdd={handleToggleAdd}
               className={`${isLoading ? 'cr-track-info--loading' : ''}`}
@@ -404,22 +418,22 @@ export default function CrStreamingMusicPlayer({
   const renderMiniPlayer = () => {
     return (
       <div className="cr-player__mini">
-        <BackgroundImage src={currentData.albumArt} isLoading={isLoading} />
+        <BackgroundImage src={displayData.albumArt} isLoading={isLoading} />
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
             <AlbumArt
-              src={currentData.albumArt}
+              src={displayData.albumArt}
               className="cr-player__album-art"
               isLoading={isLoading}
             />
           </div>
           <div className="cr-player__track-info-container">
             <CrTrackInfo
-              trackName={currentData.track}
-              artistName={currentData.artist}
+              trackName={displayData.track}
+              artistName={displayData.artist}
               variant="minimal" // Use minimal variant (just song + artist)
-              isLocal={currentData.isLocal}
+              isLocal={displayData.isLocal}
               isAdded={contextIsTrackAdded}
               onToggleAdd={handleToggleAdd}
               className={`${isLoading ? 'cr-track-info--loading' : ''}`}
@@ -435,14 +449,14 @@ export default function CrStreamingMusicPlayer({
   const renderMobilePlayer = () => {
     return (
       <div className="cr-player__mobile">
-        <BackgroundImage src={currentData.albumArt} isLoading={isLoading} />
+        <BackgroundImage src={displayData.albumArt} isLoading={isLoading} />
         <div className="cr-player__color-overlay" />
 
         <div className="cr-player__mobile-content">
           <div className="cr-player__dj-info">
             <CrCurrentDj
-              djName={currentData.dj}
-              showName={currentData.show}
+              djName={displayData.dj}
+              showName={displayData.show}
               isOnAir={true}
               statusText="On-Air"
             />
@@ -450,7 +464,7 @@ export default function CrStreamingMusicPlayer({
 
           <div className="cr-player__album-large">
             <AlbumArt
-              src={currentData.albumArt}
+              src={displayData.albumArt}
               className="cr-player__album-art-large"
               isLarge={true}
               isLoading={isLoading}
@@ -459,12 +473,12 @@ export default function CrStreamingMusicPlayer({
 
           <div className="cr-player__track-info-container cr-player__track-info-container--left-aligned">
             <CrTrackInfo
-              trackName={currentData.track}
-              artistName={currentData.artist}
-              albumName={currentData.album}
-              labelName={currentData.label}
+              trackName={displayData.track}
+              artistName={displayData.artist}
+              albumName={displayData.album}
+              labelName={displayData.label}
               variant="stacked"
-              isLocal={currentData.isLocal}
+              isLocal={displayData.isLocal}
               isAdded={contextIsTrackAdded}
               onToggleAdd={handleToggleAdd}
               className={isLoading ? 'cr-track-info--loading' : ''}
@@ -473,6 +487,62 @@ export default function CrStreamingMusicPlayer({
 
           <div className="cr-player__controls">
             <PlayPauseButton isPlaying={isPlaying} onClick={handlePlayPause} size={100} />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Render Android Auto variant
+  const renderAndroidAuto = () => {
+    return (
+      <div className="cr-player__android-auto">
+        <BackgroundImage src={displayData.albumArt} isLoading={isLoading} />
+        <div className="cr-player__color-overlay" />
+
+        <div className="cr-player__android-auto-content">
+          {/* Row 1: Logo */}
+          <div className="cr-player__android-auto-logo">
+            <CrLogo variant="horizontal-reversed" />
+          </div>
+
+          {/* Row 2: DJ Info */}
+          <div className="cr-player__android-auto-dj">
+            <CrCurrentDj
+              djName={displayData.dj}
+              showName={displayData.show}
+              isOnAir={true}
+              statusText="On-Air"
+            />
+          </div>
+
+          {/* Row 3: Album Art + Track Info */}
+          <div className="cr-player__android-auto-media">
+            <div className="cr-player__android-auto-album">
+              <AlbumArt
+                src={displayData.albumArt}
+                className="cr-player__album-art"
+                isLoading={isLoading}
+              />
+            </div>
+            <div className="cr-player__android-auto-track">
+              <CrTrackInfo
+                trackName={displayData.track}
+                artistName={displayData.artist}
+                albumName={displayData.album}
+                labelName={displayData.label}
+                variant="stacked"
+                isLocal={displayData.isLocal}
+                isAdded={contextIsTrackAdded}
+                onToggleAdd={handleToggleAdd}
+                className={isLoading ? 'cr-track-info--loading' : ''}
+              />
+            </div>
+          </div>
+
+          {/* Row 4: Play Button */}
+          <div className="cr-player__android-auto-controls">
+            <PlayPauseButton isPlaying={isPlaying} onClick={handlePlayPause} size={120} />
           </div>
         </div>
       </div>
@@ -488,6 +558,8 @@ export default function CrStreamingMusicPlayer({
         return renderMiniPlayer()
       case 'mobile-player':
         return renderMobilePlayer()
+      case 'android-auto':
+        return renderAndroidAuto()
       case 'full-player':
       default:
         return renderFullPlayer()

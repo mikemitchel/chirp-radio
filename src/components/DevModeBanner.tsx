@@ -1,10 +1,10 @@
 // DevModeBanner.tsx
-// Global banner showing when the app is running in development mode with mock data
+// Global banner showing when the app is running in development mode
 
-const USE_MOCK_DATA = import.meta.env.DEV
+const IS_DEV = import.meta.env.DEV
 
 export default function DevModeBanner() {
-  if (!USE_MOCK_DATA) {
+  if (!IS_DEV) {
     return null
   }
 
@@ -27,7 +27,7 @@ export default function DevModeBanner() {
         boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
       }}
     >
-      Development Mode - Using Mock Data
+      Development Mode
     </div>
   )
 }

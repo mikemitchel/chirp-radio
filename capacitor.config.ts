@@ -11,6 +11,9 @@ const config: CapacitorConfig = {
       'https://peridot.streamguys1.com/*',
       'https://*.lastfm.freetls.fastly.net/*',
     ],
+    // Disable caching to always load fresh JavaScript on rebuild
+    cleartext: true,
+    androidScheme: 'http',
   },
   ios: {
     contentInset: 'never',

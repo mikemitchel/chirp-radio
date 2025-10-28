@@ -10,6 +10,47 @@ import NativeAudioPlayer from '../plugins/NativeAudioPlayer'
 
 const log = createLogger('AudioPlaybackContext')
 
+// Singleton state to track native player initialization across hot reloads
+let nativePlayerInitialized = false
+let nativePlayerInitializing = false
+let initializationPromise: Promise<void> | null = null
+
+// Singleton function to initialize native player - ensures only called once globally
+async function initializeNativePlayer(streamUrl: string): Promise<void> {
+  // If already initialized, return immediately
+  if (nativePlayerInitialized) {
+    log.log('Native player already initialized, skipping')
+    return
+  }
+
+  // If currently initializing, wait for that promise
+  if (nativePlayerInitializing && initializationPromise) {
+    log.log('Native player initialization in progress, waiting...')
+    return initializationPromise
+  }
+
+  // Start initialization
+  nativePlayerInitializing = true
+  log.log('Initializing native player with URL:', streamUrl)
+
+  initializationPromise = new Promise<void>(async (resolve, reject) => {
+    try {
+      await NativeAudioPlayer.setStreamUrl({ url: streamUrl })
+      log.log('Native player initialized successfully')
+      nativePlayerInitialized = true
+      nativePlayerInitializing = false
+      resolve()
+    } catch (error) {
+      log.error('Failed to initialize native player:', error)
+      nativePlayerInitializing = false
+      // Don't mark as initialized on error, allow retry
+      reject(error)
+    }
+  })
+
+  return initializationPromise
+}
+
 interface AudioPlaybackContextType {
   isPlaying: boolean
   streamUrl: string
@@ -30,6 +71,7 @@ export function AudioPlaybackProvider({
   children,
   defaultStreamUrl = 'https://peridot.streamguys1.com:5185/live',
 }: AudioPlaybackProviderProps) {
+
   // Get stream URL based on quality setting
   const getStreamUrl = () => {
     const quality =
@@ -44,7 +86,23 @@ export function AudioPlaybackProvider({
 
   const [streamUrl, setStreamUrl] = useState(getStreamUrl())
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlayerReady, setIsPlayerReady] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  // Listen for playback state changes from native (CarPlay, lock screen, etc.)
+  useEffect(() => {
+    const isIOS = Capacitor.getPlatform() === 'ios'
+    if (!isIOS) return
+
+    const listener = NativeAudioPlayer.addListener('playbackStateChanged', (data: { isPlaying: boolean }) => {
+      log.log('🔄 Playback state changed from native:', data.isPlaying)
+      setIsPlaying(data.isPlaying)
+    })
+
+    return () => {
+      listener.then(handle => handle.remove())
+    }
+  }, [])
 
   // Initialize audio element based on platform
   useEffect(() => {
@@ -52,16 +110,19 @@ export function AudioPlaybackProvider({
     const isIOS = Capacitor.getPlatform() === 'ios'
     const isAndroid = Capacitor.getPlatform() === 'android'
 
-    log.log('Platform:', Capacitor.getPlatform())
+    log.log('Initializing audio player for platform:', Capacitor.getPlatform())
+    setIsPlayerReady(false)
 
     if (isIOS) {
       // Use native AVPlayer on iOS for background playback
       log.log('Using native AVPlayer for iOS')
       log.log('Stream URL:', streamUrl)
 
-      NativeAudioPlayer.setStreamUrl({ url: streamUrl })
+      // Use singleton initialization to prevent multiple calls across component mounts
+      initializeNativePlayer(streamUrl)
         .then(() => {
-          log.log('Stream URL set in native player successfully')
+          log.log('Native player ready')
+          setIsPlayerReady(true)
           if (wasPlaying) {
             log.log('Restarting playback after stream change...')
             NativeAudioPlayer.play()
@@ -73,8 +134,10 @@ export function AudioPlaybackProvider({
           }
         })
         .catch((err) => {
-          log.error('Error setting stream URL in native player:', err)
+          log.error('Error initializing native player:', err)
+          setIsPlayerReady(true) // Mark as ready even on error so play can be attempted
         })
+
     } else {
       // Use HTML5 audio for web and Android
       const audio = new Audio(streamUrl)
@@ -95,6 +158,7 @@ export function AudioPlaybackProvider({
       }
 
       audioRef.current = audio
+      setIsPlayerReady(true)
 
       if (wasPlaying) {
         audio.play().catch((err) => {
@@ -105,11 +169,9 @@ export function AudioPlaybackProvider({
     }
 
     return () => {
-      if (isIOS) {
-        NativeAudioPlayer.stop().catch((err) => {
-          console.error('Error stopping native audio:', err)
-        })
-      } else if (audioRef.current) {
+      // Don't stop native player on unmount - let the singleton stay alive
+      // This allows the player to survive hot reloads and component remounts
+      if (!isIOS && audioRef.current) {
         audioRef.current.pause()
         audioRef.current = null
       }
@@ -148,19 +210,33 @@ export function AudioPlaybackProvider({
 
   // Play function
   const play = async () => {
+    // Wait for player to be initialized
+    if (!isPlayerReady) {
+      log.log('⏳ Player not ready yet, waiting...')
+      // Wait up to 3 seconds for player to initialize
+      const startTime = Date.now()
+      while (!isPlayerReady && Date.now() - startTime < 3000) {
+        await new Promise(resolve => setTimeout(resolve, 100))
+      }
+      if (!isPlayerReady) {
+        log.error('❌ Player initialization timeout')
+        throw new Error('Player not initialized')
+      }
+    }
+
     const isIOS = Capacitor.getPlatform() === 'ios'
 
     if (isIOS) {
       try {
-        log.log('Calling NativeAudioPlayer.play()...')
-        const result = await NativeAudioPlayer.play()
-        log.log('Native audio play result:', result)
+        await NativeAudioPlayer.play()
         setIsPlaying(true)
       } catch (error) {
-        log.error('CRITICAL: NativeAudioPlayer.play() failed:', error)
-        // Try to recover
+        log.error('NativeAudioPlayer.play() failed:', error)
+        // Try to recover by re-initializing the singleton
         try {
-          await NativeAudioPlayer.setStreamUrl({ url: streamUrl })
+          // Reset singleton state to force re-initialization
+          nativePlayerInitialized = false
+          await initializeNativePlayer(streamUrl)
           const retryResult = await NativeAudioPlayer.play()
           log.log('Recovery successful:', retryResult)
           setIsPlaying(true)
