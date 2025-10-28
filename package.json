@@ -20,6 +20,7 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "test:storybook": "storybook build --test",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "prepare": "husky",
