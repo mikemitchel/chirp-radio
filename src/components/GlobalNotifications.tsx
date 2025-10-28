@@ -1,5 +1,4 @@
 // src/components/GlobalNotifications.tsx
-import React from 'react'
 import CrModal from '../stories/CrModal'
 import CrToast from '../stories/CrToast'
 import CrButton from '../stories/CrButton'

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react'
 import type {
   CMSData,
   CMSLoadingState,
@@ -104,7 +104,7 @@ interface CMSContextValue {
 const CMSContext = createContext<CMSContextValue | undefined>(undefined)
 
 interface CMSProviderProps {
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export function CMSProvider({ children }: CMSProviderProps) {
@@ -112,13 +112,13 @@ export function CMSProvider({ children }: CMSProviderProps) {
 
   // Data state
   const [data, setData] = useState<CMSData>({
-    announcements: USE_CMS_API ? [] : (announcementsData.announcements as Announcement[]),
-    articles: USE_CMS_API ? [] : (articlesData.articles as Article[]),
-    events: USE_CMS_API ? [] : (eventsData.events as Event[]),
-    podcasts: USE_CMS_API ? [] : (podcastsData.podcasts as Podcast[]),
+    announcements: USE_CMS_API ? [] : (announcementsData.announcements as unknown as Announcement[]),
+    articles: USE_CMS_API ? [] : (articlesData.articles as unknown as Article[]),
+    events: USE_CMS_API ? [] : (eventsData.events as unknown as Event[]),
+    podcasts: USE_CMS_API ? [] : (podcastsData.podcasts as unknown as Podcast[]),
     djs: [],
     volunteerCalendar: [],
-    shopItems: USE_CMS_API ? [] : (shopItemsData.shopItems as ShopItem[]),
+    shopItems: USE_CMS_API ? [] : (shopItemsData.shopItems as unknown as ShopItem[]),
     pages: [],
     siteSettings: null,
     weeklyCharts: [],

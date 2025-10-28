@@ -2,7 +2,7 @@
 // Handles collection add/remove operations and login requirements
 // Separated from playback/metadata concerns for better organization
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
 import { useAuth } from '../hooks/useAuth'
 import { emit, on } from '../utils/eventBus'

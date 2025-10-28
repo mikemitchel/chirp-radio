@@ -1,5 +1,5 @@
 // CrTrackInfo.tsx
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PiPlusCircle } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
@@ -71,7 +71,7 @@ export default function CrTrackInfo({
 
   // Check if text overflows and add scrolling class
   useEffect(() => {
-    const checkOverflow = (element, container) => {
+    const checkOverflow = (element: HTMLElement | null, container: HTMLElement | null) => {
       if (element && container) {
         // Force a reflow to ensure accurate measurements
         container.offsetWidth
