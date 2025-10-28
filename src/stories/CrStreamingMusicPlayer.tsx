@@ -219,7 +219,7 @@ const BackgroundImage = ({ src, isLoading }) => {
 }
 
 interface CrStreamingMusicPlayerProps {
-  variant?: 'full-player' | 'slim-player' | 'mini-player' | 'mobile-player'
+  variant?: 'full-player' | 'slim-player' | 'mini-player' | 'mobile-player' | 'android-auto'
   djName?: string
   showName?: string
   artistName?: string
@@ -493,6 +493,62 @@ export default function CrStreamingMusicPlayer({
     )
   }
 
+  // Render Android Auto variant
+  const renderAndroidAuto = () => {
+    return (
+      <div className="cr-player__android-auto">
+        <BackgroundImage src={displayData.albumArt} isLoading={isLoading} />
+        <div className="cr-player__color-overlay" />
+
+        <div className="cr-player__android-auto-content">
+          {/* Row 1: Logo */}
+          <div className="cr-player__android-auto-logo">
+            <CrLogo variant="horizontal-reversed" />
+          </div>
+
+          {/* Row 2: DJ Info */}
+          <div className="cr-player__android-auto-dj">
+            <CrCurrentDj
+              djName={displayData.dj}
+              showName={displayData.show}
+              isOnAir={true}
+              statusText="On-Air"
+            />
+          </div>
+
+          {/* Row 3: Album Art + Track Info */}
+          <div className="cr-player__android-auto-media">
+            <div className="cr-player__android-auto-album">
+              <AlbumArt
+                src={displayData.albumArt}
+                className="cr-player__album-art"
+                isLoading={isLoading}
+              />
+            </div>
+            <div className="cr-player__android-auto-track">
+              <CrTrackInfo
+                trackName={displayData.track}
+                artistName={displayData.artist}
+                albumName={displayData.album}
+                labelName={displayData.label}
+                variant="stacked"
+                isLocal={displayData.isLocal}
+                isAdded={contextIsTrackAdded}
+                onToggleAdd={handleToggleAdd}
+                className={isLoading ? 'cr-track-info--loading' : ''}
+              />
+            </div>
+          </div>
+
+          {/* Row 4: Play Button */}
+          <div className="cr-player__android-auto-controls">
+            <PlayPauseButton isPlaying={isPlaying} onClick={handlePlayPause} size={120} />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   // Render different player variants based on the variant prop
   const renderVariant = () => {
     switch (variant) {
@@ -502,6 +558,8 @@ export default function CrStreamingMusicPlayer({
         return renderMiniPlayer()
       case 'mobile-player':
         return renderMobilePlayer()
+      case 'android-auto':
+        return renderAndroidAuto()
       case 'full-player':
       default:
         return renderFullPlayer()

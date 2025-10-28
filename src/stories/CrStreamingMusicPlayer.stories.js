@@ -28,7 +28,7 @@ export default {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['full-player', 'slim-player', 'mini-player', 'mobile-player'],
+      options: ['full-player', 'slim-player', 'mini-player', 'mobile-player', 'android-auto'],
       description: 'Player variant/size matching Figma design',
     },
     artistName: {
@@ -189,6 +189,52 @@ export const WithLiveDataMobile = {
       description: {
         story:
           '**Mobile player with live data** - Shows live fetching from API with LOCAL chip support. **⚠️ View in Canvas mode for proper full-screen experience.** CORS errors in Storybook are expected and resolve in production.',
+      },
+    },
+  },
+}
+
+// Android Auto variant
+export const AndroidAuto = {
+  args: {
+    variant: 'android-auto',
+    djName: 'DJ Current',
+    showName: 'Current Show',
+    artistName: 'Artist Name',
+    trackName: 'Song Name',
+    albumName: 'Album Name',
+    labelName: 'Label Name',
+    albumArt: 'https://e.snmc.io/i/300/w/edc39e408543b26904eb76748c2f1c4d/8819855',
+    autoFetch: false,
+    isTrackAdded: false,
+    isLocal: false,
+    streamUrl: null,
+  },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story:
+          '**Android Auto variant** - Four-row layout: Logo (top-left), DJ info, Album art + Track info (side by side), Play button. **⚠️ View in Canvas mode for proper full-screen experience.**',
+      },
+    },
+  },
+}
+
+// Android Auto with live data
+export const AndroidAutoLive = {
+  args: {
+    variant: 'android-auto',
+    autoFetch: true,
+    apiUrl: 'https://chirpradio.appspot.com/api/current_playlist',
+    streamUrl: 'https://peridot.streamguys1.com:5185/live',
+  },
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      description: {
+        story:
+          '**Android Auto with live data** - Shows live fetching from API with LOCAL chip support. **⚠️ View in Canvas mode for proper full-screen experience.**',
       },
     },
   },
