@@ -230,10 +230,10 @@ export default function YourCollection() {
 
           <div className="cr-profile-card__not-logged-in-actions">
             <CrButton variant="outline" color="default" size="medium" onClick={handleLoginClick}>
-              log in
+              {loginButtonText}
             </CrButton>
             <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUpClick}>
-              sign up
+              {signupButtonText}
             </CrButton>
           </div>
 
