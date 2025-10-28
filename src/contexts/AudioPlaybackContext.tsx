@@ -7,6 +7,7 @@ import { Capacitor } from '@capacitor/core'
 import { on } from '../utils/eventBus'
 import { createLogger } from '../utils/logger'
 import NativeAudioPlayer from '../plugins/NativeAudioPlayer'
+import NativeAudioBridge from '../plugins/NativeAudioBridge'
 
 const log = createLogger('AudioPlaybackContext')
 
@@ -89,23 +90,32 @@ export function AudioPlaybackProvider({
   const [isPlayerReady, setIsPlayerReady] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
-  // Listen for playback state changes from native (CarPlay, lock screen, etc.)
+  // Listen for playback state changes from native (CarPlay, Android Auto, lock screen, etc.)
   useEffect(() => {
     const isIOS = Capacitor.getPlatform() === 'ios'
-    if (!isIOS) return
+    const isAndroid = Capacitor.getPlatform() === 'android'
 
     const handlePlaybackStateChange = (data: { isPlaying: boolean }) => {
       log.log('🔄 Playback state changed from native:', data.isPlaying)
       setIsPlaying(data.isPlaying)
     }
 
-    // Note: Using addEventListener pattern instead of addListener
-    // @ts-ignore - Native plugin may not have proper types
-    NativeAudioPlayer.addEventListener?.('playbackStateChanged', handlePlaybackStateChange)
+    if (isIOS) {
+      // Note: Using addEventListener pattern instead of addListener
+      // @ts-ignore - Native plugin may not have proper types
+      NativeAudioPlayer.addEventListener?.('playbackStateChanged', handlePlaybackStateChange)
 
-    return () => {
-      // @ts-ignore
-      NativeAudioPlayer.removeEventListener?.('playbackStateChanged', handlePlaybackStateChange)
+      return () => {
+        // @ts-ignore
+        NativeAudioPlayer.removeEventListener?.('playbackStateChanged', handlePlaybackStateChange)
+      }
+    } else if (isAndroid) {
+      // Listen for Android Auto / media session playback state changes
+      const listener = NativeAudioBridge.addListener('playbackStateChanged', handlePlaybackStateChange)
+
+      return () => {
+        listener?.remove()
+      }
     }
   }, [])
 
@@ -143,8 +153,23 @@ export function AudioPlaybackProvider({
           setIsPlayerReady(true) // Mark as ready even on error so play can be attempted
         })
 
+    } else if (isAndroid) {
+      // Use native audio bridge for Android (for Android Auto and media session support)
+      log.log('Using native audio bridge for Android')
+      // The native player is always initialized in ChirpMediaService, so just mark as ready
+      setIsPlayerReady(true)
+
+      if (wasPlaying) {
+        log.log('Restarting playback after stream change...')
+        NativeAudioBridge.play()
+          .then(() => log.log('Playback restarted successfully'))
+          .catch((err) => {
+            log.error('Error restarting native audio:', err)
+            setIsPlaying(false)
+          })
+      }
     } else {
-      // Use HTML5 audio for web and Android
+      // Use HTML5 audio for web
       const audio = new Audio(streamUrl)
       audio.autoplay = false
       audio.loop = true
@@ -153,14 +178,6 @@ export function AudioPlaybackProvider({
       audio.removeAttribute('title')
 
       log.log('Initial volume:', audio.volume)
-
-      if (isAndroid) {
-        // Android WebView sometimes needs explicit volume setting
-        setTimeout(() => {
-          audio.volume = 1.0
-          log.log('Android volume set to:', audio.volume)
-        }, 100)
-      }
 
       audioRef.current = audio
       setIsPlayerReady(true)
@@ -176,7 +193,7 @@ export function AudioPlaybackProvider({
     return () => {
       // Don't stop native player on unmount - let the singleton stay alive
       // This allows the player to survive hot reloads and component remounts
-      if (!isIOS && audioRef.current) {
+      if (!isIOS && !isAndroid && audioRef.current) {
         audioRef.current.pause()
         audioRef.current = null
       }
@@ -230,6 +247,7 @@ export function AudioPlaybackProvider({
     }
 
     const isIOS = Capacitor.getPlatform() === 'ios'
+    const isAndroid = Capacitor.getPlatform() === 'android'
 
     if (isIOS) {
       try {
@@ -250,6 +268,17 @@ export function AudioPlaybackProvider({
           throw retryError
         }
       }
+    } else if (isAndroid) {
+      try {
+        await NativeAudioBridge.play()
+        // Set isPlaying optimistically for immediate UI feedback
+        // The native callback will authoritatively update it
+        setIsPlaying(true)
+      } catch (error) {
+        log.error('NativeAudioBridge.play() failed:', error)
+        setIsPlaying(false)
+        throw error
+      }
     } else if (audioRef.current) {
       try {
         await audioRef.current.play()
@@ -264,16 +293,24 @@ export function AudioPlaybackProvider({
   // Pause function
   const pause = () => {
     const isIOS = Capacitor.getPlatform() === 'ios'
+    const isAndroid = Capacitor.getPlatform() === 'android'
 
     if (isIOS) {
       NativeAudioPlayer.pause().catch((error) => {
         console.error('Error pausing native audio:', error)
       })
+      setIsPlaying(false)
+    } else if (isAndroid) {
+      NativeAudioBridge.pause().catch((error) => {
+        console.error('Error pausing native audio:', error)
+      })
+      // Set isPlaying optimistically for immediate UI feedback
+      // The native callback will authoritatively update it
+      setIsPlaying(false)
     } else if (audioRef.current) {
       audioRef.current.pause()
+      setIsPlaying(false)
     }
-
-    setIsPlaying(false)
   }
 
   // Toggle play/pause
