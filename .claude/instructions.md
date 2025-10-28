@@ -125,6 +125,7 @@ src/
 - `npm run test:e2e` - Playwright e2e tests
 - `npm run test:e2e:ui` - Playwright UI
 - `npm run test:e2e:headed` - Playwright headed mode
+- `npm run test:storybook` - Build Storybook in test mode (catches provider errors)
 
 ### Test Location
 - Unit tests: Throughout codebase as `.test.tsx` files
@@ -134,6 +135,7 @@ src/
 - Check for tests periodically
 - Focus on functional tests (easier, low-hanging fruit)
 - Integration tests planned for future when app is more stable
+- Run `npm run test:storybook` before committing Storybook-related changes to catch provider errors
 
 ### Physical Testing
 - **iOS/CarPlay:** iPhone + CarPlay setup (owner has)
@@ -237,6 +239,24 @@ The CarPlay integration code is **fully implemented and ready**, but requires Ap
 - [ ] Lock screen controls work
 - [ ] Switching apps doesn't stop playback
 - [ ] Incoming call pauses/resumes correctly
+
+---
+
+## Storybook
+
+### Provider Setup
+All Storybook stories are wrapped with required context providers in `.storybook/preview.ts`:
+- `HelmetProvider` - React Helmet for document head management
+- `BrowserRouter` - React Router for navigation
+- `UserProvider` - User state and authentication
+- `CMSProvider` - CMS data and content
+- `AuthProvider` - Authentication state
+- `NotificationProvider` - Toast and modal notifications
+
+**Important:** If you add a new context that components depend on, you MUST add it to the Storybook decorator chain in `.storybook/preview.ts`. Otherwise, stories will fail with "must be used within a Provider" errors.
+
+### Testing Storybook
+Run `npm run test:storybook` to catch provider errors before committing. This builds Storybook in test mode and will fail if any stories have build errors (missing providers, type errors, etc).
 
 ---
 
