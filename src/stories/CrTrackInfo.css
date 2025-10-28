@@ -12,6 +12,7 @@
   flex-direction: column;
   width: 100%;
   position: relative;
+  min-width: 250px;
 }
 
 /* Text area takes up available space but leaves room for button */
@@ -43,6 +44,31 @@
 
 .cr-track-info--stacked .cr-track-info__actions {
   bottom: 0; /* Align with the last line (label line) */
+}
+
+/* Container for scrolling track name */
+.cr-track-info__track-container {
+  width: 100%;
+  overflow-x: hidden;
+  height: 25px;
+  position: relative;
+}
+
+/* Container for scrolling artist name */
+.cr-track-info__artist-scroll-container {
+  overflow-x: hidden;
+  height: 22px;
+  position: relative;
+  min-width: 0;
+  flex: 1;
+}
+
+/* Container for album/label details */
+.cr-track-info__details-container {
+  width: 75%;
+  overflow-x: hidden;
+  height: 20px;
+  position: relative;
 }
 
 /* Scrolling elements with proper typography */

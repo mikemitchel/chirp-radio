@@ -16,6 +16,7 @@ interface CrTrackInfoProps {
   labelName?: string
   albumArt?: string
   isLocal?: boolean
+  isAdded?: boolean
   onToggleAdd?: (isAdded: boolean) => void
   className?: string
 }
@@ -28,16 +29,22 @@ export default function CrTrackInfo({
   labelName = '',
   albumArt = '',
   isLocal = false,
+  isAdded: isAddedProp,
   onToggleAdd,
   className = '',
 }: CrTrackInfoProps) {
   const { requireLogin, showLoginModal, handleLogin, handleSignUp, closeModal } = useLoginRequired()
-  const [isAdded, setIsAdded] = useState(false)
+  const [internalIsAdded, setInternalIsAdded] = useState(false)
 
-  // Check if track is in collection
+  // Use prop if provided, otherwise use internal state
+  const isAdded = isAddedProp !== undefined ? isAddedProp : internalIsAdded
+
+  // Check if track is in collection (only if not controlled by parent)
   useEffect(() => {
+    if (isAddedProp !== undefined) return // Skip if controlled by parent
+
     const checkCollection = () => {
-      setIsAdded(isInCollection(artistName, trackName))
+      setInternalIsAdded(isInCollection(artistName, trackName))
     }
     checkCollection()
 
@@ -46,7 +53,7 @@ export default function CrTrackInfo({
     return () => {
       window.removeEventListener('chirp-collection-updated', checkCollection)
     }
-  }, [artistName, trackName])
+  }, [artistName, trackName, isAddedProp])
 
   // Refs for scrolling elements
   const trackRef = useRef(null)
@@ -161,15 +168,7 @@ export default function CrTrackInfo({
   const renderFullVariant = () => (
     <div className="cr-track-info__text">
       {/* Title - full width */}
-      <div
-        style={{
-          width: '100%',
-          overflow: 'hidden',
-          height: '25px',
-          position: 'relative',
-        }}
-        ref={trackContainerRef}
-      >
+      <div className="cr-track-info__track-container" ref={trackContainerRef}>
         <div className="cr-track-info__track-scrolling" ref={trackRef}>
           {trackName}
         </div>
@@ -193,16 +192,7 @@ export default function CrTrackInfo({
             flex: 1,
           }}
         >
-          <div
-            style={{
-              overflow: 'hidden',
-              height: '22px',
-              position: 'relative',
-              minWidth: 0,
-              flex: 1,
-            }}
-            ref={artistContainerRef}
-          >
+          <div className="cr-track-info__artist-scroll-container" ref={artistContainerRef}>
             <div className="cr-track-info__artist-scrolling" ref={artistRef}>
               {artistName}
             </div>
@@ -227,15 +217,7 @@ export default function CrTrackInfo({
 
       {/* Album/Label - accommodate REMOVE button width */}
       {(albumName || labelName) && (
-        <div
-          style={{
-            width: '75%',
-            overflow: 'hidden',
-            height: '20px',
-            position: 'relative',
-          }}
-          ref={detailsContainerRef}
-        >
+        <div className="cr-track-info__details-container" ref={detailsContainerRef}>
           <div className="cr-track-info__details-scrolling" ref={detailsRef}>
             {albumName && <span className="cr-track-info__album">{albumName}</span>}
             {albumName && labelName && <span className="cr-track-info__separator"> </span>}
@@ -249,15 +231,7 @@ export default function CrTrackInfo({
   const renderMinimalVariant = () => (
     <div className="cr-track-info__text">
       {/* Title - full width */}
-      <div
-        style={{
-          width: '100%',
-          overflow: 'hidden',
-          height: '25px',
-          position: 'relative',
-        }}
-        ref={trackContainerRef}
-      >
+      <div className="cr-track-info__track-container" ref={trackContainerRef}>
         <div className="cr-track-info__track-scrolling" ref={trackRef}>
           {trackName}
         </div>
@@ -281,16 +255,7 @@ export default function CrTrackInfo({
             flex: 1,
           }}
         >
-          <div
-            style={{
-              overflow: 'hidden',
-              height: '22px',
-              position: 'relative',
-              minWidth: 0,
-              flex: 1,
-            }}
-            ref={artistContainerRef}
-          >
+          <div className="cr-track-info__artist-scroll-container" ref={artistContainerRef}>
             <div className="cr-track-info__artist-scrolling" ref={artistRef}>
               {artistName}
             </div>
@@ -318,15 +283,7 @@ export default function CrTrackInfo({
   const renderStackedVariant = () => (
     <div className="cr-track-info__text">
       {/* Title - full width */}
-      <div
-        style={{
-          width: '100%',
-          overflow: 'hidden',
-          height: '25px',
-          position: 'relative',
-        }}
-        ref={trackContainerRef}
-      >
+      <div className="cr-track-info__track-container" ref={trackContainerRef}>
         <div className="cr-track-info__track-scrolling" ref={trackRef}>
           {trackName}
         </div>
@@ -350,16 +307,7 @@ export default function CrTrackInfo({
             flex: 1,
           }}
         >
-          <div
-            style={{
-              overflow: 'hidden',
-              height: '22px',
-              position: 'relative',
-              minWidth: 0,
-              flex: 1,
-            }}
-            ref={artistContainerRef}
-          >
+          <div className="cr-track-info__artist-scroll-container" ref={artistContainerRef}>
             <div className="cr-track-info__artist-scrolling" ref={artistRef}>
               {artistName}
             </div>
@@ -384,15 +332,7 @@ export default function CrTrackInfo({
 
       {/* Album - wider width */}
       {albumName && (
-        <div
-          style={{
-            width: '75%',
-            overflow: 'hidden',
-            height: '20px',
-            position: 'relative',
-          }}
-          ref={albumContainerRef}
-        >
+        <div className="cr-track-info__details-container" ref={albumContainerRef}>
           <div className="cr-track-info__details-scrolling" ref={albumRef}>
             <span className="cr-track-info__album">{albumName}</span>
           </div>
@@ -401,15 +341,7 @@ export default function CrTrackInfo({
 
       {/* Label - wider width */}
       {labelName && (
-        <div
-          style={{
-            width: '75%',
-            overflow: 'hidden',
-            height: '20px',
-            position: 'relative',
-          }}
-          ref={labelContainerRef}
-        >
+        <div className="cr-track-info__details-container" ref={labelContainerRef}>
           <div className="cr-track-info__details-scrolling" ref={labelRef}>
             <span className="cr-track-info__label">{labelName}</span>
           </div>
