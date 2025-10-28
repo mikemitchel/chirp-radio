@@ -66,22 +66,26 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
 
   // Derived values from CMS
   const pageTitle = pageContent?.pageTitle || 'Make a Song Request'
+  const pageSubtitle = pageContent?.pageSubtitle || undefined
+  const formHintText = pageContent?.formHintText || 'Keep it friendly and respectful'
   const notLoggedInMessage =
     pageContent?.customNotLoggedInMessage ||
     appSettings?.notLoggedInMessage?.message ||
     'You need to be logged in to make a song request. This helps us know who the request is coming from and ensures a better experience for everyone.'
   const loginButtonText = appSettings?.notLoggedInMessage?.loginButtonText || 'log in'
   const signupButtonText = appSettings?.notLoggedInMessage?.signupButtonText || 'sign up'
-  const benefitsTitle = appSettings?.accountBenefits?.title || 'Benefits of Creating an Account:'
-  const benefits = appSettings?.accountBenefits?.benefits || [
-    { benefit: 'Save your favorite songs from our live stream to your personal collection' },
-    { benefit: 'Make song requests directly to our DJs during their shows' },
-    { benefit: 'Access your saved tracks across web and mobile apps' },
-    { benefit: 'Save your information for store purchases and donations' },
-    { benefit: 'Sync your preferences and settings between devices' },
-    { benefit: 'Get personalized recommendations based on your listening history' },
-    { benefit: 'Receive updates about upcoming shows and events' },
-  ]
+  const benefitsTitle = appSettings?.accountBenefitsTitle || 'Benefits of Creating an Account:'
+  const benefitsContent = appSettings?.accountBenefitsContent || `
+    <ul>
+      <li>Save your favorite songs from our live stream to your personal collection</li>
+      <li>Make song requests directly to our DJs during their shows</li>
+      <li>Access your saved tracks across web and mobile apps</li>
+      <li>Save your information for store purchases and donations</li>
+      <li>Sync your preferences and settings between devices</li>
+      <li>Get personalized recommendations based on your listening history</li>
+      <li>Receive updates about upcoming shows and events</li>
+    </ul>
+  `
 
   if (!isLoggedIn) {
     return (
@@ -110,11 +114,10 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
           </div>
 
           <h3 className="cr-profile-card__benefits-title">{benefitsTitle}</h3>
-          <ul className="cr-profile-card__benefits-list">
-            {benefits.map((item, index) => (
-              <li key={index}>{item.benefit}</li>
-            ))}
-          </ul>
+          <div
+            className="cr-profile-card__benefits-content"
+            dangerouslySetInnerHTML={{ __html: benefitsContent }}
+          />
         </div>
 
         <LoginRequiredModal
@@ -154,7 +157,13 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
         />
       </div>
 
-      <CrSongRequestForm title="" onSubmit={handleSubmit} onCancel={handleCancel} />
+      <CrSongRequestForm
+        title=""
+        bodyContent={pageSubtitle}
+        hintText={formHintText}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+      />
     </div>
   )
 }

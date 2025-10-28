@@ -532,10 +532,116 @@
   }
 }
 
+/* ========================================
+   ANDROID AUTO VARIANT
+   ======================================== */
+
+.cr-player--android-auto .cr-player__android-auto {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.cr-player--android-auto .cr-player__background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+.cr-player--android-auto .cr-player__color-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+.cr-player--android-auto .cr-player__android-auto-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--cr-space-6);
+  position: relative;
+  z-index: 3;
+  background-color: transparent;
+}
+
+/* Row 1: Logo */
+.cr-player--android-auto .cr-player__android-auto-logo {
+  flex-shrink: 0;
+}
+
+/* Row 2: DJ Info */
+.cr-player--android-auto .cr-player__android-auto-dj {
+  display: flex;
+  justify-content: center;
+  padding: var(--cr-space-4) var(--cr-space-6);
+  flex-shrink: 0;
+}
+
+.cr-player--android-auto .cr-current-dj {
+  transform: scale(1.25);
+}
+
+/* Row 3: Album Art + Track Info (side by side) */
+.cr-player--android-auto .cr-player__android-auto-media {
+  display: flex;
+  flex-direction: row;
+  gap: var(--cr-space-6);
+  padding: var(--cr-space-4) var(--cr-space-6);
+  flex: 1;
+  align-items: center;
+}
+
+.cr-player--android-auto .cr-player__android-auto-album {
+  width: 25vw;
+  height: 25vw;
+  flex-shrink: 0;
+}
+
+.cr-player--android-auto .cr-player__android-auto-album .cr-player__album-art {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--cr-space-1);
+}
+
+.cr-player--android-auto .cr-player__android-auto-track {
+  flex: 1;
+  min-width: 0;
+}
+
+.cr-player--android-auto .cr-track-info {
+  transform: scale(1.5);
+  transform-origin: left;
+  width: 65%;
+}
+
+/* Row 4: Play Button */
+.cr-player--android-auto .cr-player__android-auto-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--cr-space-4) var(--cr-space-6) var(--cr-space-6);
+  flex-shrink: 0;
+}
+
+.cr-player--android-auto .cr-player__play-button {
+  width: 120px;
+  height: 120px;
+}
+
 /* Ensure text contrast on all backgrounds */
 .cr-player__content,
 .cr-player__mobile-content,
 .cr-player__mobile-header,
+.cr-player__android-auto-content,
 .cr-player__dj-info,
 .cr-player__controls {
   color: var(--cr-ink);

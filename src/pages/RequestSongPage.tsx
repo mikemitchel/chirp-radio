@@ -177,11 +177,11 @@ const RequestSongPage: React.FC = () => {
                 </p>
 
                 <div style={{ display: 'flex', gap: 'var(--cr-space-3)' }}>
-                  <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUp}>
-                    sign up
-                  </CrButton>
                   <CrButton variant="outline" color="default" size="medium" onClick={handleLogin}>
                     log in
+                  </CrButton>
+                  <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUp}>
+                    sign up
                   </CrButton>
                 </div>
               </div>

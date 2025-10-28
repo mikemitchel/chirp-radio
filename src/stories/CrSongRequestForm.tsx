@@ -7,6 +7,7 @@ import './CrSongRequestForm.css'
 interface CrSongRequestFormProps {
   title?: string
   bodyContent?: string
+  hintText?: string
   maxMessageLength?: number
   onCancel?: () => void
   onSubmit?: (data: { artist: string; songTitle: string; message?: string }) => void
@@ -16,6 +17,7 @@ interface CrSongRequestFormProps {
 export default function CrSongRequestForm({
   title = 'Make a Song Request',
   bodyContent = 'Request a song for the DJ to play during their show.',
+  hintText = 'Keep it friendly and respectful',
   maxMessageLength = 200,
   onCancel,
   onSubmit,
@@ -130,9 +132,11 @@ export default function CrSongRequestForm({
             rows={4}
           />
           <div className="cr-song-request-form__helper-row">
-            <span className="cr-song-request-form__helper-text">
-              Keep it friendly and respectful
-            </span>
+            {hintText && (
+              <span className="cr-song-request-form__helper-text">
+                {hintText}
+              </span>
+            )}
             <span className="cr-song-request-form__char-count">
               {message.length}/{maxMessageLength}
             </span>
