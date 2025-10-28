@@ -39,6 +39,9 @@ class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.Media
         // Callbacks to web layer (for media button events)
         var onPlayCommand: (() -> Unit)? = null
         var onPauseCommand: (() -> Unit)? = null
+
+        // Callback for playback state changes
+        var onPlaybackStateChanged: ((Boolean) -> Unit)? = null
     }
 
     override fun onCreate() {
@@ -66,6 +69,8 @@ class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.Media
                     if (isForeground) {
                         showNotification()
                     }
+                    // Notify webview of state change
+                    ChirpMediaService.onPlaybackStateChanged?.invoke(isPlaying)
                 }
             }
             onError = { error ->
@@ -112,6 +117,7 @@ class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.Media
 
         // Notify web layer for UI updates
         onPlayCommand?.invoke()
+        onPlaybackStateChanged?.invoke(true)
     }
 
     override fun onPause() {
@@ -128,6 +134,7 @@ class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.Media
 
         // Notify web layer
         onPauseCommand?.invoke()
+        onPlaybackStateChanged?.invoke(false)
     }
 
     override fun onStop() {
@@ -185,18 +192,12 @@ class ChirpMediaService : MediaBrowserServiceCompat(), MediaSessionManager.Media
     }
 
     fun updatePlaybackState(isPlaying: Boolean) {
-        // Sync native player state when web layer changes state
-        if (isPlaying && !audioPlayer.isPlaying()) {
-            audioPlayer.play()
-        } else if (!isPlaying && audioPlayer.isPlaying()) {
-            audioPlayer.pause()
-        }
-
+        // Only update media session and notification state
+        // Do NOT control audio player here - play()/pause() are called directly from webview
         mediaSessionManager.updatePlaybackState(isPlaying)
-        if (isPlaying && !isForeground) {
+        if (isForeground) {
             showNotification()
-        } else if (!isPlaying && isForeground) {
-            // Keep notification but update play/pause button
+        } else if (isPlaying) {
             showNotification()
         }
     }

@@ -13,6 +13,7 @@ public class MainActivity extends BridgeActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // Register custom plugins before calling super.onCreate()
         registerPlugin(NowPlayingPlugin.class);
+        registerPlugin(NativeAudioBridgePlugin.class);
 
         super.onCreate(savedInstanceState);
 
