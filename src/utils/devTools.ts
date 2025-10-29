@@ -10,9 +10,9 @@ export const devTools = {
     window.dispatchEvent(new CustomEvent('chirp-switch-profile', { detail: role }))
   },
 
-  logout: () => {
-    // Dispatch a custom event to log out
-    window.dispatchEvent(new CustomEvent('chirp-logout'))
+  signOut: () => {
+    // Dispatch a custom event to sign out
+    window.dispatchEvent(new CustomEvent('chirp-signout'))
   },
 
   showProfiles: () => {
@@ -24,7 +24,7 @@ Commands:
   switchProfile('listener')   - Regular listener (no volunteer button)
   switchProfile('volunteer')  - Volunteer (has volunteer dropdown)
   switchProfile('dj')         - DJ (volunteer dropdown + DJ permissions)
-  logout()                    - Log out (show logged out state)
+  signOut()                   - Sign out (show signed out state)
 
 Profiles:
   • Listener:  Jane Listener   (listener@chirpradio.org)
@@ -33,7 +33,7 @@ Profiles:
 
 Example usage:
   switchProfile('volunteer')
-  logout()
+  signOut()
     `)
   },
 
@@ -181,7 +181,7 @@ Profile Management:
   switchProfile('listener')   - Switch to listener profile
   switchProfile('volunteer')  - Switch to volunteer profile
   switchProfile('dj')         - Switch to DJ profile
-  logout()                    - Log out
+  signOut()                   - Sign out
 
 API Stream Simulation:
   simulateAPIStream()         - Start simulating track changes
@@ -197,7 +197,7 @@ Image Testing:
 if (process.env.NODE_ENV === 'development') {
   interface WindowWithDevTools extends Window {
     switchProfile: typeof devTools.switchProfile;
-    logout: typeof devTools.logout;
+    signOut: typeof devTools.signOut;
     showProfiles: typeof devTools.showProfiles;
     simulateAPIStream: typeof devTools.simulateAPIStream;
     stopAPIStream: typeof devTools.stopAPIStream;
@@ -206,7 +206,7 @@ if (process.env.NODE_ENV === 'development') {
   }
   const w = window as unknown as WindowWithDevTools
   w.switchProfile = devTools.switchProfile
-  w.logout = devTools.logout
+  w.signOut = devTools.signOut
   w.showProfiles = devTools.showProfiles
   w.simulateAPIStream = devTools.simulateAPIStream
   w.stopAPIStream = devTools.stopAPIStream

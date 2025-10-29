@@ -11,7 +11,7 @@ import CrSocialIcon from './CrSocialIcon'
 import CrVolunteerEditForm from './CrVolunteerEditForm'
 
 interface CrProfileCardProps {
-  state?: 'view' | 'editProfile' | 'editVolunteer' | 'loggedOut'
+  state?: 'view' | 'editProfile' | 'editVolunteer' | 'signedOut'
   eyebrowText?: string
   title?: string
   showEditButton?: boolean
@@ -47,7 +47,7 @@ interface CrProfileCardProps {
   darkMode?: 'light' | 'dark' | 'device'
   onDarkModeChange?: (mode: 'light' | 'dark' | 'device') => void
   onLogin?: () => void
-  onLogout?: () => void
+  onSignOut?: () => void
   onSignUp?: () => void
   onForgotPassword?: () => void
   onShareApp?: () => void
@@ -59,7 +59,7 @@ interface CrProfileCardProps {
 
 export default function CrProfileCard({
   // Component state
-  state = 'view', // "view" | "editProfile" | "editVolunteer" | "loggedOut"
+  state = 'view', // "view" | "editProfile" | "editVolunteer" | "signedOut"
 
   // Header section
   eyebrowText = 'CHIRP Radio',
@@ -118,7 +118,7 @@ export default function CrProfileCard({
   darkMode = 'light',
   onDarkModeChange,
   onLogin,
-  onLogout,
+  onSignOut,
   onSignUp,
   onViewDJProfile,
 
@@ -146,8 +146,8 @@ export default function CrProfileCard({
   const isEditing = state === 'editProfile' || state === 'editVolunteer'
   const showEditTabs = (isVolunteer || isDJ) && isEditing
 
-  // Render logged out state
-  if (state === 'loggedOut') {
+  // Render signed out state
+  if (state === 'signedOut') {
     return (
       <div className={componentClasses} style={{ maxWidth }}>
         <CrPageHeader
@@ -272,8 +272,8 @@ export default function CrProfileCard({
                 <span className="cr-profile-card__detail-label">Email:</span>
                 <div className="cr-profile-card__detail-value-with-action">
                   <span className="cr-profile-card__detail-value">{email}</span>
-                  <CrButton variant="outline" color="default" size="small" onClick={onLogout}>
-                    log out
+                  <CrButton variant="outline" color="default" size="small" onClick={onSignOut}>
+                    sign out
                   </CrButton>
                 </div>
               </div>
