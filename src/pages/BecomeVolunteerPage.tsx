@@ -10,6 +10,7 @@ import { PiArrowRight, PiCalendarDots, PiReadCvLogo } from 'react-icons/pi'
 import volunteerData from '../data/volunteer.json'
 import { useAnnouncements, useArticles, useEvents, usePodcasts, usePageBySlug } from '../hooks/useData'
 import { getAdvertisementProps } from '../utils/categoryHelpers'
+import { getAnnouncementProps } from '../utils/typeHelpers'
 
 const BecomeVolunteerPage: React.FC = () => {
   const navigate = useNavigate()
@@ -87,19 +88,19 @@ const BecomeVolunteerPage: React.FC = () => {
                 <CrCard
                   variant="article"
                   type="page"
-                  imagePosition={contentBlocks[0].imagePosition || 'right'}
+                  imagePosition={(contentBlocks[0].imagePosition as string) || 'right'}
                   articleImageAspectRatio="16:9"
-                  preheader={contentBlocks[0].preheader}
-                  title={contentBlocks[0].title}
-                  titleTag={contentBlocks[0].titleTag || 'h1'}
+                  preheader={contentBlocks[0].preheader as string | undefined}
+                  title={contentBlocks[0].title as string}
+                  titleTag={contentBlocks[0].titleTag as any}
                   titleSize="xl"
                   bannerHeight="tall"
                   textLayout="stacked"
                   bannerBackgroundColor="none"
                   showTicketButton={false}
                   showShareButton={false}
-                  content={contentBlocks[0].content}
-                  backgroundImage={contentBlocks[0].backgroundImageUrl || contentBlocks[0].backgroundImage}
+                  content={contentBlocks[0].content as string | undefined}
+                  backgroundImage={(contentBlocks[0].backgroundImageUrl || contentBlocks[0].backgroundImage) as string | undefined}
                 />
               )}
 
@@ -108,17 +109,17 @@ const BecomeVolunteerPage: React.FC = () => {
                 <CrCard
                   variant="article"
                   type="page"
-                  imagePosition={contentBlocks[1].imagePosition || 'none'}
-                  preheader={contentBlocks[1].preheader}
-                  title={contentBlocks[1].title}
-                  titleTag={contentBlocks[1].titleTag || 'h2'}
+                  imagePosition={(contentBlocks[1].imagePosition as string) || 'none'}
+                  preheader={contentBlocks[1].preheader as string | undefined}
+                  title={contentBlocks[1].title as string}
+                  titleTag={contentBlocks[1].titleTag as any}
                   bannerHeight="narrow"
                   textLayout="inline"
                   bannerBackgroundColor="none"
                   showTicketButton={false}
                   showShareButton={false}
-                  content={contentBlocks[1].content}
-                  backgroundImage={contentBlocks[1].backgroundImageUrl || contentBlocks[1].backgroundImage}
+                  content={contentBlocks[1].content as string | undefined}
+                  backgroundImage={(contentBlocks[1].backgroundImageUrl || contentBlocks[1].backgroundImage) as string | undefined}
                 />
               )}
 
@@ -243,17 +244,11 @@ const BecomeVolunteerPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {selectedAnnouncement && (
+          {selectedAnnouncement && getAnnouncementProps(selectedAnnouncement as any) && (
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={selectedAnnouncement.backgroundColor}
-              headlineText={selectedAnnouncement.title}
-              bodyText={selectedAnnouncement.message}
-              showLink={!!selectedAnnouncement.ctaText}
-              linkText={selectedAnnouncement.ctaText}
-              linkUrl={selectedAnnouncement.ctaUrl}
-              buttonCount="none"
+              {...getAnnouncementProps(selectedAnnouncement as any)}
             />
           )}
 

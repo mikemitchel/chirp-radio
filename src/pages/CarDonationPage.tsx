@@ -10,6 +10,7 @@ import CrAdSpace from '../stories/CrAdSpace'
 import CrPageHeader from '../stories/CrPageHeader'
 import { useAnnouncements, useArticles, useEvents, usePodcasts, usePageBySlug } from '../hooks/useData'
 import { getAdvertisementProps } from '../utils/categoryHelpers'
+import { getAnnouncementProps } from '../utils/typeHelpers'
 
 const CarDonationPage: React.FC = () => {
   const navigate = useNavigate()
@@ -120,17 +121,11 @@ const CarDonationPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {selectedAnnouncement && (
+          {selectedAnnouncement && getAnnouncementProps(selectedAnnouncement as any) && (
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={selectedAnnouncement.backgroundColor}
-              headlineText={selectedAnnouncement.title}
-              bodyText={selectedAnnouncement.message}
-              showLink={!!selectedAnnouncement.ctaText}
-              linkText={selectedAnnouncement.ctaText}
-              linkUrl={selectedAnnouncement.ctaUrl}
-              buttonCount="none"
+              {...getAnnouncementProps(selectedAnnouncement as any)}
             />
           )}
 

@@ -11,6 +11,7 @@ import CrCard from '../stories/CrCard'
 import CrPageHeader from '../stories/CrPageHeader'
 import { useAnnouncements, useArticles, useEvents, usePodcasts, usePageBySlug } from '../hooks/useData'
 import { getAdvertisementProps } from '../utils/categoryHelpers'
+import { getAnnouncementProps } from '../utils/typeHelpers'
 
 const DonatePage: React.FC = () => {
   const navigate = useNavigate()
@@ -48,8 +49,8 @@ const DonatePage: React.FC = () => {
   // Get the first content block from CMS for the donate form
   const firstBlock = pageConfig?.layout?.[0]
   const donateFormProps = firstBlock?.blockType === 'contentCard' ? {
-    title: firstBlock.title,
-    description: firstBlock.content,
+    title: firstBlock.title as string,
+    description: firstBlock.content as string | undefined,
   } : {}
 
   // Determine which content to display in sidebar
@@ -105,17 +106,11 @@ const DonatePage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {selectedAnnouncement && (
+          {selectedAnnouncement && getAnnouncementProps(selectedAnnouncement as any) && (
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={selectedAnnouncement.backgroundColor}
-              headlineText={selectedAnnouncement.title}
-              bodyText={selectedAnnouncement.message}
-              showLink={!!selectedAnnouncement.ctaText}
-              linkText={selectedAnnouncement.ctaText}
-              linkUrl={selectedAnnouncement.ctaUrl}
-              buttonCount="none"
+              {...getAnnouncementProps(selectedAnnouncement as any)}
             />
           )}
 

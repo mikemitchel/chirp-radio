@@ -141,7 +141,7 @@ const ArticlesPage: React.FC = () => {
             />
           )}
           {sidebarAdvertisement && (
-            <CrAdSpace
+            <>{<CrAdSpace
               size={(sidebarAdvertisement as any).size || 'large-rectangle'}
               customWidth={(sidebarAdvertisement as any).customWidth}
               customHeight={(sidebarAdvertisement as any).customHeight}
@@ -154,7 +154,7 @@ const ArticlesPage: React.FC = () => {
               href={(sidebarAdvertisement as any).href}
               target={(sidebarAdvertisement as any).target}
               showLabel={(sidebarAdvertisement as any).showLabel}
-            />
+            />}</>
           )}
         </div>
       </div>

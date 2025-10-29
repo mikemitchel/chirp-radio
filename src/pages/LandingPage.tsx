@@ -20,6 +20,7 @@ import {
   useScheduledDJs,
   useSiteSettings,
 } from '../hooks/useData'
+import { getEventImageUrl, getEventCategoryName, getEventVenueName, getEventAgeRestriction } from '../utils/typeHelpers'
 import { useAuth } from '../hooks/useAuth'
 import { downloadDJShowCalendar } from '../utils/calendar'
 
@@ -47,16 +48,16 @@ const LandingPage: React.FC = () => {
   const topAnnouncementId =
     typeof siteSettings?.topAnnouncement === 'string'
       ? siteSettings.topAnnouncement
-      : siteSettings?.topAnnouncement?.id
+      : (siteSettings?.topAnnouncement as any)?.id
   const sidebarAnnouncementId =
     typeof siteSettings?.sidebarAnnouncement === 'string'
       ? siteSettings.sidebarAnnouncement
-      : siteSettings?.sidebarAnnouncement?.id
+      : (siteSettings?.sidebarAnnouncement as any)?.id
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const sidebarAdvertisementId =
     typeof siteSettings?.sidebarAdvertisement === 'string'
       ? siteSettings.sidebarAdvertisement
-      : siteSettings?.sidebarAdvertisement?.id
+      : (siteSettings?.sidebarAdvertisement as any)?.id
 
   // Get announcements by ID or fallback to first active
   const displayTopAnnouncement =
@@ -77,9 +78,9 @@ const LandingPage: React.FC = () => {
       ?.filter((e) => e.featured)
       .slice(0, 3)
       .map((event) => ({
-        backgroundImage: event.featuredImage,
+        backgroundImage: getEventImageUrl(event) || '',
         imageCaption: '',
-        preheader: typeof event.category === 'string' ? event.category : event.category?.name,
+        preheader: getEventCategoryName(event),
         title: event.title,
         dateTime: new Date(event.date).toLocaleString('en-US', {
           month: 'short',
@@ -88,11 +89,8 @@ const LandingPage: React.FC = () => {
           hour: 'numeric',
           minute: '2-digit',
         }),
-        venue: typeof event.venue === 'string' ? event.venue : event.venue?.name,
-        ageRestriction:
-          typeof event.ageRestriction === 'string'
-            ? event.ageRestriction
-            : event.ageRestriction?.age,
+        venue: getEventVenueName(event),
+        ageRestriction: getEventAgeRestriction(event),
         contentSummary: event.excerpt,
         bannerButtonText: event.isFree ? 'Learn More' : 'Get Tickets',
         shareButtonText: 'Share',
@@ -124,7 +122,7 @@ const LandingPage: React.FC = () => {
               variant={displayTopAnnouncement.variant}
               textureBackground={displayTopAnnouncement.textureBackground}
               headlineText={displayTopAnnouncement.headlineText}
-              bodyText={displayTopAnnouncement.bodyText}
+              bodyText={typeof displayTopAnnouncement.bodyText === 'string' ? displayTopAnnouncement.bodyText : undefined}
               showLink={displayTopAnnouncement.showLink}
               linkText={displayTopAnnouncement.linkText}
               linkUrl={displayTopAnnouncement.linkUrl}
@@ -165,7 +163,7 @@ const LandingPage: React.FC = () => {
               widthVariant="third"
               textureBackground={displaySidebarAnnouncement.textureBackground}
               headlineText={displaySidebarAnnouncement.headlineText}
-              bodyText={displaySidebarAnnouncement.bodyText}
+              bodyText={typeof displaySidebarAnnouncement.bodyText === 'string' ? displaySidebarAnnouncement.bodyText : undefined}
               showLink={displaySidebarAnnouncement.showLink}
               linkText={displaySidebarAnnouncement.linkText}
               linkUrl={displaySidebarAnnouncement.linkUrl}
@@ -181,18 +179,18 @@ const LandingPage: React.FC = () => {
 
           {sidebarAdvertisement && (
             <CrAdSpace
-              size={sidebarAdvertisement.size || 'mobile-banner'}
-              customWidth={sidebarAdvertisement.customWidth}
-              customHeight={sidebarAdvertisement.customHeight}
-              contentType={sidebarAdvertisement.contentType}
-              src={sidebarAdvertisement.imageUrl || sidebarAdvertisement.image?.url}
-              alt={sidebarAdvertisement.alt}
-              htmlContent={sidebarAdvertisement.htmlContent}
-              videoSrc={sidebarAdvertisement.videoUrl || sidebarAdvertisement.video?.url}
-              embedCode={sidebarAdvertisement.embedCode}
-              href={sidebarAdvertisement.href}
-              target={sidebarAdvertisement.target}
-              showLabel={sidebarAdvertisement.showLabel}
+              size={(sidebarAdvertisement as any).size || 'mobile-banner'}
+              customWidth={(sidebarAdvertisement as any).customWidth}
+              customHeight={(sidebarAdvertisement as any).customHeight}
+              contentType={(sidebarAdvertisement as any).contentType}
+              src={(sidebarAdvertisement as any).imageUrl || (sidebarAdvertisement as any).image?.url}
+              alt={(sidebarAdvertisement as any).alt}
+              htmlContent={(sidebarAdvertisement as any).htmlContent}
+              videoSrc={(sidebarAdvertisement as any).videoUrl || (sidebarAdvertisement as any).video?.url}
+              embedCode={(sidebarAdvertisement as any).embedCode}
+              href={(sidebarAdvertisement as any).href}
+              target={(sidebarAdvertisement as any).target}
+              showLabel={(sidebarAdvertisement as any).showLabel}
             />
           )}
         </div>
