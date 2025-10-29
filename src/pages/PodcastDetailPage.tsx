@@ -83,90 +83,86 @@ const PodcastDetailPage: React.FC = () => {
           />
 
           {podcast.pullQuote && (
-            <>
-              <div
+            <div
+              style={{
+                marginTop: 'var(--cr-space-8)',
+                maxWidth: '1000px',
+                padding: 'var(--cr-space-8)',
+                backgroundColor: 'var(--cr-default-100)',
+                borderLeft: '4px solid var(--cr-primary-500)',
+                borderRadius: 'var(--cr-space-1)',
+              }}
+            >
+              <blockquote
                 style={{
-                  marginTop: 'var(--cr-space-8)',
-                  maxWidth: '1000px',
-                  padding: 'var(--cr-space-8)',
-                  backgroundColor: 'var(--cr-default-100)',
-                  borderLeft: '4px solid var(--cr-primary-500)',
-                  borderRadius: 'var(--cr-space-1)',
+                  font: 'var(--cr-body-lg)',
+                  color: 'var(--cr-ink)',
+                  margin: 0,
+                  fontStyle: 'italic',
+                  lineHeight: 1.6,
                 }}
               >
-                <blockquote
+                {String(podcast.pullQuote)}
+              </blockquote>
+              {podcast.pullQuoteAttribution && (
+                <p
                   style={{
-                    font: 'var(--cr-body-lg)',
-                    color: 'var(--cr-ink)',
-                    margin: 0,
-                    fontStyle: 'italic',
-                    lineHeight: 1.6,
+                    font: 'var(--cr-body-sm)',
+                    color: 'var(--cr-default-700)',
+                    marginTop: 'var(--cr-space-3)',
+                    marginBottom: 0,
                   }}
                 >
-                  {String(podcast.pullQuote)}
-                </blockquote>
-                {podcast.pullQuoteAttribution && (
-                  <p
-                    style={{
-                      font: 'var(--cr-body-sm)',
-                      color: 'var(--cr-default-700)',
-                      marginTop: 'var(--cr-space-3)',
-                      marginBottom: 0,
-                    }}
-                  >
-                    {String(podcast.pullQuoteAttribution)}
-                  </p>
-                )}
-              </div>
-            </>
+                  {String(podcast.pullQuoteAttribution)}
+                </p>
+              )}
+            </div>
           )}
 
           {podcast.additionalInfo && (
-            <>
+            <div
+              style={{
+                marginTop: 'var(--cr-space-6)',
+                maxWidth: '1000px',
+                padding: 'var(--cr-space-6)',
+                backgroundColor: 'var(--cr-paper)',
+                border: '1px solid var(--cr-default-300)',
+                borderRadius: 'var(--cr-space-2)',
+              }}
+            >
               <div
                 style={{
-                  marginTop: 'var(--cr-space-6)',
-                  maxWidth: '1000px',
-                  padding: 'var(--cr-space-6)',
-                  backgroundColor: 'var(--cr-paper)',
-                  border: '1px solid var(--cr-default-300)',
-                  borderRadius: 'var(--cr-space-2)',
+                  font: 'var(--cr-body-reg)',
+                  color: 'var(--cr-ink)',
+                  lineHeight: 1.6,
+                  whiteSpace: 'pre-line',
                 }}
               >
-                <div
+                {String(podcast.additionalInfo)}
+              </div>
+              {podcast.transcriptUrl && (
+                <p
                   style={{
                     font: 'var(--cr-body-reg)',
                     color: 'var(--cr-ink)',
-                    lineHeight: 1.6,
-                    whiteSpace: 'pre-line',
+                    marginTop: 'var(--cr-space-4)',
+                    marginBottom: 0,
                   }}
                 >
-                  {String(podcast.additionalInfo)}
-                </div>
-                {podcast.transcriptUrl && (
-                  <p
+                  <a
+                    href={podcast.transcriptUrl as string}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     style={{
-                      font: 'var(--cr-body-reg)',
-                      color: 'var(--cr-ink)',
-                      marginTop: 'var(--cr-space-4)',
-                      marginBottom: 0,
+                      color: 'var(--cr-secondary-700)',
+                      textDecoration: 'underline',
                     }}
                   >
-                    <a
-                      href={podcast.transcriptUrl as string}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        color: 'var(--cr-secondary-700)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Read a transcript of the interview here.
-                    </a>
-                  </p>
-                )}
-              </div>
-            </>
+                    Read a transcript of the interview here.
+                  </a>
+                </p>
+              )}
+            </div>
           )}
 
           {podcast.soundCloudEmbedUrl && (
@@ -178,7 +174,7 @@ const PodcastDetailPage: React.FC = () => {
                 backgroundColor: 'var(--cr-paper)',
                 border: '1px solid var(--cr-default-300)',
                 borderRadius: 'var(--cr-space-2)',
-              }}
+              } as React.CSSProperties}
             >
               <div
                 style={{

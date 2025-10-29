@@ -98,9 +98,7 @@ export default function CrVolunteerEditForm({
                 size="small"
                 variant="outline"
                 color="default"
-                onClick={(e: any) => {
-                  e.preventDefault()
-                  e.stopPropagation()
+                onClick={() => {
                   const currentOrgs = formData.volunteerOrgs || ['']
                   handleInputChange('volunteerOrgs', [...currentOrgs, ''])
                 }}

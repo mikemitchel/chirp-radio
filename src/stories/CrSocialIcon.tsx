@@ -49,7 +49,7 @@ export default function CrSocialIcon({
   ariaLabel,
   ...props
 }: CrSocialIconProps) {
-  const platformConfig = socialPlatforms[platform]
+  const platformConfig = socialPlatforms[platform as keyof typeof socialPlatforms]
 
   if (!platformConfig) {
     console.warn(`CrSocialIcon: Unknown platform "${platform}"`)
@@ -63,7 +63,7 @@ export default function CrSocialIcon({
   const handleClick = (e: any) => {
     if (onClick) {
       e.preventDefault()
-      onClick(platform, url)
+      onClick(platform, url || '')
     }
   }
 
@@ -74,7 +74,7 @@ export default function CrSocialIcon({
       style={{
         '--cr-social-icon-color': platformConfig.color,
         '--cr-social-icon-size': `${size}px`,
-      }}
+      } as React.CSSProperties}
     />
   )
 
