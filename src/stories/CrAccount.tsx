@@ -116,7 +116,7 @@ export default function CrAccount({
     return (
       <>
         <div className="cr-account">
-          <CrAvatar isLoggedIn={false} size={32} />
+          <CrAvatar isLoggedIn={false} />
           <button className="cr-account__login-button" onClick={handleLoginButtonClick}>
             Log In
           </button>
@@ -210,11 +210,8 @@ export default function CrAccount({
           size="xsmall"
           variant="outline"
           color="default"
-          showLeftIcon={false}
-          showRightIcon={true}
           rightIcon={<DownIcon />}
           onClick={() => setUserMenuOpen(!userMenuOpen)}
-          className="cr-account__greeting-button"
         >
           Hello {userName}
         </CrButton>
@@ -232,8 +229,6 @@ export default function CrAccount({
             size="xsmall"
             variant="outline"
             color="default"
-            showLeftIcon={false}
-            showRightIcon={true}
             rightIcon={<DownIcon />}
             onClick={() => setVolunteerMenuOpen(!volunteerMenuOpen)}
           >

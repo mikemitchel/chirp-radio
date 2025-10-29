@@ -35,12 +35,12 @@ export default function YourCollection() {
   const notLoggedInDescription =
     pageContent?.customNotLoggedInMessage ||
     'A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!'
-  const actionButtonText = pageContent?.actionButtonText || 'Share Collection'
-  const loginButtonText = pageContent?.loginButtonText || 'Log In'
-  const signupButtonText = pageContent?.signupButtonText || 'Sign Up'
+  const actionButtonText = (pageContent as any)?.actionButtonText || 'Share Collection'
+  const loginButtonText = (pageContent as any)?.loginButtonText || 'Log In'
+  const signupButtonText = (pageContent as any)?.signupButtonText || 'Sign Up'
 
-  const benefitsTitle = appSettings?.accountBenefitsTitle || 'Benefits of Creating an Account:'
-  const benefitsContent = appSettings?.accountBenefitsContent || `
+  const benefitsTitle = (appSettings as any)?.accountBenefitsTitle || 'Benefits of Creating an Account:'
+  const benefitsContent = (appSettings as any)?.accountBenefitsContent || `
     <ul>
       <li>Save your favorite songs from our live stream to your personal collection</li>
       <li>Make song requests directly to our DJs during their shows</li>
@@ -54,7 +54,7 @@ export default function YourCollection() {
 
   // Get the announcement from CMS (now populated and transformed with depth: 1)
   const selectedAnnouncement =
-    typeof pageContent?.announcement === 'object' ? pageContent?.announcement : null
+    typeof (pageContent as any)?.announcement === 'object' ? (pageContent as any)?.announcement : null
 
   // Load collection on mount and when logged in
   useEffect(() => {
@@ -239,10 +239,10 @@ export default function YourCollection() {
             </CrButton>
           </div>
 
-          <h3 className="cr-profile-card__benefits-title">{benefitsTitle}</h3>
+          <h3 className="cr-profile-card__benefits-title">{benefitsTitle as React.ReactNode}</h3>
           <div
             className="cr-profile-card__benefits-content"
-            dangerouslySetInnerHTML={{ __html: benefitsContent }}
+            dangerouslySetInnerHTML={{ __html: benefitsContent as string }}
           />
         </div>
 

@@ -13,7 +13,7 @@ const LeadershipDirectoryPage: React.FC = () => {
     if (!users) return []
     return users
       .filter((user) =>
-        ['President', 'Vice President', 'Treasurer', 'Board Member'].includes(user.role)
+        ['President', 'Vice President', 'Treasurer', 'Board Member'].includes(user.role as string)
       )
       .map((user) => ({
         id: user.id,

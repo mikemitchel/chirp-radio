@@ -77,7 +77,7 @@ export default function CrCardDetails({
             <div className="cr-card-details__tags">
               {tags.map((tag, index) => (
                 <CrChip key={index} variant="secondary" size="medium">
-                  {typeof tag === 'string' ? tag : tag.tag}
+                  {typeof tag === 'string' ? tag : (tag as any).tag}
                 </CrChip>
               ))}
             </div>
