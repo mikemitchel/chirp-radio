@@ -378,6 +378,69 @@ export interface SiteSettings {
     target?: string
     showLabel?: boolean
   }
+  // Articles Page settings
+  articlesPageTitle?: string
+  articlesSidebarAnnouncement?: number | Announcement | string
+  articlesFullWidthAnnouncement?: number | Announcement | string
+  articlesSidebarAdvertisement?: {
+    size?: string
+    customWidth?: number
+    customHeight?: number
+    contentType?: string
+    imageUrl?: string
+    image?: { url?: string }
+    alt?: string
+    htmlContent?: string
+    videoUrl?: string
+    video?: { url?: string }
+    embedCode?: string
+    href?: string
+    target?: string
+    showLabel?: boolean
+    [key: string]: unknown
+  }
+  // Events Page settings
+  eventsPageTitle?: string
+  eventsSidebarAnnouncement?: number | Announcement | string
+  eventsFullWidthAnnouncement?: number | Announcement | string
+  eventsSidebarAdvertisement?: {
+    size?: string
+    customWidth?: number
+    customHeight?: number
+    contentType?: string
+    imageUrl?: string
+    image?: { url?: string }
+    alt?: string
+    htmlContent?: string
+    videoUrl?: string
+    video?: { url?: string }
+    embedCode?: string
+    href?: string
+    target?: string
+    showLabel?: boolean
+    [key: string]: unknown
+  }
+  // Podcasts Page settings
+  podcastsPageTitle?: string
+  podcastsSidebarAnnouncement?: number | Announcement | string
+  podcastsFullWidthAnnouncement?: number | Announcement | string
+  podcastsSidebarAdvertisement?: {
+    size?: string
+    customWidth?: number
+    customHeight?: number
+    contentType?: string
+    imageUrl?: string
+    image?: { url?: string }
+    alt?: string
+    htmlContent?: string
+    videoUrl?: string
+    video?: { url?: string }
+    embedCode?: string
+    href?: string
+    target?: string
+    showLabel?: boolean
+    [key: string]: unknown
+  }
   [key: string]: unknown
 }
 

@@ -6,8 +6,9 @@ import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import CrPagination from '../stories/CrPagination'
-import { usePodcasts, useAnnouncements } from '../hooks/useData'
+import { usePodcasts, useAnnouncements, useSiteSettings } from '../hooks/useData'
 import type { Podcast } from '../types/cms'
+import { getAdvertisementProps } from '../utils/categoryHelpers'
 
 const ITEMS_PER_PAGE = 11
 
@@ -37,6 +38,7 @@ const PodcastPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const { data: allPodcasts } = usePodcasts()
   const { data: announcements } = useAnnouncements()
+  const { data: siteSettings } = useSiteSettings()
 
   // Get current page from URL, default to 0
   const currentPage = parseInt(searchParams.get('page') || '0', 10)
@@ -67,10 +69,40 @@ const PodcastPage: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  // Get sidebar content from Site Settings
+  const sidebarAnnouncementId =
+    typeof siteSettings?.podcastsSidebarAnnouncement === 'string'
+      ? siteSettings.podcastsSidebarAnnouncement
+      : typeof siteSettings?.podcastsSidebarAnnouncement === 'object' && siteSettings.podcastsSidebarAnnouncement && 'id' in siteSettings.podcastsSidebarAnnouncement
+      ? siteSettings.podcastsSidebarAnnouncement.id
+      : undefined
+
+  const sidebarAnnouncement = sidebarAnnouncementId
+    ? announcements?.find((a) => String(a.id) === String(sidebarAnnouncementId))
+    : announcements?.[5] // fallback
+
+  const sidebarAdvertisement = siteSettings?.podcastsSidebarAdvertisement
+
+  // Get full-width announcement from Site Settings
+  const fullWidthAnnouncementId =
+    typeof siteSettings?.podcastsFullWidthAnnouncement === 'string'
+      ? siteSettings.podcastsFullWidthAnnouncement
+      : typeof siteSettings?.podcastsFullWidthAnnouncement === 'object' && siteSettings.podcastsFullWidthAnnouncement && 'id' in siteSettings.podcastsFullWidthAnnouncement
+      ? siteSettings.podcastsFullWidthAnnouncement.id
+      : undefined
+
+  const fullWidthAnnouncement = fullWidthAnnouncementId
+    ? announcements?.find((a) => String(a.id) === String(fullWidthAnnouncementId))
+    : announcements?.[4] // fallback
+
+  const adProps = getAdvertisementProps(sidebarAdvertisement)
+
+  const pageTitle = siteSettings?.podcastsPageTitle || 'Podcasts'
+
   return (
     <div className="podcast-page">
       <section className="page-container">
-        <CrPageHeader title="Podcasts" showEyebrow={false} showActionButton={false} />
+        <CrPageHeader title={pageTitle} showEyebrow={false} showActionButton={false} />
       </section>
 
       {/* 2/3 + 1/3 Layout - Featured Podcast */}
@@ -96,20 +128,22 @@ const PodcastPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {announcements && announcements[5] && (
+          {sidebarAnnouncement && (
             <CrAnnouncement
-              variant={announcements[5].variant}
+              variant={sidebarAnnouncement.variant}
               widthVariant="third"
-              textureBackground={announcements[5].textureBackground}
-              headlineText={announcements[5].headlineText}
-              bodyText={typeof announcements[5].bodyText === 'string' ? announcements[5].bodyText : undefined}
-              showLink={announcements[5].showLink}
-              linkText={announcements[5].linkText}
-              linkUrl={announcements[5].linkUrl}
-              buttonCount={announcements[5].buttonCount}
+              textureBackground={sidebarAnnouncement.textureBackground}
+              headlineText={sidebarAnnouncement.headlineText}
+              bodyText={typeof sidebarAnnouncement.bodyText === 'string' ? sidebarAnnouncement.bodyText : undefined}
+              showLink={sidebarAnnouncement.showLink}
+              linkText={sidebarAnnouncement.linkText}
+              linkUrl={sidebarAnnouncement.linkUrl}
+              buttonCount={sidebarAnnouncement.buttonCount}
             />
           )}
-          <CrAdSpace size="large-rectangle" />
+          {adProps && (
+            <CrAdSpace {...adProps} />
+          )}
         </div>
       </div>
 
@@ -200,16 +234,16 @@ const PodcastPage: React.FC = () => {
       {/* Announcement */}
       <section className="page-section">
         <div className="page-container">
-          {announcements && announcements[4] && (
+          {fullWidthAnnouncement && (
             <CrAnnouncement
-              variant={announcements[4].variant}
-              textureBackground={announcements[4].textureBackground}
-              headlineText={announcements[4].headlineText}
-              bodyText={typeof announcements[4].bodyText === 'string' ? announcements[4].bodyText : undefined}
-              showLink={announcements[4].showLink}
-              linkText={announcements[4].linkText}
-              linkUrl={announcements[4].linkUrl}
-              buttonCount={announcements[4].buttonCount}
+              variant={fullWidthAnnouncement.variant}
+              textureBackground={fullWidthAnnouncement.textureBackground}
+              headlineText={fullWidthAnnouncement.headlineText}
+              bodyText={typeof fullWidthAnnouncement.bodyText === 'string' ? fullWidthAnnouncement.bodyText : undefined}
+              showLink={fullWidthAnnouncement.showLink}
+              linkText={fullWidthAnnouncement.linkText}
+              linkUrl={fullWidthAnnouncement.linkUrl}
+              buttonCount={fullWidthAnnouncement.buttonCount}
             />
           )}
         </div>
