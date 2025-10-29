@@ -184,7 +184,7 @@ export default function CrAccount({
     },
   ]
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const handleUserMenuSelect = (option: any) => {
     if (option.onClick) {
       option.onClick()
@@ -192,7 +192,7 @@ export default function CrAccount({
     setUserMenuOpen(false)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const handleVolunteerMenuSelect = (option: any) => {
     if (option.onClick) {
       option.onClick()

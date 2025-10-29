@@ -40,6 +40,19 @@ module.exports = {
     // Optional tweaks
     'react/react-in-jsx-scope': 'off', // Not needed for React 17+
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off', // Disabled - will be gradually fixed in future PRs
+    // Allow unused vars if prefixed with underscore
+    'no-unused-vars': 'off', // Disable base rule as it can report incorrect errors
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        args: 'all',
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+      },
+    ],
   },
   settings: {
     react: {

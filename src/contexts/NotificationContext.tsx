@@ -27,6 +27,7 @@ interface NotificationContextType {
     message: string
     type: 'success' | 'info' | 'warning' | 'error'
     duration: number
+    onClose?: () => void
   }
   modalState: {
     isOpen: boolean
@@ -131,7 +132,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 
   // Add console method for testing toasts
   useEffect(() => {
-    ;(window as unknown as { showToast?: (message: string, type?: string, duration?: number) => void }).showToast = (message: string, type = 'success', duration = 5000) => {
+    ;(window as unknown as { showToast?: (message: string, type?: 'success' | 'info' | 'warning' | 'error', duration?: number) => void }).showToast = (message: string, type: 'success' | 'info' | 'warning' | 'error' = 'success', duration = 5000) => {
       setToastState({
         isVisible: true,
         message,
@@ -140,7 +141,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       })
     }
     return () => {
-      delete (window as unknown as { showToast?: (message: string, type?: string, duration?: number) => void }).showToast
+      delete (window as unknown as { showToast?: (message: string, type?: 'success' | 'info' | 'warning' | 'error', duration?: number) => void }).showToast
     }
   }, [])
 

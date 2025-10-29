@@ -78,7 +78,7 @@ export default function CrMainNav({
   const isWaysToGiveActive =
     location && waysToGiveOptions.some((option) => location.pathname === option.route)
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const handleWaysToGiveSelect = (option: any) => {
     if (option.route && navigate) {
       navigate(option.route)

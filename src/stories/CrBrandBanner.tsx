@@ -5,7 +5,7 @@ import CrStreamingMusicPlayer from './CrStreamingMusicPlayer'
 import './CrBrandBanner.css'
 
 interface CrBrandBannerProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   streamingPlayerProps?: any
 }
 

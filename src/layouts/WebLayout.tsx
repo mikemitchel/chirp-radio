@@ -36,7 +36,7 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
   useEffect(() => {
     const handleScroll = () => {
       // Get the header height (CrAppHeader)
-      const header = document.querySelector('.cr-app-header')
+      const header = document.querySelector('.cr-app-header') as HTMLElement | null
       const headerHeight = header ? header.offsetHeight : 200
 
       // Show player when scrolled past header, hide when at top

@@ -656,7 +656,7 @@ export default function AccountSettings() {
       sortable: false,
       width: 'narrow',
       align: 'center' as const,
-      render: (value: any, row: any) => (
+      render: (_value: any, row: any) => (
         <CrButton
           variant="text"
           size="xsmall"

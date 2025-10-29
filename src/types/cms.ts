@@ -209,7 +209,11 @@ export interface Page {
   id: string
   slug: string
   title: string
+  excerpt?: string
   layout?: PageBlock[]
+  sidebarAnnouncement?: number | Announcement | string
+  sidebarContentType?: string
+  sidebarAdvertisement?: unknown
   createdAt?: string
   updatedAt?: string
 }
@@ -263,6 +267,10 @@ export interface MobileAppSettings {
     message?: ContentField
     loginButtonText?: string
     signupButtonText?: string
+  }
+  loginModal?: {
+    loginMessage?: string
+    signupMessage?: string
   }
   [key: string]: unknown
 }

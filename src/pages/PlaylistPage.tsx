@@ -7,7 +7,7 @@ import CrPlaylistTable from '../stories/CrPlaylistTable'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrCard from '../stories/CrCard'
 import CrPagination from '../stories/CrPagination'
-import { useTracks, useCurrentShow, useArticles } from '../hooks/useData'
+import { useTracks, useArticles } from '../hooks/useData'
 import announcementsData from '../data/announcements.json'
 
 const HOURS_PER_PAGE = 4
