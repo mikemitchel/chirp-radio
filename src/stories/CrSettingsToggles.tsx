@@ -1,5 +1,5 @@
 // CrSettingsToggles.tsx
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import CrToggle from './CrToggle'
 import './CrSettingsToggles.css'
 
@@ -25,7 +25,6 @@ export default function CrSettingsToggles({
   className = '',
 }: CrSettingsTogglesProps) {
   const [localStreamingQuality, setLocalStreamingQuality] = useState(streamingQuality)
-  const [localPushNotifications, setLocalPushNotifications] = useState(pushNotifications)
   const [localDarkMode, setLocalDarkMode] = useState(darkMode)
 
   // Sync props with local state when they change
@@ -38,18 +37,13 @@ export default function CrSettingsToggles({
   }, [streamingQuality])
 
   useEffect(() => {
-    setLocalPushNotifications(pushNotifications)
+    // Sync pushNotifications state if needed
   }, [pushNotifications])
 
   const handleStreamingQualityChange = (isHigh: boolean) => {
     const quality = isHigh ? '128' : '64'
     setLocalStreamingQuality(quality)
     if (onStreamingQualityChange) onStreamingQualityChange(quality)
-  }
-
-  const handlePushNotificationsChange = (checked: boolean) => {
-    setLocalPushNotifications(checked)
-    if (onPushNotificationsChange) onPushNotificationsChange(checked)
   }
 
   const handleDarkModeChange = (mode: 'light' | 'dark' | 'device') => {

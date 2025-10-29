@@ -1,5 +1,4 @@
 // src/pages/VolunteerDownloadsPage.tsx
-import React from 'react'
 import { useNavigate } from 'react-router'
 import { Helmet } from 'react-helmet-async'
 import CrPageHeader from '../stories/CrPageHeader'
@@ -114,7 +113,6 @@ const downloadSections = [
 ]
 
 export default function VolunteerDownloadsPage() {
-  const navigate = useNavigate()
   const { data: pageConfig } = usePageBySlug('volunteer-downloads')
 
   const renderLinksContent = (links: { text: string; url: string }[]) => {

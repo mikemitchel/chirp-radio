@@ -446,7 +446,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!user || !user.pendingEmail || !user.pendingEmailToken) return false
     if (user.pendingEmailToken !== token) return false
     if (user.pendingEmailExpiry) {
-      const expiry = new Date(user.pendingEmailExpiry)
+      const expiry = new Date(user.pendingEmailExpiry as string)
       if (expiry < new Date()) return false
     }
     const updatedUser = {
@@ -477,11 +477,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     updateUserFavoriteDJsInContext(user.id, djId, isFavorite)
   }
 
+  // Convert UserContext User to AuthContext User type
+  const authUser: User | null = user ? {
+    ...user,
+    name: user.djName || user.username || user.email.split('@')[0],
+    role: (Array.isArray(user.role) ? user.role[0] : user.role || 'listener') as UserRole,
+    collection: user.collection as CollectionTrack[] | undefined,
+  } : null
+
   return (
     <AuthContext.Provider
       value={{
         isLoggedIn,
-        user: user ?? null,
+        user: authUser,
         login,
         logout,
         signup,
@@ -498,6 +506,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 }
 
+// Custom hook for accessing auth context
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext)
   if (context === undefined) {

@@ -1,5 +1,5 @@
 // CrSidebar.tsx
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 import { PiHandHeartLight, PiChatCircleTextLight, PiGear } from 'react-icons/pi'
 import CrButton from './CrButton'

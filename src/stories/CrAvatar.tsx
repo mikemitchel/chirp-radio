@@ -13,7 +13,6 @@ export default function CrAvatar({
   src,
   alt = 'User avatar',
   isLoggedIn = false,
-  fallbackText = '?',
 }: CrAvatarProps) {
   // Generic user icon SVG
   const UserIcon = () => (

@@ -3,7 +3,6 @@ import React from 'react'
 import { useNavigate } from 'react-router'
 import { PiSignIn, PiVinylRecord } from 'react-icons/pi'
 import CrButton from '../stories/CrButton'
-import CrPageHeader from '../stories/CrPageHeader'
 import { useAuth } from '../hooks/useAuth'
 import chirpBirdLogo from '../assets/chirp-logos/CHIRP-bird.svg'
 

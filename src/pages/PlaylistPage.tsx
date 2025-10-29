@@ -16,7 +16,6 @@ const PlaylistPage: React.FC = () => {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const { data: tracks } = useTracks()
-  const { data: currentShow } = useCurrentShow()
   const { data: articles } = useArticles()
 
   // Get current page from URL, default to 0

@@ -1,5 +1,4 @@
 // CrDjDonation.tsx
-import React from 'react'
 import CrButton from './CrButton'
 import { PiHandHeart } from 'react-icons/pi'
 import './CrDjDonation.css'

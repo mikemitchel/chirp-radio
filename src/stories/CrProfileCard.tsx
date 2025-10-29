@@ -1,5 +1,5 @@
 // CrProfileCard.tsx
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { PiHeart, PiMinus, PiPencilSimple, PiUser } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
@@ -238,11 +238,6 @@ export default function CrProfileCard({
   onLogin,
   onLogout,
   onSignUp,
-  onForgotPassword,
-  onShareApp,
-  onLikeAppStore,
-  onAppSupport,
-  onTermsPrivacy,
   onViewDJProfile,
 
   // Layout

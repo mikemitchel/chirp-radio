@@ -1,7 +1,6 @@
 // src/pages/VolunteerDirectoryPage.tsx
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router'
-import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrTable from '../stories/CrTable'
 import CrChip from '../stories/CrChip'
@@ -28,11 +27,6 @@ const VolunteerDirectoryPage: React.FC = () => {
         phone: user.phone || '',
       }))
   }, [users])
-
-  const breadcrumbItems = [
-    { label: 'Home', path: '/', onClick: () => navigate('/') },
-    { label: 'Volunteer Directory', path: '/volunteer-directory', isActive: true },
-  ]
 
   // Render role as CrChip with custom colors
   const renderRole = (role: string) => {

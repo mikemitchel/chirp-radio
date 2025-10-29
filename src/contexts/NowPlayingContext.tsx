@@ -160,10 +160,13 @@ export function NowPlayingProvider({
           // Parse DJ and show names
           const parsed = parseDjAndShowName(newData.dj || '', newData.show || '')
 
+          // Get quality for image upgrade (fallback to 'low' if offline)
+          const imageQuality = networkInfo.quality === 'offline' ? 'low' : networkInfo.quality
+
           // Determine album art URL
           let albumArtUrl = ''
           if (newData.albumArt) {
-            albumArtUrl = upgradeImageQuality(newData.albumArt, networkInfo.quality)
+            albumArtUrl = upgradeImageQuality(newData.albumArt, imageQuality)
           } else if (newData.lastfm_urls) {
             // Handle API format with lastfm_urls
             const bestImage =
@@ -171,7 +174,7 @@ export function NowPlayingProvider({
               newData.lastfm_urls.med_image ||
               newData.lastfm_urls.sm_image
             if (bestImage) {
-              albumArtUrl = upgradeImageQuality(bestImage, networkInfo.quality)
+              albumArtUrl = upgradeImageQuality(bestImage, imageQuality)
             }
           }
 
@@ -212,7 +215,8 @@ export function NowPlayingProvider({
               albumArt: trackData.albumArt,
               labelName: trackData.label,
               isLocal: trackData.isLocal,
-              timestamp: new Date().toISOString(),
+              djName: trackData.dj,
+              showName: trackData.show,
             })
           }
 
@@ -224,16 +228,17 @@ export function NowPlayingProvider({
           // Retry album art if missing
           const hasAlbumArtSource = newData.albumArt || newData.lastfm_urls
           if (!currentData.albumArt && hasAlbumArtSource && albumArtRetryCountRef.current < 5) {
+            const retryImageQuality = networkInfo.quality === 'offline' ? 'low' : networkInfo.quality
             let retryAlbumArt = ''
             if (newData.albumArt) {
-              retryAlbumArt = upgradeImageQuality(newData.albumArt, networkInfo.quality)
+              retryAlbumArt = upgradeImageQuality(newData.albumArt, retryImageQuality)
             } else if (newData.lastfm_urls) {
               const bestImage =
                 newData.lastfm_urls.large_image ||
                 newData.lastfm_urls.med_image ||
                 newData.lastfm_urls.sm_image
               if (bestImage) {
-                retryAlbumArt = upgradeImageQuality(bestImage, networkInfo.quality)
+                retryAlbumArt = upgradeImageQuality(bestImage, retryImageQuality)
               }
             }
 

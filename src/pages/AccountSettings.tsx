@@ -1,17 +1,14 @@
 // src/pages/AccountSettings.tsx
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router'
-import { PiPencilSimple, PiHandHeart, PiStorefront, PiDownloadSimple } from 'react-icons/pi'
-import CrPageHeader from '../stories/CrPageHeader'
+import { PiHandHeart, PiStorefront, PiDownloadSimple } from 'react-icons/pi'
 import CrProfileCard from '../stories/CrProfileCard'
 import CrTable from '../stories/CrTable'
 import CrButton from '../stories/CrButton'
-import CrChip from '../stories/CrChip'
 import CrModal from '../stories/CrModal'
 import CrAppIconSelector from '../stories/CrAppIconSelector'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
-import { shouldShowIconSelector } from '../utils/deviceDetection'
 import { Capacitor } from '@capacitor/core'
 import AppIconPlugin from '../plugins/AppIconPlugin'
 import LoginRequiredModal from '../components/LoginRequiredModal'
@@ -25,7 +22,7 @@ export default function AccountSettings() {
     user,
     login,
     logout,
-    switchProfile,
+    signup,
     verifyPassword,
     requestEmailChange,
     verifyEmailChange,
@@ -199,7 +196,7 @@ export default function AccountSettings() {
     window.dispatchEvent(new CustomEvent('chirp-quality-change', { detail: quality }))
   }
 
-  const handlePushNotificationsChange = (checked: boolean) => {
+  const handlePushNotificationsChange = (_checked: boolean) => {
     // TODO: Save notification preference
   }
 

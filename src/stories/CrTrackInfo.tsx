@@ -74,8 +74,8 @@ export default function CrTrackInfo({
     const checkOverflow = (element: HTMLElement | null, container: HTMLElement | null) => {
       if (element && container) {
         // Force a reflow to ensure accurate measurements
-        container.offsetWidth
-        element.offsetWidth
+        void container.offsetWidth
+        void element.offsetWidth
 
         // Add a small buffer to prevent unnecessary scrolling for minor differences
         const buffer = 5

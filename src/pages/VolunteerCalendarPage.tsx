@@ -72,13 +72,10 @@ const VolunteerCalendarPage: React.FC = () => {
     sidebarContent = podcasts?.slice(0, 3) || []
     sidebarTitle = 'Recent Podcasts'
     sidebarActionText = 'All Podcasts'
-    sidebarActionPath = '/podcasts'
     handleSidebarClick = handlePodcastClick
   } else if (sidebarContentType === 'events') {
     sidebarContent = events?.slice(0, 3) || []
     sidebarTitle = 'Upcoming Events'
-    sidebarActionText = 'All Events'
-    sidebarActionPath = '/events'
     handleSidebarClick = handleChirpEventClick
   }
 
