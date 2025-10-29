@@ -10,6 +10,7 @@ import CrAdSpace from '../stories/CrAdSpace'
 import waysToGiveData from '../data/waysToGive.json'
 import { useAnnouncements, useArticles, useEvents, usePodcasts, usePageBySlug } from '../hooks/useData'
 import { getAdvertisementProps } from '../utils/categoryHelpers'
+import { getAnnouncementProps } from '../utils/typeHelpers'
 
 const OtherWaysToGivePage: React.FC = () => {
   const navigate = useNavigate()
@@ -88,19 +89,19 @@ const OtherWaysToGivePage: React.FC = () => {
                 <CrCard
                   variant="article"
                   type="page"
-                  imagePosition={contentBlocks[0].imagePosition || 'right'}
+                  imagePosition={(contentBlocks[0].imagePosition as string) || 'right'}
                   articleImageAspectRatio="16:9"
-                  preheader={contentBlocks[0].preheader}
-                  title={contentBlocks[0].title}
-                  titleTag={contentBlocks[0].titleTag || 'h1'}
+                  preheader={contentBlocks[0].preheader as string | undefined}
+                  title={contentBlocks[0].title as string}
+                  titleTag={contentBlocks[0].titleTag as any}
                   titleSize="xl"
                   bannerHeight="tall"
                   textLayout="stacked"
                   bannerBackgroundColor="none"
                   showTicketButton={false}
                   showShareButton={false}
-                  content={contentBlocks[0].content}
-                  backgroundImage={contentBlocks[0].backgroundImageUrl || contentBlocks[0].backgroundImage}
+                  content={contentBlocks[0].content as string | undefined}
+                  backgroundImage={(contentBlocks[0].backgroundImageUrl || contentBlocks[0].backgroundImage) as string | undefined}
                 />
               )}
 
@@ -259,17 +260,11 @@ const OtherWaysToGivePage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {selectedAnnouncement && (
+          {selectedAnnouncement && getAnnouncementProps(selectedAnnouncement as any) && (
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={selectedAnnouncement.backgroundColor}
-              headlineText={selectedAnnouncement.title}
-              bodyText={selectedAnnouncement.message}
-              showLink={!!selectedAnnouncement.ctaText}
-              linkText={selectedAnnouncement.ctaText}
-              linkUrl={selectedAnnouncement.ctaUrl}
-              buttonCount="none"
+              {...getAnnouncementProps(selectedAnnouncement as any)}
             />
           )}
 
