@@ -22,7 +22,7 @@ export default function CrFormsShowcase() {
     volunteerOrgs: [{ org: 'Chicago Music Coalition', type: 'Arts' }],
   })
 
-  const handleDemoFormChange = (field: any, value: any) => {
+  const handleDemoFormChange = (field: string, value: unknown) => {
     setDemoFormData((prev) => ({ ...prev, [field]: value }))
   }
 
@@ -323,7 +323,7 @@ export default function CrFormsShowcase() {
                   <input
                     type="text"
                     className="form-input--social"
-                    value={(demoFormData as any)[`${platform}Url`] || ''}
+                    value={(demoFormData as Record<string, unknown>)[`${platform}Url`] as string || ''}
                     onChange={(e) => handleDemoFormChange(`${platform}Url`, e.target.value)}
                     placeholder={`www.${platform}.com/yourusername`}
                   />

@@ -14,7 +14,10 @@ export function getIOSVersion(): IOSVersionInfo {
   const userAgent = window.navigator.userAgent
 
   // Check if the device is iOS (iPhone, iPad, iPod)
-  const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as any).MSStream
+  interface WindowWithMSStream extends Window {
+    MSStream?: unknown;
+  }
+  const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !(window as WindowWithMSStream).MSStream
 
   if (!isIOS) {
     return {
@@ -65,7 +68,10 @@ export function supportsAlternateIcons(): boolean {
  * @returns true if running in Capacitor
  */
 export function isCapacitorApp(): boolean {
-  return !!(window as any).Capacitor
+  interface WindowWithCapacitor extends Window {
+    Capacitor?: unknown;
+  }
+  return !!(window as WindowWithCapacitor).Capacitor
 }
 
 /**

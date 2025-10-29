@@ -64,7 +64,7 @@ const CrAdSpace = ({
     },
   }
 
-  const currentSize = (adSizes as any)[size] || adSizes['large-rectangle']
+  const currentSize = adSizes[size as keyof typeof adSizes] || adSizes['large-rectangle']
   const isSkyscraper = size === 'wide-skyscraper'
 
   // Intersection Observer for impression tracking
