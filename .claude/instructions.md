@@ -24,6 +24,9 @@
 
 **Goal:** Ship with feature parity to current product
 
+**Recently Completed:**
+- **Auto-generated Sitemap ✅** (Merged PR #60) - Sitemap auto-generates from `src/config/routes.ts`. Single source of truth for navigation, can be reused for menus, breadcrumbs, etc.
+
 **Priority Tasks (All Equal Priority):**
 - **TODO: Apple CarPlay integration** - waiting for Apple Dev CarPlay cert
 - **TODO: Apple Watch streaming controls** - waiting for Apple Dev CarPlay cert
@@ -32,7 +35,14 @@
 - **TODO: Album art accuracy** (API polling issue with fallback images)
 - **TODO: Cached API content strategy**
 - **TODO: Mobile-specific CMS collections for page content** - check to see if we've gotten all the static and fake data removed and connected to CMS
-- **TODO: Fix CMS API integration in Capacitor iOS builds** - Environment variables not loading properly in production builds, preventing CMS data from being fetched in the mobile app. Needs investigation into Vite env var handling with Capacitor builds.
+- **TODO: Fix CMS API integration in Capacitor iOS builds** - Production iOS builds fail to load CMS content because `VITE_CMS_API_URL` falls back to `http://localhost:3000/api`, which iOS devices can't reach.
+  - **Root Cause:** In `src/utils/api.ts`, the fallback URL is `localhost:3000`. When building for production without setting `VITE_CMS_API_URL`, this hardcoded fallback is baked into the static bundle.
+  - **Solution Options:**
+    1. Set `VITE_CMS_API_URL` in `.env.production` before building (requires CMS deployed first)
+    2. Update fallback logic in `src/utils/api.ts` to use production CMS URL when `import.meta.env.PROD` is true
+  - **Files:** `src/utils/api.ts`, `.env.production` (needs creation)
+  - **Testing:** Build production iOS app and verify CMS content loads (currently untested)
+  - **Dependencies:** Requires CMS deployed to Railway/Render/Vercel before this can be fully fixed
 - **TODO: Create HTML email template for MailChimp** - Design and build a responsive HTML email template for CHIRP Radio's email campaigns.
 - **TODO: Integrate PayPal into Store/Shop** - Add PayPal payment processing to the store checkout flow.
 - **TODO: Integrate Neon for donations** - Integrate Neon CRM donation components into the donation flow.
