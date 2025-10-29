@@ -2,68 +2,16 @@
 import { useNavigate } from 'react-router'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrButton from '../stories/CrButton'
+import { sitemapSections } from '../config/routes'
 
 export default function SitemapPage() {
   const navigate = useNavigate()
 
-  const sitemapSections = [
-    {
-      title: 'Listen & Discover',
-      links: [
-        { label: 'Listen Live', path: '/listen' },
-        { label: 'Playlist', path: '/playlist' },
-        { label: 'Recently Played', path: '/playlist' },
-        { label: 'DJs', path: '/djs' },
-        { label: 'Schedule', path: '/schedule' },
-        { label: 'Podcast', path: '/podcast' },
-        { label: 'Other Ways to Listen', path: '/other-ways-to-listen' },
-      ],
-    },
-    {
-      title: 'Community',
-      links: [
-        { label: 'Events', path: '/events' },
-        { label: 'Articles', path: '/articles' },
-        { label: 'About CHIRP', path: '/about' },
-        { label: 'Contact Us', path: '/contact' },
-      ],
-    },
-    {
-      title: 'Support CHIRP',
-      links: [
-        { label: 'Donate', path: '/donate' },
-        { label: 'Ways to Give', path: '/ways-to-give' },
-        { label: 'Vinyl Circle', path: '/vinyl-circle' },
-        { label: 'Car Donation', path: '/car-donation' },
-        { label: 'Shop', path: '/shop' },
-      ],
-    },
-    {
-      title: 'Get Involved',
-      links: [
-        { label: 'Become a Volunteer', path: '/volunteer' },
-        { label: 'Request a Song', path: '/request' },
-        { label: 'Volunteer Resources', path: '/volunteer/resources' },
-        { label: 'Volunteer Calendar', path: '/volunteer/calendar' },
-        { label: 'Volunteer Downloads', path: '/volunteer/downloads' },
-      ],
-    },
-    {
-      title: 'Account',
-      links: [
-        { label: 'Account Settings', path: '/account-settings' },
-        { label: 'Your Collection', path: '/my-collection' },
-      ],
-    },
-    {
-      title: 'Legal & Information',
-      links: [
-        { label: 'Privacy Policy', path: '/privacy-policy' },
-        { label: 'Terms of Service', path: '/terms-of-service' },
-        { label: 'Websites to Remember', path: '/volunteer/websites' },
-      ],
-    },
-  ]
+  // Filter out hidden routes from sitemap
+  const visibleSections = sitemapSections.map(section => ({
+    ...section,
+    routes: section.routes.filter(route => !route.hidden),
+  })).filter(section => section.routes.length > 0)
 
   const handleLinkClick = (path: string) => {
     navigate(path)
@@ -93,7 +41,7 @@ export default function SitemapPage() {
         </p>
 
         <div className="grid-2col-equal" style={{ gap: 'var(--cr-space-6)' }}>
-          {sitemapSections.map((section, index) => (
+          {visibleSections.map((section, index) => (
             <div
               key={index}
               style={{
@@ -112,17 +60,45 @@ export default function SitemapPage() {
               }}>
                 {section.title}
               </h2>
+              {section.description && (
+                <p style={{
+                  font: 'var(--cr-body-sm)',
+                  color: 'var(--cr-default-600)',
+                  marginBottom: 'var(--cr-space-4)',
+                }}>
+                  {section.description}
+                </p>
+              )}
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {section.links.map((link, linkIndex) => (
-                  <li key={linkIndex} style={{ marginBottom: 'var(--cr-space-2)' }}>
+                {section.routes.map((route, routeIndex) => (
+                  <li key={routeIndex} style={{ marginBottom: 'var(--cr-space-2)' }}>
                     <CrButton
                       variant="text"
                       size="small"
                       color="default"
-                      onClick={() => handleLinkClick(link.path)}
+                      onClick={() => handleLinkClick(route.path)}
                     >
-                      {link.label}
+                      {route.label}
+                      {route.protected && (
+                        <span style={{
+                          marginLeft: 'var(--cr-space-2)',
+                          fontSize: '0.75em',
+                          color: 'var(--cr-default-400)',
+                        }}>
+                          🔒
+                        </span>
+                      )}
                     </CrButton>
+                    {route.description && (
+                      <p style={{
+                        font: 'var(--cr-body-xs)',
+                        color: 'var(--cr-default-500)',
+                        marginTop: 'var(--cr-space-1)',
+                        marginLeft: 'var(--cr-space-3)',
+                      }}>
+                        {route.description}
+                      </p>
+                    )}
                   </li>
                 ))}
               </ul>
