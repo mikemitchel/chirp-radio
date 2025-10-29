@@ -38,7 +38,7 @@ const DonatePage: React.FC = () => {
   }
 
   // Get the announcement specified in CMS or fallback to index 5
-  const selectedAnnouncement = pageConfig?.sidebarAnnouncement || announcements?.[5]
+  const selectedAnnouncement = typeof pageConfig?.sidebarAnnouncement === 'object' ? pageConfig.sidebarAnnouncement : typeof pageConfig?.sidebarAnnouncement === 'string' || typeof pageConfig?.sidebarAnnouncement === 'number' ? announcements?.find(a => String(a.id) === String(pageConfig.sidebarAnnouncement)) : announcements?.[5]
 
   // Get the content type specified in CMS or fallback to 'events'
   const sidebarContentType = pageConfig?.sidebarContentType || 'events'
@@ -106,11 +106,11 @@ const DonatePage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {selectedAnnouncement && getAnnouncementProps(selectedAnnouncement as any) && (
+          {selectedAnnouncement && getAnnouncementProps(selectedAnnouncement) && (
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              {...getAnnouncementProps(selectedAnnouncement as any)}
+              {...getAnnouncementProps(selectedAnnouncement)}
             />
           )}
 

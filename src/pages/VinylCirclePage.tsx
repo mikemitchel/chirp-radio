@@ -37,7 +37,7 @@ const VinylCirclePage: React.FC = () => {
   }
 
   // Get the announcement specified in CMS or fallback to index 5
-  const selectedAnnouncement = pageConfig?.sidebarAnnouncement || announcements?.[5]
+  const selectedAnnouncement = typeof pageConfig?.sidebarAnnouncement === 'object' ? pageConfig.sidebarAnnouncement : typeof pageConfig?.sidebarAnnouncement === 'string' || typeof pageConfig?.sidebarAnnouncement === 'number' ? announcements?.find(a => String(a.id) === String(pageConfig.sidebarAnnouncement)) : announcements?.[5]
 
   // Get the content type specified in CMS or fallback to 'events'
   const sidebarContentType = pageConfig?.sidebarContentType || 'events'
@@ -110,12 +110,12 @@ const VinylCirclePage: React.FC = () => {
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={(selectedAnnouncement as any).backgroundColor}
-              headlineText={(selectedAnnouncement as any).title}
-              bodyText={(selectedAnnouncement as any).message}
-              showLink={!!(selectedAnnouncement as any).ctaText}
-              linkText={(selectedAnnouncement as any).ctaText}
-              linkUrl={(selectedAnnouncement as any).ctaUrl}
+              textureBackground={('backgroundColor' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).backgroundColor as string : undefined)}
+              headlineText={('title' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).title as string : selectedAnnouncement.headlineText)}
+              bodyText={('message' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).message as string : typeof selectedAnnouncement.bodyText === 'string' ? selectedAnnouncement.bodyText : undefined)}
+              showLink={!!('ctaText' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).ctaText as string : undefined)}
+              linkText={('ctaText' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).ctaText as string : undefined)}
+              linkUrl={('ctaUrl' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).ctaUrl as string : undefined)}
               buttonCount="none"
             />
           )}

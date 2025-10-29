@@ -36,7 +36,7 @@ const ContactPage: React.FC = () => {
   }
 
   // Get the announcement specified in CMS or fallback to index 1
-  const selectedAnnouncement = pageConfig?.sidebarAnnouncement || announcements?.[1]
+  const selectedAnnouncement = typeof pageConfig?.sidebarAnnouncement === 'object' ? pageConfig.sidebarAnnouncement : typeof pageConfig?.sidebarAnnouncement === 'string' || typeof pageConfig?.sidebarAnnouncement === 'number' ? announcements?.find(a => String(a.id) === String(pageConfig.sidebarAnnouncement)) : announcements?.[1]
 
   // Get the content type specified in CMS or fallback to 'events'
   const sidebarContentType = pageConfig?.sidebarContentType || 'events'
@@ -92,7 +92,7 @@ const ContactPage: React.FC = () => {
                   articleImageAspectRatio="16:9"
                   preheader={contentBlocks[0].preheader as string | undefined}
                   title={contentBlocks[0].title as string}
-                  titleTag={contentBlocks[0].titleTag as any}
+                  titleTag={contentBlocks[0].titleTag as ("h1" | "h2" | "h3" | "h4" | "h5" | "h6")}
                   titleSize="xl"
                   bannerHeight="tall"
                   textLayout="stacked"
@@ -202,11 +202,11 @@ const ContactPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {selectedAnnouncement && getAnnouncementProps(selectedAnnouncement as any) && (
+          {selectedAnnouncement && getAnnouncementProps(selectedAnnouncement) && (
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              {...getAnnouncementProps(selectedAnnouncement as any)}
+              {...getAnnouncementProps(selectedAnnouncement)}
             />
           )}
 

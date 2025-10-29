@@ -155,7 +155,9 @@ const ListenPage: React.FC = () => {
   const fullWidthAnnouncementId =
     typeof siteSettings?.fullWidthAnnouncement === 'string'
       ? siteSettings.fullWidthAnnouncement
-      : (siteSettings?.fullWidthAnnouncement as any)?.id
+      : typeof siteSettings?.fullWidthAnnouncement === 'object' && siteSettings.fullWidthAnnouncement && 'id' in siteSettings.fullWidthAnnouncement
+      ? siteSettings.fullWidthAnnouncement.id
+      : undefined
 
   const fullWidthAnnouncement = fullWidthAnnouncementId
     ? announcements?.find((a) => a.id === fullWidthAnnouncementId)
@@ -265,7 +267,7 @@ const ListenPage: React.FC = () => {
               variant={fullWidthAnnouncement.variant}
               textureBackground={fullWidthAnnouncement.textureBackground}
               headlineText={fullWidthAnnouncement.headlineText}
-              bodyText={fullWidthAnnouncement.bodyText as any}
+              bodyText={typeof fullWidthAnnouncement.bodyText === 'string' ? fullWidthAnnouncement.bodyText : undefined}
               showLink={fullWidthAnnouncement.showLink}
               linkText={fullWidthAnnouncement.linkText}
               linkUrl={fullWidthAnnouncement.linkUrl}

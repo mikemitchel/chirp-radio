@@ -14,7 +14,7 @@ const ITEMS_PER_PAGE = 11
 // Helper functions for type conversions
 const getCategoryName = (podcast: Podcast): string | undefined => {
   if (typeof podcast.category === 'object' && podcast.category && 'name' in podcast.category) {
-    return (podcast.category as any).name
+    return (typeof podcast.category === 'object' && podcast.category && 'name' in podcast.category ? podcast.category.name as string : undefined)
   }
   if (typeof podcast.category === 'string') {
     return podcast.category

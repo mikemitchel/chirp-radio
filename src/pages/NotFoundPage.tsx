@@ -128,7 +128,7 @@ const NotFoundPage: React.FC = () => {
                   store: '/shop',
                   donate: '/donate',
                 }
-                navigate((routes as any)[value])
+                navigate(('[value]' in routes ? (routes as Record<string, unknown>)[value] : undefined))
               }}
               layout="horizontal"
               variant="navigation"
