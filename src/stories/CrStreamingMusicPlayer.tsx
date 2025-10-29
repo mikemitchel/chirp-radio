@@ -141,7 +141,7 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false })
       src={displaySrc}
       alt="Album Art"
       className={className}
-      style={{ ...style, width: '100%', height: '100%', objectFit: 'cover' }}
+      style={style}
     />
   )
 }
@@ -501,19 +501,19 @@ export default function CrStreamingMusicPlayer({
         <div className="cr-player__color-overlay" />
 
         <div className="cr-player__android-auto-content">
-          {/* Row 1: Logo */}
-          <div className="cr-player__android-auto-logo">
-            <CrLogo variant="horizontal-reversed" />
-          </div>
-
-          {/* Row 2: DJ Info */}
-          <div className="cr-player__android-auto-dj">
-            <CrCurrentDj
-              djName={displayData.dj}
-              showName={displayData.show}
-              isOnAir={true}
-              statusText="On-Air"
-            />
+          {/* Row 1: Logo + DJ Info */}
+          <div className="cr-player__android-auto-header">
+            <div className="cr-player__android-auto-logo">
+              <CrLogo variant="horizontal-reversed" />
+            </div>
+            <div className="cr-player__android-auto-dj">
+              <CrCurrentDj
+                djName={displayData.dj}
+                showName={displayData.show}
+                isOnAir={true}
+                statusText="On-Air"
+              />
+            </div>
           </div>
 
           {/* Row 3: Album Art + Track Info */}
