@@ -24,7 +24,7 @@ interface LayoutProps {
 const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate()
   const { getTotalItems } = useCart()
-  const { isLoggedIn, user, switchProfile, logout } = useAuth()
+  const { isLoggedIn, user, switchProfile, signOut } = useAuth()
   const { showToast } = useNotification()
   const { data: currentShow } = useCurrentShow()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -53,14 +53,14 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
 
   // Show toast if flags are set (for post-reload toasts)
   useEffect(() => {
-    const showLogoutToast = sessionStorage.getItem('chirp-show-logout-toast')
+    const showSignOutToast = sessionStorage.getItem('chirp-show-signout-toast')
     const showLoginToast = sessionStorage.getItem('chirp-show-login-toast')
     const showSignupToast = sessionStorage.getItem('chirp-show-signup-toast')
 
-    if (showLogoutToast === 'true') {
-      sessionStorage.removeItem('chirp-show-logout-toast')
+    if (showSignOutToast === 'true') {
+      sessionStorage.removeItem('chirp-show-signout-toast')
       showToast({
-        message: 'Successfully logged out',
+        message: 'Successfully signed out',
         type: 'success',
         duration: 3000,
       })
@@ -93,9 +93,9 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
       window.location.reload()
     }
 
-    const handleLogout = () => {
-      logout()
-      sessionStorage.setItem('chirp-show-logout-toast', 'true')
+    const handleSignOut = () => {
+      signOut()
+      sessionStorage.setItem('chirp-show-signout-toast', 'true')
       // Redirect to appropriate landing page based on current route
       const isInAppRoutes = window.location.pathname.startsWith('/app')
       if (isInAppRoutes) {
@@ -108,12 +108,12 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
     }
 
     window.addEventListener('chirp-switch-profile', handleProfileSwitch as EventListener)
-    window.addEventListener('chirp-logout', handleLogout)
+    window.addEventListener('chirp-signout', handleSignOut)
     return () => {
       window.removeEventListener('chirp-switch-profile', handleProfileSwitch as EventListener)
-      window.removeEventListener('chirp-logout', handleLogout)
+      window.removeEventListener('chirp-signout', handleSignOut)
     }
-  }, [switchProfile, logout, navigate])
+  }, [switchProfile, signOut, navigate])
 
   const handleMenuClick = () => {
     setIsSidebarOpen(true)
@@ -142,9 +142,9 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
   const handleProfileClick = () => navigate('/profile')
   const handleFavoritesClick = () => navigate('/collection')
   const handleSignOutClick = () => {
-    logout()
+    signOut()
     // Store toast flag for after redirect
-    sessionStorage.setItem('chirp-show-logout-toast', 'true')
+    sessionStorage.setItem('chirp-show-signout-toast', 'true')
     // Redirect to appropriate landing page based on current route
     const isInAppRoutes = window.location.pathname.startsWith('/app')
     if (isInAppRoutes) {

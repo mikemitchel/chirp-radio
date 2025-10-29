@@ -43,7 +43,7 @@ export interface AppEventMap {
 
   // Auth events
   'chirp-switch-profile': string // UserRole
-  'chirp-logout': void
+  'chirp-signout': void
 
   // Data refresh events
   'chirp-force-refresh': void

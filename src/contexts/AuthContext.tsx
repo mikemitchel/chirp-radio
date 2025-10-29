@@ -100,7 +100,7 @@ interface AuthContextType {
   isLoggedIn: boolean
   user: User | null
   login: (email: string, name?: string, role?: UserRole, avatar?: string) => void
-  logout: () => void
+  signOut: () => void
   signup: (email: string, name?: string, role?: UserRole) => void
   switchProfile: (role: UserRole) => void
   verifyPassword: (password: string) => boolean
@@ -152,7 +152,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoggedIn(true)
   }
 
-  const logout = () => {
+  const signOut = () => {
     setCurrentUserId(null)
     setIsLoggedIn(false)
     localStorage.removeItem('chirp-user')
@@ -491,7 +491,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isLoggedIn,
         user: authUser,
         login,
-        logout,
+        signOut,
         signup,
         switchProfile,
         verifyPassword,
