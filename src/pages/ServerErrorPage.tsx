@@ -3,7 +3,6 @@ import React from 'react'
 import { useNavigate } from 'react-router'
 import { PiArrowClockwise, PiVinylRecord } from 'react-icons/pi'
 import CrButton from '../stories/CrButton'
-import CrPageHeader from '../stories/CrPageHeader'
 import chirpBirdLogo from '../assets/chirp-logos/CHIRP-bird.svg'
 
 const ServerErrorPage: React.FC = () => {

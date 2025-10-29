@@ -1,5 +1,4 @@
 // CrSocialIcon.tsx
-import React from 'react'
 import { FaFacebookSquare, FaInstagram, FaTwitterSquare, FaLinkedin } from 'react-icons/fa'
 import { SiBluesky } from 'react-icons/si'
 import './CrSocialIcon.css'

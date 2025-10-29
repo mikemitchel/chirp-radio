@@ -238,6 +238,7 @@ export function useDJs() {
     .filter((user) => user.role && user.role.includes('DJ'))
     .map((user) => {
       const djName = user.djName || user.firstName || 'DJ'
+      const userAny = user as Record<string, unknown>
       return {
         id: user.id,
         slug: createSlug(djName),
@@ -246,10 +247,10 @@ export function useDJs() {
         showTime: user.showTime || '',
         excerpt: user.djExcerpt || user.bio || '',
         description: user.djBio || user.bio || '',
-        donationLink: user.djDonationLink || '',
+        donationLink: (userAny.djDonationLink as string) || '',
         imageSrc: user.profileImage || '',
-        fullProfileImage: user.fullProfileImage || user.profileImage || '',
-        profileImageOrientation: user.profileImageOrientation || 'square',
+        fullProfileImage: (userAny.fullProfileImage as string) || user.profileImage || '',
+        profileImageOrientation: (userAny.profileImageOrientation as 'square' | 'landscape' | 'portrait') || 'square',
         isSubstitute: user.role === 'Substitute DJ',
       }
     })

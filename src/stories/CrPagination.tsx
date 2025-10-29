@@ -1,5 +1,4 @@
 // CrPagination.tsx
-import React from 'react'
 import { PiCaretLeft, PiCaretRight } from 'react-icons/pi'
 import CrButton from './CrButton'
 import './CrPagination.css'

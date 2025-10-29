@@ -1,5 +1,4 @@
 // src/pages/WebsitesToRememberPage.tsx
-import React from 'react'
 import { useNavigate } from 'react-router'
 import { Helmet } from 'react-helmet-async'
 import CrPageHeader from '../stories/CrPageHeader'
@@ -132,7 +131,6 @@ const websiteSections = [
 ]
 
 export default function WebsitesToRememberPage() {
-  const navigate = useNavigate()
   const { data: pageConfig } = usePageBySlug('websites-to-remember')
 
   const renderLinksContent = (links: { text: string; description?: string; url: string }[]) => {

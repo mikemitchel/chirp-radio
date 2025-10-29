@@ -10,7 +10,7 @@ interface UsePayloadLivePreviewOptions {
  * Hook to handle Payload CMS live preview
  * Polls the API for draft updates when in preview mode (iframe)
  */
-export function usePayloadLivePreview<T = any>(
+export function usePayloadLivePreview<T = unknown>(
   options: UsePayloadLivePreviewOptions
 ): {
   data: T | null

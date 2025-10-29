@@ -1,5 +1,5 @@
 // src/pages/RecentlyPlayed.tsx
-import React, { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
 import CrAnnouncement from '../stories/CrAnnouncement'
@@ -105,7 +105,7 @@ export default function RecentlyPlayed() {
     }
   }, [])
 
-  const handleItemAdd = (item: any, index: number) => {
+  const handleItemAdd = (item: any, _index: number) => {
     // Check if user is logged in
     if (!isLoggedIn) {
       setShowLoginModal(true)

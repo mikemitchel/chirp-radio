@@ -68,7 +68,6 @@ export default function CrAccountSettingsPage({
   onLikeAppStore,
   onAppSupport,
   onTermsPrivacy,
-  onEditProfile,
   ...props
 }: CrAccountSettingsPageProps) {
   return (

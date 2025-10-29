@@ -450,6 +450,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
         return {
           ...page,
           id: page.id?.toString(),
+          pageIdentifier: page.pageIdentifier as 'make-request' | 'now-playing' | 'recently-played' | 'my-collection' | 'account-settings' | 'android-auto',
           announcement: transformedAnnouncement,
           introContent:
             typeof page.introContent === 'string'
@@ -459,8 +460,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
             typeof page.customNotLoggedInMessage === 'string'
               ? page.customNotLoggedInMessage
               : lexicalToHtml(page.customNotLoggedInMessage),
-        }
-      }) as MobilePageContent[]
+        } as MobilePageContent
+      })
 
       setData((prev) => ({ ...prev, mobilePageContent: mappedDocs }))
     } catch (err) {

@@ -43,29 +43,43 @@ interface NotificationContextType {
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined)
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
-  const [toastState, setToastState] = useState({
+  const [toastState, setToastState] = useState<{
+    isVisible: boolean
+    message: string
+    type: 'success' | 'info' | 'warning' | 'error'
+    duration: number
+  }>({
     isVisible: false,
     message: '',
-    type: 'success' as const,
+    type: 'success',
     duration: 5000,
   })
 
-  const [modalState, setModalState] = useState({
+  const [modalState, setModalState] = useState<{
+    isOpen: boolean
+    title: string
+    message: string
+    confirmText: string
+    cancelText: string
+    onConfirm?: () => void
+    onCancel?: () => void
+    size: 'small' | 'default' | 'large'
+  }>({
     isOpen: false,
     title: '',
     message: '',
     confirmText: 'Confirm',
     cancelText: 'Cancel',
-    onConfirm: undefined as (() => void) | undefined,
-    onCancel: undefined as (() => void) | undefined,
-    size: 'small' as const,
+    onConfirm: undefined,
+    onCancel: undefined,
+    size: 'small',
   })
 
   const showToast = ({ message, type = 'success', duration = 5000 }: ToastConfig) => {
     setToastState({
       isVisible: true,
       message,
-      type: type || 'success',
+      type,
       duration,
     })
   }
@@ -91,7 +105,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       cancelText,
       onConfirm,
       onCancel,
-      size: size || 'small',
+      size,
     })
   }
 
@@ -117,7 +131,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 
   // Add console method for testing toasts
   useEffect(() => {
-    ;(window as any).showToast = (message: string, type: any = 'success', duration = 5000) => {
+    ;(window as unknown as { showToast?: (message: string, type?: string, duration?: number) => void }).showToast = (message: string, type = 'success', duration = 5000) => {
       setToastState({
         isVisible: true,
         message,
@@ -126,7 +140,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       })
     }
     return () => {
-      delete (window as any).showToast
+      delete (window as unknown as { showToast?: (message: string, type?: string, duration?: number) => void }).showToast
     }
   }, [])
 
@@ -136,7 +150,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
         showToast,
         showModal,
         hideModal,
-        toastState: { ...toastState, onClose: hideToast } as any,
+        toastState: { ...toastState, onClose: hideToast },
         modalState,
       }}
     >
@@ -145,6 +159,8 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
   )
 }
 
+// Custom hook for accessing notification context
+// eslint-disable-next-line react-refresh/only-export-components
 export function useNotification() {
   const context = useContext(NotificationContext)
   if (!context) {

@@ -47,12 +47,12 @@ export default function GlobalNotifications() {
       </CrModal>
 
       {/* Global Toast */}
-      {toastState.isVisible && (
+      {toastState.isVisible && toastState.onClose && (
         <CrToast
           title={toastState.message}
           type={toastState.type}
           isVisible={toastState.isVisible}
-          onClose={() => (toastState as any).onClose()}
+          onClose={() => toastState.onClose?.()}
           duration={toastState.duration}
           showDismiss={true}
         />

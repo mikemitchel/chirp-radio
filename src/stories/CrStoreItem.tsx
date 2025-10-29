@@ -1,5 +1,5 @@
 // CrStoreItem.tsx
-import React, { useState } from 'react'
+import { useState } from 'react'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
 import './CrStoreItem.css'

@@ -17,7 +17,6 @@ export default function CrCalendarEvent({
   events = [],
   initialMonth = new Date().getMonth(),
   initialYear = new Date().getFullYear(),
-  onEventClick,
   onLocationClick,
   onAddToCalendarClick,
 }: CrCalendarEventProps) {

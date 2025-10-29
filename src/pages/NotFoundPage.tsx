@@ -11,7 +11,6 @@ import {
 } from 'react-icons/pi'
 import CrButton from '../stories/CrButton'
 import CrButtonGroup from '../stories/CrButtonGroup'
-import CrPageHeader from '../stories/CrPageHeader'
 import chirpBirdLogo from '../assets/chirp-logos/CHIRP-bird.svg'
 
 const NotFoundPage: React.FC = () => {

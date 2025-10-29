@@ -31,8 +31,6 @@ export default function CrImageCropper({
   onOrientationChange,
 }: CrImageCropperProps) {
   // Fixed sizes - no customization needed
-  const maxDisplayWidth = 400
-  const maxDisplayHeight = 400
   const avatarSize = 200
 
   // Core state management - cleaner separation
@@ -544,7 +542,7 @@ export default function CrImageCropper({
                     name="orientation"
                     value="square"
                     checked={orientation === 'square'}
-                    onChange={(e) => {
+                    onChange={() => {
                       setOrientation('square')
                       if (onOrientationChange) {
                         onOrientationChange('square')
@@ -559,7 +557,7 @@ export default function CrImageCropper({
                     name="orientation"
                     value="landscape"
                     checked={orientation === 'landscape'}
-                    onChange={(e) => {
+                    onChange={() => {
                       setOrientation('landscape')
                       if (onOrientationChange) {
                         onOrientationChange('landscape')
@@ -574,7 +572,7 @@ export default function CrImageCropper({
                     name="orientation"
                     value="portrait"
                     checked={orientation === 'portrait'}
-                    onChange={(e) => {
+                    onChange={() => {
                       setOrientation('portrait')
                       if (onOrientationChange) {
                         onOrientationChange('portrait')
