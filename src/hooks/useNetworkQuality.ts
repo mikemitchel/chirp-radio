@@ -23,9 +23,9 @@ export function useNetworkQuality(): NetworkInfo {
   useEffect(() => {
     // Check if Network Information API is available
     const nav = navigator as unknown as {
-      connection?: { effectiveType?: string }
-      mozConnection?: { effectiveType?: string }
-      webkitConnection?: { effectiveType?: string }
+      connection?: { effectiveType?: string; downlink?: number; rtt?: number; saveData?: boolean; addEventListener?: (type: string, listener: () => void) => void; removeEventListener?: (type: string, listener: () => void) => void }
+      mozConnection?: { effectiveType?: string; downlink?: number; rtt?: number; saveData?: boolean; addEventListener?: (type: string, listener: () => void) => void; removeEventListener?: (type: string, listener: () => void) => void }
+      webkitConnection?: { effectiveType?: string; downlink?: number; rtt?: number; saveData?: boolean; addEventListener?: (type: string, listener: () => void) => void; removeEventListener?: (type: string, listener: () => void) => void }
     }
     const connection = nav.connection || nav.mozConnection || nav.webkitConnection
 
@@ -86,12 +86,16 @@ export function useNetworkQuality(): NetworkInfo {
     updateNetworkInfo()
 
     // Listen for network changes
-    connection.addEventListener('change', updateNetworkInfo)
+    if (connection.addEventListener) {
+      connection.addEventListener('change', updateNetworkInfo)
+    }
     window.addEventListener('online', updateNetworkInfo)
     window.addEventListener('offline', updateNetworkInfo)
 
     return () => {
-      connection.removeEventListener('change', updateNetworkInfo)
+      if (connection.removeEventListener) {
+        connection.removeEventListener('change', updateNetworkInfo)
+      }
       window.removeEventListener('online', updateNetworkInfo)
       window.removeEventListener('offline', updateNetworkInfo)
     }

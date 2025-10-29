@@ -1,13 +1,11 @@
 // src/pages/LeadershipDirectoryPage.tsx
 import React, { useMemo } from 'react'
-import { useNavigate } from 'react-router'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrTable from '../stories/CrTable'
 import CrChip from '../stories/CrChip'
 import { useUsers } from '../hooks/useData'
 
 const LeadershipDirectoryPage: React.FC = () => {
-  const navigate = useNavigate()
   const { data: users } = useUsers()
 
   // Filter users with leadership roles

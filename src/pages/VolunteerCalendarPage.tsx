@@ -58,20 +58,15 @@ const VolunteerCalendarPage: React.FC = () => {
   // Determine which content to display in sidebar
   let sidebarContent: any[] = []
   let sidebarTitle = ''
-  let sidebarActionText = ''
-  let sidebarActionPath = ''
   let handleSidebarClick: ((item: any) => void) | undefined
 
   if (sidebarContentType === 'articles') {
     sidebarContent = articles?.slice(0, 3) || []
     sidebarTitle = 'Recent Articles'
-    sidebarActionText = 'All Articles'
-    sidebarActionPath = '/articles'
     handleSidebarClick = handleArticleClick
   } else if (sidebarContentType === 'podcasts') {
     sidebarContent = podcasts?.slice(0, 3) || []
     sidebarTitle = 'Recent Podcasts'
-    sidebarActionText = 'All Podcasts'
     handleSidebarClick = handlePodcastClick
   } else if (sidebarContentType === 'events') {
     sidebarContent = events?.slice(0, 3) || []

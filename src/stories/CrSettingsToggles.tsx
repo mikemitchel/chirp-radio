@@ -18,7 +18,7 @@ export default function CrSettingsToggles({
   streamingQuality = '128',
   onStreamingQualityChange,
   pushNotifications = false,
-  onPushNotificationsChange,
+  onPushNotificationsChange: _onPushNotificationsChange,
   darkMode = 'device',
   onDarkModeChange,
   size = 'large',
