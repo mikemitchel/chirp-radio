@@ -9,7 +9,7 @@ import LoginRequiredModal from '../components/LoginRequiredModal'
 import './CrStreamingMusicPlayer.css'
 
 // PlayPause button component that exactly matches the Figma design
-const PlayPauseButton = ({ isPlaying, onClick, size = 60 }) => {
+const PlayPauseButton = ({ isPlaying, onClick, size = 60 }: { isPlaying: any; onClick: any; size?: number }) => {
   const PlaySVG = () => (
     <svg
       width={size}
@@ -66,9 +66,9 @@ const PlayPauseButton = ({ isPlaying, onClick, size = 60 }) => {
 }
 
 // Album Art component with CHIRP logo fallback and crossfade
-const AlbumArt = ({ src, className, style, isLarge = false, isLoading: _isLoading = false }) => {
+const AlbumArt = ({ src, className, style, isLarge = false, isLoading: _isLoading = false }: { src: any; className: any; style?: any; isLarge?: boolean; isLoading?: boolean }) => {
   // Check if we have a valid image URL
-  const isValidImageUrl = (url) => {
+  const isValidImageUrl = (url: any) => {
     return (
       url &&
       url.trim() !== '' &&
@@ -141,8 +141,8 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading: _isLoadin
 }
 
 // Background component - simplified
-const BackgroundImage = ({ src, isLoading: _isLoading }) => {
-  const isValidImageUrl = (url) => {
+const BackgroundImage = ({ src, isLoading: _isLoading }: { src: any; isLoading?: any }) => {
+  const isValidImageUrl = (url: any) => {
     return (
       url &&
       url.trim() !== '' &&
@@ -284,7 +284,7 @@ export default function CrStreamingMusicPlayer({
       }
 
   // Play/pause handler using context
-  const handlePlayPause = (event) => {
+  const handlePlayPause = (event: any) => {
     event.stopPropagation()
     togglePlayPause()
   }
@@ -330,6 +330,7 @@ export default function CrStreamingMusicPlayer({
             <AlbumArt
               src={displayData.albumArt}
               className="cr-player__album-art"
+              style={{}}
               isLoading={isLoading}
             />
           </div>
@@ -362,6 +363,7 @@ export default function CrStreamingMusicPlayer({
             <AlbumArt
               src={displayData.albumArt}
               className="cr-player__album-art"
+              style={{}}
               isLoading={isLoading}
             />
           </div>
@@ -393,6 +395,7 @@ export default function CrStreamingMusicPlayer({
             <AlbumArt
               src={displayData.albumArt}
               className="cr-player__album-art"
+              style={{}}
               isLoading={isLoading}
             />
           </div>
@@ -434,6 +437,7 @@ export default function CrStreamingMusicPlayer({
             <AlbumArt
               src={displayData.albumArt}
               className="cr-player__album-art-large"
+              style={{}}
               isLarge={true}
               isLoading={isLoading}
             />
@@ -490,6 +494,7 @@ export default function CrStreamingMusicPlayer({
               <AlbumArt
                 src={displayData.albumArt}
                 className="cr-player__album-art"
+                style={{}}
                 isLoading={isLoading}
               />
             </div>

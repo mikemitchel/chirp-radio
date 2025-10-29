@@ -22,10 +22,10 @@ export default function CrCalendarEvent({
 }: CrCalendarEventProps) {
   const [currentMonth, setCurrentMonth] = useState(initialMonth)
   const [currentYear, setCurrentYear] = useState(initialYear)
-  const [hoveredDate, setHoveredDate] = useState(null)
-  const [hoveredEventId, setHoveredEventId] = useState(null)
-  const eventsListRef = useRef(null)
-  const eventRefs = useRef({})
+  const [hoveredDate, setHoveredDate] = useState<Date | null>(null)
+  const [hoveredEventId, setHoveredEventId] = useState<any>(null)
+  const eventsListRef = useRef<any>(null)
+  const eventRefs = useRef<any>({})
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -128,7 +128,7 @@ export default function CrCalendarEvent({
     })
   }, [eventsWithDates, currentMonth, currentYear])
 
-  const hasEvent = (date) => {
+  const hasEvent = (date: any) => {
     const checkDate = new Date(date)
     checkDate.setHours(0, 0, 0, 0)
 
@@ -142,7 +142,7 @@ export default function CrCalendarEvent({
     })
   }
 
-  const getEventsForDate = (date) => {
+  const getEventsForDate = (date: any) => {
     if (!date) return []
 
     const checkDate = new Date(date)
@@ -158,7 +158,7 @@ export default function CrCalendarEvent({
     })
   }
 
-  const getDatesForEvent = (eventId) => {
+  const getDatesForEvent = (eventId: any) => {
     const event = currentMonthEvents.find((e) => e.id === eventId)
     if (!event) return []
 
@@ -175,13 +175,13 @@ export default function CrCalendarEvent({
     return dates
   }
 
-  const isToday = (date) => {
+  const isToday = (date: any) => {
     const checkDate = new Date(date)
     checkDate.setHours(0, 0, 0, 0)
     return checkDate.getTime() === today.getTime()
   }
 
-  const isPastDate = (date) => {
+  const isPastDate = (date: any) => {
     const checkDate = new Date(date)
     checkDate.setHours(0, 0, 0, 0)
     return checkDate < today
@@ -247,7 +247,7 @@ export default function CrCalendarEvent({
     }
   }
 
-  const isDateHighlighted = (date) => {
+  const isDateHighlighted = (date: any) => {
     if (highlightedDates.length === 0) return false
     const checkDate = new Date(date)
     checkDate.setHours(0, 0, 0, 0)
@@ -340,7 +340,10 @@ export default function CrCalendarEvent({
             currentMonthEvents.map((event) => (
               <div
                 key={event.id}
-                ref={(el) => (eventRefs.current[event.id] = el)}
+                ref={(el: any) => {
+                  eventRefs.current[event.id] = el
+                  return el
+                }}
                 onMouseEnter={() => setHoveredEventId(event.id)}
                 onMouseLeave={() => setHoveredEventId(null)}
               >
@@ -354,7 +357,11 @@ export default function CrCalendarEvent({
                   onLocationClick={() => onLocationClick && onLocationClick(event)}
                   onAddToCalendarClick={() => onAddToCalendarClick && onAddToCalendarClick(event)}
                   onMoreInfoClick={
-                    event.moreInfoUrl ? () => window.open(event.moreInfoUrl, '_blank') : null
+                    event.moreInfoUrl
+                      ? () => {
+                          window.open(event.moreInfoUrl, '_blank')
+                        }
+                      : undefined
                   }
                 />
               </div>
