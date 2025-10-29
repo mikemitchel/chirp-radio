@@ -29,7 +29,7 @@ const PlaylistPage: React.FC = () => {
   }, [])
 
   // Format tracks with hour data for grouping
-  const formattedTracks =
+  const formattedTracks = useMemo(() =>
     tracks?.map((track) => {
       // Parse the hourKey to determine start/end times
       const hourMatch = track.hourKey?.match(/(\d+)(am|pm)/i)
@@ -65,7 +65,7 @@ const PlaylistPage: React.FC = () => {
           showName: track.showName || 'Unknown Show',
         },
       }
-    }) || []
+    }) || [], [tracks])
 
   // Group tracks by hour and paginate - split into first 2 hours and last 2 hours
   const { firstTwoHours, lastTwoHours, totalPages } = useMemo(() => {

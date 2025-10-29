@@ -46,13 +46,14 @@ export default function CrDonationBar({
       { threshold: 0.1 }
     )
 
-    if (barRef.current) {
-      observer.observe(barRef.current)
+    const currentBar = barRef.current
+    if (currentBar) {
+      observer.observe(currentBar)
     }
 
     return () => {
-      if (barRef.current) {
-        observer.unobserve(barRef.current)
+      if (currentBar) {
+        observer.unobserve(currentBar)
       }
     }
   }, [hasAnimated])

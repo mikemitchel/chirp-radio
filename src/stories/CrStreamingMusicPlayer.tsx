@@ -189,7 +189,7 @@ const BackgroundImage = ({ src, isLoading: _isLoading }: { src: any; isLoading?:
       setHasConfirmedNoArt(true)
     }
     img.src = src
-  }, [src])
+  }, [src, displaySrc])
 
   const getFallbackUrl = () => '/images/chirp-logos/CHIRP_Logo_FM%20URL_record.svg'
 
@@ -267,7 +267,7 @@ export default function CrStreamingMusicPlayer({
       toggleAddTrack()
       setHasPendingAdd(false)
     }
-  }, [isLoggedIn, hasPendingAdd])
+  }, [isLoggedIn, hasPendingAdd, toggleAddTrack])
 
   // Determine which data to display: props or context
   const displayData = autoFetch
