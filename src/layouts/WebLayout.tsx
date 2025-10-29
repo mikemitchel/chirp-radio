@@ -192,7 +192,7 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
           autoFetch={true}
           djName={currentShow?.djName}
           showName={currentShow?.showName}
-          streamingPlayerProps={{ autoFetch: true }}
+          streamingPlayerProps={{ variant: 'slim-player', autoFetch: true }}
           onMenuClick={handleMenuClick}
           storeBadgeCount={cartItemCount}
           showStoreBadge={true}
