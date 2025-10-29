@@ -25,15 +25,15 @@
 **Goal:** Ship with feature parity to current product
 
 **Priority Tasks (All Equal Priority):**
-- Apple CarPlay integration
-- Apple Watch streaming controls
+- **TODO: Apple CarPlay integration** - waiting for Apple Dev CarPlay cert
+- **TODO: Apple Watch streaming controls** - waiting for Apple Dev CarPlay cert
 - **Android Auto integration - COMPLETED ✅** (Play/pause sync working, needs physical device testing)
-- CMS webhook for content updates (research needed)
-- Album art accuracy (API polling issue with fallback images)
-- Cached API content strategy
-- Mobile-specific CMS collections for page content
+- **TODO: CMS webhook for content updates** (research needed)
+- **TODO: Album art accuracy** (API polling issue with fallback images)
+- **TODO: Cached API content strategy**
+- **TODO: Mobile-specific CMS collections for page content** - check to see if we've gotten all the static and fake data removed and connected to CMS
 - **TODO: Fix CMS API integration in Capacitor iOS builds** - Environment variables not loading properly in production builds, preventing CMS data from being fetched in the mobile app. Needs investigation into Vite env var handling with Capacitor builds.
-- **TODO: Create HTML email template for MailChimp** - Design and build responsive HTML email template for CHIRP Radio's email campaigns.
+- **TODO: Create HTML email template for MailChimp** - Design and build a responsive HTML email template for CHIRP Radio's email campaigns.
 - **TODO: Integrate PayPal into Store/Shop** - Add PayPal payment processing to the store checkout flow.
 - **TODO: Integrate Neon for donations** - Integrate Neon CRM donation components into the donation flow.
 - **TODO: Add existing analytics** - Integrate existing analytics tracking (Issue #22)
