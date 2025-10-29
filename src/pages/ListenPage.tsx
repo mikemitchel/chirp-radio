@@ -155,7 +155,7 @@ const ListenPage: React.FC = () => {
   const fullWidthAnnouncementId =
     typeof siteSettings?.fullWidthAnnouncement === 'string'
       ? siteSettings.fullWidthAnnouncement
-      : siteSettings?.fullWidthAnnouncement?.id
+      : (siteSettings?.fullWidthAnnouncement as any)?.id
 
   const fullWidthAnnouncement = fullWidthAnnouncementId
     ? announcements?.find((a) => a.id === fullWidthAnnouncementId)
@@ -174,11 +174,11 @@ const ListenPage: React.FC = () => {
       : null
 
   // Get page text content from CMS with fallbacks
-  const pageTitle = siteSettings?.listenPageTitle || 'Listen'
-  const currentPlaylistTitle = siteSettings?.listenCurrentPlaylistTitle || 'Current Playlist'
-  const previousPlaysButtonText = siteSettings?.listenPreviousPlaysButtonText || 'Previous Plays'
-  const userCollectionTitle = siteSettings?.listenUserCollectionTitle || 'A Few from Your Collection'
-  const yourCollectionButtonText = siteSettings?.listenYourCollectionButtonText || 'Your Collection'
+  const pageTitle = (siteSettings?.listenPageTitle as string) || 'Listen'
+  const currentPlaylistTitle = (siteSettings?.listenCurrentPlaylistTitle as string) || 'Current Playlist'
+  const previousPlaysButtonText = (siteSettings?.listenPreviousPlaysButtonText as string) || 'Previous Plays'
+  const userCollectionTitle = (siteSettings?.listenUserCollectionTitle as string) || 'A Few from Your Collection'
+  const yourCollectionButtonText = (siteSettings?.listenYourCollectionButtonText as string) || 'Your Collection'
 
 
   return (
@@ -265,7 +265,7 @@ const ListenPage: React.FC = () => {
               variant={fullWidthAnnouncement.variant}
               textureBackground={fullWidthAnnouncement.textureBackground}
               headlineText={fullWidthAnnouncement.headlineText}
-              bodyText={fullWidthAnnouncement.bodyText}
+              bodyText={fullWidthAnnouncement.bodyText as any}
               showLink={fullWidthAnnouncement.showLink}
               linkText={fullWidthAnnouncement.linkText}
               linkUrl={fullWidthAnnouncement.linkUrl}

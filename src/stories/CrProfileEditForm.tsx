@@ -189,7 +189,7 @@ export default function CrProfileEditForm({
     }
   }
 
-  const handleImageChangeInternal = (images) => {
+  const handleImageChangeInternal = (images: any) => {
     if (onImageChange) {
       onImageChange(images)
     }
@@ -211,7 +211,7 @@ export default function CrProfileEditForm({
   }
 
   // ZIP code lookup for automatic city/state population
-  const handleZipLookup = async (zipCode) => {
+  const handleZipLookup = async (zipCode: any) => {
     if (zipCode && zipCode.length === 5) {
       try {
         const response = await fetch(`https://api.zippopotam.us/us/${zipCode}`)

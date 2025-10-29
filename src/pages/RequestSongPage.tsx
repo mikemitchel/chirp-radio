@@ -110,9 +110,9 @@ const RequestSongPage: React.FC = () => {
               variant="article"
               type="page"
               imagePosition="none"
-              backgroundImage={pageConfig?.layout?.[0]?.backgroundImageUrl || requestSongData.heroImage}
+              backgroundImage={pageConfig?.layout?.[0]?.backgroundImageUrl as any || requestSongData.heroImage}
               bannerBackgroundColor="none"
-              title={pageConfig?.layout?.[0]?.title || 'Request a Song'}
+              title={pageConfig?.layout?.[0]?.title as any || 'Request a Song'}
               titleTag="h1"
               titleSize="xl"
               textLayout="stacked"
@@ -213,10 +213,10 @@ const RequestSongPage: React.FC = () => {
               <CrCard
                 variant="article"
                 type="page"
-                imagePosition={pageConfig.layout[5].imagePosition || 'none'}
-                backgroundImage={pageConfig.layout[5].backgroundImageUrl}
+                imagePosition={pageConfig.layout[5].imagePosition as any || 'none'}
+                backgroundImage={pageConfig.layout[5].backgroundImageUrl as any}
                 bannerBackgroundColor="none"
-                title={pageConfig.layout[5].title}
+                title={pageConfig.layout[5].title as any}
                 titleTag="h2"
                 textLayout="stacked"
                 bannerHeight="tall"
@@ -244,10 +244,10 @@ const RequestSongPage: React.FC = () => {
               <CrCard
                 variant="article"
                 type="page"
-                imagePosition={pageConfig.layout[6].imagePosition || 'right'}
-                backgroundImage={pageConfig.layout[6].backgroundImageUrl}
+                imagePosition={pageConfig.layout[6].imagePosition as any || 'right'}
+                backgroundImage={pageConfig.layout[6].backgroundImageUrl as any}
                 bannerBackgroundColor="none"
-                title={pageConfig.layout[6].title}
+                title={pageConfig.layout[6].title as any}
                 titleTag="h2"
                 textLayout="stacked"
                 bannerHeight="tall"
@@ -278,12 +278,12 @@ const RequestSongPage: React.FC = () => {
               <CrAnnouncement
                 variant="motivation"
                 widthVariant="third"
-                textureBackground={selectedAnnouncement.backgroundColor}
-                headlineText={selectedAnnouncement.title}
-                bodyText={selectedAnnouncement.message}
-                showLink={!!selectedAnnouncement.ctaText}
-                linkText={selectedAnnouncement.ctaText}
-                linkUrl={selectedAnnouncement.ctaUrl}
+                textureBackground={(selectedAnnouncement as any).backgroundColor}
+                headlineText={(selectedAnnouncement as any).title}
+                bodyText={(selectedAnnouncement as any).message}
+                showLink={!!(selectedAnnouncement as any).ctaText}
+                linkText={(selectedAnnouncement as any).ctaText}
+                linkUrl={(selectedAnnouncement as any).ctaUrl}
                 buttonCount="none"
               />
             )}

@@ -45,7 +45,7 @@ export default function CrSelectButtonInteraction({
   }
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    function handleClickOutside(event: any) {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
         closeMenu()
       }
@@ -58,7 +58,7 @@ export default function CrSelectButtonInteraction({
   }, [isOpen])
 
   useEffect(() => {
-    function handleEscape(event) {
+    function handleEscape(event: any) {
       if (event.key === 'Escape') {
         closeMenu()
       }
@@ -92,7 +92,7 @@ export default function CrSelectButtonInteraction({
     }
   }
 
-  const handleOptionSelect = (option) => {
+  const handleOptionSelect = (option: any) => {
     closeMenu()
     if (onSelect) {
       onSelect(option)

@@ -14,7 +14,7 @@ export default function CrSelect({
   theme = 'light', // 'light' or 'dark'
   className = '',
 }: CrSelectProps) {
-  const handleOptionClick = (option) => {
+  const handleOptionClick = (option: any) => {
     if (onSelect) {
       onSelect(option)
     }

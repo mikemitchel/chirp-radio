@@ -34,7 +34,7 @@ export default function CrStoreItemCard({
     }
   }
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: any) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
       handleClick()
