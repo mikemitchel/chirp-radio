@@ -1,4 +1,5 @@
-import { registerPlugin, PluginListenerHandle } from '@capacitor/core'
+import { registerPlugin } from '@capacitor/core'
+import type { PluginListenerHandle } from '@capacitor/core'
 
 export interface NativeAudioBridgePlugin {
   /**
