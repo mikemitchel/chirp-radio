@@ -150,7 +150,7 @@ const EventsPage: React.FC = () => {
               targetAmount={sidebarAnnouncement.targetAmount}
             />
           )}
-          {sidebarAdvertisement && (
+          {(sidebarAdvertisement && (
             <CrAdSpace
                 size={(sidebarAdvertisement as any).size || 'large-rectangle'}
                 customWidth={(sidebarAdvertisement as any).customWidth}
@@ -165,7 +165,7 @@ const EventsPage: React.FC = () => {
                 target={(sidebarAdvertisement as any).target}
                 showLabel={(sidebarAdvertisement as any).showLabel}
               />
-          )}
+          )) as React.ReactNode}
         </div>
       </div>
 
