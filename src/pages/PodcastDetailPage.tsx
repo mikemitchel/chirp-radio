@@ -106,7 +106,7 @@ const PodcastDetailPage: React.FC = () => {
               >
                 {String(podcast.pullQuote)}
               </blockquote>
-              {'pullQuoteAttribution' in podcast && podcast.pullQuoteAttribution && (
+              {('pullQuoteAttribution' in podcast && podcast.pullQuoteAttribution) ? (
                 <p
                   style={{
                     font: 'var(--cr-body-sm)',
@@ -117,7 +117,7 @@ const PodcastDetailPage: React.FC = () => {
                 >
                   {String((podcast as Record<string, unknown>).pullQuoteAttribution)}
                 </p>
-              )}
+              ) : null}
             </div>
           )) as React.ReactNode}
 
@@ -142,7 +142,7 @@ const PodcastDetailPage: React.FC = () => {
               >
                 {String(podcast.additionalInfo)}
               </div>
-              {'transcriptUrl' in podcast && podcast.transcriptUrl && (
+              {('transcriptUrl' in podcast && podcast.transcriptUrl) ? (
                 <p
                   style={{
                     font: 'var(--cr-body-reg)',
@@ -163,7 +163,7 @@ const PodcastDetailPage: React.FC = () => {
                     Read a transcript of the interview here.
                   </a>
                 </p>
-              )}
+              ) : null}
             </div>
           )) as React.ReactNode}
 

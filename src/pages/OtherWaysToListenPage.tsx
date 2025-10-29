@@ -163,7 +163,7 @@ const OtherWaysToListenPage: React.FC = () => {
                   titleTag={contentBlocks[6].titleTag as ("h1" | "h2" | "h3" | "h4" | "h5" | "h6") || 'h2'}
                   bannerBackgroundColor="none"
                   content={contentBlocks[6].content}
-                  backgroundImage={contentBlocks[6].backgroundImageUrl as string || contentBlocks[6].backgroundImage}
+                  backgroundImage={(contentBlocks[6].backgroundImageUrl as string) || (contentBlocks[6].backgroundImage as string)}
                   showTicketButton={false}
                   showShareButton={false}
                 />

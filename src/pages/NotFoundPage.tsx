@@ -120,7 +120,7 @@ const NotFoundPage: React.FC = () => {
                 },
               ]}
               onSelectionChange={(value) => {
-                const routes = {
+                const routes: Record<string, string> = {
                   home: '/',
                   listen: '/listen',
                   events: '/events',
@@ -128,7 +128,8 @@ const NotFoundPage: React.FC = () => {
                   store: '/shop',
                   donate: '/donate',
                 }
-                navigate(('[value]' in routes ? (routes as Record<string, unknown>)[value] : undefined))
+                const route = routes[value] || '/'
+                navigate(route)
               }}
               layout="horizontal"
               variant="navigation"
