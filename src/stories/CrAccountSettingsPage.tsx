@@ -32,7 +32,7 @@ interface CrAccountSettingsPageProps {
   darkMode?: boolean
   onDarkModeChange?: (checked: boolean) => void
   onLogin?: () => void
-  onLogout?: () => void
+  onSignOut?: () => void
   onSignUp?: () => void
   onForgotPassword?: () => void
   onShareApp?: () => void
@@ -61,7 +61,7 @@ export default function CrAccountSettingsPage({
   darkMode = false,
   onDarkModeChange,
   onLogin,
-  onLogout,
+  onSignOut,
   onSignUp,
   onForgotPassword,
   onShareApp,
@@ -124,8 +124,8 @@ export default function CrAccountSettingsPage({
                 <span className="cr-account-settings-page__detail-label">Email:</span>
                 <div className="cr-account-settings-page__detail-value-with-action">
                   <span className="cr-account-settings-page__detail-value">{userEmail}</span>
-                  <CrButton variant="text" color="default" size="small" onClick={onLogout}>
-                    log out
+                  <CrButton variant="text" color="default" size="small" onClick={onSignOut}>
+                    sign out
                   </CrButton>
                 </div>
               </div>
