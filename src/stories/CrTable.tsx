@@ -128,7 +128,7 @@ export default function CrTable({
       if (sortColumn === 'date' && typeof aValue === 'string' && typeof bValue === 'string') {
         const aDate = new Date(aValue)
         const bDate = new Date(bValue)
-        return sortDirection === 'asc' ? aDate - bDate : bDate - aDate
+        return sortDirection === 'asc' ? aDate.getTime() - bDate.getTime() : bDate.getTime() - aDate.getTime()
       }
 
       // Handle different data types
@@ -253,7 +253,7 @@ export default function CrTable({
           titleTag={`h${tableTitleLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'}
           titleSize={tableTitleSize}
           showEyebrow={showEyebrow && !!eyebrowText}
-          showActionButton={shouldShowActionButton}
+          showActionButton={!!shouldShowActionButton}
           actionButtonText={actionButtonText}
           actionButtonIcon={actionButtonIcon}
           actionButtonSize={actionButtonSize}

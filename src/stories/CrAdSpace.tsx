@@ -46,7 +46,7 @@ const CrAdSpace = ({
   ...props
 }: CrAdSpaceProps) => {
   const [hasError, setHasError] = useState(false)
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [, setIsLoaded] = useState(false)
   const [impressionTracked, setImpressionTracked] = useState(false)
   const containerRef = useRef(null)
 

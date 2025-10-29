@@ -113,7 +113,7 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
             </CrButton>
           </div>
 
-          <h3 className="cr-profile-card__benefits-title">{benefitsTitle}</h3>
+          <h3 className="cr-profile-card__benefits-title">{benefitsTitle as React.ReactNode}</h3>
           <div
             className="cr-profile-card__benefits-content"
             dangerouslySetInnerHTML={{ __html: benefitsContent as string }}
