@@ -13,8 +13,8 @@ export default function CrLogo({
   className = '',
 }: CrLogoProps) {
   // Map variants to their corresponding SVG files
-  const getLogoSrc = (variant) => {
-    const logoMap = {
+  const getLogoSrc = (variant: any) => {
+    const logoMap: any = {
       horizontal: '/images/chirp-logos/CHIRP_Logo_FM URL_horizontal.svg',
       'horizontal-reversed': '/images/chirp-logos/CHIRP_Logo_FM URL_horizontal-reversed.svg',
       vertical: '/images/chirp-logos/CHIRP_Logo_FM URL_vertical.svg',
@@ -26,8 +26,8 @@ export default function CrLogo({
   }
 
   // Get alt text based on variant and color
-  const getAltText = (variant, color) => {
-    const baseText = {
+  const getAltText = (variant: any, color: any) => {
+    const baseText: any = {
       horizontal: 'CHIRP Radio horizontal logo',
       'horizontal-reversed': 'CHIRP Radio horizontal reversed logo',
       vertical: 'CHIRP Radio vertical logo',

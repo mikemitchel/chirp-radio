@@ -24,22 +24,22 @@ export default function CrDonateAmount({
   className = '',
 }: CrDonateAmountProps) {
   // Restore original callback handler
-  const handleAmountClick = (amount) => {
+  const handleAmountClick = (amount: any) => {
     if (onAmountChange) {
       onAmountChange(amount)
     }
   }
 
-  const formatAmount = (amount) => `$${amount.toFixed(2)}`
+  const formatAmount = (amount: any) => `$${amount.toFixed(2)}`
 
-  const formatCurrency = (amount) => {
+  const formatCurrency = (amount: any) => {
     if (amount >= 1000) {
       return `$${(amount / 1000).toFixed(amount % 1000 === 0 ? 0 : 3).replace(/\.?0+$/, '')},${String(amount % 1000).padStart(3, '0')}`
     }
     return `$${amount}`
   }
 
-  const getAmountLabel = (amount, index) => {
+  const getAmountLabel = (amount: any, index: any) => {
     if (amountLabels && amountLabels[index]) {
       const item = amountLabels[index]
       return `${item.label} ${formatCurrency(amount)}`

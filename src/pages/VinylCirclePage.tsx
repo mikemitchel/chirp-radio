@@ -110,12 +110,12 @@ const VinylCirclePage: React.FC = () => {
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={selectedAnnouncement.backgroundColor}
-              headlineText={selectedAnnouncement.title}
-              bodyText={selectedAnnouncement.message}
-              showLink={!!selectedAnnouncement.ctaText}
-              linkText={selectedAnnouncement.ctaText}
-              linkUrl={selectedAnnouncement.ctaUrl}
+              textureBackground={(selectedAnnouncement as any).backgroundColor}
+              headlineText={(selectedAnnouncement as any).title}
+              bodyText={(selectedAnnouncement as any).message}
+              showLink={!!(selectedAnnouncement as any).ctaText}
+              linkText={(selectedAnnouncement as any).ctaText}
+              linkUrl={(selectedAnnouncement as any).ctaUrl}
               buttonCount="none"
             />
           )}

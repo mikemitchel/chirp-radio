@@ -133,7 +133,7 @@ export default function CrProfileCard({
     .filter(Boolean)
     .join(' ')
 
-  const handleImageChange = (images) => {
+  const handleImageChange = (images: any) => {
     // When new images are provided, update both the avatar and store the full image
     if (images.fullImage) {
       setOriginalFullImage(images.fullImage)

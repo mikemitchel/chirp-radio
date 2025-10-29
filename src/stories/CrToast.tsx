@@ -95,7 +95,7 @@ export default function CrToast({
     }
   }
 
-  const handleLinkClick = (e) => {
+  const handleLinkClick = (e: any) => {
     if (onLinkClick) {
       e.preventDefault()
       onLinkClick()
