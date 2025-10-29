@@ -82,7 +82,7 @@ const PodcastDetailPage: React.FC = () => {
             shareUrl={`${window.location.origin}${window.location.pathname}#/podcasts/${podcast.slug}`}
           />
 
-          {podcast.pullQuote && (
+          {(podcast.pullQuote && (
             <div
               style={{
                 marginTop: 'var(--cr-space-8)',
@@ -104,7 +104,7 @@ const PodcastDetailPage: React.FC = () => {
               >
                 {String(podcast.pullQuote)}
               </blockquote>
-              {podcast.pullQuoteAttribution && (
+              {(podcast.pullQuoteAttribution && (
                 <p
                   style={{
                     font: 'var(--cr-body-sm)',
@@ -115,11 +115,11 @@ const PodcastDetailPage: React.FC = () => {
                 >
                   {String(podcast.pullQuoteAttribution)}
                 </p>
-              )}
+              )) as React.ReactNode}
             </div>
-          )}
+          )) as React.ReactNode}
 
-          {podcast.additionalInfo && (
+          {(podcast.additionalInfo && (
             <div
               style={{
                 marginTop: 'var(--cr-space-6)',
@@ -140,7 +140,7 @@ const PodcastDetailPage: React.FC = () => {
               >
                 {String(podcast.additionalInfo)}
               </div>
-              {podcast.transcriptUrl && (
+              {(podcast.transcriptUrl && (
                 <p
                   style={{
                     font: 'var(--cr-body-reg)',
@@ -161,11 +161,11 @@ const PodcastDetailPage: React.FC = () => {
                     Read a transcript of the interview here.
                   </a>
                 </p>
-              )}
+              )) as React.ReactNode}
             </div>
-          )}
+          )) as React.ReactNode}
 
-          {podcast.soundCloudEmbedUrl && (
+          {(podcast.soundCloudEmbedUrl && (
             <div
               style={{
                 marginTop: 'var(--cr-space-8)',
@@ -249,7 +249,7 @@ const PodcastDetailPage: React.FC = () => {
                 </a>
               </div>
             </div>
-          )}
+          )) as React.ReactNode}
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">

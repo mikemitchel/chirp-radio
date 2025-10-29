@@ -171,7 +171,7 @@ const LandingPage: React.FC = () => {
             />
           )}
 
-          {sidebarAdvertisement && (
+          {(sidebarAdvertisement && (
             <CrAdSpace
                 size={(sidebarAdvertisement as any).size || 'mobile-banner'}
                 customWidth={(sidebarAdvertisement as any).customWidth}
@@ -186,7 +186,7 @@ const LandingPage: React.FC = () => {
                 target={(sidebarAdvertisement as any).target}
                 showLabel={(sidebarAdvertisement as any).showLabel}
               />
-          )}
+          )) as React.ReactNode}
         </div>
       </section>
 
