@@ -49,14 +49,14 @@ export default function CrDjSchedule({
 
   // Build searchable data
   const allShows = useMemo(() => {
-    const shows = []
+    const shows: any[] = []
     if (!scheduleData || typeof scheduleData !== 'object') {
       return shows
     }
 
     days.forEach((day) => {
       if (scheduleData[day] && Array.isArray(scheduleData[day])) {
-        scheduleData[day].forEach((show) => {
+        scheduleData[day].forEach((show: any) => {
           shows.push({ ...show, day })
         })
       }
@@ -65,7 +65,7 @@ export default function CrDjSchedule({
   }, [days, scheduleData])
 
   // Search functionality
-  const handleSearch = (query) => {
+  const handleSearch = (query: any) => {
     setSearchQuery(query)
 
     if (!query.trim()) {
@@ -77,7 +77,7 @@ export default function CrDjSchedule({
       const djMatch =
         show.dj &&
         Array.isArray(show.dj) &&
-        show.dj.some((dj) => dj.toLowerCase().includes(query.toLowerCase()))
+        show.dj.some((dj: any) => dj.toLowerCase().includes(query.toLowerCase()))
       const titleMatch = show.title && show.title.toLowerCase().includes(query.toLowerCase())
       return djMatch || titleMatch
     })
@@ -86,7 +86,7 @@ export default function CrDjSchedule({
   }
 
   // Navigate to show from search
-  const handleSearchResultClick = (day, slug) => {
+  const handleSearchResultClick = (day: any, slug: any) => {
     setActiveDay(day)
     setSearchQuery('')
     setSearchResults([])
@@ -109,7 +109,7 @@ export default function CrDjSchedule({
   }
 
   // Format time
-  const formatTime = (t) => {
+  const formatTime = (t: any) => {
     if (!t || typeof t !== 'string') return ''
     const [h, m] = t.split(':').map(Number)
     if (h === 0 && m === 0) return '12m'
@@ -120,7 +120,7 @@ export default function CrDjSchedule({
   }
 
   // Get DJ headshot from real DJ data
-  const getDjHeadshot = (djNames) => {
+  const getDjHeadshot = (djNames: any) => {
     if (!djNames || !Array.isArray(djNames)) return 'https://assets.codepen.io/715673/album-art.jpg'
 
     if (djNames.some((name) => name.includes('CHIRP'))) {
@@ -140,7 +140,7 @@ export default function CrDjSchedule({
   }
 
   // Check if DJ is favorited
-  const isDjFavorited = (djNames) => {
+  const isDjFavorited = (djNames: any) => {
     if (!currentUser?.favoriteDJs || !djsData || !Array.isArray(djNames)) return false
 
     // Find DJ by matching name
@@ -151,7 +151,7 @@ export default function CrDjSchedule({
   // Organize shows by time bucket
   const organizedShows = useMemo(() => {
     const shows = scheduleData && scheduleData[activeDay] ? scheduleData[activeDay] : []
-    const columns = { Early: [], Daytime: [], Evening: [] }
+    const columns: { Early: any[]; Daytime: any[]; Evening: any[] } = { Early: [], Daytime: [], Evening: [] }
 
     if (Array.isArray(shows)) {
       shows.forEach((show) => {
@@ -213,7 +213,7 @@ export default function CrDjSchedule({
           <div key={bucket} className="cr-dj-schedule__column">
             <h3 className="cr-dj-schedule__bucket-title">{bucket}</h3>
 
-            {organizedShows[bucket].map((show) => {
+            {organizedShows[bucket as keyof typeof organizedShows].map((show: any) => {
               if (!show || !show.start || !show.end) return null
 
               const start =

@@ -7,6 +7,7 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import { useAnnouncements, useDJs } from '../hooks/useData'
 import { downloadDJShowCalendar } from '../utils/calendar'
+import { useAuth } from '../hooks/useAuth'
 
 // Import mock schedule data from stories file
 import { mockScheduleData } from '../stories/CrDjSchedule.stories'
@@ -14,6 +15,7 @@ import { mockScheduleData } from '../stories/CrDjSchedule.stories'
 const DJSchedulePage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
   const { user: loggedInUser } = useAuth()
+  const currentUser = loggedInUser
   const { data: allDJs } = useDJs()
 
   // Use real DJ data instead of mock
