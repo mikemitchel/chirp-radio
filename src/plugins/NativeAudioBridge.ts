@@ -1,4 +1,4 @@
-import { registerPlugin } from '@capacitor/core'
+import { registerPlugin, PluginListenerHandle } from '@capacitor/core'
 
 export interface NativeAudioBridgePlugin {
   /**
@@ -27,7 +27,7 @@ export interface NativeAudioBridgePlugin {
   addListener(
     eventName: 'playbackStateChanged',
     listenerFunc: (data: { isPlaying: boolean }) => void
-  ): any
+  ): Promise<PluginListenerHandle>
 }
 
 const NativeAudioBridge = registerPlugin<NativeAudioBridgePlugin>('NativeAudioBridge', {
