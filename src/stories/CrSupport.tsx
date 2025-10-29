@@ -62,7 +62,7 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
       )}
 
       <div className="cr-support__main-logos">
-        {siteSettings?.showDCaseLogo && (
+        {(siteSettings?.showDCaseLogo && (
           <div className="cr-support__logo cr-support__logo--dcase">
             <a
               href={(siteSettings as any).dCaseLogoUrl || '#'}
@@ -79,9 +79,9 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
               />
             </a>
           </div>
-        )}
+        )) as React.ReactNode}
 
-        {siteSettings?.showIlArtsCouncilLogo && (
+        {(siteSettings?.showIlArtsCouncilLogo && (
           <div className="cr-support__logo cr-support__logo--iac">
             <a
               href={(siteSettings as any).ilArtsCouncilLogoUrl || '#'}
@@ -98,7 +98,7 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
               />
             </a>
           </div>
-        )}
+        )) as React.ReactNode}
       </div>
 
       {/* Additional logos from Site Settings */}

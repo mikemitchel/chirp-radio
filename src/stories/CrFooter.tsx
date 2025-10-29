@@ -90,7 +90,7 @@ const CrFooter = ({
 
         {/* Middle section - Event images */}
         <div className="cr-footer__middle">
-          {siteSettings?.showChirpFilmFestLogo && (
+          {(siteSettings?.showChirpFilmFestLogo && (
             <button
               className="cr-footer__event-image cr-footer__event-image--film-fest"
               onClick={() => {
@@ -108,9 +108,9 @@ const CrFooter = ({
                 alt="CHIRP Film Fest Logo"
               />
             </button>
-          )}
+          )) as React.ReactNode}
 
-          {siteSettings?.showFirstTimeLogo && (
+          {(siteSettings?.showFirstTimeLogo && (
             <button
               className="cr-footer__event-image cr-footer__event-image--first-time"
               onClick={() => {
@@ -127,7 +127,7 @@ const CrFooter = ({
                 alt="First Time Listening Logo"
               />
             </button>
-          )}
+          )) as React.ReactNode}
         </div>
 
         {/* Right section - Callibrity */}
