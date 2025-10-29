@@ -61,7 +61,7 @@ const RequestSongPage: React.FC = () => {
   }
 
   // Get the announcement specified in CMS or fallback to index 2
-  const selectedAnnouncement = pageConfig?.sidebarAnnouncement || announcements?.[2]
+  const selectedAnnouncement = typeof pageConfig?.sidebarAnnouncement === 'object' ? pageConfig.sidebarAnnouncement : typeof pageConfig?.sidebarAnnouncement === 'string' || typeof pageConfig?.sidebarAnnouncement === 'number' ? announcements?.find(a => String(a.id) === String(pageConfig.sidebarAnnouncement)) : announcements?.[2]
 
   // Get the content type specified in CMS or fallback to 'events'
   const sidebarContentType = pageConfig?.sidebarContentType || 'events'
@@ -110,9 +110,9 @@ const RequestSongPage: React.FC = () => {
               variant="article"
               type="page"
               imagePosition="none"
-              backgroundImage={pageConfig?.layout?.[0]?.backgroundImageUrl as any || requestSongData.heroImage}
+              backgroundImage={pageConfig?.layout?.[0]?.backgroundImageUrl as string || requestSongData.heroImage}
               bannerBackgroundColor="none"
-              title={pageConfig?.layout?.[0]?.title as any || 'Request a Song'}
+              title={pageConfig?.layout?.[0]?.title as string || 'Request a Song'}
               titleTag="h1"
               titleSize="xl"
               textLayout="stacked"
@@ -213,10 +213,10 @@ const RequestSongPage: React.FC = () => {
               <CrCard
                 variant="article"
                 type="page"
-                imagePosition={pageConfig.layout[5].imagePosition as any || 'none'}
-                backgroundImage={pageConfig.layout[5].backgroundImageUrl as any}
+                imagePosition={pageConfig.layout[5].imagePosition as string || 'none'}
+                backgroundImage={pageConfig.layout[5].backgroundImageUrl as string}
                 bannerBackgroundColor="none"
-                title={pageConfig.layout[5].title as any}
+                title={pageConfig.layout[5].title as string}
                 titleTag="h2"
                 textLayout="stacked"
                 bannerHeight="tall"
@@ -244,10 +244,10 @@ const RequestSongPage: React.FC = () => {
               <CrCard
                 variant="article"
                 type="page"
-                imagePosition={pageConfig.layout[6].imagePosition as any || 'right'}
-                backgroundImage={pageConfig.layout[6].backgroundImageUrl as any}
+                imagePosition={pageConfig.layout[6].imagePosition as string || 'right'}
+                backgroundImage={pageConfig.layout[6].backgroundImageUrl as string}
                 bannerBackgroundColor="none"
-                title={pageConfig.layout[6].title as any}
+                title={pageConfig.layout[6].title as string}
                 titleTag="h2"
                 textLayout="stacked"
                 bannerHeight="tall"
@@ -278,12 +278,12 @@ const RequestSongPage: React.FC = () => {
               <CrAnnouncement
                 variant="motivation"
                 widthVariant="third"
-                textureBackground={(selectedAnnouncement as any).backgroundColor}
-                headlineText={(selectedAnnouncement as any).title}
-                bodyText={(selectedAnnouncement as any).message}
-                showLink={!!(selectedAnnouncement as any).ctaText}
-                linkText={(selectedAnnouncement as any).ctaText}
-                linkUrl={(selectedAnnouncement as any).ctaUrl}
+                textureBackground={'backgroundColor' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).backgroundColor as string : undefined}
+                headlineText={'title' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).title as string : selectedAnnouncement.headlineText}
+                bodyText={'message' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).message as string : typeof selectedAnnouncement.bodyText === 'string' ? selectedAnnouncement.bodyText : undefined}
+                showLink={'ctaText' in selectedAnnouncement && !!(selectedAnnouncement as Record<string, unknown>).ctaText}
+                linkText={'ctaText' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).ctaText as string : undefined}
+                linkUrl={'ctaUrl' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).ctaUrl as string : undefined}
                 buttonCount="none"
               />
             )}

@@ -47,7 +47,7 @@ const VolunteerCalendarPage: React.FC = () => {
   }
 
   // Get the announcement specified in CMS or fallback to index 0
-  const selectedAnnouncement = pageConfig?.sidebarAnnouncement || announcements?.[0]
+  const selectedAnnouncement = typeof pageConfig?.sidebarAnnouncement === 'object' ? pageConfig.sidebarAnnouncement : typeof pageConfig?.sidebarAnnouncement === 'string' || typeof pageConfig?.sidebarAnnouncement === 'number' ? announcements?.find(a => String(a.id) === String(pageConfig.sidebarAnnouncement)) : announcements?.[0]
 
   // Get the content type specified in CMS or fallback to 'events'
   const sidebarContentType = pageConfig?.sidebarContentType || 'events'
@@ -112,11 +112,11 @@ const VolunteerCalendarPage: React.FC = () => {
               <CrAnnouncement
                 variant="motivation"
                 widthVariant="third"
-                headlineText={(selectedAnnouncement as any).title}
-                bodyText={(selectedAnnouncement as any).description}
-                showLink={!!(selectedAnnouncement as any).actionText}
-                linkText={(selectedAnnouncement as any).actionText}
-                linkUrl={(selectedAnnouncement as any).actionUrl}
+                headlineText={('title' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).title as string : selectedAnnouncement.headlineText)}
+                bodyText={('description' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).description as string : undefined)}
+                showLink={!!('actionText' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).actionText as string : undefined)}
+                linkText={('actionText' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).actionText as string : undefined)}
+                linkUrl={('actionUrl' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).actionUrl as string : undefined)}
                 buttonCount="none"
               />
             )}

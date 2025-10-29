@@ -9,6 +9,8 @@ import CrCard from '../stories/CrCard'
 import CrPagination from '../stories/CrPagination'
 import { useTracks, useArticles } from '../hooks/useData'
 import announcementsData from '../data/announcements.json'
+import type { Article, Announcement } from '../types/cms'
+import { getArticleImageUrl, getArticleCategoryName, getArticleTags } from '../utils/typeHelpers'
 
 const HOURS_PER_PAGE = 4
 
@@ -23,9 +25,9 @@ const PlaylistPage: React.FC = () => {
 
   // Select random announcement on mount
   const randomAnnouncement = useMemo(() => {
-    const activeAnnouncements = announcementsData.announcements.filter((a: any) => a.isActive)
-    if (activeAnnouncements.length === 0) return announcementsData.announcements[0]
-    return activeAnnouncements[Math.floor(Math.random() * activeAnnouncements.length)]
+    const activeAnnouncements = announcementsData.announcements.filter((a: Announcement) => 'isActive' in a && (a as Record<string, unknown>).isActive)
+    if (activeAnnouncements.length === 0) return announcementsData.announcements[0] as Announcement
+    return activeAnnouncements[Math.floor(Math.random() * activeAnnouncements.length)] as Announcement
   }, [])
 
   // Format tracks with hour data for grouping
@@ -61,7 +63,7 @@ const PlaylistPage: React.FC = () => {
           startTime,
           endTime,
           djName: track.djName || 'Unknown DJ',
-          djProfileUrl: (track as any).djImage,
+          djProfileUrl: 'djImage' in track ? (track as Record<string, unknown>).djImage as string | undefined : undefined,
           showName: track.showName || 'Unknown Show',
         },
       }
@@ -113,7 +115,7 @@ const PlaylistPage: React.FC = () => {
     }
   }, [formattedTracks, currentPage])
 
-  const handleArticleClick = (article: any) => {
+  const handleArticleClick = (article: Article) => {
     navigate(`/articles/${article.id}`, { state: { article } })
   }
 
@@ -161,12 +163,12 @@ const PlaylistPage: React.FC = () => {
         <div className="page-container">
           <CrAnnouncement
             variant="motivation"
-            textureBackground={(randomAnnouncement as any).backgroundColor || "cr-bg-natural-d100"}
-            headlineText={(randomAnnouncement as any).title}
-            bodyText={(randomAnnouncement as any).message}
-            showLink={!!(randomAnnouncement as any).ctaText}
-            linkText={(randomAnnouncement as any).ctaText || undefined}
-            linkUrl={(randomAnnouncement as any).ctaUrl || undefined}
+            textureBackground={'backgroundColor' in randomAnnouncement ? (randomAnnouncement as Record<string, unknown>).backgroundColor as string : "cr-bg-natural-d100"}
+            headlineText={'title' in randomAnnouncement ? (randomAnnouncement as Record<string, unknown>).title as string : randomAnnouncement.headlineText}
+            bodyText={'message' in randomAnnouncement ? (randomAnnouncement as Record<string, unknown>).message as string : typeof randomAnnouncement.bodyText === 'string' ? randomAnnouncement.bodyText : undefined}
+            showLink={'ctaText' in randomAnnouncement && !!(randomAnnouncement as Record<string, unknown>).ctaText}
+            linkText={'ctaText' in randomAnnouncement ? (randomAnnouncement as Record<string, unknown>).ctaText as string | undefined : undefined}
+            linkUrl={'ctaUrl' in randomAnnouncement ? (randomAnnouncement as Record<string, unknown>).ctaUrl as string | undefined : undefined}
             buttonCount="none"
           />
         </div>
@@ -214,8 +216,8 @@ const PlaylistPage: React.FC = () => {
               type="article"
               bannerHeight="tall"
               textLayout="stacked"
-              backgroundImage={typeof articles[0].featuredImage === 'string' ? articles[0].featuredImage : (articles[0].featuredImage as any)?.url}
-              preheader={typeof articles[0].category === "string" ? articles[0].category : (articles[0].category as any)?.name}
+              backgroundImage={getArticleImageUrl(articles[0])}
+              preheader={getArticleCategoryName(articles[0])}
               title={articles[0].title}
               authorBy={`by ${articles[0].author}`}
               eventDate={new Date(articles[0].publishedDate || Date.now()).toLocaleDateString('en-US', {
@@ -223,7 +225,7 @@ const PlaylistPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
               })}
-              tags={Array.isArray(articles[0].tags) && typeof articles[0].tags[0] === 'string' ? articles[0].tags as string[] : (articles[0].tags as any)?.map((t: any) => t.tag)}
+              tags={getArticleTags(articles[0])}
               onClick={() => handleArticleClick(articles[0])}
             />
           )}
@@ -235,8 +237,8 @@ const PlaylistPage: React.FC = () => {
               type="article"
               bannerHeight="tall"
               textLayout="stacked"
-              backgroundImage={typeof articles[1].featuredImage === 'string' ? articles[1].featuredImage : (articles[1].featuredImage as any)?.url}
-              preheader={typeof articles[1].category === "string" ? articles[1].category : (articles[1].category as any)?.name}
+              backgroundImage={getArticleImageUrl(articles[1])}
+              preheader={getArticleCategoryName(articles[1])}
               title={articles[1].title}
               authorBy={`by ${articles[1].author}`}
               eventDate={new Date(articles[1].publishedDate || Date.now()).toLocaleDateString('en-US', {
@@ -244,7 +246,7 @@ const PlaylistPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
               })}
-              tags={Array.isArray(articles[1].tags) && typeof articles[1].tags[0] === 'string' ? articles[1].tags as string[] : (articles[1].tags as any)?.map((t: any) => t.tag)}
+              tags={getArticleTags(articles[1])}
               onClick={() => handleArticleClick(articles[1])}
             />
           )}
@@ -256,8 +258,8 @@ const PlaylistPage: React.FC = () => {
               type="article"
               bannerHeight="tall"
               textLayout="stacked"
-              backgroundImage={typeof articles[2].featuredImage === 'string' ? articles[2].featuredImage : (articles[2].featuredImage as any)?.url}
-              preheader={typeof articles[2].category === "string" ? articles[2].category : (articles[2].category as any)?.name}
+              backgroundImage={getArticleImageUrl(articles[2])}
+              preheader={getArticleCategoryName(articles[2])}
               title={articles[2].title}
               authorBy={`by ${articles[2].author}`}
               eventDate={new Date(articles[2].publishedDate || Date.now()).toLocaleDateString('en-US', {
@@ -265,7 +267,7 @@ const PlaylistPage: React.FC = () => {
                 day: 'numeric',
                 year: 'numeric',
               })}
-              tags={Array.isArray(articles[2].tags) && typeof articles[2].tags[0] === 'string' ? articles[2].tags as string[] : (articles[2].tags as any)?.map((t: any) => t.tag)}
+              tags={getArticleTags(articles[2])}
               onClick={() => handleArticleClick(articles[2])}
             />
           )}

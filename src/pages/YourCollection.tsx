@@ -35,12 +35,12 @@ export default function YourCollection() {
   const notLoggedInDescription =
     pageContent?.customNotLoggedInMessage ||
     'A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!'
-  const actionButtonText = (pageContent as any)?.actionButtonText || 'Share Collection'
-  const loginButtonText = (pageContent as any)?.loginButtonText || 'Log In'
-  const signupButtonText = (pageContent as any)?.signupButtonText || 'Sign Up'
+  const actionButtonText = (pageContent && 'actionButtonText' in pageContent ? (pageContent as Record<string, unknown>).actionButtonText as string : undefined) || 'Share Collection'
+  const loginButtonText = (pageContent && 'loginButtonText' in pageContent ? (pageContent as Record<string, unknown>).loginButtonText as string : undefined) || 'Log In'
+  const signupButtonText = (pageContent && 'signupButtonText' in pageContent ? (pageContent as Record<string, unknown>).signupButtonText as string : undefined) || 'Sign Up'
 
-  const benefitsTitle = (appSettings as any)?.accountBenefitsTitle || 'Benefits of Creating an Account:'
-  const benefitsContent = (appSettings as any)?.accountBenefitsContent || `
+  const benefitsTitle = (appSettings && 'accountBenefitsTitle' in appSettings ? (appSettings as Record<string, unknown>).accountBenefitsTitle as string : undefined) || 'Benefits of Creating an Account:'
+  const benefitsContent = (appSettings && 'accountBenefitsContent' in appSettings ? (appSettings as Record<string, unknown>).accountBenefitsContent as string : undefined) || `
     <ul>
       <li>Save your favorite songs from our live stream to your personal collection</li>
       <li>Make song requests directly to our DJs during their shows</li>
@@ -53,8 +53,9 @@ export default function YourCollection() {
   `
 
   // Get the announcement from CMS (now populated and transformed with depth: 1)
+  const announcementValue = pageContent && 'announcement' in pageContent ? (pageContent as Record<string, unknown>).announcement : undefined
   const selectedAnnouncement =
-    typeof (pageContent as any)?.announcement === 'object' ? (pageContent as any)?.announcement : null
+    typeof announcementValue === 'object' && announcementValue !== null ? announcementValue : null
 
   // Load collection on mount and when logged in
   useEffect(() => {
@@ -68,7 +69,7 @@ export default function YourCollection() {
   // Add reset function to window for testing (only in development)
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
-      ;(window as any).resetCollection = () => {
+      ;(window as unknown as Record<string, unknown>).resetCollection = () => {
         localStorage.removeItem('chirp-collection')
         initializeSampleCollection()
         setCollection(getCollection())
@@ -77,7 +78,7 @@ export default function YourCollection() {
     }
     return () => {
       if (process.env.NODE_ENV === 'development') {
-        delete (window as any).resetCollection
+        delete (window as unknown as Record<string, unknown>).resetCollection
       }
     }
   }, [])
@@ -289,20 +290,20 @@ export default function YourCollection() {
 
       {selectedAnnouncement && (
         <CrAnnouncement
-          variant={selectedAnnouncement.variant}
-          textureBackground={selectedAnnouncement.textureBackground}
-          headlineText={selectedAnnouncement.headlineText}
-          bodyText={selectedAnnouncement.bodyText}
-          showLink={selectedAnnouncement.showLink}
-          linkText={selectedAnnouncement.linkText}
-          linkUrl={selectedAnnouncement.linkUrl}
-          buttonCount={selectedAnnouncement.buttonCount}
-          button1Text={selectedAnnouncement.button1Text}
-          button1Icon={selectedAnnouncement.button1Icon}
-          button2Text={selectedAnnouncement.button2Text}
-          button2Icon={selectedAnnouncement.button2Icon}
-          currentAmount={selectedAnnouncement.currentAmount}
-          targetAmount={selectedAnnouncement.targetAmount}
+          variant={(selectedAnnouncement as Record<string, unknown>).variant as string}
+          textureBackground={(selectedAnnouncement as Record<string, unknown>).textureBackground as string}
+          headlineText={(selectedAnnouncement as Record<string, unknown>).headlineText as string}
+          bodyText={(selectedAnnouncement as Record<string, unknown>).bodyText as string}
+          showLink={(selectedAnnouncement as Record<string, unknown>).showLink as boolean}
+          linkText={(selectedAnnouncement as Record<string, unknown>).linkText as string}
+          linkUrl={(selectedAnnouncement as Record<string, unknown>).linkUrl as string}
+          buttonCount={(selectedAnnouncement as Record<string, unknown>).buttonCount as string}
+          button1Text={(selectedAnnouncement as Record<string, unknown>).button1Text as string}
+          button1Icon={(selectedAnnouncement as Record<string, unknown>).button1Icon as string}
+          button2Text={(selectedAnnouncement as Record<string, unknown>).button2Text as string}
+          button2Icon={(selectedAnnouncement as Record<string, unknown>).button2Icon as string}
+          currentAmount={(selectedAnnouncement as Record<string, unknown>).currentAmount as number}
+          targetAmount={(selectedAnnouncement as Record<string, unknown>).targetAmount as number}
         />
       )}
     </div>
