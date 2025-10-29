@@ -151,7 +151,7 @@ const EventsPage: React.FC = () => {
             />
           )}
           {sidebarAdvertisement && (
-            <CrAdSpace
+            <>{<CrAdSpace
               size={(sidebarAdvertisement as any).size || 'large-rectangle'}
               customWidth={(sidebarAdvertisement as any).customWidth}
               customHeight={(sidebarAdvertisement as any).customHeight}
@@ -164,7 +164,7 @@ const EventsPage: React.FC = () => {
               href={(sidebarAdvertisement as any).href}
               target={(sidebarAdvertisement as any).target}
               showLabel={(sidebarAdvertisement as any).showLabel}
-            />
+            />}</>
           )}
         </div>
       </div>
@@ -369,8 +369,8 @@ const EventsPage: React.FC = () => {
               variant="narrow"
               bannerHeight="tall"
               textLayout="stacked"
-              backgroundImage={events[8]?.featuredImage}
-              preheader={typeof events[8]?.category === "string" ? events[8]?.category : events[8]?.category?.name}
+              backgroundImage={getEventImageUrl(events[8])}
+              preheader={getEventCategoryName(events[8])}
               title={events[8]?.title}
               dateTime={new Date(events[8]?.date).toLocaleString('en-US', {
                 month: 'short',
@@ -379,8 +379,8 @@ const EventsPage: React.FC = () => {
                 hour: 'numeric',
                 minute: '2-digit',
               })}
-              venue={events[8]?.venue.name}
-              ageRestriction={events[8]?.ageRestriction}
+              venue={events[8] ? getEventVenueName(events[8]) : undefined}
+              ageRestriction={events[8] ? getEventAgeRestriction(events[8]) : undefined}
               contentSummary={events[8]?.excerpt}
               showTicketButton={false}
               onClick={() => handleEventClick(events[8])}
