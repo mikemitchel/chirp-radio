@@ -102,8 +102,8 @@ const CrFooter = ({
             >
               <img
                 src={
-                  (siteSettings as any).chirpFilmFestLogo?.url ||
-                  '/images/chirp-logos/chirp-film-fest.jpg'
+                  String((siteSettings as any).chirpFilmFestLogo?.url ||
+                  '/images/chirp-logos/chirp-film-fest.jpg')
                 }
                 alt="CHIRP Film Fest Logo"
               />
@@ -122,7 +122,7 @@ const CrFooter = ({
             >
               <img
                 src={
-                  (siteSettings as any).firstTimeLogo?.url || '/images/chirp-logos/FirstTimeLogo.png'
+                  String((siteSettings as any).firstTimeLogo?.url || '/images/chirp-logos/FirstTimeLogo.png')
                 }
                 alt="First Time Listening Logo"
               />

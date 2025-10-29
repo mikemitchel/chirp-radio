@@ -152,10 +152,10 @@ export default function CrDonateForm({
         <div className="cr-donate-form__section">
           <CrDonateAmount
             selectedAmount={selectedAmount}
-            onAmountChange={setSelectedAmount}
+            onAmountChange={(amount: number | string) => setSelectedAmount(amount as any)}
             customAmount={customAmount}
             onCustomAmountChange={setCustomAmount}
-            amounts={isVinylCircle ? content.amounts.map((item) => item.amount) : content.amounts}
+            amounts={(isVinylCircle ? content.amounts.map((item) => typeof item === 'object' && 'amount' in item ? item.amount : item) : content.amounts) as number[]}
             amountLabels={isVinylCircle ? content.amounts : null}
           />
         </div>

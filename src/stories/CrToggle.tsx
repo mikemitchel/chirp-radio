@@ -43,7 +43,7 @@ export default function CrToggle({
 
   const handleTrackClick = () => {
     if (!disabled && onChange) {
-      onChange(!checked, { target: { checked: !checked } })
+      onChange(!checked, { target: { checked: !checked } } as any)
     }
   }
 

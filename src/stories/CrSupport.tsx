@@ -72,8 +72,8 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
               <img
                 className="cr-support__logo-image"
                 src={
-                  (siteSettings as any).dCaseLogo?.url ||
-                  '/images/support-logos/DCASE-HORIZ-COLOR.png'
+                  String((siteSettings as any).dCaseLogo?.url ||
+                  '/images/support-logos/DCASE-HORIZ-COLOR.png')
                 }
                 alt="Chicago Department of Cultural Affairs & Special Events"
               />
@@ -91,8 +91,8 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
               <img
                 className="cr-support__logo-image"
                 src={
-                  (siteSettings as any).ilArtsCouncilLogo?.url ||
-                  '/images/support-logos/Blk and Green IAC Logo.png'
+                  String((siteSettings as any).ilArtsCouncilLogo?.url ||
+                  '/images/support-logos/Blk and Green IAC Logo.png')
                 }
                 alt="Illinois Arts Council"
               />

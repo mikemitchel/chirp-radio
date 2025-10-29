@@ -83,8 +83,6 @@ export default function CrAppHeader({
   onVolunteerDropdown,
   onProfileClick,
   onFavoritesClick,
-  onDonationsClick,
-  onPurchasesClick,
   onSignOutClick,
   onVolunteerDirectoryClick,
   onLeadershipDirectoryClick,
@@ -111,8 +109,6 @@ export default function CrAppHeader({
         onVolunteerDropdown={onVolunteerDropdown}
         onProfileClick={onProfileClick}
         onFavoritesClick={onFavoritesClick}
-        onDonationsClick={onDonationsClick}
-        onPurchasesClick={onPurchasesClick}
         onSignOutClick={onSignOutClick}
         onVolunteerDirectoryClick={onVolunteerDirectoryClick}
         onLeadershipDirectoryClick={onLeadershipDirectoryClick}

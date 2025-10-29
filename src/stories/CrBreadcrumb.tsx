@@ -20,7 +20,7 @@ export default function CrBreadcrumb({
         {/* Logo */}
         {showLogo && (
           <div className="cr-breadcrumb__logo">
-            <CrLogo variant="bird" reversed={false} />
+            <CrLogo variant="bird" />
           </div>
         )}
 

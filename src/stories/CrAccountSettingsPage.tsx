@@ -243,8 +243,8 @@ export default function CrAccountSettingsPage({
             onStreamingQualityChange={onStreamingQualityChange}
             pushNotifications={pushNotifications}
             onPushNotificationsChange={onPushNotificationsChange}
-            darkMode={darkMode}
-            onDarkModeChange={onDarkModeChange}
+            darkMode={darkMode as unknown as 'light' | 'dark' | 'device' | undefined}
+            onDarkModeChange={onDarkModeChange as ((mode: 'light' | 'dark' | 'device') => void) | undefined}
           />
         </div>
 
