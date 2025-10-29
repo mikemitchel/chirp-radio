@@ -1,12 +1,8 @@
 // CrStreamingMusicPlayer.tsx
-import React, { useState, useEffect, useRef } from 'react'
-import { PiPlayFill, PiPauseFill } from 'react-icons/pi'
+import { useState, useEffect, useRef } from 'react'
 import CrCurrentDj from './CrCurrentDj'
 import CrTrackInfo from './CrTrackInfo'
 import CrLogo from './CrLogo'
-import CrButton from './CrButton'
-import CrChip from './CrChip'
-import CrMobileHeader from './CrMobileHeader'
 import { useAudioPlayer } from '../contexts/AudioPlayerContext'
 import { useAuth } from '../hooks/useAuth'
 import LoginRequiredModal from '../components/LoginRequiredModal'
@@ -70,7 +66,7 @@ const PlayPauseButton = ({ isPlaying, onClick, size = 60 }) => {
 }
 
 // Album Art component with CHIRP logo fallback and crossfade
-const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false }) => {
+const AlbumArt = ({ src, className, style, isLarge = false, isLoading: _isLoading = false }) => {
   // Check if we have a valid image URL
   const isValidImageUrl = (url) => {
     return (
@@ -93,8 +89,6 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false })
 
   useEffect(() => {
     // Track if src changed to empty/null (new track with no art vs waiting for art)
-    const srcChangedToEmpty =
-      lastSrc.current !== src && !isValidImageUrl(src) && isValidImageUrl(lastSrc.current)
     lastSrc.current = src
 
     if (!isValidImageUrl(src)) {
@@ -147,7 +141,7 @@ const AlbumArt = ({ src, className, style, isLarge = false, isLoading = false })
 }
 
 // Background component - simplified
-const BackgroundImage = ({ src, isLoading }) => {
+const BackgroundImage = ({ src, isLoading: _isLoading }) => {
   const isValidImageUrl = (url) => {
     return (
       url &&
@@ -168,8 +162,6 @@ const BackgroundImage = ({ src, isLoading }) => {
 
   useEffect(() => {
     // Track if src changed to empty/null
-    const srcChangedToEmpty =
-      lastSrc.current !== src && !isValidImageUrl(src) && isValidImageUrl(lastSrc.current)
     lastSrc.current = src
 
     if (!isValidImageUrl(src)) {
@@ -247,15 +239,8 @@ export default function CrStreamingMusicPlayer({
   albumName = 'Album Name',
   labelName = 'Label Name',
   albumArt = 'https://assets.codepen.io/715673/album-art.jpg',
-  streamUrl = 'https://peridot.streamguys1.com:5185/live',
   autoFetch = false, // Default to no API fetching
-  apiUrl = 'https://chirpradio.appspot.com/api/current_playlist',
-  onToggleAdd = () => {},
-  isTrackAdded = false,
-  pageTitle = 'Page Title', // Keep for potential future use
   isLocal = false, // New prop to control LOCAL chip
-  onMenuClick = () => {}, // Keep for potential future use
-  onLogoClick = () => {}, // Keep for potential future use
 }: CrStreamingMusicPlayerProps) {
   // Use the shared audio player context
   const {
@@ -297,23 +282,6 @@ export default function CrStreamingMusicPlayer({
         dj: djName,
         show: showName,
       }
-
-  // Helper function to check if album art should use fallback
-  const shouldUseFallback = (albumArtUrl) => {
-    return (
-      !albumArtUrl ||
-      albumArtUrl.trim() === '' ||
-      albumArtUrl === 'null' ||
-      albumArtUrl === 'undefined' ||
-      albumArtUrl.includes('null') ||
-      !albumArtUrl.startsWith('http') ||
-      // Treat placeholder URLs as fallback cases when autoFetch is true
-      (autoFetch &&
-        (albumArtUrl.includes('codepen.io') ||
-          albumArtUrl.includes('picsum.photos') ||
-          albumArtUrl.includes('unsplash.com')))
-    )
-  }
 
   // Play/pause handler using context
   const handlePlayPause = (event) => {

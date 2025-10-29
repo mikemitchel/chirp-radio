@@ -1,5 +1,4 @@
 // CrSupport.tsx
-import React from 'react'
 import './CrSupport.css'
 import { useSiteSettings } from '../hooks/useData'
 

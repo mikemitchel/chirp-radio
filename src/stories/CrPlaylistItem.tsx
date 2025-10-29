@@ -36,7 +36,7 @@ export default function CrPlaylistItem({
   trackName = 'Track Name',
   albumName = 'Album Name',
   labelName = 'Label Name',
-  isAdded: isAddedProp,
+  isAdded: _isAddedProp,
   isLocal = false,
   onToggleAdd,
 

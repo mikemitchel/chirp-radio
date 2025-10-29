@@ -1,5 +1,5 @@
 // src/pages/YourCollection.tsx
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
 import CrAnnouncement from '../stories/CrAnnouncement'
@@ -22,7 +22,7 @@ import {
 import './YourCollection.css'
 
 export default function YourCollection() {
-  const { isLoggedIn, login, signup, user } = useAuth()
+  const { isLoggedIn, login, signup } = useAuth()
   const { showModal, showToast } = useNotification()
   const { data: appSettings } = useMobileAppSettings()
   const { data: pageContent } = useMobilePageByIdentifier('my-collection')
@@ -92,7 +92,7 @@ export default function YourCollection() {
     }
   }, [])
 
-  const handleItemRemove = (item: any, index: number) => {
+  const handleItemRemove = (item: any, _index: number) => {
     showModal({
       title: 'Remove from Collection',
       message: `Are you sure you want to remove ${item.trackName} by ${item.artistName} from your collection?`,

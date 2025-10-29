@@ -28,7 +28,6 @@ interface CrDjOverviewProps {
 
 export default function CrDjOverview({
   size = 'large', // 'large', 'medium', 'small', 'xsmall-1col', 'xsmall-2col', 'schedule'
-  role = 'dj',
   useOn = 'light',
   title, // Optional title for large variant
   djName = 'DJ Reallylong Namerson',

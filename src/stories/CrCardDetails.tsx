@@ -54,7 +54,7 @@ export default function CrCardDetails({
               className="cr-card-details__venue"
               onClick={(e) => {
                 e.preventDefault()
-                onVenueClick && onVenueClick()
+                if (onVenueClick) onVenueClick()
               }}
             >
               <PiMapTrifold className="cr-card-details__icon cr-card-details__icon--map" />

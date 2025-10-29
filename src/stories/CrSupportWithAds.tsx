@@ -1,5 +1,4 @@
 // CrSupportWithAds.tsx
-import React from 'react'
 import CrSupport from './CrSupport'
 import CrAdSpace from './CrAdSpace'
 import './CrSupportWithAds.css'

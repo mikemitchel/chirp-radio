@@ -1,5 +1,5 @@
 // CrCurrentDj.tsx
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import CrChip from './CrChip'
 import './CrCurrentDj.css'
 
