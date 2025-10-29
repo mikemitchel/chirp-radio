@@ -27,7 +27,7 @@
 **Priority Tasks (All Equal Priority):**
 - Apple CarPlay integration
 - Apple Watch streaming controls
-- Android Auto setup (may need new player component)
+- **Android Auto integration - COMPLETED ✅** (Play/pause sync working, needs physical device testing)
 - CMS webhook for content updates (research needed)
 - Album art accuracy (API polling issue with fallback images)
 - Cached API content strategy
@@ -239,6 +239,104 @@ The CarPlay integration code is **fully implemented and ready**, but requires Ap
 - [ ] Lock screen controls work
 - [ ] Switching apps doesn't stop playback
 - [ ] Incoming call pauses/resumes correctly
+
+---
+
+## Android Auto Integration Status
+
+### Implementation Complete ✅
+The Android Auto integration is **fully implemented and working** in the emulator. Tested and ready for physical device validation.
+
+**Files Configured:**
+- `android/app/src/main/AndroidManifest.xml` - MediaBrowserService declaration for Android Auto discovery
+- `android/app/src/main/java/org/chirpradio/app/ChirpMediaService.kt` - MediaBrowserService with media session
+- `android/app/src/main/java/org/chirpradio/app/NativeAudioPlayer.kt` - ExoPlayer-based streaming audio player
+- `android/app/src/main/java/org/chirpradio/app/NativeAudioBridgePlugin.kt` - Capacitor plugin for React ↔ native communication
+- `android/app/src/main/java/org/chirpradio/app/MediaSessionManager.kt` - MediaSession management for Android Auto
+- `android/app/src/main/java/org/chirpradio/app/MainActivity.java` - Plugin registration and service startup
+- `src/plugins/NativeAudioBridge.ts` - TypeScript wrapper for native bridge
+- `src/contexts/AudioPlaybackContext.tsx` - React context with native playback state sync
+
+**Key Features Implemented:**
+- ✅ Native ExoPlayer for reliable streaming playback
+- ✅ MediaBrowserService for Android Auto discovery
+- ✅ Play/pause sync between app UI and Android Auto controls
+- ✅ Now Playing metadata with album art
+- ✅ Lock screen controls
+- ✅ Notification media controls
+- ✅ Background audio playback
+- ✅ Audio focus management for car audio systems
+
+**Critical Bug Fix:**
+- **Audio Focus Conflict** - Disabled ExoPlayer's automatic audio focus handling to prevent conflicts with Android Auto's car audio system. The MediaSession now properly manages audio focus, ensuring play/pause commands work correctly from all sources (app UI, Android Auto, notifications, lock screen).
+
+### Testing on Android Automotive Emulator ✅
+
+**Emulator Setup:**
+```bash
+# List available emulators
+~/Library/Android/sdk/emulator/emulator -list-avds
+
+# Launch Android Automotive emulator
+~/Library/Android/sdk/emulator/emulator -avd Automotive_ARM64 -no-snapshot-load
+
+# Build and install APK
+cd android
+./gradlew assembleDebug
+~/Library/Android/sdk/platform-tools/adb -s emulator-5554 install -r app/build/outputs/apk/debug/app-debug.apk
+
+# Monitor logs
+~/Library/Android/sdk/platform-tools/adb -s emulator-5554 logcat | grep -E "NativeAudioBridge|ChirpMediaService"
+```
+
+**Verified Functionality (Emulator):**
+- [x] App appears in Android Auto media apps
+- [x] Tapping app shows Now Playing interface
+- [x] Album art displays correctly
+- [x] Track metadata shows (song, artist, label)
+- [x] Play button starts stream
+- [x] Pause button stops stream
+- [x] Play/pause syncs between app and Android Auto controls
+- [x] Lock screen controls work
+- [x] Notification controls work
+- [x] No flicker when switching between app and Android Auto controls
+
+### Physical Device Testing (TODO)
+
+**Test Checklist:**
+- [ ] Install APK on physical Android device
+- [ ] Verify notification media controls (play/pause sync)
+- [ ] Verify lock screen controls (play/pause sync)
+- [ ] Test background playback (switching apps, screen off)
+- [ ] If Android Auto available: Test in vehicle or with Android Auto app
+  - [ ] App appears in Android Auto
+  - [ ] Audio plays through car speakers/phone
+  - [ ] Play/pause from Android Auto controls
+  - [ ] Play/pause from steering wheel controls (if in vehicle)
+  - [ ] Play/pause from app UI syncs with Android Auto
+  - [ ] Album art and metadata display correctly
+  - [ ] Switching apps doesn't stop playback
+  - [ ] Incoming call pauses/resumes correctly
+
+### Troubleshooting
+
+**Common Issues:**
+- **Play/pause out of sync** → Ensure audio focus is disabled in ExoPlayer (`handleAudioFocus = false`)
+- **Immediate pause after play** → Check for audio focus conflicts in logcat (`grep "audio focus"`)
+- **App not appearing in Android Auto** → Verify MediaBrowserService is declared in AndroidManifest.xml
+- **No audio playback** → Check ExoPlayer initialization and stream URL validity
+
+**Debugging Commands:**
+```bash
+# Check app version
+~/Library/Android/sdk/platform-tools/adb shell "pm dump org.chirpradio.app | grep versionName"
+
+# Monitor all app logs
+~/Library/Android/sdk/platform-tools/adb logcat | grep "org.chirpradio"
+
+# Monitor audio-specific logs
+~/Library/Android/sdk/platform-tools/adb logcat | grep -E "NativeAudioBridge|ChirpMediaService|NativeAudioPlayer"
+```
 
 ---
 
