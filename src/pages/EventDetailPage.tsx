@@ -9,12 +9,76 @@ import CrChip from '../stories/CrChip'
 import CrButton from '../stories/CrButton'
 import { PiCalendarPlus } from 'react-icons/pi'
 import { useEvents, useAnnouncements } from '../hooks/useData'
+import type { Event } from '../types/cms'
+
+// Helper functions for type conversions
+const getEventImageUrl = (event: Event): string | undefined => {
+  if (typeof event.featuredImage === 'object' && event.featuredImage && 'url' in event.featuredImage) {
+    return (event.featuredImage as any).url
+  }
+  if (typeof event.featuredImage === 'string') {
+    return event.featuredImage
+  }
+  return event.featuredImageUrl
+}
+
+const getEventCategoryName = (event: Event): string | undefined => {
+  if (typeof event.category === 'object' && event.category && 'name' in event.category) {
+    return (event.category as any).name
+  }
+  if (typeof event.category === 'string') {
+    return event.category
+  }
+  return undefined
+}
+
+const getEventVenueName = (event: Event): string | undefined => {
+  if (!event.venue) return event.location
+  if (typeof event.venue === 'object' && 'name' in event.venue) {
+    return (event.venue as any).name
+  }
+  if (typeof event.venue === 'string') {
+    return event.venue
+  }
+  return event.location
+}
+
+const getEventVenueAddress = (event: Event): string | undefined => {
+  if (!event.venue || typeof event.venue !== 'object') return undefined
+  return (event.venue as any).address
+}
+
+const getEventVenueCity = (event: Event): string | undefined => {
+  if (!event.venue || typeof event.venue !== 'object') return undefined
+  return (event.venue as any).city
+}
+
+const getEventVenueState = (event: Event): string | undefined => {
+  if (!event.venue || typeof event.venue !== 'object') return undefined
+  return (event.venue as any).state
+}
+
+const getEventVenuePhone = (event: Event): string | undefined => {
+  if (!event.venue || typeof event.venue !== 'object') return undefined
+  return (event.venue as any).phone
+}
+
+const getEventAgeRestriction = (event: Event): string | undefined => {
+  if (!event.ageRestriction) return undefined
+  if (typeof event.ageRestriction === 'object' && 'age' in event.ageRestriction) {
+    return (event.ageRestriction as any).age
+  }
+  if (typeof event.ageRestriction === 'string') {
+    return event.ageRestriction
+  }
+  return undefined
+}
 
 const EventDetailPage: React.FC = () => {
   const navigate = useNavigate()
   const { slug } = useParams()
 
-  const { data: allEvents, isLoading } = useEvents()
+  const { data: allEvents, loading: isLoading } = useEvents()
   const { data: announcements } = useAnnouncements()
 
   // Find event by slug from URL
@@ -79,10 +143,10 @@ const EventDetailPage: React.FC = () => {
             imagePosition="right"
             articleImageAspectRatio="16:9"
             captionPosition="bottom"
-            backgroundImage={event.featuredImage || event.featuredImageUrl}
+            backgroundImage={getEventImageUrl(event)}
             showPhotoCredit={event.showPhotoCredit || false}
             photographerName={event.photographerName}
-            preheader={typeof event.category === 'string' ? event.category : event.category?.name}
+            preheader={getEventCategoryName(event)}
             title={event.title}
             dateTime={new Date(event.date).toLocaleString('en-US', {
               month: 'short',
@@ -91,10 +155,10 @@ const EventDetailPage: React.FC = () => {
               hour: 'numeric',
               minute: '2-digit',
             })}
-            venue={event.venue.name}
-            ageRestriction={typeof event.ageRestriction === 'string' ? event.ageRestriction : event.ageRestriction?.age}
+            venue={getEventVenueName(event)}
+            ageRestriction={getEventAgeRestriction(event)}
             excerpt={event.excerpt}
-            content={event.content}
+            content={typeof event.content === 'string' ? event.content : undefined}
             showTicketButton={false}
             showShareButton={true}
             shareUrl={`${window.location.origin}${window.location.pathname}#/events/${event.slug}`}
@@ -183,7 +247,7 @@ const EventDetailPage: React.FC = () => {
                 {/* Age Restriction Chip */}
                 {event.ageRestriction && (
                   <CrChip variant="secondary">
-                    {typeof event.ageRestriction === 'string' ? event.ageRestriction : event.ageRestriction.age}
+                    {getEventAgeRestriction(event)}
                   </CrChip>
                 )}
               </div>
@@ -207,11 +271,11 @@ const EventDetailPage: React.FC = () => {
                     color: 'var(--cr-ink)',
                   }}
                 >
-                  {event.venue.name}
+                  {getEventVenueName(event)}
                 </div>
 
                 {/* Address (no label) */}
-                {event.venue.address && (
+                {getEventVenueAddress(event) && (
                   <div
                     style={{
                       font: 'var(--cr-body-reg)',
@@ -219,18 +283,18 @@ const EventDetailPage: React.FC = () => {
                       marginTop: 'var(--cr-space-2)',
                     }}
                   >
-                    {event.venue.address}
-                    {event.venue.city && event.venue.state && (
+                    {getEventVenueAddress(event)}
+                    {getEventVenueCity(event) && getEventVenueState(event) && (
                       <>
                         <br />
-                        {event.venue.city}, {event.venue.state} {event.venue.zip}
+                        {getEventVenueCity(event)}, {getEventVenueState(event)} {(event.venue as any)?.zip}
                       </>
                     )}
                   </div>
                 )}
 
                 {/* Phone (no label) */}
-                {event.venue.phone && (
+                {getEventVenuePhone(event) && (
                   <div
                     style={{
                       font: 'var(--cr-body-reg)',
@@ -238,13 +302,13 @@ const EventDetailPage: React.FC = () => {
                     }}
                   >
                     <a
-                      href={`tel:${event.venue.phone}`}
+                      href={`tel:${getEventVenuePhone(event)}`}
                       style={{
                         color: 'var(--cr-secondary-700)',
                         textDecoration: 'none',
                       }}
                     >
-                      {event.venue.phone}
+                      {getEventVenuePhone(event)}
                     </a>
                   </div>
                 )}
@@ -257,12 +321,10 @@ const EventDetailPage: React.FC = () => {
           <CrPageHeader
             title="Upcoming Events"
             titleTag="h2"
-            titleSize="md"
             showEyebrow={false}
             showActionButton={true}
             actionButtonText="View All Events"
-            actionButtonSize="small"
-            onActionButtonClick={() => navigate('/events')}
+            onActionClick={() => navigate('/events')}
           />
           {recentEvents.map((recentEvent) => (
             <CrCard
@@ -272,8 +334,8 @@ const EventDetailPage: React.FC = () => {
               textLayout="stacked"
               titleTag="h3"
               titleSize="sm"
-              backgroundImage={recentEvent.featuredImage}
-              preheader={typeof recentEvent.category === "string" ? recentEvent.category : recentEvent.category?.name}
+              backgroundImage={getEventImageUrl(recentEvent)}
+              preheader={getEventCategoryName(recentEvent)}
               title={recentEvent.title}
               dateTime={new Date(recentEvent.date).toLocaleString('en-US', {
                 month: 'short',
@@ -282,22 +344,22 @@ const EventDetailPage: React.FC = () => {
                 hour: 'numeric',
                 minute: '2-digit',
               })}
-              venue={recentEvent.venue.name}
+              venue={getEventVenueName(recentEvent)}
               contentSummary={recentEvent.excerpt}
               onClick={() => handleEventClick(recentEvent)}
             />
           ))}
           {announcements && announcements[0] && (
             <CrAnnouncement
-              variant="motivation"
+              variant={announcements[0].variant}
               widthVariant="third"
-              textureBackground={announcements[0].backgroundColor}
-              headlineText={announcements[0].title}
-              bodyText={announcements[0].message}
-              showLink={!!announcements[0].ctaText}
-              linkText={announcements[0].ctaText}
-              linkUrl={announcements[0].ctaUrl}
-              buttonCount="none"
+              textureBackground={announcements[0].textureBackground}
+              headlineText={announcements[0].headlineText}
+              bodyText={typeof announcements[0].bodyText === 'string' ? announcements[0].bodyText : undefined}
+              showLink={announcements[0].showLink}
+              linkText={announcements[0].linkText}
+              linkUrl={announcements[0].linkUrl}
+              buttonCount={announcements[0].buttonCount}
             />
           )}
         </div>
