@@ -48,11 +48,15 @@ const LandingPage: React.FC = () => {
   const topAnnouncementId =
     typeof siteSettings?.topAnnouncement === 'string'
       ? siteSettings.topAnnouncement
-      : (siteSettings?.topAnnouncement as any)?.id
+      : typeof siteSettings?.topAnnouncement === 'object' && siteSettings.topAnnouncement !== null && 'id' in siteSettings.topAnnouncement
+      ? siteSettings.topAnnouncement.id
+      : undefined
   const sidebarAnnouncementId =
     typeof siteSettings?.sidebarAnnouncement === 'string'
       ? siteSettings.sidebarAnnouncement
-      : (siteSettings?.sidebarAnnouncement as any)?.id
+      : typeof siteSettings?.sidebarAnnouncement === 'object' && siteSettings.sidebarAnnouncement !== null && 'id' in siteSettings.sidebarAnnouncement
+      ? siteSettings.sidebarAnnouncement.id
+      : undefined
 
   // Get announcements by ID or fallback to first active
   const displayTopAnnouncement =
@@ -171,22 +175,22 @@ const LandingPage: React.FC = () => {
             />
           )}
 
-          {(sidebarAdvertisement && (
+          {sidebarAdvertisement && (
             <CrAdSpace
-                size={(sidebarAdvertisement as any).size || 'mobile-banner'}
-                customWidth={(sidebarAdvertisement as any).customWidth}
-                customHeight={(sidebarAdvertisement as any).customHeight}
-                contentType={(sidebarAdvertisement as any).contentType}
-                src={(sidebarAdvertisement as any).imageUrl || (sidebarAdvertisement as any).image?.url}
-                alt={(sidebarAdvertisement as any).alt}
-                htmlContent={(sidebarAdvertisement as any).htmlContent as string}
-                videoSrc={(sidebarAdvertisement as any).videoUrl || (sidebarAdvertisement as any).video?.url}
-                embedCode={(sidebarAdvertisement as any).embedCode}
-                href={(sidebarAdvertisement as any).href}
-                target={(sidebarAdvertisement as any).target}
-                showLabel={(sidebarAdvertisement as any).showLabel}
+                size={sidebarAdvertisement.size || 'mobile-banner'}
+                customWidth={sidebarAdvertisement.customWidth}
+                customHeight={sidebarAdvertisement.customHeight}
+                contentType={sidebarAdvertisement.contentType}
+                src={sidebarAdvertisement.imageUrl || sidebarAdvertisement.image?.url}
+                alt={sidebarAdvertisement.alt}
+                htmlContent={sidebarAdvertisement.htmlContent}
+                videoSrc={sidebarAdvertisement.videoUrl || sidebarAdvertisement.video?.url}
+                embedCode={sidebarAdvertisement.embedCode}
+                href={sidebarAdvertisement.href}
+                target={sidebarAdvertisement.target}
+                showLabel={sidebarAdvertisement.showLabel}
               />
-          )) as React.ReactNode}
+          )}
         </div>
       </section>
 
@@ -221,8 +225,8 @@ const LandingPage: React.FC = () => {
               textLayout="stacked"
               bannerHeight="tall"
               imageAspectRatio="16:9"
-              backgroundImage={event.featuredImage as any}
-              preheader={typeof event.category === 'string' ? event.category : (event.category as any)?.name}
+              backgroundImage={getEventImageUrl(event)}
+              preheader={getEventCategoryName(event)}
               title={event.title}
               dateTime={new Date(event.date).toLocaleString('en-US', {
                 month: 'short',
@@ -231,12 +235,8 @@ const LandingPage: React.FC = () => {
                 hour: 'numeric',
                 minute: '2-digit',
               })}
-              venue={typeof event.venue === 'string' ? event.venue : (event.venue as any)?.name}
-              ageRestriction={
-                typeof event.ageRestriction === 'string'
-                  ? event.ageRestriction
-                  : (event.ageRestriction as any)?.age
-              }
+              venue={getEventVenueName(event)}
+              ageRestriction={getEventAgeRestriction(event)}
               contentSummary={event.excerpt}
               onClick={() => navigate(`/events/${event.slug}`)}
             />
@@ -261,9 +261,9 @@ const LandingPage: React.FC = () => {
               bannerHeight="tall"
               imageAspectRatio="16:9"
               bannerBackgroundColor="none"
-              backgroundImage={article.featuredImage as any}
+              backgroundImage={typeof article.featuredImage === 'string' ? article.featuredImage : typeof article.featuredImage === 'object' && article.featuredImage !== null && 'url' in article.featuredImage ? article.featuredImage.url : undefined}
               preheader={
-                typeof article.category === 'string' ? article.category : (article.category as any)?.name
+                typeof article.category === 'string' ? article.category : typeof article.category === 'object' && article.category !== null && 'name' in article.category ? article.category.name : undefined
               }
               title={article.title}
               contentSummary={article.excerpt}

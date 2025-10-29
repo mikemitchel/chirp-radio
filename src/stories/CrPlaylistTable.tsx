@@ -146,7 +146,7 @@ export default function CrPlaylistTable({
         <div className="cr-playlist-table__items">
           {groupedItems.map((hourGroup) => {
             const { hourKey, hourData, items: hourItems } = hourGroup
-            const isCollapsed = (collapsedHours as any)[hourKey]
+            const isCollapsed = collapsedHours[hourKey as keyof typeof collapsedHours]
 
             return (
               <div key={hourKey} className="cr-playlist-table__hour-group">
@@ -178,12 +178,12 @@ export default function CrPlaylistTable({
                   style={{
                     maxHeight: isCollapsed
                       ? '0px'
-                      : (contentRefs.current as any)[hourKey]?.scrollHeight + 'px' || '5000px',
+                      : (contentRefs.current as Record<string, HTMLDivElement | null>)[hourKey]?.scrollHeight + 'px' || '5000px',
                   }}
                 >
                   <div
                     ref={(el) => {
-                      (contentRefs.current as any)[hourKey] = el
+                      (contentRefs.current as Record<string, HTMLDivElement | null>)[hourKey] = el
                     }}
                     className="cr-playlist-table__hour-items-inner"
                   >

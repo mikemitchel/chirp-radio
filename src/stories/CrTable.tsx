@@ -101,7 +101,7 @@ export default function CrTable({
     }
 
     setSortColumn(columnKey)
-    setSortDirection(newDirection as any)
+    setSortDirection(newDirection as 'asc' | 'desc')
 
     // If onSort callback is provided, use it, otherwise sort data locally
     if (onSort) {

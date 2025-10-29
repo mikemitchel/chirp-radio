@@ -58,7 +58,7 @@ const CrSupportWithAds = ({
   const { data: siteSettings, loading } = useSiteSettings()
 
   // Get advertisement from Site Settings
-  const advertisement = siteSettings?.supportAdvertisement as any
+  const advertisement = siteSettings?.supportAdvertisement
 
   // Determine ad props from Site Settings or fall back to component props
   const finalAdSize = advertisement?.size || adSize
@@ -88,8 +88,8 @@ const CrSupportWithAds = ({
         <div className="cr-support-with-ads__ads">
           <CrAdSpace
             size={finalAdSize}
-            customWidth={finalAdCustomWidth}
-            customHeight={finalAdCustomHeight}
+            customWidth={typeof finalAdCustomWidth === 'number' ? finalAdCustomWidth : undefined}
+            customHeight={typeof finalAdCustomHeight === 'number' ? finalAdCustomHeight : undefined}
             contentType={finalAdContentType}
             src={finalAdSrc}
             alt={finalAdAlt}

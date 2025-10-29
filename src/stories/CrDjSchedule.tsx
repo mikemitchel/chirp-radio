@@ -34,8 +34,8 @@ export default function CrDjSchedule({
 
   const [activeDay, setActiveDay] = useState(currentDay)
   const [searchQuery, setSearchQuery] = useState('')
-  const [searchResults, setSearchResults] = useState([])
-  const [highlightedShowSlug, setHighlightedShowSlug] = useState(null)
+  const [searchResults, setSearchResults] = useState<unknown[]>([])
+  const [highlightedShowSlug, setHighlightedShowSlug] = useState<string | null>(null)
 
   // Safe handling of scheduleData - ensure it's an object and has keys
   const days = useMemo(() => {
@@ -82,7 +82,7 @@ export default function CrDjSchedule({
       return djMatch || titleMatch
     })
 
-    setSearchResults(results as any)
+    setSearchResults(results)
   }
 
   // Navigate to show from search
@@ -155,8 +155,8 @@ export default function CrDjSchedule({
 
     if (Array.isArray(shows)) {
       shows.forEach((show) => {
-        if (show && show.timeOfDay && (columns as any)[show.timeOfDay]) {
-          (columns as any)[show.timeOfDay].push(show)
+        if (show && show.timeOfDay && show.timeOfDay in columns) {
+          columns[show.timeOfDay as keyof typeof columns].push(show)
         }
       })
     }

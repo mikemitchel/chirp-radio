@@ -280,13 +280,80 @@ export interface SiteSettings {
   siteName?: string
   siteDescription?: string
   contactEmail?: string
+  copyrightText?: string
   socialMedia?: {
     facebook?: string
     twitter?: string
     instagram?: string
   }
+  socialLinks?: Array<{
+    platform: string
+    url?: string
+    [key: string]: unknown
+  }>
   streamUrl?: string
   donationLink?: string
+  // Top and sidebar announcements
+  topAnnouncement?: number | Announcement | string
+  showTopAnnouncement?: boolean
+  sidebarAnnouncement?: number | Announcement | string
+  sidebarAdvertisement?: {
+    size?: string
+    customWidth?: number
+    customHeight?: number
+    contentType?: string
+    imageUrl?: string
+    image?: { url?: string }
+    alt?: string
+    htmlContent?: string
+    videoUrl?: string
+    video?: { url?: string }
+    embedCode?: string
+    href?: string
+    target?: string
+    showLabel?: boolean
+    [key: string]: unknown
+  }
+  // Footer event logos
+  showChirpFilmFestLogo?: boolean
+  chirpFilmFestLogo?: { url?: string; [key: string]: unknown }
+  chirpFilmFestLogoUrl?: string
+  showFirstTimeLogo?: boolean
+  firstTimeLogo?: { url?: string; [key: string]: unknown }
+  firstTimeLogoUrl?: string
+  // Support section
+  supportContent?: ContentField
+  showDCaseLogo?: boolean
+  dCaseLogo?: { url?: string; [key: string]: unknown }
+  dCaseLogoUrl?: string
+  showIlArtsCouncilLogo?: boolean
+  ilArtsCouncilLogo?: { url?: string; [key: string]: unknown }
+  ilArtsCouncilLogoUrl?: string
+  additionalLogos?: Array<{
+    id?: string | number
+    logo?: { url?: string; [key: string]: unknown }
+    logoUrl?: string
+    alt?: string
+    [key: string]: unknown
+  }>
+  // Support advertisement
+  supportAdvertisement?: {
+    size?: string
+    contentType?: string
+    imageUrl?: string
+    image?: { url?: string }
+    alt?: string
+    htmlContent?: string
+    videoUrl?: string
+    video?: { url?: string }
+    embedCode?: string
+    href?: string
+    target?: string
+    showLabel?: boolean
+    customWidth?: number
+    customHeight?: number
+    [key: string]: unknown
+  }
   // Weekly Charts displayed on Listen page
   leftWeeklyChart?: number | WeeklyChart // Can be ID or populated object
   rightWeeklyChart?: number | WeeklyChart // Can be ID or populated object
