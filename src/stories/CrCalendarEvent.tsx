@@ -1,5 +1,5 @@
 // CrCalendarEvent.tsx
-import { useState, useMemo, useRef, useEffect } from 'react'
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import CrEventItem from './CrEventItem'
 import { PiCaretLeft, PiCaretRight, PiCalendarBlank } from 'react-icons/pi'
 import './CrCalendarEvent.css'
@@ -142,7 +142,7 @@ export default function CrCalendarEvent({
     })
   }
 
-  const getEventsForDate = (date: any) => {
+  const getEventsForDate = useCallback((date: any) => {
     if (!date) return []
 
     const checkDate = new Date(date)
@@ -156,9 +156,9 @@ export default function CrCalendarEvent({
 
       return checkDate >= eventStart && checkDate <= eventEnd
     })
-  }
+  }, [currentMonthEvents])
 
-  const getDatesForEvent = (eventId: any) => {
+  const getDatesForEvent = useCallback((eventId: any) => {
     const event = currentMonthEvents.find((e) => e.id === eventId)
     if (!event) return []
 
@@ -173,7 +173,7 @@ export default function CrCalendarEvent({
     }
 
     return dates
-  }
+  }, [currentMonthEvents])
 
   const isToday = (date: any) => {
     const checkDate = new Date(date)
@@ -193,14 +193,14 @@ export default function CrCalendarEvent({
       return new Set(eventsOnDate.map((event) => event.id))
     }
     return new Set()
-  }, [hoveredDate, currentMonthEvents])
+  }, [hoveredDate, getEventsForDate])
 
   const highlightedDates = useMemo(() => {
     if (hoveredEventId !== null) {
       return getDatesForEvent(hoveredEventId)
     }
     return []
-  }, [hoveredEventId, currentMonthEvents])
+  }, [hoveredEventId, getDatesForEvent])
 
   useEffect(() => {
     if (hoveredDate && highlightedEventIds.size > 0) {

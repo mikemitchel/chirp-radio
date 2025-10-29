@@ -1,5 +1,5 @@
 // src/pages/AccountSettings.tsx
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router'
 import { PiHandHeart, PiStorefront, PiDownloadSimple } from 'react-icons/pi'
 import CrProfileCard from '../stories/CrProfileCard'
@@ -80,7 +80,7 @@ export default function AccountSettings() {
   }, [user])
 
   // Get the appropriate storage based on login state
-  const getStorage = () => (isLoggedIn ? localStorage : sessionStorage)
+  const getStorage = useCallback(() => (isLoggedIn ? localStorage : sessionStorage), [isLoggedIn])
 
   // Load dark mode preference
   const [darkMode, setDarkMode] = useState<'light' | 'dark' | 'device'>(() => {
@@ -122,7 +122,7 @@ export default function AccountSettings() {
       const storage = getStorage()
       storage.setItem('chirp-dark-mode', user.preferences.darkMode)
     }
-  }, [user?.email]) // Only when user changes (by email as unique identifier)
+  }, [user, getStorage]) // Only when user changes
 
   // When login state changes, migrate settings and update profile state
   useEffect(() => {

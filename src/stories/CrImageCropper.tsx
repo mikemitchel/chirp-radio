@@ -144,6 +144,7 @@ export default function CrImageCropper({
       }
       reader.readAsDataURL(file)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [maxFileSize, acceptedFormats, resetCropperState]
   )
 
@@ -213,7 +214,8 @@ export default function CrImageCropper({
       )
       ctx.restore()
     }
-  }, [currentImage, cropperState.position, cropperState.scale, outputSize])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentImage, outputSize])
 
   const updateImageDisplay = useCallback(() => {
     if (!currentImage || !imageElementRef.current) {
@@ -370,7 +372,7 @@ export default function CrImageCropper({
         })
       }
     },
-    [outputSize, onImageChange]
+    [outputSize, onImageChange, orientation]
   )
 
   const handleApplyCrop = useCallback(() => {
@@ -453,7 +455,7 @@ export default function CrImageCropper({
     } else {
       alert('Invalid crop area. Please adjust the image position and try again.')
     }
-  }, [currentImage, calculateCropArea, outputSize, images.full, onImageChange])
+  }, [currentImage, calculateCropArea, outputSize, images.full, onImageChange, orientation])
 
   const handleCancelCrop = useCallback(() => {
     setIsModalOpen(false)

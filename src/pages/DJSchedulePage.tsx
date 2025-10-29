@@ -19,7 +19,7 @@ const DJSchedulePage: React.FC = () => {
   const { data: allDJs } = useDJs()
 
   // Use real DJ data instead of mock
-  const djList = allDJs || [
+  const djList = useMemo(() => allDJs || [
     {
       id: 'dj-001',
       djName: 'Sarah Johnson',
@@ -110,7 +110,7 @@ const DJSchedulePage: React.FC = () => {
       imageSrc:
         'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop&crop=faces',
     },
-  ]
+  ], [allDJs])
 
   // Get 8 random DJs
   const randomDJs = useMemo(() => {
