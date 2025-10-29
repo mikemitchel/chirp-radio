@@ -32,9 +32,9 @@ export default function CrSelectButtonInteraction({
 }: CrSelectButtonInteractionProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
-  const containerRef = useRef(null)
-  const closeTimeoutRef = useRef(null)
-  const animationTimeoutRef = useRef(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const closeMenu = () => {
     setIsClosing(true)
@@ -46,7 +46,7 @@ export default function CrSelectButtonInteraction({
 
   useEffect(() => {
     function handleClickOutside(event: any) {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+      if (containerRef.current && !(containerRef.current as any).contains(event.target)) {
         closeMenu()
       }
     }
@@ -104,7 +104,7 @@ export default function CrSelectButtonInteraction({
     if (isOpen && !isClosing) {
       closeTimeoutRef.current = setTimeout(() => {
         closeMenu()
-      }, 150)
+      }, 150) as any
     }
   }
 

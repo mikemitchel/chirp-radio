@@ -182,7 +182,9 @@ export default function CrPlaylistTable({
                   }}
                 >
                   <div
-                    ref={(el) => ((contentRefs.current as any)[hourKey] = el)}
+                    ref={(el) => {
+                      (contentRefs.current as any)[hourKey] = el
+                    }}
                     className="cr-playlist-table__hour-items-inner"
                   >
                     {hourItems.map((item, index) => (

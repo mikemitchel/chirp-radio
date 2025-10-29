@@ -103,7 +103,7 @@ export default function CrShoppingCart({
               color="primary"
               size="medium"
               onClick={onCheckout}
-              iconRight={React.createElement(PiArrowRight)}
+              rightIcon={React.createElement(PiArrowRight)}
             >
               Checkout
             </CrButton>
