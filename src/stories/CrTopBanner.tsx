@@ -1,5 +1,5 @@
 // CrTopBanner.tsx
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import CrAccount from './CrAccount'
 import CrCurrentDj from './CrCurrentDj'
 import './CrTopBanner.css'
@@ -67,7 +67,7 @@ export default function CrTopBanner({
   })
 
   // Fetch API data
-  const fetchApiData = async () => {
+  const fetchApiData = useCallback(async () => {
     if (!autoFetch) return
 
     try {
@@ -100,7 +100,7 @@ export default function CrTopBanner({
       console.error('Error fetching API data:', error)
       // Silently fail and use default values
     }
-  }
+  }, [autoFetch, djName])
 
   // Auto-fetch effect
   useEffect(() => {
@@ -109,7 +109,7 @@ export default function CrTopBanner({
       const interval = setInterval(fetchApiData, 300000) // Poll every 5 minutes
       return () => clearInterval(interval)
     }
-  }, [autoFetch, apiUrl])
+  }, [autoFetch, apiUrl, fetchApiData])
 
   // Update state when props change (for non-API usage)
   useEffect(() => {
