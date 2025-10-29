@@ -21,7 +21,7 @@ export default function AccountSettings() {
     isLoggedIn,
     user,
     login,
-    logout,
+    signOut,
     signup,
     verifyPassword,
     requestEmailChange,
@@ -32,7 +32,7 @@ export default function AccountSettings() {
 
   // State for profile edit mode
   const [profileState, setProfileState] = useState<
-    'view' | 'editProfile' | 'editVolunteer' | 'loggedOut'
+    'view' | 'editProfile' | 'editVolunteer' | 'signedOut'
   >('view')
 
   // Form data state for editing
@@ -159,8 +159,8 @@ export default function AccountSettings() {
       setStreamingQuality('128')
       sessionStorage.setItem('chirp-streaming-quality', '128')
 
-      // Set profile to logged out state
-      setProfileState('loggedOut')
+      // Set profile to signed out state
+      setProfileState('signedOut')
     }
   }, [isLoggedIn])
 
@@ -295,10 +295,10 @@ export default function AccountSettings() {
     })
   }
 
-  const handleLogout = () => {
-    logout()
+  const handleSignOut = () => {
+    signOut()
     // Store toast flag for after redirect
-    sessionStorage.setItem('chirp-show-logout-toast', 'true')
+    sessionStorage.setItem('chirp-show-signout-toast', 'true')
     // Redirect to appropriate landing page based on current route
     const isInAppRoutes = location.pathname.startsWith('/app')
     navigate(isInAppRoutes ? '/app' : '/')
@@ -627,7 +627,7 @@ export default function AccountSettings() {
   }
 
   const handleProfileStateChange = (state: string) => {
-    setProfileState(state as 'view' | 'editProfile' | 'editVolunteer' | 'loggedOut')
+    setProfileState(state as 'view' | 'editProfile' | 'editVolunteer' | 'signedOut')
   }
 
   const handleMakeDonation = () => {
@@ -833,7 +833,7 @@ export default function AccountSettings() {
             darkMode={darkMode}
             onDarkModeChange={handleDarkModeChange}
             onLogin={handleLoginClick}
-            onLogout={handleLogout}
+            onSignOut={handleSignOut}
             onSignUp={handleSignUpClick}
             onForgotPassword={handleForgotPassword}
             onShareApp={handleShareApp}
@@ -900,7 +900,7 @@ export default function AccountSettings() {
           darkMode={darkMode}
           onDarkModeChange={handleDarkModeChange}
           onLogin={handleLoginClick}
-          onLogout={handleLogout}
+          onSignOut={handleSignOut}
           onSignUp={handleSignUpClick}
           onForgotPassword={handleForgotPassword}
           onShareApp={handleShareApp}
