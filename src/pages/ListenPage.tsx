@@ -151,10 +151,6 @@ const ListenPage: React.FC = () => {
   }))
 
   // Get sidebar content from Site Settings
-  const sidebarAnnouncementId =
-    typeof siteSettings?.listenSidebarAnnouncement === 'string'
-      ? siteSettings.listenSidebarAnnouncement
-      : siteSettings?.listenSidebarAnnouncement?.id
 
   const fullWidthAnnouncementId =
     typeof siteSettings?.fullWidthAnnouncement === 'string'

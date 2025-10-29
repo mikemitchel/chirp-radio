@@ -77,7 +77,6 @@ Example usage:
     ]
 
     let currentIndex = 0
-    let intervalId: number
 
     const cycle = () => {
       const track = mockTracks[currentIndex]
@@ -120,7 +119,7 @@ Example usage:
     sessionStorage.setItem('chirp-simulation-mode', 'true')
 
     cycle() // Run immediately
-    intervalId = window.setInterval(cycle, 5000) as unknown as number
+    const intervalId = window.setInterval(cycle, 5000) as unknown as number
 
     // Store interval ID for stopping
     ;(window as any).__apiSimulationInterval = intervalId

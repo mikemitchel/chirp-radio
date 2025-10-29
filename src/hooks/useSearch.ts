@@ -33,7 +33,7 @@ export function useSearch(query: string) {
     const searchResults: SearchResult[] = []
 
     // Search articles
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     articles?.forEach((article: any) => {
       const authorName = typeof article.author === 'string' ? article.author : article.author?.name
       const categoryName =
@@ -59,11 +59,11 @@ export function useSearch(query: string) {
     })
 
     // Search events
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     events?.forEach((event: any) => {
       const venueName = typeof event.venue === 'string' ? event.venue : event.venue?.name
       const matchesArtists = Array.isArray(event.artists)
-        ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ?  
           event.artists.some((artist: any) => {
             const artistName = typeof artist === 'string' ? artist : artist?.name
             return artistName?.toLowerCase().includes(searchTerm)
@@ -90,7 +90,7 @@ export function useSearch(query: string) {
     })
 
     // Search DJs
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     djs?.forEach((dj: any) => {
       const djName = dj.djName || dj.name
       const matchesGenres = Array.isArray(dj.genres)
@@ -119,7 +119,7 @@ export function useSearch(query: string) {
     })
 
     // Search podcasts
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     podcasts?.forEach((podcast: any) => {
       if (
         podcast.title?.toLowerCase().includes(searchTerm) ||
@@ -140,7 +140,7 @@ export function useSearch(query: string) {
     })
 
     // Search shop items
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     shopItems?.forEach((item: any) => {
       const price = typeof item.price === 'number' ? item.price : parseFloat(item.price)
       if (
