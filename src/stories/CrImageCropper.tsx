@@ -49,7 +49,7 @@ export default function CrImageCropper({
   const [isDragOver, setIsDragOver] = useState(false)
 
   // Image processing state
-  const [currentImage, setCurrentImage] = useState(null)
+  const [currentImage, setCurrentImage] = useState<HTMLImageElement | null>(null)
   const [cropperState, setCropperState] = useState({
     scale: 1,
     position: { x: 0, y: 0 },
@@ -57,11 +57,11 @@ export default function CrImageCropper({
     lastMousePos: { x: 0, y: 0 },
   })
 
-  const fileInputRef = useRef()
-  const imageElementRef = useRef()
-  const cropContainerRef = useRef()
-  const previewCanvasRef = useRef()
-  const outputCanvasRef = useRef()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const imageElementRef = useRef<HTMLImageElement>(null)
+  const cropContainerRef = useRef<HTMLDivElement>(null)
+  const previewCanvasRef = useRef<HTMLCanvasElement>(null)
+  const outputCanvasRef = useRef<HTMLCanvasElement>(null)
 
   // Cropper settings
   const containerSize = 400
@@ -99,7 +99,7 @@ export default function CrImageCropper({
   }, [])
 
   const handleFileSelect = useCallback(
-    (file) => {
+    (file: File) => {
       if (!file) return
 
       // Validate file size
@@ -120,39 +120,45 @@ export default function CrImageCropper({
         img.crossOrigin = 'anonymous' // Enable CORS for canvas export
         img.onload = () => {
           // Update state and open modal
-          setImages((prev) => ({ ...prev, full: e.target.result }))
-          setCurrentImage(img)
-          resetCropperState()
-          setIsModalOpen(true)
+          const result = e.target?.result
+          if (typeof result === 'string') {
+            setImages((prev) => ({ ...prev, full: result }))
+            setCurrentImage(img)
+            resetCropperState()
+            setIsModalOpen(true)
 
-          // Create initial avatar immediately
-          setTimeout(() => {
-            createInitialAvatar(img, e.target.result)
-          }, 200)
+            // Create initial avatar immediately
+            setTimeout(() => {
+              createInitialAvatar(img, result)
+            }, 200)
+          }
         }
         img.onerror = (error) => {
           console.warn('Image load error:', error)
           alert('Error loading image. Please try a different file.')
         }
-        img.src = e.target.result
+        const result = e.target?.result
+        if (typeof result === 'string') {
+          img.src = result
+        }
       }
       reader.readAsDataURL(file)
     },
     [maxFileSize, acceptedFormats, resetCropperState]
   )
 
-  const handleDragOver = useCallback((e) => {
+  const handleDragOver = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     setIsDragOver(true)
   }, [])
 
-  const handleDragLeave = useCallback((e) => {
+  const handleDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault()
     setIsDragOver(false)
   }, [])
 
   const handleDrop = useCallback(
-    (e) => {
+    (e: React.DragEvent<HTMLDivElement>) => {
       e.preventDefault()
       setIsDragOver(false)
       const file = e.dataTransfer.files[0]
@@ -162,9 +168,11 @@ export default function CrImageCropper({
   )
 
   const handleFileInputChange = useCallback(
-    (e) => {
-      const file = e.target.files[0]
-      handleFileSelect(file)
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]
+      if (file) {
+        handleFileSelect(file)
+      }
     },
     [handleFileSelect]
   )
@@ -182,6 +190,7 @@ export default function CrImageCropper({
 
     const canvas = previewCanvasRef.current
     const ctx = canvas.getContext('2d')
+    if (!ctx) return
     ctx.clearRect(0, 0, outputSize, outputSize)
 
     const cropData = calculateCropArea()
@@ -270,36 +279,40 @@ export default function CrImageCropper({
     return { sx, sy, width, height }
   }, [currentImage, cropperState.position, cropOffset, cropSize])
 
-  const handleZoomChange = useCallback((e) => {
+  const handleZoomChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCropperState((prev) => ({ ...prev, scale: parseFloat(e.target.value) }))
   }, [])
 
-  const startDrag = useCallback((e) => {
+  const startDrag = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault()
-    const clientX = e.clientX || e.touches?.[0]?.clientX
-    const clientY = e.clientY || e.touches?.[0]?.clientY
-    setCropperState((prev) => ({
-      ...prev,
-      isDragging: true,
-      lastMousePos: { x: clientX, y: clientY },
-    }))
+    const clientX = 'clientX' in e ? e.clientX : e.touches?.[0]?.clientX
+    const clientY = 'clientY' in e ? e.clientY : e.touches?.[0]?.clientY
+    if (clientX !== undefined && clientY !== undefined) {
+      setCropperState((prev) => ({
+        ...prev,
+        isDragging: true,
+        lastMousePos: { x: clientX, y: clientY },
+      }))
+    }
   }, [])
 
   const drag = useCallback(
-    (e) => {
+    (e: MouseEvent | TouchEvent) => {
       if (!cropperState.isDragging) return
       e.preventDefault()
-      const clientX = e.clientX || e.touches?.[0]?.clientX
-      const clientY = e.clientY || e.touches?.[0]?.clientY
+      const clientX = 'clientX' in e ? e.clientX : (e as TouchEvent).touches?.[0]?.clientX
+      const clientY = 'clientY' in e ? e.clientY : (e as TouchEvent).touches?.[0]?.clientY
 
-      const deltaX = clientX - cropperState.lastMousePos.x
-      const deltaY = clientY - cropperState.lastMousePos.y
+      if (clientX !== undefined && clientY !== undefined) {
+        const deltaX = clientX - cropperState.lastMousePos.x
+        const deltaY = clientY - cropperState.lastMousePos.y
 
-      setCropperState((prev) => ({
-        ...prev,
-        position: { x: prev.position.x + deltaX, y: prev.position.y + deltaY },
-        lastMousePos: { x: clientX, y: clientY },
-      }))
+        setCropperState((prev) => ({
+          ...prev,
+          position: { x: prev.position.x + deltaX, y: prev.position.y + deltaY },
+          lastMousePos: { x: clientX, y: clientY },
+        }))
+      }
     },
     [cropperState.isDragging, cropperState.lastMousePos]
   )
@@ -309,11 +322,12 @@ export default function CrImageCropper({
   }, [])
 
   const createInitialAvatar = useCallback(
-    (img, imageSrc) => {
+    (img: HTMLImageElement, imageSrc: string) => {
       if (!outputCanvasRef.current) return
 
       const canvas = outputCanvasRef.current
       const ctx = canvas.getContext('2d')
+      if (!ctx) return
       canvas.width = outputSize
       canvas.height = outputSize
       ctx.clearRect(0, 0, outputSize, outputSize)
@@ -366,6 +380,7 @@ export default function CrImageCropper({
 
     const canvas = outputCanvasRef.current
     const ctx = canvas.getContext('2d')
+    if (!ctx) return
     canvas.width = outputSize
     canvas.height = outputSize
     ctx.clearRect(0, 0, outputSize, outputSize)
@@ -397,7 +412,8 @@ export default function CrImageCropper({
         try {
           croppedDataURL = canvas.toDataURL('image/png')
         } catch (corsError) {
-          console.warn('CORS error when exporting canvas:', corsError.message)
+          const errorMsg = corsError instanceof Error ? corsError.message : 'Unknown error'
+          console.warn('CORS error when exporting canvas:', errorMsg)
           alert(
             'Note: Due to cross-origin restrictions, using the original image as avatar. Upload your own image files for full cropping functionality.'
           )
@@ -414,10 +430,10 @@ export default function CrImageCropper({
         setIsModalOpen(false)
 
         // Notify parent component with BOTH images
-        if (onImageChange) {
+        if (onImageChange && images.full) {
           onImageChange({
             fullImage: images.full,
-            croppedImage: croppedDataURL,
+            croppedImage: croppedDataURL || images.full,
             orientation: orientation,
           })
         }
@@ -426,7 +442,7 @@ export default function CrImageCropper({
         setIsModalOpen(false)
         alert('There was an issue processing the crop. Using the original image.')
 
-        if (onImageChange) {
+        if (onImageChange && images.full) {
           onImageChange({
             fullImage: images.full,
             croppedImage: images.full,
