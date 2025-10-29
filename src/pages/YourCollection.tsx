@@ -35,12 +35,12 @@ export default function YourCollection() {
   const notLoggedInDescription =
     pageContent?.customNotLoggedInMessage ||
     'A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!'
-  const actionButtonText = (pageContent as any)?.actionButtonText || 'Share Collection'
-  const loginButtonText = (pageContent as any)?.loginButtonText || 'Log In'
-  const signupButtonText = (pageContent as any)?.signupButtonText || 'Sign Up'
+  const actionButtonText = ('actionButtonText' in pageContent ? (pageContent as Record<string, unknown>).actionButtonText : undefined) || 'Share Collection'
+  const loginButtonText = ('loginButtonText' in pageContent ? (pageContent as Record<string, unknown>).loginButtonText : undefined) || 'Log In'
+  const signupButtonText = ('signupButtonText' in pageContent ? (pageContent as Record<string, unknown>).signupButtonText : undefined) || 'Sign Up'
 
-  const benefitsTitle = (appSettings as any)?.accountBenefitsTitle || 'Benefits of Creating an Account:'
-  const benefitsContent = (appSettings as any)?.accountBenefitsContent || `
+  const benefitsTitle = ('accountBenefitsTitle' in appSettings ? (appSettings as Record<string, unknown>).accountBenefitsTitle : undefined) || 'Benefits of Creating an Account:'
+  const benefitsContent = ('accountBenefitsContent' in appSettings ? (appSettings as Record<string, unknown>).accountBenefitsContent : undefined) || `
     <ul>
       <li>Save your favorite songs from our live stream to your personal collection</li>
       <li>Make song requests directly to our DJs during their shows</li>
@@ -54,7 +54,7 @@ export default function YourCollection() {
 
   // Get the announcement from CMS (now populated and transformed with depth: 1)
   const selectedAnnouncement =
-    typeof (pageContent as any)?.announcement === 'object' ? (pageContent as any)?.announcement : null
+    typeof ('announcement' in pageContent ? (pageContent as Record<string, unknown>).announcement : undefined) === 'object' ? ('announcement' in pageContent ? (pageContent as Record<string, unknown>).announcement : undefined) : null
 
   // Load collection on mount and when logged in
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function YourCollection() {
   // Add reset function to window for testing (only in development)
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
-      ;(window as any).resetCollection = () => {
+      ;(window as Record<string, unknown>).resetCollection = () => {
         localStorage.removeItem('chirp-collection')
         initializeSampleCollection()
         setCollection(getCollection())
@@ -77,7 +77,7 @@ export default function YourCollection() {
     }
     return () => {
       if (process.env.NODE_ENV === 'development') {
-        delete (window as any).resetCollection
+        delete (window as Record<string, unknown>).resetCollection
       }
     }
   }, [])

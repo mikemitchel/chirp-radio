@@ -6,6 +6,7 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import { useArticles, useAnnouncements } from '../hooks/useData'
+import type { Article } from '../types/cms'
 
 const ArticleDetailPage: React.FC = () => {
   const navigate = useNavigate()
@@ -21,7 +22,7 @@ const ArticleDetailPage: React.FC = () => {
   // Get 3 most recent articles excluding the current one
   const recentArticles = allArticles?.filter((a) => a.id !== article?.id).slice(0, 3) || []
 
-  const handleArticleClick = (clickedArticle: any) => {
+  const handleArticleClick = (clickedArticle: Article) => {
     navigate(`/articles/${clickedArticle.slug}`)
   }
 
@@ -74,7 +75,7 @@ const ArticleDetailPage: React.FC = () => {
             authorBy={`by ${article.author}`}
             eventDate={article.publishedDate ? `Published on ${new Date(article.publishedDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : (article.createdAt ? `Published on ${new Date(article.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : undefined)}
             tags={Array.isArray(article.tags) && article.tags.length > 0 && typeof article.tags[0] === 'object' ? (article.tags as Array<{ tag: string }>).map(t => t.tag) : article.tags as string[] | undefined}
-            excerpt={(article.excerpt || (article as any).description) as string | undefined}
+            excerpt={article.excerpt || ('description' in article ? (article as Record<string, unknown>).description as string : undefined)}
             content={typeof article.content === 'string' ? article.content : undefined}
             showTicketButton={false}
             showShareButton={true}
@@ -167,12 +168,12 @@ const ArticleDetailPage: React.FC = () => {
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={(announcements[1] as any).backgroundColor as string | undefined}
-              headlineText={(announcements[1] as any).title || announcements[1].headlineText}
-              bodyText={(announcements[1] as any).message || (typeof announcements[1].bodyText === 'string' ? announcements[1].bodyText : undefined)}
-              showLink={!!((announcements[1] as any).ctaText || announcements[1].linkText)}
-              linkText={(announcements[1] as any).ctaText || announcements[1].linkText}
-              linkUrl={(announcements[1] as any).ctaUrl || announcements[1].linkUrl}
+              textureBackground={'backgroundColor' in announcements[1] ? (announcements[1] as Record<string, unknown>).backgroundColor as string : undefined}
+              headlineText={'title' in announcements[1] ? (announcements[1] as Record<string, unknown>).title as string : announcements[1].headlineText}
+              bodyText={'message' in announcements[1] ? (announcements[1] as Record<string, unknown>).message as string : (typeof announcements[1].bodyText === 'string' ? announcements[1].bodyText : undefined)}
+              showLink={!!('ctaText' in announcements[1] ? (announcements[1] as Record<string, unknown>).ctaText : announcements[1].linkText)}
+              linkText={'ctaText' in announcements[1] ? (announcements[1] as Record<string, unknown>).ctaText as string : announcements[1].linkText}
+              linkUrl={'ctaUrl' in announcements[1] ? (announcements[1] as Record<string, unknown>).ctaUrl as string : announcements[1].linkUrl}
               buttonCount="none"
             />
           )}

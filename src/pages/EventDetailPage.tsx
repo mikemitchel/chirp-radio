@@ -11,68 +11,17 @@ import { PiCalendarPlus } from 'react-icons/pi'
 import { useEvents, useAnnouncements } from '../hooks/useData'
 import type { Event } from '../types/cms'
 
-// Helper functions for type conversions
-const getEventImageUrl = (event: Event): string | undefined => {
-  if (typeof event.featuredImage === 'object' && event.featuredImage && 'url' in event.featuredImage) {
-    return (event.featuredImage as any).url
-  }
-  if (typeof event.featuredImage === 'string') {
-    return event.featuredImage
-  }
-  return event.featuredImageUrl
-}
-
-const getEventCategoryName = (event: Event): string | undefined => {
-  if (typeof event.category === 'object' && event.category && 'name' in event.category) {
-    return (event.category as any).name
-  }
-  if (typeof event.category === 'string') {
-    return event.category
-  }
-  return undefined
-}
-
-const getEventVenueName = (event: Event): string | undefined => {
-  if (!event.venue) return event.location
-  if (typeof event.venue === 'object' && 'name' in event.venue) {
-    return (event.venue as any).name
-  }
-  if (typeof event.venue === 'string') {
-    return event.venue
-  }
-  return event.location
-}
-
-const getEventVenueAddress = (event: Event): string | undefined => {
-  if (!event.venue || typeof event.venue !== 'object') return undefined
-  return (event.venue as any).address
-}
-
-const getEventVenueCity = (event: Event): string | undefined => {
-  if (!event.venue || typeof event.venue !== 'object') return undefined
-  return (event.venue as any).city
-}
-
-const getEventVenueState = (event: Event): string | undefined => {
-  if (!event.venue || typeof event.venue !== 'object') return undefined
-  return (event.venue as any).state
-}
-
-const getEventVenuePhone = (event: Event): string | undefined => {
-  if (!event.venue || typeof event.venue !== 'object') return undefined
-  return (event.venue as any).phone
-}
-
-const getEventAgeRestriction = (event: Event): string | undefined => {
-  if (!event.ageRestriction) return undefined
-  if (typeof event.ageRestriction === 'object' && 'age' in event.ageRestriction) {
-    return (event.ageRestriction as any).age
-  }
-  if (typeof event.ageRestriction === 'string') {
-    return event.ageRestriction
-  }
-  return undefined
-}
+// Import helper functions
+import {
+  getEventImageUrl,
+  getEventCategoryName,
+  getEventVenueName,
+  getEventVenueAddress,
+  getEventVenueCity,
+  getEventVenueState,
+  getEventVenuePhone,
+  getEventAgeRestriction
+} from '../utils/typeHelpers'
 
 const EventDetailPage: React.FC = () => {
   const navigate = useNavigate()
@@ -88,7 +37,7 @@ const EventDetailPage: React.FC = () => {
   // Get 3 most recent events excluding the current one
   const recentEvents = allEvents?.filter((e) => e.id !== event?.id).slice(0, 3) || []
 
-  const handleEventClick = (clickedEvent: any) => {
+  const handleEventClick = (clickedEvent: Event) => {
     navigate(`/events/${clickedEvent.slug}`)
   }
 
@@ -287,7 +236,7 @@ const EventDetailPage: React.FC = () => {
                     {getEventVenueCity(event) && getEventVenueState(event) && (
                       <>
                         <br />
-                        {getEventVenueCity(event)}, {getEventVenueState(event)} {(event.venue as any)?.zip}
+                        {getEventVenueCity(event)}, {getEventVenueState(event)} {typeof event.venue === 'object' && event.venue && 'zipCode' in event.venue ? event.venue.zipCode as string : ''}
                       </>
                     )}
                   </div>

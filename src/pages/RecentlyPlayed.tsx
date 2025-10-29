@@ -19,13 +19,13 @@ export default function RecentlyPlayed() {
 
   // Get page header content from CMS with fallbacks
   const pageTitle = pageContent?.pageTitle || 'Recently Played'
-  const actionButtonText = (pageContent as any)?.actionButtonText || 'Complete Playlist'
+  const actionButtonText = ('actionButtonText' in pageContent ? (pageContent as Record<string, unknown>).actionButtonText : undefined) || 'Complete Playlist'
   const completePlaylistUrl =
-    (siteSettings as any)?.completePlaylistUrl || 'https://chirpradio.org/playlists'
+    ('completePlaylistUrl' in siteSettings ? (siteSettings as Record<string, unknown>).completePlaylistUrl : undefined) || 'https://chirpradio.org/playlists'
 
   // Get the announcement from CMS (now populated and transformed with depth: 1)
   const selectedAnnouncement =
-    typeof (pageContent as any)?.announcement === 'object' ? (pageContent as any)?.announcement : null
+    typeof ('announcement' in pageContent ? (pageContent as Record<string, unknown>).announcement : undefined) === 'object' ? ('announcement' in pageContent ? (pageContent as Record<string, unknown>).announcement : undefined) : null
 
   // Format tracks with hour data for display (take only the 2 most recent hours)
   const playlistItems = useMemo(() => {
@@ -83,7 +83,7 @@ export default function RecentlyPlayed() {
           startTime,
           endTime,
           djName: track.djName || 'Unknown DJ',
-          djProfileUrl: (track as any).djImage,
+          djProfileUrl: ('djImage' in track ? (track as Record<string, unknown>).djImage as string | undefined : undefined),
           showName: track.showName || 'Unknown Show',
         },
         isAdded: isInCollection(track.artistName, track.trackName),
