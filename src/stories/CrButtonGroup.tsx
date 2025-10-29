@@ -96,7 +96,7 @@ export default function CrButtonGroup({
       .filter(Boolean)
       .join(' ')
 
-    const handleOptionClick = (optionValue) => {
+    const handleOptionClick = (optionValue: any) => {
       if (selectedValue !== optionValue) {
         onSelectionChange?.(optionValue)
       }

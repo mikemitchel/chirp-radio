@@ -64,7 +64,7 @@ const CrAdSpace = ({
     },
   }
 
-  const currentSize = adSizes[size] || adSizes['large-rectangle']
+  const currentSize = (adSizes as any)[size] || adSizes['large-rectangle']
   const isSkyscraper = size === 'wide-skyscraper'
 
   // Intersection Observer for impression tracking
@@ -100,7 +100,7 @@ const CrAdSpace = ({
     onError?.()
   }
 
-  const handleClick = (e) => {
+  const handleClick = (e: any) => {
     onClick?.(e)
     // If href is provided and no custom click handler prevents default
     if (href && !e.defaultPrevented) {

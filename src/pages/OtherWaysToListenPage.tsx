@@ -156,14 +156,14 @@ const OtherWaysToListenPage: React.FC = () => {
                 <CrCard
                   variant="article"
                   type="page"
-                  imagePosition={contentBlocks[6].imagePosition || 'right'}
+                  imagePosition={contentBlocks[6].imagePosition as any || 'right'}
                   articleImageAspectRatio="16:9"
-                  preheader={contentBlocks[6].preheader}
-                  title={contentBlocks[6].title}
-                  titleTag={contentBlocks[6].titleTag || 'h2'}
+                  preheader={contentBlocks[6].preheader as any}
+                  title={contentBlocks[6].title as any}
+                  titleTag={contentBlocks[6].titleTag as any || 'h2'}
                   bannerBackgroundColor="none"
                   content={contentBlocks[6].content}
-                  backgroundImage={contentBlocks[6].backgroundImageUrl || contentBlocks[6].backgroundImage}
+                  backgroundImage={contentBlocks[6].backgroundImageUrl as any || contentBlocks[6].backgroundImage}
                   showTicketButton={false}
                   showShareButton={false}
                 />

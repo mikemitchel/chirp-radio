@@ -38,7 +38,7 @@ export default function CrDjShowCard({
     if (isCHIRP || !djsData || djsData.length === 0) return showSlug
 
     // Find DJ by matching name
-    const dj = djsData.find((d) => djArray.some((name) => d.djName === name))
+    const dj = djsData.find((d: any) => djArray.some((name: any) => d.djName === name))
     return dj?.slug || showSlug
   }
 

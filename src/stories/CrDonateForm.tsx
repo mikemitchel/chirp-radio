@@ -93,7 +93,7 @@ export default function CrDonateForm({
     return hasAmount && (selectedAmount !== 'other' || hasCustomAmount)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault()
 
     if (!isFormValid()) return

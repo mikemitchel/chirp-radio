@@ -182,10 +182,10 @@ export default function CrAnnouncement({
     PiPlusSquare,
   }
 
-  const renderIcon = (iconType) => {
+  const renderIcon = (iconType: any) => {
     // Handle new Phosphor icons
-    if (iconMap[iconType]) {
-      const IconComponent = iconMap[iconType]
+    if ((iconMap as any)[iconType]) {
+      const IconComponent = (iconMap as any)[iconType]
       return <IconComponent size={24} />
     }
 

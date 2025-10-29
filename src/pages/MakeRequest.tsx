@@ -116,7 +116,7 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
           <h3 className="cr-profile-card__benefits-title">{benefitsTitle}</h3>
           <div
             className="cr-profile-card__benefits-content"
-            dangerouslySetInnerHTML={{ __html: benefitsContent }}
+            dangerouslySetInnerHTML={{ __html: benefitsContent as string }}
           />
         </div>
 
