@@ -1,6 +1,6 @@
 // CrProfileCard.tsx
 import { useState } from 'react'
-import { PiHeart, PiMinus, PiPencilSimple, PiUser } from 'react-icons/pi'
+import { PiHeart, PiPencilSimple, PiUser } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
 import CrPageHeader from './CrPageHeader'
@@ -8,125 +8,7 @@ import './CrProfileCard.css'
 import CrProfileEditForm from './CrProfileEditForm'
 import CrSettingsToggles from './CrSettingsToggles'
 import CrSocialIcon from './CrSocialIcon'
-import CrTable from './CrTable'
 import CrVolunteerEditForm from './CrVolunteerEditForm'
-
-// Custom Saved Tracks Table Header Component
-const CrPlaylistTableHeaderSaved = ({ className = '' }) => {
-  return (
-    <div className={`cr-playlist-table-header ${className}`}>
-      <div className="cr-playlist-table-header__art"></div>
-
-      <div className="cr-playlist-table-header__grid">
-        <div className="cr-playlist-table-header__left">
-          <div className="cr-playlist-table-header__track">Title</div>
-          <div className="cr-playlist-table-header__artist">Artist Name</div>
-        </div>
-
-        <div className="cr-playlist-table-header__right">
-          <div className="cr-playlist-table-header__album">Album</div>
-          <div className="cr-playlist-table-header__label">Label</div>
-        </div>
-      </div>
-
-      <div className="cr-playlist-table-header__time">
-        <div className="cr-playlist-table-header__time-label">Date</div>
-        <div className="cr-playlist-table-header__played-label">Saved</div>
-      </div>
-
-      <div className="cr-playlist-table-header__action">
-        <div className="cr-playlist-table-header__add-label">Remove from</div>
-        <div className="cr-playlist-table-header__collection-label">Collection</div>
-      </div>
-    </div>
-  )
-}
-
-// Custom Saved Tracks Table Item Component
-const CrPlaylistItemSaved = ({
-  albumArt,
-  albumArtAlt,
-  artistName,
-  trackName,
-  albumName,
-  labelName,
-  timeAgo,
-  isLocal = false,
-  onToggleRemove,
-  className = '',
-}) => {
-  return (
-    <div className={`cr-playlist-item cr-playlist-item--table ${className}`}>
-      <div className="cr-playlist-item__table-album-art">
-        <img src={albumArt} alt={albumArtAlt} className="cr-playlist-item__image" />
-      </div>
-
-      <div className="cr-playlist-item__table-grid">
-        <div className="cr-playlist-item__table-left">
-          <div className="cr-playlist-item__table-artist">
-            {artistName}
-            {isLocal && (
-              <CrChip variant="primary" size="small" squared>
-                LOCAL
-              </CrChip>
-            )}
-          </div>
-          <div className="cr-playlist-item__table-track">{trackName}</div>
-        </div>
-
-        <div className="cr-playlist-item__table-right">
-          <div className="cr-playlist-item__table-album">{albumName}</div>
-          <div className="cr-playlist-item__table-label">{labelName}</div>
-        </div>
-      </div>
-
-      <div className="cr-playlist-item__table-time">{timeAgo}</div>
-
-      <div className="cr-playlist-item__table-action">
-        <CrButton
-          variant="text"
-          size="xsmall"
-          color="secondary"
-          rightIcon={<PiMinus />}
-          onClick={onToggleRemove}
-        >
-          Remove
-        </CrButton>
-      </div>
-    </div>
-  )
-}
-
-// Custom Saved Tracks Table Component
-const CrPlaylistTableSaved = ({
-  items = [],
-  showHeader = true,
-  onItemRemoveClick,
-  className = '',
-}) => {
-  return (
-    <div className={`cr-playlist-table ${className}`}>
-      {showHeader && <CrPlaylistTableHeaderSaved />}
-
-      <div className="cr-playlist-table__items">
-        {items.map((item, index) => (
-          <CrPlaylistItemSaved
-            key={item.id || index}
-            albumArt={item.albumArt}
-            albumArtAlt={item.albumArtAlt}
-            artistName={item.artistName}
-            trackName={item.trackName}
-            albumName={item.albumName}
-            labelName={item.labelName}
-            timeAgo={item.timeAgo}
-            isLocal={item.isLocal}
-            onToggleRemove={() => onItemRemoveClick && onItemRemoveClick(item, index)}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
 
 interface CrProfileCardProps {
   state?: 'view' | 'editProfile' | 'editVolunteer' | 'loggedOut'

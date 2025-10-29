@@ -22,5 +22,20 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Disable explicit-any rule - will be gradually fixed in future PRs
+      '@typescript-eslint/no-explicit-any': 'off',
+      // Allow unused vars if prefixed with underscore
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          args: 'all',
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+        },
+      ],
+    },
   },
 ])

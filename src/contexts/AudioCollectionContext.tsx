@@ -83,7 +83,7 @@ export function AudioCollectionProvider({ children, currentTrack }: AudioCollect
     return isInCollection(artist, trackName)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   const handleLogin = (email: string, _password: string) => {
     // TODO: Validate credentials with API
     login(email, email.split('@')[0]) // For demo, use email prefix as name
@@ -96,7 +96,7 @@ export function AudioCollectionProvider({ children, currentTrack }: AudioCollect
     })
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   const handleSignUp = (email: string, _password: string) => {
     // TODO: Create account with API
     signup(email, email.split('@')[0]) // For demo, use email prefix as name
