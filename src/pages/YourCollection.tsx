@@ -36,6 +36,8 @@ export default function YourCollection() {
     pageContent?.customNotLoggedInMessage ||
     'A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!'
   const actionButtonText = pageContent?.actionButtonText || 'Share Collection'
+  const loginButtonText = pageContent?.loginButtonText || 'Log In'
+  const signupButtonText = pageContent?.signupButtonText || 'Sign Up'
 
   const benefitsTitle = appSettings?.accountBenefitsTitle || 'Benefits of Creating an Account:'
   const benefitsContent = appSettings?.accountBenefitsContent || `

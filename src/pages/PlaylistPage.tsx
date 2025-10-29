@@ -23,7 +23,7 @@ const PlaylistPage: React.FC = () => {
 
   // Select random announcement on mount
   const randomAnnouncement = useMemo(() => {
-    const activeAnnouncements = announcementsData.announcements.filter(a => a.isActive)
+    const activeAnnouncements = announcementsData.announcements.filter((a: any) => a.isActive)
     if (activeAnnouncements.length === 0) return announcementsData.announcements[0]
     return activeAnnouncements[Math.floor(Math.random() * activeAnnouncements.length)]
   }, [])
@@ -61,7 +61,7 @@ const PlaylistPage: React.FC = () => {
           startTime,
           endTime,
           djName: track.djName || 'Unknown DJ',
-          djProfileUrl: track.djImage,
+          djProfileUrl: (track as any).djImage,
           showName: track.showName || 'Unknown Show',
         },
       }
@@ -161,12 +161,12 @@ const PlaylistPage: React.FC = () => {
         <div className="page-container">
           <CrAnnouncement
             variant="motivation"
-            textureBackground={randomAnnouncement.backgroundColor || "cr-bg-natural-d100"}
-            headlineText={randomAnnouncement.title}
-            bodyText={randomAnnouncement.message}
-            showLink={!!randomAnnouncement.ctaText}
-            linkText={randomAnnouncement.ctaText || undefined}
-            linkUrl={randomAnnouncement.ctaUrl || undefined}
+            textureBackground={(randomAnnouncement as any).backgroundColor || "cr-bg-natural-d100"}
+            headlineText={(randomAnnouncement as any).title}
+            bodyText={(randomAnnouncement as any).message}
+            showLink={!!(randomAnnouncement as any).ctaText}
+            linkText={(randomAnnouncement as any).ctaText || undefined}
+            linkUrl={(randomAnnouncement as any).ctaUrl || undefined}
             buttonCount="none"
           />
         </div>
@@ -214,16 +214,16 @@ const PlaylistPage: React.FC = () => {
               type="article"
               bannerHeight="tall"
               textLayout="stacked"
-              backgroundImage={articles[0].featuredImage}
-              preheader={typeof articles[0].category === "string" ? articles[0].category : articles[0].category?.name}
+              backgroundImage={typeof articles[0].featuredImage === 'string' ? articles[0].featuredImage : (articles[0].featuredImage as any)?.url}
+              preheader={typeof articles[0].category === "string" ? articles[0].category : (articles[0].category as any)?.name}
               title={articles[0].title}
               authorBy={`by ${articles[0].author}`}
-              eventDate={new Date(articles[0].publishedDate).toLocaleDateString('en-US', {
+              eventDate={new Date(articles[0].publishedDate || Date.now()).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
                 year: 'numeric',
               })}
-              tags={articles[0].tags}
+              tags={Array.isArray(articles[0].tags) && typeof articles[0].tags[0] === 'string' ? articles[0].tags as string[] : (articles[0].tags as any)?.map((t: any) => t.tag)}
               onClick={() => handleArticleClick(articles[0])}
             />
           )}
@@ -235,16 +235,16 @@ const PlaylistPage: React.FC = () => {
               type="article"
               bannerHeight="tall"
               textLayout="stacked"
-              backgroundImage={articles[1].featuredImage}
-              preheader={typeof articles[1].category === "string" ? articles[1].category : articles[1].category?.name}
+              backgroundImage={typeof articles[1].featuredImage === 'string' ? articles[1].featuredImage : (articles[1].featuredImage as any)?.url}
+              preheader={typeof articles[1].category === "string" ? articles[1].category : (articles[1].category as any)?.name}
               title={articles[1].title}
               authorBy={`by ${articles[1].author}`}
-              eventDate={new Date(articles[1].publishedDate).toLocaleDateString('en-US', {
+              eventDate={new Date(articles[1].publishedDate || Date.now()).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
                 year: 'numeric',
               })}
-              tags={articles[1].tags}
+              tags={Array.isArray(articles[1].tags) && typeof articles[1].tags[0] === 'string' ? articles[1].tags as string[] : (articles[1].tags as any)?.map((t: any) => t.tag)}
               onClick={() => handleArticleClick(articles[1])}
             />
           )}
@@ -256,16 +256,16 @@ const PlaylistPage: React.FC = () => {
               type="article"
               bannerHeight="tall"
               textLayout="stacked"
-              backgroundImage={articles[2].featuredImage}
-              preheader={typeof articles[2].category === "string" ? articles[2].category : articles[2].category?.name}
+              backgroundImage={typeof articles[2].featuredImage === 'string' ? articles[2].featuredImage : (articles[2].featuredImage as any)?.url}
+              preheader={typeof articles[2].category === "string" ? articles[2].category : (articles[2].category as any)?.name}
               title={articles[2].title}
               authorBy={`by ${articles[2].author}`}
-              eventDate={new Date(articles[2].publishedDate).toLocaleDateString('en-US', {
+              eventDate={new Date(articles[2].publishedDate || Date.now()).toLocaleDateString('en-US', {
                 month: 'long',
                 day: 'numeric',
                 year: 'numeric',
               })}
-              tags={articles[2].tags}
+              tags={Array.isArray(articles[2].tags) && typeof articles[2].tags[0] === 'string' ? articles[2].tags as string[] : (articles[2].tags as any)?.map((t: any) => t.tag)}
               onClick={() => handleArticleClick(articles[2])}
             />
           )}
