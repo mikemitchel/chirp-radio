@@ -73,7 +73,6 @@ export function AudioPlaybackProvider({
   children,
   defaultStreamUrl = 'https://peridot.streamguys1.com:5185/live',
 }: AudioPlaybackProviderProps) {
-
   // Get stream URL based on quality setting
   const getStreamUrl = () => {
     const quality =
@@ -114,9 +113,11 @@ export function AudioPlaybackProvider({
       // Listen for Android Auto / media session playback state changes
       let listenerCleanup: (() => void) | undefined
 
-      NativeAudioBridge.addListener('playbackStateChanged', handlePlaybackStateChange).then((listener) => {
-        listenerCleanup = () => listener.remove()
-      })
+      NativeAudioBridge.addListener('playbackStateChanged', handlePlaybackStateChange).then(
+        (listener) => {
+          listenerCleanup = () => listener.remove()
+        }
+      )
 
       return () => {
         listenerCleanup?.()
@@ -157,7 +158,6 @@ export function AudioPlaybackProvider({
           log.error('Error initializing native player:', err)
           setIsPlayerReady(true) // Mark as ready even on error so play can be attempted
         })
-
     } else if (isAndroid) {
       // Use native audio bridge for Android (for Android Auto and media session support)
       log.log('Using native audio bridge for Android')
@@ -243,7 +243,7 @@ export function AudioPlaybackProvider({
       // Wait up to 3 seconds for player to initialize
       const startTime = Date.now()
       while (!isPlayerReady && Date.now() - startTime < 3000) {
-        await new Promise(resolve => setTimeout(resolve, 100))
+        await new Promise((resolve) => setTimeout(resolve, 100))
       }
       if (!isPlayerReady) {
         log.error('❌ Player initialization timeout')
