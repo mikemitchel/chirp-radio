@@ -7,6 +7,7 @@ import { UserProvider } from '../src/contexts/UserContext'
 import { CMSProvider } from '../src/contexts/CMSContext'
 import { AuthProvider } from '../src/contexts/AuthContext'
 import { NotificationProvider } from '../src/contexts/NotificationContext'
+import { AudioPlayerProvider } from '../src/contexts/AudioPlayerContext'
 import '../src/styles/index.css'
 import '../src/styles/style-guide.css'
 import '../src/styles/accessibility.css'
@@ -30,7 +31,11 @@ const withProviders: Decorator = (Story) => {
             React.createElement(
               NotificationProvider,
               null,
-              React.createElement(Story)
+              React.createElement(
+                AudioPlayerProvider,
+                null,
+                React.createElement(Story)
+              )
             )
           )
         )

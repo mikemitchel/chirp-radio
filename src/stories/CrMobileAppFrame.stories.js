@@ -1,16 +1,10 @@
 // CrMobileAppFrame.stories.tsx
 import React from 'react'
 import CrMobileAppFrame from './CrMobileAppFrame'
-import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
-import { AuthProvider } from '../contexts/AuthContext'
-import { BrowserRouter } from 'react-router-dom'
 
 export default {
   title: 'Templates/CrMobileAppFrame',
   component: CrMobileAppFrame,
-  decorators: [
-    (Story) => React.createElement(BrowserRouter, null, React.createElement(AuthProvider, null, React.createElement(AudioPlayerProvider, null, React.createElement(Story)))),
-  ],
   parameters: {
     layout: 'fullscreen',
     docs: {
