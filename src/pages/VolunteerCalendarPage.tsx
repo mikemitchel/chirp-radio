@@ -110,17 +110,17 @@ const VolunteerCalendarPage: React.FC = () => {
           <div className="page-layout-main-sidebar__sidebar">
             {selectedAnnouncement && (
               <CrAnnouncement
-                title={selectedAnnouncement.title}
-                description={selectedAnnouncement.description}
-                actionText={selectedAnnouncement.actionText}
-                actionUrl={selectedAnnouncement.actionUrl}
-                icon={selectedAnnouncement.icon}
+                title={(selectedAnnouncement as any).title}
+                description={(selectedAnnouncement as any).description}
+                actionText={(selectedAnnouncement as any).actionText}
+                actionUrl={(selectedAnnouncement as any).actionUrl}
+                icon={(selectedAnnouncement as any).icon}
               />
             )}
 
             <CrPageHeader
               title={sidebarTitle}
-              titleSize="large"
+              titleSize="xl"
               titleTag="h2"
               showEyebrow={false}
               showActionButton={false}
@@ -131,7 +131,6 @@ const VolunteerCalendarPage: React.FC = () => {
                 variant="small"
                 bannerHeight="tall"
                 textLayout="stacked"
-                textureBackground="cr-bg-natural-d100"
                 backgroundImage={item.featuredImage || item.coverArt}
                 preheader={
                   typeof item.category === 'string'
@@ -159,12 +158,13 @@ const VolunteerCalendarPage: React.FC = () => {
             {adProps && (
               <CrAdSpace
                 size={adProps.size}
-                format={adProps.format}
-                content={adProps.content}
-                externalUrl={adProps.externalUrl}
-                htmlCode={adProps.htmlCode}
+                contentType={adProps.contentType}
+                src={adProps.src}
+                alt={adProps.alt}
+                videoSrc={adProps.videoSrc}
+                htmlContent={adProps.htmlContent}
                 embedCode={adProps.embedCode}
-                videoUrl={adProps.videoUrl}
+                href={adProps.href}
               />
             )}
           </div>

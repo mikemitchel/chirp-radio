@@ -172,20 +172,22 @@ const LandingPage: React.FC = () => {
           )}
 
           {sidebarAdvertisement && (
-            <CrAdSpace
-              size={(sidebarAdvertisement as any).size || 'mobile-banner'}
-              customWidth={(sidebarAdvertisement as any).customWidth}
-              customHeight={(sidebarAdvertisement as any).customHeight}
-              contentType={(sidebarAdvertisement as any).contentType}
-              src={(sidebarAdvertisement as any).imageUrl || (sidebarAdvertisement as any).image?.url}
-              alt={(sidebarAdvertisement as any).alt}
-              htmlContent={(sidebarAdvertisement as any).htmlContent}
-              videoSrc={(sidebarAdvertisement as any).videoUrl || (sidebarAdvertisement as any).video?.url}
-              embedCode={(sidebarAdvertisement as any).embedCode}
-              href={(sidebarAdvertisement as any).href}
-              target={(sidebarAdvertisement as any).target}
-              showLabel={(sidebarAdvertisement as any).showLabel}
-            />
+            <>
+              <CrAdSpace
+                size={(sidebarAdvertisement as any).size || 'mobile-banner'}
+                customWidth={(sidebarAdvertisement as any).customWidth}
+                customHeight={(sidebarAdvertisement as any).customHeight}
+                contentType={(sidebarAdvertisement as any).contentType}
+                src={(sidebarAdvertisement as any).imageUrl || (sidebarAdvertisement as any).image?.url}
+                alt={(sidebarAdvertisement as any).alt}
+                htmlContent={(sidebarAdvertisement as any).htmlContent}
+                videoSrc={(sidebarAdvertisement as any).videoUrl || (sidebarAdvertisement as any).video?.url}
+                embedCode={(sidebarAdvertisement as any).embedCode}
+                href={(sidebarAdvertisement as any).href}
+                target={(sidebarAdvertisement as any).target}
+                showLabel={(sidebarAdvertisement as any).showLabel}
+              />
+            </>
           )}
         </div>
       </section>

@@ -136,8 +136,8 @@ export default function VolunteerDownloadsPage() {
             <>
               <CrPageHeader
                 eyebrowText="CHIRP RADIO - VOLUNTEERS"
-                title={headerBlock.title}
-                titleTag={headerBlock.titleTag || 'h1'}
+                title={headerBlock.title as string}
+                titleTag={(headerBlock.titleTag || 'h1') as any}
                 titleSize="xl"
                 showEyebrow={true}
                 showActionButton={false}
@@ -146,8 +146,8 @@ export default function VolunteerDownloadsPage() {
                 <div
                   style={{ marginBottom: 'var(--cr-space-8)' }}
                   dangerouslySetInnerHTML={{
-                    __html: headerBlock.content.root ?
-                      headerBlock.content.root.children.map((child: any) =>
+                    __html: (headerBlock.content as any).root ?
+                      (headerBlock.content as any).root.children.map((child: any) =>
                         `<p>${child.children.map((c: any) => c.text).join('')}</p>`
                       ).join('') : ''
                   }}

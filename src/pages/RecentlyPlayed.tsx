@@ -19,13 +19,13 @@ export default function RecentlyPlayed() {
 
   // Get page header content from CMS with fallbacks
   const pageTitle = pageContent?.pageTitle || 'Recently Played'
-  const actionButtonText = pageContent?.actionButtonText || 'Complete Playlist'
+  const actionButtonText = (pageContent as any)?.actionButtonText || 'Complete Playlist'
   const completePlaylistUrl =
-    siteSettings?.completePlaylistUrl || 'https://chirpradio.org/playlists'
+    (siteSettings as any)?.completePlaylistUrl || 'https://chirpradio.org/playlists'
 
   // Get the announcement from CMS (now populated and transformed with depth: 1)
   const selectedAnnouncement =
-    typeof pageContent?.announcement === 'object' ? pageContent?.announcement : null
+    typeof (pageContent as any)?.announcement === 'object' ? (pageContent as any)?.announcement : null
 
   // Format tracks with hour data for display (take only the 2 most recent hours)
   const playlistItems = useMemo(() => {
@@ -83,7 +83,7 @@ export default function RecentlyPlayed() {
           startTime,
           endTime,
           djName: track.djName || 'Unknown DJ',
-          djProfileUrl: track.djImage,
+          djProfileUrl: (track as any).djImage,
           showName: track.showName || 'Unknown Show',
         },
         isAdded: isInCollection(track.artistName, track.trackName),
@@ -166,7 +166,7 @@ export default function RecentlyPlayed() {
   }
 
   const handleCompletePlaylist = () => {
-    window.open(completePlaylistUrl, '_blank')
+    window.open(completePlaylistUrl as string, '_blank')
   }
 
   return (

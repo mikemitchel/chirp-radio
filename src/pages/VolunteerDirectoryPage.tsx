@@ -13,7 +13,7 @@ const VolunteerDirectoryPage: React.FC = () => {
     if (!users) return []
     return users
       .filter((user) =>
-        ['Regular DJ', 'Substitute DJ', 'Content Publisher', 'General'].includes(user.role)
+        ['Regular DJ', 'Substitute DJ', 'Content Publisher', 'General'].includes(user.role as string)
       )
       .map((user) => ({
         id: user.id,

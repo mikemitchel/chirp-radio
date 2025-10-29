@@ -36,7 +36,7 @@ const CrFooter = ({
         <div className="cr-footer__left">
           <div className="cr-footer__copyright">
             <p>
-              {siteSettings?.copyrightText?.replace('{year}', currentYear.toString()) ||
+              {(siteSettings as any)?.copyrightText?.replace('{year}', currentYear.toString()) ||
                 `©2008–${currentYear} Chicago Independent Radio Project. CHIRP, CHIRP Radio, and Chicago Independent Radio Project are registered trademarks.`}
             </p>
           </div>
@@ -76,7 +76,7 @@ const CrFooter = ({
           </div>
 
           <div className="cr-footer__social">
-            {siteSettings?.socialLinks?.map((link: any) => (
+            {(siteSettings as any)?.socialLinks?.map((link: any) => (
               <CrSocialIcon
                 key={link.platform}
                 platform={link.platform}
@@ -94,15 +94,15 @@ const CrFooter = ({
             <button
               className="cr-footer__event-image cr-footer__event-image--film-fest"
               onClick={() => {
-                if (siteSettings.chirpFilmFestLogoUrl) {
-                  window.open(siteSettings.chirpFilmFestLogoUrl, '_blank')
+                if ((siteSettings as any).chirpFilmFestLogoUrl) {
+                  window.open((siteSettings as any).chirpFilmFestLogoUrl as string, '_blank')
                 }
               }}
               aria-label="CHIRP Film Fest"
             >
               <img
                 src={
-                  siteSettings.chirpFilmFestLogo?.url ||
+                  (siteSettings as any).chirpFilmFestLogo?.url ||
                   '/images/chirp-logos/chirp-film-fest.jpg'
                 }
                 alt="CHIRP Film Fest Logo"
@@ -114,15 +114,15 @@ const CrFooter = ({
             <button
               className="cr-footer__event-image cr-footer__event-image--first-time"
               onClick={() => {
-                if (siteSettings.firstTimeLogoUrl) {
-                  window.open(siteSettings.firstTimeLogoUrl, '_blank')
+                if ((siteSettings as any).firstTimeLogoUrl) {
+                  window.open((siteSettings as any).firstTimeLogoUrl as string, '_blank')
                 }
               }}
               aria-label="First Time Listening"
             >
               <img
                 src={
-                  siteSettings.firstTimeLogo?.url || '/images/chirp-logos/FirstTimeLogo.png'
+                  (siteSettings as any).firstTimeLogo?.url || '/images/chirp-logos/FirstTimeLogo.png'
                 }
                 alt="First Time Listening Logo"
               />

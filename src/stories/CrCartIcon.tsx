@@ -48,7 +48,7 @@ export default function CrCartIcon({
       }
       style={{
         '--cart-icon-size': `${size}px`,
-      }}
+      } as React.CSSProperties}
     >
       <svg
         width={size}

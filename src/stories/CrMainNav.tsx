@@ -89,13 +89,13 @@ export default function CrMainNav({
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleNavClick = (path: string, callback?: () => void) => {
-    if (navigate) {
-      navigate(path)
-    } else if (callback) {
-      callback()
-    }
-  }
+  // const handleNavClick = (path: string, callback?: () => void) => {
+  //   if (navigate) {
+  //     navigate(path)
+  //   } else if (callback) {
+  //     callback()
+  //   }
+  // }
 
   const handleSearchOpen = () => {
     setShowSearch(true)

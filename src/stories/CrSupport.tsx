@@ -23,8 +23,8 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
     }
 
     // If it's a Lexical object, convert to simple HTML
-    if (siteSettings.supportContent.root?.children) {
-      return siteSettings.supportContent.root.children
+    if ((siteSettings.supportContent as any).root?.children) {
+      return (siteSettings.supportContent as any).root.children
         .map((node: any) => {
           if (node.type === 'paragraph') {
             const text = node.children?.map((child: any) => child.text || '').join('') || ''
@@ -65,14 +65,14 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
         {siteSettings?.showDCaseLogo && (
           <div className="cr-support__logo cr-support__logo--dcase">
             <a
-              href={siteSettings.dCaseLogoUrl || '#'}
+              href={(siteSettings as any).dCaseLogoUrl || '#'}
               target="_blank"
               rel="noopener noreferrer"
             >
               <img
                 className="cr-support__logo-image"
                 src={
-                  siteSettings.dCaseLogo?.url ||
+                  (siteSettings as any).dCaseLogo?.url ||
                   '/images/support-logos/DCASE-HORIZ-COLOR.png'
                 }
                 alt="Chicago Department of Cultural Affairs & Special Events"
@@ -84,14 +84,14 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
         {siteSettings?.showIlArtsCouncilLogo && (
           <div className="cr-support__logo cr-support__logo--iac">
             <a
-              href={siteSettings.ilArtsCouncilLogoUrl || '#'}
+              href={(siteSettings as any).ilArtsCouncilLogoUrl || '#'}
               target="_blank"
               rel="noopener noreferrer"
             >
               <img
                 className="cr-support__logo-image"
                 src={
-                  siteSettings.ilArtsCouncilLogo?.url ||
+                  (siteSettings as any).ilArtsCouncilLogo?.url ||
                   '/images/support-logos/Blk and Green IAC Logo.png'
                 }
                 alt="Illinois Arts Council"
@@ -102,14 +102,14 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
       </div>
 
       {/* Additional logos from Site Settings */}
-      {siteSettings?.additionalLogos && siteSettings.additionalLogos.length > 0 && (
+      {(siteSettings as any)?.additionalLogos && (siteSettings as any).additionalLogos.length > 0 && (
         <div className="cr-support__additional-section">
           <div className="cr-support__additional-text">
             <p>Additional funding for CHIRP provided by...</p>
           </div>
 
           <div className="cr-support__additional-logos">
-            {siteSettings.additionalLogos
+            {(siteSettings as any).additionalLogos
               .filter((logoItem: any) => logoItem.logo?.url) // Only show logos that have an image
               .slice(0, 3)
               .map((logoItem: any, index: number) => (
@@ -136,7 +136,7 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
       )}
 
       {/* Legacy prop-based additional logos (fallback) */}
-      {showAdditionalLogos && logos.length > 0 && !siteSettings?.additionalLogos && (
+      {showAdditionalLogos && logos.length > 0 && !(siteSettings as any)?.additionalLogos && (
         <div className="cr-support__additional-section">
           <div className="cr-support__additional-text">
             <p>Additional funding for CHIRP provided by...</p>
