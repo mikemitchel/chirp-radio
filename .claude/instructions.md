@@ -26,6 +26,7 @@
 
 **Recently Completed:**
 - **Auto-generated Sitemap ✅** (Merged PR #60) - Sitemap auto-generates from `src/config/routes.ts`. Single source of truth for navigation, can be reused for menus, breadcrumbs, etc.
+  - **Note:** Sitemap sections/grouping are developer-controlled in `src/config/routes.ts`. To reorganize sections or move routes between groups, edit this file. Client cannot change grouping without code changes (see Future Features for CMS control).
 
 **Priority Tasks (All Equal Priority):**
 - **TODO: Apple CarPlay integration** - waiting for Apple Dev CarPlay cert
@@ -58,6 +59,7 @@
   5. User State Test - Test with/without being logged in to see user collection section behavior
 
 **Future Features:**
+- Navigation control to CMS - Move sitemap section grouping and route organization to CMS so client can manage navigation structure without code changes
 - Email notifications when Favorite DJ is about to start (15 min before) (Issue #9)
 - Collection grouping - Allow users to create folders/tags and group songs in their collection (Issue #10)
 - App icon chooser - Implement alternate app icons using @capacitor-community/alternate-icons (Issue #7)
