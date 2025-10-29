@@ -537,11 +537,12 @@
    ======================================== */
 
 .cr-player--android-auto .cr-player__android-auto {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
+  box-sizing: border-box;
 }
 
 .cr-player--android-auto .cr-player__background {
@@ -563,45 +564,61 @@
 }
 
 .cr-player--android-auto .cr-player__android-auto-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  grid-template-columns: 1fr;
+  width: 100vw;
+  height: 100vh;
   padding: var(--cr-space-6);
   position: relative;
   z-index: 3;
   background-color: transparent;
+  box-sizing: border-box;
+  gap: var(--cr-space-6);
+  align-content: center;
 }
 
-/* Row 1: Logo */
+/* Row 1: Logo + DJ Info Header */
+.cr-player--android-auto .cr-player__android-auto-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
 .cr-player--android-auto .cr-player__android-auto-logo {
   flex-shrink: 0;
+  height: 42px;
 }
 
-/* Row 2: DJ Info */
+.cr-player--android-auto .cr-player__android-auto-logo img,
+.cr-player--android-auto .cr-player__android-auto-logo svg {
+  height: 42px;
+  width: auto;
+}
+
 .cr-player--android-auto .cr-player__android-auto-dj {
   display: flex;
   justify-content: center;
-  padding: var(--cr-space-4) var(--cr-space-6);
-  flex-shrink: 0;
+  flex: 1;
 }
 
 .cr-player--android-auto .cr-current-dj {
   transform: scale(1.25);
 }
 
-/* Row 3: Album Art + Track Info (side by side) */
+/* Row 2: Album Art + Track Info (side by side, centered) */
 .cr-player--android-auto .cr-player__android-auto-media {
   display: flex;
   flex-direction: row;
-  gap: var(--cr-space-6);
-  padding: var(--cr-space-4) var(--cr-space-6);
-  flex: 1;
+  gap: var(--cr-space-8); /* 32px */
   align-items: center;
+  justify-content: center;
 }
 
 .cr-player--android-auto .cr-player__android-auto-album {
-  width: 25vw;
-  height: 25vw;
+  width: 180px;
+  height: 180px;
   flex-shrink: 0;
 }
 
@@ -609,32 +626,64 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: var(--cr-space-1);
+  border-radius: var(--cr-space-2); /* 8px */
 }
 
 .cr-player--android-auto .cr-player__android-auto-track {
   flex: 1;
   min-width: 0;
+  max-width: 600px;
 }
 
 .cr-player--android-auto .cr-track-info {
-  transform: scale(1.5);
-  transform-origin: left;
-  width: 65%;
+  /* No transform scaling - use larger font sizes instead */
 }
 
-/* Row 4: Play Button */
+/* Override CrTrackInfo containers for Android Auto - remove fixed heights */
+.cr-player--android-auto .cr-track-info__track-container {
+  height: auto;
+}
+
+.cr-player--android-auto .cr-track-info__artist-scroll-container {
+  height: auto;
+}
+
+.cr-player--android-auto .cr-track-info__details-container {
+  height: auto;
+}
+
+/* Override CrTrackInfo typography for Android Auto */
+.cr-player--android-auto .cr-track-info__track-scrolling {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.cr-player--android-auto .cr-track-info__artist-scrolling {
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.cr-player--android-auto .cr-track-info__album {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.cr-player--android-auto .cr-track-info__label {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+/* Row 3: Play Button */
 .cr-player--android-auto .cr-player__android-auto-controls {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--cr-space-4) var(--cr-space-6) var(--cr-space-6);
-  flex-shrink: 0;
 }
 
 .cr-player--android-auto .cr-player__play-button {
-  width: 120px;
-  height: 120px;
+  /* Let button size itself based on SVG size prop */
 }
 
 /* Ensure text contrast on all backgrounds */
