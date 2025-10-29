@@ -7,6 +7,8 @@ import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrButton from '../stories/CrButton'
 import { usePodcasts, useAnnouncements } from '../hooks/useData'
+import type { Podcast } from '../types/cms'
+import { getPodcastTags } from '../utils/typeHelpers'
 
 const PodcastDetailPage: React.FC = () => {
   const navigate = useNavigate()
@@ -22,7 +24,7 @@ const PodcastDetailPage: React.FC = () => {
   // Get 3 most recent podcasts excluding the current one
   const recentPodcasts = allPodcasts?.filter((p) => p.id !== podcast?.id).slice(0, 3) || []
 
-  const handlePodcastClick = (clickedPodcast: any) => {
+  const handlePodcastClick = (clickedPodcast: Podcast) => {
     navigate(`/podcasts/${clickedPodcast.slug}`)
   }
 
@@ -70,13 +72,13 @@ const PodcastDetailPage: React.FC = () => {
             articleImageAspectRatio="16:9"
             captionPosition="bottom"
             backgroundImage={podcast.coverArt}
-            preheader={typeof podcast.category === 'string' ? podcast.category : (podcast.category as any)?.name}
+            preheader={'category' in podcast && typeof podcast.category === 'string' ? podcast.category : 'category' in podcast && typeof podcast.category === 'object' && podcast.category && 'name' in podcast.category ? podcast.category.name as string : undefined}
             title={podcast.title}
-            authorBy={`Produced by ${podcast.host}`}
+            authorBy={'host' in podcast ? `Produced by ${(podcast as Record<string, unknown>).host}` : undefined}
             eventDate={podcast.createdAt ? `Published on ${new Date(podcast.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : undefined}
-            tags={podcast.tags as any}
-            excerpt={podcast.excerpt as string}
-            content={podcast.content as string}
+            tags={getPodcastTags(podcast)}
+            excerpt={podcast.excerpt}
+            content={typeof podcast.content === 'string' ? podcast.content : undefined}
             showTicketButton={false}
             showShareButton={true}
             shareUrl={`${window.location.origin}${window.location.pathname}#/podcasts/${podcast.slug}`}
@@ -104,7 +106,7 @@ const PodcastDetailPage: React.FC = () => {
               >
                 {String(podcast.pullQuote)}
               </blockquote>
-              {(podcast.pullQuoteAttribution && (
+              {('pullQuoteAttribution' in podcast && podcast.pullQuoteAttribution) ? (
                 <p
                   style={{
                     font: 'var(--cr-body-sm)',
@@ -113,9 +115,9 @@ const PodcastDetailPage: React.FC = () => {
                     marginBottom: 0,
                   }}
                 >
-                  {String(podcast.pullQuoteAttribution)}
+                  {String((podcast as Record<string, unknown>).pullQuoteAttribution)}
                 </p>
-              )) as React.ReactNode}
+              ) : null}
             </div>
           )) as React.ReactNode}
 
@@ -140,7 +142,7 @@ const PodcastDetailPage: React.FC = () => {
               >
                 {String(podcast.additionalInfo)}
               </div>
-              {(podcast.transcriptUrl && (
+              {('transcriptUrl' in podcast && podcast.transcriptUrl) ? (
                 <p
                   style={{
                     font: 'var(--cr-body-reg)',
@@ -150,7 +152,7 @@ const PodcastDetailPage: React.FC = () => {
                   }}
                 >
                   <a
-                    href={podcast.transcriptUrl as string}
+                    href={(podcast as Record<string, unknown>).transcriptUrl as string}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
@@ -161,7 +163,7 @@ const PodcastDetailPage: React.FC = () => {
                     Read a transcript of the interview here.
                   </a>
                 </p>
-              )) as React.ReactNode}
+              ) : null}
             </div>
           )) as React.ReactNode}
 
@@ -197,7 +199,13 @@ const PodcastDetailPage: React.FC = () => {
                   size="small"
                   variant="outline"
                   color="default"
-                  onClick={() => window.open((podcast.soundCloudEmbedUrl as any)?.includes('soundcloud.com') ? (podcast.soundCloudEmbedUrl as any).match(/url=([^&]+)/)?.[1] ? decodeURIComponent((podcast.soundCloudEmbedUrl as any).match(/url=([^&]+)/)[1]) : 'https://soundcloud.com/chirpradio' : 'https://soundcloud.com/chirpradio', '_blank')}
+                  onClick={() => {
+                    const embedUrl = 'soundCloudEmbedUrl' in podcast ? (podcast as Record<string, unknown>).soundCloudEmbedUrl as string : '';
+                    const includesSoundcloud = embedUrl?.includes('soundcloud.com');
+                    const urlMatch = embedUrl?.match(/url=([^&]+)/);
+                    const soundcloudUrl = includesSoundcloud && urlMatch?.[1] ? decodeURIComponent(urlMatch[1]) : 'https://soundcloud.com/chirpradio';
+                    window.open(soundcloudUrl, '_blank');
+                  }}
                 >
                   Listen on SoundCloud
                 </CrButton>
@@ -208,7 +216,7 @@ const PodcastDetailPage: React.FC = () => {
                 scrolling="no"
                 frameBorder="no"
                 allow="autoplay"
-                src={`${(podcast.soundCloudEmbedUrl as any).replace('color=ff5500', 'color=ea1c2c')}&theme_color=18181b&visual=false&show_artwork=true&buying=false&liking=false&download=false&sharing=false&show_comments=false&show_playcount=false`}
+                src={`${'soundCloudEmbedUrl' in podcast ? String((podcast as Record<string, unknown>).soundCloudEmbedUrl).replace('color=ff5500', 'color=ea1c2c') : ''}&theme_color=18181b&visual=false&show_artwork=true&buying=false&liking=false&download=false&sharing=false&show_comments=false&show_playcount=false`}
                 title={`${podcast.title} SoundCloud Player`}
                 style={{
                   borderRadius: 'var(--cr-space-1)',
@@ -273,9 +281,9 @@ const PodcastDetailPage: React.FC = () => {
               titleTag="h3"
               titleSize="sm"
               backgroundImage={recentPodcast.coverArt}
-              preheader={typeof recentPodcast.category === 'string' ? recentPodcast.category : (recentPodcast.category as any)?.name}
+              preheader={'category' in recentPodcast && typeof recentPodcast.category === 'string' ? recentPodcast.category : 'category' in recentPodcast && typeof recentPodcast.category === 'object' && recentPodcast.category && 'name' in recentPodcast.category ? recentPodcast.category.name as string : undefined}
               title={recentPodcast.title}
-              authorBy={`by ${recentPodcast.host}`}
+              authorBy={'host' in recentPodcast ? `by ${(recentPodcast as Record<string, unknown>).host}` : undefined}
               eventDate={recentPodcast.createdAt ? new Date(recentPodcast.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : undefined}
               contentSummary={recentPodcast.excerpt}
               onClick={() => handlePodcastClick(recentPodcast)}
@@ -285,12 +293,12 @@ const PodcastDetailPage: React.FC = () => {
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={announcements[2].backgroundColor as any}
-              headlineText={announcements[2].title as any}
-              bodyText={announcements[2].message as any}
-              showLink={!!announcements[2].ctaText}
-              linkText={announcements[2].ctaText as any}
-              linkUrl={announcements[2].ctaUrl as any}
+              textureBackground={'backgroundColor' in announcements[2] ? (announcements[2] as Record<string, unknown>).backgroundColor as string : undefined}
+              headlineText={'title' in announcements[2] ? (announcements[2] as Record<string, unknown>).title as string : announcements[2].headlineText}
+              bodyText={'message' in announcements[2] ? (announcements[2] as Record<string, unknown>).message as string : typeof announcements[2].bodyText === 'string' ? announcements[2].bodyText : undefined}
+              showLink={'ctaText' in announcements[2] && !!(announcements[2] as Record<string, unknown>).ctaText}
+              linkText={'ctaText' in announcements[2] ? (announcements[2] as Record<string, unknown>).ctaText as string : undefined}
+              linkUrl={'ctaUrl' in announcements[2] ? (announcements[2] as Record<string, unknown>).ctaUrl as string : undefined}
               buttonCount="none"
             />
           )}

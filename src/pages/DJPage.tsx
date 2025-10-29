@@ -92,12 +92,12 @@ const DJPage: React.FC = () => {
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={announcements[0].backgroundColor as any}
-              headlineText={announcements[0].title as any}
-              bodyText={announcements[0].message as any}
+              textureBackground={('backgroundColor' in announcements[0] ? (announcements[0] as Record<string, unknown>).backgroundColor as string : undefined)}
+              headlineText={('title' in announcements[0] ? (announcements[0] as Record<string, unknown>).title as string : announcements[0].headlineText)}
+              bodyText={('message' in announcements[0] ? (announcements[0] as Record<string, unknown>).message as string : typeof announcements[0].bodyText === 'string' ? announcements[0].bodyText : undefined)}
               showLink={!!announcements[0].ctaText}
-              linkText={announcements[0].ctaText as any}
-              linkUrl={announcements[0].ctaUrl as any}
+              linkText={('ctaText' in announcements[0] ? (announcements[0] as Record<string, unknown>).ctaText as string : undefined)}
+              linkUrl={('ctaUrl' in announcements[0] ? (announcements[0] as Record<string, unknown>).ctaUrl as string : undefined)}
               buttonCount="none"
             />
           )}

@@ -43,7 +43,7 @@ export default function CrToggle({
 
   const handleTrackClick = () => {
     if (!disabled && onChange) {
-      onChange(!checked, { target: { checked: !checked } } as any)
+      onChange(!checked, { target: { checked: !checked } } as React.ChangeEvent<HTMLInputElement>)
     }
   }
 

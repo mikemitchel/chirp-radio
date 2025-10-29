@@ -19,13 +19,14 @@ export default function RecentlyPlayed() {
 
   // Get page header content from CMS with fallbacks
   const pageTitle = pageContent?.pageTitle || 'Recently Played'
-  const actionButtonText = (pageContent as any)?.actionButtonText || 'Complete Playlist'
+  const actionButtonText = (pageContent && 'actionButtonText' in pageContent ? (pageContent as Record<string, unknown>).actionButtonText as string : undefined) || 'Complete Playlist'
   const completePlaylistUrl =
-    (siteSettings as any)?.completePlaylistUrl || 'https://chirpradio.org/playlists'
+    (siteSettings && 'completePlaylistUrl' in siteSettings ? (siteSettings as Record<string, unknown>).completePlaylistUrl as string : undefined) || 'https://chirpradio.org/playlists'
 
   // Get the announcement from CMS (now populated and transformed with depth: 1)
+  const announcementValue = pageContent && 'announcement' in pageContent ? (pageContent as Record<string, unknown>).announcement : undefined
   const selectedAnnouncement =
-    typeof (pageContent as any)?.announcement === 'object' ? (pageContent as any)?.announcement : null
+    typeof announcementValue === 'object' && announcementValue !== null ? announcementValue : null
 
   // Format tracks with hour data for display (take only the 2 most recent hours)
   const playlistItems = useMemo(() => {
@@ -83,7 +84,7 @@ export default function RecentlyPlayed() {
           startTime,
           endTime,
           djName: track.djName || 'Unknown DJ',
-          djProfileUrl: (track as any).djImage,
+          djProfileUrl: ('djImage' in track ? (track as Record<string, unknown>).djImage as string | undefined : undefined),
           showName: track.showName || 'Unknown Show',
         },
         isAdded: isInCollection(track.artistName, track.trackName),
@@ -191,20 +192,20 @@ export default function RecentlyPlayed() {
 
       {selectedAnnouncement && (
         <CrAnnouncement
-          variant={selectedAnnouncement.variant}
-          textureBackground={selectedAnnouncement.textureBackground}
-          headlineText={selectedAnnouncement.headlineText}
-          bodyText={selectedAnnouncement.bodyText}
-          showLink={selectedAnnouncement.showLink}
-          linkText={selectedAnnouncement.linkText}
-          linkUrl={selectedAnnouncement.linkUrl}
-          buttonCount={selectedAnnouncement.buttonCount}
-          button1Text={selectedAnnouncement.button1Text}
-          button1Icon={selectedAnnouncement.button1Icon}
-          button2Text={selectedAnnouncement.button2Text}
-          button2Icon={selectedAnnouncement.button2Icon}
-          currentAmount={selectedAnnouncement.currentAmount}
-          targetAmount={selectedAnnouncement.targetAmount}
+          variant={(selectedAnnouncement as Record<string, unknown>).variant as string}
+          textureBackground={(selectedAnnouncement as Record<string, unknown>).textureBackground as string}
+          headlineText={(selectedAnnouncement as Record<string, unknown>).headlineText as string}
+          bodyText={(selectedAnnouncement as Record<string, unknown>).bodyText as string}
+          showLink={(selectedAnnouncement as Record<string, unknown>).showLink as boolean}
+          linkText={(selectedAnnouncement as Record<string, unknown>).linkText as string}
+          linkUrl={(selectedAnnouncement as Record<string, unknown>).linkUrl as string}
+          buttonCount={(selectedAnnouncement as Record<string, unknown>).buttonCount as string}
+          button1Text={(selectedAnnouncement as Record<string, unknown>).button1Text as string}
+          button1Icon={(selectedAnnouncement as Record<string, unknown>).button1Icon as string}
+          button2Text={(selectedAnnouncement as Record<string, unknown>).button2Text as string}
+          button2Icon={(selectedAnnouncement as Record<string, unknown>).button2Icon as string}
+          currentAmount={(selectedAnnouncement as Record<string, unknown>).currentAmount as number}
+          targetAmount={(selectedAnnouncement as Record<string, unknown>).targetAmount as number}
         />
       )}
 

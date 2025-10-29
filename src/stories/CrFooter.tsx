@@ -21,7 +21,7 @@ const CrFooter = ({
   const currentYear = new Date().getFullYear()
   const { data: siteSettings, loading } = useSiteSettings()
 
-  const handleSocialClick = (platform: any) => {
+  const handleSocialClick = (platform: string) => {
     if (onSocialClick) {
       onSocialClick(platform)
     }
@@ -36,7 +36,7 @@ const CrFooter = ({
         <div className="cr-footer__left">
           <div className="cr-footer__copyright">
             <p>
-              {(siteSettings as any)?.copyrightText?.replace('{year}', currentYear.toString()) ||
+              {siteSettings?.copyrightText?.replace('{year}', currentYear.toString()) ||
                 `©2008–${currentYear} Chicago Independent Radio Project. CHIRP, CHIRP Radio, and Chicago Independent Radio Project are registered trademarks.`}
             </p>
           </div>
@@ -76,7 +76,7 @@ const CrFooter = ({
           </div>
 
           <div className="cr-footer__social">
-            {(siteSettings as any)?.socialLinks?.map((link: any) => (
+            {siteSettings?.socialLinks?.map((link) => (
               <CrSocialIcon
                 key={link.platform}
                 platform={link.platform}
@@ -90,44 +90,44 @@ const CrFooter = ({
 
         {/* Middle section - Event images */}
         <div className="cr-footer__middle">
-          {(siteSettings?.showChirpFilmFestLogo && (
+          {siteSettings?.showChirpFilmFestLogo && (
             <button
               className="cr-footer__event-image cr-footer__event-image--film-fest"
               onClick={() => {
-                if ((siteSettings as any).chirpFilmFestLogoUrl) {
-                  window.open((siteSettings as any).chirpFilmFestLogoUrl as string, '_blank')
+                if (siteSettings.chirpFilmFestLogoUrl) {
+                  window.open(siteSettings.chirpFilmFestLogoUrl, '_blank')
                 }
               }}
               aria-label="CHIRP Film Fest"
             >
               <img
                 src={
-                  String((siteSettings as any).chirpFilmFestLogo?.url ||
+                  String(siteSettings.chirpFilmFestLogo?.url ||
                   '/images/chirp-logos/chirp-film-fest.jpg')
                 }
                 alt="CHIRP Film Fest Logo"
               />
             </button>
-          )) as React.ReactNode}
+          )}
 
-          {(siteSettings?.showFirstTimeLogo && (
+          {siteSettings?.showFirstTimeLogo && (
             <button
               className="cr-footer__event-image cr-footer__event-image--first-time"
               onClick={() => {
-                if ((siteSettings as any).firstTimeLogoUrl) {
-                  window.open((siteSettings as any).firstTimeLogoUrl as string, '_blank')
+                if (siteSettings.firstTimeLogoUrl) {
+                  window.open(siteSettings.firstTimeLogoUrl, '_blank')
                 }
               }}
               aria-label="First Time Listening"
             >
               <img
                 src={
-                  String((siteSettings as any).firstTimeLogo?.url || '/images/chirp-logos/FirstTimeLogo.png')
+                  String(siteSettings.firstTimeLogo?.url || '/images/chirp-logos/FirstTimeLogo.png')
                 }
                 alt="First Time Listening Logo"
               />
             </button>
-          )) as React.ReactNode}
+          )}
         </div>
 
         {/* Right section - Callibrity */}

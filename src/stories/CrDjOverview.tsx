@@ -222,7 +222,7 @@ export default function CrDjOverview({
                 variant="text"
                 color="default"
                 rightIcon={<PiHeadphones />}
-                onClick={() => onDjDetailsClick?.(undefined as any)}
+                onClick={() => onDjDetailsClick?.('')}
               >
                 DJ DETAILS
               </CrButton>

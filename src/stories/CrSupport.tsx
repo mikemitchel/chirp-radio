@@ -23,11 +23,11 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
     }
 
     // If it's a Lexical object, convert to simple HTML
-    if ((siteSettings.supportContent as any).root?.children) {
-      return (siteSettings.supportContent as any).root.children
-        .map((node: any) => {
+    if (typeof siteSettings.supportContent === 'object' && siteSettings.supportContent !== null && 'root' in siteSettings.supportContent) {
+      const root = siteSettings.supportContent.root as { children?: Array<{ type: string; children?: Array<{ text?: string; [key: string]: unknown }>; [key: string]: unknown }> }
+      return root.children?.map((node) => {
           if (node.type === 'paragraph') {
-            const text = node.children?.map((child: any) => child.text || '').join('') || ''
+            const text = node.children?.map((child) => child.text || '').join('') || ''
             return `<p>${text}</p>`
           }
           return ''
@@ -62,69 +62,69 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
       )}
 
       <div className="cr-support__main-logos">
-        {(siteSettings?.showDCaseLogo && (
+        {siteSettings?.showDCaseLogo && (
           <div className="cr-support__logo cr-support__logo--dcase">
             <a
-              href={(siteSettings as any).dCaseLogoUrl || '#'}
+              href={siteSettings.dCaseLogoUrl || '#'}
               target="_blank"
               rel="noopener noreferrer"
             >
               <img
                 className="cr-support__logo-image"
                 src={
-                  String((siteSettings as any).dCaseLogo?.url ||
+                  String(siteSettings.dCaseLogo?.url ||
                   '/images/support-logos/DCASE-HORIZ-COLOR.png')
                 }
                 alt="Chicago Department of Cultural Affairs & Special Events"
               />
             </a>
           </div>
-        )) as React.ReactNode}
+        )}
 
-        {(siteSettings?.showIlArtsCouncilLogo && (
+        {siteSettings?.showIlArtsCouncilLogo && (
           <div className="cr-support__logo cr-support__logo--iac">
             <a
-              href={(siteSettings as any).ilArtsCouncilLogoUrl || '#'}
+              href={siteSettings.ilArtsCouncilLogoUrl || '#'}
               target="_blank"
               rel="noopener noreferrer"
             >
               <img
                 className="cr-support__logo-image"
                 src={
-                  String((siteSettings as any).ilArtsCouncilLogo?.url ||
+                  String(siteSettings.ilArtsCouncilLogo?.url ||
                   '/images/support-logos/Blk and Green IAC Logo.png')
                 }
                 alt="Illinois Arts Council"
               />
             </a>
           </div>
-        )) as React.ReactNode}
+        )}
       </div>
 
       {/* Additional logos from Site Settings */}
-      {(siteSettings as any)?.additionalLogos && (siteSettings as any).additionalLogos.length > 0 && (
+      {siteSettings?.additionalLogos && siteSettings.additionalLogos.length > 0 && (
         <div className="cr-support__additional-section">
           <div className="cr-support__additional-text">
             <p>Additional funding for CHIRP provided by...</p>
           </div>
 
           <div className="cr-support__additional-logos">
-            {(siteSettings as any).additionalLogos
-              .filter((logoItem: any) => logoItem.logo?.url) // Only show logos that have an image
+            {siteSettings.additionalLogos
+              .filter((logoItem) => logoItem.logo?.url) // Only show logos that have an image
               .slice(0, 3)
-              .map((logoItem: any, index: number) => (
+              .map((logoItem, index) => (
                 <div key={logoItem.id || index} className="cr-support__additional-logo">
                   {logoItem.logoUrl ? (
                     <a href={logoItem.logoUrl} target="_blank" rel="noopener noreferrer">
                       <img
-                        src={logoItem.logo.url}
+                        src={logoItem.logo?.url}
                         alt={logoItem.alt || `Additional supporter ${index + 1}`}
                         className="cr-support__additional-logo-image"
                       />
                     </a>
                   ) : (
                     <img
-                      src={logoItem.logo.url}
+                      src={logoItem.logo?.url}
                       alt={logoItem.alt || `Additional supporter ${index + 1}`}
                       className="cr-support__additional-logo-image"
                     />
@@ -136,7 +136,7 @@ const CrSupport = ({ showAdditionalLogos, additionalLogos }: CrSupportProps) => 
       )}
 
       {/* Legacy prop-based additional logos (fallback) */}
-      {showAdditionalLogos && logos.length > 0 && !(siteSettings as any)?.additionalLogos && (
+      {showAdditionalLogos && logos.length > 0 && !siteSettings?.additionalLogos && (
         <div className="cr-support__additional-section">
           <div className="cr-support__additional-text">
             <p>Additional funding for CHIRP provided by...</p>

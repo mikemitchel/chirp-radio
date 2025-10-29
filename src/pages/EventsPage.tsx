@@ -62,7 +62,7 @@ const EventsPage: React.FC = () => {
   const startIndex = currentPage * ITEMS_PER_PAGE
   const events = allEvents?.slice(startIndex, startIndex + ITEMS_PER_PAGE)
 
-  const handleEventClick = (event: any) => {
+  const handleEventClick = (event: Event) => {
     navigate(`/events/${event.slug}`)
   }
 
@@ -79,7 +79,9 @@ const EventsPage: React.FC = () => {
   const sidebarAnnouncementId =
     typeof siteSettings?.eventsSidebarAnnouncement === 'string'
       ? siteSettings.eventsSidebarAnnouncement
-      : (siteSettings?.eventsSidebarAnnouncement as any)?.id
+      : typeof siteSettings?.eventsSidebarAnnouncement === 'object' && siteSettings.eventsSidebarAnnouncement && 'id' in siteSettings.eventsSidebarAnnouncement
+      ? siteSettings.eventsSidebarAnnouncement.id
+      : undefined
 
   const sidebarAnnouncement = sidebarAnnouncementId
     ? announcements?.find((a) => String(a.id) === String(sidebarAnnouncementId))
@@ -91,7 +93,9 @@ const EventsPage: React.FC = () => {
   const fullWidthAnnouncementId =
     typeof siteSettings?.eventsFullWidthAnnouncement === 'string'
       ? siteSettings.eventsFullWidthAnnouncement
-      : (siteSettings?.eventsFullWidthAnnouncement as any)?.id
+      : typeof siteSettings?.eventsFullWidthAnnouncement === 'object' && siteSettings.eventsFullWidthAnnouncement && 'id' in siteSettings.eventsFullWidthAnnouncement
+      ? siteSettings.eventsFullWidthAnnouncement.id
+      : undefined
 
   const fullWidthAnnouncement = fullWidthAnnouncementId
     ? announcements?.find((a) => String(a.id) === String(fullWidthAnnouncementId))
@@ -150,20 +154,20 @@ const EventsPage: React.FC = () => {
               targetAmount={sidebarAnnouncement.targetAmount}
             />
           )}
-          {(sidebarAdvertisement && (
+          {(sidebarAdvertisement && typeof sidebarAdvertisement === 'object' && (
             <CrAdSpace
-                size={(sidebarAdvertisement as any).size || 'large-rectangle'}
-                customWidth={(sidebarAdvertisement as any).customWidth}
-                customHeight={(sidebarAdvertisement as any).customHeight}
-                contentType={(sidebarAdvertisement as any).contentType}
-                src={(sidebarAdvertisement as any).imageUrl || (sidebarAdvertisement as any).image?.url}
-                alt={(sidebarAdvertisement as any).alt}
-                htmlContent={(sidebarAdvertisement as any).htmlContent as string}
-                videoSrc={(sidebarAdvertisement as any).videoUrl || (sidebarAdvertisement as any).video?.url}
-                embedCode={(sidebarAdvertisement as any).embedCode}
-                href={(sidebarAdvertisement as any).href}
-                target={(sidebarAdvertisement as any).target}
-                showLabel={(sidebarAdvertisement as any).showLabel}
+                size={'size' in sidebarAdvertisement ? sidebarAdvertisement.size as string : 'large-rectangle'}
+                customWidth={'customWidth' in sidebarAdvertisement ? sidebarAdvertisement.customWidth as number : undefined}
+                customHeight={'customHeight' in sidebarAdvertisement ? sidebarAdvertisement.customHeight as number : undefined}
+                contentType={'contentType' in sidebarAdvertisement ? sidebarAdvertisement.contentType as string : undefined}
+                src={'imageUrl' in sidebarAdvertisement ? sidebarAdvertisement.imageUrl as string : 'image' in sidebarAdvertisement && typeof sidebarAdvertisement.image === 'object' && sidebarAdvertisement.image && 'url' in sidebarAdvertisement.image ? sidebarAdvertisement.image.url as string : undefined}
+                alt={'alt' in sidebarAdvertisement ? sidebarAdvertisement.alt as string : undefined}
+                htmlContent={'htmlContent' in sidebarAdvertisement ? sidebarAdvertisement.htmlContent as string : undefined}
+                videoSrc={'videoUrl' in sidebarAdvertisement ? sidebarAdvertisement.videoUrl as string : 'video' in sidebarAdvertisement && typeof sidebarAdvertisement.video === 'object' && sidebarAdvertisement.video && 'url' in sidebarAdvertisement.video ? sidebarAdvertisement.video.url as string : undefined}
+                embedCode={'embedCode' in sidebarAdvertisement ? sidebarAdvertisement.embedCode as string : undefined}
+                href={'href' in sidebarAdvertisement ? sidebarAdvertisement.href as string : undefined}
+                target={'target' in sidebarAdvertisement ? sidebarAdvertisement.target as string : undefined}
+                showLabel={'showLabel' in sidebarAdvertisement ? sidebarAdvertisement.showLabel as boolean : undefined}
               />
           )) as React.ReactNode}
         </div>

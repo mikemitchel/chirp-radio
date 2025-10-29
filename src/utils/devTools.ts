@@ -122,16 +122,22 @@ Example usage:
     const intervalId = window.setInterval(cycle, 5000) as unknown as number
 
     // Store interval ID for stopping
-    ;(window as any).__apiSimulationInterval = intervalId
+    interface WindowWithDevTools extends Window {
+      __apiSimulationInterval?: number;
+    }
+    (window as WindowWithDevTools).__apiSimulationInterval = intervalId
 
     return intervalId
   },
 
   stopAPIStream: () => {
-    const intervalId = (window as any).__apiSimulationInterval
+    interface WindowWithDevTools extends Window {
+      __apiSimulationInterval?: number;
+    }
+    const intervalId = (window as WindowWithDevTools).__apiSimulationInterval
     if (intervalId) {
       clearInterval(intervalId)
-      delete (window as any).__apiSimulationInterval
+      delete (window as WindowWithDevTools).__apiSimulationInterval
 
       // Disable simulation mode
       sessionStorage.removeItem('chirp-simulation-mode')
@@ -189,13 +195,23 @@ Image Testing:
 
 // Attach to window in development mode
 if (process.env.NODE_ENV === 'development') {
-  ;(window as any).switchProfile = devTools.switchProfile
-  ;(window as any).logout = devTools.logout
-  ;(window as any).showProfiles = devTools.showProfiles
-  ;(window as any).simulateAPIStream = devTools.simulateAPIStream
-  ;(window as any).stopAPIStream = devTools.stopAPIStream
-  ;(window as any).testImageLoad = devTools.testImageLoad
-  ;(window as any).showHelp = devTools.showHelp
+  interface WindowWithDevTools extends Window {
+    switchProfile: typeof devTools.switchProfile;
+    logout: typeof devTools.logout;
+    showProfiles: typeof devTools.showProfiles;
+    simulateAPIStream: typeof devTools.simulateAPIStream;
+    stopAPIStream: typeof devTools.stopAPIStream;
+    testImageLoad: typeof devTools.testImageLoad;
+    showHelp: typeof devTools.showHelp;
+  }
+  const w = window as unknown as WindowWithDevTools
+  w.switchProfile = devTools.switchProfile
+  w.logout = devTools.logout
+  w.showProfiles = devTools.showProfiles
+  w.simulateAPIStream = devTools.simulateAPIStream
+  w.stopAPIStream = devTools.stopAPIStream
+  w.testImageLoad = devTools.testImageLoad
+  w.showHelp = devTools.showHelp
 
   console.log('🛠️  DevTools loaded! Type showHelp() for commands')
 }

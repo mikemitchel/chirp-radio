@@ -517,7 +517,7 @@ export default function CrCard({
                       <div style={{ display: 'flex', gap: 'var(--cr-space-2)', flexWrap: 'wrap' }}>
                         {tags.map((tag, index) => (
                           <CrChip key={index} variant="secondary" size="medium">
-                            {typeof tag === 'string' ? tag : (tag as any).tag}
+                            {typeof tag === 'string' ? tag : (tag as { tag: string }).tag}
                           </CrChip>
                         ))}
                       </div>

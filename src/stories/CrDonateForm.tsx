@@ -7,6 +7,15 @@ import CrButton from './CrButton'
 import { PiArrowRight, PiCaretRight, PiVinylRecord } from 'react-icons/pi'
 import './CrDonateForm.css'
 
+interface DonationFormData {
+  frequency: string
+  amount: number
+  isDedicated: boolean
+  dedicationName: string
+  employerName: string
+  variant: string
+}
+
 interface CrDonateFormProps {
   variant?: string
   title?: string
@@ -19,7 +28,7 @@ interface CrDonateFormProps {
   vinylCircleDescription?: string
   vinylCircleButtonText?: string
   showDedicationOption?: boolean
-  onSubmit?: (formData: any) => void
+  onSubmit?: (formData: DonationFormData) => void
   onCompanyMatchingClick?: (employerName: string) => void
   onVinylCircleClick?: () => void
   onSwitchToDefault?: () => void
@@ -45,7 +54,7 @@ export default function CrDonateForm({
   className = '',
 }: CrDonateFormProps) {
   const [selectedFrequency, setSelectedFrequency] = useState('one-time')
-  const [selectedAmount, setSelectedAmount] = useState(null)
+  const [selectedAmount, setSelectedAmount] = useState<number | string | null>(null)
   const [customAmount, setCustomAmount] = useState('')
   const [isDedicated, setIsDedicated] = useState(false)
   const [dedicationName, setDedicationName] = useState('')
@@ -93,14 +102,14 @@ export default function CrDonateForm({
     return hasAmount && (selectedAmount !== 'other' || hasCustomAmount)
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!isFormValid()) return
 
-    const formData = {
+    const formData: DonationFormData = {
       frequency: selectedFrequency,
-      amount: selectedAmount === 'other' ? parseFloat(customAmount) : selectedAmount,
+      amount: selectedAmount === 'other' ? parseFloat(customAmount) : (selectedAmount ?? 0) as number,
       isDedicated,
       dedicationName: isDedicated ? dedicationName : '',
       employerName,
@@ -152,7 +161,7 @@ export default function CrDonateForm({
         <div className="cr-donate-form__section">
           <CrDonateAmount
             selectedAmount={selectedAmount}
-            onAmountChange={(amount: number | string) => setSelectedAmount(amount as any)}
+            onAmountChange={(amount: number | string) => setSelectedAmount(amount)}
             customAmount={customAmount}
             onCustomAmountChange={setCustomAmount}
             amounts={(isVinylCircle ? content.amounts.map((item) => typeof item === 'object' && 'amount' in item ? item.amount : item) : content.amounts) as number[]}
