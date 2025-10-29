@@ -356,7 +356,7 @@ export default function CrSidebar({
               </div>
 
               <button
-                className={`cr-sidebar__nav-subtitle ${location?.pathname === '/donate' || location?.pathname === '/vinyl-circle' || location?.pathname === '/car-donation' || location?.pathname === '/other-ways-to-give' ? 'cr-sidebar__nav-subtitle--active' : ''}`}
+                className={`cr-sidebar__nav-subtitle ${location?.pathname === '/donate' || location?.pathname === '/car-donation' || location?.pathname === '/other-ways-to-give' ? 'cr-sidebar__nav-subtitle--active' : ''}`}
                 onClick={onWaysToGiveClick}
               >
                 Other Ways to Give
