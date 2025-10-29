@@ -189,7 +189,7 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
         streamUrl="https://peridot.streamguys1.com:5185/live"
       >
         <CrAppHeader
-          autoFetch={false}
+          autoFetch={true}
           djName={currentShow?.djName}
           showName={currentShow?.showName}
           onMenuClick={handleMenuClick}
