@@ -88,7 +88,7 @@ export default function CrMainNav({
     setShowWaysToGive(false)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   // const handleNavClick = (path: string, callback?: () => void) => {
   //   if (navigate) {
   //     navigate(path)

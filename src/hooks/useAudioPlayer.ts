@@ -64,7 +64,7 @@ export function useAudioPlayer(options: AudioPlayerOptions): AudioPlayer {
       audio.removeEventListener('ended', handleEnded)
       audioRef.current = null
     }
-  }, [src])
+  }, [src, autoPlay, isLooping, vol, onEnd])
 
   const play = useCallback(() => {
     if (audioRef.current) {
