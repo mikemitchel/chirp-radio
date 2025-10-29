@@ -34,19 +34,20 @@ async function initializeNativePlayer(streamUrl: string): Promise<void> {
   nativePlayerInitializing = true
   log.log('Initializing native player with URL:', streamUrl)
 
-  initializationPromise = new Promise<void>(async (resolve, reject) => {
-    try {
-      await NativeAudioPlayer.setStreamUrl({ url: streamUrl })
-      log.log('Native player initialized successfully')
-      nativePlayerInitialized = true
-      nativePlayerInitializing = false
-      resolve()
-    } catch (error) {
-      log.error('Failed to initialize native player:', error)
-      nativePlayerInitializing = false
-      // Don't mark as initialized on error, allow retry
-      reject(error)
-    }
+  initializationPromise = new Promise<void>((resolve, reject) => {
+    NativeAudioPlayer.setStreamUrl({ url: streamUrl })
+      .then(() => {
+        log.log('Native player initialized successfully')
+        nativePlayerInitialized = true
+        nativePlayerInitializing = false
+        resolve()
+      })
+      .catch((error) => {
+        log.error('Failed to initialize native player:', error)
+        nativePlayerInitializing = false
+        // Don't mark as initialized on error, allow retry
+        reject(error)
+      })
   })
 
   return initializationPromise
@@ -102,19 +103,23 @@ export function AudioPlaybackProvider({
 
     if (isIOS) {
       // Note: Using addEventListener pattern instead of addListener
-      // @ts-ignore - Native plugin may not have proper types
+      // @ts-expect-error - Native plugin may not have proper types
       NativeAudioPlayer.addEventListener?.('playbackStateChanged', handlePlaybackStateChange)
 
       return () => {
-        // @ts-ignore
+        // @ts-expect-error - Native plugin may not have proper types
         NativeAudioPlayer.removeEventListener?.('playbackStateChanged', handlePlaybackStateChange)
       }
     } else if (isAndroid) {
       // Listen for Android Auto / media session playback state changes
-      const listener = NativeAudioBridge.addListener('playbackStateChanged', handlePlaybackStateChange)
+      let listenerCleanup: (() => void) | undefined
+
+      NativeAudioBridge.addListener('playbackStateChanged', handlePlaybackStateChange).then((listener) => {
+        listenerCleanup = () => listener.remove()
+      })
 
       return () => {
-        listener?.remove()
+        listenerCleanup?.()
       }
     }
   }, [])
