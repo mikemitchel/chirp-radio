@@ -44,7 +44,6 @@ export default function CrTopBanner({
   onVolunteerDropdown,
   onProfileClick,
   onFavoritesClick,
-  onPurchasesClick,
   onSignOutClick,
   onVolunteerDirectoryClick,
   onLeadershipDirectoryClick,
@@ -138,7 +137,6 @@ export default function CrTopBanner({
             onVolunteerDropdown={onVolunteerDropdown}
             onProfileClick={onProfileClick}
             onFavoritesClick={onFavoritesClick}
-            onPurchasesClick={onPurchasesClick}
             onSignOutClick={onSignOutClick}
             onVolunteerDirectoryClick={onVolunteerDirectoryClick}
             onLeadershipDirectoryClick={onLeadershipDirectoryClick}

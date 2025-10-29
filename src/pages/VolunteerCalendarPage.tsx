@@ -110,11 +110,14 @@ const VolunteerCalendarPage: React.FC = () => {
           <div className="page-layout-main-sidebar__sidebar">
             {selectedAnnouncement && (
               <CrAnnouncement
-                title={(selectedAnnouncement as any).title}
-                description={(selectedAnnouncement as any).description}
-                actionText={(selectedAnnouncement as any).actionText}
-                actionUrl={(selectedAnnouncement as any).actionUrl}
-                icon={(selectedAnnouncement as any).icon}
+                variant="motivation"
+                widthVariant="third"
+                headlineText={(selectedAnnouncement as any).title}
+                bodyText={(selectedAnnouncement as any).description}
+                showLink={!!(selectedAnnouncement as any).actionText}
+                linkText={(selectedAnnouncement as any).actionText}
+                linkUrl={(selectedAnnouncement as any).actionUrl}
+                buttonCount="none"
               />
             )}
 

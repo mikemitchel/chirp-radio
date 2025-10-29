@@ -102,7 +102,7 @@ const VinylCirclePage: React.FC = () => {
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
           {/* Donation Form with CMS content */}
-          <CrDonateForm variant="vinylCircle" {...donateFormProps} onSwitchToDefault={handleSwitchToDefault} />
+          <CrDonateForm variant="vinylCircle" {...{...donateFormProps, title: donateFormProps.title as string}} onSwitchToDefault={handleSwitchToDefault} />
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">

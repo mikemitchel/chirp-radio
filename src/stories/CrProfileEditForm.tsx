@@ -479,7 +479,7 @@ export default function CrProfileEditForm({
                   }}
                   onBlur={() => handleBlur('zipCode')}
                   placeholder="60614"
-                  maxLength="5"
+                  maxLength={5}
                   className={errors.zipCode ? 'form-input--error' : ''}
                   required={isVolunteer}
                 />

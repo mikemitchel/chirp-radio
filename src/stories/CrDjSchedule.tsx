@@ -82,7 +82,7 @@ export default function CrDjSchedule({
       return djMatch || titleMatch
     })
 
-    setSearchResults(results)
+    setSearchResults(results as any)
   }
 
   // Navigate to show from search

@@ -1,9 +1,8 @@
 // src/pages/Player.tsx
 import WebLayout from '../layouts/WebLayout'
-import MobileLayout from '../layouts/MobileLayout'
-import DesktopLayout from '../layouts/DesktopLayout'
+import MobileApp from '../layouts/MobileApp'
 import { useEffect, useState } from 'react'
-import AudioPlayerUI from '../components/AudioControls'
+import { AudioPlayerUI } from '../components/UseAudioPlayerUI'
 
 export default function PlayerPage() {
   const [isMobile, setIsMobile] = useState(false)
@@ -17,14 +16,14 @@ export default function PlayerPage() {
     return () => window.removeEventListener('resize', update)
   }, [])
 
-  const Layout = isMobile ? MobileLayout : DesktopLayout
+  const Layout = isMobile ? MobileApp : WebLayout
 
   return (
-    <WebLayout>
-      <Layout>
+    <Layout>
+      <div>
         <h1 className="text-xl font-bold mb-4">Now Playing</h1>
         <AudioPlayerUI />
-      </Layout>
-    </WebLayout>
+      </div>
+    </Layout>
   )
 }

@@ -120,7 +120,6 @@ export default function SitemapPage() {
                       size="small"
                       color="default"
                       onClick={() => handleLinkClick(link.path)}
-                      style={{ width: '100%', justifyContent: 'flex-start' }}
                     >
                       {link.label}
                     </CrButton>
