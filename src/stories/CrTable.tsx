@@ -92,16 +92,16 @@ export default function CrTable({
   const [sortDirection, setSortDirection] = useState(initialSortDirection)
 
   // Handle sort click
-  const handleSort = (columnKey) => {
+  const handleSort = (columnKey: any) => {
     if (!sortable || !columns.find((col) => col.key === columnKey)?.sortable) return
 
-    let newDirection = 'asc'
+    let newDirection: any = 'asc'
     if (sortColumn === columnKey && sortDirection === 'asc') {
       newDirection = 'desc'
     }
 
     setSortColumn(columnKey)
-    setSortDirection(newDirection)
+    setSortDirection(newDirection as any)
 
     // If onSort callback is provided, use it, otherwise sort data locally
     if (onSort) {
@@ -147,7 +147,7 @@ export default function CrTable({
   }, [data, sortColumn, sortDirection, sortable, onSort])
 
   // Get sort icon for column
-  const getSortIcon = (columnKey) => {
+  const getSortIcon = (columnKey: any) => {
     if (!sortable || !columns.find((col) => col.key === columnKey)?.sortable) {
       return null
     }
@@ -168,7 +168,7 @@ export default function CrTable({
   }
 
   // Render cell content
-  const renderCellContent = (row, column) => {
+  const renderCellContent = (row: any, column: any) => {
     if (column.render) {
       return column.render(row[column.key], row, column)
     }

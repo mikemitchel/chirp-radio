@@ -71,7 +71,7 @@ export default function CrStoreItem({
   const currentSize = selectedSize !== undefined ? selectedSize : internalSize
   const currentQuantity = onQuantityChange ? quantity : internalQuantity
 
-  const handleSizeChange = (newSize) => {
+  const handleSizeChange = (newSize: any) => {
     if (onSizeChange) {
       onSizeChange(newSize)
     } else {
@@ -79,7 +79,7 @@ export default function CrStoreItem({
     }
   }
 
-  const handleQuantityChange = (newQuantity) => {
+  const handleQuantityChange = (newQuantity: any) => {
     if (onQuantityChange) {
       onQuantityChange(newQuantity)
     } else {

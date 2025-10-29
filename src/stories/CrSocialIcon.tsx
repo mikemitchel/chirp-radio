@@ -60,7 +60,7 @@ export default function CrSocialIcon({
 
   const componentClasses = ['cr-social-icon', className].filter(Boolean).join(' ')
 
-  const handleClick = (e) => {
+  const handleClick = (e: any) => {
     if (onClick) {
       e.preventDefault()
       onClick(platform, url)

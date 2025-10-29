@@ -155,8 +155,8 @@ export default function CrDjSchedule({
 
     if (Array.isArray(shows)) {
       shows.forEach((show) => {
-        if (show && show.timeOfDay && columns[show.timeOfDay]) {
-          columns[show.timeOfDay].push(show)
+        if (show && show.timeOfDay && (columns as any)[show.timeOfDay]) {
+          (columns as any)[show.timeOfDay].push(show)
         }
       })
     }

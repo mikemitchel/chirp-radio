@@ -53,11 +53,6 @@ const LandingPage: React.FC = () => {
     typeof siteSettings?.sidebarAnnouncement === 'string'
       ? siteSettings.sidebarAnnouncement
       : (siteSettings?.sidebarAnnouncement as any)?.id
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const sidebarAdvertisementId =
-    typeof siteSettings?.sidebarAdvertisement === 'string'
-      ? siteSettings.sidebarAdvertisement
-      : (siteSettings?.sidebarAdvertisement as any)?.id
 
   // Get announcements by ID or fallback to first active
   const displayTopAnnouncement =
@@ -149,8 +144,7 @@ const LandingPage: React.FC = () => {
             <CrCurrentDjCard
               djName={currentShow.djName}
               showName={currentShow.showName}
-              startTime={currentShow.startTime}
-              endTime={currentShow.endTime}
+              statusText={`${currentShow.startTime} — ${currentShow.endTime}`}
               djImage={currentShow.djImage}
               description={currentShow.description}
               onRequestClick={() => navigate('/request-song')}
@@ -227,8 +221,8 @@ const LandingPage: React.FC = () => {
               textLayout="stacked"
               bannerHeight="tall"
               imageAspectRatio="16:9"
-              backgroundImage={event.featuredImage}
-              preheader={typeof event.category === 'string' ? event.category : event.category?.name}
+              backgroundImage={event.featuredImage as any}
+              preheader={typeof event.category === 'string' ? event.category : (event.category as any)?.name}
               title={event.title}
               dateTime={new Date(event.date).toLocaleString('en-US', {
                 month: 'short',
@@ -237,11 +231,11 @@ const LandingPage: React.FC = () => {
                 hour: 'numeric',
                 minute: '2-digit',
               })}
-              venue={typeof event.venue === 'string' ? event.venue : event.venue?.name}
+              venue={typeof event.venue === 'string' ? event.venue : (event.venue as any)?.name}
               ageRestriction={
                 typeof event.ageRestriction === 'string'
                   ? event.ageRestriction
-                  : event.ageRestriction?.age
+                  : (event.ageRestriction as any)?.age
               }
               contentSummary={event.excerpt}
               onClick={() => navigate(`/events/${event.slug}`)}
@@ -267,9 +261,9 @@ const LandingPage: React.FC = () => {
               bannerHeight="tall"
               imageAspectRatio="16:9"
               bannerBackgroundColor="none"
-              backgroundImage={article.featuredImage}
+              backgroundImage={article.featuredImage as any}
               preheader={
-                typeof article.category === 'string' ? article.category : article.category?.name
+                typeof article.category === 'string' ? article.category : (article.category as any)?.name
               }
               title={article.title}
               contentSummary={article.excerpt}

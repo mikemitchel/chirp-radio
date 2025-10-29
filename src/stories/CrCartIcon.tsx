@@ -18,7 +18,7 @@ export default function CrCartIcon({
   className = '',
   ariaLabel,
 }: CrCartIconProps) {
-  const handleClick = (e) => {
+  const handleClick = (e: any) => {
     if (onClick) {
       onClick(e)
     }

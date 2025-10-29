@@ -21,7 +21,7 @@ const CrFooter = ({
   const currentYear = new Date().getFullYear()
   const { data: siteSettings, loading } = useSiteSettings()
 
-  const handleSocialClick = (platform) => {
+  const handleSocialClick = (platform: any) => {
     if (onSocialClick) {
       onSocialClick(platform)
     }
@@ -76,7 +76,7 @@ const CrFooter = ({
           </div>
 
           <div className="cr-footer__social">
-            {siteSettings?.socialLinks?.map((link) => (
+            {siteSettings?.socialLinks?.map((link: any) => (
               <CrSocialIcon
                 key={link.platform}
                 platform={link.platform}

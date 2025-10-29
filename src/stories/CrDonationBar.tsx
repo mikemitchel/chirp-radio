@@ -25,7 +25,7 @@ export default function CrDonationBar({
   const percentage = Math.min((currentAmount / targetAmount) * 100, 100)
 
   // Format currency
-  const formatCurrency = (amount) => {
+  const formatCurrency = (amount: any) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',

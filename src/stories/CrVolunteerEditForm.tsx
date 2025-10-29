@@ -17,7 +17,7 @@ export default function CrVolunteerEditForm({
   onSave,
   onCancel,
 }: CrVolunteerEditFormProps) {
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: any, value: any) => {
     if (onChange) {
       onChange(field, value)
     }
@@ -79,7 +79,7 @@ export default function CrVolunteerEditForm({
               gap: 'var(--cr-space-4)',
             }}
           >
-            {(formData.volunteerOrgs || ['']).map((org, index) => (
+            {(formData.volunteerOrgs || ['']).map((org: any, index: any) => (
               <div key={index}>
                 <input
                   type="text"
@@ -98,7 +98,7 @@ export default function CrVolunteerEditForm({
                 size="small"
                 variant="outline"
                 color="default"
-                onClick={(e) => {
+                onClick={(e: any) => {
                   e.preventDefault()
                   e.stopPropagation()
                   const currentOrgs = formData.volunteerOrgs || ['']
@@ -177,7 +177,7 @@ export default function CrVolunteerEditForm({
                     const currentSkills = formData.specialSkills || []
                     const newSkills = e.target.checked
                       ? [...currentSkills, skill]
-                      : currentSkills.filter((s) => s !== skill)
+                      : currentSkills.filter((s: any) => s !== skill)
                     handleInputChange('specialSkills', newSkills)
                   }}
                 />
@@ -201,7 +201,7 @@ export default function CrVolunteerEditForm({
                       const currentSources = formData.hearAboutChirp || []
                       const newSources = e.target.checked
                         ? [...currentSources, source]
-                        : currentSources.filter((s) => s !== source)
+                        : currentSources.filter((s: any) => s !== source)
                       handleInputChange('hearAboutChirp', newSources)
                     }}
                   />
@@ -235,7 +235,7 @@ export default function CrVolunteerEditForm({
                     const currentInterests = formData.interests || []
                     const newInterests = e.target.checked
                       ? [...currentInterests, interest]
-                      : currentInterests.filter((i) => i !== interest)
+                      : currentInterests.filter((i: any) => i !== interest)
                     handleInputChange('interests', newInterests)
                   }}
                 />
@@ -292,7 +292,7 @@ export default function CrVolunteerEditForm({
                     const currentAvail = formData.djAvailability || []
                     const newAvail = e.target.checked
                       ? [...currentAvail, timeSlot]
-                      : currentAvail.filter((a) => a !== timeSlot)
+                      : currentAvail.filter((a: any) => a !== timeSlot)
                     handleInputChange('djAvailability', newAvail)
                   }}
                 />

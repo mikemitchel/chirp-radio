@@ -144,7 +144,6 @@ const DJDetailPage: React.FC = () => {
             type="dj"
             imagePosition="left"
             imageSize="large"
-            imageSrc={dj.fullProfileImage || dj.imageSrc}
             backgroundImage={dj.fullProfileImage || dj.imageSrc}
             articleImageAspectRatio={imageAspectRatio}
             captionPosition="none"
@@ -181,12 +180,12 @@ const DJDetailPage: React.FC = () => {
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={announcements[0].backgroundColor}
-              headlineText={announcements[0].title}
-              bodyText={announcements[0].message}
+              textureBackground={announcements[0].backgroundColor as any}
+              headlineText={announcements[0].title as any}
+              bodyText={announcements[0].message as any}
               showLink={!!announcements[0].ctaText}
-              linkText={announcements[0].ctaText}
-              linkUrl={announcements[0].ctaUrl}
+              linkText={announcements[0].ctaText as any}
+              linkUrl={announcements[0].ctaUrl as any}
               buttonCount="none"
             />
           )}

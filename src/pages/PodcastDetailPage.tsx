@@ -70,13 +70,13 @@ const PodcastDetailPage: React.FC = () => {
             articleImageAspectRatio="16:9"
             captionPosition="bottom"
             backgroundImage={podcast.coverArt}
-            preheader={typeof podcast.category === 'string' ? podcast.category : podcast.category?.name}
+            preheader={typeof podcast.category === 'string' ? podcast.category : (podcast.category as any)?.name}
             title={podcast.title}
             authorBy={`Produced by ${podcast.host}`}
             eventDate={podcast.createdAt ? `Published on ${new Date(podcast.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : undefined}
-            tags={podcast.tags}
-            excerpt={podcast.excerpt}
-            content={podcast.content}
+            tags={podcast.tags as any}
+            excerpt={podcast.excerpt as any}
+            content={podcast.content as any}
             showTicketButton={false}
             showShareButton={true}
             shareUrl={`${window.location.origin}${window.location.pathname}#/podcasts/${podcast.slug}`}
@@ -194,12 +194,13 @@ const PodcastDetailPage: React.FC = () => {
                   Listen to the Episode
                 </h2>
                 <CrButton
-                  label="Listen on SoundCloud"
                   size="small"
                   variant="outline"
                   color="default"
-                  onClick={() => window.open(podcast.soundCloudEmbedUrl?.includes('soundcloud.com') ? podcast.soundCloudEmbedUrl.match(/url=([^&]+)/)?.[1] ? decodeURIComponent(podcast.soundCloudEmbedUrl.match(/url=([^&]+)/)[1]) : 'https://soundcloud.com/chirpradio' : 'https://soundcloud.com/chirpradio', '_blank')}
-                />
+                  onClick={() => window.open((podcast.soundCloudEmbedUrl as any)?.includes('soundcloud.com') ? (podcast.soundCloudEmbedUrl as any).match(/url=([^&]+)/)?.[1] ? decodeURIComponent((podcast.soundCloudEmbedUrl as any).match(/url=([^&]+)/)[1]) : 'https://soundcloud.com/chirpradio' : 'https://soundcloud.com/chirpradio', '_blank')}
+                >
+                  Listen on SoundCloud
+                </CrButton>
               </div>
               <iframe
                 width="100%"
@@ -207,7 +208,7 @@ const PodcastDetailPage: React.FC = () => {
                 scrolling="no"
                 frameBorder="no"
                 allow="autoplay"
-                src={`${podcast.soundCloudEmbedUrl.replace('color=ff5500', 'color=ea1c2c')}&theme_color=18181b&visual=false&show_artwork=true&buying=false&liking=false&download=false&sharing=false&show_comments=false&show_playcount=false`}
+                src={`${(podcast.soundCloudEmbedUrl as any).replace('color=ff5500', 'color=ea1c2c')}&theme_color=18181b&visual=false&show_artwork=true&buying=false&liking=false&download=false&sharing=false&show_comments=false&show_playcount=false`}
                 title={`${podcast.title} SoundCloud Player`}
                 style={{
                   borderRadius: 'var(--cr-space-1)',
@@ -260,7 +261,7 @@ const PodcastDetailPage: React.FC = () => {
             showActionButton={true}
             actionButtonText="View All Podcasts"
             actionButtonSize="small"
-            onActionButtonClick={() => navigate('/podcasts')}
+            onActionClick={() => navigate('/podcasts')}
           />
           {recentPodcasts.map((recentPodcast) => (
             <CrCard
@@ -272,7 +273,7 @@ const PodcastDetailPage: React.FC = () => {
               titleTag="h3"
               titleSize="sm"
               backgroundImage={recentPodcast.coverArt}
-              preheader={typeof recentPodcast.category === 'string' ? recentPodcast.category : recentPodcast.category?.name}
+              preheader={typeof recentPodcast.category === 'string' ? recentPodcast.category : (recentPodcast.category as any)?.name}
               title={recentPodcast.title}
               authorBy={`by ${recentPodcast.host}`}
               eventDate={recentPodcast.createdAt ? new Date(recentPodcast.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : undefined}
@@ -284,12 +285,12 @@ const PodcastDetailPage: React.FC = () => {
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={announcements[2].backgroundColor}
-              headlineText={announcements[2].title}
-              bodyText={announcements[2].message}
+              textureBackground={announcements[2].backgroundColor as any}
+              headlineText={announcements[2].title as any}
+              bodyText={announcements[2].message as any}
               showLink={!!announcements[2].ctaText}
-              linkText={announcements[2].ctaText}
-              linkUrl={announcements[2].ctaUrl}
+              linkText={announcements[2].ctaText as any}
+              linkUrl={announcements[2].ctaUrl as any}
               buttonCount="none"
             />
           )}
