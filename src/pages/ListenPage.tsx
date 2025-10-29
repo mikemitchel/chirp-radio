@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router'
 import { PiVinylRecord, PiPlaylist } from 'react-icons/pi'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrPlaylistTable from '../stories/CrPlaylistTable'
-import CrPlaylistItem from '../stories/CrPlaylistItem'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrList from '../stories/CrList'
 import CrAdSpace from '../stories/CrAdSpace'
@@ -115,7 +114,7 @@ const ListenPage: React.FC = () => {
   }, [])
 
   // Handle removing tracks from collection
-  const handleItemRemove = (item: any, index: number) => {
+  const handleItemRemove = (item: any, _index: number) => {
     showModal({
       title: 'Remove from Collection',
       message: `Are you sure you want to remove ${item.trackName} by ${item.artistName} from your collection?`,
@@ -151,33 +150,11 @@ const ListenPage: React.FC = () => {
     })}`,
   }))
 
-  // Helper to format week date
-  const getWeekOfDate = (weekOf?: string) => {
-    if (weekOf) {
-      return new Date(weekOf).toLocaleDateString('en-US', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-      })
-    }
-    return new Date(
-      new Date().setDate(new Date().getDate() - new Date().getDay())
-    ).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    })
-  }
-
   // Get sidebar content from Site Settings
   const sidebarAnnouncementId =
     typeof siteSettings?.listenSidebarAnnouncement === 'string'
       ? siteSettings.listenSidebarAnnouncement
       : siteSettings?.listenSidebarAnnouncement?.id
-
-  const sidebarAnnouncement = sidebarAnnouncementId
-    ? announcements?.find((a) => a.id === sidebarAnnouncementId)
-    : announcements?.[3] // fallback
 
   const fullWidthAnnouncementId =
     typeof siteSettings?.fullWidthAnnouncement === 'string'

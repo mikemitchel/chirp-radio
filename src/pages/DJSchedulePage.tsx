@@ -5,7 +5,7 @@ import CrDjSchedule from '../stories/CrDjSchedule'
 import CrDjOverview from '../stories/CrDjOverview'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import { useAnnouncements, useCurrentUser, useDJs } from '../hooks/useData'
+import { useAnnouncements, useDJs } from '../hooks/useData'
 import { downloadDJShowCalendar } from '../utils/calendar'
 
 // Import mock schedule data from stories file

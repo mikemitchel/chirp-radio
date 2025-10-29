@@ -15,7 +15,7 @@ export function useLoginRequired() {
     return true
   }
 
-  const handleLogin = (email: string, password: string) => {
+  const handleLogin = (email: string, _password: string) => {
     // TODO: Validate credentials with API
     login(email, email.split('@')[0]) // For demo, use email prefix as name
     setShowLoginModal(false)
@@ -31,7 +31,7 @@ export function useLoginRequired() {
     )
   }
 
-  const handleSignUp = (email: string, password: string) => {
+  const handleSignUp = (email: string, _password: string) => {
     // TODO: Create account with API
     signup(email, email.split('@')[0]) // For demo, use email prefix as name
     setShowLoginModal(false)

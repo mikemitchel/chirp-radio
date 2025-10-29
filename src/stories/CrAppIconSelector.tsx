@@ -1,6 +1,5 @@
 // CrAppIconSelector.tsx
 import { useState, useEffect } from 'react'
-import { PiCheck } from 'react-icons/pi'
 import CrButton from './CrButton'
 import './CrAppIconSelector.css'
 

@@ -56,13 +56,6 @@ export default function CrMetadataFreshness({
     }
   }
 
-  const formatTime = (seconds: number): string => {
-    if (seconds < 60) return `${seconds}s`
-    const minutes = Math.floor(seconds / 60)
-    const remainingSeconds = seconds % 60
-    return `${minutes}m ${remainingSeconds}s`
-  }
-
   return (
     <div className={`cr-metadata-freshness cr-metadata-freshness--${status}`}>
       <div className="cr-metadata-freshness__indicator" />

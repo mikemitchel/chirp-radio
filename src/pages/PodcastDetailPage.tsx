@@ -1,6 +1,6 @@
 // src/pages/PodcastDetailPage.tsx
 import React from 'react'
-import { useLocation, useParams, useNavigate } from 'react-router'
+import { useParams, useNavigate } from 'react-router'
 import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'

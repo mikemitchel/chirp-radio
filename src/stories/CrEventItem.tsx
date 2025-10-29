@@ -49,7 +49,7 @@ export default function CrCalendarLineEvent({
               className="cr-calendar-line-event__location"
               onClick={(e) => {
                 e.preventDefault()
-                onLocationClick && onLocationClick()
+                if (onLocationClick) onLocationClick()
               }}
             >
               {location}

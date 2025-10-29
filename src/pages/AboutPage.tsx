@@ -2,7 +2,6 @@
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import CrCard from '../stories/CrCard'
-import CrImageRow from '../stories/CrImageRow'
 import CrDjOverview from '../stories/CrDjOverview'
 import CrPageHeader from '../stories/CrPageHeader'
 import { usePageBySlug } from '../hooks/useData'
