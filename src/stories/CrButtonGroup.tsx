@@ -45,9 +45,9 @@ export default function CrButtonGroup({
     const getTabLabel = () => {
       const width = typeof window !== 'undefined' ? window.innerWidth : 1200
       if (width < 540) {
-        return day.slice(0, 1).toUpperCase()
+        return day?.slice(0, 1).toUpperCase()
       } else if (width < 820) {
-        return day.slice(0, 3).toUpperCase()
+        return day?.slice(0, 3).toUpperCase()
       } else {
         return day
       }
@@ -77,7 +77,6 @@ export default function CrButtonGroup({
           color={getButtonColor()}
           size="small"
           onClick={onClick}
-          className="cr-dj-schedule-tab__button"
         >
           {getTabLabel()}
         </CrButton>
@@ -115,7 +114,6 @@ export default function CrButtonGroup({
               color={isSelected ? 'secondary' : 'default'}
               size={size}
               onClick={() => handleOptionClick(option.value)}
-              className="cr-button-group__option"
               leftIcon={option.leftIcon}
               rightIcon={option.rightIcon}
             >

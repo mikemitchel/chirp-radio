@@ -43,8 +43,8 @@ export default function CrAvatar({
           alt={alt}
           className="cr-avatar__image"
           onError={(e) => {
-            e.target.style.display = 'none'
-            const iconContainer = e.target.parentNode.querySelector('.cr-avatar__fallback')
+            (e.target as HTMLElement).style.display = 'none'
+            const iconContainer = (e.target as HTMLElement).parentNode?.querySelector('.cr-avatar__fallback') as HTMLElement
             if (iconContainer) {
               iconContainer.style.display = 'flex'
             }

@@ -92,7 +92,7 @@ export default function CrDonationBar({
         <div className="cr-donation-bar__progress">
           <div
             className={`cr-donation-bar__fill ${isVisible ? 'cr-donation-bar__fill--animate' : ''}`}
-            style={{ '--progress-width': `${percentage}%` }}
+            style={{ '--progress-width': `${percentage}%` } as React.CSSProperties}
             aria-hidden="true"
           >
             {/* Red text - gets clipped by the white bar boundaries */}

@@ -27,7 +27,7 @@ export default function CrDjScheduleSearch({
           className="cr-dj-schedule-search__input"
           placeholder="Search DJs or shows..."
           value={searchQuery}
-          onChange={(e) => onSearch(e.target.value)}
+          onChange={(e) => onSearch?.(e.target.value)}
         />
 
         {searchQuery && (
@@ -41,27 +41,27 @@ export default function CrDjScheduleSearch({
           </button>
         )}
 
-        {searchResults.length > 0 && (
+        {searchResults && searchResults.length > 0 && (
           <div className="cr-dj-schedule-search__results">
             {searchResults.map((show, index) => (
               <div
                 key={`${show.day}-${show.slug}-${index}`}
                 className="cr-dj-schedule-search__result"
-                onClick={() => onResultClick(show.day, show.slug)}
+                onClick={() => onResultClick?.(show.day, show.slug)}
               >
                 <div className="cr-dj-schedule-search__result-dj">{show.dj.join(', ')}</div>
                 {show.title && (
                   <div className="cr-dj-schedule-search__result-show">{show.title}</div>
                 )}
                 <div className="cr-dj-schedule-search__result-time">
-                  {show.day} {formatTime(show.start)} — {formatTime(show.end)}
+                  {show.day} {formatTime?.(show.start)} — {formatTime?.(show.end)}
                 </div>
               </div>
             ))}
           </div>
         )}
 
-        {searchQuery && searchResults.length === 0 && (
+        {searchQuery && searchResults && searchResults.length === 0 && (
           <div className="cr-dj-schedule-search__results">
             <div className="cr-dj-schedule-search__no-results">
               Sorry, there are no DJs or Shows by that name on the Schedule
