@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import androidx.core.view.WindowCompat;
 import com.getcapacitor.BridgeActivity;
 import java.util.ArrayList;
 
@@ -16,6 +17,9 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(NativeAudioBridgePlugin.class);
 
         super.onCreate(savedInstanceState);
+
+        // Enable edge-to-edge and let WebView handle safe areas
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
         // Lock to portrait orientation on phones, but allow any orientation on Automotive
         boolean isAutomotive = getPackageManager().hasSystemFeature(PackageManager.FEATURE_AUTOMOTIVE);

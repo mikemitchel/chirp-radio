@@ -12,6 +12,7 @@ import { useNotification } from '../contexts/NotificationContext'
 import { Capacitor } from '@capacitor/core'
 import AppIconPlugin from '../plugins/AppIconPlugin'
 import LoginRequiredModal from '../components/LoginRequiredModal'
+import { emit } from '../utils/eventBus'
 import './AccountSettings.css'
 
 export default function AccountSettings() {
@@ -166,7 +167,7 @@ export default function AccountSettings() {
 
   // Dispatch event when dark mode changes (App.tsx will handle the theme application)
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent('chirp-dark-mode-change', { detail: darkMode }))
+    emit('chirp-dark-mode-change', darkMode)
   }, [darkMode])
 
   const handleDarkModeChange = (mode: 'light' | 'dark' | 'device') => {

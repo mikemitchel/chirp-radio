@@ -331,3 +331,14 @@ export function useMobileAppSettings() {
     error: cmsError.mobileAppSettings,
   }
 }
+
+// Player Fallback Images
+export function usePlayerFallbackImages() {
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
+
+  return {
+    data: cmsData.playerFallbackImages,
+    loading: cmsLoading.playerFallbackImages,
+    error: cmsError.playerFallbackImages,
+  }
+}
