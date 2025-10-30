@@ -1,6 +1,7 @@
 // CrCurrentDj.tsx
 import { useEffect, useRef } from 'react'
 import CrChip from './CrChip'
+import { parseDjAndShowName } from '../utils/djNameParser'
 import './CrCurrentDj.css'
 
 interface CrCurrentDjProps {
@@ -16,9 +17,10 @@ export default function CrCurrentDj({
   isOnAir = true,
   statusText = 'On-Air',
 }: CrCurrentDjProps) {
-  // Use props directly - no need for state since parent (AudioPlayerContext) handles updates
-  const djName = djNameProp
-  const showName = showNameProp
+  // Parse DJ and show name (handles "DJ Name: Show Name" format)
+  const parsed = parseDjAndShowName(djNameProp, showNameProp)
+  const djName = parsed.djName
+  const showName = parsed.showName
 
   // Refs for scrolling elements
   const djNameRef = useRef<HTMLDivElement>(null)

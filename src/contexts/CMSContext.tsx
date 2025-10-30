@@ -14,6 +14,7 @@ import type {
   WeeklyChart,
   MobilePageContent,
   MobileAppSettings,
+  PlayerFallbackImage,
 } from '../types/cms'
 import { fetchFromCMS } from '../utils/api'
 import { on } from '../utils/eventBus'
@@ -124,6 +125,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     weeklyCharts: [],
     mobilePageContent: [],
     mobileAppSettings: null,
+    playerFallbackImages: [],
   })
 
   // Loading state
@@ -140,6 +142,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     weeklyCharts: USE_CMS_API,
     mobilePageContent: USE_CMS_API,
     mobileAppSettings: USE_CMS_API,
+    playerFallbackImages: USE_CMS_API,
   })
 
   // Error state
@@ -156,6 +159,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     weeklyCharts: null,
     mobilePageContent: null,
     mobileAppSettings: null,
+    playerFallbackImages: null,
   })
 
   // Fetch announcements
@@ -514,6 +518,32 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
   }, [])
 
+  // Fetch player fallback images
+  const fetchPlayerFallbackImages = useCallback(async () => {
+    if (!USE_CMS_API) return
+
+    setLoading((prev) => ({ ...prev, playerFallbackImages: true }))
+    setError((prev) => ({ ...prev, playerFallbackImages: null }))
+
+    try {
+      const docs = await fetchFromCMS<Record<string, unknown>>('player-fallback-images', {
+        where: { isActive: { equals: true } },
+      })
+
+      const mappedDocs = docs.map((image) => ({
+        ...image,
+        // Extract the image URL from the response
+        url: (image.url as string) || '',
+      })) as PlayerFallbackImage[]
+
+      setData((prev) => ({ ...prev, playerFallbackImages: mappedDocs }))
+    } catch (err) {
+      setError((prev) => ({ ...prev, playerFallbackImages: err as Error }))
+    } finally {
+      setLoading((prev) => ({ ...prev, playerFallbackImages: false }))
+    }
+  }, [])
+
   // Refresh all data
   const refresh = useCallback(async () => {
     await Promise.all([
@@ -528,6 +558,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
       fetchWeeklyCharts(),
       fetchMobilePageContent(),
       fetchMobileAppSettings(),
+      fetchPlayerFallbackImages(),
     ])
   }, [
     fetchAnnouncements,
@@ -541,6 +572,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     fetchWeeklyCharts,
     fetchMobilePageContent,
     fetchMobileAppSettings,
+    fetchPlayerFallbackImages,
   ])
 
   // Initial fetch on mount
