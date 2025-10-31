@@ -275,6 +275,30 @@ export interface MobileAppSettings {
   [key: string]: unknown
 }
 
+// Player Fallback Image
+export interface PlayerFallbackImage {
+  id?: string | number
+  url?: string
+  filename?: string
+  alt?: string
+  isActive?: boolean
+  sizes?: {
+    thumbnail?: {
+      url?: string
+      width?: number
+      height?: number
+    }
+    player?: {
+      url?: string
+      width?: number
+      height?: number
+    }
+  }
+  createdAt?: string
+  updatedAt?: string
+  [key: string]: unknown
+}
+
 export interface SiteSettings {
   id: string
   siteName?: string
@@ -458,6 +482,7 @@ export interface CMSData {
   weeklyCharts: WeeklyChart[]
   mobilePageContent: MobilePageContent[]
   mobileAppSettings: MobileAppSettings | null
+  playerFallbackImages: PlayerFallbackImage[]
 }
 
 // Loading state for each data type
@@ -474,6 +499,7 @@ export interface CMSLoadingState {
   weeklyCharts: boolean
   mobilePageContent: boolean
   mobileAppSettings: boolean
+  playerFallbackImages: boolean
 }
 
 // Error state for each data type
@@ -490,4 +516,5 @@ export interface CMSErrorState {
   weeklyCharts: Error | null
   mobilePageContent: Error | null
   mobileAppSettings: Error | null
+  playerFallbackImages: Error | null
 }

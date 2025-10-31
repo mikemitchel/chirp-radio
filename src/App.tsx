@@ -9,6 +9,7 @@ import { on } from './utils/eventBus'
 import ScrollToTop from './components/ScrollToTop'
 import ProtectedRoute from './components/ProtectedRoute'
 import './utils/devTools' // Load development tools
+import './utils/debugAlbumArt' // Load album art debug utilities
 import MobileApp from './layouts/MobileApp'
 import WebLayout from './layouts/WebLayout'
 import { Capacitor } from '@capacitor/core'
