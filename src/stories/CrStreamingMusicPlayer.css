@@ -45,7 +45,56 @@
   transition: opacity 0.5s ease-in-out;
   z-index: 0;
   pointer-events: none;
-  will-change: background-image;
+  will-change: opacity;
+}
+
+.cr-player__background-back {
+  z-index: 0;
+}
+
+.cr-player__background-front {
+  z-index: 1;
+}
+
+/* Album art crossfade container */
+.cr-player__album-art-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Add depth and border-radius only to mobile and android-auto variants */
+.cr-player--mobile-player .cr-player__album-art-container,
+.cr-player--android-auto .cr-player__album-art-container {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.cr-player__album-art-front,
+.cr-player__album-art-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Border-radius only for mobile and android-auto variants */
+.cr-player--mobile-player .cr-player__album-art-front,
+.cr-player--mobile-player .cr-player__album-art-back,
+.cr-player--android-auto .cr-player__album-art-front,
+.cr-player--android-auto .cr-player__album-art-back {
+  border-radius: 8px;
+}
+
+.cr-player__album-art-back {
+  z-index: 1;
+}
+
+.cr-player__album-art-front {
+  z-index: 2;
 }
 
 /* NEW: Color overlay layer for better text readability */
@@ -56,12 +105,14 @@
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.75); /* White overlay for light mode */
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
 }
 
 /* Dark mode - Component Support - use dark overlay */
-[data-theme='dark'] .cr-player__color-overlay {
+[data-theme='dark'] .cr-player__color-overlay,
+.dark .cr-player__color-overlay,
+html.dark .cr-player__color-overlay {
   background-color: rgba(0, 0, 0, 0.75); /* Dark overlay for dark mode */
 }
 
@@ -406,7 +457,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Single content container - back to overflow hidden */
@@ -560,7 +611,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1;
+  z-index: 2;
 }
 
 .cr-player--android-auto .cr-player__android-auto-content {

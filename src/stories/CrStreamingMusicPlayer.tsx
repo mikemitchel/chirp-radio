@@ -1,12 +1,19 @@
 // CrStreamingMusicPlayer.tsx
 import { useState, useEffect, useRef } from 'react'
+import { Capacitor } from '@capacitor/core'
 import CrCurrentDj from './CrCurrentDj'
 import CrTrackInfo from './CrTrackInfo'
 import CrLogo from './CrLogo'
 import { useAudioPlayer } from '../contexts/AudioPlayerContext'
 import { useAuth } from '../hooks/useAuth'
+import { usePlayerFallbackImages } from '../hooks/useData'
 import LoginRequiredModal from '../components/LoginRequiredModal'
+import { resolveAlbumArt } from '../utils/albumArtFallback'
+import { createLogger } from '../utils/logger'
+import { on } from '../utils/eventBus'
 import './CrStreamingMusicPlayer.css'
+
+const log = createLogger('CrStreamingMusicPlayer')
 
 // PlayPause button component that exactly matches the Figma design
 const PlayPauseButton = ({ isPlaying, onClick, size = 60 }: { isPlaying: any; onClick: any; size?: number }) => {
@@ -65,148 +72,376 @@ const PlayPauseButton = ({ isPlaying, onClick, size = 60 }: { isPlaying: any; on
   )
 }
 
-// Album Art component with CHIRP logo fallback and crossfade
-const AlbumArt = ({ src, className, style, isLarge = false, isLoading: _isLoading = false }: { src: any; className: any; style?: any; isLarge?: boolean; isLoading?: boolean }) => {
-  // Check if we have a valid image URL
-  const isValidImageUrl = (url: any) => {
-    return (
-      url &&
-      url.trim() !== '' &&
-      url !== 'null' &&
-      url !== 'undefined' &&
-      url !== 'none' &&
-      !url.includes('null') &&
-      !url.includes('none') &&
-      url.startsWith('http')
-    )
-  }
+// Album Art component with two-stacked-images crossfade and fallback chain
+const AlbumArt = ({
+  src,
+  artist,
+  track,
+  album,
+  className,
+  style,
+  isLarge = false
+}: {
+  src: any
+  artist?: string
+  track?: string
+  album?: string
+  className: any
+  style?: any
+  isLarge?: boolean
+}) => {
+  const { data: fallbackImages, loading: fallbackLoading } = usePlayerFallbackImages()
+  const [frontSrc, setFrontSrc] = useState('')
+  const [backSrc, setBackSrc] = useState('')
+  const [frontIsVisible, setFrontIsVisible] = useState(true)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [hasLoadedFirstImage, setHasLoadedFirstImage] = useState(false)
+  const [fallbackSrc, setFallbackSrc] = useState('')
+  const [forceRefreshCounter, setForceRefreshCounter] = useState(0)
+  const currentTrackId = useRef('')
+  const lastFallbackIndex = useRef(-1)
+  const isResolvingRef = useRef(false)
+  const lastForceRefreshCounter = useRef(0)
 
-  const [displaySrc, setDisplaySrc] = useState(isValidImageUrl(src) ? src : '')
-  const [imageError, setImageError] = useState(false)
-  const hasShownFirstImage = useRef(false)
-  const hasConfirmedNoArt = useRef(false)
-  const lastSrc = useRef(src)
+  // Listen for force refresh events
+  useEffect(() => {
+    const unsubscribe = on('chirp-force-refresh', () => {
+      log.log('Force refresh triggered for album art')
+      setForceRefreshCounter(prev => prev + 1)
+    })
+    return unsubscribe
+  }, [])
 
   useEffect(() => {
-    // Track if src changed to empty/null (new track with no art vs waiting for art)
-    lastSrc.current = src
-
-    if (!isValidImageUrl(src)) {
-      // No valid URL - go directly to fallback (retries already happened in AudioPlayerContext)
-      setDisplaySrc('')
-      hasConfirmedNoArt.current = true
-      setImageError(false)
+    // Wait for fallback images to load from CMS
+    if (fallbackLoading) {
+      log.log('Waiting for CMS fallback images to load...')
       return
     }
 
-    // Valid URL arrived - preload it
-    hasConfirmedNoArt.current = false // Reset since we have a URL now
+    // Create track ID from artist + track
+    const trackId = `${artist || 'unknown'}|${track || 'unknown'}`
 
-    if (src === displaySrc) {
+    // If same track and not force refreshing, don't reload
+    if (trackId === currentTrackId.current && forceRefreshCounter === lastForceRefreshCounter.current) {
       return
     }
 
-    setImageError(false)
+    currentTrackId.current = trackId
+    lastForceRefreshCounter.current = forceRefreshCounter
+    log.log('Track changed or forced refresh, resolving album art:', { artist, track, album })
 
-    const img = new Image()
-    img.onload = () => {
-      setDisplaySrc(src)
-      hasShownFirstImage.current = true
+    // Prevent concurrent resolutions
+    if (isResolvingRef.current) {
+      log.log('Already resolving, skipping...')
+      return
     }
-    img.onerror = () => {
-      setDisplaySrc('')
-      setImageError(true)
-    }
-    img.src = src
-  }, [src, displaySrc])
 
-  // If no valid URL or image failed to load, show CHIRP logo
-  if (!displaySrc || imageError) {
+    isResolvingRef.current = true
+
+    const resolveArt = async () => {
+      try {
+        // Get fallback image URLs from CMS
+        const fallbackUrls = fallbackImages
+          .filter((img) => img.url)
+          .map((img) => img.sizes?.player?.url || img.url || '')
+          .filter((url) => url)
+
+        if (fallbackUrls.length === 0) {
+          log.log('No fallback images available from CMS, will try API sources only')
+        }
+
+        // Detect if mobile platform
+        const isMobile = Capacitor.isNativePlatform()
+
+        // Resolve album art through fallback chain
+        const result = await resolveAlbumArt(
+          src,
+          artist || '',
+          album || '',
+          fallbackUrls,
+          lastFallbackIndex.current,
+          isMobile
+        )
+
+        log.log('Album art resolved:', result.source)
+
+        // Update lastFallbackIndex if we used a fallback
+        if (result.source === 'fallback' && result.fallbackIndex !== undefined) {
+          lastFallbackIndex.current = result.fallbackIndex
+        }
+
+        // Trigger crossfade
+        if (!isTransitioning) {
+          setIsTransitioning(true)
+
+          if (frontIsVisible) {
+            setBackSrc(result.url)
+            // Wait for image to load, then crossfade
+            const img = new Image()
+            img.onload = () => {
+              setHasLoadedFirstImage(true)
+              setFrontIsVisible(false)
+              setTimeout(() => setIsTransitioning(false), 500)
+            }
+            img.onerror = () => {
+              // Use a random fallback image from CMS
+              const fallbackUrls = fallbackImages
+                .filter((img) => img.url)
+                .map((img) => img.sizes?.player?.url || img.url || '')
+                .filter((url) => url)
+
+              if (fallbackUrls.length > 0) {
+                const randomIndex = Math.floor(Math.random() * fallbackUrls.length)
+                setFallbackSrc(fallbackUrls[randomIndex])
+              }
+              setIsTransitioning(false)
+            }
+            img.src = result.url
+          } else {
+            setFrontSrc(result.url)
+            const img = new Image()
+            img.onload = () => {
+              setHasLoadedFirstImage(true)
+              setFrontIsVisible(true)
+              setTimeout(() => setIsTransitioning(false), 500)
+            }
+            img.onerror = () => {
+              // Use a random fallback image from CMS
+              const fallbackUrls = fallbackImages
+                .filter((img) => img.url)
+                .map((img) => img.sizes?.player?.url || img.url || '')
+                .filter((url) => url)
+
+              if (fallbackUrls.length > 0) {
+                const randomIndex = Math.floor(Math.random() * fallbackUrls.length)
+                setFallbackSrc(fallbackUrls[randomIndex])
+              }
+              setIsTransitioning(false)
+            }
+            img.src = result.url
+          }
+
+          setFallbackSrc('')
+        }
+      } catch (error) {
+        log.log('Error resolving album art:', error)
+
+        // Use a random fallback image from CMS
+        const fallbackUrls = fallbackImages
+          .filter((img) => img.url)
+          .map((img) => img.sizes?.player?.url || img.url || '')
+          .filter((url) => url)
+
+        if (fallbackUrls.length > 0) {
+          const randomIndex = Math.floor(Math.random() * fallbackUrls.length)
+          setFallbackSrc(fallbackUrls[randomIndex])
+        }
+      } finally {
+        isResolvingRef.current = false
+      }
+    }
+
+    resolveArt()
+  }, [src, artist, track, album, fallbackImages, fallbackLoading, frontIsVisible, isTransitioning, forceRefreshCounter])
+
+  // Show random fallback image if all sources failed
+  if (fallbackSrc) {
     return (
-      <div className={`cr-player__album-fallback ${className}`} style={style}>
-        <CrLogo variant="record" className={isLarge ? 'cr-logo--large' : ''} />
+      <div className={`cr-player__album-art-container ${className}`} style={style}>
+        <img
+          src={fallbackSrc}
+          alt="Album Art"
+          className="cr-player__album-art-front"
+          style={{ opacity: 1 }}
+        />
       </div>
     )
   }
 
-  // Show the image
+  // Show nothing while loading the first image
+  if (!hasLoadedFirstImage && !frontSrc && !backSrc) {
+    return <div className={`cr-player__album-art-container ${className}`} style={style} />
+  }
+
+  // Two-stacked-images crossfade
   return (
-    <img
-      src={displaySrc}
-      alt="Album Art"
-      className={className}
-      style={style}
-    />
+    <div className={`cr-player__album-art-container ${className}`} style={style}>
+      {backSrc && (
+        <img
+          src={backSrc}
+          alt="Album Art"
+          className="cr-player__album-art-back"
+          style={{ opacity: frontIsVisible ? 0 : 1 }}
+        />
+      )}
+      {frontSrc && (
+        <img
+          src={frontSrc}
+          alt="Album Art"
+          className="cr-player__album-art-front"
+          style={{ opacity: frontIsVisible ? 1 : 0 }}
+        />
+      )}
+    </div>
   )
 }
 
-// Background component - simplified
-const BackgroundImage = ({ src, isLoading: _isLoading }: { src: any; isLoading?: any }) => {
-  const isValidImageUrl = (url: any) => {
-    return (
-      url &&
-      url.trim() !== '' &&
-      url !== 'null' &&
-      url !== 'undefined' &&
-      url !== 'none' &&
-      !url.includes('null') &&
-      !url.includes('none') &&
-      url.startsWith('http')
-    )
-  }
+// Background component with two-stacked-divs crossfade
+const BackgroundImage = ({
+  src,
+  artist,
+  track,
+  album,
+  isLoading: _isLoading,
+}: {
+  src: any
+  artist?: string
+  track?: string
+  album?: string
+  isLoading?: any
+}) => {
+  const { data: fallbackImages, loading: fallbackLoading } = usePlayerFallbackImages()
+  const [frontSrc, setFrontSrc] = useState('')
+  const [backSrc, setBackSrc] = useState('')
+  const [frontIsVisible, setFrontIsVisible] = useState(true)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [forceRefreshCounter, setForceRefreshCounter] = useState(0)
+  const currentTrackId = useRef('')
+  const lastFallbackIndex = useRef(-1)
+  const isResolvingRef = useRef(false)
+  const lastForceRefreshCounter = useRef(0)
 
-  const [displaySrc, setDisplaySrc] = useState(isValidImageUrl(src) ? src : '')
-  const [hasConfirmedNoArt, setHasConfirmedNoArt] = useState(false)
-  const hasShownFirstImage = useRef(false)
-  const lastSrc = useRef(src)
+  // Listen for force refresh events
+  useEffect(() => {
+    const unsubscribe = on('chirp-force-refresh', () => {
+      log.log('🎨 [BackgroundImage] Force refresh triggered')
+      setForceRefreshCounter(prev => prev + 1)
+    })
+    return unsubscribe
+  }, [])
 
   useEffect(() => {
-    // Track if src changed to empty/null
-    lastSrc.current = src
-
-    if (!isValidImageUrl(src)) {
-      // No valid URL - go directly to fallback (retries already happened in AudioPlayerContext)
-      setDisplaySrc('')
-      setHasConfirmedNoArt(true)
+    // Wait for fallback images to load from CMS
+    if (fallbackLoading) {
+      log.log('🎨 [BackgroundImage] Waiting for CMS fallback images to load...')
       return
     }
 
-    // Valid URL arrived
-    setHasConfirmedNoArt(false)
+    // Use track ID to detect actual track changes
+    const trackId = `${artist || 'unknown'}|${track || 'unknown'}`
 
-    if (src === displaySrc) {
+    // If same track and not force refreshing, don't reload
+    if (trackId === currentTrackId.current && forceRefreshCounter === lastForceRefreshCounter.current) {
       return
     }
 
-    // Preload new background image
-    const img = new Image()
-    img.onload = () => {
-      setDisplaySrc(src)
-      hasShownFirstImage.current = true
+    lastForceRefreshCounter.current = forceRefreshCounter
+
+    // Update track ID
+    currentTrackId.current = trackId
+
+    // Don't start a new resolution if one is in progress
+    if (isResolvingRef.current || isTransitioning) {
+      return
     }
-    img.onerror = () => {
-      setDisplaySrc('')
-      setHasConfirmedNoArt(true)
-    }
-    img.src = src
-  }, [src, displaySrc])
 
-  const getFallbackUrl = () => '/images/chirp-logos/CHIRP_Logo_FM%20URL_record.svg'
+    log.log('🎨 [BackgroundImage] Track changed:', { artist, track, album, src })
 
-  // Only show background if we have an image OR if we've confirmed there's no art
-  // This prevents the fallback from flashing on initial load
-  if (!displaySrc && !hasConfirmedNoArt) {
-    return null // Don't render anything until we know what to show
-  }
+    // Mark as resolving
+    isResolvingRef.current = true
 
+    // Get fallback URLs from CMS data
+    const fallbackUrls = (fallbackImages || [])
+      .filter((img) => img.url)
+      .map((img) => img.url as string)
+
+    // Detect if we're on mobile platform
+    const isMobile = Capacitor.isNativePlatform()
+
+    // Resolve album art with full fallback chain
+    resolveAlbumArt(src, artist || '', album || '', fallbackUrls, lastFallbackIndex.current, isMobile)
+      .then((result) => {
+        log.log('🎨 [BackgroundImage] Resolved:', result)
+
+        // Update last fallback index if fallback was used
+        if (result.source === 'fallback' && result.fallbackIndex !== undefined) {
+          lastFallbackIndex.current = result.fallbackIndex
+        }
+
+        // Don't transition if component unmounted or track changed during resolution
+        const currentId = `${artist || 'unknown'}|${track || 'unknown'}`
+        if (currentId !== currentTrackId.current) {
+          isResolvingRef.current = false
+          return
+        }
+
+        // Perform crossfade
+        setIsTransitioning(true)
+
+        // Determine which layer to update (alternate between front and back)
+        if (frontIsVisible) {
+          // Update back layer
+          setBackSrc(result.url)
+
+          // Preload image before transitioning
+          const img = new Image()
+          img.onload = () => {
+            setFrontIsVisible(false)
+            setTimeout(() => {
+              setIsTransitioning(false)
+              isResolvingRef.current = false
+            }, 500) // Match CSS transition duration
+          }
+          img.onerror = () => {
+            setIsTransitioning(false)
+            isResolvingRef.current = false
+          }
+          img.src = result.url
+        } else {
+          // Update front layer
+          setFrontSrc(result.url)
+
+          const img = new Image()
+          img.onload = () => {
+            setFrontIsVisible(true)
+            setTimeout(() => {
+              setIsTransitioning(false)
+              isResolvingRef.current = false
+            }, 500)
+          }
+          img.onerror = () => {
+            setIsTransitioning(false)
+            isResolvingRef.current = false
+          }
+          img.src = result.url
+        }
+      })
+      .catch((err) => {
+        log.log('🎨 [BackgroundImage] Resolution error:', err)
+        isResolvingRef.current = false
+        setIsTransitioning(false)
+      })
+  }, [src, artist, track, album, fallbackImages, fallbackLoading, frontIsVisible, isTransitioning, forceRefreshCounter])
+
+  // Two-stacked-divs with background-image
   return (
-    <div
-      className="cr-player__background"
-      style={{
-        backgroundImage: displaySrc ? `url(${displaySrc})` : `url(${getFallbackUrl()})`,
-        opacity: 0.75,
-      }}
-    />
+    <>
+      <div
+        className="cr-player__background cr-player__background-back"
+        style={{
+          backgroundImage: backSrc ? `url(${backSrc})` : 'none',
+          opacity: frontIsVisible ? 0 : 1,
+        }}
+      />
+      <div
+        className="cr-player__background cr-player__background-front"
+        style={{
+          backgroundImage: frontSrc ? `url(${frontSrc})` : 'none',
+          opacity: frontIsVisible ? 1 : 0,
+        }}
+      />
+    </>
   )
 }
 
@@ -323,15 +558,23 @@ export default function CrStreamingMusicPlayer({
   const renderFullPlayer = () => {
     return (
       <div className="cr-player__full">
-        <BackgroundImage src={displayData.albumArt} isLoading={isLoading} />
+        <BackgroundImage
+          src={displayData.albumArt}
+          artist={displayData.artist}
+          track={displayData.track}
+          album={displayData.album}
+          isLoading={isLoading}
+        />
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
             <AlbumArt
               src={displayData.albumArt}
+              artist={displayData.artist}
+              track={displayData.track}
+              album={displayData.album}
               className="cr-player__album-art"
               style={{}}
-              isLoading={isLoading}
             />
           </div>
           <div className="cr-player__track-info-container">
@@ -356,15 +599,23 @@ export default function CrStreamingMusicPlayer({
   const renderSlimPlayer = () => {
     return (
       <div className="cr-player__slim">
-        <BackgroundImage src={displayData.albumArt} isLoading={isLoading} />
+        <BackgroundImage
+          src={displayData.albumArt}
+          artist={displayData.artist}
+          track={displayData.track}
+          album={displayData.album}
+          isLoading={isLoading}
+        />
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
             <AlbumArt
               src={displayData.albumArt}
+              artist={displayData.artist}
+              track={displayData.track}
+              album={displayData.album}
               className="cr-player__album-art"
               style={{}}
-              isLoading={isLoading}
             />
           </div>
           <div className="cr-player__track-info-container">
@@ -388,15 +639,23 @@ export default function CrStreamingMusicPlayer({
   const renderMiniPlayer = () => {
     return (
       <div className="cr-player__mini">
-        <BackgroundImage src={displayData.albumArt} isLoading={isLoading} />
+        <BackgroundImage
+          src={displayData.albumArt}
+          artist={displayData.artist}
+          track={displayData.track}
+          album={displayData.album}
+          isLoading={isLoading}
+        />
         <div className="cr-player__color-overlay" />
         <div className="cr-player__content">
           <div className="cr-player__album-container">
             <AlbumArt
               src={displayData.albumArt}
+              artist={displayData.artist}
+              track={displayData.track}
+              album={displayData.album}
               className="cr-player__album-art"
               style={{}}
-              isLoading={isLoading}
             />
           </div>
           <div className="cr-player__track-info-container">
@@ -420,7 +679,13 @@ export default function CrStreamingMusicPlayer({
   const renderMobilePlayer = () => {
     return (
       <div className="cr-player__mobile">
-        <BackgroundImage src={displayData.albumArt} isLoading={isLoading} />
+        <BackgroundImage
+          src={displayData.albumArt}
+          artist={displayData.artist}
+          track={displayData.track}
+          album={displayData.album}
+          isLoading={isLoading}
+        />
         <div className="cr-player__color-overlay" />
 
         <div className="cr-player__mobile-content">
@@ -436,10 +701,12 @@ export default function CrStreamingMusicPlayer({
           <div className="cr-player__album-large">
             <AlbumArt
               src={displayData.albumArt}
+              artist={displayData.artist}
+              track={displayData.track}
+              album={displayData.album}
               className="cr-player__album-art-large"
               style={{}}
               isLarge={true}
-              isLoading={isLoading}
             />
           </div>
 
@@ -469,7 +736,13 @@ export default function CrStreamingMusicPlayer({
   const renderAndroidAuto = () => {
     return (
       <div className="cr-player__android-auto">
-        <BackgroundImage src={displayData.albumArt} isLoading={isLoading} />
+        <BackgroundImage
+          src={displayData.albumArt}
+          artist={displayData.artist}
+          track={displayData.track}
+          album={displayData.album}
+          isLoading={isLoading}
+        />
         <div className="cr-player__color-overlay" />
 
         <div className="cr-player__android-auto-content">
@@ -493,9 +766,11 @@ export default function CrStreamingMusicPlayer({
             <div className="cr-player__android-auto-album">
               <AlbumArt
                 src={displayData.albumArt}
+                artist={displayData.artist}
+                track={displayData.track}
+                album={displayData.album}
                 className="cr-player__album-art"
                 style={{}}
-                isLoading={isLoading}
               />
             </div>
             <div className="cr-player__android-auto-track">
