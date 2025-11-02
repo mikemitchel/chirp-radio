@@ -156,21 +156,22 @@ export function generateDJShowICS(djInfo: DJShowInfo): string {
 
 /**
  * Download ICS file for a DJ show
+ * @throws Error if unable to generate calendar file
  */
 export function downloadDJShowCalendar(djInfo: DJShowInfo): void {
-  try {
-    const icsContent = generateDJShowICS(djInfo)
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `chirp-${djInfo.djName.replace(/\s+/g, '-').toLowerCase()}.ics`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    URL.revokeObjectURL(url)
-  } catch (error) {
-    console.error('Error generating calendar file:', error)
-    alert('Unable to create calendar event. Please check the show time format.')
-  }
+  // If DJ has multiple shows (comma-separated), use only the first one
+  const firstShowTime = djInfo.showTime.split(',')[0].trim()
+  const icsContent = generateDJShowICS({
+    ...djInfo,
+    showTime: firstShowTime,
+  })
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `chirp-${djInfo.djName.replace(/\s+/g, '-').toLowerCase()}.ics`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
 }

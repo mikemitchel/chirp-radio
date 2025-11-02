@@ -8,7 +8,6 @@ import CrSidebar from '../stories/CrSidebar'
 import CrScrim from '../stories/CrScrim'
 import CrStreamingMusicPlayer from '../stories/CrStreamingMusicPlayer'
 import GlobalNotifications from '../components/GlobalNotifications'
-import DevModeBanner from '../components/DevModeBanner'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 import { NotificationProvider, useNotification } from '../contexts/NotificationContext'
 import { useCart } from '../contexts/CartContext'
@@ -196,7 +195,6 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <>
-      <DevModeBanner />
       <AudioPlayerProvider
         autoFetch={true}
         streamUrl="https://peridot.streamguys1.com:5185/live"

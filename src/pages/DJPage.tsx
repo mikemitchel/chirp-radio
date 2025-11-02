@@ -12,12 +12,15 @@ import {
 } from '../hooks/useData'
 import { useAuth } from '../hooks/useAuth'
 import { downloadDJShowCalendar } from '../utils/calendar'
+import { formatShowTime, prepareShowTimes } from '../utils/formatShowTime'
+import { useNotification } from '../contexts/NotificationContext'
 
 const DJPage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
   const { data: regularDJs, loading: regularDJsLoading } = useRegularDJs()
   const { data: substituteDJs, loading: substituteDJsLoading } = useSubstituteDJs()
   const { user: loggedInUser } = useAuth()
+  const { showToast } = useNotification()
   const navigate = useNavigate()
 
   return (
@@ -39,18 +42,38 @@ const DJPage: React.FC = () => {
                 size="medium"
                 djName={dj.djName}
                 content={dj.showName}
-                showTime={dj.showTime}
+                showTime={formatShowTime(dj.showTime)}
+                showTimes={prepareShowTimes(
+                  dj.showTime,
+                  dj.djName,
+                  dj.showName,
+                  (error) => {
+                    showToast({
+                      message: 'Unable to create calendar event. Please check the show time format.',
+                      type: 'error',
+                      duration: 5000,
+                    })
+                  }
+                )}
                 description={dj.excerpt}
                 imageSrc={dj.imageSrc}
                 isFavorite={loggedInUser?.favoriteDJs?.includes(dj.id)}
                 onMoreClick={() => navigate(`/djs/${dj.slug}`)}
-                onAddToCalendarClick={() =>
-                  downloadDJShowCalendar({
-                    djName: dj.djName,
-                    showName: dj.showName,
-                    showTime: dj.showTime,
-                  })
-                }
+                onAddToCalendarClick={() => {
+                  try {
+                    downloadDJShowCalendar({
+                      djName: dj.djName,
+                      showName: dj.showName,
+                      showTime: dj.showTime,
+                    })
+                  } catch (error) {
+                    showToast({
+                      message: 'Unable to create calendar event. Please check the show time format.',
+                      type: 'error',
+                      duration: 5000,
+                    })
+                  }
+                }}
               />
             ))}
           </div>
