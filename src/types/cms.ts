@@ -176,6 +176,70 @@ export interface DJ {
   [key: string]: unknown // Allow additional properties
 }
 
+// Member type - represents users from the Members collection in CMS
+export interface Member {
+  id?: string | number
+  email?: string
+  username?: string
+  firstName?: string
+  lastName?: string
+  memberSince?: string
+  roles?: string[] // e.g., ['Listener', 'Volunteer', 'Regular DJ', 'Substitute DJ', 'Board Member']
+  // Profile
+  profileImage?: number | Media | string
+  fullProfileImage?: number | Media | string
+  profileImageOrientation?: 'square' | 'landscape' | 'portrait'
+  bio?: string
+  location?: string
+  // Contact Info
+  primaryPhoneType?: string
+  primaryPhone?: string
+  secondaryPhoneType?: string
+  secondaryPhone?: string
+  address?: string
+  city?: string
+  state?: string
+  zipCode?: string
+  // Volunteer Info
+  age?: string
+  education?: string
+  employer?: string
+  volunteerOrgs?: Array<{ org: string }> | string[]
+  hasRadioExperience?: string
+  radioStations?: string
+  specialSkills?: Array<{ skill: string }> | string[]
+  hearAboutChirp?: Array<{ source: string }> | string[]
+  interests?: Array<{ interest: string }> | string[]
+  wantsToDJ?: string
+  djAvailability?: Array<{ time: string }> | string[]
+  donorLevel?: string
+  // Social Links
+  socialLinks?: {
+    facebook?: string
+    instagram?: string
+    twitter?: string
+    bluesky?: string
+    linkedin?: string
+  }
+  // DJ Fields
+  djName?: string
+  showName?: string
+  showTime?: string
+  djExcerpt?: string
+  djBio?: ContentField
+  djDonationLink?: string
+  // Substitute DJ specific
+  substituteAvailability?: Array<{ time: string }> | string[]
+  canSubstituteFor?: string[]
+  // Board Member Fields
+  boardPosition?: string // e.g., "President", "Vice President", "Secretary", "Treasurer"
+  boardSince?: string
+  boardTermEnd?: string
+  createdAt?: string
+  updatedAt?: string
+  [key: string]: unknown
+}
+
 export interface VolunteerCalendarEvent {
   id: string
   title: string
@@ -475,6 +539,7 @@ export interface CMSData {
   events: Event[]
   podcasts: Podcast[]
   djs: DJ[]
+  members: Member[]
   volunteerCalendar: VolunteerCalendarEvent[]
   shopItems: ShopItem[]
   pages: Page[]
@@ -492,6 +557,7 @@ export interface CMSLoadingState {
   events: boolean
   podcasts: boolean
   djs: boolean
+  members: boolean
   volunteerCalendar: boolean
   shopItems: boolean
   pages: boolean
@@ -509,6 +575,7 @@ export interface CMSErrorState {
   events: Error | null
   podcasts: Error | null
   djs: Error | null
+  members: Error | null
   volunteerCalendar: Error | null
   shopItems: Error | null
   pages: Error | null

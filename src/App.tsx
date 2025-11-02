@@ -57,6 +57,7 @@ import TermsOfServicePage from './pages/TermsOfServicePage'
 import SitemapPage from './pages/SitemapPage'
 import AdvertisementPreviewPage from './pages/AdvertisementPreviewPage'
 import { AndroidAutoPage } from './pages/AndroidAutoPage'
+import UserTypeSwitcher from './components/UserTypeSwitcher'
 
 // Redirect component to route mobile app users to /app or /android-auto
 function RootRedirect() {
@@ -546,6 +547,7 @@ function App() {
             />
               </Routes>
             </Router>
+            {import.meta.env.DEV && <UserTypeSwitcher />}
           </CartProvider>
         </AuthProvider>
       </UserProvider>

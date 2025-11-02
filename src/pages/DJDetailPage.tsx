@@ -8,7 +8,7 @@ import CrPreviousShows from '../stories/CrPreviousShows'
 import CrDjDonation from '../stories/CrDjDonation'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import { useDJs, useAnnouncements } from '../hooks/useData'
+import { useDJs, useSiteSettings, useArticles, useEvents, usePodcasts } from '../hooks/useData'
 import { useLoginRequired } from '../hooks/useLoginRequired'
 import { useAuth } from '../hooks/useAuth'
 import LoginRequiredModal from '../components/LoginRequiredModal'
@@ -17,7 +17,10 @@ const DJDetailPage: React.FC = () => {
   const navigate = useNavigate()
   const { id: slugOrId } = useParams()
   const { data: allDJs } = useDJs()
-  const { data: announcements } = useAnnouncements()
+  const { data: siteSettings } = useSiteSettings()
+  const { data: articles } = useArticles()
+  const { data: events } = useEvents()
+  const { data: podcasts } = usePodcasts()
   const { user: loggedInUser, updateFavoriteDJs } = useAuth()
   const { requireLogin, showLoginModal, handleLogin, handleSignUp, closeModal } = useLoginRequired()
 
@@ -172,24 +175,65 @@ const DJDetailPage: React.FC = () => {
             donationLink={dj.donationLink}
             onDonateClick={handleDonateClick}
           />
-          <CrPreviousShows />
+          {!dj.isSubstitute && <CrPreviousShows />}
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {announcements && announcements[0] && (
+          {/* Announcement from CMS */}
+          {siteSettings?.djDetailSidebarAnnouncement && (
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={('backgroundColor' in announcements[0] ? (announcements[0] as Record<string, unknown>).backgroundColor as string : undefined)}
-              headlineText={('title' in announcements[0] ? (announcements[0] as Record<string, unknown>).title as string : announcements[0].headlineText)}
-              bodyText={('message' in announcements[0] ? (announcements[0] as Record<string, unknown>).message as string : typeof announcements[0].bodyText === 'string' ? announcements[0].bodyText : undefined)}
-              showLink={!!announcements[0].ctaText}
-              linkText={('ctaText' in announcements[0] ? (announcements[0] as Record<string, unknown>).ctaText as string : undefined)}
-              linkUrl={('ctaUrl' in announcements[0] ? (announcements[0] as Record<string, unknown>).ctaUrl as string : undefined)}
+              textureBackground={('backgroundColor' in siteSettings.djDetailSidebarAnnouncement ? (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).backgroundColor as string : undefined)}
+              headlineText={('title' in siteSettings.djDetailSidebarAnnouncement ? (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).title as string : (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).headlineText as string)}
+              bodyText={('message' in siteSettings.djDetailSidebarAnnouncement ? (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).message as string : (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).bodyText as string)}
+              showLink={!!((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).ctaText)}
+              linkText={('ctaText' in siteSettings.djDetailSidebarAnnouncement ? (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).ctaText as string : undefined)}
+              linkUrl={('ctaUrl' in siteSettings.djDetailSidebarAnnouncement ? (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).ctaUrl as string : undefined)}
               buttonCount="none"
             />
           )}
-          <CrAdSpace size="large-rectangle" />
+
+          {/* Content Cards based on CMS settings */}
+          {siteSettings?.djDetailSidebarContentType && siteSettings.djDetailSidebarContentType !== 'none' && (() => {
+            const contentType = siteSettings.djDetailSidebarContentType
+            const count = parseInt(siteSettings.djDetailSidebarContentCount || '3')
+            let contentItems: any[] = []
+
+            if (contentType === 'articles') {
+              contentItems = articles?.slice(0, count) || []
+            } else if (contentType === 'events') {
+              contentItems = events?.slice(0, count) || []
+            } else if (contentType === 'podcasts') {
+              contentItems = podcasts?.slice(0, count) || []
+            }
+
+            return contentItems.map((item, index) => (
+              <CrCard
+                key={item.id || index}
+                variant="article"
+                cardSize="small"
+                imagePosition="top"
+                title={item.title}
+                excerpt={item.excerpt}
+                content={item.excerpt}
+                backgroundImage={typeof item.image === 'string' ? item.image : item.image?.url}
+                onClick={() => {
+                  if (contentType === 'articles') navigate(`/articles/${item.slug || item.id}`)
+                  else if (contentType === 'events') navigate(`/events/${item.slug || item.id}`)
+                  else if (contentType === 'podcasts') navigate(`/podcasts/${item.slug || item.id}`)
+                }}
+              />
+            ))
+          })()}
+
+          {/* Advertisement from CMS */}
+          {siteSettings?.djDetailSidebarAdvertisement && (
+            <CrAdSpace
+              size="large-rectangle"
+              adData={siteSettings.djDetailSidebarAdvertisement}
+            />
+          )}
         </div>
       </div>
 
