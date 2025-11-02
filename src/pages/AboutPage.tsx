@@ -5,6 +5,7 @@ import CrCard from '../stories/CrCard'
 import CrDjOverview from '../stories/CrDjOverview'
 import CrPageHeader from '../stories/CrPageHeader'
 import { usePageBySlug, useBoardMembers } from '../hooks/useData'
+import { formatShowTime } from '../utils/formatShowTime'
 
 const AboutPage: React.FC = () => {
   const { data: pageConfig } = usePageBySlug('about')
@@ -71,7 +72,7 @@ const AboutPage: React.FC = () => {
                   size="large"
                   djName={displayName}
                   title={member.boardPosition}
-                  showTime={member.djName && member.showTime ? member.showTime : ''}
+                  showTime={member.djName && member.showTime ? formatShowTime(member.showTime) : ''}
                   description={member.bio}
                   imageSrc={imageSrc}
                   content=""

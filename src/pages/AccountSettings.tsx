@@ -14,6 +14,10 @@ import { Capacitor } from '@capacitor/core'
 import AppIconPlugin from '../plugins/AppIconPlugin'
 import LoginRequiredModal from '../components/LoginRequiredModal'
 import { emit } from '../utils/eventBus'
+import { formatShowTime } from '../utils/formatShowTime'
+import { updateInCMS } from '../utils/api'
+import type { Member } from '../types/member'
+import '../utils/refreshUserData' // Auto-refreshes user data in development
 import './AccountSettings.css'
 
 export default function AccountSettings() {
@@ -421,6 +425,36 @@ export default function AccountSettings() {
         })
       }
 
+      // Prepare data for CMS update
+      const memberUpdateData: Partial<Member> = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        location: formData.location,
+        profileImage: formData.avatarSrc,
+        fullProfileImage: formData.fullProfileImage,
+        profileImageOrientation: formData.profileImageOrientation,
+        djName: formData.djName,
+        showName: formData.showName,
+        djExcerpt: formData.djExcerpt,
+        djBio: formData.djBio,
+        djDonationLink: formData.djDonationLink,
+        primaryPhoneType: formData.primaryPhoneType,
+        primaryPhone: formData.primaryPhone,
+        secondaryPhoneType: formData.secondaryPhoneType,
+        secondaryPhone: formData.secondaryPhone,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zipCode: formData.zipCode,
+        socialLinks: socialLinksObj,
+      }
+
+      // Update in CMS first
+      if (currentUser.id) {
+        await updateInCMS<Member>('listeners', currentUser.id, memberUpdateData)
+      }
+
+      // Then update localStorage
       const updatedUser = {
         ...currentUser,
         firstName: formData.firstName,
@@ -832,7 +866,7 @@ export default function AccountSettings() {
             isDJ={isDJ(user)}
             djName={user?.djName}
             showName={user?.showName}
-            showTime={user?.showTime}
+            showTime={formatShowTime(user?.showTime)}
             onStateChange={handleProfileStateChange}
             onSave={handleSaveProfile}
             onCancel={handleCancelEdit}
