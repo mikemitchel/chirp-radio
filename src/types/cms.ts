@@ -240,6 +240,23 @@ export interface Member {
   [key: string]: unknown
 }
 
+export interface ShowSchedule {
+  id: string | number
+  title?: string // Auto-generated from day + time + DJ name
+  dayOfWeek: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
+  startTime: string
+  endTime: string
+  isMusicMix?: boolean
+  dj?: number | Member // Can be ID or populated DJ object (optional if isMusicMix is true)
+  showName?: string
+  isActive?: boolean
+  notes?: string
+  displayOrder?: number
+  createdAt?: string
+  updatedAt?: string
+  [key: string]: unknown
+}
+
 export interface VolunteerCalendarEvent {
   id: string
   title: string
@@ -548,6 +565,7 @@ export interface CMSData {
   mobilePageContent: MobilePageContent[]
   mobileAppSettings: MobileAppSettings | null
   playerFallbackImages: PlayerFallbackImage[]
+  showSchedules: ShowSchedule[]
 }
 
 // Loading state for each data type
@@ -566,6 +584,7 @@ export interface CMSLoadingState {
   mobilePageContent: boolean
   mobileAppSettings: boolean
   playerFallbackImages: boolean
+  showSchedules: boolean
 }
 
 // Error state for each data type
@@ -584,4 +603,5 @@ export interface CMSErrorState {
   mobilePageContent: Error | null
   mobileAppSettings: Error | null
   playerFallbackImages: Error | null
+  showSchedules: Error | null
 }

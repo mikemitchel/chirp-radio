@@ -7,16 +7,17 @@ import CrDjOverview from '../stories/CrDjOverview'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import CrCard from '../stories/CrCard'
-import { useRegularDJs, useDJs, useSiteSettings, useArticles, useEvents, usePodcasts } from '../hooks/useData'
+import { useRegularDJs, useDJs, useSiteSettings, useArticles, useEvents, usePodcasts, useShowSchedules } from '../hooks/useData'
 import { downloadDJShowCalendar } from '../utils/calendar'
+import { formatShowTime, prepareShowTimes } from '../utils/formatShowTime'
 import { useAuth } from '../hooks/useAuth'
-
-// Import mock schedule data from stories file
-import { mockScheduleData } from '../stories/CrDjSchedule.stories'
+import { useNotification } from '../contexts/NotificationContext'
+import type { Member, ShowSchedule } from '../types/cms'
 
 const DJSchedulePage: React.FC = () => {
   const navigate = useNavigate()
   const { user: loggedInUser } = useAuth()
+  const { showToast } = useNotification()
   const currentUser = loggedInUser
   const { data: regularDJs } = useRegularDJs()
   const { data: legacyDJs } = useDJs()
@@ -24,11 +25,126 @@ const DJSchedulePage: React.FC = () => {
   const { data: articles } = useArticles()
   const { data: events } = useEvents()
   const { data: podcasts } = usePodcasts()
+  const { data: showSchedules } = useShowSchedules()
 
   // Use Members data for DJs - NO MOCK DATA FALLBACK
   const djList = useMemo(() => {
     return regularDJs || []
   }, [regularDJs])
+
+  // Helper to format time compactly (e.g., "12:00 PM" -> "12n", "6:00 AM" -> "6am")
+  const formatTime = (timeStr: string): string => {
+    const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
+    if (!match) return timeStr
+
+    const hours = parseInt(match[1])
+    const minutes = match[2]
+    const period = match[3].toUpperCase()
+
+    // Special cases for noon and midnight
+    if (hours === 12 && minutes === '00') {
+      return period === 'PM' ? '12n' : '12m'
+    }
+
+    // Format: "6am", "6:30am", "11pm", etc.
+    const hourDisplay = hours === 12 ? 12 : hours
+    const minuteDisplay = minutes === '00' ? '' : `:${minutes}`
+    const ampm = period === 'AM' ? 'am' : 'pm'
+
+    return `${hourDisplay}${minuteDisplay}${ampm}`
+  }
+
+  // Transform CMS schedule data to component format
+  const scheduleData = useMemo(() => {
+    if (!showSchedules || showSchedules.length === 0) {
+      return {}
+    }
+
+    // Helper to convert "6:00 AM" to "06:00" format
+    const convertTo24Hour = (timeStr: string): string => {
+      const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
+      if (!match) return timeStr
+
+      let hours = parseInt(match[1])
+      const minutes = match[2]
+      const period = match[3].toUpperCase()
+
+      if (period === 'PM' && hours !== 12) hours += 12
+      if (period === 'AM' && hours === 12) hours = 0
+
+      return `${hours.toString().padStart(2, '0')}:${minutes}`
+    }
+
+    // Helper to determine time of day
+    const getTimeOfDay = (time24: string): string => {
+      const hour = parseInt(time24.split(':')[0])
+      if (hour < 9) return 'Early'
+      if (hour < 17) return 'Daytime'
+      return 'Evening'
+    }
+
+    // Helper to create slug
+    const createSlug = (text: string): string => {
+      return text
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+    }
+
+    // Group by day (starting with Sunday)
+    const grouped: Record<string, any[]> = {
+      Sunday: [],
+      Monday: [],
+      Tuesday: [],
+      Wednesday: [],
+      Thursday: [],
+      Friday: [],
+      Saturday: [],
+    }
+
+    showSchedules
+      .filter((schedule) => schedule.isActive !== false)
+      .forEach((schedule) => {
+        const dayName = schedule.dayOfWeek.charAt(0).toUpperCase() + schedule.dayOfWeek.slice(1)
+        const start24 = convertTo24Hour(schedule.startTime)
+        const end24 = convertTo24Hour(schedule.endTime)
+
+        // Handle Music Mix slots differently
+        let djName: string
+        let showName: string | null
+
+        if (schedule.isMusicMix) {
+          // Music Mix slot - no DJ, show CHIRP
+          djName = 'CHIRP'
+          showName = 'Music Mix'
+        } else {
+          // Regular DJ slot
+          const dj = schedule.dj as Member
+          djName = typeof dj === 'object' && dj !== null
+            ? dj.djName || dj.firstName || 'CHIRP'
+            : 'CHIRP'
+
+          showName = schedule.showName ||
+                    (typeof dj === 'object' && dj !== null ? dj.showName : null)
+        }
+
+        grouped[dayName].push({
+          slug: createSlug(showName || djName || 'show'),
+          dj: [djName],
+          title: showName || null,
+          start: start24,
+          end: end24,
+          timeOfDay: getTimeOfDay(start24),
+        })
+      })
+
+    // Sort each day by start time
+    Object.keys(grouped).forEach((day) => {
+      grouped[day].sort((a, b) => a.start.localeCompare(b.start))
+    })
+
+    return grouped
+  }, [showSchedules])
 
   // Get 8 random DJs
   const randomDJs = useMemo(() => {
@@ -43,7 +159,7 @@ const DJSchedulePage: React.FC = () => {
       </section>
 
       <section className="page-container">
-        <CrDjSchedule scheduleData={mockScheduleData} currentUser={loggedInUser} djsData={djList} />
+        <CrDjSchedule scheduleData={scheduleData} currentUser={loggedInUser} djsData={djList} />
       </section>
 
       <div className="page-layout-main-sidebar">
@@ -62,17 +178,37 @@ const DJSchedulePage: React.FC = () => {
                 size="medium"
                 djName={dj.djName}
                 content={dj.showName}
-                showTime={dj.showTime}
+                showTime={formatShowTime(dj.showTime)}
+                showTimes={prepareShowTimes(
+                  dj.showTime,
+                  dj.djName,
+                  dj.showName,
+                  (error) => {
+                    showToast({
+                      message: 'Unable to create calendar event. Please check the show time format.',
+                      type: 'error',
+                      duration: 5000,
+                    })
+                  }
+                )}
                 description={dj.description}
                 imageSrc={dj.imageSrc}
                 isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
-                onAddToCalendarClick={() =>
-                  downloadDJShowCalendar({
-                    djName: dj.djName,
-                    showName: dj.showName,
-                    showTime: dj.showTime,
-                  })
-                }
+                onAddToCalendarClick={() => {
+                  try {
+                    downloadDJShowCalendar({
+                      djName: dj.djName,
+                      showName: dj.showName,
+                      showTime: dj.showTime,
+                    })
+                  } catch (error) {
+                    showToast({
+                      message: 'Unable to create calendar event. Please check the show time format.',
+                      type: 'error',
+                      duration: 5000,
+                    })
+                  }
+                }}
               />
             ))}
           </div>

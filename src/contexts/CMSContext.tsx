@@ -10,6 +10,7 @@ import type {
   Member,
   VolunteerCalendarEvent,
   ShopItem,
+  ShowSchedule,
   Page,
   SiteSettings,
   WeeklyChart,
@@ -129,6 +130,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     mobilePageContent: [],
     mobileAppSettings: null,
     playerFallbackImages: [],
+    showSchedules: [],
   })
 
   // Loading state
@@ -147,6 +149,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     mobilePageContent: USE_CMS_API,
     mobileAppSettings: USE_CMS_API,
     playerFallbackImages: USE_CMS_API,
+    showSchedules: USE_CMS_API,
   })
 
   // Error state
@@ -165,6 +168,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     mobilePageContent: null,
     mobileAppSettings: null,
     playerFallbackImages: null,
+    showSchedules: null,
   })
 
   // Fetch announcements
@@ -626,6 +630,33 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
   }, [])
 
+  // Fetch show schedules
+  const fetchShowSchedules = useCallback(async () => {
+    if (!USE_CMS_API) return
+
+    setLoading((prev) => ({ ...prev, showSchedules: true }))
+    setError((prev) => ({ ...prev, showSchedules: null }))
+
+    try {
+      const docs = await fetchFromCMS<Record<string, unknown>>('showSchedules', {
+        depth: '1', // Populate DJ relationship
+        sort: 'displayOrder',
+        limit: '500',
+      })
+
+      const mappedDocs = docs.map((schedule) => ({
+        ...schedule,
+        id: schedule.id?.toString(),
+      })) as ShowSchedule[]
+
+      setData((prev) => ({ ...prev, showSchedules: mappedDocs }))
+    } catch (err) {
+      setError((prev) => ({ ...prev, showSchedules: err as Error }))
+    } finally {
+      setLoading((prev) => ({ ...prev, showSchedules: false }))
+    }
+  }, [])
+
   // Refresh all data
   const refresh = useCallback(async () => {
     await Promise.all([
@@ -642,6 +673,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
       fetchMobilePageContent(),
       fetchMobileAppSettings(),
       fetchPlayerFallbackImages(),
+      fetchShowSchedules(),
     ])
   }, [
     fetchAnnouncements,
@@ -657,6 +689,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     fetchMobilePageContent,
     fetchMobileAppSettings,
     fetchPlayerFallbackImages,
+    fetchShowSchedules,
   ])
 
   // Initial fetch on mount
