@@ -14,6 +14,21 @@ export interface CollectionTrack {
   dateAdded: string // ISO date string
 }
 
+export interface DonationHistory {
+  id: string
+  date: string // ISO date string or formatted date
+  type: string // e.g., "One-time", "Monthly", "Annual"
+  amount: number
+  receiptUrl?: string
+}
+
+export interface PurchaseHistory {
+  id: string
+  date: string // ISO date string or formatted date
+  item: string
+  amount: number
+}
+
 export interface UserPreferences {
   emailNotifications?: boolean
   showNotifications?: boolean
@@ -52,6 +67,8 @@ export interface User {
   collection: CollectionTrack[]
   favoriteDJs: string[]
   preferences: UserPreferences
+  donationHistory?: DonationHistory[]
+  purchaseHistory?: PurchaseHistory[]
 
   // ==========================================
   // VOLUNTEER FIELDS (Volunteer, DJ, Board Member)

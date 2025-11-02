@@ -1,20 +1,88 @@
 // CMS API utility functions for fetching members/listeners data
-import type { User } from '../types/user'
+import type { User, DonationHistory, PurchaseHistory } from '../types/user'
 
 const CMS_API_URL = import.meta.env.VITE_CMS_API_URL || 'http://localhost:3000/api'
+
+/**
+ * Fetch donations for a member
+ */
+async function fetchDonationsForMember(memberId: string): Promise<DonationHistory[]> {
+  try {
+    const response = await fetch(`${CMS_API_URL}/donations?where[member][equals]=${memberId}&limit=1000`)
+    if (!response.ok) {
+      console.error(`[cmsMembers] Failed to fetch donations for member ${memberId}`)
+      return []
+    }
+    const data = await response.json()
+
+    // Transform CMS donations to frontend format
+    return (data.docs || []).map((donation: any) => ({
+      id: donation.id,
+      date: donation.date,
+      type: donation.type,
+      amount: donation.amount,
+      receiptUrl: donation.receiptUrl,
+    }))
+  } catch (error) {
+    console.error('[cmsMembers] Error fetching donations:', error)
+    return []
+  }
+}
+
+/**
+ * Fetch purchases for a member
+ */
+async function fetchPurchasesForMember(memberId: string): Promise<PurchaseHistory[]> {
+  try {
+    const response = await fetch(`${CMS_API_URL}/purchases?where[member][equals]=${memberId}&limit=1000`)
+    if (!response.ok) {
+      console.error(`[cmsMembers] Failed to fetch purchases for member ${memberId}`)
+      return []
+    }
+    const data = await response.json()
+
+    // Transform CMS purchases to frontend format
+    return (data.docs || []).map((purchase: any) => {
+      // Create item summary from items array
+      const itemSummary = purchase.items && purchase.items.length > 0
+        ? purchase.items.length === 1
+          ? purchase.items[0].productName
+          : `${purchase.items[0].productName} +${purchase.items.length - 1} more`
+        : 'Unknown Item'
+
+      return {
+        id: purchase.id,
+        date: purchase.date,
+        item: itemSummary,
+        amount: purchase.total,
+      }
+    })
+  } catch (error) {
+    console.error('[cmsMembers] Error fetching purchases:', error)
+    return []
+  }
+}
 
 /**
  * Transform CMS user data to frontend format
  * CMS stores favoriteDJs as [{ djId: 'id' }], frontend expects ['id']
  */
-function transformCMSUser(cmsUser: any): User {
+async function transformCMSUser(cmsUser: any): Promise<User> {
+  // Fetch donation and purchase history
+  const [donationHistory, purchaseHistory] = await Promise.all([
+    fetchDonationsForMember(cmsUser.id),
+    fetchPurchasesForMember(cmsUser.id),
+  ])
+
   return {
     ...cmsUser,
     favoriteDJs: Array.isArray(cmsUser.favoriteDJs)
       ? cmsUser.favoriteDJs.map((fav: any) =>
           typeof fav === 'object' && fav.djId ? fav.djId : fav
         )
-      : []
+      : [],
+    donationHistory,
+    purchaseHistory,
   }
 }
 
@@ -28,7 +96,8 @@ export async function fetchAllMembers(): Promise<User[]> {
       throw new Error(`Failed to fetch members: ${response.statusText}`)
     }
     const data = await response.json()
-    return (data.docs || []).map(transformCMSUser)
+    // Transform all users with their donation/purchase histories
+    return await Promise.all((data.docs || []).map(transformCMSUser))
   } catch (error) {
     console.error('[cmsMembers] Error fetching all members:', error)
     throw error
@@ -47,7 +116,7 @@ export async function fetchDJs(): Promise<User[]> {
       throw new Error(`Failed to fetch DJs: ${response.statusText}`)
     }
     const data = await response.json()
-    return (data.docs || []).map(transformCMSUser)
+    return await Promise.all((data.docs || []).map(transformCMSUser))
   } catch (error) {
     console.error('[cmsMembers] Error fetching DJs:', error)
     throw error
@@ -66,7 +135,7 @@ export async function fetchSubstituteDJs(): Promise<User[]> {
       throw new Error(`Failed to fetch substitute DJs: ${response.statusText}`)
     }
     const data = await response.json()
-    return (data.docs || []).map(transformCMSUser)
+    return await Promise.all((data.docs || []).map(transformCMSUser))
   } catch (error) {
     console.error('[cmsMembers] Error fetching substitute DJs:', error)
     throw error
@@ -85,7 +154,7 @@ export async function fetchBoardMembers(): Promise<User[]> {
       throw new Error(`Failed to fetch board members: ${response.statusText}`)
     }
     const data = await response.json()
-    return (data.docs || []).map(transformCMSUser)
+    return await Promise.all((data.docs || []).map(transformCMSUser))
   } catch (error) {
     console.error('[cmsMembers] Error fetching board members:', error)
     throw error
@@ -104,7 +173,7 @@ export async function fetchVolunteers(): Promise<User[]> {
       throw new Error(`Failed to fetch volunteers: ${response.statusText}`)
     }
     const data = await response.json()
-    return (data.docs || []).map(transformCMSUser)
+    return await Promise.all((data.docs || []).map(transformCMSUser))
   } catch (error) {
     console.error('[cmsMembers] Error fetching volunteers:', error)
     throw error
@@ -124,7 +193,7 @@ export async function fetchMemberById(id: string): Promise<User | null> {
       throw new Error(`Failed to fetch member: ${response.statusText}`)
     }
     const cmsUser = await response.json()
-    return transformCMSUser(cmsUser)
+    return await transformCMSUser(cmsUser)
   } catch (error) {
     console.error('[cmsMembers] Error fetching member by ID:', error)
     return null
