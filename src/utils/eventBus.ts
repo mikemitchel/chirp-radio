@@ -1,6 +1,8 @@
 // Type-safe event bus for application-wide events
 // Replaces window.dispatchEvent/addEventListener with type-safe alternatives
 
+import type { CollectionTrack } from '../types/user'
+
 // Track interface for collection and recently played events
 interface Track {
   id: string
@@ -56,6 +58,11 @@ export interface AppEventMap {
     isFavorite: boolean
   }
   'userFavoritesUpdated': void
+  'updateUserCollection': {
+    userId: string
+    collection: CollectionTrack[]
+  }
+  'userCollectionUpdated': void
 }
 
 // Event listener type

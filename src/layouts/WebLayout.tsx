@@ -15,6 +15,7 @@ import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../hooks/useAuth'
 import { useCurrentShow } from '../hooks/useData'
 import type { UserRole } from '../hooks/useAuth'
+import { isVolunteer as checkIsVolunteer } from '../types/user'
 import '../styles/layout.css'
 
 interface LayoutProps {
@@ -181,6 +182,18 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
     }
   }
 
+  // Get display name from user object
+  const getUserDisplayName = () => {
+    if (!user) return undefined
+    return user.djName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username || user.email.split('@')[0]
+  }
+
+  // Get avatar from user object
+  const getUserAvatar = () => {
+    if (!user) return undefined
+    return user.profileImage || user.fullProfileImage
+  }
+
   return (
     <>
       <DevModeBanner />
@@ -197,9 +210,9 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
           storeBadgeCount={cartItemCount}
           showStoreBadge={true}
           isLoggedIn={isLoggedIn}
-          isVolunteer={user?.role === 'volunteer' || user?.role === 'dj'}
-          userName={user?.name}
-          userAvatar={user?.avatar}
+          isVolunteer={checkIsVolunteer(user)}
+          userName={getUserDisplayName()}
+          userAvatar={getUserAvatar()}
           onLoginClick={handleLoginClick}
           onSignUpClick={handleSignUpClick}
           onProfileClick={handleProfileClick}
