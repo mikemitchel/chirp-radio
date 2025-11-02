@@ -1,0 +1,167 @@
+/* src/components/UserTypeSwitcher.css */
+
+.user-type-switcher {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999;
+
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #fff;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  max-width: 280px;
+  pointer-events: auto;
+}
+
+.user-type-switcher__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.user-type-switcher--expanded .user-type-switcher__header {
+  margin-bottom: 8px;
+}
+
+.user-type-switcher:not(.user-type-switcher--expanded) .user-type-switcher__header {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.user-type-switcher__label {
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #fbbf24;
+}
+
+.user-type-switcher__toggle {
+  font-size: 8px;
+  color: #9ca3af;
+  transition: transform 0.2s ease;
+}
+
+.user-type-switcher__roles {
+  margin-bottom: 10px;
+  padding: 6px 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.user-type-switcher__roles-label {
+  font-weight: 600;
+  color: #9ca3af;
+  margin-right: 4px;
+}
+
+.user-type-switcher__roles-value {
+  color: #e5e7eb;
+}
+
+.user-type-switcher__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.user-type-switcher__button {
+  padding: 6px 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: #e5e7eb;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.user-type-switcher__button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateX(2px);
+}
+
+.user-type-switcher__button:active {
+  transform: scale(0.98);
+}
+
+.user-type-switcher__button--active {
+  background-color: #3b82f6;
+  border-color: #60a5fa;
+  color: #fff;
+  font-weight: 600;
+}
+
+.user-type-switcher__button--active:hover {
+  background-color: #2563eb;
+  border-color: #3b82f6;
+}
+
+/* Light theme adjustments */
+[data-theme='light'] .user-type-switcher {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #1f2937;
+}
+
+[data-theme='light'] .user-type-switcher__header {
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='light'] .user-type-switcher__label {
+  color: #d97706;
+}
+
+[data-theme='light'] .user-type-switcher__roles {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme='light'] .user-type-switcher__roles-label {
+  color: #6b7280;
+}
+
+[data-theme='light'] .user-type-switcher__roles-value {
+  color: #374151;
+}
+
+[data-theme='light'] .user-type-switcher__button {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #374151;
+}
+
+[data-theme='light'] .user-type-switcher__button:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme='light'] .user-type-switcher__button--active {
+  background-color: #3b82f6;
+  border-color: #60a5fa;
+  color: #fff;
+}
+
+[data-theme='light'] .user-type-switcher__button--active:hover {
+  background-color: #2563eb;
+  border-color: #3b82f6;
+}

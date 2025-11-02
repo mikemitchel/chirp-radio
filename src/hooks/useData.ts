@@ -7,7 +7,6 @@ import { useUsers as useUserContext } from '../contexts/UserContext'
 import { emit } from '../utils/eventBus'
 import chartsData from '../data/charts.json'
 import playlistsData from '../data/playlists-recent.json'
-import usersData from '../data/users.json'
 import { useAuth } from './useAuth'
 import { parseDjAndShowName } from '../utils/djNameParser'
 
@@ -168,11 +167,11 @@ export function usePageBySlug(slug: string) {
 
 // Users - Now uses UserContext instead of module-level state
 export function useUsers() {
-  const { users } = useUserContext()
+  const { users, loading, error } = useUserContext()
   return {
     data: users,
-    loading: false,
-    error: null,
+    loading,
+    error,
   }
 }
 
@@ -233,43 +232,54 @@ function createSlug(djName: string): string {
 
 // DJs
 export function useDJs() {
-  // Filter users who have DJ roles and map to DJ format
-  const djUsers = usersData.users
-    .filter((user) => user.role && user.role.includes('DJ'))
-    .map((user) => {
-      const djName = user.djName || user.firstName || 'DJ'
-      const userAny = user as Record<string, unknown>
-      return {
-        id: user.id,
-        slug: createSlug(djName),
-        djName,
-        showName: user.showName || '',
-        showTime: user.showTime || '',
-        excerpt: user.djExcerpt || user.bio || '',
-        description: user.djBio || user.bio || '',
-        donationLink: (userAny.djDonationLink as string) || '',
-        imageSrc: user.profileImage || '',
-        fullProfileImage: (userAny.fullProfileImage as string) || user.profileImage || '',
-        profileImageOrientation: (userAny.profileImageOrientation as 'square' | 'landscape' | 'portrait') || 'square',
-        isSubstitute: user.role === 'Substitute DJ',
-      }
-    })
+  const { users, loading, error } = useUserContext()
 
-  return { data: djUsers, loading: false, error: null }
+  // Filter users who have DJ roles and map to DJ format
+  const djUsers = useMemo(() => {
+    return users
+      .filter((user) => {
+        // Check if user has DJ role (supports both old 'role' and new 'roles' array)
+        const userAny = user as Record<string, unknown>
+        const oldRole = userAny.role as string | undefined
+        const newRoles = user.roles || []
+
+        return (
+          (oldRole && oldRole.includes('DJ')) ||
+          newRoles.includes('Regular DJ') ||
+          newRoles.includes('Substitute DJ')
+        )
+      })
+      .map((user) => {
+        const djName = user.djName || user.firstName || 'DJ'
+        const userAny = user as Record<string, unknown>
+        const oldRole = userAny.role as string | undefined
+
+        return {
+          id: user.id,
+          slug: createSlug(djName),
+          djName,
+          showName: user.showName || '',
+          showTime: user.showTime || '',
+          excerpt: user.djExcerpt || user.bio || '',
+          description: user.djBio || user.bio || '',
+          donationLink: user.djDonationLink || '',
+          imageSrc: user.profileImage || '',
+          fullProfileImage: user.fullProfileImage || user.profileImage || '',
+          profileImageOrientation: user.profileImageOrientation || 'square',
+          isSubstitute: oldRole === 'Substitute DJ' || user.roles?.includes('Substitute DJ'),
+        }
+      })
+  }, [users])
+
+  return { data: djUsers, loading, error }
 }
 
-// Get scheduled DJs (not substitutes)
+// Get scheduled DJs (not substitutes) - Legacy hook using UserContext
+// Note: Consider using useRegularDJs() from Members collection instead
 export function useScheduledDJs() {
   const { data, loading, error } = useDJs()
   const scheduledDJs = data?.filter((dj) => !dj.isSubstitute)
   return { data: scheduledDJs, loading, error }
-}
-
-// Get substitute DJs
-export function useSubstituteDJs() {
-  const { data, loading, error } = useDJs()
-  const substituteDJs = data?.filter((dj) => dj.isSubstitute)
-  return { data: substituteDJs, loading, error }
 }
 
 // Site Settings (Global)
@@ -341,4 +351,120 @@ export function usePlayerFallbackImages() {
     loading: cmsLoading.playerFallbackImages,
     error: cmsError.playerFallbackImages,
   }
+}
+
+// Members
+export function useMembers() {
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
+
+  return {
+    data: cmsData.members,
+    loading: cmsLoading.members,
+    error: cmsError.members,
+  }
+}
+
+// Get members with Regular DJ role
+export function useRegularDJs() {
+  const { data: members, loading, error } = useMembers()
+
+  const regularDJs = useMemo(() => {
+    return members
+      ?.filter((member) => member.roles?.includes('Regular DJ'))
+      .map((member) => ({
+        id: member.id?.toString() || '',
+        djName: member.djName || member.firstName || 'DJ',
+        showName: member.showName || '',
+        showTime: member.showTime || '',
+        excerpt: member.djExcerpt || member.bio || '',
+        description: member.djBio || member.bio || '',
+        donationLink: member.djDonationLink || '',
+        imageSrc: typeof member.profileImage === 'string'
+          ? member.profileImage
+          : typeof member.profileImage === 'object' && member.profileImage !== null && 'url' in member.profileImage
+          ? member.profileImage.url
+          : '',
+        fullProfileImage: typeof member.fullProfileImage === 'string'
+          ? member.fullProfileImage
+          : typeof member.fullProfileImage === 'object' && member.fullProfileImage !== null && 'url' in member.fullProfileImage
+          ? member.fullProfileImage.url
+          : typeof member.profileImage === 'string'
+          ? member.profileImage
+          : '',
+        profileImageOrientation: member.profileImageOrientation || 'square',
+        slug: createSlug(member.djName || member.firstName || 'dj'),
+      }))
+      .sort((a, b) => a.djName.localeCompare(b.djName))
+  }, [members])
+
+  return { data: regularDJs, loading, error }
+}
+
+// Get members with Substitute DJ role
+export function useSubstituteDJs() {
+  const { data: members, loading, error } = useMembers()
+
+  const substituteDJs = useMemo(() => {
+    return members
+      ?.filter((member) => member.roles?.includes('Substitute DJ'))
+      .map((member) => ({
+        id: member.id?.toString() || '',
+        djName: member.djName || member.firstName || 'DJ',
+        showName: member.showName || '',
+        showTime: member.showTime || '',
+        excerpt: member.djExcerpt || member.bio || '',
+        description: member.djBio || member.bio || '',
+        donationLink: member.djDonationLink || '',
+        imageSrc: typeof member.profileImage === 'string'
+          ? member.profileImage
+          : typeof member.profileImage === 'object' && member.profileImage !== null && 'url' in member.profileImage
+          ? member.profileImage.url
+          : '',
+        fullProfileImage: typeof member.fullProfileImage === 'string'
+          ? member.fullProfileImage
+          : typeof member.fullProfileImage === 'object' && member.fullProfileImage !== null && 'url' in member.fullProfileImage
+          ? member.fullProfileImage.url
+          : typeof member.profileImage === 'string'
+          ? member.profileImage
+          : '',
+        profileImageOrientation: member.profileImageOrientation || 'square',
+        slug: createSlug(member.djName || member.firstName || 'dj'),
+      }))
+      .sort((a, b) => a.djName.localeCompare(b.djName))
+  }, [members])
+
+  return { data: substituteDJs, loading, error }
+}
+
+// Board position priority for sorting
+const BOARD_POSITIONS: Record<string, number> = {
+  'President': 1,
+  'Vice President': 2,
+  'Secretary': 3,
+  'Treasurer': 4,
+}
+
+// Get members with Board Member role, sorted by position
+export function useBoardMembers() {
+  const { data: members, loading, error } = useMembers()
+
+  const boardMembers = useMemo(() => {
+    return members
+      ?.filter((member) => member.roles?.includes('Board Member'))
+      .sort((a, b) => {
+        const posA = BOARD_POSITIONS[a.boardPosition || ''] || 999
+        const posB = BOARD_POSITIONS[b.boardPosition || ''] || 999
+
+        // If same position priority (or both are regular board members), sort by last name
+        if (posA === posB) {
+          const lastNameA = a.lastName || a.firstName || ''
+          const lastNameB = b.lastName || b.firstName || ''
+          return lastNameA.localeCompare(lastNameB)
+        }
+
+        return posA - posB
+      })
+  }, [members])
+
+  return { data: boardMembers, loading, error }
 }

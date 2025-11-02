@@ -1,11 +1,13 @@
 // src/pages/DJSchedulePage.tsx
 import React, { useMemo } from 'react'
+import { useNavigate } from 'react-router'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrDjSchedule from '../stories/CrDjSchedule'
 import CrDjOverview from '../stories/CrDjOverview'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import { useAnnouncements, useDJs } from '../hooks/useData'
+import CrCard from '../stories/CrCard'
+import { useRegularDJs, useDJs, useSiteSettings, useArticles, useEvents, usePodcasts } from '../hooks/useData'
 import { downloadDJShowCalendar } from '../utils/calendar'
 import { useAuth } from '../hooks/useAuth'
 
@@ -13,104 +15,20 @@ import { useAuth } from '../hooks/useAuth'
 import { mockScheduleData } from '../stories/CrDjSchedule.stories'
 
 const DJSchedulePage: React.FC = () => {
-  const { data: announcements } = useAnnouncements()
+  const navigate = useNavigate()
   const { user: loggedInUser } = useAuth()
   const currentUser = loggedInUser
-  const { data: allDJs } = useDJs()
+  const { data: regularDJs } = useRegularDJs()
+  const { data: legacyDJs } = useDJs()
+  const { data: siteSettings } = useSiteSettings()
+  const { data: articles } = useArticles()
+  const { data: events } = useEvents()
+  const { data: podcasts } = usePodcasts()
 
-  // Use real DJ data instead of mock
-  const djList = useMemo(() => allDJs || [
-    {
-      id: 'dj-001',
-      djName: 'Sarah Johnson',
-      content: 'Morning Classics',
-      showTime: 'Mon 6am - 9am',
-      description: 'Indie rock enthusiast spinning classics and new discoveries.',
-      imageSrc:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=faces',
-    },
-    {
-      id: 'dj-002',
-      djName: 'Mike Chen',
-      content: 'Lunch Beats',
-      showTime: 'Mon 12pm - 2pm',
-      description: 'Bringing you the best midday mix of electronic and indie.',
-      imageSrc:
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces',
-    },
-    {
-      id: 'dj-003',
-      djName: 'Jessica Martinez',
-      content: 'Afternoon Mix',
-      showTime: 'Mon 2pm - 5pm',
-      description: 'Alternative and indie sounds to get you through the afternoon.',
-      imageSrc:
-        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=faces',
-    },
-    {
-      id: 'dj-004',
-      djName: 'David Thompson',
-      content: 'Evening Drive',
-      showTime: 'Mon 5pm - 8pm',
-      description: 'Rock and alternative for your evening commute.',
-      imageSrc:
-        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces',
-    },
-    {
-      id: 'dj-005',
-      djName: 'Alex Rivera',
-      content: 'Night Vibes',
-      showTime: 'Mon 8pm - 11pm',
-      description: 'Late night electronic and experimental sounds.',
-      imageSrc:
-        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=faces',
-    },
-    {
-      id: 'dj-006',
-      djName: 'Emma Wilson',
-      content: 'Wake Up Call',
-      showTime: 'Tue 6am - 9am',
-      description: 'Starting your Tuesday with energy and great music.',
-      imageSrc:
-        'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=faces',
-    },
-    {
-      id: 'dj-007',
-      djName: 'Chris Anderson',
-      content: 'Midday Melodies',
-      showTime: 'Tue 9am - 12pm',
-      description: 'Eclectic mix of indie, rock, and folk.',
-      imageSrc:
-        'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=faces',
-    },
-    {
-      id: 'dj-008',
-      djName: 'Jordan Lee',
-      content: 'The Indie Hour',
-      showTime: 'Tue 2pm - 5pm',
-      description: 'Deep cuts and new indie releases.',
-      imageSrc:
-        'https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&h=400&fit=crop&crop=faces',
-    },
-    {
-      id: 'dj-009',
-      djName: 'Morgan Taylor',
-      content: 'Jazz Junction',
-      showTime: 'Tue 8pm - 11pm',
-      description: 'Traditional and modern jazz explorations.',
-      imageSrc:
-        'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=400&fit=crop&crop=faces',
-    },
-    {
-      id: 'dj-010',
-      djName: 'Riley Parker',
-      content: 'Fresh Tracks',
-      showTime: 'Wed 9am - 12pm',
-      description: 'New releases and hidden gems.',
-      imageSrc:
-        'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&h=400&fit=crop&crop=faces',
-    },
-  ], [allDJs])
+  // Use Members data for DJs - NO MOCK DATA FALLBACK
+  const djList = useMemo(() => {
+    return regularDJs || []
+  }, [regularDJs])
 
   // Get 8 random DJs
   const randomDJs = useMemo(() => {
@@ -125,7 +43,7 @@ const DJSchedulePage: React.FC = () => {
       </section>
 
       <section className="page-container">
-        <CrDjSchedule scheduleData={mockScheduleData} currentUser={loggedInUser} djsData={allDJs} />
+        <CrDjSchedule scheduleData={mockScheduleData} currentUser={loggedInUser} djsData={djList} />
       </section>
 
       <div className="page-layout-main-sidebar">
@@ -161,20 +79,61 @@ const DJSchedulePage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {announcements && announcements[0] && (
+          {/* Announcement from CMS */}
+          {siteSettings?.scheduleSidebarAnnouncement && (
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={('backgroundColor' in announcements[0] ? (announcements[0] as Record<string, unknown>).backgroundColor as string : undefined)}
-              headlineText={('title' in announcements[0] ? (announcements[0] as Record<string, unknown>).title as string : announcements[0].headlineText)}
-              bodyText={('message' in announcements[0] ? (announcements[0] as Record<string, unknown>).message as string : typeof announcements[0].bodyText === 'string' ? announcements[0].bodyText : undefined)}
-              showLink={!!announcements[0].ctaText}
-              linkText={('ctaText' in announcements[0] ? (announcements[0] as Record<string, unknown>).ctaText as string : undefined)}
-              linkUrl={('ctaUrl' in announcements[0] ? (announcements[0] as Record<string, unknown>).ctaUrl as string : undefined)}
+              textureBackground={('backgroundColor' in siteSettings.scheduleSidebarAnnouncement ? (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).backgroundColor as string : undefined)}
+              headlineText={('title' in siteSettings.scheduleSidebarAnnouncement ? (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).title as string : (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).headlineText as string)}
+              bodyText={('message' in siteSettings.scheduleSidebarAnnouncement ? (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).message as string : (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).bodyText as string)}
+              showLink={!!((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).ctaText)}
+              linkText={('ctaText' in siteSettings.scheduleSidebarAnnouncement ? (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).ctaText as string : undefined)}
+              linkUrl={('ctaUrl' in siteSettings.scheduleSidebarAnnouncement ? (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).ctaUrl as string : undefined)}
               buttonCount="none"
             />
           )}
-          <CrAdSpace size="large-rectangle" />
+
+          {/* Content Cards based on CMS settings */}
+          {siteSettings?.scheduleSidebarContentType && siteSettings.scheduleSidebarContentType !== 'none' && (() => {
+            const contentType = siteSettings.scheduleSidebarContentType
+            const count = parseInt(siteSettings.scheduleSidebarContentCount || '3')
+            let contentItems: any[] = []
+
+            if (contentType === 'articles') {
+              contentItems = articles?.slice(0, count) || []
+            } else if (contentType === 'events') {
+              contentItems = events?.slice(0, count) || []
+            } else if (contentType === 'podcasts') {
+              contentItems = podcasts?.slice(0, count) || []
+            }
+
+            return contentItems.map((item, index) => (
+              <CrCard
+                key={item.id || index}
+                variant="article"
+                cardSize="small"
+                imagePosition="top"
+                title={item.title}
+                excerpt={item.excerpt}
+                content={item.excerpt}
+                backgroundImage={typeof item.image === 'string' ? item.image : item.image?.url}
+                onClick={() => {
+                  if (contentType === 'articles') navigate(`/articles/${item.slug || item.id}`)
+                  else if (contentType === 'events') navigate(`/events/${item.slug || item.id}`)
+                  else if (contentType === 'podcasts') navigate(`/podcasts/${item.slug || item.id}`)
+                }}
+              />
+            ))
+          })()}
+
+          {/* Advertisement from CMS */}
+          {siteSettings?.scheduleSidebarAdvertisement && (
+            <CrAdSpace
+              size="large-rectangle"
+              adData={siteSettings.scheduleSidebarAdvertisement}
+            />
+          )}
         </div>
       </div>
     </div>

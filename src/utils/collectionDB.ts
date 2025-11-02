@@ -1,19 +1,29 @@
 // src/utils/collectionDB.ts
-// Fake database for user's collection using localStorage
+// User collection management with localStorage and user record syncing
 
-export interface CollectionTrack {
-  id: string
-  artistName: string
-  trackName: string
-  albumName: string
-  labelName: string
-  albumArt?: string
-  albumArtAlt?: string
-  isLocal?: boolean
-  dateAdded: string // ISO date string
-}
+import { emit } from './eventBus'
+import type { CollectionTrack } from '../types/user'
+
+export type { CollectionTrack }
 
 const COLLECTION_KEY = 'chirp-collection'
+
+/**
+ * Sync collection to user record via event bus
+ */
+function syncCollectionToUser(collection: CollectionTrack[]) {
+  const storedUser = localStorage.getItem('chirp-user')
+  if (storedUser) {
+    try {
+      const user = JSON.parse(storedUser)
+      if (user.id) {
+        emit('updateUserCollection', { userId: user.id, collection })
+      }
+    } catch (error) {
+      console.error('Error syncing collection to user:', error)
+    }
+  }
+}
 
 /**
  * Get all tracks in the collection, sorted by newest first
@@ -58,6 +68,9 @@ export function addToCollection(track: Omit<CollectionTrack, 'dateAdded'>): Coll
   collection.push(newTrack)
   localStorage.setItem(COLLECTION_KEY, JSON.stringify(collection))
 
+  // Sync to user record
+  syncCollectionToUser(collection)
+
   // Dispatch event for other components to react
   window.dispatchEvent(
     new CustomEvent('chirp-collection-updated', {
@@ -83,6 +96,9 @@ export function removeFromCollection(trackId: string): boolean {
   }
 
   localStorage.setItem(COLLECTION_KEY, JSON.stringify(filtered))
+
+  // Sync to user record
+  syncCollectionToUser(filtered)
 
   // Dispatch event
   window.dispatchEvent(
@@ -114,6 +130,10 @@ export function isInCollection(artistName: string, trackName: string): boolean {
  */
 export function clearCollection(): void {
   localStorage.removeItem(COLLECTION_KEY)
+
+  // Sync empty collection to user record
+  syncCollectionToUser([])
+
   window.dispatchEvent(
     new CustomEvent('chirp-collection-updated', {
       detail: { action: 'clear' },
@@ -126,6 +146,19 @@ export function clearCollection(): void {
  */
 export function getCollectionCount(): number {
   return getCollection().length
+}
+
+/**
+ * Load collection from user record (called on login)
+ */
+export function loadCollectionFromUser(collection: CollectionTrack[]): void {
+  console.log('[collectionDB] Loading collection from user record:', collection.length, 'tracks')
+  localStorage.setItem(COLLECTION_KEY, JSON.stringify(collection))
+  window.dispatchEvent(
+    new CustomEvent('chirp-collection-updated', {
+      detail: { action: 'load', collection },
+    })
+  )
 }
 
 /**

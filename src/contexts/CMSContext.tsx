@@ -7,6 +7,7 @@ import type {
   Article,
   Event,
   Podcast,
+  Member,
   VolunteerCalendarEvent,
   ShopItem,
   Page,
@@ -25,6 +26,7 @@ import articlesData from '../data/articles.json'
 import eventsData from '../data/events.json'
 import podcastsData from '../data/podcasts.json'
 import shopItemsData from '../data/shopItems.json'
+import membersData from '../data/members.json'
 
 // Feature flag to toggle between mock data and CMS API
 const USE_CMS_API = import.meta.env.VITE_USE_CMS_API === 'true'
@@ -118,6 +120,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     events: USE_CMS_API ? [] : (eventsData.events as unknown as Event[]),
     podcasts: USE_CMS_API ? [] : (podcastsData.podcasts as unknown as Podcast[]),
     djs: [],
+    members: [], // Always load from CMS - no mock data fallback
     volunteerCalendar: [],
     shopItems: USE_CMS_API ? [] : (shopItemsData.shopItems as unknown as ShopItem[]),
     pages: [],
@@ -135,6 +138,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     events: USE_CMS_API,
     podcasts: USE_CMS_API,
     djs: USE_CMS_API,
+    members: USE_CMS_API,
     volunteerCalendar: USE_CMS_API,
     shopItems: USE_CMS_API,
     pages: USE_CMS_API,
@@ -152,6 +156,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     events: null,
     podcasts: null,
     djs: null,
+    members: null,
     volunteerCalendar: null,
     shopItems: null,
     pages: null,
@@ -274,6 +279,64 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
   }, [])
 
+  // Fetch members (from 'listeners' collection)
+  const fetchMembers = useCallback(async () => {
+    if (!USE_CMS_API) return
+
+    setLoading((prev) => ({ ...prev, members: true }))
+    setError((prev) => ({ ...prev, members: null }))
+
+    try {
+      const docs = await fetchFromCMS<Record<string, unknown>>('listeners', {
+        sort: 'djName',
+        limit: '500',
+      })
+
+      const mappedDocs = docs.map((member) => ({
+        ...member,
+        id: member.id?.toString(),
+        roles: Array.isArray(member.roles) ? member.roles as string[] : [],
+        djBio: typeof member.djBio === 'string' ? member.djBio : lexicalToHtml(member.djBio),
+        volunteerOrgs: Array.isArray(member.volunteerOrgs)
+          ? (member.volunteerOrgs as Array<Record<string, unknown> | string>).map((org) =>
+              typeof org === 'string' ? org : (org.org as string)
+            )
+          : [],
+        specialSkills: Array.isArray(member.specialSkills)
+          ? (member.specialSkills as Array<Record<string, unknown> | string>).map((skill) =>
+              typeof skill === 'string' ? skill : (skill.skill as string)
+            )
+          : [],
+        interests: Array.isArray(member.interests)
+          ? (member.interests as Array<Record<string, unknown> | string>).map((interest) =>
+              typeof interest === 'string' ? interest : (interest.interest as string)
+            )
+          : [],
+        hearAboutChirp: Array.isArray(member.hearAboutChirp)
+          ? (member.hearAboutChirp as Array<Record<string, unknown> | string>).map((source) =>
+              typeof source === 'string' ? source : (source.source as string)
+            )
+          : [],
+        djAvailability: Array.isArray(member.djAvailability)
+          ? (member.djAvailability as Array<Record<string, unknown> | string>).map((time) =>
+              typeof time === 'string' ? time : (time.time as string)
+            )
+          : [],
+        substituteAvailability: Array.isArray(member.substituteAvailability)
+          ? (member.substituteAvailability as Array<Record<string, unknown> | string>).map((time) =>
+              typeof time === 'string' ? time : (time.time as string)
+            )
+          : [],
+      })) as Member[]
+
+      setData((prev) => ({ ...prev, members: mappedDocs }))
+    } catch (err) {
+      setError((prev) => ({ ...prev, members: err as Error }))
+    } finally {
+      setLoading((prev) => ({ ...prev, members: false }))
+    }
+  }, [])
+
   // Fetch volunteer calendar
   const fetchVolunteerCalendar = useCallback(async () => {
     if (!USE_CMS_API) return
@@ -312,32 +375,51 @@ export function CMSProvider({ children }: CMSProviderProps) {
     setError((prev) => ({ ...prev, shopItems: null }))
 
     try {
-      const docs = await fetchFromCMS<Record<string, unknown>>('shopItems')
+      const docs = await fetchFromCMS<Record<string, unknown>>('shopItems', {
+        limit: 1000,
+      })
 
-      const mappedDocs = docs.map((item) => ({
-        ...item,
-        image:
-          (item.images as Array<Record<string, unknown>>)?.length > 0
-            ? ((item.images as Array<Record<string, unknown>>)[0].image as Record<string, unknown>)
-                ?.url
-            : item.imageUrl,
-        sizes:
-          (item.sizes as Array<Record<string, unknown> | string>)?.map((s) =>
-            typeof s === 'string' ? s : (s.size as string)
-          ) || [],
-        itemType:
-          item.category === 'apparel'
-            ? 'Apparel'
-            : item.category === 'merchandise'
-              ? 'Merchandise'
-              : item.category === 'accessories'
-                ? 'Accessories'
-                : item.category === 'music'
-                  ? 'Music'
-                  : item.itemType || 'Merchandise',
-      })) as ShopItem[]
+      const mappedDocs = docs.map((item) => {
+        const images = (item.images as Array<Record<string, unknown>>) || []
+        const imageUrls = images
+          .map((img) => (img.image as Record<string, unknown>)?.url as string)
+          .filter(Boolean)
 
-      setData((prev) => ({ ...prev, shopItems: mappedDocs }))
+        return {
+          ...item,
+          image: imageUrls.length > 0 ? imageUrls[0] : item.imageUrl,
+          additionalImageUrls:
+            imageUrls.length > 1 ? imageUrls.slice(1).map((url) => ({ url })) : [],
+          sizes:
+            (item.sizes as Array<Record<string, unknown> | string>)?.map((s) =>
+              typeof s === 'string' ? s : (s.size as string)
+            ) || [],
+          itemType:
+            item.category === 'apparel'
+              ? 'Apparel'
+              : item.category === 'poster'
+                ? 'Poster'
+                : item.category === 'accessories'
+                  ? 'Accessories'
+                  : item.category === 'merchandise'
+                    ? 'Merchandise'
+                    : item.category === 'music'
+                      ? 'Music'
+                      : item.itemType || 'Other',
+        }
+      }) as ShopItem[]
+
+      // Sort by itemType (category), then by name
+      const sortedDocs = mappedDocs.sort((a, b) => {
+        // First sort by itemType
+        if (a.itemType !== b.itemType) {
+          return (a.itemType || '').localeCompare(b.itemType || '')
+        }
+        // Then by name
+        return (a.name || '').localeCompare(b.name || '')
+      })
+
+      setData((prev) => ({ ...prev, shopItems: sortedDocs }))
     } catch (err) {
       setError((prev) => ({ ...prev, shopItems: err as Error }))
     } finally {
@@ -551,6 +633,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
       fetchArticles(),
       fetchEvents(),
       fetchPodcasts(),
+      fetchMembers(),
       fetchVolunteerCalendar(),
       fetchShopItems(),
       fetchPages(),
@@ -565,6 +648,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     fetchArticles,
     fetchEvents,
     fetchPodcasts,
+    fetchMembers,
     fetchVolunteerCalendar,
     fetchShopItems,
     fetchPages,
