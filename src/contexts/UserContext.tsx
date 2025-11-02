@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react'
 import { emit, on } from '../utils/eventBus'
 import type { User, CollectionTrack } from '../types/user'
-import { fetchAllMembers } from '../utils/cmsMembers'
+import { fetchAllMembers, updateMember } from '../utils/cmsMembers'
 
 interface UserContextValue {
   users: User[]
@@ -70,17 +70,35 @@ export function UserProvider({ children }: UserProviderProps) {
 
   // Update user's favorite DJs
   const updateUserFavoriteDJs = useCallback(
-    (userId: string, djId: string, isFavorite: boolean) => {
+    async (userId: string, djId: string, isFavorite: boolean) => {
       console.log('[UserContext] updateUserFavoriteDJs:', { userId, djId, isFavorite })
 
+      // Get current user to calculate new favoriteDJs
+      const currentUser = users.find((u) => u.id === userId)
+      if (!currentUser) return
+
+      const favoriteDJs = currentUser.favoriteDJs || []
+      const updatedFavoriteDJs = isFavorite
+        ? [...favoriteDJs, djId]
+        : favoriteDJs.filter((id) => id !== djId)
+
+      // Convert to CMS format: array of objects with djId field
+      const cmsFavoriteDJs = updatedFavoriteDJs.map(id => ({ djId: id }))
+
+      // First update in CMS
+      try {
+        await updateMember(userId, { favoriteDJs: cmsFavoriteDJs })
+        console.log('[UserContext] Saved favoriteDJs to CMS successfully')
+      } catch (error) {
+        console.error('[UserContext] Failed to save favoriteDJs to CMS:', error)
+        // Don't update local state if CMS save fails
+        return
+      }
+
+      // Then update local state
       setUsers((prevUsers) => {
         const updatedUsers = prevUsers.map((user) => {
           if (user.id === userId) {
-            const favoriteDJs = user.favoriteDJs || []
-            const updatedFavoriteDJs = isFavorite
-              ? [...favoriteDJs, djId]
-              : favoriteDJs.filter((id) => id !== djId)
-
             console.log('[UserContext] Updating user favorites:', {
               userId,
               oldFavorites: favoriteDJs,
@@ -110,7 +128,7 @@ export function UserProvider({ children }: UserProviderProps) {
       // Emit typed event
       emit('userFavoritesUpdated')
     },
-    [currentUserId]
+    [currentUserId, users]
   )
 
   // Sync currentUserId with localStorage changes
@@ -135,9 +153,20 @@ export function UserProvider({ children }: UserProviderProps) {
 
   // Update user's collection
   const updateUserCollection = useCallback(
-    (userId: string, collection: CollectionTrack[]) => {
+    async (userId: string, collection: CollectionTrack[]) => {
       console.log('[UserContext] updateUserCollection:', { userId, collectionLength: collection.length })
 
+      // First update in CMS
+      try {
+        await updateMember(userId, { collection })
+        console.log('[UserContext] Saved collection to CMS successfully')
+      } catch (error) {
+        console.error('[UserContext] Failed to save collection to CMS:', error)
+        // Don't update local state if CMS save fails
+        return
+      }
+
+      // Then update local state
       setUsers((prevUsers) => {
         const updatedUsers = prevUsers.map((user) => {
           if (user.id === userId) {
