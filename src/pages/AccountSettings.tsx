@@ -16,8 +16,8 @@ import LoginRequiredModal from '../components/LoginRequiredModal'
 import { emit } from '../utils/eventBus'
 import { formatShowTime } from '../utils/formatShowTime'
 import { updateInCMS } from '../utils/api'
+import { fetchMemberById } from '../utils/cmsMembers'
 import type { Member } from '../types/member'
-import '../utils/refreshUserData' // Auto-refreshes user data in development
 import './AccountSettings.css'
 
 export default function AccountSettings() {
@@ -128,6 +128,30 @@ export default function AccountSettings() {
   // Only show on iOS (Android requires complex activity alias setup)
   const isInAppRoutes = location.pathname.startsWith('/app')
   const showIconSelector = isInAppRoutes && Capacitor.getPlatform() === 'ios'
+
+  // Fetch latest user data from CMS when component mounts to ensure preferences are up to date
+  useEffect(() => {
+    const refreshUserPreferences = async () => {
+      if (isLoggedIn && user?.id) {
+        console.log('[AccountSettings] Fetching latest user data from CMS for user:', user.id)
+        try {
+          const latestUser = await fetchMemberById(user.id)
+          if (latestUser && latestUser.preferences?.darkMode) {
+            console.log('[AccountSettings] Loaded darkMode from CMS:', latestUser.preferences.darkMode)
+            setDarkMode(latestUser.preferences.darkMode)
+            const storage = getStorage()
+            storage.setItem('chirp-dark-mode', latestUser.preferences.darkMode)
+            // Also update localStorage user object
+            localStorage.setItem('chirp-user', JSON.stringify(latestUser))
+          }
+        } catch (error) {
+          console.error('[AccountSettings] Failed to fetch latest user data:', error)
+        }
+      }
+    }
+
+    refreshUserPreferences()
+  }, [isLoggedIn, user?.id, getStorage])
 
   // Load user's dark mode preference when user changes
   useEffect(() => {
