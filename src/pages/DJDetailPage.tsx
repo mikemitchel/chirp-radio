@@ -1,31 +1,123 @@
 // src/pages/DJDetailPage.tsx
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
-import { PiHeart, PiHeartFill } from 'react-icons/pi'
+import { PiHeart, PiHeartFill, PiCalendarPlus } from 'react-icons/pi'
 import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrCard from '../stories/CrCard'
+import CrButton from '../stories/CrButton'
 import CrPreviousShows from '../stories/CrPreviousShows'
 import CrDjDonation from '../stories/CrDjDonation'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import { useDJs, useSiteSettings, useArticles, useEvents, usePodcasts } from '../hooks/useData'
+import { useRegularDJs, useSubstituteDJs, useSiteSettings, useArticles, useEvents, usePodcasts, useShowSchedules } from '../hooks/useData'
 import { useLoginRequired } from '../hooks/useLoginRequired'
 import { useAuth } from '../hooks/useAuth'
+import { useNotification } from '../contexts/NotificationContext'
+import { downloadDJShowCalendar } from '../utils/calendar'
 import LoginRequiredModal from '../components/LoginRequiredModal'
+import { useMemo } from 'react'
+import type { Member } from '../types/cms'
 
 const DJDetailPage: React.FC = () => {
   const navigate = useNavigate()
   const { id: slugOrId } = useParams()
-  const { data: allDJs } = useDJs()
+  const { data: regularDJs } = useRegularDJs()
+  const { data: substituteDJs } = useSubstituteDJs()
+  const allDJs = useMemo(() => {
+    return [...(regularDJs || []), ...(substituteDJs || [])]
+  }, [regularDJs, substituteDJs])
   const { data: siteSettings } = useSiteSettings()
   const { data: articles } = useArticles()
   const { data: events } = useEvents()
   const { data: podcasts } = usePodcasts()
+  const { data: showSchedules } = useShowSchedules()
   const { user: loggedInUser, updateFavoriteDJs } = useAuth()
   const { requireLogin, showLoginModal, handleLogin, handleSignUp, closeModal } = useLoginRequired()
+  const { showToast } = useNotification()
+
+  // Helper to format time compactly (e.g., "12:00 PM" -> "12n", "6:00 AM" -> "6am")
+  const formatTime = (timeStr: string): string => {
+    const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
+    if (!match) return timeStr
+
+    const hours = parseInt(match[1])
+    const minutes = match[2]
+    const period = match[3].toUpperCase()
+
+    // Special cases for noon and midnight
+    if (hours === 12 && minutes === '00') {
+      return period === 'PM' ? '12n' : '12m'
+    }
+
+    // Format: "6am", "6:30am", "11pm", etc.
+    const hourDisplay = hours === 12 ? 12 : hours
+    const minuteDisplay = minutes === '00' ? '' : `:${minutes}`
+    const ampm = period === 'AM' ? 'am' : 'pm'
+
+    return `${hourDisplay}${minuteDisplay}${ampm}`
+  }
 
   // Find the DJ by slug (or fall back to ID for backwards compatibility)
   let dj = allDJs?.find((d) => d.slug === slugOrId || d.id === slugOrId)
+
+  // Get this DJ's schedule from CMS - returns array of schedule objects
+  const djSchedules = useMemo(() => {
+    if (!dj || !showSchedules || showSchedules.length === 0) {
+      return []
+    }
+
+    // Find all schedules for this DJ
+    const schedules = showSchedules.filter((schedule) => {
+      if (!schedule.isActive) return false
+      const scheduleDj = schedule.dj as Member
+      return scheduleDj && scheduleDj.id?.toString() === dj.id
+    })
+
+    return schedules
+  }, [dj, showSchedules])
+
+  // Format schedule info for display
+  const djScheduleInfo = useMemo(() => {
+    if (!dj) return ''
+
+    if (djSchedules.length === 0) {
+      // Fallback to DJ's showTime field if no schedules found
+      // Parse and format if it's in "Day HH:MM AM/PM - HH:MM AM/PM" format
+      const showTime = dj.showTime || ''
+      if (!showTime) return ''
+
+      // Try to parse and reformat legacy format like "Wed 12:00 PM - 2:00 PM"
+      const match = showTime.match(/(\w{3,})\s+(\d{1,2}):?(\d{2})?\s*(AM|PM)\s*-\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)/i)
+      if (match) {
+        const day = match[1].substring(0, 3) // Take first 3 chars for abbreviation
+        const startTime = formatTime(`${match[2]}:${match[3] || '00'} ${match[4]}`)
+        const endTime = formatTime(`${match[5]}:${match[6] || '00'} ${match[7]}`)
+        return `${day} ${startTime} - ${endTime}`
+      }
+
+      return showTime
+    }
+
+    // Format schedule times from CMS
+    const dayNames: Record<string, string> = {
+      monday: 'Mon',
+      tuesday: 'Tue',
+      wednesday: 'Wed',
+      thursday: 'Thu',
+      friday: 'Fri',
+      saturday: 'Sat',
+      sunday: 'Sun',
+    }
+
+    const scheduleStrings = djSchedules.map((schedule) => {
+      const day = dayNames[schedule.dayOfWeek] || schedule.dayOfWeek
+      const startTime = formatTime(schedule.startTime)
+      const endTime = formatTime(schedule.endTime)
+      return `${day} ${startTime} - ${endTime}`
+    })
+
+    return scheduleStrings.join(', ')
+  }, [dj, djSchedules])
 
   // If viewing the logged-in user's DJ profile, use their current data from localStorage
   if (loggedInUser && loggedInUser.role === 'dj' && dj && dj.id === loggedInUser.id) {
@@ -113,6 +205,24 @@ const DJDetailPage: React.FC = () => {
     console.log(`Donating to DJ: ${dj?.djName}`)
   }
 
+  const handleAddToCalendar = (showTime: string) => {
+    if (!dj) return
+
+    try {
+      downloadDJShowCalendar({
+        djName: dj.djName,
+        showName: dj.showName,
+        showTime: showTime,
+      })
+    } catch (error) {
+      showToast({
+        message: 'Unable to create calendar event. Please check the show time format.',
+        type: 'error',
+        duration: 5000,
+      })
+    }
+  }
+
   if (!dj) {
     return (
       <div className="dj-detail-page">
@@ -157,7 +267,87 @@ const DJDetailPage: React.FC = () => {
             bannerHeight="tall"
             textLayout="stacked"
             showName={dj.showName}
-            scheduleInfo={dj.showTime}
+            scheduleInfo={
+              (djSchedules.length > 0 || dj.showTime) && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
+                  {djSchedules.length > 0 ? (
+                    djSchedules.map((schedule, index) => {
+                      const dayNames: Record<string, string> = {
+                        monday: 'Mon',
+                        tuesday: 'Tue',
+                        wednesday: 'Wed',
+                        thursday: 'Thu',
+                        friday: 'Fri',
+                        saturday: 'Sat',
+                        sunday: 'Sun',
+                      }
+                      const day = dayNames[schedule.dayOfWeek] || schedule.dayOfWeek
+                      const startTime = formatTime(schedule.startTime)
+                      const endTime = formatTime(schedule.endTime)
+                      const showTimeFormatted = `${day} ${startTime} - ${endTime}`
+                      const originalFormat = `${day} ${schedule.startTime} - ${schedule.endTime}`
+
+                      return (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                          <span style={{ fontSize: '1rem', fontWeight: '500' }}>{showTimeFormatted}</span>
+                          <button
+                            onClick={() => handleAddToCalendar(originalFormat)}
+                            aria-label={`Add ${showTimeFormatted} to calendar`}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              cursor: 'pointer',
+                              padding: '0.25rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              fontSize: '1.25rem',
+                              color: 'var(--cr-color-primary)',
+                            }}
+                          >
+                            <PiCalendarPlus />
+                          </button>
+                        </div>
+                      )
+                    })
+                  ) : (
+                    // Handle legacy format with multiple shows from users.json
+                    dj.showTime?.split(',').map((time, index) => {
+                      const trimmedTime = time.trim()
+                      const match = trimmedTime.match(/(\w{3,})\s+(\d{1,2}):?(\d{2})?\s*(AM|PM)\s*-\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)/i)
+
+                      if (!match) return null
+
+                      const day = match[1].substring(0, 3)
+                      const startTime = formatTime(`${match[2]}:${match[3] || '00'} ${match[4]}`)
+                      const endTime = formatTime(`${match[5]}:${match[6] || '00'} ${match[7]}`)
+                      const showTimeFormatted = `${day} ${startTime} - ${endTime}`
+
+                      return (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                          <span style={{ fontSize: '1rem', fontWeight: '500' }}>{showTimeFormatted}</span>
+                          <button
+                            onClick={() => handleAddToCalendar(trimmedTime)}
+                            aria-label={`Add ${showTimeFormatted} to calendar`}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              cursor: 'pointer',
+                              padding: '0.25rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              fontSize: '1.25rem',
+                              color: 'var(--cr-color-primary)',
+                            }}
+                          >
+                            <PiCalendarPlus />
+                          </button>
+                        </div>
+                      )
+                    })
+                  )}
+                </div>
+              )
+            }
             content={dj.description}
             excerpt={dj.excerpt || dj.description}
             showTicketButton={true}

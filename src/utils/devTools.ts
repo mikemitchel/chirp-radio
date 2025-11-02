@@ -213,7 +213,7 @@ if (process.env.NODE_ENV === 'development') {
   w.testImageLoad = devTools.testImageLoad
   w.showHelp = devTools.showHelp
 
-  console.log('🛠️  DevTools loaded! Type showHelp() for commands')
+  // Silent load - users can type showHelp() if they need the DevTools
 }
 
 export default devTools

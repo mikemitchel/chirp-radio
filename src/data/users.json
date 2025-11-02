@@ -709,7 +709,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Avery's love affair with soul and R&B began in their grandmother's Chicago bungalow, where dusty vinyl records told stories of the city's rich musical heritage. After studying music history at DePaul University, they became a fixture at local record shops and soul music nights across the city.\n\nAs a longtime CHIRP volunteer, Avery has served on the programming committee and helped organize several fundraising events. Their encyclopedic knowledge of soul music and infectious enthusiasm have made them a beloved voice in Chicago's music community.\n\nAvery also works as a music archivist at the Chicago History Museum and leads soul music walking tours of Bronzeville. They're dedicated to preserving and sharing Chicago's incredible contributions to American music.",
+      "djBio": "Avery's love affair with soul and R&B began in their grandmother's Chicago bungalow, where dusty vinyl records told stories of the city's rich musical heritage. After studying music history at DePaul University, they became a fixture at local record shops and soul music nights across the city.\n\nAs a longtime CHIRP volunteer, Avery has served on the programming committee and helped organize several fundraising events. Their encyclopedic knowledge of soul music and infectious enthusiasm have made them a beloved voice in Chicago's music community.\n\nAvery also works as a music archivist at the Chicago History Museum and leads soul music walking tours of Bronzeville. They're dedicated to preserving and sharing Chicago's incredible contributions to American music."
     },
     {
       "id": "dj-003",
@@ -738,7 +740,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Coffee-fueled cyclist bringing neighborhood sounds and community energy to Friday mornings across Chicago.",
+      "djBio": "Coffee-fueled cyclist bringing neighborhood sounds and community energy to Friday mornings across Chicago."
     },
     {
       "id": "dj-004",
@@ -750,6 +754,8 @@
       "phone": "(312) 555-1004",
       "profileImage": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=faces",
       "bio": "Original CHIRP board member who helped bring low power FM radio to Chicago through White House advocacy.",
+      "djExcerpt": "Original CHIRP board member who helped bring low power FM radio to Chicago through White House advocacy.",
+      "djBio": "Original CHIRP board member who helped bring low power FM radio to Chicago through White House advocacy.",
       "location": "Chicago, IL",
       "memberSince": "2015-01-10",
       "donorLevel": "Vinyl Circle",
@@ -793,7 +799,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Casey stumbled into radio through the back door—literally. After sneaking into a CHIRP fundraiser to see their favorite local band, they fell in love with the station's mission and immediately signed up to volunteer. What started as helping with events turned into training as a DJ, and they haven't looked back since.\n\nWith an eclectic taste that defies categorization, Casey's late-night show is a safe space for musical exploration. From forgotten 90s gems to tomorrow's underground hits, no genre is off limits. Their show has become required listening for Chicago's creative community.\n\nBy day, Casey works as a graphic designer and has created promotional materials for several CHIRP campaigns. They also run a monthly podcast discussing the intersection of music and social justice.",
+      "djBio": "Casey stumbled into radio through the back door—literally. After sneaking into a CHIRP fundraiser to see their favorite local band, they fell in love with the station's mission and immediately signed up to volunteer. What started as helping with events turned into training as a DJ, and they haven't looked back since.\n\nWith an eclectic taste that defies categorization, Casey's late-night show is a safe space for musical exploration. From forgotten 90s gems to tomorrow's underground hits, no genre is off limits. Their show has become required listening for Chicago's creative community.\n\nBy day, Casey works as a graphic designer and has created promotional materials for several CHIRP campaigns. They also run a monthly podcast discussing the intersection of music and social justice."
     },
     {
       "id": "dj-006",
@@ -822,7 +830,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Charlie brings the groove to your midday with an infectious energy that's been described as 'sunshine in audio form.' After cutting their teeth as a mobile DJ at Chicago weddings and corporate events, they craved the freedom to play what moves them, not just what moves the dance floor.\n\nA CHIRP volunteer since 2018, Charlie has been instrumental in developing the station's social media presence and helped launch the CHIRP DJ training program. They believe strongly in mentoring the next generation of radio personalities.\n\nCharlie works in event planning for a major Chicago nonprofit and brings that organizational expertise to CHIRP's fundraising events. They're also a marathon runner and have completed the Chicago Marathon three times to raise money for various causes.",
+      "djBio": "Charlie brings the groove to your midday with an infectious energy that's been described as 'sunshine in audio form.' After cutting their teeth as a mobile DJ at Chicago weddings and corporate events, they craved the freedom to play what moves them, not just what moves the dance floor.\n\nA CHIRP volunteer since 2018, Charlie has been instrumental in developing the station's social media presence and helped launch the CHIRP DJ training program. They believe strongly in mentoring the next generation of radio personalities.\n\nCharlie works in event planning for a major Chicago nonprofit and brings that organizational expertise to CHIRP's fundraising events. They're also a marathon runner and have completed the Chicago Marathon three times to raise money for various causes."
     },
     {
       "id": "dj-007",
@@ -851,7 +861,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Chris Anderson's eclectic musical palette was shaped by endless road trips across the Midwest with a parent who refused to listen to the same album twice. This early exposure to musical diversity led to a lifelong quest to find the perfect song for every moment.\n\nAfter moving to Chicago for journalism school at Northwestern, Chris discovered CHIRP and immediately connected with its community-focused mission. They've been a fixture at the station for over five years, serving on multiple committees and helping to shape CHIRP's programming direction.\n\nWhen not spinning records, Chris works as a freelance music journalist and has written for several Chicago publications. They also teach media literacy workshops at Chicago Public Schools and mentor young journalists through a local nonprofit.",
+      "djBio": "Chris Anderson's eclectic musical palette was shaped by endless road trips across the Midwest with a parent who refused to listen to the same album twice. This early exposure to musical diversity led to a lifelong quest to find the perfect song for every moment.\n\nAfter moving to Chicago for journalism school at Northwestern, Chris discovered CHIRP and immediately connected with its community-focused mission. They've been a fixture at the station for over five years, serving on multiple committees and helping to shape CHIRP's programming direction.\n\nWhen not spinning records, Chris works as a freelance music journalist and has written for several Chicago publications. They also teach media literacy workshops at Chicago Public Schools and mentor young journalists through a local nonprofit."
     },
     {
       "id": "dj-008",
@@ -879,7 +891,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Dakota's journey into underground and experimental music started in a Chicago DIY venue basement, where they witnessed their first noise show and had their mind completely blown. Since then, they've been on a mission to share challenging, boundary-pushing music with anyone brave enough to listen.\n\nA veteran of Chicago's experimental music scene, Dakota has performed in various noise and drone projects and helps organize underground shows across the city. Their CHIRP show has become essential listening for anyone interested in the city's avant-garde music community.\n\nDakota works as a sound engineer and has recorded numerous local experimental artists. They're passionate about creating safe, inclusive spaces for artistic expression and regularly volunteers with Chicago music education programs.",
+      "djBio": "Dakota's journey into underground and experimental music started in a Chicago DIY venue basement, where they witnessed their first noise show and had their mind completely blown. Since then, they've been on a mission to share challenging, boundary-pushing music with anyone brave enough to listen.\n\nA veteran of Chicago's experimental music scene, Dakota has performed in various noise and drone projects and helps organize underground shows across the city. Their CHIRP show has become essential listening for anyone interested in the city's avant-garde music community.\n\nDakota works as a sound engineer and has recorded numerous local experimental artists. They're passionate about creating safe, inclusive spaces for artistic expression and regularly volunteers with Chicago music education programs."
     },
     {
       "id": "dj-009",
@@ -906,7 +920,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Urban planner and Chicago native making traffic bearable with deep knowledge of the city's music history.",
+      "djBio": "Urban planner and Chicago native making traffic bearable with deep knowledge of the city's music history."
     },
     {
       "id": "dj-010",
@@ -935,7 +951,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Drew Sanders perfected the art of the Friday afternoon vibe during their years as a high school teacher, where they learned that getting teenagers excited for the weekend required just the right musical touch. Now they bring that same energy to CHIRP listeners looking to kickstart their Friday.\n\nAfter a career change led them from education to nonprofit work, Drew found their way to CHIRP through a volunteer appreciation event. They immediately fell in love with community radio and have been a dedicated volunteer for three years.\n\nDrew currently works at a Chicago-based youth mentorship organization and frequently brings young people into the station to learn about radio production. They believe strongly in using media as a tool for youth empowerment and social change.",
+      "djBio": "Drew Sanders perfected the art of the Friday afternoon vibe during their years as a high school teacher, where they learned that getting teenagers excited for the weekend required just the right musical touch. Now they bring that same energy to CHIRP listeners looking to kickstart their Friday.\n\nAfter a career change led them from education to nonprofit work, Drew found their way to CHIRP through a volunteer appreciation event. They immediately fell in love with community radio and have been a dedicated volunteer for three years.\n\nDrew currently works at a Chicago-based youth mentorship organization and frequently brings young people into the station to learn about radio production. They believe strongly in using media as a tool for youth empowerment and social change."
     },
     {
       "id": "dj-011",
@@ -962,7 +980,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Registered nurse bringing caring energy and carefully curated playlists to ease early birds into their day.",
+      "djBio": "Registered nurse bringing caring energy and carefully curated playlists to ease early birds into their day."
     },
     {
       "id": "dj-012",
@@ -990,7 +1010,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Emerson Gray learned to DJ at their older sibling's house parties and quickly developed a reputation for reading the room and keeping the energy high. That skill translates perfectly to Friday evening radio, where they help Chicago transition from work week to weekend mode.\n\nA relative newcomer to CHIRP, Emerson has brought fresh energy and new perspectives to the station. They're particularly focused on highlighting emerging artists and giving airtime to genres that don't always get mainstream attention.\n\nEmerson works in marketing for a Chicago tech startup and has helped CHIRP develop strategies to reach younger audiences. They're also involved in Chicago's nightlife preservation efforts and advocates for venues and cultural spaces.",
+      "djBio": "Emerson Gray learned to DJ at their older sibling's house parties and quickly developed a reputation for reading the room and keeping the energy high. That skill translates perfectly to Friday evening radio, where they help Chicago transition from work week to weekend mode.\n\nA relative newcomer to CHIRP, Emerson has brought fresh energy and new perspectives to the station. They're particularly focused on highlighting emerging artists and giving airtime to genres that don't always get mainstream attention.\n\nEmerson works in marketing for a Chicago tech startup and has helped CHIRP develop strategies to reach younger audiences. They're also involved in Chicago's nightlife preservation efforts and advocates for venues and cultural spaces."
     },
     {
       "id": "dj-013",
@@ -1017,7 +1039,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Former battle rapper and youth counselor using hip hop as journalism, therapy, and cultural preservation.",
+      "djBio": "Former battle rapper and youth counselor using hip hop as journalism, therapy, and cultural preservation."
     },
     {
       "id": "dj-014",
@@ -1046,7 +1070,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Frankie West believes disco never died—it just went underground and evolved. A scholar of dance music history and a fixture at Chicago dance parties, Frankie brings encyclopedic knowledge and infectious enthusiasm to Friday nights at CHIRP.\n\nAfter studying music at University of Illinois and DJing at clubs across the Midwest, Frankie found their way to CHIRP through a shared love of vinyl and community-building. Their show has become a Friday night tradition for dancers and music lovers across Chicago.\n\nFrankie owns a record store in Logan Square and teaches DJ workshops focused on the history and techniques of disco and house music. They're passionate about preserving Chicago's dance music heritage and connecting it to contemporary scenes.",
+      "djBio": "Frankie West believes disco never died—it just went underground and evolved. A scholar of dance music history and a fixture at Chicago dance parties, Frankie brings encyclopedic knowledge and infectious enthusiasm to Friday nights at CHIRP.\n\nAfter studying music at University of Illinois and DJing at clubs across the Midwest, Frankie found their way to CHIRP through a shared love of vinyl and community-building. Their show has become a Friday night tradition for dancers and music lovers across Chicago.\n\nFrankie owns a record store in Logan Square and teaches DJ workshops focused on the history and techniques of disco and house music. They're passionate about preserving Chicago's dance music heritage and connecting it to contemporary scenes."
     },
     {
       "id": "dj-015",
@@ -1075,7 +1101,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Harper Reed's fascination with electronic music began with a borrowed synthesizer and countless hours experimenting with sound. That curiosity evolved into a passion for ambient, experimental, and electronic music from around the world.\n\nA trained musician with a background in classical piano, Harper brings a unique perspective to electronic music, understanding both its technical complexity and its emotional depth. Their Thursday night show creates immersive sonic landscapes perfect for late-night listening.\n\nHarper works as a music technology instructor at a Chicago arts organization and builds custom synthesizers as a hobby. They're dedicated to making electronic music production accessible and regularly leads workshops on music technology and sound design.",
+      "djBio": "Harper Reed's fascination with electronic music began with a borrowed synthesizer and countless hours experimenting with sound. That curiosity evolved into a passion for ambient, experimental, and electronic music from around the world.\n\nA trained musician with a background in classical piano, Harper brings a unique perspective to electronic music, understanding both its technical complexity and its emotional depth. Their Thursday night show creates immersive sonic landscapes perfect for late-night listening.\n\nHarper works as a music technology instructor at a Chicago arts organization and builds custom synthesizers as a hobby. They're dedicated to making electronic music production accessible and regularly leads workshops on music technology and sound design."
     },
     {
       "id": "dj-016",
@@ -1103,7 +1131,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Jamie Foster approaches morning radio like they approach their day job as a barista—with warmth, attention to detail, and a genuine desire to help people start their day right. Their music selections are as carefully crafted as their espresso drinks.\n\nA longtime coffee professional and music enthusiast, Jamie found the perfect combination of their two passions at CHIRP. Their morning show has developed a cult following among Chicago's coffee shop workers and early morning commuters.\n\nJamie is involved in Chicago's specialty coffee scene and often broadcasts from local cafes, highlighting small businesses and community gathering spaces. They also volunteer with food justice organizations and help coordinate CHIRP's community garden project.",
+      "djBio": "Jamie Foster approaches morning radio like they approach their day job as a barista—with warmth, attention to detail, and a genuine desire to help people start their day right. Their music selections are as carefully crafted as their espresso drinks.\n\nA longtime coffee professional and music enthusiast, Jamie found the perfect combination of their two passions at CHIRP. Their morning show has developed a cult following among Chicago's coffee shop workers and early morning commuters.\n\nJamie is involved in Chicago's specialty coffee scene and often broadcasts from local cafes, highlighting small businesses and community gathering spaces. They also volunteer with food justice organizations and help coordinate CHIRP's community garden project."
     },
     {
       "id": "dj-017",
@@ -1130,7 +1160,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Music publicist championing underappreciated artists and supporting women in the music industry.",
+      "djBio": "Music publicist championing underappreciated artists and supporting women in the music industry."
     },
     {
       "id": "dj-018",
@@ -1159,7 +1191,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Jordan Lee has been chasing the perfect indie rock song since they first heard The Smiths in their older cousin's bedroom at age twelve. That pursuit has taken them through decades of music history and across the globe to live shows in tiny venues and massive festivals.\n\nAfter years of writing about music for various publications, Jordan found radio offered a more immediate way to share their passion. Their Tuesday afternoon show has become essential listening for indie rock fans looking for deep cuts and new discoveries.\n\nJordan works as a music librarian and runs a music history blog focused on indie and alternative rock. They're committed to music preservation and education, and frequently gives talks about music history at libraries and schools across Chicago.",
+      "djBio": "Jordan Lee has been chasing the perfect indie rock song since they first heard The Smiths in their older cousin's bedroom at age twelve. That pursuit has taken them through decades of music history and across the globe to live shows in tiny venues and massive festivals.\n\nAfter years of writing about music for various publications, Jordan found radio offered a more immediate way to share their passion. Their Tuesday afternoon show has become essential listening for indie rock fans looking for deep cuts and new discoveries.\n\nJordan works as a music librarian and runs a music history blog focused on indie and alternative rock. They're committed to music preservation and education, and frequently gives talks about music history at libraries and schools across Chicago."
     },
     {
       "id": "dj-019",
@@ -1188,7 +1222,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Mike Chen believes lunch should be a celebration, not just a necessity. Their midday show brings that philosophy to life with upbeat selections designed to energize listeners through the afternoon slump. Whether you're eating at your desk or taking a proper break, Mike's got the soundtrack.\n\nA former restaurant manager who pivoted to food writing, Mike understands the power of a good meal and good music. They often feature songs about food and regularly interview Chicago chefs and restaurateurs on air.\n\nMike volunteers with Chicago food banks and uses their platform to discuss food justice issues. They also organize an annual CHIRP food drive and have helped raise awareness about hunger in Chicago communities.",
+      "djBio": "Mike Chen believes lunch should be a celebration, not just a necessity. Their midday show brings that philosophy to life with upbeat selections designed to energize listeners through the afternoon slump. Whether you're eating at your desk or taking a proper break, Mike's got the soundtrack.\n\nA former restaurant manager who pivoted to food writing, Mike understands the power of a good meal and good music. They often feature songs about food and regularly interview Chicago chefs and restaurateurs on air.\n\nMike volunteers with Chicago food banks and uses their platform to discuss food justice issues. They also organize an annual CHIRP food drive and have helped raise awareness about hunger in Chicago communities."
     },
     {
       "id": "dj-020",
@@ -1215,7 +1251,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Session musician connecting Chicago's rich jazz heritage from traditional roots to contemporary fusion.",
+      "djBio": "Session musician connecting Chicago's rich jazz heritage from traditional roots to contemporary fusion."
     },
     {
       "id": "dj-021",
@@ -1243,7 +1281,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Peyton Clark's musical memory is legendary among friends—they can identify songs from a single note and remember obscure B-sides from decades ago. This gift makes their Thursday midday show a treasure trove of nostalgic favorites and forgotten gems.\n\nA self-described 'professional reminiscer,' Peyton loves contextualizing music within its cultural moment. Each show becomes a mini history lesson, connecting classic hits to the stories behind them.\n\nPeyton works as an archivist and brings that meticulous attention to detail to their music programming. They volunteer with the Chicago Music Archive and help preserve the city's musical heritage for future generations.",
+      "djBio": "Peyton Clark's musical memory is legendary among friends—they can identify songs from a single note and remember obscure B-sides from decades ago. This gift makes their Thursday midday show a treasure trove of nostalgic favorites and forgotten gems.\n\nA self-described 'professional reminiscer,' Peyton loves contextualizing music within its cultural moment. Each show becomes a mini history lesson, connecting classic hits to the stories behind them.\n\nPeyton works as an archivist and brings that meticulous attention to detail to their music programming. They volunteer with the Chicago Music Archive and help preserve the city's musical heritage for future generations."
     },
     {
       "id": "dj-022",
@@ -1272,7 +1312,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Quinn Murphy's passion for global music began during a college semester abroad that turned into years of travel and musical exploration. They've collected records from six continents and made it their mission to share the world's incredible musical diversity with Chicago audiences.\n\nWith a background in ethnomusicology, Quinn brings both scholarly knowledge and genuine enthusiasm to their show. They're particularly interested in how music crosses borders and evolves through cultural exchange.\n\nQuinn works as a translator and international education consultant. They're involved with Chicago's immigrant communities and uses their show to highlight local musicians from around the world who now call Chicago home.",
+      "djBio": "Quinn Murphy's passion for global music began during a college semester abroad that turned into years of travel and musical exploration. They've collected records from six continents and made it their mission to share the world's incredible musical diversity with Chicago audiences.\n\nWith a background in ethnomusicology, Quinn brings both scholarly knowledge and genuine enthusiasm to their show. They're particularly interested in how music crosses borders and evolves through cultural exchange.\n\nQuinn works as a translator and international education consultant. They're involved with Chicago's immigrant communities and uses their show to highlight local musicians from around the world who now call Chicago home."
     },
     {
       "id": "dj-023",
@@ -1301,7 +1343,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Reese Morgan is a singer-songwriter who understands the power of stripped-down music. Their Thursday afternoon show creates a peaceful oasis of acoustic sounds—perfect for working, studying, or just taking a moment to breathe.\n\nAfter years on the Chicago folk scene playing coffee shops and small venues, Reese found CHIRP as a way to support fellow acoustic artists and share the intimate connection that unplugged music creates.\n\nReese runs a monthly songwriter circle at a local community center and mentors emerging acoustic artists. They're passionate about preserving spaces for live acoustic music and advocates for Chicago's folk and acoustic venues.",
+      "djBio": "Reese Morgan is a singer-songwriter who understands the power of stripped-down music. Their Thursday afternoon show creates a peaceful oasis of acoustic sounds—perfect for working, studying, or just taking a moment to breathe.\n\nAfter years on the Chicago folk scene playing coffee shops and small venues, Reese found CHIRP as a way to support fellow acoustic artists and share the intimate connection that unplugged music creates.\n\nReese runs a monthly songwriter circle at a local community center and mentors emerging acoustic artists. They're passionate about preserving spaces for live acoustic music and advocates for Chicago's folk and acoustic venues."
     },
     {
       "id": "dj-024",
@@ -1330,7 +1374,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Riley Parker has their finger on the pulse of new music like few others. As a music blogger and scene reporter, they're often discovering artists months before they break through. Their Wednesday morning show is essential listening for anyone who wants to stay ahead of the curve.\n\nA compulsive concert-goer and music festival regular, Riley brings that frontline energy to their show. They're known for featuring unsigned artists and giving early airplay to future stars.\n\nRiley works in A&R for an independent label and uses their industry knowledge to help CHIRP listeners understand the music business. They're committed to supporting independent artists and creating pathways for emerging talent.",
+      "djBio": "Riley Parker has their finger on the pulse of new music like few others. As a music blogger and scene reporter, they're often discovering artists months before they break through. Their Wednesday morning show is essential listening for anyone who wants to stay ahead of the curve.\n\nA compulsive concert-goer and music festival regular, Riley brings that frontline energy to their show. They're known for featuring unsigned artists and giving early airplay to future stars.\n\nRiley works in A&R for an independent label and uses their industry knowledge to help CHIRP listeners understand the music business. They're committed to supporting independent artists and creating pathways for emerging talent."
     },
     {
       "id": "dj-025",
@@ -1358,7 +1404,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Sage Mitchell specializes in the art of the wind-down. Their late Thursday show is designed for those final moments before sleep—atmospheric, calming, and thoughtfully paced. It's become a ritual for night shift workers and insomniacs seeking sonic comfort.\n\nA sound healing practitioner and meditation teacher, Sage brings a unique perspective to late-night radio. They understand music as more than entertainment—it's a tool for relaxation and mental health.\n\nSage teaches mindfulness courses around Chicago and has developed music therapy programs for hospitals and wellness centers. They're passionate about the intersection of music and mental health and frequently discusses these topics on air.",
+      "djBio": "Sage Mitchell specializes in the art of the wind-down. Their late Thursday show is designed for those final moments before sleep—atmospheric, calming, and thoughtfully paced. It's become a ritual for night shift workers and insomniacs seeking sonic comfort.\n\nA sound healing practitioner and meditation teacher, Sage brings a unique perspective to late-night radio. They understand music as more than entertainment—it's a tool for relaxation and mental health.\n\nSage teaches mindfulness courses around Chicago and has developed music therapy programs for hospitals and wellness centers. They're passionate about the intersection of music and mental health and frequently discusses these topics on air."
     },
     {
       "id": "dj-026",
@@ -1385,7 +1433,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Music teacher and vinyl collector adapting seamlessly across all genres and time slots.",
+      "djBio": "Music teacher and vinyl collector adapting seamlessly across all genres and time slots."
     },
     {
       "id": "dj-027",
@@ -1412,7 +1462,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Film audio producer bringing technical expertise and creative freedom to every substitute shift.",
+      "djBio": "Film audio producer bringing technical expertise and creative freedom to every substitute shift."
     },
     {
       "id": "dj-028",
@@ -1440,7 +1492,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Skyler Davis embraces the weird. Their late Wednesday show is a playground for experimental sounds, avant-garde compositions, and music that challenges conventional definitions. It's not always easy listening, but it's always interesting.\n\nA multimedia artist and experimental musician, Skyler has performed in noise shows, sound installations, and performance art pieces across Chicago. They bring that artistic sensibility to radio, treating each show as a sonic art piece.\n\nSkyler teaches experimental music and sound art at the School of the Art Institute of Chicago. They're dedicated to expanding what people consider music and creating space for challenging, thought-provoking sonic experiences.",
+      "djBio": "Skyler Davis embraces the weird. Their late Wednesday show is a playground for experimental sounds, avant-garde compositions, and music that challenges conventional definitions. It's not always easy listening, but it's always interesting.\n\nA multimedia artist and experimental musician, Skyler has performed in noise shows, sound installations, and performance art pieces across Chicago. They bring that artistic sensibility to radio, treating each show as a sonic art piece.\n\nSkyler teaches experimental music and sound art at the School of the Art Institute of Chicago. They're dedicated to expanding what people consider music and creating space for challenging, thought-provoking sonic experiences."
     },
     {
       "id": "dj-029",
@@ -1469,7 +1523,9 @@
         "Listener",
         "Volunteer",
         "Regular DJ"
-      ]
+      ],
+      "djExcerpt": "Taylor Kim understands that late Monday nights need something special—music that acknowledges the weird liminal space between weekend and work week. Their show provides the perfect soundtrack for night owls, third-shift workers, and anyone seeking calm after a long day.\n\nA former bartender who spent years curating playlists for late-night crowds, Taylor knows how to read a room—or in this case, an audience. Their selections balance energy and introspection perfectly.\n\nTaylor works in hospitality management and advocates for service industry workers' rights. They use their show to highlight issues facing Chicago's service workers and regularly feature music by artists who've worked in the industry.",
+      "djBio": "Taylor Kim understands that late Monday nights need something special—music that acknowledges the weird liminal space between weekend and work week. Their show provides the perfect soundtrack for night owls, third-shift workers, and anyone seeking calm after a long day.\n\nA former bartender who spent years curating playlists for late-night crowds, Taylor knows how to read a room—or in this case, an audience. Their selections balance energy and introspection perfectly.\n\nTaylor works in hospitality management and advocates for service industry workers' rights. They use their show to highlight issues facing Chicago's service workers and regularly feature music by artists who've worked in the industry."
     },
     {
       "id": "dj-030",
@@ -1496,7 +1552,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Versatile substitute DJ with a particular talent for morning and midday programming.",
+      "djBio": "Versatile substitute DJ with a particular talent for morning and midday programming."
     },
     {
       "id": "lead-001",
@@ -1788,7 +1846,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Arden Miles is a trusted CHIRP substitute DJ who steps in whenever regular hosts need coverage. With a versatile style that adapts to any time slot or format, Arden has become the station's secret weapon for maintaining consistent quality programming.\n\nA music teacher by day and vinyl collector by night, Arden brings deep musical knowledge and professional broadcasting skills to every show. They've filled in across all genres and time slots, earning respect from both DJs and listeners.\n\nArden has been volunteering with CHIRP for over four years and serves on the training committee, helping to develop new DJs and maintain programming standards. When not at the station, they teach music at a Chicago middle school and run a record swap meet.",
+      "djBio": "Arden Miles is a trusted CHIRP substitute DJ who steps in whenever regular hosts need coverage. With a versatile style that adapts to any time slot or format, Arden has become the station's secret weapon for maintaining consistent quality programming.\n\nA music teacher by day and vinyl collector by night, Arden brings deep musical knowledge and professional broadcasting skills to every show. They've filled in across all genres and time slots, earning respect from both DJs and listeners.\n\nArden has been volunteering with CHIRP for over four years and serves on the training committee, helping to develop new DJs and maintain programming standards. When not at the station, they teach music at a Chicago middle school and run a record swap meet."
     },
     {
       "id": "sub-002",
@@ -1847,7 +1907,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Bailey Stone has filled in for CHIRP DJs across every day of the week and every time of day, developing a reputation for seamlessly matching the energy of any show. Their adaptability and professionalism make them a go-to substitute.\n\nA former commercial radio producer who chose community radio for its creative freedom, Bailey brings technical expertise and a genuine love for independent music. They're equally comfortable with morning shows or late-night experimental programming.\n\nBailey works in audio post-production for film and brings those skills to CHIRP's technical operations. They volunteer with Chicago's community media organizations and advocate for accessible media production training.",
+      "djBio": "Bailey Stone has filled in for CHIRP DJs across every day of the week and every time of day, developing a reputation for seamlessly matching the energy of any show. Their adaptability and professionalism make them a go-to substitute.\n\nA former commercial radio producer who chose community radio for its creative freedom, Bailey brings technical expertise and a genuine love for independent music. They're equally comfortable with morning shows or late-night experimental programming.\n\nBailey works in audio post-production for film and brings those skills to CHIRP's technical operations. They volunteer with Chicago's community media organizations and advocate for accessible media production training."
     },
     {
       "id": "sub-003",
@@ -1874,7 +1936,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Camden Walsh brings enthusiasm and deep music knowledge to every substitute shift at CHIRP. Known for discovering connections between disparate genres and eras, Camden creates engaging shows regardless of the time slot or format.\n\nA music journalist and podcast host, Camden has interviewed hundreds of musicians and developed an extensive network in Chicago's music scene. They use these connections to bring fresh perspectives to substitute shows.\n\nCamden writes for several Chicago music publications and runs a popular music history podcast. They're passionate about music education and regularly speaks at schools about careers in music and media.",
+      "djBio": "Camden Walsh brings enthusiasm and deep music knowledge to every substitute shift at CHIRP. Known for discovering connections between disparate genres and eras, Camden creates engaging shows regardless of the time slot or format.\n\nA music journalist and podcast host, Camden has interviewed hundreds of musicians and developed an extensive network in Chicago's music scene. They use these connections to bring fresh perspectives to substitute shows.\n\nCamden writes for several Chicago music publications and runs a popular music history podcast. They're passionate about music education and regularly speaks at schools about careers in music and media."
     },
     {
       "id": "sub-004",
@@ -1901,7 +1965,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Devon Chase is a versatile substitute DJ with a particular talent for morning and midday programming. Their warm, conversational style and carefully curated selections make them a favorite among CHIRP listeners whenever they're on air.\n\nA longtime CHIRP volunteer who started in the promotions department, Devon worked their way up to substitute DJ through dedication and skill. They've since become an essential part of the station's programming team.\n\nDevon works in public relations and uses those communication skills to connect with audiences. They're active in Chicago's arts community and regularly volunteers with organizations supporting independent media.",
+      "djBio": "Devon Chase is a versatile substitute DJ with a particular talent for morning and midday programming. Their warm, conversational style and carefully curated selections make them a favorite among CHIRP listeners whenever they're on air.\n\nA longtime CHIRP volunteer who started in the promotions department, Devon worked their way up to substitute DJ through dedication and skill. They've since become an essential part of the station's programming team.\n\nDevon works in public relations and uses those communication skills to connect with audiences. They're active in Chicago's arts community and regularly volunteers with organizations supporting independent media."
     },
     {
       "id": "sub-005",
@@ -1928,7 +1994,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Ellis Hunt specializes in late-night substitute shows, bringing a calm, thoughtful presence to CHIRP's overnight and late evening slots. Their extensive knowledge of ambient, electronic, and experimental music makes them perfect for after-dark programming.\n\nA sound designer and composer, Ellis understands how to create mood and atmosphere through music selection. They approach each substitute show as an opportunity to craft a cohesive sonic experience.\n\nEllis works in video game audio design and teaches electronic music production. They're involved in Chicago's experimental music scene and help organize events showcasing local electronic artists.",
+      "djBio": "Ellis Hunt specializes in late-night substitute shows, bringing a calm, thoughtful presence to CHIRP's overnight and late evening slots. Their extensive knowledge of ambient, electronic, and experimental music makes them perfect for after-dark programming.\n\nA sound designer and composer, Ellis understands how to create mood and atmosphere through music selection. They approach each substitute show as an opportunity to craft a cohesive sonic experience.\n\nEllis works in video game audio design and teaches electronic music production. They're involved in Chicago's experimental music scene and help organize events showcasing local electronic artists."
     },
     {
       "id": "sub-006",
@@ -1955,7 +2023,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Jordan Vale brings high energy and diverse musical taste to substitute shows across CHIRP's schedule. Whether filling in for a morning show or evening program, Jordan maintains the regular host's vibe while adding their own unique touches.\n\nA DJ at Chicago clubs and private events, Jordan has the technical skills and crowd-reading abilities that translate perfectly to radio. They're known for smooth transitions and impeccable timing.\n\nJordan works as an event coordinator and brings that organizational expertise to their radio work. They volunteer with several Chicago youth organizations teaching DJ skills and music appreciation.",
+      "djBio": "Jordan Vale brings high energy and diverse musical taste to substitute shows across CHIRP's schedule. Whether filling in for a morning show or evening program, Jordan maintains the regular host's vibe while adding their own unique touches.\n\nA DJ at Chicago clubs and private events, Jordan has the technical skills and crowd-reading abilities that translate perfectly to radio. They're known for smooth transitions and impeccable timing.\n\nJordan works as an event coordinator and brings that organizational expertise to their radio work. They volunteer with several Chicago youth organizations teaching DJ skills and music appreciation."
     },
     {
       "id": "sub-007",
@@ -1982,7 +2052,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Morgan Knight is a substitute DJ who excels at genre-specific programming. With deep knowledge of rock, punk, and alternative music, Morgan is often called to fill in for shows in those formats, bringing authenticity and expertise.\n\nA veteran of Chicago's punk and indie rock scenes, Morgan has played in several local bands and booked shows at DIY venues. This insider perspective informs their approach to music programming.\n\nMorgan works at a Chicago record store and uses that constant exposure to new music to keep their shows fresh. They're active in preserving Chicago's music history and volunteers with the Chicago Music Archive.",
+      "djBio": "Morgan Knight is a substitute DJ who excels at genre-specific programming. With deep knowledge of rock, punk, and alternative music, Morgan is often called to fill in for shows in those formats, bringing authenticity and expertise.\n\nA veteran of Chicago's punk and indie rock scenes, Morgan has played in several local bands and booked shows at DIY venues. This insider perspective informs their approach to music programming.\n\nMorgan works at a Chicago record store and uses that constant exposure to new music to keep their shows fresh. They're active in preserving Chicago's music history and volunteers with the Chicago Music Archive."
     },
     {
       "id": "sub-008",
@@ -2009,7 +2081,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Parker Shaw is known for bringing positive energy and careful music curation to every substitute shift. With a background in college radio and community media, Parker understands the unique role of community radio in serving diverse audiences.\n\nA communications professional and longtime radio enthusiast, Parker has been part of the CHIRP community for several years. They're known for their professional delivery and commitment to quality programming.\n\nParker works in nonprofit communications and applies those skills to help CHIRP with outreach and community engagement. They're passionate about media literacy and volunteer with programs teaching radio skills to underserved communities.",
+      "djBio": "Parker Shaw is known for bringing positive energy and careful music curation to every substitute shift. With a background in college radio and community media, Parker understands the unique role of community radio in serving diverse audiences.\n\nA communications professional and longtime radio enthusiast, Parker has been part of the CHIRP community for several years. They're known for their professional delivery and commitment to quality programming.\n\nParker works in nonprofit communications and applies those skills to help CHIRP with outreach and community engagement. They're passionate about media literacy and volunteer with programs teaching radio skills to underserved communities."
     },
     {
       "id": "sub-009",
@@ -2036,7 +2110,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Rowan Blake brings a jazz and soul focus to their substitute DJ work at CHIRP. When filling in for shows in these genres, Rowan's deep knowledge and genuine passion shine through, creating engaging listening experiences.\n\nA jazz musician and music historian, Rowan has performed at venues across Chicago and studied the city's rich musical heritage. They bring both technical knowledge and cultural context to their programming.\n\nRowan teaches music history at a Chicago community college and performs regularly with local jazz ensembles. They're committed to making jazz accessible to new audiences and connecting Chicago's musical past to its present.",
+      "djBio": "Rowan Blake brings a jazz and soul focus to their substitute DJ work at CHIRP. When filling in for shows in these genres, Rowan's deep knowledge and genuine passion shine through, creating engaging listening experiences.\n\nA jazz musician and music historian, Rowan has performed at venues across Chicago and studied the city's rich musical heritage. They bring both technical knowledge and cultural context to their programming.\n\nRowan teaches music history at a Chicago community college and performs regularly with local jazz ensembles. They're committed to making jazz accessible to new audiences and connecting Chicago's musical past to its present."
     },
     {
       "id": "sub-010",
@@ -2063,7 +2139,9 @@
         "Listener",
         "Volunteer",
         "Substitute DJ"
-      ]
+      ],
+      "djExcerpt": "Skylar Fox is a reliable substitute DJ who brings professionalism and versatility to every show. With experience across multiple formats and time slots, Skylar has become an integral part of CHIRP's programming flexibility.\n\nA musician and audio engineer, Skylar understands both the creative and technical aspects of radio production. They're known for smooth shows with excellent sound quality and thoughtful programming choices.\n\nSkylar works as a freelance audio engineer and has recorded numerous Chicago artists. They volunteer with music education programs and mentor aspiring DJs through CHIRP's training initiatives.",
+      "djBio": "Skylar Fox is a reliable substitute DJ who brings professionalism and versatility to every show. With experience across multiple formats and time slots, Skylar has become an integral part of CHIRP's programming flexibility.\n\nA musician and audio engineer, Skylar understands both the creative and technical aspects of radio production. They're known for smooth shows with excellent sound quality and thoughtful programming choices.\n\nSkylar works as a freelance audio engineer and has recorded numerous Chicago artists. They volunteer with music education programs and mentor aspiring DJs through CHIRP's training initiatives."
     },
     {
       "id": "user-001",

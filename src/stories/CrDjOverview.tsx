@@ -5,6 +5,11 @@ import { PiCaretRight, PiHeadphones, PiCalendarPlus } from 'react-icons/pi'
 import { PiMusicNotes, PiChatCircleText } from 'react-icons/pi'
 import './CrDjOverview.css'
 
+interface ShowTimeDetail {
+  displayTime: string
+  onAddToCalendar: () => void
+}
+
 interface CrDjOverviewProps {
   size?: string
   role?: string
@@ -15,6 +20,7 @@ interface CrDjOverviewProps {
   showContent?: boolean
   description?: string
   showTime?: string
+  showTimes?: ShowTimeDetail[] // For multiple show times with individual calendar buttons
   buttonText?: string
   imageSrc?: string
   onRequestClick?: () => void
@@ -35,6 +41,7 @@ export default function CrDjOverview({
   showContent = true,
   description = 'Aenean lacinia bibendum nulla sed consectetur. Maecenas faucibus mollis interdum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.',
   showTime = 'Monday 12pm - 12pm',
+  showTimes, // For multiple show times with individual buttons
   buttonText = 'View Profile',
   imageSrc, // Optional image source
   onRequestClick,
@@ -73,14 +80,33 @@ export default function CrDjOverview({
         <div className="cr-dj-overview__content-text">{content}</div>
         <div className="cr-dj-overview__description">{description}</div>
         <div className="cr-dj-overview__show-time-wrapper">
-          <div className="cr-dj-overview__show-time">{showTime}</div>
-          <button
-            className="cr-dj-overview__add-calendar-btn"
-            onClick={onAddToCalendarClick}
-            aria-label="Add to calendar"
-          >
-            <PiCalendarPlus />
-          </button>
+          {showTimes && showTimes.length > 0 ? (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
+              {showTimes.map((timeDetail, index) => (
+                <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                  <div className="cr-dj-overview__show-time">{timeDetail.displayTime}</div>
+                  <button
+                    className="cr-dj-overview__add-calendar-btn"
+                    onClick={timeDetail.onAddToCalendar}
+                    aria-label={`Add ${timeDetail.displayTime} to calendar`}
+                  >
+                    <PiCalendarPlus />
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              <div className="cr-dj-overview__show-time">{showTime}</div>
+              <button
+                className="cr-dj-overview__add-calendar-btn"
+                onClick={onAddToCalendarClick}
+                aria-label="Add to calendar"
+              >
+                <PiCalendarPlus />
+              </button>
+            </>
+          )}
         </div>
         <div className="cr-dj-overview__actions">
           <CrButton
@@ -131,14 +157,33 @@ export default function CrDjOverview({
         </div>
         {showContent && <div className="cr-dj-overview__content-text">{content}</div>}
         <div className="cr-dj-overview__show-time-wrapper">
-          <div className="cr-dj-overview__show-time">{showTime}</div>
-          <button
-            className="cr-dj-overview__add-calendar-btn"
-            onClick={onAddToCalendarClick}
-            aria-label="Add to calendar"
-          >
-            <PiCalendarPlus />
-          </button>
+          {showTimes && showTimes.length > 0 ? (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
+              {showTimes.map((timeDetail, index) => (
+                <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                  <div className="cr-dj-overview__show-time">{timeDetail.displayTime}</div>
+                  <button
+                    className="cr-dj-overview__add-calendar-btn"
+                    onClick={timeDetail.onAddToCalendar}
+                    aria-label={`Add ${timeDetail.displayTime} to calendar`}
+                  >
+                    <PiCalendarPlus />
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              <div className="cr-dj-overview__show-time">{showTime}</div>
+              <button
+                className="cr-dj-overview__add-calendar-btn"
+                onClick={onAddToCalendarClick}
+                aria-label="Add to calendar"
+              >
+                <PiCalendarPlus />
+              </button>
+            </>
+          )}
         </div>
         <CrButton
           size="small"

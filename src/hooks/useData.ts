@@ -366,38 +366,73 @@ export function useMembers() {
 
 // Get members with Regular DJ role
 export function useRegularDJs() {
-  const { data: members, loading, error } = useMembers()
+  const { data: members, loading: membersLoading, error: membersError } = useMembers()
+  const { data: showSchedules, loading: schedulesLoading } = useShowSchedules()
 
   const regularDJs = useMemo(() => {
+    if (!members) return undefined
+
     return members
       ?.filter((member) => member.roles?.includes('Regular DJ'))
-      .map((member) => ({
-        id: member.id?.toString() || '',
-        djName: member.djName || member.firstName || 'DJ',
-        showName: member.showName || '',
-        showTime: member.showTime || '',
-        excerpt: member.djExcerpt || member.bio || '',
-        description: member.djBio || member.bio || '',
-        donationLink: member.djDonationLink || '',
-        imageSrc: typeof member.profileImage === 'string'
-          ? member.profileImage
-          : typeof member.profileImage === 'object' && member.profileImage !== null && 'url' in member.profileImage
-          ? member.profileImage.url
-          : '',
-        fullProfileImage: typeof member.fullProfileImage === 'string'
-          ? member.fullProfileImage
-          : typeof member.fullProfileImage === 'object' && member.fullProfileImage !== null && 'url' in member.fullProfileImage
-          ? member.fullProfileImage.url
-          : typeof member.profileImage === 'string'
-          ? member.profileImage
-          : '',
-        profileImageOrientation: member.profileImageOrientation || 'square',
-        slug: createSlug(member.djName || member.firstName || 'dj'),
-      }))
-      .sort((a, b) => a.djName.localeCompare(b.djName))
-  }, [members])
+      .map((member) => {
+        // Build showTime string from ShowSchedules collection
+        let showTime = member.showTime || ''
 
-  return { data: regularDJs, loading, error }
+        if (showSchedules && showSchedules.length > 0) {
+          const memberSchedules = showSchedules.filter((schedule: any) => {
+            if (!schedule.isActive) return false
+            const scheduleDj = schedule.dj as any
+            return scheduleDj && scheduleDj.id?.toString() === member.id?.toString()
+          })
+
+          if (memberSchedules.length > 0) {
+            const dayMap: Record<string, string> = {
+              monday: 'Mon',
+              tuesday: 'Tue',
+              wednesday: 'Wed',
+              thursday: 'Thu',
+              friday: 'Fri',
+              saturday: 'Sat',
+              sunday: 'Sun'
+            }
+
+            showTime = memberSchedules
+              .map((schedule: any) => {
+                const day = dayMap[schedule.dayOfWeek] || schedule.dayOfWeek
+                return `${day} ${schedule.startTime} - ${schedule.endTime}`
+              })
+              .join(', ')
+          }
+        }
+
+        return {
+          id: member.id?.toString() || '',
+          djName: member.djName || member.firstName || 'DJ',
+          showName: member.showName || '',
+          showTime,
+          excerpt: member.djExcerpt || member.bio || '',
+          description: member.djBio || member.bio || '',
+          donationLink: member.djDonationLink || '',
+          imageSrc: typeof member.profileImage === 'string'
+            ? member.profileImage
+            : typeof member.profileImage === 'object' && member.profileImage !== null && 'url' in member.profileImage
+            ? member.profileImage.url
+            : '',
+          fullProfileImage: typeof member.fullProfileImage === 'string'
+            ? member.fullProfileImage
+            : typeof member.fullProfileImage === 'object' && member.fullProfileImage !== null && 'url' in member.fullProfileImage
+            ? member.fullProfileImage.url
+            : typeof member.profileImage === 'string'
+            ? member.profileImage
+            : '',
+          profileImageOrientation: member.profileImageOrientation || 'square',
+          slug: createSlug(member.djName || member.firstName || 'dj'),
+        }
+      })
+      .sort((a, b) => a.djName.localeCompare(b.djName))
+  }, [members, showSchedules])
+
+  return { data: regularDJs, loading: membersLoading || schedulesLoading, error: membersError }
 }
 
 // Get members with Substitute DJ role
@@ -467,4 +502,15 @@ export function useBoardMembers() {
   }, [members])
 
   return { data: boardMembers, loading, error }
+}
+
+// Show Schedules
+export function useShowSchedules() {
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
+
+  return {
+    data: cmsData.showSchedules,
+    loading: cmsLoading.showSchedules,
+    error: cmsError.showSchedules,
+  }
 }

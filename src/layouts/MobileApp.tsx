@@ -7,7 +7,6 @@ import CrMobileAppFrame from '../stories/CrMobileAppFrame'
 import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 import { NotificationProvider } from '../contexts/NotificationContext'
 import GlobalNotifications from '../components/GlobalNotifications'
-import DevModeBanner from '../components/DevModeBanner'
 import { preloadFirstAvailable } from '../utils/imagePreloader'
 import { upgradeImageQuality } from '../utils/imageOptimizer'
 import { createLogger } from '../utils/logger'
@@ -238,7 +237,6 @@ export default function MobileApp() {
 
   return (
     <NotificationProvider>
-      <DevModeBanner />
       <AudioPlayerProvider
         autoFetch={true}
         streamUrl="https://peridot.streamguys1.com:5185/live"

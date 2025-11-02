@@ -41,14 +41,37 @@ export async function fetchFromCMSById<T>(
   id: string
 ): Promise<T | null> {
   const url = `${API_BASE_URL}/${endpoint}/${id}`
-  
+
   const response = await fetch(url)
-  
+
   if (!response.ok) {
     if (response.status === 404) {
       return null
     }
     throw new Error(`Failed to fetch ${endpoint}/${id}: ${response.statusText}`)
+  }
+
+  return response.json()
+}
+
+export async function updateInCMS<T>(
+  endpoint: string,
+  id: string | number,
+  data: Partial<T>
+): Promise<T> {
+  const url = `${API_BASE_URL}/${endpoint}/${id}`
+
+  const response = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+
+  if (!response.ok) {
+    const errorText = await response.text()
+    throw new Error(`Failed to update ${endpoint}/${id}: ${response.statusText} - ${errorText}`)
   }
 
   return response.json()
