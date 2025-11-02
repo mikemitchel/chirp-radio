@@ -4,6 +4,21 @@ import type { User } from '../types/user'
 const CMS_API_URL = import.meta.env.VITE_CMS_API_URL || 'http://localhost:3000/api'
 
 /**
+ * Transform CMS user data to frontend format
+ * CMS stores favoriteDJs as [{ djId: 'id' }], frontend expects ['id']
+ */
+function transformCMSUser(cmsUser: any): User {
+  return {
+    ...cmsUser,
+    favoriteDJs: Array.isArray(cmsUser.favoriteDJs)
+      ? cmsUser.favoriteDJs.map((fav: any) =>
+          typeof fav === 'object' && fav.djId ? fav.djId : fav
+        )
+      : []
+  }
+}
+
+/**
  * Fetch all members from CMS
  */
 export async function fetchAllMembers(): Promise<User[]> {
@@ -13,7 +28,7 @@ export async function fetchAllMembers(): Promise<User[]> {
       throw new Error(`Failed to fetch members: ${response.statusText}`)
     }
     const data = await response.json()
-    return data.docs || []
+    return (data.docs || []).map(transformCMSUser)
   } catch (error) {
     console.error('[cmsMembers] Error fetching all members:', error)
     throw error
@@ -32,7 +47,7 @@ export async function fetchDJs(): Promise<User[]> {
       throw new Error(`Failed to fetch DJs: ${response.statusText}`)
     }
     const data = await response.json()
-    return data.docs || []
+    return (data.docs || []).map(transformCMSUser)
   } catch (error) {
     console.error('[cmsMembers] Error fetching DJs:', error)
     throw error
@@ -51,7 +66,7 @@ export async function fetchSubstituteDJs(): Promise<User[]> {
       throw new Error(`Failed to fetch substitute DJs: ${response.statusText}`)
     }
     const data = await response.json()
-    return data.docs || []
+    return (data.docs || []).map(transformCMSUser)
   } catch (error) {
     console.error('[cmsMembers] Error fetching substitute DJs:', error)
     throw error
@@ -70,7 +85,7 @@ export async function fetchBoardMembers(): Promise<User[]> {
       throw new Error(`Failed to fetch board members: ${response.statusText}`)
     }
     const data = await response.json()
-    return data.docs || []
+    return (data.docs || []).map(transformCMSUser)
   } catch (error) {
     console.error('[cmsMembers] Error fetching board members:', error)
     throw error
@@ -89,7 +104,7 @@ export async function fetchVolunteers(): Promise<User[]> {
       throw new Error(`Failed to fetch volunteers: ${response.statusText}`)
     }
     const data = await response.json()
-    return data.docs || []
+    return (data.docs || []).map(transformCMSUser)
   } catch (error) {
     console.error('[cmsMembers] Error fetching volunteers:', error)
     throw error
@@ -108,9 +123,35 @@ export async function fetchMemberById(id: string): Promise<User | null> {
       }
       throw new Error(`Failed to fetch member: ${response.statusText}`)
     }
-    return await response.json()
+    const cmsUser = await response.json()
+    return transformCMSUser(cmsUser)
   } catch (error) {
     console.error('[cmsMembers] Error fetching member by ID:', error)
     return null
+  }
+}
+
+/**
+ * Update a member's data in CMS
+ */
+export async function updateMember(id: string, data: Partial<User>): Promise<User> {
+  try {
+    const response = await fetch(`${CMS_API_URL}/listeners/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      throw new Error(`Failed to update member ${id}: ${response.statusText} - ${errorText}`)
+    }
+
+    return await response.json()
+  } catch (error) {
+    console.error('[cmsMembers] Error updating member:', error)
+    throw error
   }
 }
