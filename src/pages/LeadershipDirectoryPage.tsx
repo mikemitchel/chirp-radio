@@ -8,40 +8,61 @@ import { useUsers } from '../hooks/useData'
 const LeadershipDirectoryPage: React.FC = () => {
   const { data: users } = useUsers()
 
-  // Filter users with leadership roles
+  // Filter users with Board Member role
   const leadershipData = useMemo(() => {
     if (!users) return []
     return users
-      .filter((user) =>
-        ['President', 'Vice President', 'Treasurer', 'Board Member'].includes(user.role as string)
-      )
-      .map((user) => ({
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        djName: user.djName || '',
-        role: user.role,
-        email: user.email,
-        phone: user.phone || '',
-      }))
+      .filter((user) => {
+        const roles = user.roles || []
+        return roles.includes('Board Member')
+      })
+      .map((user) => {
+        // Combine first and last name
+        const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'N/A'
+        // Filter out "Listener" and "Volunteer" - only show Board Member and DJ roles
+        const displayRoles = (user.roles || []).filter(role =>
+          role !== 'Listener' && role !== 'Volunteer'
+        )
+
+        return {
+          id: user.id,
+          name: fullName,
+          boardPosition: user.boardPosition || 'Board Member',
+          roles: displayRoles,
+          email: user.email,
+          phone: user.primaryPhone || '',
+        }
+      })
   }, [users])
 
-  // Render role as CrChip with custom colors
-  const renderRole = (role: string) => {
-    let backgroundColor = 'var(--cr-default-300)' // default for Board Member
+  // Render board position as CrChip
+  const renderBoardPosition = (position: string) => {
+    const backgroundColor = 'var(--cr-accent-100)'
+    return (
+      <CrChip variant="light" size="small" style={{ backgroundColor }}>
+        {position}
+      </CrChip>
+    )
+  }
 
-    if (role === 'President') {
-      backgroundColor = 'var(--cr-secondary-100)'
-    } else if (role === 'Vice President') {
-      backgroundColor = 'var(--cr-primary-100)'
-    } else if (role === 'Treasurer') {
-      backgroundColor = 'var(--cr-accent-100)'
+  // Render all roles as multiple CrChips
+  const renderRoles = (roles: string[]) => {
+    const getRoleColor = (role: string) => {
+      if (role === 'Regular DJ') return 'var(--cr-secondary-100)'
+      if (role === 'Substitute DJ') return 'var(--cr-primary-100)'
+      if (role === 'Board Member') return 'var(--cr-accent-100)'
+      if (role === 'Volunteer') return 'var(--cr-default-300)'
+      return 'var(--cr-default-200)' // default for Listener
     }
 
     return (
-      <CrChip variant="light" size="small" style={{ backgroundColor }}>
-        {role}
-      </CrChip>
+      <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+        {roles.map((role, index) => (
+          <CrChip key={index} variant="light" size="small" style={{ backgroundColor: getRoleColor(role) }}>
+            {role}
+          </CrChip>
+        ))}
+      </div>
     )
   }
 
@@ -58,10 +79,9 @@ const LeadershipDirectoryPage: React.FC = () => {
   }
 
   const columns = [
-    { key: 'firstName', title: 'First Name', sortable: true, width: 'medium' },
-    { key: 'lastName', title: 'Last Name', sortable: true, width: 'medium' },
-    { key: 'djName', title: 'DJ Name', sortable: true, width: 'medium' },
-    { key: 'role', title: 'Role', sortable: true, width: 'medium', render: renderRole },
+    { key: 'name', title: 'Name', sortable: true, width: 'medium' },
+    { key: 'boardPosition', title: 'Board Position', sortable: true, width: 'medium', render: renderBoardPosition },
+    { key: 'roles', title: 'Roles', sortable: false, width: 'medium', render: renderRoles },
     { key: 'email', title: 'Email', sortable: true, width: 'wide', render: renderEmail },
     { key: 'phone', title: 'Primary Phone', sortable: true, width: 'medium' },
   ]

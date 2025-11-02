@@ -1,5 +1,5 @@
 // CrProfileCard.tsx
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { PiHeart, PiPencilSimple, PiUser } from 'react-icons/pi'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
@@ -128,6 +128,11 @@ export default function CrProfileCard({
 }: CrProfileCardProps) {
   // Track the original full image separately from the cropped avatar
   const [originalFullImage, setOriginalFullImage] = useState(fullProfileImage || avatarSrc)
+
+  // Update originalFullImage when props change (for profile switching)
+  useEffect(() => {
+    setOriginalFullImage(fullProfileImage || avatarSrc)
+  }, [fullProfileImage, avatarSrc])
 
   const componentClasses = ['cr-profile-card', `cr-profile-card--${state}`, className]
     .filter(Boolean)

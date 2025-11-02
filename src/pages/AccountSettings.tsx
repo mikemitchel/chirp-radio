@@ -9,6 +9,7 @@ import CrModal from '../stories/CrModal'
 import CrAppIconSelector from '../stories/CrAppIconSelector'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
+import { isDJ, isVolunteer, isBoardMember, isRegularDJ, isSubstituteDJ } from '../types/user'
 import { Capacitor } from '@capacitor/core'
 import AppIconPlugin from '../plugins/AppIconPlugin'
 import LoginRequiredModal from '../components/LoginRequiredModal'
@@ -48,12 +49,18 @@ export default function AccountSettings() {
   // Initialize form data when user changes
   useEffect(() => {
     if (user) {
+      console.log('[AccountSettings] User changed, updating formData:', {
+        id: user.id,
+        email: user.email,
+        profileImage: user.profileImage,
+        fullProfileImage: user.fullProfileImage
+      })
       setFormData({
-        firstName: user.firstName || user.name?.split(' ')[0] || '',
-        lastName: user.lastName || user.name?.split(' ')[1] || '',
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
         location: user.location || 'Chicago, Illinois',
         email: user.email || '',
-        avatarSrc: user.avatar || '',
+        avatarSrc: user.profileImage || user.fullProfileImage || '',
         fullProfileImage: user.fullProfileImage || '',
         profileImageOrientation: user.profileImageOrientation || 'square',
         djName: user.djName || '',
@@ -71,14 +78,16 @@ export default function AccountSettings() {
         state: user.state || '',
         zipCode: user.zipCode || '',
         socialLinks: user.socialLinks
-          ? Object.entries(user.socialLinks).map(([platform, url]) => ({
-              platform,
-              url: url as string,
-            }))
+          ? Object.entries(user.socialLinks)
+              .filter(([_, url]) => url && url.trim() !== '')
+              .map(([platform, url]) => ({
+                platform,
+                url: url as string,
+              }))
           : [],
       })
     }
-  }, [user])
+  }, [user, user?.id])
 
   // Get the appropriate storage based on login state
   const getStorage = useCallback(() => (isLoggedIn ? localStorage : sessionStorage), [isLoggedIn])
@@ -358,7 +367,7 @@ export default function AccountSettings() {
         lastName: user.lastName || user.name?.split(' ')[1] || '',
         location: user.location || 'Chicago, Illinois',
         email: user.email || '',
-        avatarSrc: user.avatar || '',
+        avatarSrc: user.profileImage || user.fullProfileImage || '',
         fullProfileImage: user.fullProfileImage || '',
         profileImageOrientation: user.profileImageOrientation || 'square',
         djName: user.djName || '',
@@ -686,12 +695,14 @@ export default function AccountSettings() {
     },
   ]
 
-  // Convert user social links to CrProfileCard format
+  // Convert user social links to CrProfileCard format (filter out empty URLs)
   const socialLinksArray = user?.socialLinks
-    ? Object.entries(user.socialLinks).map(([platform, url]) => ({
-        platform,
-        url: url as string,
-      }))
+    ? Object.entries(user.socialLinks)
+        .filter(([_, url]) => url && url.trim() !== '')
+        .map(([platform, url]) => ({
+          platform,
+          url: url as string,
+        }))
     : []
 
   // Format member since date to "Month Day, Year" format
@@ -807,18 +818,18 @@ export default function AccountSettings() {
             title="Your Profile"
             showEditButton={isLoggedIn}
             onEditClick={handleEditProfile}
-            firstName={formData.firstName || user?.firstName || user?.name?.split(' ')[0] || 'John'}
-            lastName={formData.lastName || user?.lastName || user?.name?.split(' ')[1] || 'Dough'}
+            firstName={formData.firstName || user?.firstName || 'John'}
+            lastName={formData.lastName || user?.lastName || 'Dough'}
             location={formData.location || user?.location || 'Chicago, Illinois'}
             email={formData.email || user?.email || 'account@gmail.com'}
             memberSince={formatMemberSince(user?.memberSince)}
-            avatarSrc={formData.avatarSrc || user?.avatar}
+            avatarSrc={formData.avatarSrc || user?.profileImage || user?.fullProfileImage}
             fullProfileImage={formData.fullProfileImage || user?.fullProfileImage}
             socialLinks={formData.socialLinks || socialLinksArray}
-            permissions={user?.permissions || []}
-            showPermissions={!!(user?.permissions && user.permissions.length > 0)}
-            isVolunteer={user?.role === 'volunteer' || user?.role === 'dj'}
-            isDJ={user?.role === 'dj'}
+            permissions={user?.roles || []}
+            showPermissions={isVolunteer(user)}
+            isVolunteer={isVolunteer(user) || isDJ(user)}
+            isDJ={isDJ(user)}
             djName={user?.djName}
             showName={user?.showName}
             showTime={user?.showTime}

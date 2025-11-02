@@ -1,5 +1,5 @@
 // src/pages/LandingPage.tsx
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router'
 import { PiCalendarDots, PiReadCvLogo, PiVinylRecord } from 'react-icons/pi'
 import CrAnnouncement from '../stories/CrAnnouncement'
@@ -17,7 +17,7 @@ import {
   useArticles,
   useTracks,
   useCurrentShow,
-  useScheduledDJs,
+  useRegularDJs,
   useSiteSettings,
 } from '../hooks/useData'
 import { getEventImageUrl, getEventCategoryName, getEventVenueName, getEventAgeRestriction } from '../utils/typeHelpers'
@@ -33,8 +33,16 @@ const LandingPage: React.FC = () => {
   const { data: articles } = useArticles()
   const { data: tracks } = useTracks()
   const { data: currentShow } = useCurrentShow()
-  const { data: djs } = useScheduledDJs()
+  const { data: allRegularDJs } = useRegularDJs()
   const { user: loggedInUser } = useAuth()
+
+  // Get 10 random Regular DJs (without repeating)
+  const randomDJs = useMemo(() => {
+    if (!allRegularDJs || allRegularDJs.length === 0) return []
+
+    const shuffled = [...allRegularDJs].sort(() => Math.random() - 0.5)
+    return shuffled.slice(0, 10)
+  }, [allRegularDJs])
 
   // Add landing-page class to body on mount, remove on unmount
   useEffect(() => {
@@ -282,7 +290,7 @@ const LandingPage: React.FC = () => {
             actionButtonIcon={<PiVinylRecord />}
             onActionClick={() => navigate('/schedule')}
           />
-          {djs?.slice(0, 10).map((dj, index) => (
+          {randomDJs.map((dj, index) => (
             <CrDjOverview
               key={dj.slug || dj.id || `dj-${index}`}
               size="medium"

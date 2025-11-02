@@ -16,7 +16,6 @@ import LoginRequiredModal from '../components/LoginRequiredModal'
 import {
   getCollection,
   removeFromCollection,
-  initializeSampleCollection,
   type CollectionTrack,
 } from '../utils/collectionDB'
 import './YourCollection.css'
@@ -60,8 +59,7 @@ export default function YourCollection() {
   // Load collection on mount and when logged in
   useEffect(() => {
     if (isLoggedIn) {
-      // Initialize sample data if needed (for testing)
-      initializeSampleCollection()
+      // Load user's collection (already loaded by AuthContext on login/profile switch)
       setCollection(getCollection())
     }
   }, [isLoggedIn])
@@ -71,9 +69,8 @@ export default function YourCollection() {
     if (process.env.NODE_ENV === 'development') {
       ;(window as unknown as Record<string, unknown>).resetCollection = () => {
         localStorage.removeItem('chirp-collection')
-        initializeSampleCollection()
-        setCollection(getCollection())
-        console.log('Collection reset with new sample data')
+        setCollection([])
+        console.log('Collection cleared')
       }
     }
     return () => {

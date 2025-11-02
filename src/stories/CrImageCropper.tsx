@@ -39,10 +39,23 @@ export default function CrImageCropper({
     cropped: initialCroppedImage,
   })
 
+  // Sync images state when props change (for profile switching)
+  React.useEffect(() => {
+    setImages({
+      full: initialFullImage,
+      cropped: initialCroppedImage,
+    })
+  }, [initialFullImage, initialCroppedImage])
+
   // Image orientation state
   const [orientation, setOrientation] = useState<'square' | 'landscape' | 'portrait'>(
     initialOrientation
   )
+
+  // Sync orientation when prop changes
+  React.useEffect(() => {
+    setOrientation(initialOrientation)
+  }, [initialOrientation])
 
   // UI state
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -71,11 +84,18 @@ export default function CrImageCropper({
 
   // Initialize currentImage from initialFullImage if provided
   React.useEffect(() => {
-    if (initialFullImage && !currentImage) {
+    if (initialFullImage) {
       const img = new Image()
       img.crossOrigin = 'anonymous' // Enable CORS for canvas export
       img.onload = () => {
         setCurrentImage(img)
+        // Reset cropper state when new image loads
+        setCropperState({
+          scale: 1,
+          position: { x: 0, y: 0 },
+          isDragging: false,
+          lastMousePos: { x: 0, y: 0 },
+        })
       }
       img.onerror = (error) => {
         console.warn(
@@ -86,8 +106,11 @@ export default function CrImageCropper({
         setCurrentImage(img)
       }
       img.src = initialFullImage
+    } else {
+      // Clear the image if initialFullImage becomes null
+      setCurrentImage(null)
     }
-  }, [initialFullImage, currentImage])
+  }, [initialFullImage])
 
   const resetCropperState = useCallback(() => {
     setCropperState({

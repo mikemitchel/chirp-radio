@@ -583,6 +583,7 @@ export default function CrStreamingMusicPlayer({
               artistName={displayData.artist}
               albumName={displayData.album}
               labelName={displayData.label}
+              albumArt={displayData.albumArt}
               isLocal={displayData.isLocal}
               isAdded={contextIsTrackAdded}
               onToggleAdd={handleToggleAdd}
@@ -622,6 +623,7 @@ export default function CrStreamingMusicPlayer({
             <CrTrackInfo
               trackName={displayData.track}
               artistName={displayData.artist}
+              albumArt={displayData.albumArt}
               variant="minimal" // Use minimal variant (just song + artist)
               isLocal={displayData.isLocal}
               isAdded={contextIsTrackAdded}
@@ -662,6 +664,7 @@ export default function CrStreamingMusicPlayer({
             <CrTrackInfo
               trackName={displayData.track}
               artistName={displayData.artist}
+              albumArt={displayData.albumArt}
               variant="minimal" // Use minimal variant (just song + artist)
               isLocal={displayData.isLocal}
               isAdded={contextIsTrackAdded}
@@ -716,6 +719,7 @@ export default function CrStreamingMusicPlayer({
               artistName={displayData.artist}
               albumName={displayData.album}
               labelName={displayData.label}
+              albumArt={displayData.albumArt}
               variant="stacked"
               isLocal={displayData.isLocal}
               isAdded={contextIsTrackAdded}
@@ -779,6 +783,7 @@ export default function CrStreamingMusicPlayer({
                 artistName={displayData.artist}
                 albumName={displayData.album}
                 labelName={displayData.label}
+                albumArt={displayData.albumArt}
                 variant="stacked"
                 isLocal={displayData.isLocal}
                 isAdded={contextIsTrackAdded}
