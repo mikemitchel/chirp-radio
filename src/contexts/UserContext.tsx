@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react'
-import usersData from '../data/users.json'
 import { emit, on } from '../utils/eventBus'
 import type { User, CollectionTrack } from '../types/user'
 import { fetchAllMembers } from '../utils/cmsMembers'
@@ -24,9 +23,9 @@ interface UserProviderProps {
 export function UserProvider({ children }: UserProviderProps) {
   const useCMS = import.meta.env.VITE_USE_CMS_API === 'true'
 
-  // Initialize users from mock data
-  const [users, setUsers] = useState<User[]>(usersData.users as User[])
-  const [loading, setLoading] = useState<boolean>(useCMS)
+  // Initialize users as empty - will load from CMS
+  const [users, setUsers] = useState<User[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<Error | null>(null)
   const [currentUserId, setCurrentUserId] = useState<string | null>(() => {
     // Try to get current user from localStorage
@@ -42,30 +41,24 @@ export function UserProvider({ children }: UserProviderProps) {
     return null
   })
 
-  // Fetch users from CMS if enabled
+  // Always fetch users from CMS
   useEffect(() => {
-    if (useCMS) {
-      console.log('[UserContext] Fetching users from CMS API...')
-      setLoading(true)
-      setError(null)
+    console.log('[UserContext] Fetching users from CMS API...')
+    setLoading(true)
+    setError(null)
 
-      fetchAllMembers()
-        .then((cmsUsers) => {
-          console.log('[UserContext] Loaded users from CMS:', cmsUsers.length)
-          setUsers(cmsUsers)
-          setLoading(false)
-        })
-        .catch((err) => {
-          console.error('[UserContext] Failed to load users from CMS:', err)
-          setError(err)
-          setLoading(false)
-          // Fall back to local data on error
-          setUsers(usersData.users as User[])
-        })
-    } else {
-      console.log('[UserContext] Using local JSON data for users')
-    }
-  }, [useCMS])
+    fetchAllMembers()
+      .then((cmsUsers) => {
+        console.log('[UserContext] Loaded users from CMS:', cmsUsers.length)
+        setUsers(cmsUsers)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error('[UserContext] Failed to load users from CMS:', err)
+        setError(err)
+        setLoading(false)
+      })
+  }, [])
 
   // Get user by ID
   const getUserById = useCallback(
