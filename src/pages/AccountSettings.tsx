@@ -17,7 +17,6 @@ import { emit } from '../utils/eventBus'
 import { formatShowTime } from '../utils/formatShowTime'
 import { updateInCMS } from '../utils/api'
 import type { Member } from '../types/member'
-import '../utils/refreshUserData' // Auto-refreshes user data in development
 import './AccountSettings.css'
 
 export default function AccountSettings() {
