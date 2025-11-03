@@ -18,6 +18,7 @@ import type {
   MobileAppSettings,
   PlayerFallbackImage,
 } from '../types/cms'
+import type { VolunteerFormSettings } from '../types/volunteerForm'
 import { fetchFromCMS } from '../utils/api'
 import { on } from '../utils/eventBus'
 
@@ -129,6 +130,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     weeklyCharts: [],
     mobilePageContent: [],
     mobileAppSettings: null,
+    volunteerFormSettings: null,
     playerFallbackImages: [],
     showSchedules: [],
   })
@@ -148,6 +150,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     weeklyCharts: USE_CMS_API,
     mobilePageContent: USE_CMS_API,
     mobileAppSettings: USE_CMS_API,
+    volunteerFormSettings: USE_CMS_API,
     playerFallbackImages: USE_CMS_API,
     showSchedules: USE_CMS_API,
   })
@@ -167,6 +170,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     weeklyCharts: null,
     mobilePageContent: null,
     mobileAppSettings: null,
+    volunteerFormSettings: null,
     playerFallbackImages: null,
     showSchedules: null,
   })
@@ -604,6 +608,30 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
   }, [])
 
+  // Fetch volunteer form settings
+  const fetchVolunteerFormSettings = useCallback(async () => {
+    if (!USE_CMS_API) return
+
+    setLoading((prev) => ({ ...prev, volunteerFormSettings: true }))
+    setError((prev) => ({ ...prev, volunteerFormSettings: null }))
+
+    try {
+      const apiUrl = import.meta.env.VITE_CMS_API_URL || 'http://localhost:3000/api'
+      const response = await fetch(`${apiUrl}/globals/volunteerFormSettings`)
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch volunteer form settings: ${response.statusText}`)
+      }
+
+      const settings = await response.json()
+      setData((prev) => ({ ...prev, volunteerFormSettings: settings as VolunteerFormSettings }))
+    } catch (err) {
+      setError((prev) => ({ ...prev, volunteerFormSettings: err as Error }))
+    } finally {
+      setLoading((prev) => ({ ...prev, volunteerFormSettings: false }))
+    }
+  }, [])
+
   // Fetch player fallback images
   const fetchPlayerFallbackImages = useCallback(async () => {
     if (!USE_CMS_API) return
@@ -672,6 +700,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
       fetchWeeklyCharts(),
       fetchMobilePageContent(),
       fetchMobileAppSettings(),
+      fetchVolunteerFormSettings(),
       fetchPlayerFallbackImages(),
       fetchShowSchedules(),
     ])
@@ -688,6 +717,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     fetchWeeklyCharts,
     fetchMobilePageContent,
     fetchMobileAppSettings,
+    fetchVolunteerFormSettings,
     fetchPlayerFallbackImages,
     fetchShowSchedules,
   ])
