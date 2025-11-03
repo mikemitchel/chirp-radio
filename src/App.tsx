@@ -1,13 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { BrowserRouter, HashRouter, Routes, Route, useNavigate } from 'react-router'
 import { HelmetProvider } from 'react-helmet-async'
 import { CMSProvider } from './contexts/CMSContext'
 import { UserProvider } from './contexts/UserContext'
-import { AuthProvider } from './contexts/AuthContext'
+import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
 import { on } from './utils/eventBus'
 import ScrollToTop from './components/ScrollToTop'
 import ProtectedRoute from './components/ProtectedRoute'
+import OnboardingTour from './components/OnboardingTour'
 import './utils/devTools' // Load development tools
 import './utils/debugAlbumArt' // Load album art debug utilities
 import MobileApp from './layouts/MobileApp'
@@ -101,6 +102,32 @@ function RootRedirect() {
     <WebLayout>
       <LandingPage />
     </WebLayout>
+  )
+}
+
+// OnboardingWrapper to check for new users
+function OnboardingWrapper({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth()
+  const [showOnboarding, setShowOnboarding] = useState(false)
+
+  useEffect(() => {
+    // Show onboarding tour if user is logged in and hasn't completed onboarding
+    if (user && user.onboardingCompleted === false) {
+      setShowOnboarding(true)
+    } else {
+      setShowOnboarding(false)
+    }
+  }, [user])
+
+  const handleOnboardingComplete = () => {
+    setShowOnboarding(false)
+  }
+
+  return (
+    <>
+      {children}
+      <OnboardingTour isOpen={showOnboarding} onComplete={handleOnboardingComplete} />
+    </>
   )
 }
 
@@ -211,10 +238,11 @@ function App() {
       <CMSProvider>
         <UserProvider>
           <AuthProvider>
-            <CartProvider>
-              <Router>
-                <ScrollToTop />
-                <Routes>
+            <OnboardingWrapper>
+              <CartProvider>
+                <Router>
+                  <ScrollToTop />
+                  <Routes>
             {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
             <Route index element={<RootRedirect />} />
 
@@ -545,10 +573,11 @@ function App() {
                 </WebLayout>
               }
             />
-              </Routes>
-            </Router>
-            {import.meta.env.DEV && <UserTypeSwitcher />}
-          </CartProvider>
+                </Routes>
+              </Router>
+              {import.meta.env.DEV && <UserTypeSwitcher />}
+            </CartProvider>
+          </OnboardingWrapper>
         </AuthProvider>
       </UserProvider>
     </CMSProvider>

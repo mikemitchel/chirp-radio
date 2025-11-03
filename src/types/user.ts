@@ -69,6 +69,7 @@ export interface User {
   preferences: UserPreferences
   donationHistory?: DonationHistory[]
   purchaseHistory?: PurchaseHistory[]
+  onboardingCompleted?: boolean
 
   // ==========================================
   // VOLUNTEER FIELDS (Volunteer, DJ, Board Member)
