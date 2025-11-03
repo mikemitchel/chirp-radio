@@ -4,6 +4,7 @@
  */
 import { useEffect, useRef } from 'react'
 import { emit } from '../utils/eventBus'
+import { clearCache } from '../utils/cmsCache'
 
 interface WebhookEvent {
   collection: string
@@ -11,6 +12,31 @@ interface WebhookEvent {
   timestamp: string
   id?: string | number
   type?: string // For connection events
+}
+
+// Map CMS collection names to cache keys
+const COLLECTION_TO_CACHE_KEY: Record<string, string> = {
+  'announcements': 'announcements',
+  'articles': 'articles',
+  'events': 'events',
+  'podcasts': 'podcasts',
+  'listeners': 'members',
+  'volunteerCalendar': 'volunteer-calendar',
+  'shopItems': 'shop-items',
+  'pages': 'pages',
+  'site-settings': 'site-settings',
+  'siteSettings': 'site-settings',
+  'weeklyCharts': 'weekly-charts',
+  'mobile-page-content': 'mobile-page-content',
+  'mobilePageContent': 'mobile-page-content',
+  'mobile-app-settings': 'mobile-app-settings',
+  'mobileAppSettings': 'mobile-app-settings',
+  'volunteer-form-settings': 'volunteer-form-settings',
+  'volunteerFormSettings': 'volunteer-form-settings',
+  'player-fallback-images': 'player-fallback-images',
+  'playerFallbackImages': 'player-fallback-images',
+  'showSchedules': 'show-schedules',
+  'show-schedules': 'show-schedules',
 }
 
 export function useWebhookListener() {
@@ -47,7 +73,16 @@ export function useWebhookListener() {
               return
             }
 
-            console.log('[Webhook Listener] Received update:', data.collection)
+            console.log('[Webhook Listener] Received update:', data.collection, data.operation)
+
+            // Clear cache for the specific collection
+            const cacheKey = COLLECTION_TO_CACHE_KEY[data.collection]
+            if (cacheKey) {
+              console.log('[Webhook Listener] Clearing cache for:', cacheKey)
+              clearCache(cacheKey)
+            } else {
+              console.warn('[Webhook Listener] No cache key mapping for collection:', data.collection)
+            }
 
             // Emit event to trigger CMS context refresh
             emit('cms-data-updated')

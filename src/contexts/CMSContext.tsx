@@ -22,6 +22,7 @@ import type { VolunteerFormSettings } from '../types/volunteerForm'
 import { fetchFromCMS } from '../utils/api'
 import { on } from '../utils/eventBus'
 import { useWebhookListener } from '../hooks/useWebhookListener'
+import { getCached, setCached, isCacheStale, clearCache } from '../utils/cmsCache'
 
 // Import mock data
 import announcementsData from '../data/announcements.json'
@@ -183,7 +184,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchAnnouncements = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, announcements: true }))
+    const cacheKey = 'announcements'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<Announcement[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading announcements from cache')
+      setData((prev) => ({ ...prev, announcements: cached }))
+      setLoading((prev) => ({ ...prev, announcements: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, announcements: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Announcements cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, announcements: null }))
 
     try {
@@ -197,9 +216,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
             : lexicalToHtml(announcement.bodyText),
       })) as Announcement[]
 
+      // Update state and cache
       setData((prev) => ({ ...prev, announcements: mappedDocs }))
+      setCached(cacheKey, mappedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, announcements: err as Error }))
+      console.error('[CMSContext] Failed to fetch announcements:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached announcements due to API error')
+      } else {
+        setError((prev) => ({ ...prev, announcements: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, announcements: false }))
     }
@@ -209,7 +237,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchArticles = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, articles: true }))
+    const cacheKey = 'articles'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<Article[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading articles from cache')
+      setData((prev) => ({ ...prev, articles: cached }))
+      setLoading((prev) => ({ ...prev, articles: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, articles: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Articles cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, articles: null }))
 
     try {
@@ -226,9 +272,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
           typeof article.content === 'string' ? article.content : lexicalToHtml(article.content),
       })) as Article[]
 
+      // Update state and cache
       setData((prev) => ({ ...prev, articles: mappedDocs }))
+      setCached(cacheKey, mappedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, articles: err as Error }))
+      console.error('[CMSContext] Failed to fetch articles:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached articles due to API error')
+      } else {
+        setError((prev) => ({ ...prev, articles: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, articles: false }))
     }
@@ -238,7 +293,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchEvents = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, events: true }))
+    const cacheKey = 'events'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<Event[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading events from cache')
+      setData((prev) => ({ ...prev, events: cached }))
+      setLoading((prev) => ({ ...prev, events: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, events: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Events cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, events: null }))
 
     try {
@@ -250,9 +323,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
         content: typeof event.content === 'string' ? event.content : lexicalToHtml(event.content),
       })) as Event[]
 
+      // Update state and cache
       setData((prev) => ({ ...prev, events: mappedDocs }))
+      setCached(cacheKey, mappedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, events: err as Error }))
+      console.error('[CMSContext] Failed to fetch events:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached events due to API error')
+      } else {
+        setError((prev) => ({ ...prev, events: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, events: false }))
     }
@@ -262,7 +344,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchPodcasts = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, podcasts: true }))
+    const cacheKey = 'podcasts'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<Podcast[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading podcasts from cache')
+      setData((prev) => ({ ...prev, podcasts: cached }))
+      setLoading((prev) => ({ ...prev, podcasts: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, podcasts: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Podcasts cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, podcasts: null }))
 
     try {
@@ -283,9 +383,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
           typeof podcast.content === 'string' ? podcast.content : lexicalToHtml(podcast.content),
       })) as Podcast[]
 
+      // Update state and cache
       setData((prev) => ({ ...prev, podcasts: mappedDocs }))
+      setCached(cacheKey, mappedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, podcasts: err as Error }))
+      console.error('[CMSContext] Failed to fetch podcasts:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached podcasts due to API error')
+      } else {
+        setError((prev) => ({ ...prev, podcasts: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, podcasts: false }))
     }
@@ -295,7 +404,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchMembers = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, members: true }))
+    const cacheKey = 'members'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<Member[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading members from cache')
+      setData((prev) => ({ ...prev, members: cached }))
+      setLoading((prev) => ({ ...prev, members: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, members: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Members cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, members: null }))
 
     try {
@@ -341,9 +468,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
           : [],
       })) as Member[]
 
+      // Update state and cache
       setData((prev) => ({ ...prev, members: mappedDocs }))
+      setCached(cacheKey, mappedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, members: err as Error }))
+      console.error('[CMSContext] Failed to fetch members:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached members due to API error')
+      } else {
+        setError((prev) => ({ ...prev, members: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, members: false }))
     }
@@ -353,7 +489,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchVolunteerCalendar = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, volunteerCalendar: true }))
+    const cacheKey = 'volunteer-calendar'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<VolunteerCalendarEvent[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading volunteer calendar from cache')
+      setData((prev) => ({ ...prev, volunteerCalendar: cached }))
+      setLoading((prev) => ({ ...prev, volunteerCalendar: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, volunteerCalendar: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Volunteer calendar cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, volunteerCalendar: null }))
 
     try {
@@ -371,9 +525,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
           ) || [],
       })) as VolunteerCalendarEvent[]
 
+      // Update state and cache
       setData((prev) => ({ ...prev, volunteerCalendar: mappedDocs }))
+      setCached(cacheKey, mappedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, volunteerCalendar: err as Error }))
+      console.error('[CMSContext] Failed to fetch volunteer calendar:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached volunteer calendar due to API error')
+      } else {
+        setError((prev) => ({ ...prev, volunteerCalendar: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, volunteerCalendar: false }))
     }
@@ -383,7 +546,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchShopItems = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, shopItems: true }))
+    const cacheKey = 'shop-items'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<ShopItem[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading shop items from cache')
+      setData((prev) => ({ ...prev, shopItems: cached }))
+      setLoading((prev) => ({ ...prev, shopItems: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, shopItems: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Shop items cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, shopItems: null }))
 
     try {
@@ -431,9 +612,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
         return (a.name || '').localeCompare(b.name || '')
       })
 
+      // Update state and cache
       setData((prev) => ({ ...prev, shopItems: sortedDocs }))
+      setCached(cacheKey, sortedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, shopItems: err as Error }))
+      console.error('[CMSContext] Failed to fetch shop items:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached shop items due to API error')
+      } else {
+        setError((prev) => ({ ...prev, shopItems: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, shopItems: false }))
     }
@@ -443,7 +633,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchPages = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, pages: true }))
+    const cacheKey = 'pages'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<Page[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading pages from cache')
+      setData((prev) => ({ ...prev, pages: cached }))
+      setLoading((prev) => ({ ...prev, pages: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, pages: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Pages cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, pages: null }))
 
     try {
@@ -464,9 +672,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
         }),
       })) as Page[]
 
+      // Update state and cache
       setData((prev) => ({ ...prev, pages: processedDocs }))
+      setCached(cacheKey, processedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, pages: err as Error }))
+      console.error('[CMSContext] Failed to fetch pages:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached pages due to API error')
+      } else {
+        setError((prev) => ({ ...prev, pages: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, pages: false }))
     }
@@ -474,7 +691,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
 
   // Fetch site settings
   const fetchSiteSettings = useCallback(async () => {
-    setLoading((prev) => ({ ...prev, siteSettings: true }))
+    const cacheKey = 'site-settings'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<SiteSettings>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading site settings from cache')
+      setData((prev) => ({ ...prev, siteSettings: cached }))
+      setLoading((prev) => ({ ...prev, siteSettings: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, siteSettings: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Site settings cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, siteSettings: null }))
 
     try {
@@ -486,9 +721,19 @@ export function CMSProvider({ children }: CMSProviderProps) {
       }
 
       const settings = await response.json()
+
+      // Update state and cache
       setData((prev) => ({ ...prev, siteSettings: settings as SiteSettings }))
+      setCached(cacheKey, settings as SiteSettings)
     } catch (err) {
-      setError((prev) => ({ ...prev, siteSettings: err as Error }))
+      console.error('[CMSContext] Failed to fetch site settings:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached site settings due to API error')
+      } else {
+        setError((prev) => ({ ...prev, siteSettings: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, siteSettings: false }))
     }
@@ -498,7 +743,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchWeeklyCharts = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, weeklyCharts: true }))
+    const cacheKey = 'weekly-charts'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<WeeklyChart[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading weekly charts from cache')
+      setData((prev) => ({ ...prev, weeklyCharts: cached }))
+      setLoading((prev) => ({ ...prev, weeklyCharts: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, weeklyCharts: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Weekly charts cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, weeklyCharts: null }))
 
     try {
@@ -512,9 +775,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
         id: chart.id?.toString(),
       })) as WeeklyChart[]
 
+      // Update state and cache
       setData((prev) => ({ ...prev, weeklyCharts: mappedDocs }))
+      setCached(cacheKey, mappedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, weeklyCharts: err as Error }))
+      console.error('[CMSContext] Failed to fetch weekly charts:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached weekly charts due to API error')
+      } else {
+        setError((prev) => ({ ...prev, weeklyCharts: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, weeklyCharts: false }))
     }
@@ -524,7 +796,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchMobilePageContent = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, mobilePageContent: true }))
+    const cacheKey = 'mobile-page-content'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<MobilePageContent[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading mobile page content from cache')
+      setData((prev) => ({ ...prev, mobilePageContent: cached }))
+      setLoading((prev) => ({ ...prev, mobilePageContent: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, mobilePageContent: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Mobile page content cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, mobilePageContent: null }))
 
     try {
@@ -561,9 +851,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
         } as MobilePageContent
       })
 
+      // Update state and cache
       setData((prev) => ({ ...prev, mobilePageContent: mappedDocs }))
+      setCached(cacheKey, mappedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, mobilePageContent: err as Error }))
+      console.error('[CMSContext] Failed to fetch mobile page content:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached mobile page content due to API error')
+      } else {
+        setError((prev) => ({ ...prev, mobilePageContent: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, mobilePageContent: false }))
     }
@@ -573,7 +872,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchMobileAppSettings = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, mobileAppSettings: true }))
+    const cacheKey = 'mobile-app-settings'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<MobileAppSettings>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading mobile app settings from cache')
+      setData((prev) => ({ ...prev, mobileAppSettings: cached }))
+      setLoading((prev) => ({ ...prev, mobileAppSettings: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, mobileAppSettings: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Mobile app settings cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, mobileAppSettings: null }))
 
     try {
@@ -604,9 +921,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
             : lexicalToHtml(settings.accountBenefitsContent),
       }
 
+      // Update state and cache
       setData((prev) => ({ ...prev, mobileAppSettings: processedSettings as MobileAppSettings }))
+      setCached(cacheKey, processedSettings as MobileAppSettings)
     } catch (err) {
-      setError((prev) => ({ ...prev, mobileAppSettings: err as Error }))
+      console.error('[CMSContext] Failed to fetch mobile app settings:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached mobile app settings due to API error')
+      } else {
+        setError((prev) => ({ ...prev, mobileAppSettings: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, mobileAppSettings: false }))
     }
@@ -616,7 +942,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchVolunteerFormSettings = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, volunteerFormSettings: true }))
+    const cacheKey = 'volunteer-form-settings'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<VolunteerFormSettings>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading volunteer form settings from cache')
+      setData((prev) => ({ ...prev, volunteerFormSettings: cached }))
+      setLoading((prev) => ({ ...prev, volunteerFormSettings: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, volunteerFormSettings: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Volunteer form settings cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, volunteerFormSettings: null }))
 
     try {
@@ -628,9 +972,19 @@ export function CMSProvider({ children }: CMSProviderProps) {
       }
 
       const settings = await response.json()
+
+      // Update state and cache
       setData((prev) => ({ ...prev, volunteerFormSettings: settings as VolunteerFormSettings }))
+      setCached(cacheKey, settings as VolunteerFormSettings)
     } catch (err) {
-      setError((prev) => ({ ...prev, volunteerFormSettings: err as Error }))
+      console.error('[CMSContext] Failed to fetch volunteer form settings:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached volunteer form settings due to API error')
+      } else {
+        setError((prev) => ({ ...prev, volunteerFormSettings: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, volunteerFormSettings: false }))
     }
@@ -640,7 +994,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchPlayerFallbackImages = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, playerFallbackImages: true }))
+    const cacheKey = 'player-fallback-images'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<PlayerFallbackImage[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading player fallback images from cache')
+      setData((prev) => ({ ...prev, playerFallbackImages: cached }))
+      setLoading((prev) => ({ ...prev, playerFallbackImages: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, playerFallbackImages: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Player fallback images cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, playerFallbackImages: null }))
 
     try {
@@ -654,9 +1026,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
         url: (image.url as string) || '',
       })) as PlayerFallbackImage[]
 
+      // Update state and cache
       setData((prev) => ({ ...prev, playerFallbackImages: mappedDocs }))
+      setCached(cacheKey, mappedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, playerFallbackImages: err as Error }))
+      console.error('[CMSContext] Failed to fetch player fallback images:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached player fallback images due to API error')
+      } else {
+        setError((prev) => ({ ...prev, playerFallbackImages: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, playerFallbackImages: false }))
     }
@@ -666,7 +1047,25 @@ export function CMSProvider({ children }: CMSProviderProps) {
   const fetchShowSchedules = useCallback(async () => {
     if (!USE_CMS_API) return
 
-    setLoading((prev) => ({ ...prev, showSchedules: true }))
+    const cacheKey = 'show-schedules'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<ShowSchedule[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading show schedules from cache')
+      setData((prev) => ({ ...prev, showSchedules: cached }))
+      setLoading((prev) => ({ ...prev, showSchedules: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, showSchedules: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached) {
+      console.log('[CMSContext] Show schedules cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API (in background if we have cached data)
     setError((prev) => ({ ...prev, showSchedules: null }))
 
     try {
@@ -681,9 +1080,18 @@ export function CMSProvider({ children }: CMSProviderProps) {
         id: schedule.id?.toString(),
       })) as ShowSchedule[]
 
+      // Update state and cache
       setData((prev) => ({ ...prev, showSchedules: mappedDocs }))
+      setCached(cacheKey, mappedDocs)
     } catch (err) {
-      setError((prev) => ({ ...prev, showSchedules: err as Error }))
+      console.error('[CMSContext] Failed to fetch show schedules:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached show schedules due to API error')
+      } else {
+        setError((prev) => ({ ...prev, showSchedules: err as Error }))
+      }
     } finally {
       setLoading((prev) => ({ ...prev, showSchedules: false }))
     }
