@@ -91,14 +91,36 @@ const AlbumArt = ({
   isLarge?: boolean
 }) => {
   const { data: fallbackImages, loading: fallbackLoading } = usePlayerFallbackImages()
-  const [frontSrc, setFrontSrc] = useState('')
-  const [backSrc, setBackSrc] = useState('')
-  const [frontIsVisible, setFrontIsVisible] = useState(true)
+
+  // Initialize from sessionStorage to persist across navigation
+  const getCachedState = () => {
+    try {
+      const cached = sessionStorage.getItem('chirp-album-art-cache')
+      if (cached) {
+        const parsed = JSON.parse(cached)
+        return {
+          frontSrc: parsed.frontSrc || '',
+          backSrc: parsed.backSrc || '',
+          frontIsVisible: parsed.frontIsVisible ?? true,
+          hasLoadedFirstImage: parsed.hasLoadedFirstImage ?? false,
+          trackId: parsed.trackId || ''
+        }
+      }
+    } catch (e) {
+      // Ignore
+    }
+    return { frontSrc: '', backSrc: '', frontIsVisible: true, hasLoadedFirstImage: false, trackId: '' }
+  }
+
+  const cached = getCachedState()
+  const [frontSrc, setFrontSrc] = useState(cached.frontSrc)
+  const [backSrc, setBackSrc] = useState(cached.backSrc)
+  const [frontIsVisible, setFrontIsVisible] = useState(cached.frontIsVisible)
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const [hasLoadedFirstImage, setHasLoadedFirstImage] = useState(false)
+  const [hasLoadedFirstImage, setHasLoadedFirstImage] = useState(cached.hasLoadedFirstImage)
   const [fallbackSrc, setFallbackSrc] = useState('')
   const [forceRefreshCounter, setForceRefreshCounter] = useState(0)
-  const currentTrackId = useRef('')
+  const currentTrackId = useRef(cached.trackId)
   const lastFallbackIndex = useRef(-1)
   const isResolvingRef = useRef(false)
   const lastForceRefreshCounter = useRef(0)
@@ -128,6 +150,20 @@ const AlbumArt = ({
 
     currentTrackId.current = trackId
     lastForceRefreshCounter.current = forceRefreshCounter
+
+    // Save to cache
+    try {
+      const currentCache = sessionStorage.getItem('chirp-album-art-cache')
+      if (currentCache) {
+        const parsed = JSON.parse(currentCache)
+        parsed.trackId = trackId
+        sessionStorage.setItem('chirp-album-art-cache', JSON.stringify(parsed))
+      } else {
+        sessionStorage.setItem('chirp-album-art-cache', JSON.stringify({ trackId }))
+      }
+    } catch (e) {
+      // Ignore
+    }
 
     // Prevent concurrent resolutions
     if (isResolvingRef.current) {
@@ -174,6 +210,19 @@ const AlbumArt = ({
 
           if (frontIsVisible) {
             setBackSrc(result.url)
+            // Update cache
+            try {
+              const cache = sessionStorage.getItem('chirp-album-art-cache')
+              if (cache) {
+                const parsed = JSON.parse(cache)
+                parsed.backSrc = result.url
+                parsed.frontIsVisible = false
+                parsed.hasLoadedFirstImage = true
+                sessionStorage.setItem('chirp-album-art-cache', JSON.stringify(parsed))
+              }
+            } catch (e) {
+              // Ignore
+            }
             // Wait for image to load, then crossfade
             const img = new Image()
             img.onload = () => {
@@ -197,6 +246,19 @@ const AlbumArt = ({
             img.src = result.url
           } else {
             setFrontSrc(result.url)
+            // Update cache
+            try {
+              const cache = sessionStorage.getItem('chirp-album-art-cache')
+              if (cache) {
+                const parsed = JSON.parse(cache)
+                parsed.frontSrc = result.url
+                parsed.frontIsVisible = true
+                parsed.hasLoadedFirstImage = true
+                sessionStorage.setItem('chirp-album-art-cache', JSON.stringify(parsed))
+              }
+            } catch (e) {
+              // Ignore
+            }
             const img = new Image()
             img.onload = () => {
               setHasLoadedFirstImage(true)
@@ -240,7 +302,7 @@ const AlbumArt = ({
     }
 
     resolveArt()
-  }, [src, artist, track, album, fallbackImages, fallbackLoading, frontIsVisible, isTransitioning, forceRefreshCounter])
+  }, [src, artist, track, album, fallbackImages, fallbackLoading, forceRefreshCounter])
 
   // Show random fallback image if all sources failed
   if (fallbackSrc) {
@@ -299,12 +361,33 @@ const BackgroundImage = ({
   isLoading?: any
 }) => {
   const { data: fallbackImages, loading: fallbackLoading } = usePlayerFallbackImages()
-  const [frontSrc, setFrontSrc] = useState('')
-  const [backSrc, setBackSrc] = useState('')
-  const [frontIsVisible, setFrontIsVisible] = useState(true)
+
+  // Initialize from sessionStorage to persist across navigation
+  const getCachedBgState = () => {
+    try {
+      const cached = sessionStorage.getItem('chirp-bg-cache')
+      if (cached) {
+        const parsed = JSON.parse(cached)
+        return {
+          frontSrc: parsed.frontSrc || '',
+          backSrc: parsed.backSrc || '',
+          frontIsVisible: parsed.frontIsVisible ?? true,
+          trackId: parsed.trackId || ''
+        }
+      }
+    } catch (e) {
+      // Ignore
+    }
+    return { frontSrc: '', backSrc: '', frontIsVisible: true, trackId: '' }
+  }
+
+  const cachedBg = getCachedBgState()
+  const [frontSrc, setFrontSrc] = useState(cachedBg.frontSrc)
+  const [backSrc, setBackSrc] = useState(cachedBg.backSrc)
+  const [frontIsVisible, setFrontIsVisible] = useState(cachedBg.frontIsVisible)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [forceRefreshCounter, setForceRefreshCounter] = useState(0)
-  const currentTrackId = useRef('')
+  const currentTrackId = useRef(cachedBg.trackId)
   const lastFallbackIndex = useRef(-1)
   const isResolvingRef = useRef(false)
   const lastForceRefreshCounter = useRef(0)
@@ -336,6 +419,20 @@ const BackgroundImage = ({
 
     // Update track ID
     currentTrackId.current = trackId
+
+    // Update cache with track ID
+    try {
+      const currentCache = sessionStorage.getItem('chirp-bg-cache')
+      if (currentCache) {
+        const parsed = JSON.parse(currentCache)
+        parsed.trackId = trackId
+        sessionStorage.setItem('chirp-bg-cache', JSON.stringify(parsed))
+      } else {
+        sessionStorage.setItem('chirp-bg-cache', JSON.stringify({ trackId }))
+      }
+    } catch (e) {
+      // Ignore
+    }
 
     // Don't start a new resolution if one is in progress
     if (isResolvingRef.current || isTransitioning) {
@@ -378,6 +475,19 @@ const BackgroundImage = ({
           // Update back layer
           setBackSrc(result.url)
 
+          // Update cache
+          try {
+            const cache = sessionStorage.getItem('chirp-bg-cache')
+            if (cache) {
+              const parsed = JSON.parse(cache)
+              parsed.backSrc = result.url
+              parsed.frontIsVisible = false
+              sessionStorage.setItem('chirp-bg-cache', JSON.stringify(parsed))
+            }
+          } catch (e) {
+            // Ignore
+          }
+
           // Preload image before transitioning
           const img = new Image()
           img.onload = () => {
@@ -395,6 +505,19 @@ const BackgroundImage = ({
         } else {
           // Update front layer
           setFrontSrc(result.url)
+
+          // Update cache
+          try {
+            const cache = sessionStorage.getItem('chirp-bg-cache')
+            if (cache) {
+              const parsed = JSON.parse(cache)
+              parsed.frontSrc = result.url
+              parsed.frontIsVisible = true
+              sessionStorage.setItem('chirp-bg-cache', JSON.stringify(parsed))
+            }
+          } catch (e) {
+            // Ignore
+          }
 
           const img = new Image()
           img.onload = () => {
@@ -416,7 +539,7 @@ const BackgroundImage = ({
         isResolvingRef.current = false
         setIsTransitioning(false)
       })
-  }, [src, artist, track, album, fallbackImages, fallbackLoading, frontIsVisible, isTransitioning, forceRefreshCounter])
+  }, [src, artist, track, album, fallbackImages, fallbackLoading, forceRefreshCounter])
 
   // Two-stacked-divs with background-image
   return (
