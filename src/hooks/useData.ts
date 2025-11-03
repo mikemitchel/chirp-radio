@@ -342,6 +342,17 @@ export function useMobileAppSettings() {
   }
 }
 
+// Volunteer Form Settings (Global)
+export function useVolunteerFormSettings() {
+  const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
+
+  return {
+    data: cmsData.volunteerFormSettings,
+    loading: cmsLoading.volunteerFormSettings,
+    error: cmsError.volunteerFormSettings,
+  }
+}
+
 // Player Fallback Images
 export function usePlayerFallbackImages() {
   const { data: cmsData, loading: cmsLoading, error: cmsError } = useCMS()
