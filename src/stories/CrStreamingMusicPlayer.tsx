@@ -115,7 +115,6 @@ const AlbumArt = ({
   useEffect(() => {
     // Wait for fallback images to load from CMS
     if (fallbackLoading) {
-      log.log('🖼️ [AlbumArt] Waiting for CMS fallback images to load...')
       return
     }
 
@@ -124,17 +123,14 @@ const AlbumArt = ({
 
     // If same track and not force refreshing, don't reload
     if (trackId === currentTrackId.current && forceRefreshCounter === lastForceRefreshCounter.current) {
-      log.log('🖼️ [AlbumArt] No change detected, skipping reload')
       return
     }
 
     currentTrackId.current = trackId
     lastForceRefreshCounter.current = forceRefreshCounter
-    log.log('🖼️ [AlbumArt] Track changed or forced refresh, resolving album art:', { artist, track, album })
 
     // Prevent concurrent resolutions
     if (isResolvingRef.current) {
-      log.log('Already resolving, skipping...')
       return
     }
 
@@ -325,7 +321,6 @@ const BackgroundImage = ({
   useEffect(() => {
     // Wait for fallback images to load from CMS
     if (fallbackLoading) {
-      log.log('🎨 [BackgroundImage] Waiting for CMS fallback images to load...')
       return
     }
 
@@ -334,7 +329,6 @@ const BackgroundImage = ({
 
     // If same track and not force refreshing, don't reload
     if (trackId === currentTrackId.current && forceRefreshCounter === lastForceRefreshCounter.current) {
-      log.log('🎨 [BackgroundImage] No change detected, skipping reload')
       return
     }
 
@@ -345,11 +339,8 @@ const BackgroundImage = ({
 
     // Don't start a new resolution if one is in progress
     if (isResolvingRef.current || isTransitioning) {
-      log.log('🎨 [BackgroundImage] Already resolving or transitioning, skipping')
       return
     }
-
-    log.log('🎨 [BackgroundImage] Track changed:', { artist, track, album, src })
 
     // Mark as resolving
     isResolvingRef.current = true
@@ -480,18 +471,6 @@ export default function CrStreamingMusicPlayer({
   autoFetch = false, // Default to no API fetching
   isLocal = false, // New prop to control LOCAL chip
 }: CrStreamingMusicPlayerProps) {
-  // Log mount/unmount and prop changes
-  useEffect(() => {
-    log.log(`🎵 [${variant}] Component MOUNTED`, { autoFetch, variant })
-    return () => {
-      log.log(`🎵 [${variant}] Component UNMOUNTED`)
-    }
-  }, [variant])
-
-  useEffect(() => {
-    log.log(`🎵 [${variant}] Props changed:`, { autoFetch, variant })
-  }, [autoFetch, variant])
-
   // Use the shared audio player context
   const {
     isPlaying,
