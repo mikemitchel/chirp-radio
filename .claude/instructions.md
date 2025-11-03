@@ -17,6 +17,7 @@ Non-profit low-band FM and streaming radio station web application
 - **Album art persistence ✅** Fixed reload on navigation
 - **iOS CMS URL fix ✅** Smart fallback logic, awaiting CMS deployment
 - **Listen Page CMS Integration ✅** Tested and verified
+- **Mobile CMS Integration ✅** All static/fake data removed, CMS-driven with fallbacks
 
 ### Waiting for External Dependencies
 - **CarPlay** - Code complete, waiting for Apple entitlement approval (see PLATFORM_INTEGRATION.md)
@@ -24,8 +25,8 @@ Non-profit low-band FM and streaming radio station web application
 - **iOS Production CMS** - Needs CMS deployed, then update `VITE_CMS_API_URL` in `.env.production`
 
 ### Active Development (TODO)
+- **Volunteer Details Form CMS Integration** - Create CMS page/global to drive the Volunteer Details form in Profile edit
 - Android APK side-load testing (Issue #32)
-- Mobile-specific CMS collections - verify all static/fake data removed and connected to CMS
 
 ### Research Needed
 - CMS webhook for content updates
