@@ -1,5 +1,22 @@
 // API client for CHIRP CMS
-const API_BASE_URL = import.meta.env.VITE_CMS_API_URL || 'http://localhost:3000/api'
+const getApiBaseUrl = () => {
+  // If explicitly set via environment variable, use it
+  if (import.meta.env.VITE_CMS_API_URL) {
+    return import.meta.env.VITE_CMS_API_URL
+  }
+
+  // In production builds, require the environment variable to be set
+  if (import.meta.env.PROD) {
+    console.error('VITE_CMS_API_URL is not set in production build. CMS features will not work.')
+    // Return a non-functional URL that will fail loudly rather than silently
+    return 'https://CONFIGURE_VITE_CMS_API_URL_IN_ENV/api'
+  }
+
+  // Development fallback to localhost
+  return 'http://localhost:3000/api'
+}
+
+const API_BASE_URL = getApiBaseUrl()
 
 export interface PayloadResponse<T> {
   docs: T[]
