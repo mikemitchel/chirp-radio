@@ -21,6 +21,7 @@ import type {
 import type { VolunteerFormSettings } from '../types/volunteerForm'
 import { fetchFromCMS } from '../utils/api'
 import { on } from '../utils/eventBus'
+import { useWebhookListener } from '../hooks/useWebhookListener'
 
 // Import mock data
 import announcementsData from '../data/announcements.json'
@@ -102,7 +103,7 @@ interface CMSContextValue {
   data: CMSData
   loading: CMSLoadingState
   error: CMSErrorState
-  refresh: () => Promise<void>
+  refresh: (collection?: keyof CMSData) => Promise<void>
   isInitialized: boolean
 }
 
@@ -114,6 +115,9 @@ interface CMSProviderProps {
 
 export function CMSProvider({ children }: CMSProviderProps) {
   const [isInitialized, setIsInitialized] = useState(false)
+
+  // Connect to webhook SSE stream for live updates
+  useWebhookListener()
 
   // Data state
   const [data, setData] = useState<CMSData>({
@@ -685,25 +689,56 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
   }, [])
 
-  // Refresh all data
-  const refresh = useCallback(async () => {
-    await Promise.all([
-      fetchAnnouncements(),
-      fetchArticles(),
-      fetchEvents(),
-      fetchPodcasts(),
-      fetchMembers(),
-      fetchVolunteerCalendar(),
-      fetchShopItems(),
-      fetchPages(),
-      fetchSiteSettings(),
-      fetchWeeklyCharts(),
-      fetchMobilePageContent(),
-      fetchMobileAppSettings(),
-      fetchVolunteerFormSettings(),
-      fetchPlayerFallbackImages(),
-      fetchShowSchedules(),
-    ])
+  // Map collection names to their fetch functions
+  const collectionFetchers: Record<keyof CMSData, () => Promise<void>> = {
+    announcements: fetchAnnouncements,
+    articles: fetchArticles,
+    events: fetchEvents,
+    podcasts: fetchPodcasts,
+    djs: async () => {}, // DJs are fetched from members
+    members: fetchMembers,
+    volunteerCalendar: fetchVolunteerCalendar,
+    shopItems: fetchShopItems,
+    pages: fetchPages,
+    siteSettings: fetchSiteSettings,
+    weeklyCharts: fetchWeeklyCharts,
+    mobilePageContent: fetchMobilePageContent,
+    mobileAppSettings: fetchMobileAppSettings,
+    volunteerFormSettings: fetchVolunteerFormSettings,
+    playerFallbackImages: fetchPlayerFallbackImages,
+    showSchedules: fetchShowSchedules,
+  }
+
+  // Refresh data - optionally refresh a specific collection
+  const refresh = useCallback(async (collection?: keyof CMSData) => {
+    if (collection) {
+      // Refresh specific collection
+      console.log(`[CMSContext] Refreshing collection: ${collection}`)
+      const fetcher = collectionFetchers[collection]
+      if (fetcher) {
+        await fetcher()
+      }
+    } else {
+      // Refresh all data
+      console.log('[CMSContext] Refreshing all data')
+      await Promise.all([
+        fetchAnnouncements(),
+        fetchArticles(),
+        fetchEvents(),
+        fetchPodcasts(),
+        fetchMembers(),
+        fetchVolunteerCalendar(),
+        fetchShopItems(),
+        fetchPages(),
+        fetchSiteSettings(),
+        fetchWeeklyCharts(),
+        fetchMobilePageContent(),
+        fetchMobileAppSettings(),
+        fetchVolunteerFormSettings(),
+        fetchPlayerFallbackImages(),
+        fetchShowSchedules(),
+      ])
+    }
   }, [
     fetchAnnouncements,
     fetchArticles,
