@@ -80,7 +80,7 @@
 .cr-mobile-frame--interior .cr-mobile-frame__content {
   flex: 1;
   padding-top: 120px; /* Account for fixed header height */
-  padding-bottom: 80px; /* Account for slim player height */
+  padding-bottom: calc(80px + env(safe-area-inset-bottom)); /* Account for slim player height + bottom safe area */
   padding-left: var(--cr-space-3); /* 12px horizontal margin */
   padding-right: var(--cr-space-3); /* 12px horizontal margin */
   overflow-y: auto;
@@ -101,6 +101,7 @@
   display: flex;
   justify-content: center;
   padding: var(--cr-space-1);
+  padding-bottom: calc(var(--cr-space-1) + env(safe-area-inset-bottom));
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -195,7 +196,7 @@
 @media (max-width: 480px) {
   .cr-mobile-frame--interior .cr-mobile-frame__content {
     padding-top: 96px;
-    padding-bottom: 80px;
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
   }
 
   .cr-mobile-frame__content-header {
