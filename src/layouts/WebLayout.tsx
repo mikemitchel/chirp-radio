@@ -1,6 +1,6 @@
 // src/layouts/WebLayout.tsx
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router'
+import React, { useState, useEffect, useMemo } from 'react'
+import { useNavigate, Outlet } from 'react-router'
 import CrAppHeader from '../stories/CrAppHeader'
 import CrFooter from '../stories/CrFooter'
 import CrSupportWithAds from '../stories/CrSupportWithAds'
@@ -8,7 +8,6 @@ import CrSidebar from '../stories/CrSidebar'
 import CrScrim from '../stories/CrScrim'
 import CrStreamingMusicPlayer from '../stories/CrStreamingMusicPlayer'
 import GlobalNotifications from '../components/GlobalNotifications'
-import { AudioPlayerProvider } from '../contexts/AudioPlayerContext'
 import { NotificationProvider, useNotification } from '../contexts/NotificationContext'
 import { useCart } from '../contexts/CartContext'
 import { useAuth } from '../hooks/useAuth'
@@ -17,11 +16,7 @@ import type { UserRole } from '../hooks/useAuth'
 import { isVolunteer as checkIsVolunteer } from '../types/user'
 import '../styles/layout.css'
 
-interface LayoutProps {
-  children: React.ReactNode
-}
-
-const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
+const WebLayoutContent: React.FC = () => {
   const navigate = useNavigate()
   const { getTotalItems } = useCart()
   const { isLoggedIn, user, switchProfile, signOut } = useAuth()
@@ -193,17 +188,19 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
     return user.profileImage || user.fullProfileImage
   }
 
+  // Memoize streamingPlayerProps to prevent unnecessary re-renders
+  const streamingPlayerProps = useMemo(
+    () => ({ variant: 'slim-player' as const, autoFetch: true }),
+    []
+  )
+
   return (
     <>
-      <AudioPlayerProvider
-        autoFetch={true}
-        streamUrl="https://peridot.streamguys1.com:5185/live"
-      >
-        <CrAppHeader
+      <CrAppHeader
           autoFetch={true}
           djName={currentShow?.djName}
           showName={currentShow?.showName}
-          streamingPlayerProps={{ variant: 'slim-player', autoFetch: true }}
+          streamingPlayerProps={streamingPlayerProps}
           onMenuClick={handleMenuClick}
           storeBadgeCount={cartItemCount}
           showStoreBadge={true}
@@ -309,7 +306,7 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
           padding={false}
         />
 
-        <main>{children}</main>
+        <main><Outlet /></main>
         <div className="web-layout-footer-container">
           <div className="support-with-ads-wrapper">
             <CrSupportWithAds />
@@ -327,21 +324,20 @@ const WebLayoutContent: React.FC<LayoutProps> = ({ children }) => {
         <div
           className={`web-layout-bottom-player ${showBottomPlayer ? 'web-layout-bottom-player--visible' : ''}`}
         >
-          <CrStreamingMusicPlayer variant="mini-player" autoFetch={true} />
+          <CrStreamingMusicPlayer key="bottom-player" variant="mini-player" autoFetch={true} />
         </div>
 
         {/* Global Notifications - Toasts & Modals */}
         <GlobalNotifications />
-      </AudioPlayerProvider>
     </>
   )
 }
 
 // Wrapper to provide NotificationProvider context
-const WebLayout: React.FC<LayoutProps> = ({ children }) => {
+const WebLayout: React.FC = () => {
   return (
     <NotificationProvider>
-      <WebLayoutContent>{children}</WebLayoutContent>
+      <WebLayoutContent />
     </NotificationProvider>
   )
 }

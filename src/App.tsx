@@ -5,6 +5,7 @@ import { CMSProvider } from './contexts/CMSContext'
 import { UserProvider } from './contexts/UserContext'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { CartProvider } from './contexts/CartContext'
+import { AudioPlayerProvider } from './contexts/AudioPlayerContext'
 import { on } from './utils/eventBus'
 import ScrollToTop from './components/ScrollToTop'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -99,11 +100,7 @@ function RootRedirect() {
     return null // Redirect happening
   }
 
-  return (
-    <WebLayout>
-      <LandingPage />
-    </WebLayout>
-  )
+  return <LandingPage />
 }
 
 // OnboardingWrapper to check for new users
@@ -241,12 +238,13 @@ function App() {
           <AuthProvider>
             <OnboardingWrapper>
               <CartProvider>
-                <Router>
-                  <ScrollToTop />
-                  <Routes>
-            {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
-            <Route index element={<RootRedirect />} />
-
+                <AudioPlayerProvider
+                  autoFetch={true}
+                  streamUrl="https://peridot.streamguys1.com:5185/live"
+                >
+                  <Router>
+                    <ScrollToTop />
+                    <Routes>
             {/* Android Automotive route (standalone, no layout) */}
             <Route path="/android-auto" element={<AndroidAutoPage />} />
 
@@ -259,337 +257,103 @@ function App() {
               <Route path="request" element={<MakeRequest />} />
               <Route path="settings" element={<AccountSettings />} />
             </Route>
-            <Route
-              path="/playlist"
-              element={
-                <WebLayout>
-                  <PlaylistPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/listen"
-              element={
-                <WebLayout>
-                  <ListenPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/other-ways-to-listen"
-              element={
-                <WebLayout>
-                  <OtherWaysToListenPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/events"
-              element={
-                <WebLayout>
-                  <EventsPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/events/:slug"
-              element={
-                <WebLayout>
-                  <EventDetailPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/articles"
-              element={
-                <WebLayout>
-                  <ArticlesPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/articles/:slug"
-              element={
-                <WebLayout>
-                  <ArticleDetailPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/podcasts"
-              element={
-                <WebLayout>
-                  <PodcastPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/podcasts/:slug"
-              element={
-                <WebLayout>
-                  <PodcastDetailPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/djs"
-              element={
-                <WebLayout>
-                  <DJPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/djs/:id"
-              element={
-                <WebLayout>
-                  <DJDetailPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/schedule"
-              element={
-                <WebLayout>
-                  <DJSchedulePage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/shop"
-              element={
-                <WebLayout>
-                  <ShopPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/shop/:id"
-              element={
-                <WebLayout>
-                  <ShopDetailPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/shop/checkout"
-              element={
-                <WebLayout>
-                  <ShopCheckoutPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/donate"
-              element={
-                <WebLayout>
-                  <DonatePage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/vinyl-circle"
-              element={
-                <WebLayout>
-                  <VinylCirclePage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/other-ways-to-give"
-              element={
-                <WebLayout>
-                  <OtherWaysToGivePage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/car-donation"
-              element={
-                <WebLayout>
-                  <CarDonationPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/about"
-              element={
-                <WebLayout>
-                  <AboutPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/contact"
-              element={
-                <WebLayout>
-                  <ContactPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/volunteer"
-              element={
-                <WebLayout>
-                  <BecomeVolunteerPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/volunteer-directory"
-              element={
-                <WebLayout>
+
+            {/* Preview pages (standalone, no layout) */}
+            <Route path="/preview/advertisement/:id" element={<AdvertisementPreviewPage />} />
+
+            {/* Web layout routes */}
+            <Route element={<WebLayout />}>
+              {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
+              <Route index element={<RootRedirect />} />
+              <Route path="playlist" element={<PlaylistPage />} />
+              <Route path="listen" element={<ListenPage />} />
+              <Route path="other-ways-to-listen" element={<OtherWaysToListenPage />} />
+              <Route path="events" element={<EventsPage />} />
+              <Route path="events/:slug" element={<EventDetailPage />} />
+              <Route path="articles" element={<ArticlesPage />} />
+              <Route path="articles/:slug" element={<ArticleDetailPage />} />
+              <Route path="podcasts" element={<PodcastPage />} />
+              <Route path="podcasts/:slug" element={<PodcastDetailPage />} />
+              <Route path="djs" element={<DJPage />} />
+              <Route path="djs/:id" element={<DJDetailPage />} />
+              <Route path="schedule" element={<DJSchedulePage />} />
+              <Route path="shop" element={<ShopPage />} />
+              <Route path="shop/:id" element={<ShopDetailPage />} />
+              <Route path="shop/checkout" element={<ShopCheckoutPage />} />
+              <Route path="donate" element={<DonatePage />} />
+              <Route path="vinyl-circle" element={<VinylCirclePage />} />
+              <Route path="other-ways-to-give" element={<OtherWaysToGivePage />} />
+              <Route path="car-donation" element={<CarDonationPage />} />
+              <Route path="about" element={<AboutPage />} />
+              <Route path="contact" element={<ContactPage />} />
+              <Route path="volunteer" element={<BecomeVolunteerPage />} />
+              <Route
+                path="volunteer-directory"
+                element={
                   <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
                     <VolunteerDirectoryPage />
                   </ProtectedRoute>
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/volunteer-calendar"
-              element={
-                <WebLayout>
+                }
+              />
+              <Route
+                path="volunteer-calendar"
+                element={
                   <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
                     <VolunteerCalendarPage />
                   </ProtectedRoute>
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/leadership-directory"
-              element={
-                <WebLayout>
+                }
+              />
+              <Route
+                path="leadership-directory"
+                element={
                   <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
                     <LeadershipDirectoryPage />
                   </ProtectedRoute>
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/websites-to-remember"
-              element={
-                <WebLayout>
+                }
+              />
+              <Route
+                path="websites-to-remember"
+                element={
                   <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
                     <WebsitesToRememberPage />
                   </ProtectedRoute>
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/volunteer-downloads"
-              element={
-                <WebLayout>
+                }
+              />
+              <Route
+                path="volunteer-downloads"
+                element={
                   <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
                     <VolunteerDownloadsPage />
                   </ProtectedRoute>
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <WebLayout>
-                  <AccountSettings />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/collection"
-              element={
-                <WebLayout>
-                  <YourCollection />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/request-song"
-              element={
-                <WebLayout>
-                  <RequestSongPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/thank-you"
-              element={
-                <WebLayout>
-                  <ThankYouPage />
-                </WebLayout>
-              }
-            />
+                }
+              />
+              <Route path="profile" element={<AccountSettings />} />
+              <Route path="collection" element={<YourCollection />} />
+              <Route path="request-song" element={<RequestSongPage />} />
+              <Route path="thank-you" element={<ThankYouPage />} />
 
-            {/* Preview pages */}
-            <Route path="/preview/advertisement/:id" element={<AdvertisementPreviewPage />} />
+              {/* Legal pages */}
+              <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="terms-of-service" element={<TermsOfServicePage />} />
+              <Route path="sitemap" element={<SitemapPage />} />
+              <Route path="reset-password" element={<ResetPasswordPage />} />
 
-            {/* Legal pages */}
-            <Route
-              path="/privacy-policy"
-              element={
-                <WebLayout>
-                  <PrivacyPolicyPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/terms-of-service"
-              element={
-                <WebLayout>
-                  <TermsOfServicePage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/sitemap"
-              element={
-                <WebLayout>
-                  <SitemapPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/reset-password"
-              element={
-                <WebLayout>
-                  <ResetPasswordPage />
-                </WebLayout>
-              }
-            />
+              {/* Error pages */}
+              <Route path="403" element={<ForbiddenPage />} />
+              <Route path="500" element={<ServerErrorPage />} />
 
-            {/* Error pages */}
-            <Route
-              path="/403"
-              element={
-                <WebLayout>
-                  <ForbiddenPage />
-                </WebLayout>
-              }
-            />
-            <Route
-              path="/500"
-              element={
-                <WebLayout>
-                  <ServerErrorPage />
-                </WebLayout>
-              }
-            />
-
-            {/* 404 catch-all route - must be last */}
-            <Route
-              path="*"
-              element={
-                <WebLayout>
-                  <NotFoundPage />
-                </WebLayout>
-              }
-            />
-                </Routes>
-              </Router>
-              {import.meta.env.DEV && <UserTypeSwitcher />}
-            </CartProvider>
-          </OnboardingWrapper>
-        </AuthProvider>
-      </UserProvider>
-    </CMSProvider>
+              {/* 404 catch-all route - must be last */}
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+                  </Routes>
+                </Router>
+                </AudioPlayerProvider>
+                {import.meta.env.DEV && <UserTypeSwitcher />}
+              </CartProvider>
+            </OnboardingWrapper>
+          </AuthProvider>
+        </UserProvider>
+      </CMSProvider>
     </HelmetProvider>
   )
 }
