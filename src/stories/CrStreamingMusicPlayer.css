@@ -86,7 +86,6 @@
 .cr-player--mobile-player .cr-player__album-art-back,
 .cr-player--android-auto .cr-player__album-art-front,
 .cr-player--android-auto .cr-player__album-art-back {
-  border-radius: 8px;
 }
 
 .cr-player__album-art-back {
@@ -510,6 +509,7 @@ html.dark .cr-player__color-overlay {
   object-position: center;
   border-radius: var(--cr-space-1);
   display: block; /* Ensure it's treated as block element */
+  overflow: hidden;
   /* Removed box-shadow */
 }
 

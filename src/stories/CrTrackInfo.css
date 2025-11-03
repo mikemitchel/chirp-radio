@@ -66,7 +66,7 @@
 /* Container for album/label details */
 .cr-track-info__details-container {
   width: 75%;
-  overflow-x: hidden;
+  overflow-x: clip;
   height: 20px;
   position: relative;
 }
