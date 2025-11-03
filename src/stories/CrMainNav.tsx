@@ -69,10 +69,10 @@ export default function CrMainNav({
   const { results, isSearching } = useSearch(searchQuery)
 
   const waysToGiveOptions = [
-    { label: 'Donate', value: 'donate', route: '/donate' },
-    { label: 'Vinyl Circle', value: 'vinyl-circle', route: '/vinyl-circle' },
-    { label: 'Vehicle Donation', value: 'car-donation', route: '/car-donation' },
-    { label: 'Other Ways to Give', value: 'other-ways-to-give', route: '/other-ways-to-give' },
+    { label: 'Donate', value: 'donate', route: '/donate', isActive: location?.pathname === '/donate' },
+    { label: 'Vinyl Circle', value: 'vinyl-circle', route: '/vinyl-circle', isActive: location?.pathname === '/vinyl-circle' },
+    { label: 'Vehicle Donation', value: 'car-donation', route: '/car-donation', isActive: location?.pathname === '/car-donation' },
+    { label: 'Other Ways to Give', value: 'other-ways-to-give', route: '/other-ways-to-give', isActive: location?.pathname === '/other-ways-to-give' },
   ]
 
   const isWaysToGiveActive =

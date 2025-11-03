@@ -56,7 +56,7 @@ export default function CrBrandBanner({
 
         {/* Player Container */}
         <div className="cr-logo-banner__player-container">
-          <CrStreamingMusicPlayer {...streamingPlayerProps} />
+          <CrStreamingMusicPlayer key="header-player" {...streamingPlayerProps} />
         </div>
       </div>
     </header>
