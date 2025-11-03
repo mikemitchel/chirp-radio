@@ -19,6 +19,8 @@ interface AuthContextType {
   isLoggedIn: boolean
   user: User | null
   login: (email: string, name?: string, role?: LegacyUserRole, avatar?: string) => void
+  loginWithPassword: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
+  signUpWithPassword: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
   signOut: () => void
   signup: (email: string, name?: string, role?: LegacyUserRole) => void
   switchProfile: (profileType: 'listener' | 'volunteer' | 'regular-dj' | 'substitute-dj' | 'board-member') => void
@@ -494,12 +496,100 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
   }
 
+  const loginWithPassword = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const cmsUrl = import.meta.env.VITE_CMS_URL || 'http://localhost:3000'
+      const response = await fetch(`${cmsUrl}/api/listeners/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          return { success: false, error: 'Invalid email or password' }
+        }
+        return { success: false, error: 'Login failed. Please try again.' }
+      }
+
+      const data = await response.json()
+
+      if (data.user) {
+        // Load collection from user data
+        if (data.user.collection && Array.isArray(data.user.collection)) {
+          loadCollectionFromUser(data.user.collection)
+        }
+
+        // Store user in localStorage and state
+        localStorage.setItem('chirp-user', JSON.stringify(data.user))
+        localStorage.setItem('chirp-logged-in', 'true')
+        setCurrentUserId(data.user.id)
+        setIsLoggedIn(true)
+
+        return { success: true }
+      }
+
+      return { success: false, error: 'Invalid response from server' }
+    } catch (error) {
+      console.error('Login error:', error)
+      return { success: false, error: 'Network error. Please check your connection.' }
+    }
+  }
+
+  const signUpWithPassword = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+    try {
+      const cmsUrl = import.meta.env.VITE_CMS_URL || 'http://localhost:3000'
+      const response = await fetch(`${cmsUrl}/api/listeners`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          roles: ['Listener'],
+        }),
+      })
+
+      if (!response.ok) {
+        if (response.status === 400) {
+          const errorData = await response.json()
+          if (errorData.errors?.[0]?.message?.includes('already exists')) {
+            return { success: false, error: 'An account with this email already exists' }
+          }
+        }
+        return { success: false, error: 'Sign up failed. Please try again.' }
+      }
+
+      const data = await response.json()
+
+      if (data.doc) {
+        // Store new user in localStorage and state
+        localStorage.setItem('chirp-user', JSON.stringify(data.doc))
+        localStorage.setItem('chirp-logged-in', 'true')
+        setCurrentUserId(data.doc.id)
+        setIsLoggedIn(true)
+
+        return { success: true }
+      }
+
+      return { success: false, error: 'Invalid response from server' }
+    } catch (error) {
+      console.error('Sign up error:', error)
+      return { success: false, error: 'Network error. Please check your connection.' }
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
         isLoggedIn,
         user,
         login,
+        loginWithPassword,
+        signUpWithPassword,
         signOut,
         signup,
         switchProfile,

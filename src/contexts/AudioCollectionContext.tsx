@@ -33,7 +33,7 @@ interface AudioCollectionProviderProps {
 export function AudioCollectionProvider({ children, currentTrack }: AudioCollectionProviderProps) {
   const [isTrackAdded, setIsTrackAdded] = useState(false)
   const [showLoginModal, setShowLoginModal] = useState(false)
-  const { isLoggedIn, login, signup } = useAuth()
+  const { isLoggedIn, loginWithPassword, signUpWithPassword } = useAuth()
 
   // Toggle add/remove track from collection
   const toggleAddTrack = (track: Track) => {
@@ -83,30 +83,42 @@ export function AudioCollectionProvider({ children, currentTrack }: AudioCollect
     return isInCollection(artist, trackName)
   }
 
-   
-  const handleLogin = (email: string, _password: string) => {
-    // TODO: Validate credentials with API
-    login(email, email.split('@')[0]) // For demo, use email prefix as name
-    setShowLoginModal(false)
+  const handleLogin = async (email: string, password: string) => {
+    const result = await loginWithPassword(email, password)
 
-    emit('chirp-show-toast', {
-      message: 'Successfully logged in!',
-      type: 'success',
-      duration: 3000,
-    })
+    if (result.success) {
+      setShowLoginModal(false)
+      emit('chirp-show-toast', {
+        message: 'Successfully logged in!',
+        type: 'success',
+        duration: 3000,
+      })
+    } else {
+      emit('chirp-show-toast', {
+        message: result.error || 'Login failed',
+        type: 'error',
+        duration: 5000,
+      })
+    }
   }
 
-   
-  const handleSignUp = (email: string, _password: string) => {
-    // TODO: Create account with API
-    signup(email, email.split('@')[0]) // For demo, use email prefix as name
-    setShowLoginModal(false)
+  const handleSignUp = async (email: string, password: string) => {
+    const result = await signUpWithPassword(email, password)
 
-    emit('chirp-show-toast', {
-      message: 'Account created successfully!',
-      type: 'success',
-      duration: 3000,
-    })
+    if (result.success) {
+      setShowLoginModal(false)
+      emit('chirp-show-toast', {
+        message: 'Account created successfully!',
+        type: 'success',
+        duration: 3000,
+      })
+    } else {
+      emit('chirp-show-toast', {
+        message: result.error || 'Sign up failed',
+        type: 'error',
+        duration: 5000,
+      })
+    }
   }
 
   // Sync isTrackAdded with collection state when current track changes

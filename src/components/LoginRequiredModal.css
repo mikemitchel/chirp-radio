@@ -71,6 +71,24 @@
   margin-top: calc(var(--cr-space-1) * -1);
 }
 
+/* Forgot Password */
+.login-modal__forgot-password {
+  text-align: right;
+  margin-top: calc(var(--cr-space-2) * -1);
+}
+
+.login-modal__forgot-link {
+  font: var(--cr-body-sm);
+  color: var(--cr-primary-500);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.login-modal__forgot-link:hover {
+  color: var(--cr-primary-600);
+  text-decoration: underline;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   .login-modal {
