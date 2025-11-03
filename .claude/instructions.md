@@ -36,14 +36,17 @@
 - **TODO: Album art accuracy** (API polling issue with fallback images)
 - **TODO: Cached API content strategy**
 - **TODO: Mobile-specific CMS collections for page content** - check to see if we've gotten all the static and fake data removed and connected to CMS
-- **TODO: Fix CMS API integration in Capacitor iOS builds** - Production iOS builds fail to load CMS content because `VITE_CMS_API_URL` falls back to `http://localhost:3000/api`, which iOS devices can't reach.
-  - **Root Cause:** In `src/utils/api.ts`, the fallback URL is `localhost:3000`. When building for production without setting `VITE_CMS_API_URL`, this hardcoded fallback is baked into the static bundle.
-  - **Solution Options:**
-    1. Set `VITE_CMS_API_URL` in `.env.production` before building (requires CMS deployed first)
-    2. Update fallback logic in `src/utils/api.ts` to use production CMS URL when `import.meta.env.PROD` is true
-  - **Files:** `src/utils/api.ts`, `.env.production` (needs creation)
-  - **Testing:** Build production iOS app and verify CMS content loads (currently untested)
-  - **Dependencies:** Requires CMS deployed to Railway/Render/Vercel before this can be fully fixed
+- **Fix CMS API integration in Capacitor iOS builds - PARTIALLY COMPLETE** ✅ Code fix merged, awaiting CMS deployment
+  - **Status:** Smart fallback logic implemented in `src/utils/api.ts` and `.env.production` template created
+  - **What's Done:**
+    - Updated `src/utils/api.ts` with environment-aware fallback (dev uses localhost, production requires env var)
+    - Created `.env.production` template with instructions
+    - Production builds now fail loudly with clear error if VITE_CMS_API_URL not set
+  - **Still TODO:**
+    1. Deploy CMS to production (Railway/Render/Vercel)
+    2. Update `VITE_CMS_API_URL` in `.env.production` with actual production CMS URL
+    3. Rebuild iOS/Android production apps with correct CMS URL
+    4. Test on physical devices to verify CMS content loads
 - **TODO: Create HTML email template for MailChimp** - Design and build a responsive HTML email template for CHIRP Radio's email campaigns.
 - **TODO: Integrate PayPal into Store/Shop** - Add PayPal payment processing to the store checkout flow.
 - **TODO: Integrate Neon for donations** - Integrate Neon CRM donation components into the donation flow.
