@@ -6,6 +6,7 @@ import { ViteFaviconsPlugin } from 'vite-plugin-favicon2'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin'
+import { createWebhookMiddleware } from './vite-webhook-middleware'
 
 const dirname =
   typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url))
@@ -20,6 +21,13 @@ export default defineConfig({
       inject: true, // Injects the necessary HTML links and metadata
       outputPath: 'assets', // Optional: specify output path relative to Vite's assets directory
     }),
+    // Add webhook middleware
+    {
+      name: 'webhook-middleware',
+      configureServer(server) {
+        server.middlewares.use(createWebhookMiddleware())
+      },
+    },
   ],
   server: {
     proxy: {
@@ -34,6 +42,12 @@ export default defineConfig({
             proxyRes.headers['pragma'] = 'no-cache';
             proxyRes.headers['expires'] = '0';
           });
+        },
+        // Don't proxy webhook endpoint
+        bypass: (req) => {
+          if (req.url === '/api/webhook' || req.url === '/api/webhook/events') {
+            return req.url
+          }
         },
       },
     },
