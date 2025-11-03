@@ -13,6 +13,7 @@ import { isDJ, isVolunteer, isBoardMember, isRegularDJ, isSubstituteDJ } from '.
 import { Capacitor } from '@capacitor/core'
 import AppIconPlugin from '../plugins/AppIconPlugin'
 import LoginRequiredModal from '../components/LoginRequiredModal'
+import ForgotPasswordModal from '../components/ForgotPasswordModal'
 import { emit } from '../utils/eventBus'
 import { formatShowTime } from '../utils/formatShowTime'
 import { updateInCMS } from '../utils/api'
@@ -48,6 +49,7 @@ export default function AccountSettings() {
   const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [passwordInput, setPasswordInput] = useState('')
   const [pendingNewEmail, setPendingNewEmail] = useState<string>('')
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false)
   const [emailChangeError, setEmailChangeError] = useState<string>('')
 
   // Initialize form data when user changes
@@ -133,6 +135,12 @@ export default function AccountSettings() {
   useEffect(() => {
     const refreshUserPreferences = async () => {
       if (isLoggedIn && user?.id) {
+        // Skip CMS fetch for demo users (they don't exist in the database)
+        if (user.id.startsWith('user-')) {
+          console.log('[AccountSettings] Skipping CMS fetch for demo user:', user.id)
+          return
+        }
+
         console.log('[AccountSettings] Fetching latest user data from CMS for user:', user.id)
         try {
           const latestUser = await fetchMemberById(user.id)
@@ -343,7 +351,7 @@ export default function AccountSettings() {
   }
 
   const handleForgotPassword = () => {
-    // TODO: Navigate to password recovery
+    setShowForgotPasswordModal(true)
   }
 
   const handleShareApp = () => {
@@ -986,6 +994,11 @@ export default function AccountSettings() {
         onLogin={handleLogin}
         onSignUp={handleSignUp}
         initialMode={loginModalMode}
+      />
+
+      <ForgotPasswordModal
+        isOpen={showForgotPasswordModal}
+        onClose={() => setShowForgotPasswordModal(false)}
       />
     </div>
   )

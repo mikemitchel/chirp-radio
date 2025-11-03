@@ -56,6 +56,7 @@ import ForbiddenPage from './pages/ForbiddenPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import TermsOfServicePage from './pages/TermsOfServicePage'
 import SitemapPage from './pages/SitemapPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 import AdvertisementPreviewPage from './pages/AdvertisementPreviewPage'
 import { AndroidAutoPage } from './pages/AndroidAutoPage'
 import UserTypeSwitcher from './components/UserTypeSwitcher'
@@ -542,6 +543,14 @@ function App() {
               element={
                 <WebLayout>
                   <SitemapPage />
+                </WebLayout>
+              }
+            />
+            <Route
+              path="/reset-password"
+              element={
+                <WebLayout>
+                  <ResetPasswordPage />
                 </WebLayout>
               }
             />
