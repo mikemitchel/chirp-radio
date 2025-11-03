@@ -32,7 +32,7 @@ export default function CrAccount({
   isLoggedIn = false,
   isVolunteer = false,
   userName = 'Johanna Dough',
-  userAvatar = 'https://images.unsplash.com/photo-1580489944761-15a19d654956',
+  userAvatar = '',
   showTags = true,
   tags = ['Hello World', 'Hello World', 'Hello World'],
   onLoginClick,

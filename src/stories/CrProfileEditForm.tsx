@@ -19,6 +19,7 @@ interface CrProfileEditFormProps {
   onImageChange?: (images: { fullImage?: string; croppedImage?: string }) => void
   onSave?: () => void
   onCancel?: () => void
+  onForgotPassword?: () => void
   originalFullImage?: string
 }
 
@@ -44,6 +45,7 @@ export default function CrProfileEditForm({
   onImageChange,
   onSave,
   onCancel,
+  onForgotPassword,
 
   // Image handling
   originalFullImage,
@@ -304,6 +306,25 @@ export default function CrProfileEditForm({
             required
           />
           {errors.email && <span className="form-error">{errors.email}</span>}
+          {onForgotPassword && (
+            <div style={{ marginTop: 'var(--cr-space-2)', textAlign: 'right' }}>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault()
+                  onForgotPassword()
+                }}
+                style={{
+                  fontSize: '12px',
+                  color: 'var(--cr-primary-500)',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                Reset Password
+              </a>
+            </div>
+          )}
         </div>
 
         {/* Profile Picture Section */}

@@ -120,6 +120,11 @@ export default function CrProfileCard({
   onLogin,
   onSignOut,
   onSignUp,
+  onForgotPassword,
+  onShareApp,
+  onLikeAppStore,
+  onAppSupport,
+  onTermsPrivacy,
   onViewDJProfile,
 
   // Layout
@@ -408,6 +413,7 @@ export default function CrProfileCard({
           onImageChange={handleImageChange}
           onSave={onSave}
           onCancel={onCancel}
+          onForgotPassword={onForgotPassword}
           originalFullImage={originalFullImage}
         />
       )}
