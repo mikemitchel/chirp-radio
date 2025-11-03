@@ -22,6 +22,7 @@ interface AuthContextType {
   signOut: () => void
   signup: (email: string, name?: string, role?: LegacyUserRole) => void
   switchProfile: (profileType: 'listener' | 'volunteer' | 'regular-dj' | 'substitute-dj' | 'board-member') => void
+  switchToNewUser: () => void
   verifyPassword: (password: string) => boolean
   requestEmailChange: (newEmail: string, token: string) => boolean
   verifyEmailChange: (token: string) => boolean
@@ -39,8 +40,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return saved === 'true'
   })
 
-  // Get user from UserContext
-  const user = currentUserId ? getUserById(currentUserId) : null
+  // Get user from UserContext, or fallback to localStorage for temp users
+  const user = currentUserId
+    ? (getUserById(currentUserId) || (() => {
+        // Fallback: if user not found in CMS, try localStorage (for temp/new users)
+        const storedUser = localStorage.getItem('chirp-user')
+        if (storedUser) {
+          try {
+            const parsedUser = JSON.parse(storedUser)
+            if (parsedUser.id === currentUserId) {
+              console.log('[AuthContext] Using temp user from localStorage:', parsedUser.id)
+              return parsedUser
+            }
+          } catch (e) {
+            console.error('[AuthContext] Failed to parse localStorage user', e)
+          }
+        }
+        return null
+      })())
+    : null
 
   // Debug logging
   useEffect(() => {
@@ -441,6 +459,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     updateUserFavoriteDJsInContext(user.id, djId, isFavorite)
   }
 
+  const switchToNewUser = () => {
+    // Always create a temp new user (not from CMS) to avoid avatar/data conflicts
+    const newUserProfile: User = {
+      id: 'new-user-temp',
+      email: 'new.user@chirpradio.org',
+      firstName: 'New',
+      lastName: 'User',
+      location: 'Chicago, IL',
+      roles: ['Listener'],
+      memberSince: new Date().toISOString().split('T')[0],
+      collection: [],
+      favoriteDJs: [],
+      onboardingCompleted: false,
+      avatar: '', // Empty string for blank avatar (no initials)
+      preferences: {
+        emailNotifications: true,
+        showNotifications: true,
+        darkMode: 'dark',
+        autoPlay: true,
+      },
+    }
+
+    localStorage.setItem('chirp-user', JSON.stringify(newUserProfile))
+    localStorage.setItem('chirp-logged-in', 'true')
+    setCurrentUserId(newUserProfile.id)
+    setIsLoggedIn(true)
+    console.log('✅ Switched to NEW USER profile:', {
+      id: newUserProfile.id,
+      email: newUserProfile.email,
+      firstName: newUserProfile.firstName,
+      avatar: newUserProfile.avatar,
+      onboardingCompleted: false
+    })
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -450,6 +503,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signOut,
         signup,
         switchProfile,
+        switchToNewUser,
         verifyPassword,
         requestEmailChange,
         verifyEmailChange,

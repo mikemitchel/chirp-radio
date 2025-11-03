@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import './UserTypeSwitcher.css'
 
 export default function UserTypeSwitcher() {
-  const { user, switchProfile, signOut } = useAuth()
+  const { user, switchProfile, switchToNewUser, signOut } = useAuth()
   const [isExpanded, setIsExpanded] = useState(false)
 
   // Only render in development
@@ -23,6 +23,11 @@ export default function UserTypeSwitcher() {
   // Determine current active profile based on user roles
   const getCurrentProfile = () => {
     if (!user) return null
+
+    // Check if this is the new user profile (with onboarding not completed)
+    if (user.onboardingCompleted === false) {
+      return 'new-user'
+    }
 
     // Match based on roles array
     const roles = user.roles || []
@@ -76,6 +81,14 @@ export default function UserTypeSwitcher() {
                 {profile.label}
               </button>
             ))}
+            <button
+              className={`user-type-switcher__button user-type-switcher__button--new-user ${
+                currentProfile === 'new-user' ? 'user-type-switcher__button--active' : ''
+              }`}
+              onClick={() => switchToNewUser()}
+            >
+              New User
+            </button>
             <button
               className={`user-type-switcher__button ${
                 !user ? 'user-type-switcher__button--active' : ''
