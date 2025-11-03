@@ -1,5 +1,7 @@
 // TypeScript interfaces for CMS data models
 
+import type { VolunteerFormSettings } from './volunteerForm'
+
 // Lexical Editor State type (from Payload CMS)
 export interface LexicalEditorState {
   root: {
@@ -564,6 +566,7 @@ export interface CMSData {
   weeklyCharts: WeeklyChart[]
   mobilePageContent: MobilePageContent[]
   mobileAppSettings: MobileAppSettings | null
+  volunteerFormSettings: VolunteerFormSettings | null
   playerFallbackImages: PlayerFallbackImage[]
   showSchedules: ShowSchedule[]
 }
@@ -583,6 +586,7 @@ export interface CMSLoadingState {
   weeklyCharts: boolean
   mobilePageContent: boolean
   mobileAppSettings: boolean
+  volunteerFormSettings: boolean
   playerFallbackImages: boolean
   showSchedules: boolean
 }
@@ -602,6 +606,7 @@ export interface CMSErrorState {
   weeklyCharts: Error | null
   mobilePageContent: Error | null
   mobileAppSettings: Error | null
+  volunteerFormSettings: Error | null
   playerFallbackImages: Error | null
   showSchedules: Error | null
 }
