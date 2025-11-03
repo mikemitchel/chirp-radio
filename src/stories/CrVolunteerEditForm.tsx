@@ -2,6 +2,56 @@
 import { PiFloppyDisk } from 'react-icons/pi'
 import CrButton from './CrButton'
 import './CrVolunteerEditForm.css'
+import { useVolunteerFormSettings } from '../hooks/useData'
+
+// Fallback data in case CMS is unavailable
+const FALLBACK_AGE_OPTIONS = ['18–24', '25–34', '35–44', '45–54', '55–64', '65+']
+const FALLBACK_SPECIAL_SKILLS = [
+  'Fundraising',
+  'Sales',
+  'Other',
+  'Wants',
+  'Journalism',
+  'Photography',
+  'Things',
+  'To',
+  'Marketing',
+  'Politics',
+  'Chirp',
+  'Track',
+]
+const FALLBACK_HEAR_ABOUT = [
+  'This',
+  'Other',
+  'Wants',
+  'That',
+  'Things',
+  'To',
+  'Something',
+  'Chirp',
+  'Track',
+]
+const FALLBACK_INTERESTS = [
+  'DJ',
+  'Content writing',
+  'Event planning',
+  'Marketing',
+  'Community radio',
+  'Event working',
+  'Interviews',
+  'Fundraising',
+  'Other',
+]
+const FALLBACK_DJ_AVAILABILITY = [
+  'Weekday mornings',
+  'Weekend mornings',
+  'Weekday day',
+  'Weekend day',
+  'Weekday evening',
+  'Weekend evening',
+  'Weekday night',
+  'Weekend night',
+]
 
 interface CrVolunteerEditFormProps {
   formData?: any
@@ -17,20 +67,75 @@ export default function CrVolunteerEditForm({
   onSave,
   onCancel,
 }: CrVolunteerEditFormProps) {
+  const { data: formSettings } = useVolunteerFormSettings()
+
   const handleInputChange = (field: any, value: any) => {
     if (onChange) {
       onChange(field, value)
     }
   }
 
+  // Extract values from CMS with fallbacks
+  const ageLabel = formSettings?.ageQuestion?.label || 'Your Age (Generally) *'
+  const ageOptions =
+    formSettings?.ageQuestion?.options?.map((opt) => opt.value) || FALLBACK_AGE_OPTIONS
+
+  const educationLabel =
+    formSettings?.educationQuestion?.label || 'What colleges/universities have you attended? *'
+  const educationPlaceholder =
+    formSettings?.educationQuestion?.placeholder || 'Loyola University Chicago'
+
+  const employerLabel =
+    formSettings?.employerQuestion?.label || 'Who are you currently employed by? *'
+  const employerPlaceholder = formSettings?.employerQuestion?.placeholder || 'Portillos'
+
+  const volunteerOrgsLabel =
+    formSettings?.volunteerOrgsQuestion?.label || 'What other organizations do you volunteer with?'
+  const volunteerOrgsPlaceholder =
+    formSettings?.volunteerOrgsQuestion?.placeholder || 'American Cancer Society'
+  const addAnotherButtonText = formSettings?.volunteerOrgsQuestion?.addButtonText || '+ ADD ANOTHER'
+
+  const radioExperienceLabel =
+    formSettings?.radioExperienceQuestion?.label || 'Have you worked with a radio station before? *'
+  const radioStationsFollowUpLabel =
+    formSettings?.radioExperienceQuestion?.followUpLabel || 'What radio stations have you worked with?'
+  const radioStationsPlaceholder =
+    formSettings?.radioExperienceQuestion?.followUpPlaceholder || 'WLUW'
+
+  const specialSkillsLabel =
+    formSettings?.specialSkillsQuestion?.label || 'What special skills do you have?'
+  const specialSkillsOptions =
+    formSettings?.specialSkillsQuestion?.options?.map((opt) => opt.value) || FALLBACK_SPECIAL_SKILLS
+
+  const hearAboutLabel = formSettings?.hearAboutChirpQuestion?.label || 'How did you hear about CHIRP?'
+  const hearAboutOptions =
+    formSettings?.hearAboutChirpQuestion?.options?.map((opt) => opt.value) || FALLBACK_HEAR_ABOUT
+
+  const interestsLabel =
+    formSettings?.interestsQuestion?.label || 'What are you interested in doing?'
+  const interestsOptions =
+    formSettings?.interestsQuestion?.options?.map((opt) => opt.value) || FALLBACK_INTERESTS
+
+  const wantsToDJLabel =
+    formSettings?.wantsToDJQuestion?.label || 'Do you want to be a DJ or on-air sub?'
+
+  const djAvailabilityLabel =
+    formSettings?.djAvailabilityQuestion?.label || "What's your DJ availability?"
+  const djAvailabilityOptions =
+    formSettings?.djAvailabilityQuestion?.options?.map((opt) => opt.value) ||
+    FALLBACK_DJ_AVAILABILITY
+
+  const cancelButtonText = formSettings?.formActions?.cancelButtonText || 'Cancel'
+  const saveButtonText = formSettings?.formActions?.saveButtonText || 'Save Changes'
+
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div className="form-section">
         {/* Age */}
         <div className="form-group">
-          <label className="form-label">Your Age (Generally) *</label>
+          <label className="form-label">{ageLabel}</label>
           <div className="form-radio-group">
-            {['18–24', '25–34', '35–44', '45–54', '55–64', '65+'].map((ageRange) => (
+            {ageOptions.map((ageRange) => (
               <label key={ageRange} className="form-radio-item">
                 <input
                   type="radio"
@@ -47,31 +152,31 @@ export default function CrVolunteerEditForm({
 
         {/* Education */}
         <div className="form-group">
-          <label className="form-label">What colleges/universities have you attended? *</label>
+          <label className="form-label">{educationLabel}</label>
           <input
             type="text"
             value={formData.education || ''}
             onChange={(e) => handleInputChange('education', e.target.value)}
-            placeholder="Loyola University Chicago"
+            placeholder={educationPlaceholder}
             required
           />
         </div>
 
         {/* Employment */}
         <div className="form-group">
-          <label className="form-label">Who are you currently employed by? *</label>
+          <label className="form-label">{employerLabel}</label>
           <input
             type="text"
             value={formData.employer || ''}
             onChange={(e) => handleInputChange('employer', e.target.value)}
-            placeholder="Portillos"
+            placeholder={employerPlaceholder}
             required
           />
         </div>
 
         {/* Volunteer Organizations */}
         <div className="form-group">
-          <label className="form-label">What other organizations do you volunteer with?</label>
+          <label className="form-label">{volunteerOrgsLabel}</label>
           <div
             style={{
               display: 'flex',
@@ -89,7 +194,7 @@ export default function CrVolunteerEditForm({
                     newOrgs[index] = e.target.value
                     handleInputChange('volunteerOrgs', newOrgs)
                   }}
-                  placeholder="American Cancer Society"
+                  placeholder={volunteerOrgsPlaceholder}
                 />
               </div>
             ))}
@@ -103,7 +208,7 @@ export default function CrVolunteerEditForm({
                   handleInputChange('volunteerOrgs', [...currentOrgs, ''])
                 }}
               >
-                + ADD ANOTHER
+                {addAnotherButtonText}
               </CrButton>
             </div>
           </div>
@@ -111,7 +216,7 @@ export default function CrVolunteerEditForm({
 
         {/* Radio Station Experience */}
         <div className="form-group">
-          <label className="form-label">Have you worked with a radio station before? *</label>
+          <label className="form-label">{radioExperienceLabel}</label>
           <div className="form-radio-group">
             <label className="form-radio-item">
               <input
@@ -139,34 +244,21 @@ export default function CrVolunteerEditForm({
         {/* Radio Stations - conditional */}
         {formData.hasRadioExperience === 'yes' && (
           <div className="form-group">
-            <label className="form-label">What radio stations have you worked with?</label>
+            <label className="form-label">{radioStationsFollowUpLabel}</label>
             <input
               type="text"
               value={formData.radioStations || ''}
               onChange={(e) => handleInputChange('radioStations', e.target.value)}
-              placeholder="WLUW"
+              placeholder={radioStationsPlaceholder}
             />
           </div>
         )}
 
         {/* Special Skills */}
         <div className="form-group">
-          <label className="form-label">What special skills do you have?</label>
+          <label className="form-label">{specialSkillsLabel}</label>
           <div className="form-checkbox-grid">
-            {[
-              'Fundraising',
-              'Sales',
-              'Other',
-              'Wants',
-              'Journalism',
-              'Photography',
-              'Things',
-              'To',
-              'Marketing',
-              'Politics',
-              'Chirp',
-              'Track',
-            ].map((skill) => (
+            {specialSkillsOptions.map((skill) => (
               <label key={skill} className="form-checkbox-item">
                 <input
                   type="checkbox"
@@ -187,44 +279,32 @@ export default function CrVolunteerEditForm({
 
         {/* How did you hear about CHIRP */}
         <div className="form-group">
-          <label className="form-label">How did you hear about CHIRP?</label>
+          <label className="form-label">{hearAboutLabel}</label>
           <div className="form-checkbox-grid">
-            {['This', 'Other', 'Wants', 'That', 'Things', 'To', 'Something', 'Chirp', 'Track'].map(
-              (source) => (
-                <label key={source} className="form-checkbox-item">
-                  <input
-                    type="checkbox"
-                    checked={formData.hearAboutChirp?.includes(source) || false}
-                    onChange={(e) => {
-                      const currentSources = formData.hearAboutChirp || []
-                      const newSources = e.target.checked
-                        ? [...currentSources, source]
-                        : currentSources.filter((s: any) => s !== source)
-                      handleInputChange('hearAboutChirp', newSources)
-                    }}
-                  />
-                  {source}
-                </label>
-              )
-            )}
+            {hearAboutOptions.map((source) => (
+              <label key={source} className="form-checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={formData.hearAboutChirp?.includes(source) || false}
+                  onChange={(e) => {
+                    const currentSources = formData.hearAboutChirp || []
+                    const newSources = e.target.checked
+                      ? [...currentSources, source]
+                      : currentSources.filter((s: any) => s !== source)
+                    handleInputChange('hearAboutChirp', newSources)
+                  }}
+                />
+                {source}
+              </label>
+            ))}
           </div>
         </div>
 
         {/* Interests */}
         <div className="form-group">
-          <label className="form-label">What are you interested in doing?</label>
+          <label className="form-label">{interestsLabel}</label>
           <div className="form-checkbox-grid">
-            {[
-              'DJ',
-              'Content writing',
-              'Event planning',
-              'Marketing',
-              'Community radio',
-              'Event working',
-              'Interviews',
-              'Fundraising',
-              'Other',
-            ].map((interest) => (
+            {interestsOptions.map((interest) => (
               <label key={interest} className="form-checkbox-item">
                 <input
                   type="checkbox"
@@ -245,7 +325,7 @@ export default function CrVolunteerEditForm({
 
         {/* DJ Interest */}
         <div className="form-group">
-          <label className="form-label">Do you want to be a DJ or on-air sub?</label>
+          <label className="form-label">{wantsToDJLabel}</label>
           <div className="form-radio-group">
             <label className="form-radio-item">
               <input
@@ -270,18 +350,9 @@ export default function CrVolunteerEditForm({
 
         {/* DJ Availability */}
         <div className="form-group">
-          <label className="form-label">What's your DJ availability?</label>
+          <label className="form-label">{djAvailabilityLabel}</label>
           <div className="form-checkbox-grid">
-            {[
-              'Weekday mornings',
-              'Weekend mornings',
-              'Weekday day',
-              'Weekend day',
-              'Weekday evening',
-              'Weekend evening',
-              'Weekday night',
-              'Weekend night',
-            ].map((timeSlot) => (
+            {djAvailabilityOptions.map((timeSlot) => (
               <label key={timeSlot} className="form-checkbox-item">
                 <input
                   type="checkbox"
@@ -304,7 +375,7 @@ export default function CrVolunteerEditForm({
       {/* Form Actions */}
       <div className="form-actions">
         <CrButton size="medium" variant="text" color="default" onClick={onCancel}>
-          Cancel
+          {cancelButtonText}
         </CrButton>
         <CrButton
           size="medium"
@@ -313,7 +384,7 @@ export default function CrVolunteerEditForm({
           leftIcon={<PiFloppyDisk />}
           onClick={onSave}
         >
-          Save Changes
+          {saveButtonText}
         </CrButton>
       </div>
     </form>
