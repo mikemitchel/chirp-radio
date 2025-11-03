@@ -117,6 +117,28 @@
   border-color: #3b82f6;
 }
 
+.user-type-switcher__button--new-user {
+  background-color: rgba(251, 191, 36, 0.15);
+  border-color: rgba(251, 191, 36, 0.3);
+  color: #fbbf24;
+}
+
+.user-type-switcher__button--new-user:hover {
+  background-color: rgba(251, 191, 36, 0.25);
+  border-color: rgba(251, 191, 36, 0.4);
+}
+
+.user-type-switcher__button--new-user.user-type-switcher__button--active {
+  background-color: #f59e0b;
+  border-color: #fbbf24;
+  color: #fff;
+}
+
+.user-type-switcher__button--new-user.user-type-switcher__button--active:hover {
+  background-color: #d97706;
+  border-color: #f59e0b;
+}
+
 /* Light theme adjustments */
 [data-theme='light'] .user-type-switcher {
   background-color: rgba(255, 255, 255, 0.95);
@@ -164,4 +186,26 @@
 [data-theme='light'] .user-type-switcher__button--active:hover {
   background-color: #2563eb;
   border-color: #3b82f6;
+}
+
+[data-theme='light'] .user-type-switcher__button--new-user {
+  background-color: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.2);
+  color: #d97706;
+}
+
+[data-theme='light'] .user-type-switcher__button--new-user:hover {
+  background-color: rgba(251, 191, 36, 0.15);
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+[data-theme='light'] .user-type-switcher__button--new-user.user-type-switcher__button--active {
+  background-color: #f59e0b;
+  border-color: #fbbf24;
+  color: #fff;
+}
+
+[data-theme='light'] .user-type-switcher__button--new-user.user-type-switcher__button--active:hover {
+  background-color: #d97706;
+  border-color: #f59e0b;
 }
