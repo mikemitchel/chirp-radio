@@ -108,19 +108,22 @@ const LandingPage: React.FC = () => {
       })) || []
 
   // Transform tracks data for recently played (take first 6 from last 2 hours)
-  const recentlyPlayedTracks =
-    tracks?.slice(0, 6).map((track) => ({
-      albumArt: track.albumArt,
-      artistName: track.artistName,
-      trackName: track.trackName,
-      albumName: track.albumName,
-      labelName: track.labelName,
-      isLocal: track.isLocal,
-      timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-      }),
-    })) || []
+  const recentlyPlayedTracks = useMemo(
+    () =>
+      tracks?.slice(0, 6).map((track) => ({
+        albumArt: track.albumArt,
+        artistName: track.artistName,
+        trackName: track.trackName,
+        albumName: track.albumName,
+        labelName: track.labelName,
+        isLocal: track.isLocal,
+        timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+        }),
+      })) || [],
+    [tracks]
+  )
 
   return (
     <div className="landing-page">
