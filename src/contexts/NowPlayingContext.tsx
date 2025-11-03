@@ -223,7 +223,10 @@ export function NowPlayingProvider({
           setIsLoading(false)
         } else {
           consecutiveNoChangeRef.current++
-          log.log(`No song change detected (${consecutiveNoChangeRef.current} times)`)
+
+          // Group repetitive "no change" logs to reduce console noise
+          console.groupCollapsed(`[NowPlayingContext] No song change detected (${consecutiveNoChangeRef.current} times)`)
+          log.log('Current track:', currentData.track, 'by', currentData.artist)
 
           // Retry album art if missing
           const hasAlbumArtSource = newData.albumArt || newData.lastfm_urls
@@ -252,6 +255,8 @@ export function NowPlayingProvider({
               updateNativeMetadata({ ...currentData, albumArt: retryAlbumArt })
             }
           }
+
+          console.groupEnd()
         }
       }
     } catch (error) {
