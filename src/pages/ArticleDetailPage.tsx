@@ -6,6 +6,7 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import { useArticles, useAnnouncements } from '../hooks/useData'
+import { useLivePreview } from '../hooks/useLivePreview'
 import type { Article } from '../types/cms'
 
 const ArticleDetailPage: React.FC = () => {
@@ -16,7 +17,11 @@ const ArticleDetailPage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
 
   // Find article by slug from URL
-  const article = allArticles?.find((a) => a.slug === slug)
+  const initialArticle = allArticles?.find((a) => a.slug === slug)
+
+  // Use live preview with fallback to initial article
+  const liveArticle = useLivePreview<Article | undefined>({ initialData: initialArticle })
+  const article = liveArticle || initialArticle
   const articleTitle = article?.title || 'Article Details'
 
   // Get 3 most recent articles excluding the current one
@@ -69,13 +74,42 @@ const ArticleDetailPage: React.FC = () => {
             imagePosition="right"
             articleImageAspectRatio="16:9"
             captionPosition="bottom"
-            backgroundImage={typeof article.featuredImage === 'object' && article.featuredImage && 'url' in article.featuredImage ? article.featuredImage.url : (typeof article.featuredImage === 'string' ? article.featuredImage : article.featuredImageUrl)}
-            preheader={typeof article.category === 'object' && article.category && 'name' in article.category ? article.category.name : undefined}
+            backgroundImage={
+              typeof article.featuredImage === 'object' &&
+              article.featuredImage &&
+              'url' in article.featuredImage
+                ? article.featuredImage.url
+                : typeof article.featuredImage === 'string'
+                  ? article.featuredImage
+                  : article.featuredImageUrl
+            }
+            preheader={
+              typeof article.category === 'object' && article.category && 'name' in article.category
+                ? article.category.name
+                : undefined
+            }
             title={article.title}
             authorBy={`by ${article.author}`}
-            eventDate={article.publishedDate ? `Published on ${new Date(article.publishedDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : (article.createdAt ? `Published on ${new Date(article.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}` : undefined)}
-            tags={Array.isArray(article.tags) && article.tags.length > 0 && typeof article.tags[0] === 'object' ? (article.tags as Array<{ tag: string }>).map(t => t.tag) : article.tags as string[] | undefined}
-            excerpt={article.excerpt || ('description' in article ? (article as Record<string, unknown>).description as string : undefined)}
+            eventDate={
+              article.publishedDate
+                ? `Published on ${new Date(article.publishedDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
+                : article.createdAt
+                  ? `Published on ${new Date(article.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
+                  : undefined
+            }
+            tags={
+              Array.isArray(article.tags) &&
+              article.tags.length > 0 &&
+              typeof article.tags[0] === 'object'
+                ? (article.tags as Array<{ tag: string }>).map((t) => t.tag)
+                : (article.tags as string[] | undefined)
+            }
+            excerpt={
+              article.excerpt ||
+              ('description' in article
+                ? ((article as Record<string, unknown>).description as string)
+                : undefined)
+            }
             content={typeof article.content === 'string' ? article.content : undefined}
             showTicketButton={false}
             showShareButton={true}
@@ -151,15 +185,33 @@ const ArticleDetailPage: React.FC = () => {
               textLayout="stacked"
               titleTag="h3"
               titleSize="sm"
-              backgroundImage={typeof recentArticle.featuredImage === 'object' && recentArticle.featuredImage && 'url' in recentArticle.featuredImage ? recentArticle.featuredImage.url : (typeof recentArticle.featuredImage === 'string' ? recentArticle.featuredImage : recentArticle.featuredImageUrl)}
-              preheader={typeof recentArticle.category === 'object' && recentArticle.category && 'name' in recentArticle.category ? recentArticle.category.name : undefined}
+              backgroundImage={
+                typeof recentArticle.featuredImage === 'object' &&
+                recentArticle.featuredImage &&
+                'url' in recentArticle.featuredImage
+                  ? recentArticle.featuredImage.url
+                  : typeof recentArticle.featuredImage === 'string'
+                    ? recentArticle.featuredImage
+                    : recentArticle.featuredImageUrl
+              }
+              preheader={
+                typeof recentArticle.category === 'object' &&
+                recentArticle.category &&
+                'name' in recentArticle.category
+                  ? recentArticle.category.name
+                  : undefined
+              }
               title={recentArticle.title}
               authorBy={`by ${recentArticle.author}`}
-              eventDate={recentArticle.publishedDate ? new Date(recentArticle.publishedDate).toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              }) : undefined}
+              eventDate={
+                recentArticle.publishedDate
+                  ? new Date(recentArticle.publishedDate).toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })
+                  : undefined
+              }
               contentSummary={recentArticle.excerpt}
               onClick={() => handleArticleClick(recentArticle)}
             />
@@ -168,12 +220,38 @@ const ArticleDetailPage: React.FC = () => {
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={'backgroundColor' in announcements[1] ? (announcements[1] as Record<string, unknown>).backgroundColor as string : undefined}
-              headlineText={'title' in announcements[1] ? (announcements[1] as Record<string, unknown>).title as string : announcements[1].headlineText}
-              bodyText={'message' in announcements[1] ? (announcements[1] as Record<string, unknown>).message as string : (typeof announcements[1].bodyText === 'string' ? announcements[1].bodyText : undefined)}
-              showLink={!!('ctaText' in announcements[1] ? (announcements[1] as Record<string, unknown>).ctaText : announcements[1].linkText)}
-              linkText={'ctaText' in announcements[1] ? (announcements[1] as Record<string, unknown>).ctaText as string : announcements[1].linkText}
-              linkUrl={'ctaUrl' in announcements[1] ? (announcements[1] as Record<string, unknown>).ctaUrl as string : announcements[1].linkUrl}
+              textureBackground={
+                'backgroundColor' in announcements[1]
+                  ? ((announcements[1] as Record<string, unknown>).backgroundColor as string)
+                  : undefined
+              }
+              headlineText={
+                'title' in announcements[1]
+                  ? ((announcements[1] as Record<string, unknown>).title as string)
+                  : announcements[1].headlineText
+              }
+              bodyText={
+                'message' in announcements[1]
+                  ? ((announcements[1] as Record<string, unknown>).message as string)
+                  : typeof announcements[1].bodyText === 'string'
+                    ? announcements[1].bodyText
+                    : undefined
+              }
+              showLink={
+                !!('ctaText' in announcements[1]
+                  ? (announcements[1] as Record<string, unknown>).ctaText
+                  : announcements[1].linkText)
+              }
+              linkText={
+                'ctaText' in announcements[1]
+                  ? ((announcements[1] as Record<string, unknown>).ctaText as string)
+                  : announcements[1].linkText
+              }
+              linkUrl={
+                'ctaUrl' in announcements[1]
+                  ? ((announcements[1] as Record<string, unknown>).ctaUrl as string)
+                  : announcements[1].linkUrl
+              }
               buttonCount="none"
             />
           )}

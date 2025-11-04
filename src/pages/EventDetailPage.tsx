@@ -9,6 +9,7 @@ import CrChip from '../stories/CrChip'
 import CrButton from '../stories/CrButton'
 import { PiCalendarPlus } from 'react-icons/pi'
 import { useEvents, useAnnouncements } from '../hooks/useData'
+import { useLivePreview } from '../hooks/useLivePreview'
 import type { Event } from '../types/cms'
 
 // Import helper functions
@@ -20,7 +21,7 @@ import {
   getEventVenueCity,
   getEventVenueState,
   getEventVenuePhone,
-  getEventAgeRestriction
+  getEventAgeRestriction,
 } from '../utils/typeHelpers'
 
 const EventDetailPage: React.FC = () => {
@@ -31,7 +32,11 @@ const EventDetailPage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
 
   // Find event by slug from URL
-  const event = allEvents?.find((e) => e.slug === slug)
+  const initialEvent = allEvents?.find((e) => e.slug === slug)
+
+  // Use live preview with fallback to initial event
+  const liveEvent = useLivePreview<Event | undefined>({ initialData: initialEvent })
+  const event = liveEvent || initialEvent
   const eventTitle = event?.title || 'Event Details'
 
   // Get 3 most recent events excluding the current one
@@ -195,9 +200,7 @@ const EventDetailPage: React.FC = () => {
 
                 {/* Age Restriction Chip */}
                 {event.ageRestriction && (
-                  <CrChip variant="secondary">
-                    {getEventAgeRestriction(event)}
-                  </CrChip>
+                  <CrChip variant="secondary">{getEventAgeRestriction(event)}</CrChip>
                 )}
               </div>
 
@@ -236,7 +239,10 @@ const EventDetailPage: React.FC = () => {
                     {getEventVenueCity(event) && getEventVenueState(event) && (
                       <>
                         <br />
-                        {getEventVenueCity(event)}, {getEventVenueState(event)} {typeof event.venue === 'object' && event.venue && 'zipCode' in event.venue ? event.venue.zipCode as string : ''}
+                        {getEventVenueCity(event)}, {getEventVenueState(event)}{' '}
+                        {typeof event.venue === 'object' && event.venue && 'zipCode' in event.venue
+                          ? (event.venue.zipCode as string)
+                          : ''}
                       </>
                     )}
                   </div>
@@ -304,7 +310,11 @@ const EventDetailPage: React.FC = () => {
               widthVariant="third"
               textureBackground={announcements[0].textureBackground}
               headlineText={announcements[0].headlineText}
-              bodyText={typeof announcements[0].bodyText === 'string' ? announcements[0].bodyText : undefined}
+              bodyText={
+                typeof announcements[0].bodyText === 'string'
+                  ? announcements[0].bodyText
+                  : undefined
+              }
               showLink={announcements[0].showLink}
               linkText={announcements[0].linkText}
               linkUrl={announcements[0].linkUrl}
