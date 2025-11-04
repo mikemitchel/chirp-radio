@@ -7,15 +7,12 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Landing Page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
   });
 
   test('should render landing page correctly', async ({ page }) => {
-    // Wait for page to be fully loaded
-    await page.waitForLoadState('networkidle');
-
-    // Check that main content is visible
-    await expect(page.locator('.landing-page')).toBeVisible();
+    // Wait for main content to be visible (use first() due to multiple .landing-page classes)
+    await expect(page.locator('div.landing-page').first()).toBeVisible();
 
     // Take full page screenshot for visual regression
     await expect(page).toHaveScreenshot('landing-page.png', {
@@ -24,8 +21,6 @@ test.describe('Landing Page', () => {
   });
 
   test('should render hero carousel', async ({ page }) => {
-    await page.waitForLoadState('networkidle');
-
     const carousel = page.locator('.hero-carousel');
     await expect(carousel).toBeVisible();
 
@@ -34,8 +29,6 @@ test.describe('Landing Page', () => {
   });
 
   test('should render current DJ section', async ({ page }) => {
-    await page.waitForLoadState('networkidle');
-
     const currentDj = page.locator('.cr-current-dj');
     await expect(currentDj).toBeVisible();
 
@@ -43,8 +36,6 @@ test.describe('Landing Page', () => {
   });
 
   test('should render recently played section', async ({ page }) => {
-    await page.waitForLoadState('networkidle');
-
     const recentlyPlayed = page.locator('.cr-recently-played');
     await expect(recentlyPlayed).toBeVisible();
 
@@ -60,8 +51,9 @@ test.describe('Landing Page', () => {
       }
     });
 
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
+    // Wait for landing page to be visible instead of networkidle
+    await expect(page.locator('div.landing-page').first()).toBeVisible();
 
     expect(consoleErrors).toHaveLength(0);
   });
@@ -69,7 +61,7 @@ test.describe('Landing Page', () => {
 
 test.describe('Landing Page - Dark Mode', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     // Toggle dark mode
     await page.evaluate(() => {
       document.documentElement.setAttribute('data-theme', 'dark');
@@ -77,7 +69,7 @@ test.describe('Landing Page - Dark Mode', () => {
   });
 
   test('should render landing page in dark mode', async ({ page }) => {
-    await page.waitForLoadState('networkidle');
+    await expect(page.locator('div.landing-page').first()).toBeVisible();
 
     await expect(page).toHaveScreenshot('landing-page-dark.png', {
       fullPage: true,
@@ -88,7 +80,6 @@ test.describe('Landing Page - Dark Mode', () => {
 test.describe('Landing Page - Interactions', () => {
   test('should navigate carousel on button click', async ({ page }) => {
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
 
     const nextButton = page.locator('.hero-carousel__button--next');
     await expect(nextButton).toBeVisible();
