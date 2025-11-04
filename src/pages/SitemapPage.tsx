@@ -32,17 +32,43 @@ export default function SitemapPage() {
       </section>
 
       <section className="page-container">
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <div>
+          <div style={{ marginBottom: 'var(--cr-space-8)' }}>
+            <h2 className="cr-title-lg" style={{ marginBottom: 'var(--cr-space-3)' }}>
+              Home
+            </h2>
+            <ul
+              style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: 0,
+                marginLeft: 'var(--cr-space-4)',
+              }}
+            >
+              <li style={{ marginBottom: 'var(--cr-space-2)' }}>
+                <button
+                  onClick={() => handleLinkClick('/')}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    font: 'var(--cr-body-md)',
+                    color: 'var(--cr-primary-500)',
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    textAlign: 'left',
+                  }}
+                >
+                  • Landing Page
+                </button>
+              </li>
+            </ul>
+          </div>
+
           {visibleSections.map((section, index) => (
             <div key={index} style={{ marginBottom: 'var(--cr-space-8)' }}>
-              <h2
-                style={{
-                  font: 'var(--cr-h4)',
-                  color: 'var(--cr-primary-500)',
-                  marginBottom: 'var(--cr-space-3)',
-                }}
-              >
-                ▾ {section.title}
+              <h2 className="cr-title-lg" style={{ marginBottom: 'var(--cr-space-3)' }}>
+                {section.title}
               </h2>
               <ul
                 style={{
