@@ -7,9 +7,8 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Responsive - Top Banner', () => {
   test('should stack at mobile breakpoint', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.setViewportSize({ width: 640, height: 800 });
-    await page.waitForLoadState('networkidle');
 
     const banner = page.locator('.cr-logo-banner__container');
     await expect(banner).toBeVisible();
@@ -18,9 +17,8 @@ test.describe('Responsive - Top Banner', () => {
   });
 
   test('should be horizontal at desktop', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.setViewportSize({ width: 1280, height: 1024 });
-    await page.waitForLoadState('networkidle');
 
     const banner = page.locator('.cr-logo-banner__container');
     await expect(banner).toBeVisible();
@@ -31,9 +29,8 @@ test.describe('Responsive - Top Banner', () => {
 
 test.describe('Responsive - Recently Played', () => {
   test('should show table variant at mobile', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.setViewportSize({ width: 480, height: 800 });
-    await page.waitForLoadState('networkidle');
 
     const recentlyPlayed = page.locator('.cr-recently-played');
     await expect(recentlyPlayed).toBeVisible();
@@ -46,9 +43,8 @@ test.describe('Responsive - Recently Played', () => {
   });
 
   test('should show card variant at desktop', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.setViewportSize({ width: 1280, height: 1024 });
-    await page.waitForLoadState('networkidle');
 
     const recentlyPlayed = page.locator('.cr-recently-played');
     await expect(recentlyPlayed).toBeVisible();
@@ -63,9 +59,8 @@ test.describe('Responsive - Recently Played', () => {
 
 test.describe('Responsive - Main Navigation', () => {
   test('should be compact at tablet breakpoint (768px)', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.setViewportSize({ width: 768, height: 1024 });
-    await page.waitForLoadState('networkidle');
 
     const nav = page.locator('.cr-main-nav');
     await expect(nav).toBeVisible();
@@ -74,9 +69,8 @@ test.describe('Responsive - Main Navigation', () => {
   });
 
   test('should be full width at desktop', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.setViewportSize({ width: 1440, height: 1024 });
-    await page.waitForLoadState('networkidle');
 
     const nav = page.locator('.cr-main-nav');
     await expect(nav).toBeVisible();
@@ -87,9 +81,8 @@ test.describe('Responsive - Main Navigation', () => {
 
 test.describe('Responsive - Footer', () => {
   test('should stack at mobile', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.setViewportSize({ width: 480, height: 800 });
-    await page.waitForLoadState('networkidle');
 
     // Scroll to footer
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
@@ -102,9 +95,8 @@ test.describe('Responsive - Footer', () => {
   });
 
   test('should be multi-column at desktop', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.setViewportSize({ width: 1280, height: 1024 });
-    await page.waitForLoadState('networkidle');
 
     // Scroll to footer
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
@@ -132,9 +124,8 @@ test.describe('Responsive - Breakpoint Validation', () => {
 
   for (const breakpoint of breakpoints) {
     test(`should render correctly at ${breakpoint.name}`, async ({ page }) => {
-      await page.goto('/');
+      await page.goto('/', { waitUntil: 'domcontentloaded' });
       await page.setViewportSize({ width: breakpoint.width, height: breakpoint.height });
-      await page.waitForLoadState('networkidle');
 
       const screenshotName = `landing-page-${breakpoint.width}px.png`;
       await expect(page).toHaveScreenshot(screenshotName, {
