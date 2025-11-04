@@ -101,6 +101,7 @@ export function NowPlayingProvider({
   const lastUpdateTimeRef = useRef<Date>(new Date())
   const albumArtRetryCountRef = useRef(0)
   const lastAlbumArtUrlRef = useRef(cachedData?.albumArt || '')
+  const albumArtResolvedRef = useRef(!!cachedData?.albumArt) // Track if album art is resolved for current track
 
   // Fetch now playing data
   const fetchNowPlaying = async () => {
@@ -194,6 +195,8 @@ export function NowPlayingProvider({
           setCurrentData(trackData)
           lastAlbumArtUrlRef.current = albumArtUrl
           albumArtRetryCountRef.current = 0
+          // Reset resolved flag for new track, mark as resolved if we have album art
+          albumArtResolvedRef.current = !!albumArtUrl
 
           // Cache the data
           const cacheData = {
@@ -228,9 +231,9 @@ export function NowPlayingProvider({
           console.groupCollapsed(`[NowPlayingContext] No song change detected (${consecutiveNoChangeRef.current} times)`)
           log.log('Current track:', currentData.track, 'by', currentData.artist)
 
-          // Retry album art if missing
+          // Retry album art if missing and not yet resolved for this track
           const hasAlbumArtSource = newData.albumArt || newData.lastfm_urls
-          if (!currentData.albumArt && hasAlbumArtSource && albumArtRetryCountRef.current < 5) {
+          if (!albumArtResolvedRef.current && !currentData.albumArt && hasAlbumArtSource && albumArtRetryCountRef.current < 5) {
             const retryImageQuality = networkInfo.quality === 'offline' ? 'low' : networkInfo.quality
             let retryAlbumArt = ''
             if (newData.albumArt) {
@@ -250,10 +253,14 @@ export function NowPlayingProvider({
               setCurrentData((prev) => ({ ...prev, albumArt: retryAlbumArt }))
               lastAlbumArtUrlRef.current = retryAlbumArt
               albumArtRetryCountRef.current++
+              // Mark as resolved once we successfully get album art
+              albumArtResolvedRef.current = true
 
               updateRecentlyPlayedAlbumArt(currentData.artist, currentData.track, retryAlbumArt)
               updateNativeMetadata({ ...currentData, albumArt: retryAlbumArt })
             }
+          } else if (albumArtResolvedRef.current) {
+            log.log('Album art already resolved for this track, skipping retry')
           }
 
           console.groupEnd()
