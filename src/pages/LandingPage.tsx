@@ -19,7 +19,10 @@ import {
   useCurrentShow,
   useRegularDJs,
   useSiteSettings,
+  useMembers,
+  useShowSchedules,
 } from '../hooks/useData'
+import { useNowPlaying } from '../contexts/NowPlayingContext'
 import { getEventImageUrl, getEventCategoryName, getEventVenueName, getEventAgeRestriction } from '../utils/typeHelpers'
 import { useAuth } from '../hooks/useAuth'
 import { downloadDJShowCalendar } from '../utils/calendar'
@@ -38,6 +41,76 @@ const LandingPage: React.FC = () => {
   const { data: allRegularDJs } = useRegularDJs()
   const { user: loggedInUser } = useAuth()
   const { showToast } = useNotification()
+  const { data: members } = useMembers()
+  const { data: showSchedules } = useShowSchedules()
+  const { currentData: nowPlayingData } = useNowPlaying()
+
+  // Find currently scheduled DJ based on day/time
+  const scheduledDJ = useMemo(() => {
+    if (!showSchedules || showSchedules.length === 0) return null
+
+    const now = new Date()
+    const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+    const currentDay = dayNames[now.getDay()]
+    const currentTime = now.getHours() * 60 + now.getMinutes()
+
+    // Find schedule for current day and time
+    const currentSchedule = showSchedules.find((schedule) => {
+      if (schedule.dayOfWeek.toLowerCase() !== currentDay) return false
+
+      // Parse start and end times (format: "6:00 AM" or "6:00 PM")
+      const parseTime = (timeStr: string): number => {
+        const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
+        if (!match) return 0
+
+        let hours = parseInt(match[1])
+        const minutes = parseInt(match[2])
+        const period = match[3].toUpperCase()
+
+        if (period === 'PM' && hours !== 12) hours += 12
+        if (period === 'AM' && hours === 12) hours = 0
+
+        return hours * 60 + minutes
+      }
+
+      const scheduleStart = parseTime(schedule.startTime)
+      const scheduleEnd = parseTime(schedule.endTime)
+
+      // Handle overnight shows (end time < start time)
+      if (scheduleEnd < scheduleStart) {
+        return currentTime >= scheduleStart || currentTime < scheduleEnd
+      }
+
+      return currentTime >= scheduleStart && currentTime < scheduleEnd
+    })
+
+    if (!currentSchedule) return null
+
+    // Return the DJ object if it's populated, otherwise null
+    return typeof currentSchedule.dj === 'object' ? currentSchedule.dj as Member : null
+  }, [showSchedules])
+
+  // Find current DJ member data by matching DJ name from now playing API
+  const currentDJMember = useMemo(() => {
+    if (!nowPlayingData?.dj || !members) return scheduledDJ
+
+    const djName = nowPlayingData.dj
+
+    // Look for exact match first
+    const exactMatch = members.find(
+      (member) => member.djName?.toLowerCase().trim() === djName.toLowerCase().trim()
+    )
+    if (exactMatch) return exactMatch
+
+    // Try partial match (DJ name might be part of a longer name)
+    const partialMatch = members.find((member) =>
+      member.djName?.toLowerCase().includes(djName.toLowerCase().trim()) ||
+      djName.toLowerCase().includes(member.djName?.toLowerCase().trim() || '')
+    )
+
+    // Fall back to scheduled DJ if no match found
+    return partialMatch || scheduledDJ
+  }, [nowPlayingData?.dj, members, scheduledDJ])
 
   // Get 10 random Regular DJs (without repeating)
   const randomDJs = useMemo(() => {
@@ -158,14 +231,19 @@ const LandingPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {currentShow && (
+          {currentShow && nowPlayingData && (
             <CrCurrentDjCard
-              djName={currentShow.djName}
-              showName={currentShow.showName}
-              statusText={`${currentShow.startTime} — ${currentShow.endTime}`}
-              djImage={currentShow.djImage}
-              description={currentShow.description}
+              djName={nowPlayingData.dj || currentShow.djName}
+              showName={nowPlayingData.show || currentShow.showName}
+              statusText="On-Air"
+              isOnAir={true}
+              header={nowPlayingData.show || currentShow.showName}
+              title={nowPlayingData.dj || currentShow.djName}
+              djImage={currentDJMember?.profileImage || currentDJMember?.fullProfileImage || currentShow.djImage}
+              description={currentDJMember?.djExcerpt || currentDJMember?.djBio || currentShow.description}
               onRequestClick={() => navigate('/request-song')}
+              onMoreClick={currentDJMember?.slug ? () => navigate(`/members/${currentDJMember.slug}`) : undefined}
+              isFavorite={currentDJMember?.id ? loggedInUser?.favoriteDJs?.includes(String(currentDJMember.id)) : false}
             />
           )}
 
