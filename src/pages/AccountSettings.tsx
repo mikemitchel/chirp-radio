@@ -59,15 +59,13 @@ export default function AccountSettings() {
         id: user.id,
         email: user.email,
         profileImage: user.profileImage,
-        fullProfileImage: user.fullProfileImage
       })
       setFormData({
         firstName: user.firstName || '',
         lastName: user.lastName || '',
         location: user.location || 'Chicago, Illinois',
         email: user.email || '',
-        avatarSrc: user.profileImage || user.fullProfileImage || '',
-        fullProfileImage: user.fullProfileImage || '',
+        avatarSrc: user.profileImage || '',
         profileImageOrientation: user.profileImageOrientation || 'square',
         djName: user.djName || '',
         showName: user.showName || '',
@@ -403,8 +401,7 @@ export default function AccountSettings() {
         lastName: user.lastName || user.name?.split(' ')[1] || '',
         location: user.location || 'Chicago, Illinois',
         email: user.email || '',
-        avatarSrc: user.profileImage || user.fullProfileImage || '',
-        fullProfileImage: user.fullProfileImage || '',
+        avatarSrc: user.profileImage || '',
         profileImageOrientation: user.profileImageOrientation || 'square',
         djName: user.djName || '',
         showName: user.showName || '',
@@ -463,7 +460,6 @@ export default function AccountSettings() {
         lastName: formData.lastName,
         location: formData.location,
         profileImage: formData.avatarSrc,
-        fullProfileImage: formData.fullProfileImage,
         profileImageOrientation: formData.profileImageOrientation,
         djName: formData.djName,
         showName: formData.showName,
@@ -493,8 +489,7 @@ export default function AccountSettings() {
         lastName: formData.lastName,
         name: `${formData.firstName} ${formData.lastName}`,
         location: formData.location,
-        avatar: formData.avatarSrc,
-        fullProfileImage: formData.fullProfileImage,
+        profileImage: formData.avatarSrc,
         profileImageOrientation: formData.profileImageOrientation,
         djName: formData.djName,
         showName: formData.showName,
@@ -569,8 +564,7 @@ export default function AccountSettings() {
         lastName: formData.lastName,
         name: `${formData.firstName} ${formData.lastName}`,
         location: formData.location,
-        avatar: formData.avatarSrc,
-        fullProfileImage: formData.fullProfileImage,
+        profileImage: formData.avatarSrc,
         profileImageOrientation: formData.profileImageOrientation,
         djName: formData.djName,
         showName: formData.showName,
@@ -889,8 +883,7 @@ export default function AccountSettings() {
             location={formData.location || user?.location || 'Chicago, Illinois'}
             email={formData.email || user?.email || 'account@gmail.com'}
             memberSince={formatMemberSince(user?.memberSince)}
-            avatarSrc={formData.avatarSrc || user?.profileImage || user?.fullProfileImage}
-            fullProfileImage={formData.fullProfileImage || user?.fullProfileImage}
+            avatarSrc={formData.avatarSrc || user?.profileImage}
             socialLinks={formData.socialLinks || socialLinksArray}
             permissions={user?.roles || []}
             showPermissions={isVolunteer(user)}
