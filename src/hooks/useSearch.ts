@@ -1,6 +1,14 @@
 // Search hook that searches across all data sources
 import { useState, useEffect, useMemo } from 'react'
-import { useArticles, useEvents, useDJs, usePodcasts, useShopItems, useWeeklyCharts } from './useData'
+import {
+  useArticles,
+  useEvents,
+  useDJs,
+  usePodcasts,
+  useShopItems,
+  useWeeklyCharts,
+} from './useData'
+import { extractImageUrl } from '../utils/cmsTypeGuards'
 
 export interface SearchResult {
   id: string
@@ -33,7 +41,7 @@ export function useSearch(query: string) {
     const searchResults: SearchResult[] = []
 
     // Search articles
-     
+
     articles?.forEach((article: any) => {
       const authorName = typeof article.author === 'string' ? article.author : article.author?.name
       const categoryName =
@@ -51,7 +59,7 @@ export function useSearch(query: string) {
           title: article.title,
           subtitle: authorName || categoryName,
           description: article.excerpt,
-          image: article.featuredImage || article.coverImage,
+          image: extractImageUrl(article.featuredImage) || extractImageUrl(article.coverImage),
           url: `/articles/${article.slug}`,
           data: article,
         })
@@ -59,12 +67,11 @@ export function useSearch(query: string) {
     })
 
     // Search events
-     
+
     events?.forEach((event: any) => {
       const venueName = typeof event.venue === 'string' ? event.venue : event.venue?.name
       const matchesArtists = Array.isArray(event.artists)
-        ?  
-          event.artists.some((artist: any) => {
+        ? event.artists.some((artist: any) => {
             const artistName = typeof artist === 'string' ? artist : artist?.name
             return artistName?.toLowerCase().includes(searchTerm)
           })
@@ -82,7 +89,7 @@ export function useSearch(query: string) {
           title: event.title,
           subtitle: venueName,
           description: event.description,
-          image: event.image,
+          image: extractImageUrl(event.featuredImage) || extractImageUrl(event.image),
           url: `/events/${event.slug || event.id}`,
           data: event,
         })
@@ -90,7 +97,7 @@ export function useSearch(query: string) {
     })
 
     // Search DJs
-     
+
     djs?.forEach((dj: any) => {
       const djName = dj.djName || dj.name
       const matchesGenres = Array.isArray(dj.genres)
@@ -111,7 +118,7 @@ export function useSearch(query: string) {
           title: djName,
           subtitle: dj.showName || dj.showTime,
           description: dj.excerpt || dj.description,
-          image: dj.profileImage || dj.imageSrc,
+          image: extractImageUrl(dj.profileImage) || extractImageUrl(dj.imageSrc),
           url: `/djs/${dj.slug || dj.id}`,
           data: dj,
         })
@@ -119,7 +126,7 @@ export function useSearch(query: string) {
     })
 
     // Search podcasts
-     
+
     podcasts?.forEach((podcast: any) => {
       if (
         podcast.title?.toLowerCase().includes(searchTerm) ||
@@ -132,7 +139,7 @@ export function useSearch(query: string) {
           title: podcast.title,
           subtitle: podcast.host,
           description: podcast.description,
-          image: podcast.coverImage,
+          image: extractImageUrl(podcast.coverArt) || extractImageUrl(podcast.coverImage),
           url: `/podcasts/${podcast.slug || podcast.id}`,
           data: podcast,
         })
@@ -140,7 +147,7 @@ export function useSearch(query: string) {
     })
 
     // Search shop items
-     
+
     shopItems?.forEach((item: any) => {
       const price = typeof item.price === 'number' ? item.price : parseFloat(item.price)
       if (
@@ -154,7 +161,9 @@ export function useSearch(query: string) {
           title: item.name,
           subtitle: !isNaN(price) ? `$${price.toFixed(2)}` : item.category,
           description: item.description,
-          image: Array.isArray(item.images) ? item.images[0] : item.image,
+          image: Array.isArray(item.images)
+            ? extractImageUrl(item.images[0])
+            : extractImageUrl(item.image),
           url: `/shop/${item.slug || item.id}`,
           data: item,
         })
