@@ -101,7 +101,7 @@ export function NowPlayingProvider({
   const lastUpdateTimeRef = useRef<Date>(new Date())
   const albumArtRetryCountRef = useRef(0)
   const lastAlbumArtUrlRef = useRef(cachedData?.albumArt || '')
-  const albumArtResolvedRef = useRef(!!cachedData?.albumArt) // Track if album art is resolved for current track
+  const albumArtResolvedRef = useRef(false) // Always allow validation on page load, even with cached data
 
   // Fetch now playing data
   const fetchNowPlaying = async () => {
@@ -228,13 +228,20 @@ export function NowPlayingProvider({
           consecutiveNoChangeRef.current++
 
           // Group repetitive "no change" logs to reduce console noise
-          console.groupCollapsed(`[NowPlayingContext] No song change detected (${consecutiveNoChangeRef.current} times)`)
+          console.groupCollapsed(
+            `[NowPlayingContext] No song change detected (${consecutiveNoChangeRef.current} times)`
+          )
           log.log('Current track:', currentData.track, 'by', currentData.artist)
 
-          // Retry album art if missing and not yet resolved for this track
+          // Retry album art if not yet resolved for this track (validates cached URLs too)
           const hasAlbumArtSource = newData.albumArt || newData.lastfm_urls
-          if (!albumArtResolvedRef.current && !currentData.albumArt && hasAlbumArtSource && albumArtRetryCountRef.current < 5) {
-            const retryImageQuality = networkInfo.quality === 'offline' ? 'low' : networkInfo.quality
+          if (
+            !albumArtResolvedRef.current &&
+            hasAlbumArtSource &&
+            albumArtRetryCountRef.current < 5
+          ) {
+            const retryImageQuality =
+              networkInfo.quality === 'offline' ? 'low' : networkInfo.quality
             let retryAlbumArt = ''
             if (newData.albumArt) {
               retryAlbumArt = upgradeImageQuality(newData.albumArt, retryImageQuality)
