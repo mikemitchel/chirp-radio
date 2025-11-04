@@ -41,13 +41,18 @@ const LandingPage: React.FC = () => {
   const { data: allRegularDJs } = useRegularDJs()
   const { user: loggedInUser } = useAuth()
   const { showToast } = useNotification()
-  const { data: members } = useMembers()
+  const { data: members, loading: membersLoading } = useMembers()
   const { data: showSchedules } = useShowSchedules()
   const { currentData: nowPlayingData } = useNowPlaying()
 
+  console.log('[LandingPage] Members loading state:', membersLoading, 'Members count:', members?.length)
+
   // Find currently scheduled DJ based on day/time
   const scheduledDJ = useMemo(() => {
-    if (!showSchedules || showSchedules.length === 0) return null
+    if (!showSchedules || showSchedules.length === 0) {
+      console.log('[scheduledDJ] No show schedules')
+      return null
+    }
 
     const now = new Date()
     const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
@@ -92,21 +97,82 @@ const LandingPage: React.FC = () => {
 
   // Find current DJ member data by matching DJ name from now playing API
   const currentDJMember = useMemo(() => {
-    if (!nowPlayingData?.dj || !members) return scheduledDJ
+    console.log('[DJ Matching] nowPlayingData?.dj:', nowPlayingData?.dj)
+    console.log('[DJ Matching] members count:', members?.length)
+    console.log('[DJ Matching] scheduledDJ:', scheduledDJ ? {
+      id: scheduledDJ.id,
+      djName: scheduledDJ.djName,
+      firstName: scheduledDJ.firstName
+    } : null)
 
-    const djName = nowPlayingData.dj
+    // Log all members with their DJ names for debugging
+    if (members) {
+      const djNames = members
+        .filter(m => m.djName)
+        .map(m => ({ id: m.id, djName: m.djName }))
+      console.log('[DJ Matching] All members DJ names:', djNames)
+      console.log('[DJ Matching] Total members:', members.length, 'With DJ names:', djNames.length)
+
+      // Check if Anna Flores is in the array
+      const annaFlores = members.find(m =>
+        m.firstName?.toLowerCase().includes('anna') ||
+        m.lastName?.toLowerCase().includes('flores') ||
+        m.djName?.toLowerCase().includes('anna') ||
+        m.djName?.toLowerCase().includes('flores')
+      )
+      console.log('[DJ Matching] Anna Flores in members?', annaFlores ? {
+        id: annaFlores.id,
+        firstName: annaFlores.firstName,
+        lastName: annaFlores.lastName,
+        djName: annaFlores.djName,
+        roles: annaFlores.roles
+      } : 'NOT FOUND')
+    }
+
+    if (!nowPlayingData?.dj || !members) {
+      console.log('[DJ Matching] Missing data, using scheduledDJ')
+      return scheduledDJ
+    }
+
+    const djName = nowPlayingData.dj.toLowerCase().trim()
+    console.log('[DJ Matching] Looking for:', djName)
 
     // Look for exact match first
-    const exactMatch = members.find(
-      (member) => member.djName?.toLowerCase().trim() === djName.toLowerCase().trim()
-    )
-    if (exactMatch) return exactMatch
+    const exactMatch = members.find((member) => {
+      const memberDjName = member.djName?.toLowerCase().trim()
+      const isMatch = memberDjName === djName
+      if (memberDjName && (isMatch || memberDjName.includes('anna') || memberDjName.includes('flores'))) {
+        console.log('[DJ Matching] Checking exact:', {
+          memberDjName,
+          searchingFor: djName,
+          isMatch,
+          memberId: member.id
+        })
+      }
+      return isMatch
+    })
+    if (exactMatch) {
+      console.log('[DJ Matching] ✅ Found exact match:', exactMatch.djName, 'ID:', exactMatch.id)
+      return exactMatch
+    }
 
     // Try partial match (DJ name might be part of a longer name)
-    const partialMatch = members.find((member) =>
-      member.djName?.toLowerCase().includes(djName.toLowerCase().trim()) ||
-      djName.toLowerCase().includes(member.djName?.toLowerCase().trim() || '')
-    )
+    // Only check if member.djName exists and is not empty
+    const partialMatch = members.find((member) => {
+      const memberDjName = member.djName?.toLowerCase().trim()
+      if (!memberDjName) return false // Skip members without DJ names
+
+      return (
+        memberDjName.includes(djName) ||
+        djName.includes(memberDjName)
+      )
+    })
+
+    if (partialMatch) {
+      console.log('[DJ Matching] ✅ Found partial match:', partialMatch.djName, 'ID:', partialMatch.id)
+    } else {
+      console.log('[DJ Matching] ❌ No match found, using scheduledDJ')
+    }
 
     // Fall back to scheduled DJ if no match found
     return partialMatch || scheduledDJ
@@ -231,21 +297,52 @@ const LandingPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {currentShow && nowPlayingData && (
-            <CrCurrentDjCard
-              djName={nowPlayingData.dj || currentShow.djName}
-              showName={nowPlayingData.show || currentShow.showName}
-              statusText="On-Air"
-              isOnAir={true}
-              header={nowPlayingData.show || currentShow.showName}
-              title={nowPlayingData.dj || currentShow.djName}
-              djImage={currentDJMember?.profileImage || currentDJMember?.fullProfileImage || currentShow.djImage}
-              description={currentDJMember?.djExcerpt || currentDJMember?.djBio || currentShow.description}
-              onRequestClick={() => navigate('/request-song')}
-              onMoreClick={currentDJMember?.slug ? () => navigate(`/members/${currentDJMember.slug}`) : undefined}
-              isFavorite={currentDJMember?.id ? loggedInUser?.favoriteDJs?.includes(String(currentDJMember.id)) : false}
-            />
-          )}
+          {currentShow && nowPlayingData && (() => {
+            const djImage = typeof currentDJMember?.profileImage === 'string'
+              ? currentDJMember.profileImage
+              : typeof currentDJMember?.profileImage === 'object' && currentDJMember.profileImage !== null && 'url' in currentDJMember.profileImage
+              ? currentDJMember.profileImage.url
+              : currentShow.djImage
+
+            const description = currentDJMember?.djExcerpt || currentDJMember?.djBio || currentShow.description
+
+            // Create slug from DJ name for member profile link
+            const djSlug = currentDJMember?.djName || currentDJMember?.firstName
+              ? (currentDJMember.djName || currentDJMember.firstName || '')
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, '-')
+                  .replace(/^-+|-+$/g, '')
+              : null
+
+            console.log('[CrCurrentDjCard] Rendering with:', {
+              currentDJMember: currentDJMember ? {
+                id: currentDJMember.id,
+                djName: currentDJMember.djName,
+                djExcerpt: currentDJMember.djExcerpt,
+                djBio: currentDJMember.djBio,
+                profileImage: currentDJMember.profileImage,
+              } : null,
+              djImage,
+              description,
+              djSlug,
+            })
+
+            return (
+              <CrCurrentDjCard
+                djName={nowPlayingData.dj || currentShow.djName}
+                showName={nowPlayingData.show || currentShow.showName}
+                statusText="On-Air"
+                isOnAir={true}
+                header={nowPlayingData.show || currentShow.showName}
+                title={nowPlayingData.dj || currentShow.djName}
+                djImage={djImage}
+                description={description}
+                onRequestClick={() => navigate('/request-song')}
+                onMoreClick={djSlug ? () => navigate(`/djs/${djSlug}`) : undefined}
+                isFavorite={currentDJMember?.id ? loggedInUser?.favoriteDJs?.includes(String(currentDJMember.id)) : false}
+              />
+            )
+          })()}
 
           {displaySidebarAnnouncement && (
             <CrAnnouncement

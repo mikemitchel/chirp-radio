@@ -429,6 +429,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
       const docs = await fetchFromCMS<Record<string, unknown>>('listeners', {
         sort: 'djName',
         limit: '500',
+        depth: '1', // Populate media relationships (profileImage)
       })
 
       const mappedDocs = docs.map((member) => ({

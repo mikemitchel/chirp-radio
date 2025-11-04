@@ -237,8 +237,7 @@ export default function CrImageCropper({
       )
       ctx.restore()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentImage, outputSize])
+  }, [currentImage, outputSize, cropperState.position.x, cropperState.position.y])
 
   const updateImageDisplay = useCallback(() => {
     if (!currentImage || !imageElementRef.current) {

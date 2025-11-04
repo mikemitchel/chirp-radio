@@ -264,7 +264,6 @@ export function useDJs() {
           description: user.djBio || user.bio || '',
           donationLink: user.djDonationLink || '',
           imageSrc: user.profileImage || '',
-          fullProfileImage: user.fullProfileImage || user.profileImage || '',
           profileImageOrientation: user.profileImageOrientation || 'square',
           isSubstitute: oldRole === 'Substitute DJ' || user.roles?.includes('Substitute DJ'),
         }
@@ -429,13 +428,6 @@ export function useRegularDJs() {
             : typeof member.profileImage === 'object' && member.profileImage !== null && 'url' in member.profileImage
             ? member.profileImage.url
             : '',
-          fullProfileImage: typeof member.fullProfileImage === 'string'
-            ? member.fullProfileImage
-            : typeof member.fullProfileImage === 'object' && member.fullProfileImage !== null && 'url' in member.fullProfileImage
-            ? member.fullProfileImage.url
-            : typeof member.profileImage === 'string'
-            ? member.profileImage
-            : '',
           profileImageOrientation: member.profileImageOrientation || 'square',
           slug: createSlug(member.djName || member.firstName || 'dj'),
         }
@@ -465,13 +457,6 @@ export function useSubstituteDJs() {
           ? member.profileImage
           : typeof member.profileImage === 'object' && member.profileImage !== null && 'url' in member.profileImage
           ? member.profileImage.url
-          : '',
-        fullProfileImage: typeof member.fullProfileImage === 'string'
-          ? member.fullProfileImage
-          : typeof member.fullProfileImage === 'object' && member.fullProfileImage !== null && 'url' in member.fullProfileImage
-          ? member.fullProfileImage.url
-          : typeof member.profileImage === 'string'
-          ? member.profileImage
           : '',
         profileImageOrientation: member.profileImageOrientation || 'square',
         slug: createSlug(member.djName || member.firstName || 'dj'),
