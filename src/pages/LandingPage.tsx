@@ -298,13 +298,14 @@ const LandingPage: React.FC = () => {
 
         <div className="page-layout-main-sidebar__sidebar">
           {currentShow && nowPlayingData && (() => {
+            // Extract profile image from CMS Member
             const djImage = typeof currentDJMember?.profileImage === 'string'
               ? currentDJMember.profileImage
               : typeof currentDJMember?.profileImage === 'object' && currentDJMember.profileImage !== null && 'url' in currentDJMember.profileImage
               ? currentDJMember.profileImage.url
-              : currentShow.djImage
+              : (!membersLoading ? currentShow.djImage : undefined) // Only fall back to placeholder if members are done loading
 
-            const description = currentDJMember?.djExcerpt || currentDJMember?.djBio || currentShow.description
+            const description = currentDJMember?.djExcerpt || currentDJMember?.djBio || (!membersLoading ? currentShow.description : undefined)
 
             // Create slug from DJ name for member profile link
             const djSlug = currentDJMember?.djName || currentDJMember?.firstName
