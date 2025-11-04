@@ -14,6 +14,7 @@ Non-profit low-band FM and streaming radio station web application
 
 ### Recently Completed
 
+- **Sitemap redesign ✅** Tree layout, reorganized sections, removed visual clutter (PR #83)
 - **Sitemap ✅** Auto-generates from `src/config/routes.ts` (PR #60)
 - **Album art persistence ✅** Fixed reload on navigation
 - **iOS CMS URL fix ✅** Smart fallback logic, awaiting CMS deployment
@@ -35,7 +36,6 @@ Non-profit low-band FM and streaming radio station web application
 **Frontend:**
 
 - CSS review and fixes for all pages (light and dark modes)
-- SitemapPage layout issues
 - Recently Played persistence solution (6-month history API)
 - Android APK side-load testing (Issue #32)
 
