@@ -8,8 +8,7 @@ import AxeBuilder from '@axe-core/playwright';
 
 test.describe('Accessibility Tests', () => {
   test('landing page should not have accessibility violations', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
 
@@ -19,11 +18,10 @@ test.describe('Accessibility Tests', () => {
   test('landing page dark mode should not have accessibility violations', async ({
     page,
   }) => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await page.evaluate(() => {
       document.documentElement.setAttribute('data-theme', 'dark');
     });
-    await page.waitForLoadState('networkidle');
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
 
@@ -31,17 +29,15 @@ test.describe('Accessibility Tests', () => {
   });
 
   test('should have proper heading hierarchy', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    // Check that h1 exists
-    const h1 = page.locator('h1');
+    // Check that h1 exists (use first() to avoid strict mode violation)
+    const h1 = page.locator('h1').first();
     await expect(h1).toBeVisible();
   });
 
   test('interactive elements should be keyboard accessible', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     // Test carousel navigation buttons
     const nextButton = page.locator('.hero-carousel__button--next');
@@ -57,8 +53,7 @@ test.describe('Accessibility Tests', () => {
   });
 
   test('images should have alt text', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     // Get all images
     const images = page.locator('img');
@@ -73,8 +68,7 @@ test.describe('Accessibility Tests', () => {
   });
 
   test('should have proper color contrast', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
 
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2aa', 'wcag21aa'])
