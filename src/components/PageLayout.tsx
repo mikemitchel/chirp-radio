@@ -3,7 +3,7 @@ import React from 'react'
 import CrCard from '../stories/CrCard'
 
 interface PageLayoutProps {
-  layoutTemplate?: 'default' | 'sidebar-right' | 'sidebar-left'
+  layoutTemplate?: 'default' | 'sidebar-right'
   layoutBlocks?: any[]
   sidebar?: React.ReactNode
 }
@@ -88,16 +88,6 @@ const PageLayout: React.FC<PageLayoutProps> = ({
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">{renderContent()}</div>
         {sidebar && <div className="page-layout-main-sidebar__sidebar">{sidebar}</div>}
-      </div>
-    )
-  }
-
-  // Sidebar Left
-  if (layoutTemplate === 'sidebar-left') {
-    return (
-      <div className="page-layout-main-sidebar page-layout-main-sidebar--reversed">
-        {sidebar && <div className="page-layout-main-sidebar__sidebar">{sidebar}</div>}
-        <div className="page-layout-main-sidebar__main">{renderContent()}</div>
       </div>
     )
   }
