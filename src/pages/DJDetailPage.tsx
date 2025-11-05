@@ -4,12 +4,19 @@ import { useNavigate, useParams } from 'react-router'
 import { PiHeart, PiHeartFill, PiCalendarPlus } from 'react-icons/pi'
 import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrCard from '../stories/CrCard'
-import CrButton from '../stories/CrButton'
 import CrPreviousShows from '../stories/CrPreviousShows'
 import CrDjDonation from '../stories/CrDjDonation'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import { useRegularDJs, useSubstituteDJs, useSiteSettings, useArticles, useEvents, usePodcasts, useShowSchedules } from '../hooks/useData'
+import {
+  useRegularDJs,
+  useSubstituteDJs,
+  useSiteSettings,
+  useArticles,
+  useEvents,
+  usePodcasts,
+  useShowSchedules,
+} from '../hooks/useData'
 import { useLoginRequired } from '../hooks/useLoginRequired'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
@@ -77,7 +84,7 @@ const DJDetailPage: React.FC = () => {
   }, [dj, showSchedules])
 
   // Format schedule info for display
-  const djScheduleInfo = useMemo(() => {
+  const _djScheduleInfo = useMemo(() => {
     if (!dj) return ''
 
     if (djSchedules.length === 0) {
@@ -87,7 +94,9 @@ const DJDetailPage: React.FC = () => {
       if (!showTime) return ''
 
       // Try to parse and reformat legacy format like "Wed 12:00 PM - 2:00 PM"
-      const match = showTime.match(/(\w{3,})\s+(\d{1,2}):?(\d{2})?\s*(AM|PM)\s*-\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)/i)
+      const match = showTime.match(
+        /(\w{3,})\s+(\d{1,2}):?(\d{2})?\s*(AM|PM)\s*-\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)/i
+      )
       if (match) {
         const day = match[1].substring(0, 3) // Take first 3 chars for abbreviation
         const startTime = formatTime(`${match[2]}:${match[3] || '00'} ${match[4]}`)
@@ -174,7 +183,14 @@ const DJDetailPage: React.FC = () => {
     requireLogin(() => {
       // Toggle favorite status
       const newFavoriteStatus = !isFavorite
-      console.log('[DJDetailPage] handleFavoriteClick - DJ:', dj.djName, 'ID:', dj.id, 'newFavoriteStatus:', newFavoriteStatus)
+      console.log(
+        '[DJDetailPage] handleFavoriteClick - DJ:',
+        dj.djName,
+        'ID:',
+        dj.id,
+        'newFavoriteStatus:',
+        newFavoriteStatus
+      )
       setIsFavorite(newFavoriteStatus)
 
       // Update the user's favoriteDJs array
@@ -214,7 +230,7 @@ const DJDetailPage: React.FC = () => {
         showName: dj.showName,
         showTime: showTime,
       })
-    } catch (error) {
+    } catch (_error) {
       showToast({
         message: 'Unable to create calendar event. Please check the show time format.',
         type: 'error',
@@ -269,82 +285,94 @@ const DJDetailPage: React.FC = () => {
             showName={dj.showName}
             scheduleInfo={
               (djSchedules.length > 0 || dj.showTime) && (
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
-                  {djSchedules.length > 0 ? (
-                    djSchedules.map((schedule, index) => {
-                      const dayNames: Record<string, string> = {
-                        monday: 'Mon',
-                        tuesday: 'Tue',
-                        wednesday: 'Wed',
-                        thursday: 'Thu',
-                        friday: 'Fri',
-                        saturday: 'Sat',
-                        sunday: 'Sun',
-                      }
-                      const day = dayNames[schedule.dayOfWeek] || schedule.dayOfWeek
-                      const startTime = formatTime(schedule.startTime)
-                      const endTime = formatTime(schedule.endTime)
-                      const showTimeFormatted = `${day} ${startTime} - ${endTime}`
-                      const originalFormat = `${day} ${schedule.startTime} - ${schedule.endTime}`
+                <div
+                  style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}
+                >
+                  {djSchedules.length > 0
+                    ? djSchedules.map((schedule, index) => {
+                        const dayNames: Record<string, string> = {
+                          monday: 'Mon',
+                          tuesday: 'Tue',
+                          wednesday: 'Wed',
+                          thursday: 'Thu',
+                          friday: 'Fri',
+                          saturday: 'Sat',
+                          sunday: 'Sun',
+                        }
+                        const day = dayNames[schedule.dayOfWeek] || schedule.dayOfWeek
+                        const startTime = formatTime(schedule.startTime)
+                        const endTime = formatTime(schedule.endTime)
+                        const showTimeFormatted = `${day} ${startTime} - ${endTime}`
+                        const originalFormat = `${day} ${schedule.startTime} - ${schedule.endTime}`
 
-                      return (
-                        <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                          <span style={{ fontSize: '1rem', fontWeight: '500' }}>{showTimeFormatted}</span>
-                          <button
-                            onClick={() => handleAddToCalendar(originalFormat)}
-                            aria-label={`Add ${showTimeFormatted} to calendar`}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              cursor: 'pointer',
-                              padding: '0.25rem',
-                              display: 'flex',
-                              alignItems: 'center',
-                              fontSize: '1.25rem',
-                              color: 'var(--cr-color-primary)',
-                            }}
+                        return (
+                          <div
+                            key={index}
+                            style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
                           >
-                            <PiCalendarPlus />
-                          </button>
-                        </div>
-                      )
-                    })
-                  ) : (
-                    // Handle legacy format with multiple shows from users.json
-                    dj.showTime?.split(',').map((time, index) => {
-                      const trimmedTime = time.trim()
-                      const match = trimmedTime.match(/(\w{3,})\s+(\d{1,2}):?(\d{2})?\s*(AM|PM)\s*-\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)/i)
+                            <span style={{ fontSize: '1rem', fontWeight: '500' }}>
+                              {showTimeFormatted}
+                            </span>
+                            <button
+                              onClick={() => handleAddToCalendar(originalFormat)}
+                              aria-label={`Add ${showTimeFormatted} to calendar`}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                padding: '0.25rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                fontSize: '1.25rem',
+                                color: 'var(--cr-color-primary)',
+                              }}
+                            >
+                              <PiCalendarPlus />
+                            </button>
+                          </div>
+                        )
+                      })
+                    : // Handle legacy format with multiple shows from users.json
+                      dj.showTime?.split(',').map((time, index) => {
+                        const trimmedTime = time.trim()
+                        const match = trimmedTime.match(
+                          /(\w{3,})\s+(\d{1,2}):?(\d{2})?\s*(AM|PM)\s*-\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)/i
+                        )
 
-                      if (!match) return null
+                        if (!match) return null
 
-                      const day = match[1].substring(0, 3)
-                      const startTime = formatTime(`${match[2]}:${match[3] || '00'} ${match[4]}`)
-                      const endTime = formatTime(`${match[5]}:${match[6] || '00'} ${match[7]}`)
-                      const showTimeFormatted = `${day} ${startTime} - ${endTime}`
+                        const day = match[1].substring(0, 3)
+                        const startTime = formatTime(`${match[2]}:${match[3] || '00'} ${match[4]}`)
+                        const endTime = formatTime(`${match[5]}:${match[6] || '00'} ${match[7]}`)
+                        const showTimeFormatted = `${day} ${startTime} - ${endTime}`
 
-                      return (
-                        <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                          <span style={{ fontSize: '1rem', fontWeight: '500' }}>{showTimeFormatted}</span>
-                          <button
-                            onClick={() => handleAddToCalendar(trimmedTime)}
-                            aria-label={`Add ${showTimeFormatted} to calendar`}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              cursor: 'pointer',
-                              padding: '0.25rem',
-                              display: 'flex',
-                              alignItems: 'center',
-                              fontSize: '1.25rem',
-                              color: 'var(--cr-color-primary)',
-                            }}
+                        return (
+                          <div
+                            key={index}
+                            style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
                           >
-                            <PiCalendarPlus />
-                          </button>
-                        </div>
-                      )
-                    })
-                  )}
+                            <span style={{ fontSize: '1rem', fontWeight: '500' }}>
+                              {showTimeFormatted}
+                            </span>
+                            <button
+                              onClick={() => handleAddToCalendar(trimmedTime)}
+                              aria-label={`Add ${showTimeFormatted} to calendar`}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                padding: '0.25rem',
+                                display: 'flex',
+                                alignItems: 'center',
+                                fontSize: '1.25rem',
+                                color: 'var(--cr-color-primary)',
+                              }}
+                            >
+                              <PiCalendarPlus />
+                            </button>
+                          </div>
+                        )
+                      })}
                 </div>
               )
             }
@@ -374,55 +402,84 @@ const DJDetailPage: React.FC = () => {
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={('backgroundColor' in siteSettings.djDetailSidebarAnnouncement ? (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).backgroundColor as string : undefined)}
-              headlineText={('title' in siteSettings.djDetailSidebarAnnouncement ? (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).title as string : (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).headlineText as string)}
-              bodyText={('message' in siteSettings.djDetailSidebarAnnouncement ? (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).message as string : (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).bodyText as string)}
-              showLink={!!((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).ctaText)}
-              linkText={('ctaText' in siteSettings.djDetailSidebarAnnouncement ? (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).ctaText as string : undefined)}
-              linkUrl={('ctaUrl' in siteSettings.djDetailSidebarAnnouncement ? (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).ctaUrl as string : undefined)}
+              textureBackground={
+                'backgroundColor' in siteSettings.djDetailSidebarAnnouncement
+                  ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
+                      .backgroundColor as string)
+                  : undefined
+              }
+              headlineText={
+                'title' in siteSettings.djDetailSidebarAnnouncement
+                  ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
+                      .title as string)
+                  : ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
+                      .headlineText as string)
+              }
+              bodyText={
+                'message' in siteSettings.djDetailSidebarAnnouncement
+                  ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
+                      .message as string)
+                  : ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
+                      .bodyText as string)
+              }
+              showLink={
+                !!(siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).ctaText
+              }
+              linkText={
+                'ctaText' in siteSettings.djDetailSidebarAnnouncement
+                  ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
+                      .ctaText as string)
+                  : undefined
+              }
+              linkUrl={
+                'ctaUrl' in siteSettings.djDetailSidebarAnnouncement
+                  ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
+                      .ctaUrl as string)
+                  : undefined
+              }
               buttonCount="none"
             />
           )}
 
           {/* Content Cards based on CMS settings */}
-          {siteSettings?.djDetailSidebarContentType && siteSettings.djDetailSidebarContentType !== 'none' && (() => {
-            const contentType = siteSettings.djDetailSidebarContentType
-            const count = parseInt(siteSettings.djDetailSidebarContentCount || '3')
-            let contentItems: any[] = []
+          {siteSettings?.djDetailSidebarContentType &&
+            siteSettings.djDetailSidebarContentType !== 'none' &&
+            (() => {
+              const contentType = siteSettings.djDetailSidebarContentType
+              const count = parseInt(siteSettings.djDetailSidebarContentCount || '3')
+              let contentItems: any[] = []
 
-            if (contentType === 'articles') {
-              contentItems = articles?.slice(0, count) || []
-            } else if (contentType === 'events') {
-              contentItems = events?.slice(0, count) || []
-            } else if (contentType === 'podcasts') {
-              contentItems = podcasts?.slice(0, count) || []
-            }
+              if (contentType === 'articles') {
+                contentItems = articles?.slice(0, count) || []
+              } else if (contentType === 'events') {
+                contentItems = events?.slice(0, count) || []
+              } else if (contentType === 'podcasts') {
+                contentItems = podcasts?.slice(0, count) || []
+              }
 
-            return contentItems.map((item, index) => (
-              <CrCard
-                key={item.id || index}
-                variant="article"
-                cardSize="small"
-                imagePosition="top"
-                title={item.title}
-                excerpt={item.excerpt}
-                content={item.excerpt}
-                backgroundImage={typeof item.image === 'string' ? item.image : item.image?.url}
-                onClick={() => {
-                  if (contentType === 'articles') navigate(`/articles/${item.slug || item.id}`)
-                  else if (contentType === 'events') navigate(`/events/${item.slug || item.id}`)
-                  else if (contentType === 'podcasts') navigate(`/podcasts/${item.slug || item.id}`)
-                }}
-              />
-            ))
-          })()}
+              return contentItems.map((item, index) => (
+                <CrCard
+                  key={item.id || index}
+                  variant="small"
+                  bannerHeight="tall"
+                  textLayout="stacked"
+                  bannerBackgroundColor="none"
+                  title={item.title}
+                  contentSummary={item.excerpt}
+                  backgroundImage={typeof item.image === 'string' ? item.image : item.image?.url}
+                  onClick={() => {
+                    if (contentType === 'articles') navigate(`/articles/${item.slug || item.id}`)
+                    else if (contentType === 'events') navigate(`/events/${item.slug || item.id}`)
+                    else if (contentType === 'podcasts')
+                      navigate(`/podcasts/${item.slug || item.id}`)
+                  }}
+                />
+              ))
+            })()}
 
           {/* Advertisement from CMS */}
           {siteSettings?.djDetailSidebarAdvertisement && (
-            <CrAdSpace
-              size="large-rectangle"
-              adData={siteSettings.djDetailSidebarAdvertisement}
-            />
+            <CrAdSpace size="large-rectangle" adData={siteSettings.djDetailSidebarAdvertisement} />
           )}
         </div>
       </div>
