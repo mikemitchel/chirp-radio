@@ -428,8 +428,34 @@ const LandingPage: React.FC = () => {
           tracks={playlistTracks}
           djName={nowPlayingData?.dj || scheduledDJ?.djName || currentShow?.djName}
           showName={scheduledDJ?.showName || currentShow?.showName}
-          startTime={currentSchedule?.startTime || currentShow?.startTime}
-          endTime={currentSchedule?.endTime || currentShow?.endTime}
+          startTime={(() => {
+            // Get current hour in Chicago time
+            const now = new Date()
+            const chicagoTime = new Date(
+              now.toLocaleString('en-US', { timeZone: 'America/Chicago' })
+            )
+            const currentHour = chicagoTime.getHours()
+
+            // Format start time (current hour)
+            if (currentHour === 0) return '12m'
+            if (currentHour === 12) return '12n'
+            if (currentHour < 12) return `${currentHour}:00am`
+            return `${currentHour - 12}:00pm`
+          })()}
+          endTime={(() => {
+            // Get next hour in Chicago time
+            const now = new Date()
+            const chicagoTime = new Date(
+              now.toLocaleString('en-US', { timeZone: 'America/Chicago' })
+            )
+            const nextHour = (chicagoTime.getHours() + 1) % 24
+
+            // Format end time (next hour)
+            if (nextHour === 0) return '12m'
+            if (nextHour === 12) return '12n'
+            if (nextHour < 12) return `${nextHour}:00am`
+            return `${nextHour - 12}:00pm`
+          })()}
           djProfileUrl={
             currentDJMember?.id
               ? `/djs/${currentDJMember.djName?.toLowerCase().replace(/\s+/g, '-')}`
