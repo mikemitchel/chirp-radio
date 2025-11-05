@@ -5,11 +5,7 @@ import CrPageHeader from '../stories/CrPageHeader'
 import CrDjOverview from '../stories/CrDjOverview'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import {
-  useAnnouncements,
-  useRegularDJs,
-  useSubstituteDJs,
-} from '../hooks/useData'
+import { useAnnouncements, useRegularDJs, useSubstituteDJs } from '../hooks/useData'
 import { useAuth } from '../hooks/useAuth'
 import { downloadDJShowCalendar } from '../utils/calendar'
 import { formatShowTime, prepareShowTimes } from '../utils/formatShowTime'
@@ -31,7 +27,9 @@ const DJPage: React.FC = () => {
 
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
-          {regularDJsLoading && <div style={{ padding: '2rem', textAlign: 'center' }}>Loading DJs from CMS...</div>}
+          {regularDJsLoading && (
+            <div style={{ padding: '2rem', textAlign: 'center' }}>Loading DJs from CMS...</div>
+          )}
           {!regularDJsLoading && (!regularDJs || regularDJs.length === 0) && (
             <div style={{ padding: '2rem', textAlign: 'center' }}>No Regular DJs found in CMS</div>
           )}
@@ -43,18 +41,13 @@ const DJPage: React.FC = () => {
                 djName={dj.djName}
                 content={dj.showName}
                 showTime={formatShowTime(dj.showTime)}
-                showTimes={prepareShowTimes(
-                  dj.showTime,
-                  dj.djName,
-                  dj.showName,
-                  (error) => {
-                    showToast({
-                      message: 'Unable to create calendar event. Please check the show time format.',
-                      type: 'error',
-                      duration: 5000,
-                    })
-                  }
-                )}
+                showTimes={prepareShowTimes(dj.showTime, dj.djName, dj.showName, (_error) => {
+                  showToast({
+                    message: 'Unable to create calendar event. Please check the show time format.',
+                    type: 'error',
+                    duration: 5000,
+                  })
+                })}
                 description={dj.excerpt}
                 imageSrc={dj.imageSrc}
                 isFavorite={loggedInUser?.favoriteDJs?.includes(dj.id)}
@@ -66,9 +59,10 @@ const DJPage: React.FC = () => {
                       showName: dj.showName,
                       showTime: dj.showTime,
                     })
-                  } catch (error) {
+                  } catch (_error) {
                     showToast({
-                      message: 'Unable to create calendar event. Please check the show time format.',
+                      message:
+                        'Unable to create calendar event. Please check the show time format.',
                       type: 'error',
                       duration: 5000,
                     })
@@ -84,12 +78,34 @@ const DJPage: React.FC = () => {
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={('backgroundColor' in announcements[0] ? (announcements[0] as Record<string, unknown>).backgroundColor as string : undefined)}
-              headlineText={('title' in announcements[0] ? (announcements[0] as Record<string, unknown>).title as string : announcements[0].headlineText)}
-              bodyText={('message' in announcements[0] ? (announcements[0] as Record<string, unknown>).message as string : typeof announcements[0].bodyText === 'string' ? announcements[0].bodyText : undefined)}
+              textureBackground={
+                'backgroundColor' in announcements[0]
+                  ? ((announcements[0] as Record<string, unknown>).backgroundColor as string)
+                  : undefined
+              }
+              headlineText={
+                'title' in announcements[0]
+                  ? ((announcements[0] as Record<string, unknown>).title as string)
+                  : announcements[0].headlineText
+              }
+              bodyText={
+                'message' in announcements[0]
+                  ? ((announcements[0] as Record<string, unknown>).message as string)
+                  : typeof announcements[0].bodyText === 'string'
+                    ? announcements[0].bodyText
+                    : undefined
+              }
               showLink={!!announcements[0].ctaText}
-              linkText={('ctaText' in announcements[0] ? (announcements[0] as Record<string, unknown>).ctaText as string : undefined)}
-              linkUrl={('ctaUrl' in announcements[0] ? (announcements[0] as Record<string, unknown>).ctaUrl as string : undefined)}
+              linkText={
+                'ctaText' in announcements[0]
+                  ? ((announcements[0] as Record<string, unknown>).ctaText as string)
+                  : undefined
+              }
+              linkUrl={
+                'ctaUrl' in announcements[0]
+                  ? ((announcements[0] as Record<string, unknown>).ctaUrl as string)
+                  : undefined
+              }
               buttonCount="none"
             />
           )}
@@ -99,7 +115,11 @@ const DJPage: React.FC = () => {
 
       <section className="page-container" style={{ marginTop: 'var(--cr-space-8)' }}>
         <CrPageHeader title="Substitute DJs" showEyebrow={false} showActionButton={false} />
-        {substituteDJsLoading && <div style={{ padding: '2rem', textAlign: 'center' }}>Loading Substitute DJs from CMS...</div>}
+        {substituteDJsLoading && (
+          <div style={{ padding: '2rem', textAlign: 'center' }}>
+            Loading Substitute DJs from CMS...
+          </div>
+        )}
         {!substituteDJsLoading && (!substituteDJs || substituteDJs.length === 0) && (
           <div style={{ padding: '2rem', textAlign: 'center' }}>No Substitute DJs found in CMS</div>
         )}
