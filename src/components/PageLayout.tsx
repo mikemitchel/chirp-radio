@@ -3,7 +3,7 @@ import React from 'react'
 import CrCard from '../stories/CrCard'
 
 interface PageLayoutProps {
-  layoutTemplate?: 'default' | 'sidebar-right' | 'sidebar-left' | 'two-column'
+  layoutTemplate?: 'default' | 'sidebar-right' | 'sidebar-left'
   layoutBlocks?: any[]
   sidebar?: React.ReactNode
 }
@@ -89,26 +89,6 @@ const PageLayout: React.FC<PageLayoutProps> = ({
         {sidebar && <div className="page-layout-main-sidebar__sidebar">{sidebar}</div>}
         <div className="page-layout-main-sidebar__main">{renderContent()}</div>
       </div>
-    )
-  }
-
-  // Two Column Grid
-  if (layoutTemplate === 'two-column') {
-    const halfIndex = Math.ceil(layoutBlocks.length / 2)
-    const leftColumn = layoutBlocks.slice(0, halfIndex)
-    const rightColumn = layoutBlocks.slice(halfIndex)
-
-    return (
-      <section className="page-container">
-        <div className="grid-2col-equal">
-          <div className="grid-2col-equal__col">
-            {leftColumn.map((block, index) => renderBlock(block, index))}
-          </div>
-          <div className="grid-2col-equal__col">
-            {rightColumn.map((block, index) => renderBlock(block, halfIndex + index))}
-          </div>
-        </div>
-      </section>
     )
   }
 
