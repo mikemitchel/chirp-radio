@@ -294,6 +294,7 @@ export interface Page {
   slug: string
   title: string
   excerpt?: string
+  layoutTemplate?: 'default' | 'full-width' | 'sidebar-right' | 'sidebar-left' | 'two-column'
   layout?: PageBlock[]
   sidebarAnnouncement?: number | Announcement | string
   sidebarContentType?: string
@@ -306,6 +307,23 @@ export interface PageBlock {
   blockType: string
   content?: string
   [key: string]: unknown
+}
+
+// Redirect (from PayloadCMS plugin-redirects)
+export interface Redirect {
+  id: string
+  from: string
+  to: {
+    type?: 'reference' | 'custom'
+    reference?: {
+      relationTo?: string
+      value?: string | number | Page | Article | Event | Podcast
+    }
+    url?: string
+  }
+  type?: '301' | '302'
+  createdAt?: string
+  updatedAt?: string
 }
 
 // Item in a weekly chart/list
