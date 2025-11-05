@@ -21,8 +21,6 @@ interface UserProviderProps {
 }
 
 export function UserProvider({ children }: UserProviderProps) {
-  const useCMS = import.meta.env.VITE_USE_CMS_API === 'true'
-
   // Initialize users as empty - will load from CMS
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -83,7 +81,7 @@ export function UserProvider({ children }: UserProviderProps) {
         : favoriteDJs.filter((id) => id !== djId)
 
       // Convert to CMS format: array of objects with djId field
-      const cmsFavoriteDJs = updatedFavoriteDJs.map(id => ({ djId: id }))
+      const cmsFavoriteDJs = updatedFavoriteDJs.map((id) => ({ djId: id }))
 
       // First update in CMS
       try {
@@ -154,7 +152,10 @@ export function UserProvider({ children }: UserProviderProps) {
   // Update user's collection
   const updateUserCollection = useCallback(
     async (userId: string, collection: CollectionTrack[]) => {
-      console.log('[UserContext] updateUserCollection:', { userId, collectionLength: collection.length })
+      console.log('[UserContext] updateUserCollection:', {
+        userId,
+        collectionLength: collection.length,
+      })
 
       // First update in CMS
       try {
