@@ -1,5 +1,4 @@
 // CrCurrentDjCard.tsx
-import { useState, useEffect } from 'react'
 import CrCurrentDj from './CrCurrentDj'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
@@ -51,13 +50,6 @@ export default function CrCurrentDjCard({
   className = '',
   isFavorite = false,
 }: CrCurrentDjCardProps) {
-  const [imageLoaded, setImageLoaded] = useState(false)
-
-  // Reset imageLoaded when djImage changes to trigger fade-in for new DJs
-  useEffect(() => {
-    setImageLoaded(false)
-  }, [djImage])
-
   return (
     <div className={`cr-current-dj-card ${className}`}>
       <div className="cr-current-dj-card__top">
@@ -71,12 +63,7 @@ export default function CrCurrentDjCard({
 
       <div className="cr-current-dj-card__content">
         <div className="cr-current-dj-card__image-container">
-          <img
-            src={djImage}
-            alt={djImageAlt}
-            className={`cr-current-dj-card__image ${imageLoaded ? 'cr-current-dj-card__image--loaded' : ''}`}
-            onLoad={() => setImageLoaded(true)}
-          />
+          <img src={djImage} alt={djImageAlt} className="cr-current-dj-card__image" />
         </div>
 
         <div className="cr-current-dj-card__info">
