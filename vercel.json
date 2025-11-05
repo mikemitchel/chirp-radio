@@ -1,8 +1,14 @@
 {
   "rewrites": [
     {
-      "source": "/api/:path*",
+      "source": "/api/external/:path*",
       "destination": "https://chirpradio.appspot.com/api/:path*"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/capture-playlist",
+      "schedule": "* * * * *"
     }
   ]
 }
