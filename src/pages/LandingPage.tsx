@@ -377,14 +377,10 @@ const LandingPage: React.FC = () => {
                       currentDJMember.profileImage !== null &&
                       'url' in currentDJMember.profileImage
                     ? currentDJMember.profileImage.url
-                    : !membersLoading
-                      ? currentShow.djImage
-                      : undefined // Only fall back to placeholder if members are done loading
+                    : undefined // Return undefined if no profile image, let component handle fallback
 
               const description =
-                currentDJMember?.djExcerpt ||
-                currentDJMember?.djBio ||
-                (!membersLoading ? currentShow.description : undefined)
+                currentDJMember?.djExcerpt || currentDJMember?.djBio || currentShow.description
 
               // Create slug from DJ name for member profile link
               const djSlug =
@@ -409,6 +405,11 @@ const LandingPage: React.FC = () => {
                 description,
                 djSlug,
               })
+
+              // Only render if we have a DJ image to prevent showing placeholder
+              if (!djImage) {
+                return null
+              }
 
               return (
                 <CrCurrentDjCard
