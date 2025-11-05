@@ -250,7 +250,8 @@ export interface ShowSchedule {
   endTime: string
   isMusicMix?: boolean
   dj?: number | Member // Can be ID or populated DJ object (optional if isMusicMix is true)
-  showName?: string
+  djDisplay?: string // Auto-generated display name (DJ name, "Music Mix", or "Not Assigned")
+  showName?: string // DEPRECATED - will be removed, use dj.showName instead
   isActive?: boolean
   notes?: string
   displayOrder?: number
@@ -330,7 +331,13 @@ export interface WeeklyChart {
 // Mobile Page Content
 export interface MobilePageContent {
   id?: string | number
-  pageIdentifier: 'make-request' | 'now-playing' | 'recently-played' | 'my-collection' | 'account-settings' | 'android-auto'
+  pageIdentifier:
+    | 'make-request'
+    | 'now-playing'
+    | 'recently-played'
+    | 'my-collection'
+    | 'account-settings'
+    | 'android-auto'
   pageTitle?: string
   pageSubtitle?: string
   introContent?: ContentField
