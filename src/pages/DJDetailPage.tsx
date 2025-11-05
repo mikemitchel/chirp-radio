@@ -461,8 +461,8 @@ const DJDetailPage: React.FC = () => {
                 <CrCard
                   key={item.id || index}
                   variant="small"
-                  bannerHeight="narrow"
-                  textLayout="inline"
+                  bannerHeight="tall"
+                  textLayout="stacked"
                   bannerBackgroundColor="none"
                   title={item.title}
                   contentSummary={item.excerpt}
