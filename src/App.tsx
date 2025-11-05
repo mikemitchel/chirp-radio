@@ -60,6 +60,7 @@ import TermsOfServicePage from './pages/TermsOfServicePage'
 import SitemapPage from './pages/SitemapPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import AdvertisementPreviewPage from './pages/AdvertisementPreviewPage'
+import PageDetailPage from './pages/PageDetailPage'
 import { AndroidAutoPage } from './pages/AndroidAutoPage'
 import UserTypeSwitcher from './components/UserTypeSwitcher'
 
@@ -347,6 +348,9 @@ function App() {
                         {/* Error pages */}
                         <Route path="403" element={<ForbiddenPage />} />
                         <Route path="500" element={<ServerErrorPage />} />
+
+                        {/* Dynamic CMS pages - must come before 404 catch-all */}
+                        <Route path=":slug" element={<PageDetailPage />} />
 
                         {/* 404 catch-all route - must be last */}
                         <Route path="*" element={<NotFoundPage />} />
