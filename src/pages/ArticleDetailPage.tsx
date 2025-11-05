@@ -181,8 +181,9 @@ const ArticleDetailPage: React.FC = () => {
               key={recentArticle.id}
               variant="small"
               type="article"
-              bannerHeight="tall"
-              textLayout="stacked"
+              bannerHeight="narrow"
+              textLayout="inline"
+              bannerBackgroundColor="none"
               titleTag="h3"
               titleSize="sm"
               backgroundImage={
