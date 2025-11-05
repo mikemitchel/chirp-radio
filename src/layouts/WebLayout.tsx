@@ -179,7 +179,12 @@ const WebLayoutContent: React.FC = () => {
   // Get display name from user object
   const getUserDisplayName = () => {
     if (!user) return undefined
-    return user.djName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.username || user.email.split('@')[0]
+    return (
+      user.djName ||
+      `${user.firstName || ''} ${user.lastName || ''}`.trim() ||
+      user.username ||
+      user.email.split('@')[0]
+    )
   }
 
   // Get avatar from user object
@@ -195,141 +200,143 @@ const WebLayoutContent: React.FC = () => {
   )
 
   return (
-    <>
+    <div className="web-layout-wrapper">
       <CrAppHeader
-          autoFetch={true}
-          djName={currentShow?.djName}
-          showName={currentShow?.showName}
-          streamingPlayerProps={streamingPlayerProps}
-          onMenuClick={handleMenuClick}
-          storeBadgeCount={cartItemCount}
-          showStoreBadge={true}
-          isLoggedIn={isLoggedIn}
-          isVolunteer={checkIsVolunteer(user)}
-          userName={getUserDisplayName()}
-          userAvatar={getUserAvatar()}
-          onLoginClick={handleLoginClick}
-          onSignUpClick={handleSignUpClick}
-          onProfileClick={handleProfileClick}
-          onFavoritesClick={handleFavoritesClick}
-          onSignOutClick={handleSignOutClick}
-          onVolunteerDirectoryClick={handleVolunteerDirectoryClick}
-          onLeadershipDirectoryClick={handleLeadershipDirectoryClick}
-          onVolunteerCalendarClick={handleVolunteerCalendarClick}
-          onWebsitesClick={handleWebsitesClick}
-          onDownloadsClick={handleDownloadsClick}
-        />
+        autoFetch={true}
+        djName={currentShow?.djName}
+        showName={currentShow?.showName}
+        streamingPlayerProps={streamingPlayerProps}
+        onMenuClick={handleMenuClick}
+        storeBadgeCount={cartItemCount}
+        showStoreBadge={true}
+        isLoggedIn={isLoggedIn}
+        isVolunteer={checkIsVolunteer(user)}
+        userName={getUserDisplayName()}
+        userAvatar={getUserAvatar()}
+        onLoginClick={handleLoginClick}
+        onSignUpClick={handleSignUpClick}
+        onProfileClick={handleProfileClick}
+        onFavoritesClick={handleFavoritesClick}
+        onSignOutClick={handleSignOutClick}
+        onVolunteerDirectoryClick={handleVolunteerDirectoryClick}
+        onLeadershipDirectoryClick={handleLeadershipDirectoryClick}
+        onVolunteerCalendarClick={handleVolunteerCalendarClick}
+        onWebsitesClick={handleWebsitesClick}
+        onDownloadsClick={handleDownloadsClick}
+      />
 
-        <CrSidebar
-          variant="web"
-          isOpen={isSidebarOpen}
-          onClose={handleCloseSidebar}
-          onLogoClick={() => {
-            navigate('/')
-            handleCloseSidebar()
-          }}
-          onHomeClick={() => {
-            navigate('/')
-            handleCloseSidebar()
-          }}
-          onListenClick={() => {
-            navigate('/listen')
-            handleCloseSidebar()
-          }}
-          onPlaylistClick={() => {
-            navigate('/playlist')
-            handleCloseSidebar()
-          }}
-          onPodcastClick={() => {
-            navigate('/podcasts')
-            handleCloseSidebar()
-          }}
-          onDjsClick={() => {
-            navigate('/djs')
-            handleCloseSidebar()
-          }}
-          onScheduleClick={() => {
-            navigate('/schedule')
-            handleCloseSidebar()
-          }}
-          onEventsClick={() => {
-            navigate('/events')
-            handleCloseSidebar()
-          }}
-          onArticlesClick={() => {
-            navigate('/articles')
-            handleCloseSidebar()
-          }}
-          onDonateClick={() => {
-            navigate('/donate')
-            handleCloseSidebar()
-          }}
-          onWaysToGiveClick={() => {
-            navigate('/other-ways-to-give')
-            handleCloseSidebar()
-          }}
-          onVinylCircleClick={() => {
-            navigate('/vinyl-circle')
-            handleCloseSidebar()
-          }}
-          onShopClick={() => {
-            navigate('/shop')
-            handleCloseSidebar()
-          }}
-          onAboutClick={() => {
-            navigate('/about')
-            handleCloseSidebar()
-          }}
-          onOtherWaysToListenClick={() => {
-            navigate('/other-ways-to-listen')
-            handleCloseSidebar()
-          }}
-          onContactClick={() => {
-            navigate('/contact')
-            handleCloseSidebar()
-          }}
-          onBecomeVolunteerClick={() => {
-            navigate('/volunteer')
-            handleCloseSidebar()
-          }}
-          onRequestClick={() => {
-            navigate('/request-song')
-            handleCloseSidebar()
-          }}
-        />
+      <CrSidebar
+        variant="web"
+        isOpen={isSidebarOpen}
+        onClose={handleCloseSidebar}
+        onLogoClick={() => {
+          navigate('/')
+          handleCloseSidebar()
+        }}
+        onHomeClick={() => {
+          navigate('/')
+          handleCloseSidebar()
+        }}
+        onListenClick={() => {
+          navigate('/listen')
+          handleCloseSidebar()
+        }}
+        onPlaylistClick={() => {
+          navigate('/playlist')
+          handleCloseSidebar()
+        }}
+        onPodcastClick={() => {
+          navigate('/podcasts')
+          handleCloseSidebar()
+        }}
+        onDjsClick={() => {
+          navigate('/djs')
+          handleCloseSidebar()
+        }}
+        onScheduleClick={() => {
+          navigate('/schedule')
+          handleCloseSidebar()
+        }}
+        onEventsClick={() => {
+          navigate('/events')
+          handleCloseSidebar()
+        }}
+        onArticlesClick={() => {
+          navigate('/articles')
+          handleCloseSidebar()
+        }}
+        onDonateClick={() => {
+          navigate('/donate')
+          handleCloseSidebar()
+        }}
+        onWaysToGiveClick={() => {
+          navigate('/other-ways-to-give')
+          handleCloseSidebar()
+        }}
+        onVinylCircleClick={() => {
+          navigate('/vinyl-circle')
+          handleCloseSidebar()
+        }}
+        onShopClick={() => {
+          navigate('/shop')
+          handleCloseSidebar()
+        }}
+        onAboutClick={() => {
+          navigate('/about')
+          handleCloseSidebar()
+        }}
+        onOtherWaysToListenClick={() => {
+          navigate('/other-ways-to-listen')
+          handleCloseSidebar()
+        }}
+        onContactClick={() => {
+          navigate('/contact')
+          handleCloseSidebar()
+        }}
+        onBecomeVolunteerClick={() => {
+          navigate('/volunteer')
+          handleCloseSidebar()
+        }}
+        onRequestClick={() => {
+          navigate('/request-song')
+          handleCloseSidebar()
+        }}
+      />
 
-        <CrScrim
-          isVisible={isSidebarOpen}
-          onClick={handleCloseSidebar}
-          zIndex={999}
-          center={false}
-          padding={false}
-        />
+      <CrScrim
+        isVisible={isSidebarOpen}
+        onClick={handleCloseSidebar}
+        zIndex={999}
+        center={false}
+        padding={false}
+      />
 
-        <main><Outlet /></main>
-        <div className="web-layout-footer-container">
-          <div className="support-with-ads-wrapper">
-            <CrSupportWithAds />
-          </div>
-          <CrFooter
-            onPrivacyPolicyClick={handlePrivacyPolicyClick}
-            onTermsOfServiceClick={handleTermsOfServiceClick}
-            onSitemapClick={handleSitemapClick}
-            onCallibrityClick={handleCallibrityClick}
-            onSocialClick={handleSocialClick}
-          />
+      <main>
+        <Outlet />
+      </main>
+      <div className="web-layout-footer-container">
+        <div className="support-with-ads-wrapper">
+          <CrSupportWithAds />
         </div>
+        <CrFooter
+          onPrivacyPolicyClick={handlePrivacyPolicyClick}
+          onTermsOfServiceClick={handleTermsOfServiceClick}
+          onSitemapClick={handleSitemapClick}
+          onCallibrityClick={handleCallibrityClick}
+          onSocialClick={handleSocialClick}
+        />
+      </div>
 
-        {/* Fixed Bottom Player - slides up when scrolling past header */}
-        <div
-          className={`web-layout-bottom-player ${showBottomPlayer ? 'web-layout-bottom-player--visible' : ''}`}
-        >
-          <CrStreamingMusicPlayer key="bottom-player" variant="mini-player" autoFetch={true} />
-        </div>
+      {/* Fixed Bottom Player - slides up when scrolling past header */}
+      <div
+        className={`web-layout-bottom-player ${showBottomPlayer ? 'web-layout-bottom-player--visible' : ''}`}
+      >
+        <CrStreamingMusicPlayer key="bottom-player" variant="mini-player" autoFetch={true} />
+      </div>
 
-        {/* Global Notifications - Toasts & Modals */}
-        <GlobalNotifications />
-    </>
+      {/* Global Notifications - Toasts & Modals */}
+      <GlobalNotifications />
+    </div>
   )
 }
 

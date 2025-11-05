@@ -3,8 +3,20 @@
 /* All layout patterns and utilities for the application */
 /* ============================================ */
 
+/* Root layout wrapper - sticky footer solution */
+.web-layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.web-layout-wrapper main {
+  flex: 1 0 auto;
+}
+
 /* Footer container */
 .web-layout-footer-container {
+  flex-shrink: 0;
   margin-top: var(--cr-space-12);
 }
 
@@ -447,4 +459,3 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
