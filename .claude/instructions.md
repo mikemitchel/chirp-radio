@@ -60,6 +60,7 @@ See `.claude/instructions.md` in previous versions for detailed prelaunch checkl
 - Navigation control via CMS
 - Collection grouping (folders/tags)
 - DJ notification emails
+- Get alt tag generator working
 
 ---
 
