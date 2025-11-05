@@ -9,7 +9,7 @@ import CrModal from '../stories/CrModal'
 import CrAppIconSelector from '../stories/CrAppIconSelector'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
-import { isDJ, isVolunteer, isBoardMember, isRegularDJ, isSubstituteDJ } from '../types/user'
+import { isDJ, isVolunteer } from '../types/user'
 import { Capacitor } from '@capacitor/core'
 import AppIconPlugin from '../plugins/AppIconPlugin'
 import LoginRequiredModal from '../components/LoginRequiredModal'
@@ -143,7 +143,10 @@ export default function AccountSettings() {
         try {
           const latestUser = await fetchMemberById(user.id)
           if (latestUser && latestUser.preferences?.darkMode) {
-            console.log('[AccountSettings] Loaded darkMode from CMS:', latestUser.preferences.darkMode)
+            console.log(
+              '[AccountSettings] Loaded darkMode from CMS:',
+              latestUser.preferences.darkMode
+            )
             setDarkMode(latestUser.preferences.darkMode)
             const storage = getStorage()
             storage.setItem('chirp-dark-mode', latestUser.preferences.darkMode)
@@ -259,7 +262,10 @@ export default function AccountSettings() {
       // Use native iOS API to change icon
       if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios') {
         try {
-          console.log('[handleApplyIcon] Calling AppIcon.change with:', { name: iconName, suppressNotification: false })
+          console.log('[handleApplyIcon] Calling AppIcon.change with:', {
+            name: iconName,
+            suppressNotification: false,
+          })
 
           if (iconName === null) {
             // Reset to default icon
@@ -873,90 +879,90 @@ export default function AccountSettings() {
         <div className="page-layout-main-sidebar">
           <div className="page-layout-main-sidebar__main">
             <CrProfileCard
-            state={profileState}
-            eyebrowText="YOUR ACCOUNT"
-            title="Your Profile"
-            showEditButton={isLoggedIn}
-            onEditClick={handleEditProfile}
-            firstName={formData.firstName || user?.firstName || 'John'}
-            lastName={formData.lastName || user?.lastName || 'Dough'}
-            location={formData.location || user?.location || 'Chicago, Illinois'}
-            email={formData.email || user?.email || 'account@gmail.com'}
-            memberSince={formatMemberSince(user?.memberSince)}
-            avatarSrc={formData.avatarSrc || user?.profileImage}
-            socialLinks={formData.socialLinks || socialLinksArray}
-            permissions={user?.roles || []}
-            showPermissions={isVolunteer(user)}
-            isVolunteer={isVolunteer(user) || isDJ(user)}
-            isDJ={isDJ(user)}
-            djName={user?.djName}
-            showName={user?.showName}
-            showTime={formatShowTime(user?.showTime)}
-            onStateChange={handleProfileStateChange}
-            onSave={handleSaveProfile}
-            onCancel={handleCancelEdit}
-            onChange={handleProfileChange}
-            formData={formData}
-            streamingQuality={streamingQuality}
-            onStreamingQualityChange={handleStreamingQualityChange}
-            pushNotifications={false}
-            onPushNotificationsChange={handlePushNotificationsChange}
-            darkMode={darkMode}
-            onDarkModeChange={handleDarkModeChange}
-            onLogin={handleLoginClick}
-            onSignOut={handleSignOut}
-            onSignUp={handleSignUpClick}
-            onForgotPassword={handleForgotPassword}
-            onShareApp={handleShareApp}
-            onLikeAppStore={handleLikeAppStore}
-            onAppSupport={handleAppSupport}
-            onTermsPrivacy={handleTermsPrivacy}
-            onViewDJProfile={handleViewDJProfile}
-          />
-
-          {/* App Icon Selector - Only shown in /app routes on iOS 10.3+ and when logged in */}
-          {showIconSelector && isLoggedIn && (
-            <CrAppIconSelector
-              currentIcon={currentAppIcon}
-              onIconChange={handleIconChange}
-              onApply={handleApplyIcon}
-            />
-          )}
-        </div>
-
-        {isLoggedIn && (
-          <div className="page-layout-main-sidebar__sidebar account-settings-page__sidebar">
-            <CrTable
-              tableTitle="Donation History"
-              columns={donationColumns}
-              data={user?.donationHistory || []}
-              sortable={true}
-              variant="compact"
-              tableTitleLevel={2}
-              tableTitleSize="lg"
-              showActionButton={true}
-              actionButtonText="Make a Donation"
-              actionButtonIcon={<PiHandHeart />}
-              actionButtonSize="small"
-              onActionClick={handleMakeDonation}
+              state={profileState}
+              eyebrowText="YOUR ACCOUNT"
+              title="Your Profile"
+              showEditButton={isLoggedIn}
+              onEditClick={handleEditProfile}
+              firstName={formData.firstName || user?.firstName || 'John'}
+              lastName={formData.lastName || user?.lastName || 'Dough'}
+              location={formData.location || user?.location || 'Chicago, Illinois'}
+              email={formData.email || user?.email || 'account@gmail.com'}
+              memberSince={formatMemberSince(user?.memberSince)}
+              avatarSrc={formData.avatarSrc || user?.profileImage}
+              socialLinks={formData.socialLinks || socialLinksArray}
+              permissions={user?.roles || []}
+              showPermissions={isVolunteer(user)}
+              isVolunteer={isVolunteer(user) || isDJ(user)}
+              isDJ={isDJ(user)}
+              djName={user?.djName}
+              showName={user?.showName}
+              showTime={formatShowTime(user?.showTime)}
+              onStateChange={handleProfileStateChange}
+              onSave={handleSaveProfile}
+              onCancel={handleCancelEdit}
+              onChange={handleProfileChange}
+              formData={formData}
+              streamingQuality={streamingQuality}
+              onStreamingQualityChange={handleStreamingQualityChange}
+              pushNotifications={false}
+              onPushNotificationsChange={handlePushNotificationsChange}
+              darkMode={darkMode}
+              onDarkModeChange={handleDarkModeChange}
+              onLogin={handleLoginClick}
+              onSignOut={handleSignOut}
+              onSignUp={handleSignUpClick}
+              onForgotPassword={handleForgotPassword}
+              onShareApp={handleShareApp}
+              onLikeAppStore={handleLikeAppStore}
+              onAppSupport={handleAppSupport}
+              onTermsPrivacy={handleTermsPrivacy}
+              onViewDJProfile={handleViewDJProfile}
             />
 
-            <CrTable
-              tableTitle="Purchase History"
-              columns={purchaseColumns}
-              data={user?.purchaseHistory || []}
-              sortable={true}
-              variant="compact"
-              tableTitleLevel={2}
-              tableTitleSize="lg"
-              showActionButton={true}
-              actionButtonText="Visit Store"
-              actionButtonIcon={<PiStorefront />}
-              actionButtonSize="small"
-              onActionClick={handleVisitStore}
-            />
+            {/* App Icon Selector - Only shown in /app routes on iOS 10.3+ and when logged in */}
+            {showIconSelector && isLoggedIn && (
+              <CrAppIconSelector
+                currentIcon={currentAppIcon}
+                onIconChange={handleIconChange}
+                onApply={handleApplyIcon}
+              />
+            )}
           </div>
-        )}
+
+          {isLoggedIn && (
+            <div className="page-layout-main-sidebar__sidebar account-settings-page__sidebar">
+              <CrTable
+                tableTitle="Donation History"
+                columns={donationColumns}
+                data={user?.donationHistory || []}
+                sortable={true}
+                variant="compact"
+                tableTitleLevel={2}
+                tableTitleSize="lg"
+                showActionButton={true}
+                actionButtonText="Make a Donation"
+                actionButtonIcon={<PiHandHeart />}
+                actionButtonSize="small"
+                onActionClick={handleMakeDonation}
+              />
+
+              <CrTable
+                tableTitle="Purchase History"
+                columns={purchaseColumns}
+                data={user?.purchaseHistory || []}
+                sortable={true}
+                variant="compact"
+                tableTitleLevel={2}
+                tableTitleSize="lg"
+                showActionButton={true}
+                actionButtonText="Visit Store"
+                actionButtonIcon={<PiStorefront />}
+                actionButtonSize="small"
+                onActionClick={handleVisitStore}
+              />
+            </div>
+          )}
         </div>
       ) : (
         <CrProfileCard

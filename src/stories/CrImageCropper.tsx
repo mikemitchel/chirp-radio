@@ -237,7 +237,7 @@ export default function CrImageCropper({
       )
       ctx.restore()
     }
-  }, [currentImage, outputSize, cropperState.position.x, cropperState.position.y])
+  }, [currentImage, outputSize, calculateCropArea])
 
   const updateImageDisplay = useCallback(() => {
     if (!currentImage || !imageElementRef.current) {

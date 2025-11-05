@@ -121,10 +121,10 @@ export default function CrProfileCard({
   onSignOut,
   onSignUp,
   onForgotPassword,
-  onShareApp,
-  onLikeAppStore,
-  onAppSupport,
-  onTermsPrivacy,
+  onShareApp: _onShareApp,
+  onLikeAppStore: _onLikeAppStore,
+  onAppSupport: _onAppSupport,
+  onTermsPrivacy: _onTermsPrivacy,
   onViewDJProfile,
 
   // Layout
@@ -294,7 +294,6 @@ export default function CrProfileCard({
               </div>
             </div>
           </div>
-
         </section>
 
         {showPermissions && (
