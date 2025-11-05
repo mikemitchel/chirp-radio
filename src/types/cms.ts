@@ -294,7 +294,7 @@ export interface Page {
   slug: string
   title: string
   excerpt?: string
-  layoutTemplate?: 'default' | 'sidebar-right' | 'sidebar-left'
+  layoutTemplate?: 'default' | 'sidebar-right'
   layout?: PageBlock[]
   sidebarAnnouncement?: number | Announcement | string
   sidebarContentType?: string
