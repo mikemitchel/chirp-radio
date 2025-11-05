@@ -17,6 +17,7 @@ import type {
   MobilePageContent,
   MobileAppSettings,
   PlayerFallbackImage,
+  Redirect,
 } from '../types/cms'
 import type { VolunteerFormSettings } from '../types/volunteerForm'
 import { fetchFromCMS } from '../utils/api'
@@ -139,6 +140,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     volunteerFormSettings: null,
     playerFallbackImages: [],
     showSchedules: [],
+    redirects: [],
   })
 
   // Loading state
@@ -159,6 +161,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     volunteerFormSettings: USE_CMS_API,
     playerFallbackImages: USE_CMS_API,
     showSchedules: USE_CMS_API,
+    redirects: USE_CMS_API,
   })
 
   // Error state
@@ -179,6 +182,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     volunteerFormSettings: null,
     playerFallbackImages: null,
     showSchedules: null,
+    redirects: null,
   })
 
   // Fetch announcements
@@ -1116,6 +1120,56 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
   }, [])
 
+  // Fetch redirects
+  const fetchRedirects = useCallback(async () => {
+    if (!USE_CMS_API) return
+
+    const cacheKey = 'redirects'
+
+    // Step 1: Check cache and load immediately if available
+    const cached = getCached<Redirect[]>(cacheKey)
+    if (cached) {
+      console.log('[CMSContext] Loading redirects from cache')
+      setData((prev) => ({ ...prev, redirects: cached }))
+      setLoading((prev) => ({ ...prev, redirects: false }))
+    } else {
+      setLoading((prev) => ({ ...prev, redirects: true }))
+    }
+
+    // Step 2: Check if we need to fetch fresh data
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
+      console.log('[CMSContext] Redirects cache is fresh, skipping API call')
+      return
+    }
+
+    // Step 3: Fetch from API
+    setError((prev) => ({ ...prev, redirects: null }))
+
+    try {
+      const docs = await fetchFromCMS<Redirect>('redirects')
+
+      const mappedDocs = docs.map((redirect) => ({
+        ...redirect,
+        id: redirect.id?.toString(),
+      })) as Redirect[]
+
+      // Update state and cache
+      setData((prev) => ({ ...prev, redirects: mappedDocs }))
+      setCached(cacheKey, mappedDocs)
+    } catch (err) {
+      console.error('[CMSContext] Failed to fetch redirects:', err)
+
+      // If we have cached data, keep using it
+      if (cached) {
+        console.log('[CMSContext] Using cached redirects due to API error')
+      } else {
+        setError((prev) => ({ ...prev, redirects: err as Error }))
+      }
+    } finally {
+      setLoading((prev) => ({ ...prev, redirects: false }))
+    }
+  }, [])
+
   // Map collection names to their fetch functions
   const collectionFetchers: Record<keyof CMSData, () => Promise<void>> = {
     announcements: fetchAnnouncements,
@@ -1134,6 +1188,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
     volunteerFormSettings: fetchVolunteerFormSettings,
     playerFallbackImages: fetchPlayerFallbackImages,
     showSchedules: fetchShowSchedules,
+    redirects: fetchRedirects,
   }
 
   // Refresh data - optionally refresh a specific collection
@@ -1165,6 +1220,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
           fetchVolunteerFormSettings(),
           fetchPlayerFallbackImages(),
           fetchShowSchedules(),
+          fetchRedirects(),
         ])
       }
     },
@@ -1184,6 +1240,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
       fetchVolunteerFormSettings,
       fetchPlayerFallbackImages,
       fetchShowSchedules,
+      fetchRedirects,
     ]
   )
 

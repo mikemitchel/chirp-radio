@@ -294,9 +294,11 @@ export interface Page {
   slug: string
   title: string
   excerpt?: string
+  layoutTemplate?: 'default' | 'sidebar-right'
   layout?: PageBlock[]
   sidebarAnnouncement?: number | Announcement | string
   sidebarContentType?: string
+  sidebarContentCount?: number
   sidebarAdvertisement?: unknown
   createdAt?: string
   updatedAt?: string
@@ -306,6 +308,23 @@ export interface PageBlock {
   blockType: string
   content?: string
   [key: string]: unknown
+}
+
+// Redirect (from PayloadCMS plugin-redirects)
+export interface Redirect {
+  id: string
+  from: string
+  to: {
+    type?: 'reference' | 'custom'
+    reference?: {
+      relationTo?: string
+      value?: string | number | Page | Article | Event | Podcast
+    }
+    url?: string
+  }
+  type?: '301' | '302'
+  createdAt?: string
+  updatedAt?: string
 }
 
 // Item in a weekly chart/list
@@ -576,6 +595,7 @@ export interface CMSData {
   volunteerFormSettings: VolunteerFormSettings | null
   playerFallbackImages: PlayerFallbackImage[]
   showSchedules: ShowSchedule[]
+  redirects: Redirect[]
 }
 
 // Loading state for each data type
@@ -596,6 +616,7 @@ export interface CMSLoadingState {
   volunteerFormSettings: boolean
   playerFallbackImages: boolean
   showSchedules: boolean
+  redirects: boolean
 }
 
 // Error state for each data type
@@ -616,4 +637,5 @@ export interface CMSErrorState {
   volunteerFormSettings: Error | null
   playerFallbackImages: Error | null
   showSchedules: Error | null
+  redirects: Error | null
 }
