@@ -287,6 +287,7 @@ const EventDetailPage: React.FC = () => {
               variant="small"
               bannerHeight="tall"
               textLayout="stacked"
+              bannerBackgroundColor="none"
               titleTag="h3"
               titleSize="sm"
               backgroundImage={getEventImageUrl(recentEvent)}

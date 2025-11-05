@@ -183,6 +183,7 @@ const ArticleDetailPage: React.FC = () => {
               type="article"
               bannerHeight="tall"
               textLayout="stacked"
+              bannerBackgroundColor="none"
               titleTag="h3"
               titleSize="sm"
               backgroundImage={
