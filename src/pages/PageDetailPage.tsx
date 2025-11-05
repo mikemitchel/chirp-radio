@@ -77,13 +77,14 @@ const PageDetailPage: React.FC = () => {
     // Add content cards based on sidebarContentType
     if (pageConfig.sidebarContentType && pageConfig.sidebarContentType !== 'none') {
       let items: (Article | Event | Podcast)[] = []
+      const count = pageConfig.sidebarContentCount || 3
 
       if (pageConfig.sidebarContentType === 'articles' && articles) {
-        items = articles.slice(0, 3)
+        items = articles.slice(0, count)
       } else if (pageConfig.sidebarContentType === 'events' && events) {
-        items = events.slice(0, 3)
+        items = events.slice(0, count)
       } else if (pageConfig.sidebarContentType === 'podcasts' && podcasts) {
-        items = podcasts.slice(0, 3)
+        items = podcasts.slice(0, count)
       }
 
       items.forEach((item) => {
