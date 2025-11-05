@@ -57,10 +57,10 @@ const LandingPage: React.FC = () => {
     members?.length
   )
 
-  // Find currently scheduled DJ based on day/time
-  const scheduledDJ = useMemo(() => {
+  // Find currently scheduled show based on day/time
+  const currentSchedule = useMemo(() => {
     if (!showSchedules || showSchedules.length === 0) {
-      console.log('[scheduledDJ] No show schedules')
+      console.log('[currentSchedule] No show schedules')
       return null
     }
 
@@ -70,7 +70,7 @@ const LandingPage: React.FC = () => {
     const currentTime = now.getHours() * 60 + now.getMinutes()
 
     // Find schedule for current day and time
-    const currentSchedule = showSchedules.find((schedule) => {
+    const schedule = showSchedules.find((schedule) => {
       if (schedule.dayOfWeek.toLowerCase() !== currentDay) return false
 
       // Parse start and end times (format: "6:00 AM" or "6:00 PM")
@@ -99,11 +99,14 @@ const LandingPage: React.FC = () => {
       return currentTime >= scheduleStart && currentTime < scheduleEnd
     })
 
-    if (!currentSchedule) return null
-
-    // Return the DJ object if it's populated, otherwise null
-    return typeof currentSchedule.dj === 'object' ? (currentSchedule.dj as Member) : null
+    return schedule || null
   }, [showSchedules])
+
+  // Extract scheduled DJ from current schedule
+  const scheduledDJ = useMemo(() => {
+    if (!currentSchedule) return null
+    return typeof currentSchedule.dj === 'object' ? (currentSchedule.dj as Member) : null
+  }, [currentSchedule])
 
   // Find current DJ member data by matching DJ name from now playing API
   const currentDJMember = useMemo(() => {
@@ -423,11 +426,15 @@ const LandingPage: React.FC = () => {
       <section className="page-section">
         <CrRecentlyPlayed
           tracks={playlistTracks}
-          djName={currentShow?.djName}
-          showName={currentShow?.showName}
-          startTime={currentShow?.startTime}
-          endTime={currentShow?.endTime}
-          djProfileUrl={currentShow?.djProfileUrl}
+          djName={nowPlayingData?.dj || scheduledDJ?.djName || currentShow?.djName}
+          showName={scheduledDJ?.showName || currentShow?.showName}
+          startTime={currentSchedule?.startTime || currentShow?.startTime}
+          endTime={currentSchedule?.endTime || currentShow?.endTime}
+          djProfileUrl={
+            currentDJMember?.id
+              ? `/djs/${currentDJMember.djName?.toLowerCase().replace(/\s+/g, '-')}`
+              : currentShow?.djProfileUrl
+          }
           onViewPlaylist={() => navigate('/playlist')}
         />
       </section>
