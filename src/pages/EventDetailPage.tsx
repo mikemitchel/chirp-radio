@@ -285,8 +285,9 @@ const EventDetailPage: React.FC = () => {
             <CrCard
               key={recentEvent.id}
               variant="small"
-              bannerHeight="tall"
-              textLayout="stacked"
+              bannerHeight="narrow"
+              textLayout="inline"
+              bannerBackgroundColor="none"
               titleTag="h3"
               titleSize="sm"
               backgroundImage={getEventImageUrl(recentEvent)}

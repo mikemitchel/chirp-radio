@@ -265,12 +265,12 @@ const DJSchedulePage: React.FC = () => {
               return contentItems.map((item, index) => (
                 <CrCard
                   key={item.id || index}
-                  variant="article"
-                  cardSize="small"
-                  imagePosition="top"
+                  variant="small"
+                  bannerHeight="narrow"
+                  textLayout="inline"
+                  bannerBackgroundColor="none"
                   title={item.title}
-                  excerpt={item.excerpt}
-                  content={item.excerpt}
+                  contentSummary={item.excerpt}
                   backgroundImage={typeof item.image === 'string' ? item.image : item.image?.url}
                   onClick={() => {
                     if (contentType === 'articles') navigate(`/articles/${item.slug || item.id}`)

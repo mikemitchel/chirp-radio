@@ -312,8 +312,9 @@ const PodcastDetailPage: React.FC = () => {
               key={recentPodcast.id}
               variant="small"
               type="article"
-              bannerHeight="tall"
-              textLayout="stacked"
+              bannerHeight="narrow"
+              textLayout="inline"
+              bannerBackgroundColor="none"
               titleTag="h3"
               titleSize="sm"
               backgroundImage={recentPodcast.coverArt}
