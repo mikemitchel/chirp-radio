@@ -50,6 +50,49 @@ const LandingPage: React.FC = () => {
   const { currentData: nowPlayingData } = useNowPlaying()
   const { tracks: playlistTracks } = useCurrentPlaylist()
 
+  // Smart DJ check trigger - only updates at strategic times when DJ might change
+  const [djCheckTrigger, setDjCheckTrigger] = useState(Date.now())
+
+  useEffect(() => {
+    const calculateNextDjCheck = (): number => {
+      const now = new Date()
+      const minutes = now.getMinutes()
+      const seconds = now.getSeconds()
+
+      // If we're in the first 5 minutes of the hour, check every minute
+      if (minutes < 5) {
+        // Wait until the next minute
+        return (60 - seconds) * 1000
+      }
+
+      // If we're before :30, wait until :30
+      if (minutes < 30) {
+        const minutesUntil30 = 30 - minutes
+        return (minutesUntil30 * 60 - seconds) * 1000
+      }
+
+      // If we're after :30, wait until the next hour
+      const minutesUntilNextHour = 60 - minutes
+      return (minutesUntilNextHour * 60 - seconds) * 1000
+    }
+
+    const scheduleNextCheck = () => {
+      const delay = calculateNextDjCheck()
+      console.log(`[DJ Check] Next DJ check in ${Math.round(delay / 1000)}s`)
+
+      const timeoutId = setTimeout(() => {
+        console.log('[DJ Check] Triggering DJ recalculation')
+        setDjCheckTrigger(Date.now())
+        scheduleNextCheck() // Schedule the next check
+      }, delay)
+
+      return timeoutId
+    }
+
+    const timeoutId = scheduleNextCheck()
+    return () => clearTimeout(timeoutId)
+  }, [])
+
   console.log(
     '[LandingPage] Members loading state:',
     membersLoading,
@@ -116,6 +159,7 @@ const LandingPage: React.FC = () => {
   }, [currentSchedule])
 
   // Find current DJ member data by matching DJ name from now playing API
+  // Only recalculates at strategic times (on the hour, first 5 mins, and :30)
   const currentDJMember = useMemo(() => {
     console.log('[DJ Matching] nowPlayingData?.dj:', nowPlayingData?.dj)
     console.log('[DJ Matching] members count:', members?.length)
@@ -210,7 +254,8 @@ const LandingPage: React.FC = () => {
 
     // Fall back to scheduled DJ if no match found
     return partialMatch || scheduledDJ
-  }, [nowPlayingData?.dj, members, scheduledDJ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [djCheckTrigger, nowPlayingData?.dj, members, scheduledDJ])
 
   // Get 10 random Regular DJs (without repeating)
   const randomDJs = useMemo(() => {
