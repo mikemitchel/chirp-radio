@@ -16,7 +16,15 @@ import './CrStreamingMusicPlayer.css'
 const log = createLogger('CrStreamingMusicPlayer')
 
 // PlayPause button component that exactly matches the Figma design
-const PlayPauseButton = ({ isPlaying, onClick, size = 60 }: { isPlaying: any; onClick: any; size?: number }) => {
+const PlayPauseButton = ({
+  isPlaying,
+  onClick,
+  size = 60,
+}: {
+  isPlaying: any
+  onClick: any
+  size?: number
+}) => {
   const PlaySVG = () => (
     <svg
       width={size}
@@ -80,7 +88,7 @@ const AlbumArt = ({
   album,
   className,
   style,
-  isLarge = false
+  _isLarge = false,
 }: {
   src: any
   artist?: string
@@ -88,7 +96,7 @@ const AlbumArt = ({
   album?: string
   className: any
   style?: any
-  isLarge?: boolean
+  _isLarge?: boolean
 }) => {
   const { data: fallbackImages, loading: fallbackLoading } = usePlayerFallbackImages()
 
@@ -103,13 +111,19 @@ const AlbumArt = ({
           backSrc: parsed.backSrc || '',
           frontIsVisible: parsed.frontIsVisible ?? true,
           hasLoadedFirstImage: parsed.hasLoadedFirstImage ?? false,
-          trackId: parsed.trackId || ''
+          trackId: parsed.trackId || '',
         }
       }
-    } catch (e) {
+    } catch (_e) {
       // Ignore
     }
-    return { frontSrc: '', backSrc: '', frontIsVisible: true, hasLoadedFirstImage: false, trackId: '' }
+    return {
+      frontSrc: '',
+      backSrc: '',
+      frontIsVisible: true,
+      hasLoadedFirstImage: false,
+      trackId: '',
+    }
   }
 
   const cached = getCachedState()
@@ -129,7 +143,7 @@ const AlbumArt = ({
   useEffect(() => {
     const unsubscribe = on('chirp-force-refresh', () => {
       log.log('Force refresh triggered for album art')
-      setForceRefreshCounter(prev => prev + 1)
+      setForceRefreshCounter((prev) => prev + 1)
     })
     return unsubscribe
   }, [])
@@ -144,7 +158,10 @@ const AlbumArt = ({
     const trackId = `${artist || 'unknown'}|${track || 'unknown'}`
 
     // If same track and not force refreshing, don't reload
-    if (trackId === currentTrackId.current && forceRefreshCounter === lastForceRefreshCounter.current) {
+    if (
+      trackId === currentTrackId.current &&
+      forceRefreshCounter === lastForceRefreshCounter.current
+    ) {
       return
     }
 
@@ -161,7 +178,7 @@ const AlbumArt = ({
       } else {
         sessionStorage.setItem('chirp-album-art-cache', JSON.stringify({ trackId }))
       }
-    } catch (e) {
+    } catch (_e) {
       // Ignore
     }
 
@@ -174,30 +191,40 @@ const AlbumArt = ({
 
     const resolveArt = async () => {
       try {
-        // Get fallback image URLs from CMS
-        const fallbackUrls = fallbackImages
-          .filter((img) => img.url)
-          .map((img) => img.sizes?.player?.url || img.url || '')
-          .filter((url) => url)
+        let result: { url: string; source: string; fallbackIndex?: number }
 
-        if (fallbackUrls.length === 0) {
-          log.log('No fallback images available from CMS, will try API sources only')
+        // If we have a valid URL from context (NowPlayingContext already provides correct Last.fm URL),
+        // use it directly without running through the resolution chain
+        if (src && typeof src === 'string' && src.trim() !== '') {
+          log.log('Using album art URL directly from context:', src)
+          result = { url: src, source: 'context' }
+        } else {
+          // Only run resolution if no URL provided
+          // Get fallback image URLs from CMS
+          const fallbackUrls = fallbackImages
+            .filter((img) => img.url)
+            .map((img) => img.sizes?.player?.url || img.url || '')
+            .filter((url) => url)
+
+          if (fallbackUrls.length === 0) {
+            log.log('No fallback images available from CMS, will try API sources only')
+          }
+
+          // Detect if mobile platform
+          const isMobile = Capacitor.isNativePlatform()
+
+          // Resolve album art through fallback chain
+          result = await resolveAlbumArt(
+            src,
+            artist || '',
+            album || '',
+            fallbackUrls,
+            lastFallbackIndex.current,
+            isMobile
+          )
+
+          log.log('Album art resolved:', result.source)
         }
-
-        // Detect if mobile platform
-        const isMobile = Capacitor.isNativePlatform()
-
-        // Resolve album art through fallback chain
-        const result = await resolveAlbumArt(
-          src,
-          artist || '',
-          album || '',
-          fallbackUrls,
-          lastFallbackIndex.current,
-          isMobile
-        )
-
-        log.log('Album art resolved:', result.source)
 
         // Update lastFallbackIndex if we used a fallback
         if (result.source === 'fallback' && result.fallbackIndex !== undefined) {
@@ -220,7 +247,7 @@ const AlbumArt = ({
                 parsed.hasLoadedFirstImage = true
                 sessionStorage.setItem('chirp-album-art-cache', JSON.stringify(parsed))
               }
-            } catch (e) {
+            } catch (_e) {
               // Ignore
             }
             // Wait for image to load, then crossfade
@@ -256,7 +283,7 @@ const AlbumArt = ({
                 parsed.hasLoadedFirstImage = true
                 sessionStorage.setItem('chirp-album-art-cache', JSON.stringify(parsed))
               }
-            } catch (e) {
+            } catch (_e) {
               // Ignore
             }
             const img = new Image()
@@ -372,10 +399,10 @@ const BackgroundImage = ({
           frontSrc: parsed.frontSrc || '',
           backSrc: parsed.backSrc || '',
           frontIsVisible: parsed.frontIsVisible ?? true,
-          trackId: parsed.trackId || ''
+          trackId: parsed.trackId || '',
         }
       }
-    } catch (e) {
+    } catch (_e) {
       // Ignore
     }
     return { frontSrc: '', backSrc: '', frontIsVisible: true, trackId: '' }
@@ -396,7 +423,7 @@ const BackgroundImage = ({
   useEffect(() => {
     const unsubscribe = on('chirp-force-refresh', () => {
       log.log('🎨 [BackgroundImage] Force refresh triggered')
-      setForceRefreshCounter(prev => prev + 1)
+      setForceRefreshCounter((prev) => prev + 1)
     })
     return unsubscribe
   }, [])
@@ -411,7 +438,10 @@ const BackgroundImage = ({
     const trackId = `${artist || 'unknown'}|${track || 'unknown'}`
 
     // If same track and not force refreshing, don't reload
-    if (trackId === currentTrackId.current && forceRefreshCounter === lastForceRefreshCounter.current) {
+    if (
+      trackId === currentTrackId.current &&
+      forceRefreshCounter === lastForceRefreshCounter.current
+    ) {
       return
     }
 
@@ -430,7 +460,7 @@ const BackgroundImage = ({
       } else {
         sessionStorage.setItem('chirp-bg-cache', JSON.stringify({ trackId }))
       }
-    } catch (e) {
+    } catch (_e) {
       // Ignore
     }
 
@@ -451,7 +481,14 @@ const BackgroundImage = ({
     const isMobile = Capacitor.isNativePlatform()
 
     // Resolve album art with full fallback chain
-    resolveAlbumArt(src, artist || '', album || '', fallbackUrls, lastFallbackIndex.current, isMobile)
+    resolveAlbumArt(
+      src,
+      artist || '',
+      album || '',
+      fallbackUrls,
+      lastFallbackIndex.current,
+      isMobile
+    )
       .then((result) => {
         log.log('🎨 [BackgroundImage] Resolved:', result)
 
@@ -484,7 +521,7 @@ const BackgroundImage = ({
               parsed.frontIsVisible = false
               sessionStorage.setItem('chirp-bg-cache', JSON.stringify(parsed))
             }
-          } catch (e) {
+          } catch (_e) {
             // Ignore
           }
 
@@ -515,7 +552,7 @@ const BackgroundImage = ({
               parsed.frontIsVisible = true
               sessionStorage.setItem('chirp-bg-cache', JSON.stringify(parsed))
             }
-          } catch (e) {
+          } catch (_e) {
             // Ignore
           }
 
