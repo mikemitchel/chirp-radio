@@ -298,6 +298,7 @@ export interface Page {
   layout?: PageBlock[]
   sidebarAnnouncement?: number | Announcement | string
   sidebarContentType?: string
+  sidebarContentCount?: number
   sidebarAdvertisement?: unknown
   createdAt?: string
   updatedAt?: string
