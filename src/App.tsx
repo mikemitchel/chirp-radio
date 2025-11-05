@@ -8,6 +8,7 @@ import { CartProvider } from './contexts/CartContext'
 import { AudioPlayerProvider } from './contexts/AudioPlayerContext'
 import { on } from './utils/eventBus'
 import ScrollToTop from './components/ScrollToTop'
+import RedirectChecker from './components/RedirectChecker'
 import ProtectedRoute from './components/ProtectedRoute'
 import OnboardingTour from './components/OnboardingTour'
 import './utils/devTools' // Load development tools
@@ -133,9 +134,10 @@ function App() {
   // Apply dark mode preference on app initialization and when it changes
   useEffect(() => {
     const applyTheme = async (mode: string) => {
-      const isDark = mode === 'device'
-        ? window.matchMedia('(prefers-color-scheme: dark)').matches
-        : mode === 'dark'
+      const isDark =
+        mode === 'device'
+          ? window.matchMedia('(prefers-color-scheme: dark)').matches
+          : mode === 'dark'
 
       console.log('[App.tsx] applyTheme called - mode:', mode, 'isDark:', isDark)
 
@@ -244,109 +246,113 @@ function App() {
                 >
                   <Router>
                     <ScrollToTop />
+                    <RedirectChecker />
                     <Routes>
-            {/* Android Automotive route (standalone, no layout) */}
-            <Route path="/android-auto" element={<AndroidAutoPage />} />
+                      {/* Android Automotive route (standalone, no layout) */}
+                      <Route path="/android-auto" element={<AndroidAutoPage />} />
 
-            {/* Mobile app routes (Capacitor only) */}
-            <Route path="/app" element={<MobileApp />}>
-              <Route index element={<NowPlaying />} />
-              <Route path="now-playing" element={<NowPlaying />} />
-              <Route path="recently-played" element={<RecentlyPlayed />} />
-              <Route path="my-collection" element={<YourCollection />} />
-              <Route path="request" element={<MakeRequest />} />
-              <Route path="settings" element={<AccountSettings />} />
-            </Route>
+                      {/* Mobile app routes (Capacitor only) */}
+                      <Route path="/app" element={<MobileApp />}>
+                        <Route index element={<NowPlaying />} />
+                        <Route path="now-playing" element={<NowPlaying />} />
+                        <Route path="recently-played" element={<RecentlyPlayed />} />
+                        <Route path="my-collection" element={<YourCollection />} />
+                        <Route path="request" element={<MakeRequest />} />
+                        <Route path="settings" element={<AccountSettings />} />
+                      </Route>
 
-            {/* Preview pages (standalone, no layout) */}
-            <Route path="/preview/advertisement/:id" element={<AdvertisementPreviewPage />} />
+                      {/* Preview pages (standalone, no layout) */}
+                      <Route
+                        path="/preview/advertisement/:id"
+                        element={<AdvertisementPreviewPage />}
+                      />
 
-            {/* Web layout routes */}
-            <Route element={<WebLayout />}>
-              {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
-              <Route index element={<RootRedirect />} />
-              <Route path="playlist" element={<PlaylistPage />} />
-              <Route path="listen" element={<ListenPage />} />
-              <Route path="other-ways-to-listen" element={<OtherWaysToListenPage />} />
-              <Route path="events" element={<EventsPage />} />
-              <Route path="events/:slug" element={<EventDetailPage />} />
-              <Route path="articles" element={<ArticlesPage />} />
-              <Route path="articles/:slug" element={<ArticleDetailPage />} />
-              <Route path="podcasts" element={<PodcastPage />} />
-              <Route path="podcasts/:slug" element={<PodcastDetailPage />} />
-              <Route path="djs" element={<DJPage />} />
-              <Route path="djs/:id" element={<DJDetailPage />} />
-              <Route path="schedule" element={<DJSchedulePage />} />
-              <Route path="shop" element={<ShopPage />} />
-              <Route path="shop/:id" element={<ShopDetailPage />} />
-              <Route path="shop/checkout" element={<ShopCheckoutPage />} />
-              <Route path="donate" element={<DonatePage />} />
-              <Route path="vinyl-circle" element={<VinylCirclePage />} />
-              <Route path="other-ways-to-give" element={<OtherWaysToGivePage />} />
-              <Route path="car-donation" element={<CarDonationPage />} />
-              <Route path="about" element={<AboutPage />} />
-              <Route path="contact" element={<ContactPage />} />
-              <Route path="volunteer" element={<BecomeVolunteerPage />} />
-              <Route
-                path="volunteer-directory"
-                element={
-                  <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
-                    <VolunteerDirectoryPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="volunteer-calendar"
-                element={
-                  <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
-                    <VolunteerCalendarPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="leadership-directory"
-                element={
-                  <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
-                    <LeadershipDirectoryPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="websites-to-remember"
-                element={
-                  <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
-                    <WebsitesToRememberPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="volunteer-downloads"
-                element={
-                  <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
-                    <VolunteerDownloadsPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="profile" element={<AccountSettings />} />
-              <Route path="collection" element={<YourCollection />} />
-              <Route path="request-song" element={<RequestSongPage />} />
-              <Route path="thank-you" element={<ThankYouPage />} />
+                      {/* Web layout routes */}
+                      <Route element={<WebLayout />}>
+                        {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
+                        <Route index element={<RootRedirect />} />
+                        <Route path="playlist" element={<PlaylistPage />} />
+                        <Route path="listen" element={<ListenPage />} />
+                        <Route path="other-ways-to-listen" element={<OtherWaysToListenPage />} />
+                        <Route path="events" element={<EventsPage />} />
+                        <Route path="events/:slug" element={<EventDetailPage />} />
+                        <Route path="articles" element={<ArticlesPage />} />
+                        <Route path="articles/:slug" element={<ArticleDetailPage />} />
+                        <Route path="podcasts" element={<PodcastPage />} />
+                        <Route path="podcasts/:slug" element={<PodcastDetailPage />} />
+                        <Route path="djs" element={<DJPage />} />
+                        <Route path="djs/:id" element={<DJDetailPage />} />
+                        <Route path="schedule" element={<DJSchedulePage />} />
+                        <Route path="shop" element={<ShopPage />} />
+                        <Route path="shop/:id" element={<ShopDetailPage />} />
+                        <Route path="shop/checkout" element={<ShopCheckoutPage />} />
+                        <Route path="donate" element={<DonatePage />} />
+                        <Route path="vinyl-circle" element={<VinylCirclePage />} />
+                        <Route path="other-ways-to-give" element={<OtherWaysToGivePage />} />
+                        <Route path="car-donation" element={<CarDonationPage />} />
+                        <Route path="about" element={<AboutPage />} />
+                        <Route path="contact" element={<ContactPage />} />
+                        <Route path="volunteer" element={<BecomeVolunteerPage />} />
+                        <Route
+                          path="volunteer-directory"
+                          element={
+                            <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
+                              <VolunteerDirectoryPage />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="volunteer-calendar"
+                          element={
+                            <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
+                              <VolunteerCalendarPage />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="leadership-directory"
+                          element={
+                            <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
+                              <LeadershipDirectoryPage />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="websites-to-remember"
+                          element={
+                            <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
+                              <WebsitesToRememberPage />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route
+                          path="volunteer-downloads"
+                          element={
+                            <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
+                              <VolunteerDownloadsPage />
+                            </ProtectedRoute>
+                          }
+                        />
+                        <Route path="profile" element={<AccountSettings />} />
+                        <Route path="collection" element={<YourCollection />} />
+                        <Route path="request-song" element={<RequestSongPage />} />
+                        <Route path="thank-you" element={<ThankYouPage />} />
 
-              {/* Legal pages */}
-              <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
-              <Route path="terms-of-service" element={<TermsOfServicePage />} />
-              <Route path="sitemap" element={<SitemapPage />} />
-              <Route path="reset-password" element={<ResetPasswordPage />} />
+                        {/* Legal pages */}
+                        <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+                        <Route path="terms-of-service" element={<TermsOfServicePage />} />
+                        <Route path="sitemap" element={<SitemapPage />} />
+                        <Route path="reset-password" element={<ResetPasswordPage />} />
 
-              {/* Error pages */}
-              <Route path="403" element={<ForbiddenPage />} />
-              <Route path="500" element={<ServerErrorPage />} />
+                        {/* Error pages */}
+                        <Route path="403" element={<ForbiddenPage />} />
+                        <Route path="500" element={<ServerErrorPage />} />
 
-              {/* 404 catch-all route - must be last */}
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
-                  </Routes>
-                </Router>
+                        {/* 404 catch-all route - must be last */}
+                        <Route path="*" element={<NotFoundPage />} />
+                      </Route>
+                    </Routes>
+                  </Router>
                 </AudioPlayerProvider>
                 {import.meta.env.DEV && <UserTypeSwitcher />}
               </CartProvider>
