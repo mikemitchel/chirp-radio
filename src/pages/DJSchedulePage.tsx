@@ -44,8 +44,17 @@ const DJSchedulePage: React.FC = () => {
       return {}
     }
 
-    // Helper to convert "6:00 AM" to "06:00" format
+    // Helper to convert time to "06:00" format (handles both ISO dates and "6:00 AM" format)
     const convertTo24Hour = (timeStr: string): string => {
+      // Try to parse as ISO date first
+      const date = new Date(timeStr)
+      if (!isNaN(date.getTime())) {
+        const hours = date.getHours()
+        const minutes = date.getMinutes()
+        return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
+      }
+
+      // Fall back to parsing "6:00 AM" format
       const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
       if (!match) return timeStr
 
