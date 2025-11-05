@@ -1,29 +1,29 @@
 // src/contexts/AuthContext.tsx
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 import { useUsers } from './UserContext'
-import type { User, UserRole, CollectionTrack } from '../types/user'
+import type { User, UserRole } from '../types/user'
 import { loadCollectionFromUser } from '../utils/collectionDB'
 
 // Legacy role type for backward compatibility
 export type LegacyUserRole = 'listener' | 'volunteer' | 'dj'
 
-// Extended User interface for AuthContext (adds some auth-specific fields)
-interface AuthUser extends User {
-  password?: string // For demo purposes only
-  pendingEmail?: string
-  pendingEmailToken?: string
-  pendingEmailExpiry?: string
-}
-
 interface AuthContextType {
   isLoggedIn: boolean
   user: User | null
   login: (email: string, name?: string, role?: LegacyUserRole, avatar?: string) => void
-  loginWithPassword: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
-  signUpWithPassword: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
+  loginWithPassword: (
+    email: string,
+    password: string
+  ) => Promise<{ success: boolean; error?: string }>
+  signUpWithPassword: (
+    email: string,
+    password: string
+  ) => Promise<{ success: boolean; error?: string }>
   signOut: () => void
   signup: (email: string, name?: string, role?: LegacyUserRole) => void
-  switchProfile: (profileType: 'listener' | 'volunteer' | 'regular-dj' | 'substitute-dj' | 'board-member') => void
+  switchProfile: (
+    profileType: 'listener' | 'volunteer' | 'regular-dj' | 'substitute-dj' | 'board-member'
+  ) => void
   switchToNewUser: () => void
   verifyPassword: (password: string) => boolean
   requestEmailChange: (newEmail: string, token: string) => boolean
@@ -35,7 +35,13 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { getUserById, setCurrentUserId, currentUserId, updateUserFavoriteDJs: updateUserFavoriteDJsInContext, users } = useUsers()
+  const {
+    getUserById,
+    setCurrentUserId,
+    currentUserId,
+    updateUserFavoriteDJs: updateUserFavoriteDJsInContext,
+    users,
+  } = useUsers()
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
     const saved = localStorage.getItem('chirp-logged-in')
@@ -44,7 +50,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Get user from UserContext, or fallback to localStorage for temp users
   const user = currentUserId
-    ? (getUserById(currentUserId) || (() => {
+    ? getUserById(currentUserId) ||
+      (() => {
         // Fallback: if user not found in CMS, try localStorage (for temp/new users)
         const storedUser = localStorage.getItem('chirp-user')
         if (storedUser) {
@@ -59,14 +66,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           }
         }
         return null
-      })())
+      })()
     : null
 
   // Debug logging
   useEffect(() => {
     console.log('[AuthContext] User updated:', {
       currentUserId,
-      user: user ? { id: user.id, email: user.email, firstName: user.firstName, roles: user.roles } : null
+      user: user
+        ? { id: user.id, email: user.email, firstName: user.firstName, roles: user.roles }
+        : null,
     })
   }, [currentUserId, user])
 
@@ -109,29 +118,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoggedIn(true)
   }
 
-  const switchProfile = (profileType: 'listener' | 'volunteer' | 'regular-dj' | 'substitute-dj' | 'board-member') => {
+  const switchProfile = (
+    profileType: 'listener' | 'volunteer' | 'regular-dj' | 'substitute-dj' | 'board-member'
+  ) => {
     // Map profile types to demo user emails (actual users in Members collection)
-    const emailMap: Record<'listener' | 'volunteer' | 'regular-dj' | 'substitute-dj' | 'board-member', string> = {
-      'listener': 'listener@chirpradio.org',
-      'volunteer': 'volunteer@chirpradio.org',
+    const emailMap: Record<
+      'listener' | 'volunteer' | 'regular-dj' | 'substitute-dj' | 'board-member',
+      string
+    > = {
+      listener: 'listener@chirpradio.org',
+      volunteer: 'volunteer@chirpradio.org',
       'regular-dj': 'regular-dj@chirpradio.org',
       'substitute-dj': 'substitute-dj@chirpradio.org',
       'board-member': 'board-member@chirpradio.org',
     }
 
     // Find the actual user from the Members collection
-    const demoUser = users.find(u => u.email === emailMap[profileType])
+    const demoUser = users.find((u) => u.email === emailMap[profileType])
 
     console.log('[AuthContext] switchProfile:', {
       profileType,
       email: emailMap[profileType],
-      demoUser: demoUser ? { id: demoUser.id, email: demoUser.email, firstName: demoUser.firstName } : null,
+      demoUser: demoUser
+        ? { id: demoUser.id, email: demoUser.email, firstName: demoUser.firstName }
+        : null,
       totalUsers: users.length,
-      allEmails: users.map(u => u.email)
+      allEmails: users.map((u) => u.email),
     })
 
     // FALLBACK: If demo users aren't loaded yet, use hardcoded profiles
-    const profiles: Record<'listener' | 'volunteer' | 'regular-dj' | 'substitute-dj' | 'board-member', Partial<User>> = {
+    const profiles: Record<
+      'listener' | 'volunteer' | 'regular-dj' | 'substitute-dj' | 'board-member',
+      Partial<User>
+    > = {
       listener: {
         id: 'user-listener-demo',
         email: 'listener@chirpradio.org',
@@ -150,8 +169,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           { id: '3', date: '10/15/2023', amount: 100, type: 'One-time', status: 'Completed' },
         ],
         purchaseHistory: [
-          { id: '1', date: '01/20/2024', item: 'CHIRP Logo T-Shirt', amount: 25, status: 'Completed' },
-          { id: '2', date: '12/15/2023', item: 'Chicago Skyline Music Poster', amount: 20, status: 'Completed' },
+          {
+            id: '1',
+            date: '01/20/2024',
+            item: 'CHIRP Logo T-Shirt',
+            amount: 25,
+            status: 'Completed',
+          },
+          {
+            id: '2',
+            date: '12/15/2023',
+            item: 'Chicago Skyline Music Poster',
+            amount: 20,
+            status: 'Completed',
+          },
         ],
         collection: [],
         favoriteDJs: [],
@@ -201,9 +232,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           { id: '4', date: '09/15/2023', amount: 200, type: 'One-time', status: 'Completed' },
         ],
         purchaseHistory: [
-          { id: '1', date: '02/10/2024', item: 'Vintage Radio Waves Poster', amount: 20, status: 'Completed' },
-          { id: '2', date: '01/05/2024', item: 'CHIRP Logo Hoodie', amount: 45, status: 'Completed' },
-          { id: '3', date: '11/28/2023', item: 'CHIRP Enamel Mug', amount: 15, status: 'Completed' },
+          {
+            id: '1',
+            date: '02/10/2024',
+            item: 'Vintage Radio Waves Poster',
+            amount: 20,
+            status: 'Completed',
+          },
+          {
+            id: '2',
+            date: '01/05/2024',
+            item: 'CHIRP Logo Hoodie',
+            amount: 45,
+            status: 'Completed',
+          },
+          {
+            id: '3',
+            date: '11/28/2023',
+            item: 'CHIRP Enamel Mug',
+            amount: 15,
+            status: 'Completed',
+          },
         ],
         collection: [],
         favoriteDJs: [],
@@ -231,10 +280,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         djName: 'Demo DJ',
         showName: 'Demo Show',
         showTime: 'Fri 11pm - 1am',
-        djExcerpt:
-          "Demo DJ profile for testing the regular DJ role and functionality.",
+        djExcerpt: 'Demo DJ profile for testing the regular DJ role and functionality.',
         djBio:
-          "This is a demo DJ profile used for development and testing purposes. It demonstrates all the features and fields available to regular DJs in the CHIRP Radio system.",
+          'This is a demo DJ profile used for development and testing purposes. It demonstrates all the features and fields available to regular DJs in the CHIRP Radio system.',
         djDonationLink: 'https://www.chirpradio.org/donate/demo-dj',
         profileImageOrientation: 'square',
         primaryPhoneType: 'mobile',
@@ -260,10 +308,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           { id: '5', date: '08/15/2023', amount: 100, type: 'One-time', status: 'Completed' },
         ],
         purchaseHistory: [
-          { id: '1', date: '01/25/2024', item: 'CHIRP 20th Anniversary Poster', amount: 20, status: 'Completed' },
-          { id: '2', date: '12/20/2023', item: 'Underground Music Scene Poster', amount: 20, status: 'Completed' },
-          { id: '3', date: '11/15/2023', item: 'CHIRP Baseball Cap', amount: 22, status: 'Completed' },
-          { id: '4', date: '10/10/2023', item: 'CHIRP Vinyl Tote Bag', amount: 18, status: 'Completed' },
+          {
+            id: '1',
+            date: '01/25/2024',
+            item: 'CHIRP 20th Anniversary Poster',
+            amount: 20,
+            status: 'Completed',
+          },
+          {
+            id: '2',
+            date: '12/20/2023',
+            item: 'Underground Music Scene Poster',
+            amount: 20,
+            status: 'Completed',
+          },
+          {
+            id: '3',
+            date: '11/15/2023',
+            item: 'CHIRP Baseball Cap',
+            amount: 22,
+            status: 'Completed',
+          },
+          {
+            id: '4',
+            date: '10/10/2023',
+            item: 'CHIRP Vinyl Tote Bag',
+            amount: 18,
+            status: 'Completed',
+          },
         ],
         collection: [],
         favoriteDJs: [],
@@ -288,10 +360,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password: 'demo123',
         djName: 'Demo Sub DJ',
         showName: 'Fill-In Show',
-        djExcerpt:
-          "Demo substitute DJ profile for testing substitute DJ role and functionality.",
+        djExcerpt: 'Demo substitute DJ profile for testing substitute DJ role and functionality.',
         djBio:
-          "This is a demo substitute DJ profile used for development and testing purposes. It demonstrates all the features and fields available to substitute DJs in the CHIRP Radio system.",
+          'This is a demo substitute DJ profile used for development and testing purposes. It demonstrates all the features and fields available to substitute DJs in the CHIRP Radio system.',
         substituteAvailability: ['Weekday morning', 'Weekend afternoon', 'Weekday evening'],
         primaryPhoneType: 'mobile',
         primaryPhone: '(773) 555-9999',
@@ -334,10 +405,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         djName: 'Demo Board DJ',
         showName: 'Leadership Show',
         showTime: 'Wed 3pm - 5pm',
-        djExcerpt:
-          "Demo board member DJ profile combining DJ and board responsibilities.",
+        djExcerpt: 'Demo board member DJ profile combining DJ and board responsibilities.',
         djBio:
-          "This is a demo board member DJ profile used for development and testing purposes. It demonstrates all the features and fields available to DJs who are also board members in the CHIRP Radio system.",
+          'This is a demo board member DJ profile used for development and testing purposes. It demonstrates all the features and fields available to DJs who are also board members in the CHIRP Radio system.',
         boardPosition: 'Secretary',
         boardSince: '2020-01-15',
         boardTermEnd: '2026-01-15',
@@ -365,7 +435,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           { id: '3', date: '12/01/2023', amount: 500, type: 'Monthly', status: 'Completed' },
         ],
         purchaseHistory: [
-          { id: '1', date: '01/15/2024', item: 'CHIRP Supporter Pack', amount: 100, status: 'Completed' },
+          {
+            id: '1',
+            date: '01/15/2024',
+            item: 'CHIRP Supporter Pack',
+            amount: 100,
+            status: 'Completed',
+          },
         ],
         collection: [],
         favoriteDJs: [],
@@ -400,12 +476,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error(`[AuthContext] No ID found on selectedProfile!`, selectedProfile)
     }
     setIsLoggedIn(true)
-    console.log(`✅ Switched to ${profileType} profile${demoUser ? ' (from CMS)' : ' (fallback)'}:`, {
-      id: selectedProfile.id,
-      email: selectedProfile.email,
-      firstName: selectedProfile.firstName,
-      roles: selectedProfile.roles
-    })
+    console.log(
+      `✅ Switched to ${profileType} profile${demoUser ? ' (from CMS)' : ' (fallback)'}:`,
+      {
+        id: selectedProfile.id,
+        email: selectedProfile.email,
+        firstName: selectedProfile.firstName,
+        roles: selectedProfile.roles,
+      }
+    )
   }
 
   const verifyPassword = (password: string): boolean => {
@@ -492,11 +571,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: newUserProfile.email,
       firstName: newUserProfile.firstName,
       avatar: newUserProfile.avatar,
-      onboardingCompleted: false
+      onboardingCompleted: false,
     })
   }
 
-  const loginWithPassword = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+  const loginWithPassword = async (
+    email: string,
+    password: string
+  ): Promise<{ success: boolean; error?: string }> => {
     try {
       const cmsUrl = import.meta.env.VITE_CMS_URL || 'http://localhost:3000'
       const response = await fetch(`${cmsUrl}/api/listeners/login`, {
@@ -538,7 +620,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const signUpWithPassword = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
+  const signUpWithPassword = async (
+    email: string,
+    password: string
+  ): Promise<{ success: boolean; error?: string }> => {
     try {
       const cmsUrl = import.meta.env.VITE_CMS_URL || 'http://localhost:3000'
       const response = await fetch(`${cmsUrl}/api/listeners`, {
