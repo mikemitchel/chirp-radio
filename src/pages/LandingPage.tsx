@@ -15,7 +15,6 @@ import {
   useAnnouncements,
   useEvents,
   useArticles,
-  useTracks,
   useCurrentShow,
   useRegularDJs,
   useSiteSettings,
@@ -23,7 +22,13 @@ import {
   useShowSchedules,
 } from '../hooks/useData'
 import { useNowPlaying } from '../contexts/NowPlayingContext'
-import { getEventImageUrl, getEventCategoryName, getEventVenueName, getEventAgeRestriction } from '../utils/typeHelpers'
+import { useCurrentPlaylist } from '../hooks/useCurrentPlaylist'
+import {
+  getEventImageUrl,
+  getEventCategoryName,
+  getEventVenueName,
+  getEventAgeRestriction,
+} from '../utils/typeHelpers'
 import { useAuth } from '../hooks/useAuth'
 import { downloadDJShowCalendar } from '../utils/calendar'
 import { formatShowTime, prepareShowTimes } from '../utils/formatShowTime'
@@ -36,7 +41,6 @@ const LandingPage: React.FC = () => {
   const { data: announcements } = useAnnouncements()
   const { data: events } = useEvents()
   const { data: articles } = useArticles()
-  const { data: tracks } = useTracks()
   const { data: currentShow } = useCurrentShow()
   const { data: allRegularDJs } = useRegularDJs()
   const { user: loggedInUser } = useAuth()
@@ -44,8 +48,14 @@ const LandingPage: React.FC = () => {
   const { data: members, loading: membersLoading } = useMembers()
   const { data: showSchedules } = useShowSchedules()
   const { currentData: nowPlayingData } = useNowPlaying()
+  const { tracks: playlistTracks } = useCurrentPlaylist()
 
-  console.log('[LandingPage] Members loading state:', membersLoading, 'Members count:', members?.length)
+  console.log(
+    '[LandingPage] Members loading state:',
+    membersLoading,
+    'Members count:',
+    members?.length
+  )
 
   // Find currently scheduled DJ based on day/time
   const scheduledDJ = useMemo(() => {
@@ -92,41 +102,50 @@ const LandingPage: React.FC = () => {
     if (!currentSchedule) return null
 
     // Return the DJ object if it's populated, otherwise null
-    return typeof currentSchedule.dj === 'object' ? currentSchedule.dj as Member : null
+    return typeof currentSchedule.dj === 'object' ? (currentSchedule.dj as Member) : null
   }, [showSchedules])
 
   // Find current DJ member data by matching DJ name from now playing API
   const currentDJMember = useMemo(() => {
     console.log('[DJ Matching] nowPlayingData?.dj:', nowPlayingData?.dj)
     console.log('[DJ Matching] members count:', members?.length)
-    console.log('[DJ Matching] scheduledDJ:', scheduledDJ ? {
-      id: scheduledDJ.id,
-      djName: scheduledDJ.djName,
-      firstName: scheduledDJ.firstName
-    } : null)
+    console.log(
+      '[DJ Matching] scheduledDJ:',
+      scheduledDJ
+        ? {
+            id: scheduledDJ.id,
+            djName: scheduledDJ.djName,
+            firstName: scheduledDJ.firstName,
+          }
+        : null
+    )
 
     // Log all members with their DJ names for debugging
     if (members) {
-      const djNames = members
-        .filter(m => m.djName)
-        .map(m => ({ id: m.id, djName: m.djName }))
+      const djNames = members.filter((m) => m.djName).map((m) => ({ id: m.id, djName: m.djName }))
       console.log('[DJ Matching] All members DJ names:', djNames)
       console.log('[DJ Matching] Total members:', members.length, 'With DJ names:', djNames.length)
 
       // Check if Anna Flores is in the array
-      const annaFlores = members.find(m =>
-        m.firstName?.toLowerCase().includes('anna') ||
-        m.lastName?.toLowerCase().includes('flores') ||
-        m.djName?.toLowerCase().includes('anna') ||
-        m.djName?.toLowerCase().includes('flores')
+      const annaFlores = members.find(
+        (m) =>
+          m.firstName?.toLowerCase().includes('anna') ||
+          m.lastName?.toLowerCase().includes('flores') ||
+          m.djName?.toLowerCase().includes('anna') ||
+          m.djName?.toLowerCase().includes('flores')
       )
-      console.log('[DJ Matching] Anna Flores in members?', annaFlores ? {
-        id: annaFlores.id,
-        firstName: annaFlores.firstName,
-        lastName: annaFlores.lastName,
-        djName: annaFlores.djName,
-        roles: annaFlores.roles
-      } : 'NOT FOUND')
+      console.log(
+        '[DJ Matching] Anna Flores in members?',
+        annaFlores
+          ? {
+              id: annaFlores.id,
+              firstName: annaFlores.firstName,
+              lastName: annaFlores.lastName,
+              djName: annaFlores.djName,
+              roles: annaFlores.roles,
+            }
+          : 'NOT FOUND'
+      )
     }
 
     if (!nowPlayingData?.dj || !members) {
@@ -141,12 +160,15 @@ const LandingPage: React.FC = () => {
     const exactMatch = members.find((member) => {
       const memberDjName = member.djName?.toLowerCase().trim()
       const isMatch = memberDjName === djName
-      if (memberDjName && (isMatch || memberDjName.includes('anna') || memberDjName.includes('flores'))) {
+      if (
+        memberDjName &&
+        (isMatch || memberDjName.includes('anna') || memberDjName.includes('flores'))
+      ) {
         console.log('[DJ Matching] Checking exact:', {
           memberDjName,
           searchingFor: djName,
           isMatch,
-          memberId: member.id
+          memberId: member.id,
         })
       }
       return isMatch
@@ -162,14 +184,16 @@ const LandingPage: React.FC = () => {
       const memberDjName = member.djName?.toLowerCase().trim()
       if (!memberDjName) return false // Skip members without DJ names
 
-      return (
-        memberDjName.includes(djName) ||
-        djName.includes(memberDjName)
-      )
+      return memberDjName.includes(djName) || djName.includes(memberDjName)
     })
 
     if (partialMatch) {
-      console.log('[DJ Matching] ✅ Found partial match:', partialMatch.djName, 'ID:', partialMatch.id)
+      console.log(
+        '[DJ Matching] ✅ Found partial match:',
+        partialMatch.djName,
+        'ID:',
+        partialMatch.id
+      )
     } else {
       console.log('[DJ Matching] ❌ No match found, using scheduledDJ')
     }
@@ -198,15 +222,19 @@ const LandingPage: React.FC = () => {
   const topAnnouncementId =
     typeof siteSettings?.topAnnouncement === 'string'
       ? siteSettings.topAnnouncement
-      : typeof siteSettings?.topAnnouncement === 'object' && siteSettings.topAnnouncement !== null && 'id' in siteSettings.topAnnouncement
-      ? siteSettings.topAnnouncement.id
-      : undefined
+      : typeof siteSettings?.topAnnouncement === 'object' &&
+          siteSettings.topAnnouncement !== null &&
+          'id' in siteSettings.topAnnouncement
+        ? siteSettings.topAnnouncement.id
+        : undefined
   const sidebarAnnouncementId =
     typeof siteSettings?.sidebarAnnouncement === 'string'
       ? siteSettings.sidebarAnnouncement
-      : typeof siteSettings?.sidebarAnnouncement === 'object' && siteSettings.sidebarAnnouncement !== null && 'id' in siteSettings.sidebarAnnouncement
-      ? siteSettings.sidebarAnnouncement.id
-      : undefined
+      : typeof siteSettings?.sidebarAnnouncement === 'object' &&
+          siteSettings.sidebarAnnouncement !== null &&
+          'id' in siteSettings.sidebarAnnouncement
+        ? siteSettings.sidebarAnnouncement.id
+        : undefined
 
   // Get announcements by ID or fallback to first active
   const displayTopAnnouncement =
@@ -246,24 +274,6 @@ const LandingPage: React.FC = () => {
         slug: event.slug,
       })) || []
 
-  // Transform tracks data for recently played (take first 6 from last 2 hours)
-  const recentlyPlayedTracks = useMemo(
-    () =>
-      tracks?.slice(0, 6).map((track) => ({
-        albumArt: track.albumArt,
-        artistName: track.artistName,
-        trackName: track.trackName,
-        albumName: track.albumName,
-        labelName: track.labelName,
-        isLocal: track.isLocal,
-        timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
-          hour: 'numeric',
-          minute: '2-digit',
-        }),
-      })) || [],
-    [tracks]
-  )
-
   return (
     <div className="landing-page">
       {/* Top Announcement */}
@@ -274,7 +284,11 @@ const LandingPage: React.FC = () => {
               variant={displayTopAnnouncement.variant}
               textureBackground={displayTopAnnouncement.textureBackground}
               headlineText={displayTopAnnouncement.headlineText}
-              bodyText={typeof displayTopAnnouncement.bodyText === 'string' ? displayTopAnnouncement.bodyText : undefined}
+              bodyText={
+                typeof displayTopAnnouncement.bodyText === 'string'
+                  ? displayTopAnnouncement.bodyText
+                  : undefined
+              }
               showLink={displayTopAnnouncement.showLink}
               linkText={displayTopAnnouncement.linkText}
               linkUrl={displayTopAnnouncement.linkUrl}
@@ -297,53 +311,70 @@ const LandingPage: React.FC = () => {
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
-          {currentShow && nowPlayingData && (() => {
-            // Extract profile image from CMS Member
-            const djImage = typeof currentDJMember?.profileImage === 'string'
-              ? currentDJMember.profileImage
-              : typeof currentDJMember?.profileImage === 'object' && currentDJMember.profileImage !== null && 'url' in currentDJMember.profileImage
-              ? currentDJMember.profileImage.url
-              : (!membersLoading ? currentShow.djImage : undefined) // Only fall back to placeholder if members are done loading
+          {currentShow &&
+            nowPlayingData &&
+            (() => {
+              // Extract profile image from CMS Member
+              const djImage =
+                typeof currentDJMember?.profileImage === 'string'
+                  ? currentDJMember.profileImage
+                  : typeof currentDJMember?.profileImage === 'object' &&
+                      currentDJMember.profileImage !== null &&
+                      'url' in currentDJMember.profileImage
+                    ? currentDJMember.profileImage.url
+                    : !membersLoading
+                      ? currentShow.djImage
+                      : undefined // Only fall back to placeholder if members are done loading
 
-            const description = currentDJMember?.djExcerpt || currentDJMember?.djBio || (!membersLoading ? currentShow.description : undefined)
+              const description =
+                currentDJMember?.djExcerpt ||
+                currentDJMember?.djBio ||
+                (!membersLoading ? currentShow.description : undefined)
 
-            // Create slug from DJ name for member profile link
-            const djSlug = currentDJMember?.djName || currentDJMember?.firstName
-              ? (currentDJMember.djName || currentDJMember.firstName || '')
-                  .toLowerCase()
-                  .replace(/[^a-z0-9]+/g, '-')
-                  .replace(/^-+|-+$/g, '')
-              : null
+              // Create slug from DJ name for member profile link
+              const djSlug =
+                currentDJMember?.djName || currentDJMember?.firstName
+                  ? (currentDJMember.djName || currentDJMember.firstName || '')
+                      .toLowerCase()
+                      .replace(/[^a-z0-9]+/g, '-')
+                      .replace(/^-+|-+$/g, '')
+                  : null
 
-            console.log('[CrCurrentDjCard] Rendering with:', {
-              currentDJMember: currentDJMember ? {
-                id: currentDJMember.id,
-                djName: currentDJMember.djName,
-                djExcerpt: currentDJMember.djExcerpt,
-                djBio: currentDJMember.djBio,
-                profileImage: currentDJMember.profileImage,
-              } : null,
-              djImage,
-              description,
-              djSlug,
-            })
+              console.log('[CrCurrentDjCard] Rendering with:', {
+                currentDJMember: currentDJMember
+                  ? {
+                      id: currentDJMember.id,
+                      djName: currentDJMember.djName,
+                      djExcerpt: currentDJMember.djExcerpt,
+                      djBio: currentDJMember.djBio,
+                      profileImage: currentDJMember.profileImage,
+                    }
+                  : null,
+                djImage,
+                description,
+                djSlug,
+              })
 
-            return (
-              <CrCurrentDjCard
-                djName={nowPlayingData.dj || currentShow.djName}
-                showName={nowPlayingData.show || currentShow.showName}
-                statusText="On-Air"
-                isOnAir={true}
-                header={nowPlayingData.show || currentShow.showName}
-                title={nowPlayingData.dj || currentShow.djName}
-                djImage={djImage}
-                description={description}
-                onRequestClick={() => navigate('/request-song')}
-                onMoreClick={djSlug ? () => navigate(`/djs/${djSlug}`) : undefined}
-                isFavorite={currentDJMember?.id ? loggedInUser?.favoriteDJs?.includes(String(currentDJMember.id)) : false}
-              />
-            )
-          })()}
+              return (
+                <CrCurrentDjCard
+                  djName={nowPlayingData.dj || currentShow.djName}
+                  showName={nowPlayingData.show || currentShow.showName}
+                  statusText="On-Air"
+                  isOnAir={true}
+                  header={nowPlayingData.show || currentShow.showName}
+                  title={nowPlayingData.dj || currentShow.djName}
+                  djImage={djImage}
+                  description={description}
+                  onRequestClick={() => navigate('/request-song')}
+                  onMoreClick={djSlug ? () => navigate(`/djs/${djSlug}`) : undefined}
+                  isFavorite={
+                    currentDJMember?.id
+                      ? loggedInUser?.favoriteDJs?.includes(String(currentDJMember.id))
+                      : false
+                  }
+                />
+              )
+            })()}
 
           {displaySidebarAnnouncement && (
             <CrAnnouncement
@@ -351,7 +382,11 @@ const LandingPage: React.FC = () => {
               widthVariant="third"
               textureBackground={displaySidebarAnnouncement.textureBackground}
               headlineText={displaySidebarAnnouncement.headlineText}
-              bodyText={typeof displaySidebarAnnouncement.bodyText === 'string' ? displaySidebarAnnouncement.bodyText : undefined}
+              bodyText={
+                typeof displaySidebarAnnouncement.bodyText === 'string'
+                  ? displaySidebarAnnouncement.bodyText
+                  : undefined
+              }
               showLink={displaySidebarAnnouncement.showLink}
               linkText={displaySidebarAnnouncement.linkText}
               linkUrl={displaySidebarAnnouncement.linkUrl}
@@ -367,19 +402,19 @@ const LandingPage: React.FC = () => {
 
           {sidebarAdvertisement && (
             <CrAdSpace
-                size={sidebarAdvertisement.size || 'mobile-banner'}
-                customWidth={sidebarAdvertisement.customWidth}
-                customHeight={sidebarAdvertisement.customHeight}
-                contentType={sidebarAdvertisement.contentType}
-                src={sidebarAdvertisement.imageUrl || sidebarAdvertisement.image?.url}
-                alt={sidebarAdvertisement.alt}
-                htmlContent={sidebarAdvertisement.htmlContent}
-                videoSrc={sidebarAdvertisement.videoUrl || sidebarAdvertisement.video?.url}
-                embedCode={sidebarAdvertisement.embedCode}
-                href={sidebarAdvertisement.href}
-                target={sidebarAdvertisement.target}
-                showLabel={sidebarAdvertisement.showLabel}
-              />
+              size={sidebarAdvertisement.size || 'mobile-banner'}
+              customWidth={sidebarAdvertisement.customWidth}
+              customHeight={sidebarAdvertisement.customHeight}
+              contentType={sidebarAdvertisement.contentType}
+              src={sidebarAdvertisement.imageUrl || sidebarAdvertisement.image?.url}
+              alt={sidebarAdvertisement.alt}
+              htmlContent={sidebarAdvertisement.htmlContent}
+              videoSrc={sidebarAdvertisement.videoUrl || sidebarAdvertisement.video?.url}
+              embedCode={sidebarAdvertisement.embedCode}
+              href={sidebarAdvertisement.href}
+              target={sidebarAdvertisement.target}
+              showLabel={sidebarAdvertisement.showLabel}
+            />
           )}
         </div>
       </section>
@@ -387,7 +422,7 @@ const LandingPage: React.FC = () => {
       {/* Recently Played Section */}
       <section className="page-section">
         <CrRecentlyPlayed
-          tracks={recentlyPlayedTracks}
+          tracks={playlistTracks}
           djName={currentShow?.djName}
           showName={currentShow?.showName}
           startTime={currentShow?.startTime}
@@ -451,9 +486,23 @@ const LandingPage: React.FC = () => {
               bannerHeight="tall"
               imageAspectRatio="16:9"
               bannerBackgroundColor="none"
-              backgroundImage={typeof article.featuredImage === 'string' ? article.featuredImage : typeof article.featuredImage === 'object' && article.featuredImage !== null && 'url' in article.featuredImage ? article.featuredImage.url : undefined}
+              backgroundImage={
+                typeof article.featuredImage === 'string'
+                  ? article.featuredImage
+                  : typeof article.featuredImage === 'object' &&
+                      article.featuredImage !== null &&
+                      'url' in article.featuredImage
+                    ? article.featuredImage.url
+                    : undefined
+              }
               preheader={
-                typeof article.category === 'string' ? article.category : typeof article.category === 'object' && article.category !== null && 'name' in article.category ? article.category.name : undefined
+                typeof article.category === 'string'
+                  ? article.category
+                  : typeof article.category === 'object' &&
+                      article.category !== null &&
+                      'name' in article.category
+                    ? article.category.name
+                    : undefined
               }
               title={article.title}
               contentSummary={article.excerpt}
@@ -478,18 +527,13 @@ const LandingPage: React.FC = () => {
               size="medium"
               djName={dj.djName}
               showTime={formatShowTime(dj.showTime)}
-              showTimes={prepareShowTimes(
-                dj.showTime,
-                dj.djName,
-                dj.showName,
-                (error) => {
-                  showToast({
-                    message: 'Unable to create calendar event. Please check the show time format.',
-                    type: 'error',
-                    duration: 5000,
-                  })
-                }
-              )}
+              showTimes={prepareShowTimes(dj.showTime, dj.djName, dj.showName, (_error) => {
+                showToast({
+                  message: 'Unable to create calendar event. Please check the show time format.',
+                  type: 'error',
+                  duration: 5000,
+                })
+              })}
               showContent={false}
               buttonText="Profile"
               imageSrc={dj.imageSrc}
@@ -502,7 +546,7 @@ const LandingPage: React.FC = () => {
                     showName: dj.showName,
                     showTime: dj.showTime,
                   })
-                } catch (error) {
+                } catch (_error) {
                   showToast({
                     message: 'Unable to create calendar event. Please check the show time format.',
                     type: 'error',
