@@ -73,8 +73,15 @@ const LandingPage: React.FC = () => {
     const schedule = showSchedules.find((schedule) => {
       if (schedule.dayOfWeek.toLowerCase() !== currentDay) return false
 
-      // Parse start and end times (format: "6:00 AM" or "6:00 PM")
+      // Parse start and end times (handles both "6:00 AM" and ISO date strings)
       const parseTime = (timeStr: string): number => {
+        // Try ISO date format first
+        const date = new Date(timeStr)
+        if (!isNaN(date.getTime())) {
+          return date.getHours() * 60 + date.getMinutes()
+        }
+
+        // Fall back to "6:00 AM" format
         const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
         if (!match) return 0
 
