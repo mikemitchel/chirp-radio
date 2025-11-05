@@ -3,7 +3,7 @@ import React from 'react'
 import CrCard from '../stories/CrCard'
 
 interface PageLayoutProps {
-  layoutTemplate?: 'default' | 'full-width' | 'sidebar-right' | 'sidebar-left' | 'two-column'
+  layoutTemplate?: 'default' | 'sidebar-right' | 'sidebar-left' | 'two-column'
   layoutBlocks?: any[]
   sidebar?: React.ReactNode
 }
@@ -63,12 +63,10 @@ const PageLayout: React.FC<PageLayoutProps> = ({
     return layoutBlocks.map((block, index) => renderBlock(block, index))
   }
 
-  // Default/Full Width - single column
-  if (layoutTemplate === 'default' || layoutTemplate === 'full-width') {
-    const containerClass =
-      layoutTemplate === 'full-width' ? 'page-container-full' : 'page-container'
+  // Default - single column
+  if (layoutTemplate === 'default') {
     return (
-      <section className={containerClass}>
+      <section className="page-container">
         <div className="page-layout-single-column">{renderContent()}</div>
       </section>
     )
