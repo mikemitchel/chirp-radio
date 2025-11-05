@@ -14,12 +14,24 @@ export const debugFlags = {
 
 /**
  * Tests if an image URL actually loads (prevents 404s)
+ * Includes a 5-second timeout to prevent hanging
  */
 export const testImageUrl = (url: string): Promise<boolean> => {
   return new Promise((resolve) => {
     const img = new Image()
-    img.onload = () => resolve(true)
-    img.onerror = () => resolve(false)
+    const timeout = setTimeout(() => {
+      img.src = '' // Cancel the load
+      resolve(false)
+    }, 5000) // 5 second timeout
+
+    img.onload = () => {
+      clearTimeout(timeout)
+      resolve(true)
+    }
+    img.onerror = () => {
+      clearTimeout(timeout)
+      resolve(false)
+    }
     img.src = url
   })
 }
@@ -54,10 +66,7 @@ const isSimilarEnough = (str1: string, str2: string): boolean => {
 /**
  * Tries to get album art from iTunes API
  */
-export const tryItunesAlbumArt = async (
-  artist: string,
-  album: string
-): Promise<string | null> => {
+export const tryItunesAlbumArt = async (artist: string, album: string): Promise<string | null> => {
   try {
     const searchTerm = encodeURIComponent(`${artist} ${album}`)
     const itunesUrl = `https://itunes.apple.com/search?term=${searchTerm}&media=music&entity=album&limit=3`
@@ -85,15 +94,19 @@ export const tryItunesAlbumArt = async (
           // Validate the URL actually loads
           const isValid = await testImageUrl(artUrl)
           if (isValid) {
-            log.log('✓ iTunes art found and validated:', { artist: resultArtist, album: resultAlbum, url: artUrl })
+            log.log('✓ iTunes art found and validated:', {
+              artist: resultArtist,
+              album: resultAlbum,
+              url: artUrl,
+            })
             return artUrl
           } else {
             log.log('✗ iTunes art URL failed to load')
           }
         } else {
-          log.log('✗ iTunes result skipped (names don\'t match):', {
+          log.log("✗ iTunes result skipped (names don't match):", {
             expected: { artist, album },
-            got: { artist: resultArtist, album: resultAlbum }
+            got: { artist: resultArtist, album: resultAlbum },
           })
         }
       }
@@ -138,15 +151,19 @@ export const tryMusicBrainzAlbumArt = async (
           // Validate the URL actually loads
           const isValid = await testImageUrl(coverArtUrl)
           if (isValid) {
-            log.log('✓ MusicBrainz art found and validated:', { artist: releaseArtist, album: releaseTitle, url: coverArtUrl })
+            log.log('✓ MusicBrainz art found and validated:', {
+              artist: releaseArtist,
+              album: releaseTitle,
+              url: coverArtUrl,
+            })
             return coverArtUrl
           } else {
             log.log('✗ MusicBrainz art URL failed to load')
           }
         } else {
-          log.log('✗ MusicBrainz result skipped (names don\'t match):', {
+          log.log("✗ MusicBrainz result skipped (names don't match):", {
             expected: { artist, album },
-            got: { artist: releaseArtist, album: releaseTitle }
+            got: { artist: releaseArtist, album: releaseTitle },
           })
         }
       }
@@ -176,12 +193,12 @@ const hashString = (str: string): number => {
  */
 export const getRandomFallback = (
   fallbackImages: string[],
-  lastUsedIndex: number = -1,
+  _lastUsedIndex: number = -1,
   artist: string = '',
   album: string = ''
 ): { url: string; index: number } => {
   // If no artist/album provided or only 1 image available, select from full array
-  if (!artist && !album || fallbackImages.length <= 1) {
+  if ((!artist && !album) || fallbackImages.length <= 1) {
     const randomIndex = Math.floor(Math.random() * fallbackImages.length)
     log.log('🎲 Random fallback (no seed):', { index: randomIndex, total: fallbackImages.length })
     return {
@@ -203,7 +220,7 @@ export const getRandomFallback = (
     index,
     total: fallbackImages.length,
     selected: selectedImage.substring(selectedImage.lastIndexOf('/') + 1),
-    allImages: fallbackImages.map(url => url.substring(url.lastIndexOf('/') + 1))
+    allImages: fallbackImages.map((url) => url.substring(url.lastIndexOf('/') + 1)),
   })
 
   return {
@@ -243,18 +260,12 @@ export const resolveAlbumArt = async (
   lastFallbackIndex: number = -1,
   isMobile: boolean = false
 ): Promise<AlbumArtFallbackResult> => {
-  // Step 1: Try Last.fm URL if provided
+  // Step 1: Try Last.fm URL if provided (trust Last.fm URLs without validation)
   if (lastFmUrl && lastFmUrl.trim() !== '' && !debugFlags.forceLastFmFail) {
     const upgradedUrl = upgradeLastFmQuality(lastFmUrl, isMobile)
-    log.log('Testing Last.fm URL:', upgradedUrl)
-
-    const isValid = await testImageUrl(upgradedUrl)
-    if (isValid) {
-      log.log('✓ Last.fm art validated')
-      return { url: upgradedUrl, source: 'lastfm' }
-    } else {
-      log.log('✗ Last.fm art failed (404 or load error)')
-    }
+    log.log('Using Last.fm URL:', upgradedUrl)
+    // Trust Last.fm URLs without validation to avoid timeout/CORS issues
+    return { url: upgradedUrl, source: 'lastfm' }
   } else if (debugFlags.forceLastFmFail && lastFmUrl) {
     log.log('⚠️ DEBUG: Forcing Last.fm to fail')
   }
