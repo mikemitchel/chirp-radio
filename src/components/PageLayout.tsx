@@ -15,6 +15,16 @@ const PageLayout: React.FC<PageLayoutProps> = ({
 }) => {
   const renderBlock = (block: any, index: number) => {
     if (block.blockType === 'contentCard') {
+      // Extract image URL from Media object if needed
+      const imageUrl =
+        typeof block.backgroundImage === 'object' &&
+        block.backgroundImage !== null &&
+        'url' in block.backgroundImage
+          ? block.backgroundImage.url
+          : typeof block.backgroundImage === 'string'
+            ? block.backgroundImage
+            : block.backgroundImageUrl
+
       return (
         <CrCard
           key={block.id || index}
@@ -22,7 +32,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
           type="page"
           imagePosition={block.imagePosition || 'none'}
           articleImageAspectRatio="16:9"
-          backgroundImage={block.backgroundImage || block.backgroundImageUrl}
+          backgroundImage={imageUrl}
           bannerBackgroundColor="none"
           preheader={block.preheader || ''}
           title={block.title}
