@@ -24,6 +24,7 @@ Non-profit low-band FM and streaming radio station web application
 - **CMS webhook for content updates ✅** Event-based refresh system via 'cms-data-updated' event
 - **Cached API content strategy ✅** Stale-while-revalidate with localStorage, 24hr TTL, all 14 collections
 - **Album art accuracy ✅** Retry logic (up to 5 attempts), quality upgrades, fallback system (known issue: occasional flashes)
+- **Recently Played persistence ✅** 6-month history API integration complete
 
 ### Waiting for External Dependencies
 
@@ -36,14 +37,11 @@ Non-profit low-band FM and streaming radio station web application
 **Frontend:**
 
 - CSS review and fixes for all pages (light and dark modes)
-- Recently Played persistence solution (6-month history API)
-- Android APK side-load testing (Issue #32)
 
 **CMS (chirp-cms repo):**
 
 - CMS admin UI styling and accessibility improvements
-- DJ avatar cropping preview/management solution
-- Previous two shows data issue (Tony investigating)
+- Previous shows data - code complete, waiting for Google collection info
 
 ### Future Work
 
