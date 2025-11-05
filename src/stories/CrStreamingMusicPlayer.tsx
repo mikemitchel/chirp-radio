@@ -8,7 +8,7 @@ import { useAudioPlayer } from '../contexts/AudioPlayerContext'
 import { useAuth } from '../hooks/useAuth'
 import { usePlayerFallbackImages } from '../hooks/useData'
 import LoginRequiredModal from '../components/LoginRequiredModal'
-import { resolveAlbumArt } from '../utils/albumArtFallback'
+import { resolveAlbumArt, getRandomFallback } from '../utils/albumArtFallback'
 import { createLogger } from '../utils/logger'
 import { on } from '../utils/eventBus'
 import './CrStreamingMusicPlayer.css'
@@ -16,7 +16,15 @@ import './CrStreamingMusicPlayer.css'
 const log = createLogger('CrStreamingMusicPlayer')
 
 // PlayPause button component that exactly matches the Figma design
-const PlayPauseButton = ({ isPlaying, onClick, size = 60 }: { isPlaying: any; onClick: any; size?: number }) => {
+const PlayPauseButton = ({
+  isPlaying,
+  onClick,
+  size = 60,
+}: {
+  isPlaying: any
+  onClick: any
+  size?: number
+}) => {
   const PlaySVG = () => (
     <svg
       width={size}
@@ -80,7 +88,7 @@ const AlbumArt = ({
   album,
   className,
   style,
-  isLarge = false
+  isLarge: _isLarge = false,
 }: {
   src: any
   artist?: string
@@ -92,24 +100,52 @@ const AlbumArt = ({
 }) => {
   const { data: fallbackImages, loading: fallbackLoading } = usePlayerFallbackImages()
 
+  // Debug: log what props AlbumArt receives
+  useEffect(() => {
+    log.log('[AlbumArt] Props received - src:', src || 'EMPTY', 'artist:', artist, 'track:', track)
+  }, [src, artist, track])
+
   // Initialize from sessionStorage to persist across navigation
   const getCachedState = () => {
     try {
       const cached = sessionStorage.getItem('chirp-album-art-cache')
       if (cached) {
         const parsed = JSON.parse(cached)
+
+        // Clear cache if it contains default placeholder data
+        if (
+          parsed.trackId &&
+          (parsed.trackId.includes('Artist Name') || parsed.trackId.includes('Song Name'))
+        ) {
+          log.log('[AlbumArt] Clearing stale cache with default placeholder data')
+          sessionStorage.removeItem('chirp-album-art-cache')
+          return {
+            frontSrc: '',
+            backSrc: '',
+            frontIsVisible: true,
+            hasLoadedFirstImage: false,
+            trackId: '',
+          }
+        }
+
         return {
           frontSrc: parsed.frontSrc || '',
           backSrc: parsed.backSrc || '',
           frontIsVisible: parsed.frontIsVisible ?? true,
           hasLoadedFirstImage: parsed.hasLoadedFirstImage ?? false,
-          trackId: parsed.trackId || ''
+          trackId: parsed.trackId || '',
         }
       }
-    } catch (e) {
+    } catch (_e) {
       // Ignore
     }
-    return { frontSrc: '', backSrc: '', frontIsVisible: true, hasLoadedFirstImage: false, trackId: '' }
+    return {
+      frontSrc: '',
+      backSrc: '',
+      frontIsVisible: true,
+      hasLoadedFirstImage: false,
+      trackId: '',
+    }
   }
 
   const cached = getCachedState()
@@ -129,7 +165,7 @@ const AlbumArt = ({
   useEffect(() => {
     const unsubscribe = on('chirp-force-refresh', () => {
       log.log('Force refresh triggered for album art')
-      setForceRefreshCounter(prev => prev + 1)
+      setForceRefreshCounter((prev) => prev + 1)
     })
     return unsubscribe
   }, [])
@@ -140,11 +176,62 @@ const AlbumArt = ({
       return
     }
 
+    // If we have a valid src URL from API, use it directly without resolution
+    if (src && src.startsWith('http')) {
+      log.log('Using album art directly from API:', src)
+
+      // Update trackId even when using src directly
+      const trackId = `${artist || 'unknown'}|${track || 'unknown'}`
+      currentTrackId.current = trackId
+      lastForceRefreshCounter.current = forceRefreshCounter
+
+      if (frontIsVisible) {
+        setBackSrc(src)
+        // Update cache
+        try {
+          const cache = sessionStorage.getItem('chirp-album-art-cache')
+          if (cache) {
+            const parsed = JSON.parse(cache)
+            parsed.backSrc = src
+            parsed.frontIsVisible = false
+            parsed.hasLoadedFirstImage = true
+            sessionStorage.setItem('chirp-album-art-cache', JSON.stringify(parsed))
+          }
+        } catch (_e) {
+          // Ignore
+        }
+        setHasLoadedFirstImage(true)
+        setFrontIsVisible(false)
+      } else {
+        setFrontSrc(src)
+        // Update cache
+        try {
+          const cache = sessionStorage.getItem('chirp-album-art-cache')
+          if (cache) {
+            const parsed = JSON.parse(cache)
+            parsed.frontSrc = src
+            parsed.frontIsVisible = true
+            parsed.hasLoadedFirstImage = true
+            sessionStorage.setItem('chirp-album-art-cache', JSON.stringify(parsed))
+          }
+        } catch (_e) {
+          // Ignore
+        }
+        setHasLoadedFirstImage(true)
+        setFrontIsVisible(true)
+      }
+      setFallbackSrc('')
+      return
+    }
+
     // Create track ID from artist + track
     const trackId = `${artist || 'unknown'}|${track || 'unknown'}`
 
     // If same track and not force refreshing, don't reload
-    if (trackId === currentTrackId.current && forceRefreshCounter === lastForceRefreshCounter.current) {
+    if (
+      trackId === currentTrackId.current &&
+      forceRefreshCounter === lastForceRefreshCounter.current
+    ) {
       return
     }
 
@@ -161,7 +248,7 @@ const AlbumArt = ({
       } else {
         sessionStorage.setItem('chirp-album-art-cache', JSON.stringify({ trackId }))
       }
-    } catch (e) {
+    } catch (_e) {
       // Ignore
     }
 
@@ -220,7 +307,7 @@ const AlbumArt = ({
                 parsed.hasLoadedFirstImage = true
                 sessionStorage.setItem('chirp-album-art-cache', JSON.stringify(parsed))
               }
-            } catch (e) {
+            } catch (_e) {
               // Ignore
             }
             // Wait for image to load, then crossfade
@@ -231,15 +318,21 @@ const AlbumArt = ({
               setTimeout(() => setIsTransitioning(false), 500)
             }
             img.onerror = () => {
-              // Use a random fallback image from CMS
+              // Use a deterministic fallback image from CMS
               const fallbackUrls = fallbackImages
                 .filter((img) => img.url)
                 .map((img) => img.sizes?.player?.url || img.url || '')
                 .filter((url) => url)
 
               if (fallbackUrls.length > 0) {
-                const randomIndex = Math.floor(Math.random() * fallbackUrls.length)
-                setFallbackSrc(fallbackUrls[randomIndex])
+                const fallback = getRandomFallback(
+                  fallbackUrls,
+                  lastFallbackIndex.current,
+                  artist || '',
+                  album || ''
+                )
+                lastFallbackIndex.current = fallback.index
+                setFallbackSrc(fallback.url)
               }
               setIsTransitioning(false)
             }
@@ -256,7 +349,7 @@ const AlbumArt = ({
                 parsed.hasLoadedFirstImage = true
                 sessionStorage.setItem('chirp-album-art-cache', JSON.stringify(parsed))
               }
-            } catch (e) {
+            } catch (_e) {
               // Ignore
             }
             const img = new Image()
@@ -266,15 +359,21 @@ const AlbumArt = ({
               setTimeout(() => setIsTransitioning(false), 500)
             }
             img.onerror = () => {
-              // Use a random fallback image from CMS
+              // Use a deterministic fallback image from CMS
               const fallbackUrls = fallbackImages
                 .filter((img) => img.url)
                 .map((img) => img.sizes?.player?.url || img.url || '')
                 .filter((url) => url)
 
               if (fallbackUrls.length > 0) {
-                const randomIndex = Math.floor(Math.random() * fallbackUrls.length)
-                setFallbackSrc(fallbackUrls[randomIndex])
+                const fallback = getRandomFallback(
+                  fallbackUrls,
+                  lastFallbackIndex.current,
+                  artist || '',
+                  album || ''
+                )
+                lastFallbackIndex.current = fallback.index
+                setFallbackSrc(fallback.url)
               }
               setIsTransitioning(false)
             }
@@ -286,15 +385,21 @@ const AlbumArt = ({
       } catch (error) {
         log.log('Error resolving album art:', error)
 
-        // Use a random fallback image from CMS
+        // Use a deterministic fallback image from CMS
         const fallbackUrls = fallbackImages
           .filter((img) => img.url)
           .map((img) => img.sizes?.player?.url || img.url || '')
           .filter((url) => url)
 
         if (fallbackUrls.length > 0) {
-          const randomIndex = Math.floor(Math.random() * fallbackUrls.length)
-          setFallbackSrc(fallbackUrls[randomIndex])
+          const fallback = getRandomFallback(
+            fallbackUrls,
+            lastFallbackIndex.current,
+            artist || '',
+            album || ''
+          )
+          lastFallbackIndex.current = fallback.index
+          setFallbackSrc(fallback.url)
         }
       } finally {
         isResolvingRef.current = false
@@ -302,7 +407,8 @@ const AlbumArt = ({
     }
 
     resolveArt()
-  }, [src, artist, track, album, fallbackImages, fallbackLoading, forceRefreshCounter])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [src, artist, track, album, fallbackLoading, forceRefreshCounter])
 
   // Show random fallback image if all sources failed
   if (fallbackSrc) {
@@ -372,10 +478,10 @@ const BackgroundImage = ({
           frontSrc: parsed.frontSrc || '',
           backSrc: parsed.backSrc || '',
           frontIsVisible: parsed.frontIsVisible ?? true,
-          trackId: parsed.trackId || ''
+          trackId: parsed.trackId || '',
         }
       }
-    } catch (e) {
+    } catch (_e) {
       // Ignore
     }
     return { frontSrc: '', backSrc: '', frontIsVisible: true, trackId: '' }
@@ -396,7 +502,7 @@ const BackgroundImage = ({
   useEffect(() => {
     const unsubscribe = on('chirp-force-refresh', () => {
       log.log('🎨 [BackgroundImage] Force refresh triggered')
-      setForceRefreshCounter(prev => prev + 1)
+      setForceRefreshCounter((prev) => prev + 1)
     })
     return unsubscribe
   }, [])
@@ -411,7 +517,10 @@ const BackgroundImage = ({
     const trackId = `${artist || 'unknown'}|${track || 'unknown'}`
 
     // If same track and not force refreshing, don't reload
-    if (trackId === currentTrackId.current && forceRefreshCounter === lastForceRefreshCounter.current) {
+    if (
+      trackId === currentTrackId.current &&
+      forceRefreshCounter === lastForceRefreshCounter.current
+    ) {
       return
     }
 
@@ -430,7 +539,7 @@ const BackgroundImage = ({
       } else {
         sessionStorage.setItem('chirp-bg-cache', JSON.stringify({ trackId }))
       }
-    } catch (e) {
+    } catch (_e) {
       // Ignore
     }
 
@@ -451,7 +560,14 @@ const BackgroundImage = ({
     const isMobile = Capacitor.isNativePlatform()
 
     // Resolve album art with full fallback chain
-    resolveAlbumArt(src, artist || '', album || '', fallbackUrls, lastFallbackIndex.current, isMobile)
+    resolveAlbumArt(
+      src,
+      artist || '',
+      album || '',
+      fallbackUrls,
+      lastFallbackIndex.current,
+      isMobile
+    )
       .then((result) => {
         log.log('🎨 [BackgroundImage] Resolved:', result)
 
@@ -484,7 +600,7 @@ const BackgroundImage = ({
               parsed.frontIsVisible = false
               sessionStorage.setItem('chirp-bg-cache', JSON.stringify(parsed))
             }
-          } catch (e) {
+          } catch (_e) {
             // Ignore
           }
 
@@ -515,7 +631,7 @@ const BackgroundImage = ({
               parsed.frontIsVisible = true
               sessionStorage.setItem('chirp-bg-cache', JSON.stringify(parsed))
             }
-          } catch (e) {
+          } catch (_e) {
             // Ignore
           }
 
@@ -539,7 +655,8 @@ const BackgroundImage = ({
         isResolvingRef.current = false
         setIsTransitioning(false)
       })
-  }, [src, artist, track, album, fallbackImages, fallbackLoading, forceRefreshCounter])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [src, artist, track, album, fallbackLoading, forceRefreshCounter])
 
   // Two-stacked-divs with background-image
   return (
