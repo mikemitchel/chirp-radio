@@ -22,7 +22,7 @@ import type { VolunteerFormSettings } from '../types/volunteerForm'
 import { fetchFromCMS } from '../utils/api'
 import { on } from '../utils/eventBus'
 import { useWebhookListener } from '../hooks/useWebhookListener'
-import { getCached, setCached, isCacheStale, clearCache } from '../utils/cmsCache'
+import { getCached, setCached, isCacheStale } from '../utils/cmsCache'
 
 // Import mock data
 import announcementsData from '../data/announcements.json'
@@ -30,7 +30,6 @@ import articlesData from '../data/articles.json'
 import eventsData from '../data/events.json'
 import podcastsData from '../data/podcasts.json'
 import shopItemsData from '../data/shopItems.json'
-import membersData from '../data/members.json'
 
 // Feature flag to toggle between mock data and CMS API
 const USE_CMS_API = import.meta.env.VITE_USE_CMS_API === 'true'
@@ -122,7 +121,9 @@ export function CMSProvider({ children }: CMSProviderProps) {
 
   // Data state
   const [data, setData] = useState<CMSData>({
-    announcements: USE_CMS_API ? [] : (announcementsData.announcements as unknown as Announcement[]),
+    announcements: USE_CMS_API
+      ? []
+      : (announcementsData.announcements as unknown as Announcement[]),
     articles: USE_CMS_API ? [] : (articlesData.articles as unknown as Article[]),
     events: USE_CMS_API ? [] : (eventsData.events as unknown as Event[]),
     podcasts: USE_CMS_API ? [] : (podcastsData.podcasts as unknown as Podcast[]),
@@ -197,7 +198,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Announcements cache is fresh, skipping API call')
       return
     }
@@ -250,7 +252,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Articles cache is fresh, skipping API call')
       return
     }
@@ -306,7 +309,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Events cache is fresh, skipping API call')
       return
     }
@@ -357,7 +361,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Podcasts cache is fresh, skipping API call')
       return
     }
@@ -417,7 +422,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Members cache is fresh, skipping API call')
       return
     }
@@ -435,7 +441,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
       const mappedDocs = docs.map((member) => ({
         ...member,
         id: member.id?.toString(),
-        roles: Array.isArray(member.roles) ? member.roles as string[] : [],
+        roles: Array.isArray(member.roles) ? (member.roles as string[]) : [],
         djBio: typeof member.djBio === 'string' ? member.djBio : lexicalToHtml(member.djBio),
         volunteerOrgs: Array.isArray(member.volunteerOrgs)
           ? (member.volunteerOrgs as Array<Record<string, unknown> | string>).map((org) =>
@@ -463,8 +469,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
             )
           : [],
         substituteAvailability: Array.isArray(member.substituteAvailability)
-          ? (member.substituteAvailability as Array<Record<string, unknown> | string>).map((time) =>
-              typeof time === 'string' ? time : (time.time as string)
+          ? (member.substituteAvailability as Array<Record<string, unknown> | string>).map(
+              (time) => (typeof time === 'string' ? time : (time.time as string))
             )
           : [],
       })) as Member[]
@@ -503,7 +509,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Volunteer calendar cache is fresh, skipping API call')
       return
     }
@@ -560,7 +567,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Shop items cache is fresh, skipping API call')
       return
     }
@@ -647,7 +655,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Pages cache is fresh, skipping API call')
       return
     }
@@ -757,7 +766,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Weekly charts cache is fresh, skipping API call')
       return
     }
@@ -810,7 +820,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Mobile page content cache is fresh, skipping API call')
       return
     }
@@ -831,15 +842,20 @@ export function CMSProvider({ children }: CMSProviderProps) {
           const ann = page.announcement as Record<string, unknown>
           transformedAnnouncement = {
             ...ann,
-            bodyText:
-              typeof ann.bodyText === 'string' ? ann.bodyText : lexicalToHtml(ann.bodyText),
+            bodyText: typeof ann.bodyText === 'string' ? ann.bodyText : lexicalToHtml(ann.bodyText),
           }
         }
 
         return {
           ...page,
           id: page.id?.toString(),
-          pageIdentifier: page.pageIdentifier as 'make-request' | 'now-playing' | 'recently-played' | 'my-collection' | 'account-settings' | 'android-auto',
+          pageIdentifier: page.pageIdentifier as
+            | 'make-request'
+            | 'now-playing'
+            | 'recently-played'
+            | 'my-collection'
+            | 'account-settings'
+            | 'android-auto',
           announcement: transformedAnnouncement,
           introContent:
             typeof page.introContent === 'string'
@@ -1008,7 +1024,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Player fallback images cache is fresh, skipping API call')
       return
     }
@@ -1061,7 +1078,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
 
     // Step 2: Check if we need to fetch fresh data
-    if (!isCacheStale(cacheKey) && cached) {
+    // Always fetch if cache is empty, even if not stale (handles case where data was added to CMS after cache was populated)
+    if (!isCacheStale(cacheKey) && cached && cached.length > 0) {
       console.log('[CMSContext] Show schedules cache is fresh, skipping API call')
       return
     }
@@ -1119,52 +1137,55 @@ export function CMSProvider({ children }: CMSProviderProps) {
   }
 
   // Refresh data - optionally refresh a specific collection
-  const refresh = useCallback(async (collection?: keyof CMSData) => {
-    if (collection) {
-      // Refresh specific collection
-      console.log(`[CMSContext] Refreshing collection: ${collection}`)
-      const fetcher = collectionFetchers[collection]
-      if (fetcher) {
-        await fetcher()
+  const refresh = useCallback(
+    async (collection?: keyof CMSData) => {
+      if (collection) {
+        // Refresh specific collection
+        console.log(`[CMSContext] Refreshing collection: ${collection}`)
+        const fetcher = collectionFetchers[collection]
+        if (fetcher) {
+          await fetcher()
+        }
+      } else {
+        // Refresh all data
+        console.log('[CMSContext] Refreshing all data')
+        await Promise.all([
+          fetchAnnouncements(),
+          fetchArticles(),
+          fetchEvents(),
+          fetchPodcasts(),
+          fetchMembers(),
+          fetchVolunteerCalendar(),
+          fetchShopItems(),
+          fetchPages(),
+          fetchSiteSettings(),
+          fetchWeeklyCharts(),
+          fetchMobilePageContent(),
+          fetchMobileAppSettings(),
+          fetchVolunteerFormSettings(),
+          fetchPlayerFallbackImages(),
+          fetchShowSchedules(),
+        ])
       }
-    } else {
-      // Refresh all data
-      console.log('[CMSContext] Refreshing all data')
-      await Promise.all([
-        fetchAnnouncements(),
-        fetchArticles(),
-        fetchEvents(),
-        fetchPodcasts(),
-        fetchMembers(),
-        fetchVolunteerCalendar(),
-        fetchShopItems(),
-        fetchPages(),
-        fetchSiteSettings(),
-        fetchWeeklyCharts(),
-        fetchMobilePageContent(),
-        fetchMobileAppSettings(),
-        fetchVolunteerFormSettings(),
-        fetchPlayerFallbackImages(),
-        fetchShowSchedules(),
-      ])
-    }
-  }, [
-    fetchAnnouncements,
-    fetchArticles,
-    fetchEvents,
-    fetchPodcasts,
-    fetchMembers,
-    fetchVolunteerCalendar,
-    fetchShopItems,
-    fetchPages,
-    fetchSiteSettings,
-    fetchWeeklyCharts,
-    fetchMobilePageContent,
-    fetchMobileAppSettings,
-    fetchVolunteerFormSettings,
-    fetchPlayerFallbackImages,
-    fetchShowSchedules,
-  ])
+    },
+    [
+      fetchAnnouncements,
+      fetchArticles,
+      fetchEvents,
+      fetchPodcasts,
+      fetchMembers,
+      fetchVolunteerCalendar,
+      fetchShopItems,
+      fetchPages,
+      fetchSiteSettings,
+      fetchWeeklyCharts,
+      fetchMobilePageContent,
+      fetchMobileAppSettings,
+      fetchVolunteerFormSettings,
+      fetchPlayerFallbackImages,
+      fetchShowSchedules,
+    ]
+  )
 
   // Initial fetch on mount
   useEffect(() => {

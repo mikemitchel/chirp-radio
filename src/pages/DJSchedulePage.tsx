@@ -7,12 +7,19 @@ import CrDjOverview from '../stories/CrDjOverview'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import CrCard from '../stories/CrCard'
-import { useRegularDJs, useDJs, useSiteSettings, useArticles, useEvents, usePodcasts, useShowSchedules } from '../hooks/useData'
+import {
+  useRegularDJs,
+  useSiteSettings,
+  useArticles,
+  useEvents,
+  usePodcasts,
+  useShowSchedules,
+} from '../hooks/useData'
 import { downloadDJShowCalendar } from '../utils/calendar'
 import { formatShowTime, prepareShowTimes } from '../utils/formatShowTime'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
-import type { Member, ShowSchedule } from '../types/cms'
+import type { Member } from '../types/cms'
 
 const DJSchedulePage: React.FC = () => {
   const navigate = useNavigate()
@@ -20,7 +27,6 @@ const DJSchedulePage: React.FC = () => {
   const { showToast } = useNotification()
   const currentUser = loggedInUser
   const { data: regularDJs } = useRegularDJs()
-  const { data: legacyDJs } = useDJs()
   const { data: siteSettings } = useSiteSettings()
   const { data: articles } = useArticles()
   const { data: events } = useEvents()
@@ -31,28 +37,6 @@ const DJSchedulePage: React.FC = () => {
   const djList = useMemo(() => {
     return regularDJs || []
   }, [regularDJs])
-
-  // Helper to format time compactly (e.g., "12:00 PM" -> "12n", "6:00 AM" -> "6am")
-  const formatTime = (timeStr: string): string => {
-    const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
-    if (!match) return timeStr
-
-    const hours = parseInt(match[1])
-    const minutes = match[2]
-    const period = match[3].toUpperCase()
-
-    // Special cases for noon and midnight
-    if (hours === 12 && minutes === '00') {
-      return period === 'PM' ? '12n' : '12m'
-    }
-
-    // Format: "6am", "6:30am", "11pm", etc.
-    const hourDisplay = hours === 12 ? 12 : hours
-    const minuteDisplay = minutes === '00' ? '' : `:${minutes}`
-    const ampm = period === 'AM' ? 'am' : 'pm'
-
-    return `${hourDisplay}${minuteDisplay}${ampm}`
-  }
 
   // Transform CMS schedule data to component format
   const scheduleData = useMemo(() => {
@@ -118,14 +102,12 @@ const DJSchedulePage: React.FC = () => {
           djName = 'CHIRP'
           showName = 'Music Mix'
         } else {
-          // Regular DJ slot
+          // Regular DJ slot - get show name from DJ relationship
           const dj = schedule.dj as Member
-          djName = typeof dj === 'object' && dj !== null
-            ? dj.djName || dj.firstName || 'CHIRP'
-            : 'CHIRP'
+          djName =
+            typeof dj === 'object' && dj !== null ? dj.djName || dj.firstName || 'CHIRP' : 'CHIRP'
 
-          showName = schedule.showName ||
-                    (typeof dj === 'object' && dj !== null ? dj.showName : null)
+          showName = typeof dj === 'object' && dj !== null ? dj.showName : null
         }
 
         grouped[dayName].push({
@@ -179,18 +161,13 @@ const DJSchedulePage: React.FC = () => {
                 djName={dj.djName}
                 content={dj.showName}
                 showTime={formatShowTime(dj.showTime)}
-                showTimes={prepareShowTimes(
-                  dj.showTime,
-                  dj.djName,
-                  dj.showName,
-                  (error) => {
-                    showToast({
-                      message: 'Unable to create calendar event. Please check the show time format.',
-                      type: 'error',
-                      duration: 5000,
-                    })
-                  }
-                )}
+                showTimes={prepareShowTimes(dj.showTime, dj.djName, dj.showName, () => {
+                  showToast({
+                    message: 'Unable to create calendar event. Please check the show time format.',
+                    type: 'error',
+                    duration: 5000,
+                  })
+                })}
                 description={dj.description}
                 imageSrc={dj.imageSrc}
                 isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
@@ -201,9 +178,10 @@ const DJSchedulePage: React.FC = () => {
                       showName: dj.showName,
                       showTime: dj.showTime,
                     })
-                  } catch (error) {
+                  } catch {
                     showToast({
-                      message: 'Unable to create calendar event. Please check the show time format.',
+                      message:
+                        'Unable to create calendar event. Please check the show time format.',
                       type: 'error',
                       duration: 5000,
                     })
@@ -220,55 +198,84 @@ const DJSchedulePage: React.FC = () => {
             <CrAnnouncement
               variant="motivation"
               widthVariant="third"
-              textureBackground={('backgroundColor' in siteSettings.scheduleSidebarAnnouncement ? (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).backgroundColor as string : undefined)}
-              headlineText={('title' in siteSettings.scheduleSidebarAnnouncement ? (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).title as string : (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).headlineText as string)}
-              bodyText={('message' in siteSettings.scheduleSidebarAnnouncement ? (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).message as string : (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).bodyText as string)}
-              showLink={!!((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).ctaText)}
-              linkText={('ctaText' in siteSettings.scheduleSidebarAnnouncement ? (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).ctaText as string : undefined)}
-              linkUrl={('ctaUrl' in siteSettings.scheduleSidebarAnnouncement ? (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).ctaUrl as string : undefined)}
+              textureBackground={
+                'backgroundColor' in siteSettings.scheduleSidebarAnnouncement
+                  ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
+                      .backgroundColor as string)
+                  : undefined
+              }
+              headlineText={
+                'title' in siteSettings.scheduleSidebarAnnouncement
+                  ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
+                      .title as string)
+                  : ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
+                      .headlineText as string)
+              }
+              bodyText={
+                'message' in siteSettings.scheduleSidebarAnnouncement
+                  ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
+                      .message as string)
+                  : ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
+                      .bodyText as string)
+              }
+              showLink={
+                !!(siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).ctaText
+              }
+              linkText={
+                'ctaText' in siteSettings.scheduleSidebarAnnouncement
+                  ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
+                      .ctaText as string)
+                  : undefined
+              }
+              linkUrl={
+                'ctaUrl' in siteSettings.scheduleSidebarAnnouncement
+                  ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
+                      .ctaUrl as string)
+                  : undefined
+              }
               buttonCount="none"
             />
           )}
 
           {/* Content Cards based on CMS settings */}
-          {siteSettings?.scheduleSidebarContentType && siteSettings.scheduleSidebarContentType !== 'none' && (() => {
-            const contentType = siteSettings.scheduleSidebarContentType
-            const count = parseInt(siteSettings.scheduleSidebarContentCount || '3')
-            let contentItems: any[] = []
+          {siteSettings?.scheduleSidebarContentType &&
+            siteSettings.scheduleSidebarContentType !== 'none' &&
+            (() => {
+              const contentType = siteSettings.scheduleSidebarContentType
+              const count = parseInt(siteSettings.scheduleSidebarContentCount || '3')
+              let contentItems: any[] = []
 
-            if (contentType === 'articles') {
-              contentItems = articles?.slice(0, count) || []
-            } else if (contentType === 'events') {
-              contentItems = events?.slice(0, count) || []
-            } else if (contentType === 'podcasts') {
-              contentItems = podcasts?.slice(0, count) || []
-            }
+              if (contentType === 'articles') {
+                contentItems = articles?.slice(0, count) || []
+              } else if (contentType === 'events') {
+                contentItems = events?.slice(0, count) || []
+              } else if (contentType === 'podcasts') {
+                contentItems = podcasts?.slice(0, count) || []
+              }
 
-            return contentItems.map((item, index) => (
-              <CrCard
-                key={item.id || index}
-                variant="article"
-                cardSize="small"
-                imagePosition="top"
-                title={item.title}
-                excerpt={item.excerpt}
-                content={item.excerpt}
-                backgroundImage={typeof item.image === 'string' ? item.image : item.image?.url}
-                onClick={() => {
-                  if (contentType === 'articles') navigate(`/articles/${item.slug || item.id}`)
-                  else if (contentType === 'events') navigate(`/events/${item.slug || item.id}`)
-                  else if (contentType === 'podcasts') navigate(`/podcasts/${item.slug || item.id}`)
-                }}
-              />
-            ))
-          })()}
+              return contentItems.map((item, index) => (
+                <CrCard
+                  key={item.id || index}
+                  variant="article"
+                  cardSize="small"
+                  imagePosition="top"
+                  title={item.title}
+                  excerpt={item.excerpt}
+                  content={item.excerpt}
+                  backgroundImage={typeof item.image === 'string' ? item.image : item.image?.url}
+                  onClick={() => {
+                    if (contentType === 'articles') navigate(`/articles/${item.slug || item.id}`)
+                    else if (contentType === 'events') navigate(`/events/${item.slug || item.id}`)
+                    else if (contentType === 'podcasts')
+                      navigate(`/podcasts/${item.slug || item.id}`)
+                  }}
+                />
+              ))
+            })()}
 
           {/* Advertisement from CMS */}
           {siteSettings?.scheduleSidebarAdvertisement && (
-            <CrAdSpace
-              size="large-rectangle"
-              adData={siteSettings.scheduleSidebarAdvertisement}
-            />
+            <CrAdSpace size="large-rectangle" adData={siteSettings.scheduleSidebarAdvertisement} />
           )}
         </div>
       </div>
