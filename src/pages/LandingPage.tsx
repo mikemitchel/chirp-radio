@@ -1,5 +1,5 @@
 // src/pages/LandingPage.tsx
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { PiCalendarDots, PiReadCvLogo, PiVinylRecord } from 'react-icons/pi'
 import CrAnnouncement from '../stories/CrAnnouncement'
