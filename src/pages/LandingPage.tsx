@@ -57,10 +57,10 @@ const LandingPage: React.FC = () => {
     members?.length
   )
 
-  // Find currently scheduled DJ based on day/time
-  const scheduledDJ = useMemo(() => {
+  // Find currently scheduled show based on day/time
+  const currentSchedule = useMemo(() => {
     if (!showSchedules || showSchedules.length === 0) {
-      console.log('[scheduledDJ] No show schedules')
+      console.log('[currentSchedule] No show schedules')
       return null
     }
 
@@ -70,11 +70,18 @@ const LandingPage: React.FC = () => {
     const currentTime = now.getHours() * 60 + now.getMinutes()
 
     // Find schedule for current day and time
-    const currentSchedule = showSchedules.find((schedule) => {
+    const schedule = showSchedules.find((schedule) => {
       if (schedule.dayOfWeek.toLowerCase() !== currentDay) return false
 
-      // Parse start and end times (format: "6:00 AM" or "6:00 PM")
+      // Parse start and end times (handles both "6:00 AM" and ISO date strings)
       const parseTime = (timeStr: string): number => {
+        // Try ISO date format first
+        const date = new Date(timeStr)
+        if (!isNaN(date.getTime())) {
+          return date.getHours() * 60 + date.getMinutes()
+        }
+
+        // Fall back to "6:00 AM" format
         const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
         if (!match) return 0
 
@@ -99,11 +106,14 @@ const LandingPage: React.FC = () => {
       return currentTime >= scheduleStart && currentTime < scheduleEnd
     })
 
-    if (!currentSchedule) return null
-
-    // Return the DJ object if it's populated, otherwise null
-    return typeof currentSchedule.dj === 'object' ? (currentSchedule.dj as Member) : null
+    return schedule || null
   }, [showSchedules])
+
+  // Extract scheduled DJ from current schedule
+  const scheduledDJ = useMemo(() => {
+    if (!currentSchedule) return null
+    return typeof currentSchedule.dj === 'object' ? (currentSchedule.dj as Member) : null
+  }, [currentSchedule])
 
   // Find current DJ member data by matching DJ name from now playing API
   const currentDJMember = useMemo(() => {
@@ -423,11 +433,41 @@ const LandingPage: React.FC = () => {
       <section className="page-section">
         <CrRecentlyPlayed
           tracks={playlistTracks}
-          djName={currentShow?.djName}
-          showName={currentShow?.showName}
-          startTime={currentShow?.startTime}
-          endTime={currentShow?.endTime}
-          djProfileUrl={currentShow?.djProfileUrl}
+          djName={nowPlayingData?.dj || scheduledDJ?.djName || currentShow?.djName}
+          showName={scheduledDJ?.showName || currentShow?.showName}
+          startTime={(() => {
+            // Get current hour in Chicago time
+            const now = new Date()
+            const chicagoTime = new Date(
+              now.toLocaleString('en-US', { timeZone: 'America/Chicago' })
+            )
+            const currentHour = chicagoTime.getHours()
+
+            // Format start time (current hour)
+            if (currentHour === 0) return '12m'
+            if (currentHour === 12) return '12n'
+            if (currentHour < 12) return `${currentHour}:00am`
+            return `${currentHour - 12}:00pm`
+          })()}
+          endTime={(() => {
+            // Get next hour in Chicago time
+            const now = new Date()
+            const chicagoTime = new Date(
+              now.toLocaleString('en-US', { timeZone: 'America/Chicago' })
+            )
+            const nextHour = (chicagoTime.getHours() + 1) % 24
+
+            // Format end time (next hour)
+            if (nextHour === 0) return '12m'
+            if (nextHour === 12) return '12n'
+            if (nextHour < 12) return `${nextHour}:00am`
+            return `${nextHour - 12}:00pm`
+          })()}
+          djProfileUrl={
+            currentDJMember?.id
+              ? `/djs/${currentDJMember.djName?.toLowerCase().replace(/\s+/g, '-')}`
+              : currentShow?.djProfileUrl
+          }
           onViewPlaylist={() => navigate('/playlist')}
         />
       </section>
