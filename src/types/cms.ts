@@ -594,6 +594,7 @@ export interface CMSData {
   volunteerFormSettings: VolunteerFormSettings | null
   playerFallbackImages: PlayerFallbackImage[]
   showSchedules: ShowSchedule[]
+  redirects: Redirect[]
 }
 
 // Loading state for each data type
@@ -614,6 +615,7 @@ export interface CMSLoadingState {
   volunteerFormSettings: boolean
   playerFallbackImages: boolean
   showSchedules: boolean
+  redirects: boolean
 }
 
 // Error state for each data type
@@ -634,4 +636,5 @@ export interface CMSErrorState {
   volunteerFormSettings: Error | null
   playerFallbackImages: Error | null
   showSchedules: Error | null
+  redirects: Error | null
 }
