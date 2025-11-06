@@ -103,7 +103,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.75); /* White overlay for light mode */
+  background-color: rgba(255, 255, 255, 0.65); /* White overlay for light mode */
   z-index: 2;
   pointer-events: none;
 }
@@ -112,7 +112,7 @@
 [data-theme='dark'] .cr-player__color-overlay,
 .dark .cr-player__color-overlay,
 html.dark .cr-player__color-overlay {
-  background-color: rgba(0, 0, 0, 0.75); /* Dark overlay for dark mode */
+  background-color: rgba(0, 0, 0, 0.65); /* Dark overlay for dark mode */
 }
 
 /* Dark mode - Support Component - make fallback logo white */
@@ -365,6 +365,17 @@ html.dark .cr-player__color-overlay {
   margin-right: var(--cr-space-1);
 }
 
+/* Remove absolute positioning from ADD button in slim player */
+.cr-player--slim-player .cr-track-info__actions {
+  position: static !important;
+}
+
+/* Ensure proper flex behavior for artist container in slim player */
+.cr-player--slim-player .cr-track-info__artist-scroll-container {
+  flex: 1;
+  min-width: 0; /* Critical for allowing flex item to shrink below content size */
+}
+
 /* Mini Player Layout */
 .cr-player--mini-player {
   box-shadow:
@@ -424,6 +435,17 @@ html.dark .cr-player__color-overlay {
   flex-shrink: 0;
   margin-left: var(--cr-space-2);
   margin-right: 0;
+}
+
+/* Remove absolute positioning from ADD button in mini player */
+.cr-player--mini-player .cr-track-info__actions {
+  position: static !important;
+}
+
+/* Ensure proper flex behavior for artist container in mini player */
+.cr-player--mini-player .cr-track-info__artist-scroll-container {
+  flex: 1;
+  min-width: 0; /* Critical for allowing flex item to shrink below content size */
 }
 
 /* Mobile Player Layout */
@@ -748,6 +770,30 @@ html.dark .cr-player__color-overlay {
 }
 
 /* Responsive adjustments */
+@media (max-width: 640px) {
+  /* Constrain track info width to prevent overlap with play button in slim/mini players */
+  .cr-player--slim-player .cr-player__track-info-container,
+  .cr-player--mini-player .cr-player__track-info-container {
+    max-width: calc(100% - 80px) !important; /* Reserve 80px for play button */
+    flex-shrink: 1 !important;
+  }
+
+  /* Override absolute positioning for ADD button in slim/mini players on mobile */
+  .cr-player--slim-player .cr-track-info__actions,
+  .cr-player--mini-player .cr-track-info__actions,
+  .cr-mobile-frame .cr-player--slim-player .cr-track-info__actions {
+    position: static !important;
+    right: auto !important;
+  }
+
+  /* Ensure flex layout is maintained */
+  .cr-player--slim-player .cr-track-info__bottom-row,
+  .cr-mobile-frame .cr-player--slim-player .cr-track-info__bottom-row {
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
 @media (max-width: 480px) {
   .cr-player--full-player .cr-player__full,
   .cr-player--slim-player .cr-player__slim,
