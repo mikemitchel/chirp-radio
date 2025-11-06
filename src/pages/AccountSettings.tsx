@@ -235,12 +235,19 @@ export default function AccountSettings() {
   }
 
   const handleStreamingQualityChange = (quality: string) => {
+    console.log('🎵 [AccountSettings] Quality change requested:', quality)
     setStreamingQuality(quality)
     const storage = getStorage()
     storage.setItem('chirp-streaming-quality', quality)
+    console.log(
+      '🎵 [AccountSettings] Saved to storage:',
+      storage.getItem('chirp-streaming-quality')
+    )
 
-    // Dispatch custom event for same-window updates
-    window.dispatchEvent(new CustomEvent('chirp-quality-change', { detail: quality }))
+    // Emit event via eventBus for same-window updates
+    console.log('🎵 [AccountSettings] Emitting chirp-quality-change event')
+    emit('chirp-quality-change', quality)
+    console.log('🎵 [AccountSettings] Event emitted')
   }
 
   const handlePushNotificationsChange = (_checked: boolean) => {
