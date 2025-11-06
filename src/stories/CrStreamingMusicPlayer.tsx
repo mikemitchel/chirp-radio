@@ -157,7 +157,16 @@ const AlbumArt = ({
   const [fallbackSrc, setFallbackSrc] = useState('')
   const [forceRefreshCounter, setForceRefreshCounter] = useState(0)
   const currentTrackId = useRef(cached.trackId)
-  const lastFallbackIndex = useRef(-1)
+  // Use sessionStorage for shared fallback index between AlbumArt and BackgroundImage
+  const getSharedFallbackIndex = () => {
+    try {
+      const stored = sessionStorage.getItem('chirp-fallback-index')
+      return stored ? parseInt(stored, 10) : -1
+    } catch {
+      return -1
+    }
+  }
+  const lastFallbackIndex = useRef(getSharedFallbackIndex())
   const isResolvingRef = useRef(false)
   const lastForceRefreshCounter = useRef(0)
 
@@ -171,12 +180,8 @@ const AlbumArt = ({
   }, [])
 
   useEffect(() => {
-    // Wait for fallback images to load from CMS
-    if (fallbackLoading) {
-      return
-    }
-
-    // If we have a valid src URL from API, use it directly without resolution
+    // If we have a valid src URL from API, use it directly (like before)
+    // But we'll monitor in the background for failures and trigger fallback chain
     if (src && src.startsWith('http')) {
       log.log('Using album art directly from API:', src)
 
@@ -185,9 +190,20 @@ const AlbumArt = ({
       currentTrackId.current = trackId
       lastForceRefreshCounter.current = forceRefreshCounter
 
+      // Check if this image is already displayed on the visible layer
+      // If yes, don't trigger crossfade (prevents flash when returning to page)
+      // Only skip if we've loaded at least one image and src is not empty
+      if (hasLoadedFirstImage && src) {
+        const currentlyDisplayedSrc = frontIsVisible ? frontSrc : backSrc
+        if (currentlyDisplayedSrc === src) {
+          log.log('Image already displayed, skipping crossfade')
+          return
+        }
+      }
+
+      // Set the image immediately (no preloading delay)
       if (frontIsVisible) {
         setBackSrc(src)
-        // Update cache
         try {
           const cache = sessionStorage.getItem('chirp-album-art-cache')
           if (cache) {
@@ -204,7 +220,6 @@ const AlbumArt = ({
         setFrontIsVisible(false)
       } else {
         setFrontSrc(src)
-        // Update cache
         try {
           const cache = sessionStorage.getItem('chirp-album-art-cache')
           if (cache) {
@@ -261,14 +276,20 @@ const AlbumArt = ({
 
     const resolveArt = async () => {
       try {
-        // Get fallback image URLs from CMS
-        const fallbackUrls = fallbackImages
-          .filter((img) => img.url)
-          .map((img) => img.sizes?.player?.url || img.url || '')
-          .filter((url) => url)
+        // Get fallback image URLs from CMS (only if loaded, otherwise use empty array)
+        const fallbackUrls = fallbackLoading
+          ? []
+          : fallbackImages
+              .filter((img) => img.url)
+              .map((img) => img.sizes?.player?.url || img.url || '')
+              .filter((url) => url)
 
-        if (fallbackUrls.length === 0) {
+        if (fallbackUrls.length === 0 && !fallbackLoading) {
           log.log('No fallback images available from CMS, will try API sources only')
+        }
+
+        if (fallbackUrls.length === 0 && fallbackLoading) {
+          log.log('CMS fallback images still loading, will try API sources first')
         }
 
         // Detect if mobile platform
@@ -289,6 +310,11 @@ const AlbumArt = ({
         // Update lastFallbackIndex if we used a fallback
         if (result.source === 'fallback' && result.fallbackIndex !== undefined) {
           lastFallbackIndex.current = result.fallbackIndex
+          try {
+            sessionStorage.setItem('chirp-fallback-index', result.fallbackIndex.toString())
+          } catch {
+            // Ignore
+          }
         }
 
         // Trigger crossfade
@@ -332,6 +358,11 @@ const AlbumArt = ({
                   album || ''
                 )
                 lastFallbackIndex.current = fallback.index
+                try {
+                  sessionStorage.setItem('chirp-fallback-index', fallback.index.toString())
+                } catch {
+                  // Ignore
+                }
                 setFallbackSrc(fallback.url)
               }
               setIsTransitioning(false)
@@ -373,6 +404,11 @@ const AlbumArt = ({
                   album || ''
                 )
                 lastFallbackIndex.current = fallback.index
+                try {
+                  sessionStorage.setItem('chirp-fallback-index', fallback.index.toString())
+                } catch {
+                  // Ignore
+                }
                 setFallbackSrc(fallback.url)
               }
               setIsTransitioning(false)
@@ -494,7 +530,16 @@ const BackgroundImage = ({
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [forceRefreshCounter, setForceRefreshCounter] = useState(0)
   const currentTrackId = useRef(cachedBg.trackId)
-  const lastFallbackIndex = useRef(-1)
+  // Use sessionStorage for shared fallback index between AlbumArt and BackgroundImage
+  const getSharedFallbackIndex = () => {
+    try {
+      const stored = sessionStorage.getItem('chirp-fallback-index')
+      return stored ? parseInt(stored, 10) : -1
+    } catch {
+      return -1
+    }
+  }
+  const lastFallbackIndex = useRef(getSharedFallbackIndex())
   const isResolvingRef = useRef(false)
   const lastForceRefreshCounter = useRef(0)
 
@@ -508,11 +553,6 @@ const BackgroundImage = ({
   }, [])
 
   useEffect(() => {
-    // Wait for fallback images to load from CMS
-    if (fallbackLoading) {
-      return
-    }
-
     // Use track ID to detect actual track changes
     const trackId = `${artist || 'unknown'}|${track || 'unknown'}`
 
@@ -551,10 +591,14 @@ const BackgroundImage = ({
     // Mark as resolving
     isResolvingRef.current = true
 
-    // Get fallback URLs from CMS data
-    const fallbackUrls = (fallbackImages || [])
-      .filter((img) => img.url)
-      .map((img) => img.url as string)
+    // Get fallback URLs from CMS data (only if loaded, otherwise use empty array)
+    const fallbackUrls = fallbackLoading
+      ? []
+      : (fallbackImages || []).filter((img) => img.url).map((img) => img.url as string)
+
+    if (fallbackUrls.length === 0 && fallbackLoading) {
+      log.log('🎨 [BackgroundImage] CMS images loading, will try API sources first')
+    }
 
     // Detect if we're on mobile platform
     const isMobile = Capacitor.isNativePlatform()
@@ -574,6 +618,11 @@ const BackgroundImage = ({
         // Update last fallback index if fallback was used
         if (result.source === 'fallback' && result.fallbackIndex !== undefined) {
           lastFallbackIndex.current = result.fallbackIndex
+          try {
+            sessionStorage.setItem('chirp-fallback-index', result.fallbackIndex.toString())
+          } catch {
+            // Ignore
+          }
         }
 
         // Don't transition if component unmounted or track changed during resolution

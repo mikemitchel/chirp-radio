@@ -42,8 +42,19 @@ export default function CrSettingsToggles({
 
   const handleStreamingQualityChange = (isHigh: boolean) => {
     const quality = isHigh ? '128' : '64'
+    console.log(
+      '🎵 [CrSettingsToggles] Quality toggle clicked, isHigh:',
+      isHigh,
+      'quality:',
+      quality
+    )
     setLocalStreamingQuality(quality)
-    if (onStreamingQualityChange) onStreamingQualityChange(quality)
+    if (onStreamingQualityChange) {
+      console.log('🎵 [CrSettingsToggles] Calling parent onStreamingQualityChange')
+      onStreamingQualityChange(quality)
+    } else {
+      console.log('🎵 [CrSettingsToggles] No onStreamingQualityChange callback provided!')
+    }
   }
 
   const handleDarkModeChange = (mode: 'light' | 'dark' | 'device') => {
