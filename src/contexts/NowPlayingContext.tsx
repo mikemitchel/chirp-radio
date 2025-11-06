@@ -354,13 +354,13 @@ export function NowPlayingProvider({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Update metadata when DJ changes
+  // Update metadata when track information changes
   useEffect(() => {
-    if (currentData.dj) {
+    if (currentData.track && currentData.artist) {
       updateNativeMetadata(currentData)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentData.dj])
+  }, [currentData.track, currentData.artist, currentData.album, currentData.albumArt])
 
   const value: NowPlayingContextType = {
     currentData,
