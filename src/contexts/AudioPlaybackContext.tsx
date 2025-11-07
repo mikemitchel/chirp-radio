@@ -305,9 +305,9 @@ export function AudioPlaybackProvider({
 
     if (isIOS) {
       try {
+        setIsPlaying(true) // Optimistically update UI
         await NativeAudioPlayer.play()
-        // Don't set state here - wait for native event to update state
-        // This prevents race conditions with lock screen controls
+        // Native event will sync state if lock screen controls are used
       } catch (error) {
         log.error('NativeAudioPlayer.play() failed:', error)
         // Try to recover by re-initializing the singleton
@@ -317,17 +317,18 @@ export function AudioPlaybackProvider({
           await initializeNativePlayer(streamUrl)
           const retryResult = await NativeAudioPlayer.play()
           log.log('Recovery successful:', retryResult)
-          // Don't set state here - wait for native event
+          setIsPlaying(true) // Update UI after recovery
         } catch (retryError) {
           log.error('Recovery failed:', retryError)
+          setIsPlaying(false) // Reset UI on failure
           throw retryError
         }
       }
     } else if (isAndroid) {
       try {
+        setIsPlaying(true) // Optimistically update UI
         await NativeAudioBridge.play()
-        // Don't set state optimistically - wait for native callback
-        // This ensures lock screen and app UI stay in sync
+        // Native event will sync state if lock screen controls are used
       } catch (error) {
         log.error('NativeAudioBridge.play() failed:', error)
         setIsPlaying(false)
@@ -355,17 +356,19 @@ export function AudioPlaybackProvider({
     const isAndroid = Capacitor.getPlatform() === 'android'
 
     if (isIOS) {
+      setIsPlaying(false) // Optimistically update UI
       NativeAudioPlayer.pause().catch((error) => {
         console.error('Error pausing native audio:', error)
+        setIsPlaying(true) // Revert on error
       })
-      // Don't set state here - wait for native event to update state
-      // This prevents race conditions with lock screen controls
+      // Native event will sync state if lock screen controls are used
     } else if (isAndroid) {
+      setIsPlaying(false) // Optimistically update UI
       NativeAudioBridge.pause().catch((error) => {
         console.error('Error pausing native audio:', error)
+        setIsPlaying(true) // Revert on error
       })
-      // Don't set state optimistically - wait for native callback
-      // This ensures lock screen and app UI stay in sync
+      // Native event will sync state if lock screen controls are used
     } else if (audioRef.current) {
       audioRef.current.pause()
       setIsPlaying(false)
