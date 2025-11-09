@@ -65,6 +65,8 @@ const isSimilarEnough = (str1: string, str2: string): boolean => {
 
 /**
  * Tries to get album art from iTunes API
+ * NOTE: iTunes API may redirect to musics:// protocol (Apple Music app scheme)
+ * which causes CORS errors in browsers. These are expected and handled gracefully.
  */
 export const tryItunesAlbumArt = async (artist: string, album: string): Promise<string | null> => {
   try {
@@ -114,7 +116,11 @@ export const tryItunesAlbumArt = async (artist: string, album: string): Promise<
 
     return null
   } catch (error) {
-    log.log('✗ iTunes API error:', error)
+    // Suppress CORS errors from iTunes redirect to musics:// protocol - these are expected
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    if (!errorMessage.includes('CORS') && !errorMessage.includes('Failed to fetch')) {
+      log.log('✗ iTunes API error:', error)
+    }
     return null
   }
 }

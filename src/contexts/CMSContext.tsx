@@ -1170,30 +1170,30 @@ export function CMSProvider({ children }: CMSProviderProps) {
     }
   }, [])
 
-  // Map collection names to their fetch functions
-  const collectionFetchers: Record<keyof CMSData, () => Promise<void>> = {
-    announcements: fetchAnnouncements,
-    articles: fetchArticles,
-    events: fetchEvents,
-    podcasts: fetchPodcasts,
-    djs: async () => {}, // DJs are fetched from members
-    members: fetchMembers,
-    volunteerCalendar: fetchVolunteerCalendar,
-    shopItems: fetchShopItems,
-    pages: fetchPages,
-    siteSettings: fetchSiteSettings,
-    weeklyCharts: fetchWeeklyCharts,
-    mobilePageContent: fetchMobilePageContent,
-    mobileAppSettings: fetchMobileAppSettings,
-    volunteerFormSettings: fetchVolunteerFormSettings,
-    playerFallbackImages: fetchPlayerFallbackImages,
-    showSchedules: fetchShowSchedules,
-    redirects: fetchRedirects,
-  }
-
   // Refresh data - optionally refresh a specific collection
   const refresh = useCallback(
     async (collection?: keyof CMSData) => {
+      // Map collection names to their fetch functions
+      const collectionFetchers: Record<keyof CMSData, () => Promise<void>> = {
+        announcements: fetchAnnouncements,
+        articles: fetchArticles,
+        events: fetchEvents,
+        podcasts: fetchPodcasts,
+        djs: async () => {}, // DJs are fetched from members
+        members: fetchMembers,
+        volunteerCalendar: fetchVolunteerCalendar,
+        shopItems: fetchShopItems,
+        pages: fetchPages,
+        siteSettings: fetchSiteSettings,
+        weeklyCharts: fetchWeeklyCharts,
+        mobilePageContent: fetchMobilePageContent,
+        mobileAppSettings: fetchMobileAppSettings,
+        volunteerFormSettings: fetchVolunteerFormSettings,
+        playerFallbackImages: fetchPlayerFallbackImages,
+        showSchedules: fetchShowSchedules,
+        redirects: fetchRedirects,
+      }
+
       if (collection) {
         // Refresh specific collection
         console.log(`[CMSContext] Refreshing collection: ${collection}`)

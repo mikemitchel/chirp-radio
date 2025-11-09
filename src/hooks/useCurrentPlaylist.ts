@@ -6,6 +6,7 @@ import { Capacitor } from '@capacitor/core'
 import { CapacitorHttp } from '@capacitor/core'
 import { upgradeImageQuality } from '../utils/imageOptimizer'
 import { usePlayerFallbackImages } from './useData'
+import { getRandomFallback } from '../utils/albumArtFallback'
 
 interface ChirpSong {
   id: string
@@ -107,6 +108,8 @@ export function useCurrentPlaylist(): UseCurrentPlaylistReturn {
           .map((img) => img.sizes?.player?.url || img.url || '')
           .filter((url) => url)
 
+        console.log('[useCurrentPlaylist] Fallback URLs available:', fallbackUrls.length)
+
         // Transform to PlaylistTrack format (synchronous, no API calls)
         const transformedTracks: PlaylistTrack[] = allSongs.map((song) => {
           // Get best available album art from Last.fm
@@ -122,10 +125,22 @@ export function useCurrentPlaylist(): UseCurrentPlaylistReturn {
             }
           }
 
-          // If no Last.fm art, use a random CMS fallback image
+          // If no Last.fm art, use deterministic CMS fallback image
           if (!albumArt && fallbackUrls.length > 0) {
-            const randomIndex = Math.floor(Math.random() * fallbackUrls.length)
-            albumArt = fallbackUrls[randomIndex]
+            const fallback = getRandomFallback(fallbackUrls, -1, song.artist, song.release || '')
+            albumArt = fallback.url
+            console.log(
+              '[useCurrentPlaylist] Using deterministic fallback for:',
+              song.artist,
+              '-',
+              song.track,
+              'URL:',
+              albumArt,
+              'index:',
+              fallback.index
+            )
+          } else if (!albumArt) {
+            console.log('[useCurrentPlaylist] NO ALBUM ART for:', song.artist, '-', song.track)
           }
 
           // Calculate time ago from played_at_local (Chicago time)
