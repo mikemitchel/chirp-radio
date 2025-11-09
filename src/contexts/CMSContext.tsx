@@ -20,7 +20,7 @@ import type {
   Redirect,
 } from '../types/cms'
 import type { VolunteerFormSettings } from '../types/volunteerForm'
-import { fetchFromCMS } from '../utils/api'
+import { fetchFromCMS, transformMediaUrl } from '../utils/api'
 import { on } from '../utils/eventBus'
 import { useWebhookListener } from '../hooks/useWebhookListener'
 import { getCached, setCached, isCacheStale } from '../utils/cmsCache'
@@ -1044,8 +1044,8 @@ export function CMSProvider({ children }: CMSProviderProps) {
 
       const mappedDocs = docs.map((image) => ({
         ...image,
-        // Extract the image URL from the response
-        url: (image.url as string) || '',
+        // Transform relative URLs to absolute URLs with CMS base
+        url: transformMediaUrl((image.url as string) || ''),
       })) as PlayerFallbackImage[]
 
       // Update state and cache
