@@ -26,6 +26,14 @@ export default function CrToggle({
   ...props
 }: CrToggleProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(
+      '🎵 [CrToggle] handleChange called, checked:',
+      event.target.checked,
+      'disabled:',
+      disabled,
+      'hasOnChange:',
+      !!onChange
+    )
     if (!disabled && onChange) {
       onChange(event.target.checked, event)
     }
@@ -42,6 +50,16 @@ export default function CrToggle({
     .join(' ')
 
   const handleTrackClick = () => {
+    console.log(
+      '🎵 [CrToggle] handleTrackClick called, checked:',
+      checked,
+      'willBe:',
+      !checked,
+      'disabled:',
+      disabled,
+      'hasOnChange:',
+      !!onChange
+    )
     if (!disabled && onChange) {
       onChange(!checked, { target: { checked: !checked } } as React.ChangeEvent<HTMLInputElement>)
     }
