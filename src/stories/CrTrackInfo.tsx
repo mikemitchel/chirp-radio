@@ -237,10 +237,10 @@ export default function CrTrackInfo({
         </div>
       </div>
 
-      {/* Artist + LOCAL - accommodate ADD button width */}
+      {/* Artist + LOCAL + ADD button - all inline */}
       <div
         style={{
-          width: '75%',
+          width: '100%',
           display: 'flex',
           alignItems: 'center',
           minWidth: 0,
@@ -275,6 +275,18 @@ export default function CrTrackInfo({
               </CrChip>
             </div>
           )}
+        </div>
+        {/* ADD button inline with artist name */}
+        <div className="cr-track-info__actions-inline">
+          <CrButton
+            variant="text"
+            size="xsmall"
+            color="secondary"
+            rightIcon={isAdded ? undefined : <PiPlusCircle className="w-4 h-4" />}
+            onClick={handleToggleAdd}
+          >
+            {isAdded ? 'REMOVE' : 'ADD'}
+          </CrButton>
         </div>
       </div>
     </div>
@@ -368,17 +380,20 @@ export default function CrTrackInfo({
         <div className="cr-track-info__content">
           {renderContent()}
 
-          <div className="cr-track-info__actions">
-            <CrButton
-              variant="text"
-              size="xsmall"
-              color="secondary"
-              rightIcon={isAdded ? undefined : <PiPlusCircle className="w-4 h-4" />}
-              onClick={handleToggleAdd}
-            >
-              {isAdded ? 'REMOVE' : 'ADD'}
-            </CrButton>
-          </div>
+          {/* Only render button here for full/stacked variants - minimal has it inline */}
+          {variant !== 'minimal' && (
+            <div className="cr-track-info__actions">
+              <CrButton
+                variant="text"
+                size="xsmall"
+                color="secondary"
+                rightIcon={isAdded ? undefined : <PiPlusCircle className="w-4 h-4" />}
+                onClick={handleToggleAdd}
+              >
+                {isAdded ? 'REMOVE' : 'ADD'}
+              </CrButton>
+            </div>
+          )}
         </div>
       </div>
 
