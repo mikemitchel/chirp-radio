@@ -18,6 +18,30 @@ const getApiBaseUrl = () => {
 
 const API_BASE_URL = getApiBaseUrl()
 
+// Get the CMS server base URL (without /api suffix) for media files
+export const getCMSMediaBaseUrl = (): string => {
+  // Remove the /api suffix to get the server base URL
+  return API_BASE_URL.replace(/\/api$/, '')
+}
+
+// Transform relative media URLs to absolute URLs
+export const transformMediaUrl = (url: string): string => {
+  if (!url) return ''
+
+  // If URL is already absolute (starts with http:// or https://), return as-is
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url
+  }
+
+  // If URL is relative (starts with /), prepend the CMS base URL
+  if (url.startsWith('/')) {
+    return `${getCMSMediaBaseUrl()}${url}`
+  }
+
+  // Otherwise, return as-is
+  return url
+}
+
 export interface PayloadResponse<T> {
   docs: T[]
   totalDocs: number
@@ -33,7 +57,7 @@ export async function fetchFromCMS<T>(
   params?: Record<string, string | number>
 ): Promise<T[]> {
   const url = new URL(`${API_BASE_URL}/${endpoint}`)
-  
+
   // Add default limit if not specified
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
@@ -44,7 +68,7 @@ export async function fetchFromCMS<T>(
   }
 
   const response = await fetch(url.toString())
-  
+
   if (!response.ok) {
     throw new Error(`Failed to fetch ${endpoint}: ${response.statusText}`)
   }
@@ -53,10 +77,7 @@ export async function fetchFromCMS<T>(
   return data.docs
 }
 
-export async function fetchFromCMSById<T>(
-  endpoint: string,
-  id: string
-): Promise<T | null> {
+export async function fetchFromCMSById<T>(endpoint: string, id: string): Promise<T | null> {
   const url = `${API_BASE_URL}/${endpoint}/${id}`
 
   const response = await fetch(url)
