@@ -208,7 +208,36 @@ export default function CrImageCropper({
     }
   }, [images.full, currentImage, resetCropperState])
 
-  // Cropper functions
+  // Cropper functions - calculateCropArea must be defined first
+  const calculateCropArea = useCallback(() => {
+    if (!imageElementRef.current || !currentImage) {
+      return { sx: 0, sy: 0, width: 0, height: 0 }
+    }
+
+    const displayWidth = parseFloat(imageElementRef.current.style.width)
+    const displayHeight = parseFloat(imageElementRef.current.style.height)
+
+    if (isNaN(displayWidth) || isNaN(displayHeight) || displayWidth === 0 || displayHeight === 0) {
+      return { sx: 0, sy: 0, width: 0, height: 0 }
+    }
+
+    const scaleX = currentImage.width / displayWidth
+    const scaleY = currentImage.height / displayHeight
+
+    const cropX = cropOffset - cropperState.position.x
+    const cropY = cropOffset - cropperState.position.y
+    const sx = Math.max(0, cropX * scaleX)
+    const sy = Math.max(0, cropY * scaleY)
+    const cropSizeInImage = cropSize * scaleX
+
+    const maxWidth = currentImage.width - sx
+    const maxHeight = currentImage.height - sy
+    const width = Math.min(cropSizeInImage, maxWidth)
+    const height = Math.min(cropSizeInImage, maxHeight)
+
+    return { sx, sy, width, height }
+  }, [currentImage, cropperState.position, cropOffset, cropSize])
+
   const updatePreview = useCallback(() => {
     if (!currentImage || !previewCanvasRef.current) return
 
@@ -273,35 +302,6 @@ export default function CrImageCropper({
       updatePreview()
     })
   }, [currentImage, cropperState.scale, cropperState.position, containerSize, updatePreview])
-
-  const calculateCropArea = useCallback(() => {
-    if (!imageElementRef.current || !currentImage) {
-      return { sx: 0, sy: 0, width: 0, height: 0 }
-    }
-
-    const displayWidth = parseFloat(imageElementRef.current.style.width)
-    const displayHeight = parseFloat(imageElementRef.current.style.height)
-
-    if (isNaN(displayWidth) || isNaN(displayHeight) || displayWidth === 0 || displayHeight === 0) {
-      return { sx: 0, sy: 0, width: 0, height: 0 }
-    }
-
-    const scaleX = currentImage.width / displayWidth
-    const scaleY = currentImage.height / displayHeight
-
-    const cropX = cropOffset - cropperState.position.x
-    const cropY = cropOffset - cropperState.position.y
-    const sx = Math.max(0, cropX * scaleX)
-    const sy = Math.max(0, cropY * scaleY)
-    const cropSizeInImage = cropSize * scaleX
-
-    const maxWidth = currentImage.width - sx
-    const maxHeight = currentImage.height - sy
-    const width = Math.min(cropSizeInImage, maxWidth)
-    const height = Math.min(cropSizeInImage, maxHeight)
-
-    return { sx, sy, width, height }
-  }, [currentImage, cropperState.position, cropOffset, cropSize])
 
   const handleZoomChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setCropperState((prev) => ({ ...prev, scale: parseFloat(e.target.value) }))
