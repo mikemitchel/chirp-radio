@@ -5,6 +5,7 @@
 import { createContext, useContext, useState, useRef, useEffect, type ReactNode } from 'react'
 import { Capacitor } from '@capacitor/core'
 import { CapacitorHttp } from '@capacitor/core'
+import { App } from '@capacitor/app'
 import { useNetworkQuality } from '../hooks/useNetworkQuality'
 import { upgradeImageQuality } from '../utils/imageOptimizer'
 import { parseDjAndShowName } from '../utils/djNameParser'
@@ -353,6 +354,33 @@ export function NowPlayingProvider({
     return unsubscribe
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // Listen for app state changes (coming to foreground/waking from sleep)
+  useEffect(() => {
+    const isNative = Capacitor.getPlatform() !== 'web'
+    if (!isNative || !autoFetch) return
+
+    let listenerCleanup: (() => void) | undefined
+
+    App.addListener('appStateChange', ({ isActive }) => {
+      if (isActive) {
+        log.log('App became active - triggering immediate metadata refresh')
+        // Clear any pending poll timeout
+        if (pollTimeoutRef.current) {
+          clearTimeout(pollTimeoutRef.current)
+        }
+        // Immediately fetch latest track data
+        fetchNowPlaying()
+      }
+    }).then((listener) => {
+      listenerCleanup = () => listener.remove()
+    })
+
+    return () => {
+      listenerCleanup?.()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoFetch])
 
   // Update metadata when track information changes
   useEffect(() => {
