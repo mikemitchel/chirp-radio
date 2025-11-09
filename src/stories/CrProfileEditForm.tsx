@@ -537,7 +537,7 @@ export default function CrProfileEditForm({
                 const existingLink = socialLinks.find((link) => link.platform === platform)
                 return (
                   <div key={platform} className="form-social-input-item">
-                    <CrSocialIcon platform={platform} size={20} />
+                    <CrSocialIcon platform={platform} size={40} />
                     <input
                       type="text"
                       className="form-input--social"
