@@ -221,14 +221,15 @@ export default function CrImageCropper({
       return { sx: 0, sy: 0, width: 0, height: 0 }
     }
 
-    const scaleX = currentImage.width / displayWidth
-    const scaleY = currentImage.height / displayHeight
+    // Use uniform scale based on the actual image dimensions
+    // This ensures the crop is always square in the source image
+    const scale = currentImage.width / displayWidth
 
     const cropX = cropOffset - cropperState.position.x
     const cropY = cropOffset - cropperState.position.y
-    const sx = Math.max(0, cropX * scaleX)
-    const sy = Math.max(0, cropY * scaleY)
-    const cropSizeInImage = cropSize * scaleX
+    const sx = Math.max(0, cropX * scale)
+    const sy = Math.max(0, cropY * scale)
+    const cropSizeInImage = cropSize * scale
 
     const maxWidth = currentImage.width - sx
     const maxHeight = currentImage.height - sy
