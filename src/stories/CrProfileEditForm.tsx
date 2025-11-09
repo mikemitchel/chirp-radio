@@ -358,9 +358,18 @@ export default function CrProfileEditForm({
                 maxLength={180}
                 required
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
                 {errors.djExcerpt && <span className="form-error">{errors.djExcerpt}</span>}
-                <span className="form-character-count" style={{ marginLeft: 'auto', fontSize: '12px', color: getCounterColor(getCharCount(formData.djExcerpt || ''), 65, 180) }}>
+                <span
+                  className="form-character-count"
+                  style={{
+                    marginLeft: 'auto',
+                    fontSize: '12px',
+                    color: getCounterColor(getCharCount(formData.djExcerpt || ''), 65, 180),
+                  }}
+                >
                   {getCharCount(formData.djExcerpt || '')}/180
                 </span>
               </div>
@@ -377,9 +386,18 @@ export default function CrProfileEditForm({
                 maxLength={1000}
                 required
               />
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              >
                 {errors.djBio && <span className="form-error">{errors.djBio}</span>}
-                <span className="form-character-count" style={{ marginLeft: 'auto', fontSize: '12px', color: getCounterColor(getCharCount(formData.djBio || ''), 180, 1000) }}>
+                <span
+                  className="form-character-count"
+                  style={{
+                    marginLeft: 'auto',
+                    fontSize: '12px',
+                    color: getCounterColor(getCharCount(formData.djBio || ''), 180, 1000),
+                  }}
+                >
                   {getCharCount(formData.djBio || '')}/1000
                 </span>
               </div>
@@ -514,21 +532,23 @@ export default function CrProfileEditForm({
         <div className="form-group">
           <label className="form-label">Social Media Links</label>
           <div className="form-social-inputs">
-            {['facebook', 'instagram', 'twitter', 'linkedin', 'bluesky'].map((platform) => {
-              const existingLink = socialLinks.find((link) => link.platform === platform)
-              return (
-                <div key={platform} className="form-social-input-item">
-                  <CrSocialIcon platform={platform} size={20} />
-                  <input
-                    type="text"
-                    className="form-input--social"
-                    value={formData[`${platform}Url`] || existingLink?.url || ''}
-                    onChange={(e) => handleInputChange(`${platform}Url`, e.target.value)}
-                    placeholder={`www.${platform}.com/yourusername`}
-                  />
-                </div>
-              )
-            })}
+            {['facebook', 'instagram', 'twitter', 'tiktok', 'linkedin', 'bluesky'].map(
+              (platform) => {
+                const existingLink = socialLinks.find((link) => link.platform === platform)
+                return (
+                  <div key={platform} className="form-social-input-item">
+                    <CrSocialIcon platform={platform} size={20} />
+                    <input
+                      type="text"
+                      className="form-input--social"
+                      value={formData[`${platform}Url`] || existingLink?.url || ''}
+                      onChange={(e) => handleInputChange(`${platform}Url`, e.target.value)}
+                      placeholder={`www.${platform}.com/yourusername`}
+                    />
+                  </div>
+                )
+              }
+            )}
           </div>
         </div>
       </div>
