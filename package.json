@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@capacitor-community/app-icon": "^6.0.0",
+    "@capacitor/app": "^7.1.0",
     "@capacitor/core": "^7.4.3",
     "@capacitor/filesystem": "^7.1.4",
     "@capacitor/share": "^7.0.2",
