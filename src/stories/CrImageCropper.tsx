@@ -76,11 +76,21 @@ export default function CrImageCropper({
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const outputCanvasRef = useRef<HTMLCanvasElement>(null)
 
-  // Cropper settings
-  const containerSize = 400
-  const cropSize = 300
-  const cropOffset = 50
+  // Cropper settings - responsive to match CSS media queries
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768)
+  const containerSize = isMobileView ? 300 : 400
+  const cropSize = isMobileView ? 225 : 300
+  const cropOffset = isMobileView ? 37.5 : 50
   const outputSize = avatarSize
+
+  // Update mobile view on window resize
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 768)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   // Initialize currentImage from initialFullImage if provided
   React.useEffect(() => {
@@ -221,14 +231,13 @@ export default function CrImageCropper({
       return { sx: 0, sy: 0, width: 0, height: 0 }
     }
 
-    // Use uniform scale based on how the image was sized for display
-    // For landscape: sized by height, so use height scale
-    // For portrait: sized by width, so use width scale
+    // Calculate scale based on actual display vs source dimensions
+    const scaleX = currentImage.width / displayWidth
+    const scaleY = currentImage.height / displayHeight
+
+    // Use the scale that matches how the image was sized (should be equal if aspect preserved)
     const imageAspect = currentImage.width / currentImage.height
-    const scale =
-      imageAspect >= 1
-        ? currentImage.height / displayHeight // Landscape: use height
-        : currentImage.width / displayWidth // Portrait: use width
+    const scale = imageAspect >= 1 ? scaleY : scaleX
 
     const cropX = cropOffset - cropperState.position.x
     const cropY = cropOffset - cropperState.position.y
