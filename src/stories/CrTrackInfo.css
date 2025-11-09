@@ -11,8 +11,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  position: relative;
-  min-width: 250px;
+  min-width: 0; /* Allow shrinking on mobile */
 }
 
 /* Text area takes up available space but leaves room for button */
@@ -23,27 +22,28 @@
   min-width: 0;
 }
 
-/* Position the ADD button absolutely to keep it inline with last text line */
-.cr-track-info__actions {
-  position: absolute;
-  right: 0;
+/* Bottom row wrapper - contains last content line + ADD button */
+.cr-track-info__bottom-row {
   display: flex;
   align-items: center;
-  min-width: 65px;
-  justify-content: flex-end;
+  min-width: 0;
 }
 
-/* Different positioning based on variant */
-.cr-track-info--full .cr-track-info__actions {
-  bottom: 0; /* Align with the last line (album/label line) */
+/* Content wrapper inside bottom row */
+.cr-track-info__content-with-button {
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+  flex: 1;
+  width: 100%;
 }
 
-.cr-track-info--minimal .cr-track-info__actions {
-  bottom: 0; /* Align with artist line (which is the last visible line in minimal) */
-}
-
-.cr-track-info--stacked .cr-track-info__actions {
-  bottom: 0; /* Align with the last line (label line) */
+/* ADD button inline positioning */
+.cr-track-info__actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: var(--cr-space-2); /* 8px gap */
 }
 
 /* Container for scrolling track name */
@@ -92,6 +92,8 @@
 .cr-track-info__artist-container {
   display: flex;
   align-items: center;
+  min-width: 0;
+  flex: 1;
 }
 
 .cr-track-info__local-chip-fixed {
@@ -239,10 +241,17 @@
     position: relative; /* Maintain relative positioning on mobile */
   }
 
-  /* On mobile, still keep button inline with last visible text */
-  .cr-track-info__actions {
+  /* On mobile in full player, keep button inline with last visible text */
+  .cr-track-info--full .cr-track-info__actions {
     position: absolute;
     right: 0;
     min-width: 60px; /* Even smaller on mobile */
+  }
+
+  /* On mobile in slim/mini players, use static positioning to prevent overlap with play button */
+  .cr-track-info--minimal .cr-track-info__actions {
+    position: static !important;
+    right: auto !important;
+    margin-left: var(--cr-space-2);
   }
 }
