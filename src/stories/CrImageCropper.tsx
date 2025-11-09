@@ -221,9 +221,14 @@ export default function CrImageCropper({
       return { sx: 0, sy: 0, width: 0, height: 0 }
     }
 
-    // Use uniform scale based on the actual image dimensions
-    // This ensures the crop is always square in the source image
-    const scale = currentImage.width / displayWidth
+    // Use uniform scale based on how the image was sized for display
+    // For landscape: sized by height, so use height scale
+    // For portrait: sized by width, so use width scale
+    const imageAspect = currentImage.width / currentImage.height
+    const scale =
+      imageAspect >= 1
+        ? currentImage.height / displayHeight // Landscape: use height
+        : currentImage.width / displayWidth // Portrait: use width
 
     const cropX = cropOffset - cropperState.position.x
     const cropY = cropOffset - cropperState.position.y
