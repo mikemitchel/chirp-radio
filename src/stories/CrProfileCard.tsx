@@ -316,7 +316,7 @@ export default function CrProfileCard({
               <div className="cr-profile-card__social-column">
                 {socialLinks.slice(0, Math.ceil(socialLinks.length / 2)).map((link, index) => (
                   <div key={`${link.platform}-${index}`} className="cr-profile-card__social-item">
-                    <CrSocialIcon platform={link.platform} size={24} url={link.url} />
+                    <CrSocialIcon platform={link.platform} size={40} url={link.url} />
                     <a
                       href={`https://${link.url}`}
                       className="cr-profile-card__social-link"
@@ -331,7 +331,7 @@ export default function CrProfileCard({
               <div className="cr-profile-card__social-column">
                 {socialLinks.slice(Math.ceil(socialLinks.length / 2)).map((link, index) => (
                   <div key={`${link.platform}-${index}`} className="cr-profile-card__social-item">
-                    <CrSocialIcon platform={link.platform} size={24} url={link.url} />
+                    <CrSocialIcon platform={link.platform} size={40} url={link.url} />
                     <a
                       href={`https://${link.url}`}
                       className="cr-profile-card__social-link"
