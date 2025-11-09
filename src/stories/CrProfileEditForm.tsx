@@ -135,6 +135,29 @@ export default function CrProfileEditForm({
       onChange(field, value)
     }
 
+    // Handle social media URL fields - update socialLinks array
+    const socialPlatforms = ['facebook', 'instagram', 'twitter', 'tiktok', 'linkedin', 'bluesky']
+    const isSocialField = socialPlatforms.some((platform) => field === `${platform}Url`)
+
+    if (isSocialField && onChange) {
+      // Extract platform name from field (e.g., 'facebookUrl' -> 'facebook')
+      const platform = field.replace('Url', '')
+
+      // Get current socialLinks array or create empty one
+      const currentSocialLinks = formData.socialLinks || []
+
+      // Update or add the social link
+      const updatedSocialLinks = currentSocialLinks.filter(
+        (link: any) => link.platform !== platform
+      )
+      if (value && value.trim() !== '') {
+        updatedSocialLinks.push({ platform, url: value })
+      }
+
+      // Update the socialLinks array in formData
+      onChange('socialLinks', updatedSocialLinks)
+    }
+
     // Validate if field has been touched
     if (touched[field]) {
       const error = validateField(field, value)
