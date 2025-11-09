@@ -308,7 +308,7 @@ html.dark .cr-player__color-overlay {
 
 .cr-player--full-player .cr-player__track-info-container {
   flex: 1;
-  min-width: 0;
+  min-width: 200px; /* Prevent over-shrinking */
   width: 240px; /* w-60 from Figma */
 }
 
@@ -354,7 +354,7 @@ html.dark .cr-player__color-overlay {
 
 .cr-player--slim-player .cr-player__track-info-container {
   flex: 1;
-  min-width: 0;
+  min-width: 180px; /* Prevent over-shrinking */
   margin-left: var(--cr-space-3);
 }
 
@@ -363,11 +363,6 @@ html.dark .cr-player__color-overlay {
   flex-shrink: 0;
   margin-left: var(--cr-space-2);
   margin-right: var(--cr-space-1);
-}
-
-/* Remove absolute positioning from ADD button in slim player */
-.cr-player--slim-player .cr-track-info__actions {
-  position: static !important;
 }
 
 /* Ensure proper flex behavior for artist container in slim player */
@@ -425,7 +420,7 @@ html.dark .cr-player__color-overlay {
 
 .cr-player--mini-player .cr-player__track-info-container {
   flex: 1;
-  min-width: 0;
+  min-width: 150px; /* Prevent over-shrinking */
   margin-left: var(--cr-space-2);
 }
 
@@ -435,11 +430,6 @@ html.dark .cr-player__color-overlay {
   flex-shrink: 0;
   margin-left: var(--cr-space-2);
   margin-right: 0;
-}
-
-/* Remove absolute positioning from ADD button in mini player */
-.cr-player--mini-player .cr-track-info__actions {
-  position: static !important;
 }
 
 /* Ensure proper flex behavior for artist container in mini player */
@@ -771,26 +761,11 @@ html.dark .cr-player__color-overlay {
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
-  /* Constrain track info width to prevent overlap with play button in slim/mini players */
+  /* Allow track info containers to shrink on mobile */
+  .cr-player--full-player .cr-player__track-info-container,
   .cr-player--slim-player .cr-player__track-info-container,
   .cr-player--mini-player .cr-player__track-info-container {
-    max-width: calc(100% - 80px) !important; /* Reserve 80px for play button */
-    flex-shrink: 1 !important;
-  }
-
-  /* Override absolute positioning for ADD button in slim/mini players on mobile */
-  .cr-player--slim-player .cr-track-info__actions,
-  .cr-player--mini-player .cr-track-info__actions,
-  .cr-mobile-frame .cr-player--slim-player .cr-track-info__actions {
-    position: static !important;
-    right: auto !important;
-  }
-
-  /* Ensure flex layout is maintained */
-  .cr-player--slim-player .cr-track-info__bottom-row,
-  .cr-mobile-frame .cr-player--slim-player .cr-track-info__bottom-row {
-    display: flex !important;
-    align-items: center !important;
+    min-width: 0 !important;
   }
 }
 

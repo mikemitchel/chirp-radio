@@ -11,7 +11,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: 0; /* Allow shrinking on mobile */
+  min-width: 0; /* Allow shrinking to fit container */
+  position: relative; /* Required for absolute positioning of ADD button */
 }
 
 /* Text area takes up available space but leaves room for button */
@@ -38,12 +39,15 @@
   width: 100%;
 }
 
-/* ADD button inline positioning */
+/* ADD button inline positioning - absolute by default to overlay on content */
 .cr-track-info__actions {
+  position: absolute;
+  bottom: 0;
+  right: 0;
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  margin-left: var(--cr-space-2); /* 8px gap */
+  min-width: 65px;
 }
 
 /* Container for scrolling track name */
@@ -238,20 +242,15 @@
 /* Responsive layout adjustments */
 @media (max-width: 640px) {
   .cr-track-info__content {
-    position: relative; /* Maintain relative positioning on mobile */
+    min-width: 0; /* Allow shrinking on mobile to fit smaller screens */
   }
 
-  /* On mobile in full player, keep button inline with last visible text */
-  .cr-track-info--full .cr-track-info__actions {
-    position: absolute;
-    right: 0;
-    min-width: 60px; /* Even smaller on mobile */
-  }
-
-  /* On mobile in slim/mini players, use static positioning to prevent overlap with play button */
+  /* On mobile in slim/mini players (minimal variant), use static positioning to prevent overlap with play button */
   .cr-track-info--minimal .cr-track-info__actions {
     position: static !important;
     right: auto !important;
+    bottom: auto !important;
     margin-left: var(--cr-space-2);
+    min-width: auto;
   }
 }
