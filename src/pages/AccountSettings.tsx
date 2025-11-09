@@ -216,6 +216,40 @@ export default function AccountSettings() {
     emit('chirp-dark-mode-change', darkMode)
   }, [darkMode])
 
+  // Background sync: Retry pending CMS updates when page loads or regains focus
+  useEffect(() => {
+    const attemptPendingSync = async () => {
+      const pendingSyncStr = localStorage.getItem('chirp-profile-pending-sync')
+      if (!pendingSyncStr) return
+
+      try {
+        const pendingSync = JSON.parse(pendingSyncStr)
+        console.log('Attempting to sync pending profile changes to CMS...')
+
+        await updateInCMS<Member>('listeners', pendingSync.userId, pendingSync.data)
+
+        console.log('✓ Pending profile changes synced to CMS successfully')
+        localStorage.removeItem('chirp-profile-pending-sync')
+      } catch (error) {
+        console.warn('CMS still unavailable, will retry later:', error)
+        // Keep the pending sync flag for next attempt
+      }
+    }
+
+    // Attempt sync on mount
+    attemptPendingSync()
+
+    // Attempt sync when page regains focus (user returns to tab)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        attemptPendingSync()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
+  }, [])
+
   const handleDarkModeChange = (mode: 'light' | 'dark' | 'device') => {
     setDarkMode(mode)
     const storage = getStorage()
@@ -490,12 +524,7 @@ export default function AccountSettings() {
         socialLinks: socialLinksObj,
       }
 
-      // Update in CMS first
-      if (currentUser.id) {
-        await updateInCMS<Member>('listeners', currentUser.id, memberUpdateData)
-      }
-
-      // Then update localStorage
+      // Update localStorage first (always works, even if CMS is down)
       const updatedUser = {
         ...currentUser,
         firstName: formData.firstName,
@@ -522,6 +551,28 @@ export default function AccountSettings() {
       }
 
       localStorage.setItem('chirp-user', JSON.stringify(updatedUser))
+
+      // Try to sync to CMS in background (don't fail if CMS is down)
+      if (currentUser.id) {
+        updateInCMS<Member>('listeners', currentUser.id, memberUpdateData)
+          .then(() => {
+            console.log('Profile synced to CMS successfully')
+            // Clear any pending sync flag
+            localStorage.removeItem('chirp-profile-pending-sync')
+          })
+          .catch((error) => {
+            console.warn('CMS sync failed, will retry later:', error)
+            // Mark profile as needing sync
+            localStorage.setItem(
+              'chirp-profile-pending-sync',
+              JSON.stringify({
+                timestamp: Date.now(),
+                data: memberUpdateData,
+                userId: currentUser.id,
+              })
+            )
+          })
+      }
 
       showToast({
         message: 'Profile updated successfully',
