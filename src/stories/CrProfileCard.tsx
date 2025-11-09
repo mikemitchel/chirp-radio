@@ -84,6 +84,7 @@ export default function CrProfileCard({
     { platform: 'facebook', url: 'www.facebook.com/thisguyrighthere' },
     { platform: 'instagram', url: 'www.instagram.com/thisguydoingstuff' },
     { platform: 'twitter', url: 'www.twitter.com/thisguytakingtrash' },
+    { platform: 'tiktok', url: 'www.tiktok.com/@thisguydancing' },
     { platform: 'linkedin', url: 'www.linkedin.com/thisguybuttonedup' },
     { platform: 'bluesky', url: 'www.bluesky.com/thisguygettingaway' },
   ],

@@ -1,5 +1,11 @@
 // CrSocialIcon.tsx
-import { FaFacebookSquare, FaInstagram, FaTwitterSquare, FaLinkedin } from 'react-icons/fa'
+import {
+  FaFacebookSquare,
+  FaInstagram,
+  FaTwitterSquare,
+  FaLinkedin,
+  FaTiktok,
+} from 'react-icons/fa'
 import { SiBluesky } from 'react-icons/si'
 import './CrSocialIcon.css'
 
@@ -23,6 +29,11 @@ const socialPlatforms = {
     icon: SiBluesky,
     color: '#00a8e8',
     label: 'Bluesky',
+  },
+  tiktok: {
+    icon: FaTiktok,
+    color: 'var(--cr-ink)',
+    label: 'TikTok',
   },
   linkedin: {
     icon: FaLinkedin,
@@ -71,10 +82,12 @@ export default function CrSocialIcon({
     <IconComponent
       className="cr-social-icon__svg"
       size={size}
-      style={{
-        '--cr-social-icon-color': platformConfig.color,
-        '--cr-social-icon-size': `${size}px`,
-      } as React.CSSProperties}
+      style={
+        {
+          '--cr-social-icon-color': platformConfig.color,
+          '--cr-social-icon-size': `${size}px`,
+        } as React.CSSProperties
+      }
     />
   )
 
