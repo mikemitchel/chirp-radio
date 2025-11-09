@@ -96,7 +96,7 @@ const AlbumArt = ({
   album?: string
   className: any
   style?: any
-  isLarge?: boolean
+  _isLarge?: boolean
 }) => {
   const { data: fallbackImages, loading: fallbackLoading } = usePlayerFallbackImages()
 
@@ -295,17 +295,18 @@ const AlbumArt = ({
         // Detect if mobile platform
         const isMobile = Capacitor.isNativePlatform()
 
-        // Resolve album art through fallback chain
-        const result = await resolveAlbumArt(
-          src,
-          artist || '',
-          album || '',
-          fallbackUrls,
-          lastFallbackIndex.current,
-          isMobile
-        )
+          // Resolve album art through fallback chain
+          result = await resolveAlbumArt(
+            src,
+            artist || '',
+            album || '',
+            fallbackUrls,
+            lastFallbackIndex.current,
+            isMobile
+          )
 
-        log.log('Album art resolved:', result.source)
+          log.log('Album art resolved:', result.source)
+        }
 
         // Update lastFallbackIndex if we used a fallback
         if (result.source === 'fallback' && result.fallbackIndex !== undefined) {
