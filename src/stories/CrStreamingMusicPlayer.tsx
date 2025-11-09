@@ -276,24 +276,33 @@ const AlbumArt = ({
 
     const resolveArt = async () => {
       try {
-        // Get fallback image URLs from CMS (only if loaded, otherwise use empty array)
-        const fallbackUrls = fallbackLoading
-          ? []
-          : fallbackImages
-              .filter((img) => img.url)
-              .map((img) => img.sizes?.player?.url || img.url || '')
-              .filter((url) => url)
+        let result: { url: string; source: string; fallbackIndex?: number }
 
-        if (fallbackUrls.length === 0 && !fallbackLoading) {
-          log.log('No fallback images available from CMS, will try API sources only')
-        }
+        // If we have a valid URL from context (NowPlayingContext already provides correct Last.fm URL),
+        // use it directly without running through the resolution chain
+        if (src && typeof src === 'string' && src.trim() !== '') {
+          log.log('Using album art URL directly from context:', src)
+          result = { url: src, source: 'context' }
+        } else {
+          // Only run resolution if no URL provided
+          // Get fallback image URLs from CMS (only if loaded, otherwise use empty array)
+          const fallbackUrls = fallbackLoading
+            ? []
+            : fallbackImages
+                .filter((img) => img.url)
+                .map((img) => img.sizes?.player?.url || img.url || '')
+                .filter((url) => url)
 
-        if (fallbackUrls.length === 0 && fallbackLoading) {
-          log.log('CMS fallback images still loading, will try API sources first')
-        }
+          if (fallbackUrls.length === 0 && !fallbackLoading) {
+            log.log('No fallback images available from CMS, will try API sources only')
+          }
 
-        // Detect if mobile platform
-        const isMobile = Capacitor.isNativePlatform()
+          if (fallbackUrls.length === 0 && fallbackLoading) {
+            log.log('CMS fallback images still loading, will try API sources first')
+          }
+
+          // Detect if mobile platform
+          const isMobile = Capacitor.isNativePlatform()
 
           // Resolve album art through fallback chain
           result = await resolveAlbumArt(
