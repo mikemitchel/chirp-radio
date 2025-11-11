@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from '
 import { useUsers } from './UserContext'
 import type { User, UserRole } from '../types/user'
 import { loadCollectionFromUser } from '../utils/collectionDB'
+import { on } from '../utils/eventBus'
 
 // Legacy role type for backward compatibility
 export type LegacyUserRole = 'listener' | 'volunteer' | 'dj'
@@ -48,6 +49,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return saved === 'true'
   })
 
+  // State to force re-render when user profile is updated
+  const [profileUpdateTrigger, setProfileUpdateTrigger] = useState(0)
+
+  // Listen for profile updates and force re-render to refresh user from localStorage
+  useEffect(() => {
+    const unsubscribe = on('chirp-user-profile-updated', () => {
+      setProfileUpdateTrigger((prev) => prev + 1)
+    })
+    return unsubscribe
+  }, [])
+
   // Get user from UserContext, or fallback to localStorage for temp users
   const user = currentUserId
     ? getUserById(currentUserId) ||
@@ -76,8 +88,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user: user
         ? { id: user.id, email: user.email, firstName: user.firstName, roles: user.roles }
         : null,
+      profileUpdateTrigger,
     })
-  }, [currentUserId, user])
+  }, [currentUserId, user, profileUpdateTrigger])
 
   // Sync login state to localStorage
   useEffect(() => {

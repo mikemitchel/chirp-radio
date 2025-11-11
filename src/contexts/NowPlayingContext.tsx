@@ -364,11 +364,26 @@ export function NowPlayingProvider({
 
     App.addListener('appStateChange', ({ isActive }) => {
       if (isActive) {
-        log.log('App became active - triggering immediate metadata refresh')
+        log.log('App became active - clearing caches and refreshing metadata')
+
+        // Clear album art caches to force refresh with latest data
+        try {
+          sessionStorage.removeItem('chirp-album-art-cache')
+          sessionStorage.removeItem('chirp-bg-cache')
+          sessionStorage.removeItem('chirp-fallback-index')
+          log.log('✅ Album art caches cleared')
+        } catch (e) {
+          log.log('Failed to clear caches:', e)
+        }
+
         // Clear any pending poll timeout
         if (pollTimeoutRef.current) {
           clearTimeout(pollTimeoutRef.current)
         }
+
+        // Reset resolved flag to allow album art to be revalidated
+        albumArtResolvedRef.current = false
+
         // Immediately fetch latest track data
         fetchNowPlaying()
       }
