@@ -54,10 +54,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Listen for profile updates and force re-render to refresh user from localStorage
   useEffect(() => {
-    const unsubscribe = on('chirp-user-profile-updated', () => {
+    const unsubscribe1 = on('chirp-user-profile-updated', () => {
+      console.log('[AuthContext] Received chirp-user-profile-updated event')
       setProfileUpdateTrigger((prev) => prev + 1)
     })
-    return unsubscribe
+    const unsubscribe2 = on('userFavoritesUpdated', () => {
+      console.log('[AuthContext] Received userFavoritesUpdated event - refreshing user')
+      setProfileUpdateTrigger((prev) => {
+        const newValue = prev + 1
+        console.log('[AuthContext] ProfileUpdateTrigger changed:', prev, '->', newValue)
+        return newValue
+      })
+    })
+    return () => {
+      unsubscribe1()
+      unsubscribe2()
+    }
   }, [])
 
   // Get user from UserContext, or fallback to localStorage for temp users
@@ -86,7 +98,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     console.log('[AuthContext] User updated:', {
       currentUserId,
       user: user
-        ? { id: user.id, email: user.email, firstName: user.firstName, roles: user.roles }
+        ? {
+            id: user.id,
+            email: user.email,
+            firstName: user.firstName,
+            roles: user.roles,
+            favoriteDJs: user.favoriteDJs,
+          }
         : null,
       profileUpdateTrigger,
     })
