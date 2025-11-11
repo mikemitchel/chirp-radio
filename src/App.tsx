@@ -67,12 +67,14 @@ import UserTypeSwitcher from './components/UserTypeSwitcher'
 // Redirect component to route mobile app users to /app or /android-auto
 function RootRedirect() {
   const navigate = useNavigate()
-  const [isChecking, setIsChecking] = useState(true)
+
+  // Check platform synchronously BEFORE any render
+  const isNative = Capacitor.isNativePlatform()
 
   useEffect(() => {
     const checkPlatform = async () => {
       // If running in Capacitor (native mobile app)
-      if (Capacitor.isNativePlatform()) {
+      if (isNative) {
         const isAndroid = Capacitor.getPlatform() === 'android'
 
         if (isAndroid) {
@@ -83,7 +85,6 @@ function RootRedirect() {
 
             if (result.isAutomotive) {
               navigate('/android-auto', { replace: true })
-              setIsChecking(false)
               return
             }
           } catch (error) {
@@ -91,29 +92,26 @@ function RootRedirect() {
           }
         }
 
-        // Regular mobile app
+        // Regular mobile app - navigate immediately
         navigate('/app', { replace: true })
-        setIsChecking(false)
-      } else {
-        // Web browser
-        setIsChecking(false)
       }
     }
 
     checkPlatform()
-  }, [navigate])
+  }, [navigate, isNative])
 
-  // Show nothing while checking platform (prevents flash)
-  if (isChecking) {
+  // For native apps, return null immediately (prevents any flash)
+  // The useEffect above will handle the navigation
+  if (isNative) {
     return null
   }
 
-  // For web browsers, show the web landing page
-  if (Capacitor.isNativePlatform()) {
-    return null // Should never reach here, but just in case
-  }
-
-  return <LandingPage />
+  // For web browsers, manually wrap with WebLayout since root route is outside WebLayout
+  return (
+    <WebLayout>
+      <LandingPage />
+    </WebLayout>
+  )
 }
 
 // OnboardingWrapper to check for new users
@@ -260,6 +258,9 @@ function App() {
                     <ScrollToTop />
                     <RedirectChecker />
                     <Routes>
+                      {/* Root route - MUST be outside WebLayout to prevent white screen on native */}
+                      <Route index element={<RootRedirect />} />
+
                       {/* Android Automotive route (standalone, no layout) */}
                       <Route path="/android-auto" element={<AndroidAutoPage />} />
 
@@ -281,8 +282,6 @@ function App() {
 
                       {/* Web layout routes */}
                       <Route element={<WebLayout />}>
-                        {/* Root route - web landing for browsers, auto-redirects to /app for mobile */}
-                        <Route index element={<RootRedirect />} />
                         <Route path="playlist" element={<PlaylistPage />} />
                         <Route path="listen" element={<ListenPage />} />
                         <Route path="other-ways-to-listen" element={<OtherWaysToListenPage />} />
