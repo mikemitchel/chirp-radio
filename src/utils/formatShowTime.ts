@@ -57,26 +57,32 @@ export function formatShowTime(showTime: string | undefined): string {
       const startDate = new Date(isoMatch[1])
       const endDate = new Date(isoMatch[2])
 
-      // CMS already stores times in Chicago timezone, so just format the UTC time as-is
-      // The ISO strings represent Chicago time moments, not actual UTC
-      const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-      const startDay = dayNames[startDate.getUTCDay()]
-      const endDay = dayNames[endDate.getUTCDay()]
+      // ISO strings from ShowSchedules are in UTC, need to convert to Chicago timezone
+      // Get day name in Chicago timezone
+      const startDayStr = startDate.toLocaleString('en-US', {
+        timeZone: 'America/Chicago',
+        weekday: 'short',
+      })
+      const endDayStr = endDate.toLocaleString('en-US', {
+        timeZone: 'America/Chicago',
+        weekday: 'short',
+      })
+      const startDay = startDayStr.substring(0, 3)
+      const endDay = endDayStr.substring(0, 3)
 
-      // Format times using UTC methods (since the ISO string represents Chicago time)
-      const startHours = startDate.getUTCHours()
-      const startMinutes = startDate.getUTCMinutes()
-      const endHours = endDate.getUTCHours()
-      const endMinutes = endDate.getUTCMinutes()
-
-      // Convert to 12-hour format with AM/PM
-      const startPeriod = startHours >= 12 ? 'PM' : 'AM'
-      const endPeriod = endHours >= 12 ? 'PM' : 'AM'
-      const startHour12 = startHours % 12 || 12
-      const endHour12 = endHours % 12 || 12
-
-      const startTimeFormatted = `${startHour12}:${startMinutes.toString().padStart(2, '0')} ${startPeriod}`
-      const endTimeFormatted = `${endHour12}:${endMinutes.toString().padStart(2, '0')} ${endPeriod}`
+      // Format times in Chicago timezone
+      const startTimeFormatted = startDate.toLocaleString('en-US', {
+        timeZone: 'America/Chicago',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      })
+      const endTimeFormatted = endDate.toLocaleString('en-US', {
+        timeZone: 'America/Chicago',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      })
 
       // Apply compact formatting
       const startTimeCompact = formatTime(startTimeFormatted)
