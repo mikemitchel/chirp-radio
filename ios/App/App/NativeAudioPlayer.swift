@@ -542,30 +542,44 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         let currentTitle = currentInfo[MPMediaItemPropertyTitle] as? String ?? ""
         let expectedTitle = lastMetadata[MPMediaItemPropertyTitle] as? String ?? ""
 
-        // If metadata doesn't match, re-apply it
+        // If metadata doesn't match or was cleared, re-apply from lastMetadata
         if currentTitle != expectedTitle || currentInfo.isEmpty {
-            print("⚡ ENFORCEMENT: Reapplying metadata - iOS cleared it")
+            print("⚡ ENFORCEMENT: Reapplying metadata - iOS cleared or changed it")
+            print("   Expected: \(expectedTitle)")
+            print("   Got: \(currentTitle)")
+
+            // Use lastMetadata as base
             var updatedInfo = lastMetadata
             updatedInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
             updatedInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
+
+            // Remove any duration or elapsed time that might have been added
+            updatedInfo.removeValue(forKey: MPNowPlayingInfoPropertyElapsedPlaybackTime)
+            updatedInfo.removeValue(forKey: MPMediaItemPropertyPlaybackDuration)
+
             MPNowPlayingInfoCenter.default().nowPlayingInfo = updatedInfo
-        }
+        } else {
+            // Metadata title matches - just ensure flags are correct without full replacement
+            currentInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
+            currentInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
 
-        // Always ensure live stream flag and playback rate are correct
-        currentInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
-        currentInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+            // Remove any duration or elapsed time that might have been added
+            var needsUpdate = false
+            if currentInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] != nil {
+                currentInfo.removeValue(forKey: MPNowPlayingInfoPropertyElapsedPlaybackTime)
+                needsUpdate = true
+            }
+            if currentInfo[MPMediaItemPropertyPlaybackDuration] != nil {
+                currentInfo.removeValue(forKey: MPMediaItemPropertyPlaybackDuration)
+                needsUpdate = true
+            }
 
-        // Remove any duration or elapsed time that might have been added
-        if currentInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] != nil {
-            currentInfo.removeValue(forKey: MPNowPlayingInfoPropertyElapsedPlaybackTime)
-            print("⚡ ENFORCEMENT: Removed elapsed time")
+            // Only update if something changed to avoid unnecessary writes
+            if needsUpdate {
+                MPNowPlayingInfoCenter.default().nowPlayingInfo = currentInfo
+                print("⚡ ENFORCEMENT: Updated flags/removed duration")
+            }
         }
-        if currentInfo[MPMediaItemPropertyPlaybackDuration] != nil {
-            currentInfo.removeValue(forKey: MPMediaItemPropertyPlaybackDuration)
-            print("⚡ ENFORCEMENT: Removed duration")
-        }
-
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = currentInfo
     }
 
     @objc func getPlaybackState(_ call: CAPPluginCall) {
