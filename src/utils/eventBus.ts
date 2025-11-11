@@ -52,17 +52,18 @@ export interface AppEventMap {
   'cms-data-updated': void
 
   // User events
-  'updateUserFavoriteDJs': {
+  updateUserFavoriteDJs: {
     userId: string
     djId: string
     isFavorite: boolean
   }
-  'userFavoritesUpdated': void
-  'updateUserCollection': {
+  userFavoritesUpdated: void
+  updateUserCollection: {
     userId: string
     collection: CollectionTrack[]
   }
-  'userCollectionUpdated': void
+  userCollectionUpdated: void
+  'chirp-user-profile-updated': void
 }
 
 // Event listener type
