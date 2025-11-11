@@ -31,6 +31,8 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     private var timeObserverToken: Any?
     private var lastPollTime: Date = Date.distantPast
     private var isPollingActive: Bool = false
+    private var albumArtCache: [String: UIImage] = [:] // Cache album art by URL
+    private let cacheQueue = DispatchQueue(label: "com.chirpradio.albumArtCache", qos: .userInitiated) // Serial queue for thread-safe cache access
 
     public override func load() {
         print("🎵 NativeAudioPlayer plugin loaded")
@@ -508,40 +510,71 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
 
-        // Load album art if provided
+        // Set metadata immediately WITHOUT artwork for instant display
+        DispatchQueue.main.async {
+            print("📱 Setting metadata immediately (without artwork)")
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+            print("✅ Text metadata set - lock screen/CarPlay now shows track info")
+        }
+
+        // Load album art asynchronously if provided
         if !albumArtUrl.isEmpty, let url = URL(string: albumArtUrl) {
+            // Check cache first (thread-safe)
+            if let cachedImage = getCachedImage(for: albumArtUrl) {
+                print("🎯 Using cached album art")
+                let artwork = MPMediaItemArtwork(boundsSize: cachedImage.size) { _ in cachedImage }
+                nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+
+                DispatchQueue.main.async {
+                    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+                    print("✅ Updated WITH cached artwork")
+                    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+                }
+                call.resolve()
+                return
+            }
+
             print("🖼️ Loading album art: \(albumArtUrl)")
-            URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+
+            // Create URLSession with timeout for cellular reliability
+            let config = URLSessionConfiguration.default
+            config.timeoutIntervalForRequest = 15.0
+            config.timeoutIntervalForResource = 30.0
+            config.waitsForConnectivity = false
+            let session = URLSession(configuration: config)
+
+            session.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self else { return }
+
                 if let error = error {
-                    print("❌ Error loading album art: \(error)")
+                    print("❌ Error loading album art: \(error.localizedDescription)")
+                    // Metadata already set, so this is non-blocking
+                    return
                 }
 
                 if let data = data, let image = UIImage(data: data) {
                     print("✅ Album art loaded, size: \(image.size)")
-                    let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
-                        return image
-                    }
+
+                    // Cache the image (thread-safe)
+                    self.cacheImage(image, for: albumArtUrl)
+                    print("💾 Cached album art")
+
+                    let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
                     nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
 
                     DispatchQueue.main.async {
                         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                        print("✅ Metadata set WITH artwork")
+                        print("✅ Updated WITH artwork")
                         print("   Lock screen should now show: \(nowPlayingInfo[MPMediaItemPropertyTitle] as? String ?? "")")
                         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                     }
                 } else {
-                    DispatchQueue.main.async {
-                        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                        print("✅ Metadata set WITHOUT artwork")
-                        print("   Lock screen should now show: \(nowPlayingInfo[MPMediaItemPropertyTitle] as? String ?? "")")
-                        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-                    }
+                    print("⚠️ Failed to create UIImage from album art data")
+                    // Metadata already set, so this is non-blocking
                 }
             }.resume()
         } else {
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-            print("✅ Metadata set (no artwork)")
-            print("   Lock screen should now show: \(nowPlayingInfo[MPMediaItemPropertyTitle] as? String ?? "")")
+            print("✅ Metadata set (no artwork URL provided)")
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
         }
 
@@ -554,6 +587,20 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
             "isPlaying": isPlaying,
             "currentTime": player?.currentTime().seconds ?? 0
         ])
+    }
+
+    // MARK: - Album Art Cache (Thread-Safe)
+
+    private func getCachedImage(for url: String) -> UIImage? {
+        return cacheQueue.sync {
+            return albumArtCache[url]
+        }
+    }
+
+    private func cacheImage(_ image: UIImage, for url: String) {
+        cacheQueue.async { [weak self] in
+            self?.albumArtCache[url] = image
+        }
     }
 
     // MARK: - Background Polling
@@ -783,49 +830,85 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
 
-        // Load album art if provided
+        // CRITICAL: Set metadata immediately WITHOUT artwork
+        // This ensures CarPlay/lock screen shows text info right away
+        DispatchQueue.main.async { [weak self] in
+            print("📱 [LOCK SCREEN] Setting metadata immediately (without artwork)")
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+            print("✅ [LOCK SCREEN] Text metadata set - CarPlay/lock screen now shows track info")
+        }
+
+        // Load album art asynchronously if provided
         if !albumArtUrl.isEmpty, let url = URL(string: albumArtUrl) {
+            // Check cache first (thread-safe)
+            if let cachedImage = getCachedImage(for: albumArtUrl) {
+                print("🎯 [LOCK SCREEN] Using cached album art for: \(albumArtUrl)")
+                let artwork = MPMediaItemArtwork(boundsSize: cachedImage.size) { _ in cachedImage }
+                nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+
+                DispatchQueue.main.async {
+                    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+                    print("✅ [LOCK SCREEN] Updated WITH cached artwork")
+                    print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+                }
+                return
+            }
+
             print("🖼️ [LOCK SCREEN] Loading album art from: \(albumArtUrl)")
             let artStartTime = Date()
 
-            URLSession.shared.dataTask(with: url) { data, response, error in
+            // Create URLSession with timeout for cellular reliability
+            let config = URLSessionConfiguration.default
+            config.timeoutIntervalForRequest = 15.0 // 15 second timeout
+            config.timeoutIntervalForResource = 30.0
+            config.waitsForConnectivity = false // Don't wait if offline
+            let session = URLSession(configuration: config)
+
+            session.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self else { return }
+
                 let artDuration = Date().timeIntervalSince(artStartTime)
                 print("⏱️ [LOCK SCREEN] Album art fetch completed in \(String(format: "%.2f", artDuration))s")
 
                 if let error = error {
                     print("❌ [LOCK SCREEN] Error loading album art: \(error.localizedDescription)")
+                    print("   Error code: \((error as NSError).code)")
+                    // Metadata already set without artwork, so CarPlay still works
+                    return
                 }
 
                 if let data = data, let image = UIImage(data: data) {
                     print("✅ [LOCK SCREEN] Album art loaded: \(image.size.width)x\(image.size.height), \(data.count) bytes")
+
+                    // Cache the image for future use (thread-safe)
+                    self.cacheImage(image, for: albumArtUrl)
+                    print("💾 [LOCK SCREEN] Cached album art")
+
                     let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
                     nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
 
                     DispatchQueue.main.async {
-                        print("📱 [LOCK SCREEN] Setting MPNowPlayingInfoCenter WITH artwork on main thread")
+                        print("📱 [LOCK SCREEN] Updating metadata WITH artwork on main thread")
                         print("   App state: \(UIApplication.shared.applicationState.rawValue)")
                         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                        print("✅ [LOCK SCREEN] MPNowPlayingInfoCenter updated WITH artwork")
+                        print("✅ [LOCK SCREEN] Updated WITH artwork")
                         print("   Verify: \(MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyTitle] as? String ?? "NIL")")
                         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                     }
                 } else {
                     print("⚠️ [LOCK SCREEN] Failed to create UIImage from data")
-                    DispatchQueue.main.async {
-                        print("📱 [LOCK SCREEN] Setting MPNowPlayingInfoCenter WITHOUT artwork on main thread")
-                        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                        print("✅ [LOCK SCREEN] MPNowPlayingInfoCenter updated WITHOUT artwork")
-                        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-                    }
+                    print("   Data size: \(data?.count ?? 0) bytes")
+                    print("   Response: \(response.debugDescription)")
+                    // Metadata already set without artwork, so CarPlay still works
                 }
             }.resume()
         } else {
-            print("📱 [LOCK SCREEN] No album art URL - setting metadata without artwork")
+            print("📱 [LOCK SCREEN] No album art URL - metadata already set without artwork")
             print("   Thread: \(Thread.isMainThread ? "MAIN" : "BACKGROUND - DISPATCHING TO MAIN")")
 
-            // Always dispatch to main thread for safety
+            // Already set above
             DispatchQueue.main.async {
-                print("📱 [LOCK SCREEN] Setting MPNowPlayingInfoCenter (no artwork) on main thread")
+                print("📱 [LOCK SCREEN] Confirming metadata without artwork")
                 print("   App state: \(UIApplication.shared.applicationState.rawValue)")
                 MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
                 print("✅ [LOCK SCREEN] MPNowPlayingInfoCenter updated (no artwork)")
