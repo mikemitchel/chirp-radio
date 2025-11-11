@@ -28,6 +28,8 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     private var pollingApiUrl: String?
     private var lastTrackId: String = ""
     private var backgroundSession: URLSession?
+    private var timeObserverToken: Any?
+    private var lastPollTime: Date = Date.distantPast
 
     public override func load() {
         print("🎵 NativeAudioPlayer plugin loaded")
@@ -58,6 +60,13 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     deinit {
         backgroundPollingTimer?.invalidate()
         backgroundPollingTimer = nil
+
+        // Remove time observer
+        if let token = timeObserverToken {
+            player?.removeTimeObserver(token)
+            timeObserverToken = nil
+        }
+
         NotificationCenter.default.removeObserver(self)
         cleanupPlayerObservers()
     }
@@ -542,43 +551,68 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
 
         pollingApiUrl = apiUrl
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-        print("📡 Starting background polling: \(apiUrl)")
-        print("   Current run loop: \(RunLoop.current)")
+        print("📡 Starting background polling with AVPlayer time observer: \(apiUrl)")
+        print("   Player exists: \(player != nil)")
         print("   Audio session active: \(AVAudioSession.sharedInstance().isOtherAudioPlaying)")
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
-        // Stop any existing timer
-        backgroundPollingTimer?.invalidate()
-        backgroundPollingTimer = nil
-
-        // Create a timer on the CURRENT run loop (not main) for background reliability
-        // This ensures it runs even when app is backgrounded with audio playing
-        let timer = Timer(timeInterval: 5.0, repeats: true) { [weak self] _ in
-            let timestamp = Date().timeIntervalSince1970
-            print("⏰ [BG TIMER FIRED] \(timestamp) - Polling API...")
-            self?.pollNowPlayingAPI()
+        guard let player = player else {
+            print("❌ Cannot start polling - player not initialized")
+            call.reject("Player not initialized")
+            return
         }
 
-        backgroundPollingTimer = timer
+        // Remove existing observer if any
+        if let token = timeObserverToken {
+            player.removeTimeObserver(token)
+            timeObserverToken = nil
+        }
 
-        // Add to BOTH common and default modes for maximum reliability
-        RunLoop.current.add(timer, forMode: .common)
-        RunLoop.current.add(timer, forMode: .default)
+        // Use AVPlayer's periodic time observer - this WILL work in background during playback
+        // Check every 1 second, but only poll API every 5 seconds
+        let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
 
-        print("✅ Timer scheduled on run loop with tolerance: \(timer.tolerance)s")
-        print("   Timer fire date: \(timer.fireDate)")
+        timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+            guard let self = self else { return }
+
+            let now = Date()
+            let timeSinceLastPoll = now.timeIntervalSince(self.lastPollTime)
+
+            // Only poll every 5 seconds
+            if timeSinceLastPoll >= 5.0 {
+                let timestamp = now.timeIntervalSince1970
+                print("⏰ [TIME OBSERVER FIRED] \(timestamp) - \(String(format: "%.1f", timeSinceLastPoll))s since last poll")
+                print("   Player time: \(time.seconds)s")
+                print("   App state: \(UIApplication.shared.applicationState.rawValue) (0=active, 1=inactive, 2=background)")
+
+                self.lastPollTime = now
+                self.pollNowPlayingAPI()
+            }
+        }
+
+        print("✅ Time observer added to AVPlayer - will fire every 1s during playback")
+        print("   API polling will occur every 5s")
 
         // Immediate first poll
         print("🚀 Executing immediate first poll...")
+        lastPollTime = Date()
         pollNowPlayingAPI()
 
-        call.resolve(["status": "started", "interval": 5.0])
+        call.resolve(["status": "started", "method": "time_observer", "interval": 5.0])
     }
 
     @objc func stopBackgroundPolling(_ call: CAPPluginCall) {
         print("🛑 Stopping background polling")
         backgroundPollingTimer?.invalidate()
         backgroundPollingTimer = nil
+
+        // Remove time observer
+        if let token = timeObserverToken {
+            player?.removeTimeObserver(token)
+            timeObserverToken = nil
+            print("✅ Time observer removed")
+        }
+
         call.resolve(["status": "stopped"])
     }
 
