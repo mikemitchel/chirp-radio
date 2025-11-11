@@ -403,13 +403,39 @@ export function useRegularDJs() {
               thursday: 'Thu',
               friday: 'Fri',
               saturday: 'Sat',
-              sunday: 'Sun'
+              sunday: 'Sun',
+            }
+
+            // Helper to convert time to 24-hour format (matches DJSchedulePage logic)
+            const convertTo24Hour = (timeStr: string): string => {
+              // Try to parse as ISO date first
+              const date = new Date(timeStr)
+              if (!isNaN(date.getTime())) {
+                const hours = date.getHours()
+                const minutes = date.getMinutes()
+                return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`
+              }
+
+              // Fall back to parsing "6:00 AM" format
+              const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
+              if (!match) return timeStr
+
+              let hours = parseInt(match[1])
+              const minutes = match[2]
+              const period = match[3].toUpperCase()
+
+              if (period === 'PM' && hours !== 12) hours += 12
+              if (period === 'AM' && hours === 12) hours = 0
+
+              return `${hours.toString().padStart(2, '0')}:${minutes}`
             }
 
             showTime = memberSchedules
               .map((schedule: any) => {
                 const day = dayMap[schedule.dayOfWeek] || schedule.dayOfWeek
-                return `${day} ${schedule.startTime} - ${schedule.endTime}`
+                const start24 = convertTo24Hour(schedule.startTime)
+                const end24 = convertTo24Hour(schedule.endTime)
+                return `${day} ${start24} - ${end24}`
               })
               .join(', ')
           }
@@ -423,11 +449,14 @@ export function useRegularDJs() {
           excerpt: member.djExcerpt || member.bio || '',
           description: member.djBio || member.bio || '',
           donationLink: member.djDonationLink || '',
-          imageSrc: typeof member.profileImage === 'string'
-            ? member.profileImage
-            : typeof member.profileImage === 'object' && member.profileImage !== null && 'url' in member.profileImage
-            ? member.profileImage.url
-            : '',
+          imageSrc:
+            typeof member.profileImage === 'string'
+              ? member.profileImage
+              : typeof member.profileImage === 'object' &&
+                  member.profileImage !== null &&
+                  'url' in member.profileImage
+                ? member.profileImage.url
+                : '',
           profileImageOrientation: member.profileImageOrientation || 'square',
           slug: createSlug(member.djName || member.firstName || 'dj'),
         }
@@ -453,11 +482,14 @@ export function useSubstituteDJs() {
         excerpt: member.djExcerpt || member.bio || '',
         description: member.djBio || member.bio || '',
         donationLink: member.djDonationLink || '',
-        imageSrc: typeof member.profileImage === 'string'
-          ? member.profileImage
-          : typeof member.profileImage === 'object' && member.profileImage !== null && 'url' in member.profileImage
-          ? member.profileImage.url
-          : '',
+        imageSrc:
+          typeof member.profileImage === 'string'
+            ? member.profileImage
+            : typeof member.profileImage === 'object' &&
+                member.profileImage !== null &&
+                'url' in member.profileImage
+              ? member.profileImage.url
+              : '',
         profileImageOrientation: member.profileImageOrientation || 'square',
         slug: createSlug(member.djName || member.firstName || 'dj'),
       }))
@@ -469,10 +501,10 @@ export function useSubstituteDJs() {
 
 // Board position priority for sorting
 const BOARD_POSITIONS: Record<string, number> = {
-  'President': 1,
+  President: 1,
   'Vice President': 2,
-  'Secretary': 3,
-  'Treasurer': 4,
+  Secretary: 3,
+  Treasurer: 4,
 }
 
 // Get members with Board Member role, sorted by position
