@@ -22,6 +22,7 @@
 
 /* Image container */
 .cr-current-dj-card__image-container {
+  position: relative;
   flex-shrink: 0;
   width: 140px;
   height: 140px;
@@ -34,6 +35,14 @@
   height: 100%;
   object-fit: cover;
   opacity: 1;
+}
+
+/* Favorite badge overlay - bottom left corner */
+.cr-current-dj-card__favorite-badge {
+  position: absolute;
+  bottom: var(--cr-space-2);
+  left: var(--cr-space-2);
+  z-index: 3;
 }
 
 /* Info section */
