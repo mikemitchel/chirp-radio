@@ -57,18 +57,28 @@ export function formatShowTime(showTime: string | undefined): string {
       const startDate = new Date(isoMatch[1])
       const endDate = new Date(isoMatch[2])
 
-      // Format dates in local timezone
-      const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-      const startDay = dayNames[startDate.getDay()]
-      const endDay = dayNames[endDate.getDay()]
+      // Format dates in Chicago timezone (America/Chicago) - CHIRP Radio's location
+      // Get day name in Chicago timezone
+      const startDayStr = startDate.toLocaleString('en-US', {
+        timeZone: 'America/Chicago',
+        weekday: 'short',
+      })
+      const endDayStr = endDate.toLocaleString('en-US', {
+        timeZone: 'America/Chicago',
+        weekday: 'short',
+      })
+      const startDay = startDayStr.substring(0, 3)
+      const endDay = endDayStr.substring(0, 3)
 
-      // Format times in 12-hour format with AM/PM
+      // Format times in 12-hour format with AM/PM in Chicago timezone
       const startTimeFormatted = startDate.toLocaleString('en-US', {
+        timeZone: 'America/Chicago',
         hour: 'numeric',
         minute: '2-digit',
         hour12: true,
       })
       const endTimeFormatted = endDate.toLocaleString('en-US', {
+        timeZone: 'America/Chicago',
         hour: 'numeric',
         minute: '2-digit',
         hour12: true,
