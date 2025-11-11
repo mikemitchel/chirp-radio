@@ -51,6 +51,12 @@ export interface AppEventMap {
   'chirp-force-refresh': void
   'cms-data-updated': void
 
+  // Playback events
+  songChanged: {
+    artist: string
+    track: string
+  }
+
   // User events
   updateUserFavoriteDJs: {
     userId: string
