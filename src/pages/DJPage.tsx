@@ -23,6 +23,15 @@ const DJPage: React.FC = () => {
     <div className="dj-page">
       <section className="page-container">
         <CrPageHeader title="DJs" showEyebrow={false} showActionButton={false} />
+        <p
+          style={{
+            fontSize: '0.875rem',
+            color: 'var(--color-text-secondary)',
+            marginTop: '0.5rem',
+          }}
+        >
+          * All times displayed in Central Time
+        </p>
       </section>
 
       <div className="page-layout-main-sidebar">

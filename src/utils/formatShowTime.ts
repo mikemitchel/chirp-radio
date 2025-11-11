@@ -33,6 +33,7 @@ function formatTime(timeStr: string): string {
  * - "Wed 12:00 PM - 2:00 PM" -> "Wed 12n - 2pm"
  * - "Friday 12:00 PM - 3:00 PM" -> "Fri 12n - 3pm"
  * - "Mon 6am - 9am, Thu 6am - 9am" -> "Mon 6am - 9am, Thu 6am - 9am" (multiple shows)
+ * - ISO format: "2025-11-06T03:00:00.000Z - 2025-11-05T05:00:00.000Z" -> "Thu 10pm - Fri 12n"
  */
 export function formatShowTime(showTime: string | undefined): string {
   if (!showTime) return ''
@@ -45,8 +46,35 @@ export function formatShowTime(showTime: string | undefined): string {
       .join(', ')
   }
 
+  // Try to parse 24-hour format like "Tue 06:00 - 09:00" (from ShowSchedules)
+  const format24Match = showTime.match(/(\w{3,})\s+(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/i)
+  if (format24Match) {
+    const day = format24Match[1].substring(0, 3) // Take first 3 chars
+    const startHour = parseInt(format24Match[2])
+    const startMin = format24Match[3]
+    const endHour = parseInt(format24Match[4])
+    const endMin = format24Match[5]
+
+    // Convert to 12-hour format with AM/PM
+    const startPeriod = startHour >= 12 ? 'PM' : 'AM'
+    const endPeriod = endHour >= 12 ? 'PM' : 'AM'
+    const startHour12 = startHour % 12 || 12
+    const endHour12 = endHour % 12 || 12
+
+    const startTimeFormatted = `${startHour12}:${startMin} ${startPeriod}`
+    const endTimeFormatted = `${endHour12}:${endMin} ${endPeriod}`
+
+    // Apply compact formatting
+    const startTimeCompact = formatTime(startTimeFormatted)
+    const endTimeCompact = formatTime(endTimeFormatted)
+
+    return `${day} ${startTimeCompact} - ${endTimeCompact}`
+  }
+
   // Try to parse format like "Wed 12:00 PM - 2:00 PM" or "Friday 12:00 PM - 3:00 PM"
-  const match = showTime.match(/(\w{3,})\s+(\d{1,2}):?(\d{2})?\s*(AM|PM)\s*-\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)/i)
+  const match = showTime.match(
+    /(\w{3,})\s+(\d{1,2}):?(\d{2})?\s*(AM|PM)\s*-\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)/i
+  )
 
   if (match) {
     const day = match[1].substring(0, 3) // Take first 3 chars for abbreviation (Friday -> Fri)
