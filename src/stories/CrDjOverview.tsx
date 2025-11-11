@@ -67,12 +67,7 @@ export default function CrDjOverview({
         <div className="cr-dj-overview__dj-name">
           {djName}
           {isFavorite && (
-            <CrChip
-              variant="secondary-light"
-              size="small"
-              squared
-              style={{ marginLeft: 'var(--cr-space-1)' }}
-            >
+            <CrChip variant="secondary-light" size="small" squared className="cr-chip--inline">
               FAVORITE
             </CrChip>
           )}
@@ -145,12 +140,7 @@ export default function CrDjOverview({
         <div className="cr-dj-overview__dj-name">
           {djName}
           {isFavorite && (
-            <CrChip
-              variant="secondary-light"
-              size="small"
-              squared
-              style={{ marginLeft: 'var(--cr-space-1)' }}
-            >
+            <CrChip variant="secondary-light" size="small" squared className="cr-chip--inline">
               FAVORITE
             </CrChip>
           )}
@@ -247,12 +237,7 @@ export default function CrDjOverview({
           <div className="cr-dj-overview__dj-name">
             {djName}
             {isFavorite && (
-              <CrChip
-                variant="secondary-light"
-                size="small"
-                squared
-                style={{ marginLeft: 'var(--cr-space-1)' }}
-              >
+              <CrChip variant="secondary-light" size="small" squared className="cr-chip--inline">
                 FAVORITE
               </CrChip>
             )}
@@ -290,12 +275,7 @@ export default function CrDjOverview({
         <div className="cr-dj-overview__dj-name">
           {djName}
           {isFavorite && (
-            <CrChip
-              variant="secondary-light"
-              size="small"
-              squared
-              style={{ marginLeft: 'var(--cr-space-1)' }}
-            >
+            <CrChip variant="secondary-light" size="small" squared className="cr-chip--inline">
               FAVORITE
             </CrChip>
           )}
