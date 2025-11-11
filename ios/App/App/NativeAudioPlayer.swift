@@ -14,7 +14,9 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "stop", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setStreamUrl", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "updateMetadata", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getPlaybackState", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "getPlaybackState", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "startBackgroundPolling", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "stopBackgroundPolling", returnType: CAPPluginReturnPromise)
     ]
 
     private var player: AVPlayer?
@@ -22,6 +24,9 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     private var currentStreamUrl: String?
     private var isPlaying = false
     private var itemObservers: [NSKeyValueObservation] = []
+    private var backgroundPollingTimer: Timer?
+    private var pollingApiUrl: String?
+    private var lastTrackId: String = ""
 
     public override func load() {
         print("🎵 NativeAudioPlayer plugin loaded")
@@ -50,6 +55,8 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     }
 
     deinit {
+        backgroundPollingTimer?.invalidate()
+        backgroundPollingTimer = nil
         NotificationCenter.default.removeObserver(self)
         cleanupPlayerObservers()
     }
@@ -522,5 +529,155 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
             "isPlaying": isPlaying,
             "currentTime": player?.currentTime().seconds ?? 0
         ])
+    }
+
+    // MARK: - Background Polling
+
+    @objc func startBackgroundPolling(_ call: CAPPluginCall) {
+        guard let apiUrl = call.getString("apiUrl") else {
+            call.reject("API URL is required")
+            return
+        }
+
+        pollingApiUrl = apiUrl
+        print("📡 Starting background polling: \(apiUrl)")
+
+        // Stop any existing timer
+        backgroundPollingTimer?.invalidate()
+
+        // Create a timer that runs on the main run loop (works in background with audio mode)
+        backgroundPollingTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
+            self?.pollNowPlayingAPI()
+        }
+
+        // Keep timer alive in background by using common run loop mode
+        if let timer = backgroundPollingTimer {
+            RunLoop.main.add(timer, forMode: .common)
+        }
+
+        // Immediate first poll
+        pollNowPlayingAPI()
+
+        call.resolve(["status": "started"])
+    }
+
+    @objc func stopBackgroundPolling(_ call: CAPPluginCall) {
+        print("🛑 Stopping background polling")
+        backgroundPollingTimer?.invalidate()
+        backgroundPollingTimer = nil
+        call.resolve(["status": "stopped"])
+    }
+
+    private func pollNowPlayingAPI() {
+        guard let urlString = pollingApiUrl,
+              let url = URL(string: urlString) else {
+            print("❌ Invalid API URL for polling")
+            return
+        }
+
+        print("🔄 Polling now playing API...")
+
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+
+            if let error = error {
+                print("❌ Polling error: \(error.localizedDescription)")
+                return
+            }
+
+            guard let data = data else {
+                print("❌ No data received from API")
+                return
+            }
+
+            do {
+                // Parse JSON response
+                if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let nowPlaying = json["now_playing"] as? [String: Any] {
+
+                    let artist = nowPlaying["artist"] as? String ?? "Unknown Artist"
+                    let track = nowPlaying["track"] as? String ?? "Unknown Track"
+                    let album = nowPlaying["album"] as? String ?? nowPlaying["release"] as? String ?? "Unknown Album"
+
+                    // Create track ID to detect changes
+                    let trackId = "\(artist)|\(track)"
+
+                    if trackId != self.lastTrackId {
+                        print("🎵 New track detected: \(artist) - \(track)")
+                        self.lastTrackId = trackId
+
+                        // Get album art URL
+                        var albumArtUrl = ""
+                        if let albumArt = nowPlaying["albumArt"] as? String {
+                            albumArtUrl = albumArt
+                        } else if let lastfmUrls = nowPlaying["lastfm_urls"] as? [String: Any] {
+                            albumArtUrl = lastfmUrls["large_image"] as? String ??
+                                         lastfmUrls["med_image"] as? String ??
+                                         lastfmUrls["sm_image"] as? String ?? ""
+                        }
+
+                        // Update lock screen metadata on main thread
+                        DispatchQueue.main.async {
+                            self.updateLockScreenMetadata(
+                                title: track,
+                                artist: artist,
+                                album: album,
+                                albumArtUrl: albumArtUrl
+                            )
+
+                            // Notify JavaScript layer about the track change
+                            self.notifyListeners("trackChanged", data: [
+                                "artist": artist,
+                                "track": track,
+                                "album": album,
+                                "albumArt": albumArtUrl
+                            ])
+                        }
+                    }
+                }
+            } catch {
+                print("❌ Failed to parse API response: \(error)")
+            }
+        }
+
+        task.resume()
+    }
+
+    private func updateLockScreenMetadata(title: String, artist: String, album: String, albumArtUrl: String) {
+        var nowPlayingInfo = [String: Any]()
+        nowPlayingInfo[MPMediaItemPropertyTitle] = title
+        nowPlayingInfo[MPMediaItemPropertyArtist] = artist
+        nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = album
+        nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
+        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+
+        print("📝 Updating lock screen: \(title) by \(artist)")
+
+        // Load album art if provided
+        if !albumArtUrl.isEmpty, let url = URL(string: albumArtUrl) {
+            URLSession.shared.dataTask(with: url) { data, _, error in
+                if let error = error {
+                    print("❌ Error loading album art: \(error)")
+                }
+
+                if let data = data, let image = UIImage(data: data) {
+                    let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+                    nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+
+                    DispatchQueue.main.async {
+                        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+                        print("✅ Lock screen updated WITH artwork")
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+                        print("✅ Lock screen updated WITHOUT artwork")
+                    }
+                }
+            }.resume()
+        } else {
+            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+            print("✅ Lock screen updated (no artwork URL)")
+        }
     }
 }
