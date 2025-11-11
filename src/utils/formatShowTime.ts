@@ -46,56 +46,29 @@ export function formatShowTime(showTime: string | undefined): string {
       .join(', ')
   }
 
-  // Check if this is ISO format (contains 'T' and 'Z')
-  if (showTime.includes('T') && showTime.includes('Z')) {
-    // Parse ISO format: "2025-11-06T03:00:00.000Z - 2025-11-05T05:00:00.000Z"
-    const isoMatch = showTime.match(
-      /(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)\s*-\s*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)/
-    )
+  // Try to parse 24-hour format like "Tue 06:00 - 09:00" (from ShowSchedules)
+  const format24Match = showTime.match(/(\w{3,})\s+(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/i)
+  if (format24Match) {
+    const day = format24Match[1].substring(0, 3) // Take first 3 chars
+    const startHour = parseInt(format24Match[2])
+    const startMin = format24Match[3]
+    const endHour = parseInt(format24Match[4])
+    const endMin = format24Match[5]
 
-    if (isoMatch) {
-      const startDate = new Date(isoMatch[1])
-      const endDate = new Date(isoMatch[2])
+    // Convert to 12-hour format with AM/PM
+    const startPeriod = startHour >= 12 ? 'PM' : 'AM'
+    const endPeriod = endHour >= 12 ? 'PM' : 'AM'
+    const startHour12 = startHour % 12 || 12
+    const endHour12 = endHour % 12 || 12
 
-      // ISO strings from ShowSchedules are in UTC, need to convert to Chicago timezone
-      // Get day name in Chicago timezone
-      const startDayStr = startDate.toLocaleString('en-US', {
-        timeZone: 'America/Chicago',
-        weekday: 'short',
-      })
-      const endDayStr = endDate.toLocaleString('en-US', {
-        timeZone: 'America/Chicago',
-        weekday: 'short',
-      })
-      const startDay = startDayStr.substring(0, 3)
-      const endDay = endDayStr.substring(0, 3)
+    const startTimeFormatted = `${startHour12}:${startMin} ${startPeriod}`
+    const endTimeFormatted = `${endHour12}:${endMin} ${endPeriod}`
 
-      // Format times in Chicago timezone
-      const startTimeFormatted = startDate.toLocaleString('en-US', {
-        timeZone: 'America/Chicago',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      })
-      const endTimeFormatted = endDate.toLocaleString('en-US', {
-        timeZone: 'America/Chicago',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      })
+    // Apply compact formatting
+    const startTimeCompact = formatTime(startTimeFormatted)
+    const endTimeCompact = formatTime(endTimeFormatted)
 
-      // Apply compact formatting
-      const startTimeCompact = formatTime(startTimeFormatted)
-      const endTimeCompact = formatTime(endTimeFormatted)
-
-      // If same day, only show day once
-      if (startDay === endDay) {
-        return `${startDay} ${startTimeCompact} - ${endTimeCompact}`
-      } else {
-        // Different days - show both
-        return `${startDay} ${startTimeCompact} - ${endDay} ${endTimeCompact}`
-      }
-    }
+    return `${day} ${startTimeCompact} - ${endTimeCompact}`
   }
 
   // Try to parse format like "Wed 12:00 PM - 2:00 PM" or "Friday 12:00 PM - 3:00 PM"
