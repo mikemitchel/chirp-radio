@@ -158,7 +158,7 @@ export default function CrProfileEditForm({
       onChange('socialLinks', updatedSocialLinks)
     }
 
-    // Validate if field has been touched
+    // Validate if field has been touched - use the new value for validation
     if (touched[field]) {
       const error = validateField(field, value)
       setErrors((prev) => ({
@@ -168,9 +168,29 @@ export default function CrProfileEditForm({
     }
   }
 
+  const getFieldValue = (field: string) => {
+    // Return the same value that the input displays
+    if (formData[field] !== undefined && formData[field] !== '') {
+      return formData[field]
+    }
+    // Fall back to props
+    switch (field) {
+      case 'firstName':
+        return firstName
+      case 'lastName':
+        return lastName
+      case 'email':
+        return email
+      case 'avatarSrc':
+        return avatarSrc
+      default:
+        return formData[field]
+    }
+  }
+
   const handleBlur = (field: string) => {
     setTouched((prev) => ({ ...prev, [field]: true }))
-    const value = formData[field]
+    const value = getFieldValue(field)
     const error = validateField(field, value)
     setErrors((prev) => ({
       ...prev,
@@ -196,7 +216,8 @@ export default function CrProfileEditForm({
     }
 
     fieldsToValidate.forEach((field) => {
-      const error = validateField(field, formData[field])
+      const value = getFieldValue(field)
+      const error = validateField(field, value)
       if (error) {
         newErrors[field] = error
       }
