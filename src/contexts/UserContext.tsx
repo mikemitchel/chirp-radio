@@ -69,26 +69,83 @@ export function UserProvider({ children }: UserProviderProps) {
   // Update user's favorite DJs
   const updateUserFavoriteDJs = useCallback(
     async (userId: string, djId: string, isFavorite: boolean) => {
-      console.log('[UserContext] updateUserFavoriteDJs:', { userId, djId, isFavorite })
+      console.log('[UserContext] updateUserFavoriteDJs START:', {
+        userId,
+        djId,
+        isFavorite,
+        usersCount: users.length,
+      })
 
-      // Get current user to calculate new favoriteDJs
+      // Check if this is a CMS user or temp/demo user
       const currentUser = users.find((u) => u.id === userId)
-      if (!currentUser) return
+      const isTempUser = !currentUser
+
+      if (isTempUser) {
+        console.log('[UserContext] Temp/demo user detected - updating localStorage only:', userId)
+
+        // For temp users, update localStorage directly
+        const storedUser = localStorage.getItem('chirp-user')
+        if (storedUser) {
+          try {
+            const parsedUser = JSON.parse(storedUser)
+            if (parsedUser.id === userId) {
+              const favoriteDJs = parsedUser.favoriteDJs || []
+              const updatedFavoriteDJs = isFavorite
+                ? [...favoriteDJs, djId]
+                : favoriteDJs.filter((id: string) => id !== djId)
+
+              const updatedUser = {
+                ...parsedUser,
+                favoriteDJs: updatedFavoriteDJs,
+              }
+
+              localStorage.setItem('chirp-user', JSON.stringify(updatedUser))
+              console.log('[UserContext] ✅ Updated temp user in localStorage:', {
+                id: updatedUser.id,
+                favoriteDJs: updatedUser.favoriteDJs,
+              })
+
+              // Emit event to refresh AuthContext
+              emit('userFavoritesUpdated')
+              return
+            }
+          } catch (error) {
+            console.error('[UserContext] Failed to parse localStorage user:', error)
+            return
+          }
+        }
+
+        console.error('[UserContext] Temp user not found in localStorage')
+        return
+      }
+
+      // CMS user - proceed with full CMS save
+      console.log('[UserContext] CMS user found:', {
+        id: currentUser.id,
+        email: currentUser.email,
+        currentFavorites: currentUser.favoriteDJs,
+      })
 
       const favoriteDJs = currentUser.favoriteDJs || []
       const updatedFavoriteDJs = isFavorite
         ? [...favoriteDJs, djId]
         : favoriteDJs.filter((id) => id !== djId)
 
+      console.log('[UserContext] Favorites update:', {
+        old: favoriteDJs,
+        new: updatedFavoriteDJs,
+      })
+
       // Convert to CMS format: array of objects with djId field
       const cmsFavoriteDJs = updatedFavoriteDJs.map((id) => ({ djId: id }))
 
       // First update in CMS
       try {
-        await updateMember(userId, { favoriteDJs: cmsFavoriteDJs })
-        console.log('[UserContext] Saved favoriteDJs to CMS successfully')
+        console.log('[UserContext] Saving to CMS...', { userId, cmsFavoriteDJs })
+        const result = await updateMember(userId, { favoriteDJs: cmsFavoriteDJs })
+        console.log('[UserContext] ✅ CMS save successful:', result)
       } catch (error) {
-        console.error('[UserContext] Failed to save favoriteDJs to CMS:', error)
+        console.error('[UserContext] ❌ Failed to save favoriteDJs to CMS:', error)
         // Don't update local state if CMS save fails
         return
       }
@@ -97,7 +154,7 @@ export function UserProvider({ children }: UserProviderProps) {
       setUsers((prevUsers) => {
         const updatedUsers = prevUsers.map((user) => {
           if (user.id === userId) {
-            console.log('[UserContext] Updating user favorites:', {
+            console.log('[UserContext] Updating user favorites in state:', {
               userId,
               oldFavorites: favoriteDJs,
               newFavorites: updatedFavoriteDJs,
@@ -116,7 +173,10 @@ export function UserProvider({ children }: UserProviderProps) {
           const updatedUser = updatedUsers.find((u) => u.id === userId)
           if (updatedUser) {
             localStorage.setItem('chirp-user', JSON.stringify(updatedUser))
-            console.log('[UserContext] Updated localStorage for current user')
+            console.log('[UserContext] ✅ Updated localStorage for current user:', {
+              id: updatedUser.id,
+              favoriteDJs: updatedUser.favoriteDJs,
+            })
           }
         }
 
@@ -124,6 +184,7 @@ export function UserProvider({ children }: UserProviderProps) {
       })
 
       // Emit typed event
+      console.log('[UserContext] Emitting userFavoritesUpdated event')
       emit('userFavoritesUpdated')
     },
     [currentUserId, users]

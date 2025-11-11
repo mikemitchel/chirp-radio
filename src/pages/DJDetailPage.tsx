@@ -42,6 +42,22 @@ const DJDetailPage: React.FC = () => {
   const { requireLogin, showLoginModal, handleLogin, handleSignUp, closeModal } = useLoginRequired()
   const { showToast } = useNotification()
 
+  // Helper to convert ISO timestamp to "HH:MM AM/PM" format
+  const convertISOToTimeString = (isoString: string): string => {
+    try {
+      const date = new Date(isoString)
+      let hours = date.getHours()
+      const minutes = date.getMinutes()
+      const ampm = hours >= 12 ? 'PM' : 'AM'
+      hours = hours % 12 || 12 // Convert to 12-hour format
+      const minutesStr = minutes.toString().padStart(2, '0')
+      return `${hours}:${minutesStr} ${ampm}`
+    } catch (error) {
+      console.error('Error converting ISO to time string:', error)
+      return isoString
+    }
+  }
+
   // Helper to format time compactly (e.g., "12:00 PM" -> "12n", "6:00 AM" -> "6am")
   const formatTime = (timeStr: string): string => {
     const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
@@ -120,8 +136,15 @@ const DJDetailPage: React.FC = () => {
 
     const scheduleStrings = djSchedules.map((schedule) => {
       const day = dayNames[schedule.dayOfWeek] || schedule.dayOfWeek
-      const startTime = formatTime(schedule.startTime)
-      const endTime = formatTime(schedule.endTime)
+      // Convert ISO timestamps to "HH:MM AM/PM" format if needed
+      const startTimeStr = schedule.startTime.includes('T')
+        ? convertISOToTimeString(schedule.startTime)
+        : schedule.startTime
+      const endTimeStr = schedule.endTime.includes('T')
+        ? convertISOToTimeString(schedule.endTime)
+        : schedule.endTime
+      const startTime = formatTime(startTimeStr)
+      const endTime = formatTime(endTimeStr)
       return `${day} ${startTime} - ${endTime}`
     })
 
@@ -300,10 +323,17 @@ const DJDetailPage: React.FC = () => {
                           sunday: 'Sun',
                         }
                         const day = dayNames[schedule.dayOfWeek] || schedule.dayOfWeek
-                        const startTime = formatTime(schedule.startTime)
-                        const endTime = formatTime(schedule.endTime)
+                        // Convert ISO timestamps to "HH:MM AM/PM" format if needed
+                        const startTimeStr = schedule.startTime.includes('T')
+                          ? convertISOToTimeString(schedule.startTime)
+                          : schedule.startTime
+                        const endTimeStr = schedule.endTime.includes('T')
+                          ? convertISOToTimeString(schedule.endTime)
+                          : schedule.endTime
+                        const startTime = formatTime(startTimeStr)
+                        const endTime = formatTime(endTimeStr)
                         const showTimeFormatted = `${day} ${startTime} - ${endTime}`
-                        const originalFormat = `${day} ${schedule.startTime} - ${schedule.endTime}`
+                        const originalFormat = `${day} ${startTimeStr} - ${endTimeStr}`
 
                         return (
                           <div

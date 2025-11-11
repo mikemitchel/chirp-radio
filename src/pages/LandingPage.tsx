@@ -30,9 +30,11 @@ import {
   getEventAgeRestriction,
 } from '../utils/typeHelpers'
 import { useAuth } from '../hooks/useAuth'
+import { useLoginRequired } from '../hooks/useLoginRequired'
 import { downloadDJShowCalendar } from '../utils/calendar'
 import { formatShowTime, prepareShowTimes } from '../utils/formatShowTime'
 import { useNotification } from '../contexts/NotificationContext'
+import LoginRequiredModal from '../components/LoginRequiredModal'
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate()
@@ -43,7 +45,8 @@ const LandingPage: React.FC = () => {
   const { data: articles } = useArticles()
   const { data: currentShow } = useCurrentShow()
   const { data: allRegularDJs } = useRegularDJs()
-  const { user: loggedInUser } = useAuth()
+  const { user: loggedInUser, updateFavoriteDJs } = useAuth()
+  const { requireLogin, showLoginModal, handleLogin, handleSignUp, closeModal } = useLoginRequired()
   const { showToast } = useNotification()
   const { data: members, loading: membersLoading } = useMembers()
   const { data: showSchedules } = useShowSchedules()
@@ -265,6 +268,46 @@ const LandingPage: React.FC = () => {
     return shuffled.slice(0, 10)
   }, [allRegularDJs])
 
+  // Handle favoriting the current DJ
+  const handleFavoriteCurrentDJ = () => {
+    console.log('[LandingPage] handleFavoriteCurrentDJ called')
+    console.log('[LandingPage] currentDJMember:', currentDJMember)
+    console.log(
+      '[LandingPage] loggedInUser:',
+      loggedInUser
+        ? {
+            id: loggedInUser.id,
+            email: loggedInUser.email,
+            favoriteDJs: loggedInUser.favoriteDJs,
+          }
+        : 'null'
+    )
+
+    if (!currentDJMember?.id) {
+      console.error('[LandingPage] No currentDJMember ID')
+      return
+    }
+
+    requireLogin(() => {
+      const isFavorited = loggedInUser?.favoriteDJs?.includes(String(currentDJMember.id))
+      const djName = currentDJMember.djName || nowPlayingData?.dj || 'this DJ'
+
+      console.log('[LandingPage] Calling updateFavoriteDJs:', {
+        userId: loggedInUser?.id,
+        djId: String(currentDJMember.id),
+        newFavoriteStatus: !isFavorited,
+      })
+
+      updateFavoriteDJs(String(currentDJMember.id), !isFavorited)
+
+      showToast({
+        message: isFavorited ? `Unfavorited ${djName}` : `Favorited ${djName}`,
+        type: 'success',
+        duration: 3000,
+      })
+    })
+  }
+
   // Add landing-page class to body on mount, remove on unmount
   useEffect(() => {
     document.body.classList.add('landing-page')
@@ -423,6 +466,7 @@ const LandingPage: React.FC = () => {
                   description={description}
                   onRequestClick={() => navigate('/request-song')}
                   onMoreClick={djSlug ? () => navigate(`/djs/${djSlug}`) : undefined}
+                  onFavoriteClick={handleFavoriteCurrentDJ}
                   isFavorite={
                     currentDJMember?.id
                       ? loggedInUser?.favoriteDJs?.includes(String(currentDJMember.id))
@@ -654,6 +698,13 @@ const LandingPage: React.FC = () => {
           ))}
         </div>
       </section>
+
+      <LoginRequiredModal
+        isOpen={showLoginModal}
+        onClose={closeModal}
+        onLogin={handleLogin}
+        onSignUp={handleSignUp}
+      />
     </div>
   )
 }

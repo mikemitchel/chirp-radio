@@ -2,7 +2,7 @@
 import CrCurrentDj from './CrCurrentDj'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
-import { PiMusicNote, PiArrowRight } from 'react-icons/pi'
+import { PiMusicNote, PiHeart, PiHeartFill } from 'react-icons/pi'
 import './CrCurrentDjCard.css'
 
 interface CrCurrentDjCardProps {
@@ -17,9 +17,10 @@ interface CrCurrentDjCardProps {
   metaText?: string
   description?: string
   requestButtonText?: string
-  moreButtonText?: string
+  _moreButtonText?: string
   onRequestClick?: () => void
-  onMoreClick?: () => void
+  _onMoreClick?: () => void
+  onFavoriteClick?: () => void
   className?: string
   isFavorite?: boolean
 }
@@ -43,9 +44,10 @@ export default function CrCurrentDjCard({
 
   // Button props
   requestButtonText = 'REQUEST',
-  moreButtonText = 'MORE',
+  _moreButtonText = 'MORE',
   onRequestClick,
-  onMoreClick,
+  _onMoreClick,
+  onFavoriteClick,
 
   className = '',
   isFavorite = false,
@@ -64,30 +66,37 @@ export default function CrCurrentDjCard({
       <div className="cr-current-dj-card__content">
         <div className="cr-current-dj-card__image-container">
           <img src={djImage} alt={djImageAlt} className="cr-current-dj-card__image" />
+          {isFavorite && (
+            <div className="cr-current-dj-card__favorite-badge">
+              <CrChip variant="secondary-light" size="small" squared>
+                FAVORITE
+              </CrChip>
+            </div>
+          )}
         </div>
 
         <div className="cr-current-dj-card__info">
           <div className="cr-current-dj-card__header">{header}</div>
 
-          <h2 className="cr-current-dj-card__title">
-            {title}
-            {isFavorite && (
-              <CrChip
-                variant="secondary-light"
-                size="small"
-                squared
-                style={{ marginLeft: 'var(--cr-space-1)' }}
-              >
-                FAVORITE
-              </CrChip>
-            )}
-          </h2>
+          <h2 className="cr-current-dj-card__title">{title}</h2>
 
           {metaText && <div className="cr-current-dj-card__meta">{metaText}</div>}
 
           <p className="cr-current-dj-card__description">{description}</p>
 
           <div className="cr-current-dj-card__actions">
+            {onFavoriteClick && (
+              <CrButton
+                variant={isFavorite ? 'solid' : 'outline'}
+                color="default"
+                size="small"
+                leftIcon={isFavorite ? <PiHeartFill /> : <PiHeart />}
+                onClick={onFavoriteClick}
+              >
+                FAVORITE DJ
+              </CrButton>
+            )}
+
             <CrButton
               variant="outline"
               color="secondary"
@@ -98,7 +107,7 @@ export default function CrCurrentDjCard({
               {requestButtonText}
             </CrButton>
 
-            <CrButton
+            {/* <CrButton
               variant="solid"
               color="default"
               size="small"
@@ -106,7 +115,7 @@ export default function CrCurrentDjCard({
               onClick={onMoreClick}
             >
               {moreButtonText}
-            </CrButton>
+            </CrButton> */}
           </div>
         </div>
       </div>
