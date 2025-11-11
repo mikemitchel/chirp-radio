@@ -319,11 +319,50 @@ export function NowPlayingProvider({
 
   // Start polling when mounted
   useEffect(() => {
-    if (autoFetch) {
+    if (!autoFetch) return
+
+    const isIOS = Capacitor.getPlatform() === 'ios'
+
+    if (isIOS) {
+      // Use native background polling on iOS (avoids JavaScript timer throttling)
+      log.log('Starting native background polling for iOS')
+      NativeAudioPlayer.startBackgroundPolling({ apiUrl })
+        .then(() => {
+          log.log('✅ Native polling started')
+
+          // Listen for track changes from native layer
+          NativeAudioPlayer.addListener('trackChanged', (data) => {
+            log.log('🎵 Track changed (from native):', data.artist, '-', data.track)
+
+            const trackData: TrackData = {
+              artist: data.artist,
+              track: data.track,
+              album: data.album,
+              albumArt: data.albumArt,
+              dj: 'DJ Current', // Native polling doesn't parse DJ names yet
+              show: 'Current Show',
+              label: 'Unknown Label',
+              isLocal: false,
+            }
+
+            setCurrentData(trackData)
+            setIsLoading(false)
+          })
+        })
+        .catch((error) => {
+          log.log('❌ Failed to start native polling, falling back to JavaScript:', error)
+          fetchNowPlaying() // Fallback to JavaScript polling
+        })
+    } else {
+      // Use JavaScript polling for web/Android
+      log.log('Starting JavaScript polling')
       fetchNowPlaying()
     }
 
     return () => {
+      if (isIOS) {
+        NativeAudioPlayer.stopBackgroundPolling().catch(console.error)
+      }
       if (pollTimeoutRef.current) {
         clearTimeout(pollTimeoutRef.current)
       }
