@@ -10,7 +10,7 @@ import { useNetworkQuality } from '../hooks/useNetworkQuality'
 import { upgradeImageQuality } from '../utils/imageOptimizer'
 import { parseDjAndShowName } from '../utils/djNameParser'
 import { addRecentlyPlayed, updateRecentlyPlayedAlbumArt } from '../utils/recentlyPlayedDB'
-import { on } from '../utils/eventBus'
+import { on, emit } from '../utils/eventBus'
 import { createLogger } from '../utils/logger'
 import NowPlayingPlugin from '../plugins/NowPlayingPlugin'
 import NativeAudioPlayer from '../plugins/NativeAudioPlayer'
@@ -158,6 +158,10 @@ export function NowPlayingProvider({
           consecutiveNoChangeRef.current = 0
           lastSongRef.current = newSong
           lastUpdateTimeRef.current = new Date()
+
+          // Emit song change event to trigger Recently Played refresh
+          emit('songChanged', { artist: newData.artist, track: newData.track })
+          log.log('Emitted songChanged event for Recently Played sync')
 
           // Parse DJ and show names
           const parsed = parseDjAndShowName(newData.dj || '', newData.show || '')
