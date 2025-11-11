@@ -16,7 +16,11 @@ import type { UserRole } from '../hooks/useAuth'
 import { isVolunteer as checkIsVolunteer } from '../types/user'
 import '../styles/layout.css'
 
-const WebLayoutContent: React.FC = () => {
+interface WebLayoutContentProps {
+  children?: React.ReactNode
+}
+
+const WebLayoutContent: React.FC<WebLayoutContentProps> = ({ children }) => {
   const navigate = useNavigate()
   const { getTotalItems } = useCart()
   const { isLoggedIn, user, switchProfile, signOut } = useAuth()
@@ -311,9 +315,7 @@ const WebLayoutContent: React.FC = () => {
         padding={false}
       />
 
-      <main>
-        <Outlet />
-      </main>
+      <main>{children || <Outlet />}</main>
       <div className="web-layout-footer-container">
         <div className="support-with-ads-wrapper">
           <CrSupportWithAds />
@@ -341,10 +343,14 @@ const WebLayoutContent: React.FC = () => {
 }
 
 // Wrapper to provide NotificationProvider context
-const WebLayout: React.FC = () => {
+interface WebLayoutProps {
+  children?: React.ReactNode
+}
+
+const WebLayout: React.FC<WebLayoutProps> = ({ children }) => {
   return (
     <NotificationProvider>
-      <WebLayoutContent />
+      <WebLayoutContent children={children} />
     </NotificationProvider>
   )
 }
