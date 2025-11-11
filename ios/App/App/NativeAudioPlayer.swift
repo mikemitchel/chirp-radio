@@ -27,6 +27,7 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     private var backgroundPollingTimer: Timer?
     private var pollingApiUrl: String?
     private var lastTrackId: String = ""
+    private var backgroundSession: URLSession?
 
     public override func load() {
         print("🎵 NativeAudioPlayer plugin loaded")
@@ -540,25 +541,38 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         }
 
         pollingApiUrl = apiUrl
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
         print("📡 Starting background polling: \(apiUrl)")
+        print("   Current run loop: \(RunLoop.current)")
+        print("   Audio session active: \(AVAudioSession.sharedInstance().isOtherAudioPlaying)")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         // Stop any existing timer
         backgroundPollingTimer?.invalidate()
+        backgroundPollingTimer = nil
 
-        // Create a timer that runs on the main run loop (works in background with audio mode)
-        backgroundPollingTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
+        // Create a timer on the CURRENT run loop (not main) for background reliability
+        // This ensures it runs even when app is backgrounded with audio playing
+        let timer = Timer(timeInterval: 5.0, repeats: true) { [weak self] _ in
+            let timestamp = Date().timeIntervalSince1970
+            print("⏰ [BG TIMER FIRED] \(timestamp) - Polling API...")
             self?.pollNowPlayingAPI()
         }
 
-        // Keep timer alive in background by using common run loop mode
-        if let timer = backgroundPollingTimer {
-            RunLoop.main.add(timer, forMode: .common)
-        }
+        backgroundPollingTimer = timer
+
+        // Add to BOTH common and default modes for maximum reliability
+        RunLoop.current.add(timer, forMode: .common)
+        RunLoop.current.add(timer, forMode: .default)
+
+        print("✅ Timer scheduled on run loop with tolerance: \(timer.tolerance)s")
+        print("   Timer fire date: \(timer.fireDate)")
 
         // Immediate first poll
+        print("🚀 Executing immediate first poll...")
         pollNowPlayingAPI()
 
-        call.resolve(["status": "started"])
+        call.resolve(["status": "started", "interval": 5.0])
     }
 
     @objc func stopBackgroundPolling(_ call: CAPPluginCall) {
@@ -571,24 +585,38 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     private func pollNowPlayingAPI() {
         guard let urlString = pollingApiUrl,
               let url = URL(string: urlString) else {
-            print("❌ Invalid API URL for polling")
+            print("❌ [POLL] Invalid API URL for polling")
             return
         }
 
-        print("🔄 Polling now playing API...")
+        let pollStartTime = Date()
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print("🔄 [POLL START] Polling now playing API at \(pollStartTime.timeIntervalSince1970)")
+        print("   URL: \(urlString)")
+        print("   App state: \(UIApplication.shared.applicationState.rawValue) (0=active, 1=inactive, 2=background)")
+        print("   Is playing: \(isPlaying)")
 
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self else { return }
+            guard let self = self else {
+                print("❌ [POLL] Self is nil in completion handler")
+                return
+            }
+
+            let pollEndTime = Date()
+            let duration = pollEndTime.timeIntervalSince(pollStartTime)
+            print("⏱️ [POLL] API response received in \(String(format: "%.2f", duration))s")
 
             if let error = error {
-                print("❌ Polling error: \(error.localizedDescription)")
+                print("❌ [POLL ERROR] \(error.localizedDescription)")
                 return
             }
 
             guard let data = data else {
-                print("❌ No data received from API")
+                print("❌ [POLL] No data received from API")
                 return
             }
+
+            print("✅ [POLL] Received \(data.count) bytes of data")
 
             do {
                 // Parse JSON response
@@ -602,8 +630,16 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
                     // Create track ID to detect changes
                     let trackId = "\(artist)|\(track)"
 
+                    print("📊 [POLL] Current track: \(trackId)")
+                    print("   Last track: \(self.lastTrackId)")
+
                     if trackId != self.lastTrackId {
-                        print("🎵 New track detected: \(artist) - \(track)")
+                        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+                        print("🎵 [TRACK CHANGE DETECTED]")
+                        print("   Old: \(self.lastTrackId)")
+                        print("   New: \(trackId)")
+                        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
                         self.lastTrackId = trackId
 
                         // Get album art URL
@@ -616,8 +652,11 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
                                          lastfmUrls["sm_image"] as? String ?? ""
                         }
 
+                        print("🖼️ [POLL] Album art URL: \(albumArtUrl.isEmpty ? "NONE" : albumArtUrl)")
+
                         // Update lock screen metadata on main thread
                         DispatchQueue.main.async {
+                            print("📝 [MAIN THREAD] Updating lock screen metadata...")
                             self.updateLockScreenMetadata(
                                 title: track,
                                 artist: artist,
@@ -626,24 +665,43 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
                             )
 
                             // Notify JavaScript layer about the track change
+                            print("📡 [MAIN THREAD] Notifying JavaScript listeners...")
                             self.notifyListeners("trackChanged", data: [
                                 "artist": artist,
                                 "track": track,
                                 "album": album,
                                 "albumArt": albumArtUrl
                             ])
+                            print("✅ [TRACK CHANGE COMPLETE]")
+                            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                         }
+                    } else {
+                        print("ℹ️ [POLL] No track change - same track playing")
+                        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                     }
+                } else {
+                    print("❌ [POLL] Failed to parse now_playing from JSON")
                 }
             } catch {
-                print("❌ Failed to parse API response: \(error)")
+                print("❌ [POLL PARSE ERROR] \(error.localizedDescription)")
+                print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
             }
         }
 
         task.resume()
+        print("✅ [POLL] URL task started (resumed)")
     }
 
     private func updateLockScreenMetadata(title: String, artist: String, album: String, albumArtUrl: String) {
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print("📝 [LOCK SCREEN UPDATE START]")
+        print("   Title: \(title)")
+        print("   Artist: \(artist)")
+        print("   Album: \(album)")
+        print("   Album Art URL: \(albumArtUrl.isEmpty ? "NONE" : albumArtUrl)")
+        print("   Is Playing: \(isPlaying)")
+        print("   Thread: \(Thread.isMainThread ? "MAIN" : "BACKGROUND")")
+
         var nowPlayingInfo = [String: Any]()
         nowPlayingInfo[MPMediaItemPropertyTitle] = title
         nowPlayingInfo[MPMediaItemPropertyArtist] = artist
@@ -651,33 +709,55 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
 
-        print("📝 Updating lock screen: \(title) by \(artist)")
-
         // Load album art if provided
         if !albumArtUrl.isEmpty, let url = URL(string: albumArtUrl) {
-            URLSession.shared.dataTask(with: url) { data, _, error in
+            print("🖼️ [LOCK SCREEN] Loading album art from: \(albumArtUrl)")
+            let artStartTime = Date()
+
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                let artDuration = Date().timeIntervalSince(artStartTime)
+                print("⏱️ [LOCK SCREEN] Album art fetch completed in \(String(format: "%.2f", artDuration))s")
+
                 if let error = error {
-                    print("❌ Error loading album art: \(error)")
+                    print("❌ [LOCK SCREEN] Error loading album art: \(error.localizedDescription)")
                 }
 
                 if let data = data, let image = UIImage(data: data) {
+                    print("✅ [LOCK SCREEN] Album art loaded: \(image.size.width)x\(image.size.height), \(data.count) bytes")
                     let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
                     nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
 
                     DispatchQueue.main.async {
+                        print("📱 [LOCK SCREEN] Setting MPNowPlayingInfoCenter WITH artwork on main thread")
+                        print("   App state: \(UIApplication.shared.applicationState.rawValue)")
                         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                        print("✅ Lock screen updated WITH artwork")
+                        print("✅ [LOCK SCREEN] MPNowPlayingInfoCenter updated WITH artwork")
+                        print("   Verify: \(MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyTitle] as? String ?? "NIL")")
+                        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                     }
                 } else {
+                    print("⚠️ [LOCK SCREEN] Failed to create UIImage from data")
                     DispatchQueue.main.async {
+                        print("📱 [LOCK SCREEN] Setting MPNowPlayingInfoCenter WITHOUT artwork on main thread")
                         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                        print("✅ Lock screen updated WITHOUT artwork")
+                        print("✅ [LOCK SCREEN] MPNowPlayingInfoCenter updated WITHOUT artwork")
+                        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                     }
                 }
             }.resume()
         } else {
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-            print("✅ Lock screen updated (no artwork URL)")
+            print("📱 [LOCK SCREEN] No album art URL - setting metadata without artwork")
+            print("   Thread: \(Thread.isMainThread ? "MAIN" : "BACKGROUND - DISPATCHING TO MAIN")")
+
+            // Always dispatch to main thread for safety
+            DispatchQueue.main.async {
+                print("📱 [LOCK SCREEN] Setting MPNowPlayingInfoCenter (no artwork) on main thread")
+                print("   App state: \(UIApplication.shared.applicationState.rawValue)")
+                MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+                print("✅ [LOCK SCREEN] MPNowPlayingInfoCenter updated (no artwork)")
+                print("   Verify: \(MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyTitle] as? String ?? "NIL")")
+                print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+            }
         }
     }
 }
