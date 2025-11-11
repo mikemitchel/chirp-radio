@@ -106,6 +106,11 @@
   justify-content: center;
 }
 
+/* Inline spacing utility - for chips that appear after text */
+.cr-chip--inline {
+  margin-left: var(--cr-space-2);
+}
+
 /* Dark mode adjustments */
 [data-theme='dark'] .cr-chip--light {
   background-color: var(--cr-secondary-300);
