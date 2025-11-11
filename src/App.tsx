@@ -67,6 +67,7 @@ import UserTypeSwitcher from './components/UserTypeSwitcher'
 // Redirect component to route mobile app users to /app or /android-auto
 function RootRedirect() {
   const navigate = useNavigate()
+  const [isChecking, setIsChecking] = useState(true)
 
   useEffect(() => {
     const checkPlatform = async () => {
@@ -82,6 +83,7 @@ function RootRedirect() {
 
             if (result.isAutomotive) {
               navigate('/android-auto', { replace: true })
+              setIsChecking(false)
               return
             }
           } catch (error) {
@@ -91,15 +93,24 @@ function RootRedirect() {
 
         // Regular mobile app
         navigate('/app', { replace: true })
+        setIsChecking(false)
+      } else {
+        // Web browser
+        setIsChecking(false)
       }
     }
 
     checkPlatform()
   }, [navigate])
 
+  // Show nothing while checking platform (prevents flash)
+  if (isChecking) {
+    return null
+  }
+
   // For web browsers, show the web landing page
   if (Capacitor.isNativePlatform()) {
-    return null // Redirect happening
+    return null // Should never reach here, but just in case
   }
 
   return <LandingPage />

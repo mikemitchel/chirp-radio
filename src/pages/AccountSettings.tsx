@@ -60,12 +60,27 @@ export default function AccountSettings() {
         email: user.email,
         profileImage: user.profileImage,
       })
+
+      // Convert socialLinks object to both array format AND individual platform fields
+      const socialLinksArray: Array<{ platform: string; url: string }> = []
+      const platformUrlFields: Record<string, string> = {}
+
+      if (user.socialLinks && typeof user.socialLinks === 'object') {
+        Object.entries(user.socialLinks).forEach(([platform, url]) => {
+          if (url && url.trim() !== '') {
+            socialLinksArray.push({ platform, url: url as string })
+            platformUrlFields[`${platform}Url`] = url as string
+          }
+        })
+      }
+
       setFormData({
         firstName: user.firstName || '',
         lastName: user.lastName || '',
         location: user.location || 'Chicago, Illinois',
         email: user.email || '',
         avatarSrc: user.profileImage || '',
+        fullProfileImage: user.fullProfileImage || '',
         profileImageOrientation: user.profileImageOrientation || 'square',
         djName: user.djName || '',
         showName: user.showName || '',
@@ -81,14 +96,9 @@ export default function AccountSettings() {
         city: user.city || '',
         state: user.state || '',
         zipCode: user.zipCode || '',
-        socialLinks: user.socialLinks
-          ? Object.entries(user.socialLinks)
-              .filter(([_, url]) => url && url.trim() !== '')
-              .map(([platform, url]) => ({
-                platform,
-                url: url as string,
-              }))
-          : [],
+        socialLinks: socialLinksArray,
+        // Add individual platform URL fields
+        ...platformUrlFields,
       })
     }
   }, [user, user?.id])
@@ -443,12 +453,26 @@ export default function AccountSettings() {
   const handleCancelEdit = () => {
     // Reset form data to original user data
     if (user) {
+      // Convert socialLinks object to both array format AND individual platform fields
+      const socialLinksArray: Array<{ platform: string; url: string }> = []
+      const platformUrlFields: Record<string, string> = {}
+
+      if (user.socialLinks && typeof user.socialLinks === 'object') {
+        Object.entries(user.socialLinks).forEach(([platform, url]) => {
+          if (url && url.trim() !== '') {
+            socialLinksArray.push({ platform, url: url as string })
+            platformUrlFields[`${platform}Url`] = url as string
+          }
+        })
+      }
+
       setFormData({
         firstName: user.firstName || user.name?.split(' ')[0] || '',
         lastName: user.lastName || user.name?.split(' ')[1] || '',
         location: user.location || 'Chicago, Illinois',
         email: user.email || '',
         avatarSrc: user.profileImage || '',
+        fullProfileImage: user.fullProfileImage || '',
         profileImageOrientation: user.profileImageOrientation || 'square',
         djName: user.djName || '',
         showName: user.showName || '',
@@ -464,12 +488,9 @@ export default function AccountSettings() {
         city: user.city || '',
         state: user.state || '',
         zipCode: user.zipCode || '',
-        socialLinks: user.socialLinks
-          ? Object.entries(user.socialLinks).map(([platform, url]) => ({
-              platform,
-              url: url as string,
-            }))
-          : [],
+        socialLinks: socialLinksArray,
+        // Add individual platform URL fields
+        ...platformUrlFields,
       })
     }
     setProfileState('view')
@@ -574,15 +595,14 @@ export default function AccountSettings() {
           })
       }
 
+      // Emit event to refresh user context
+      emit('chirp-user-profile-updated')
+
       showToast({
         message: 'Profile updated successfully',
         type: 'success',
         duration: 3000,
       })
-
-      setTimeout(() => {
-        window.location.reload()
-      }, 1000)
 
       setProfileState('view')
     } catch (error) {

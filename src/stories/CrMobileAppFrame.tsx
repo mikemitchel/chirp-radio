@@ -84,7 +84,7 @@ export default function CrMobileAppFrame({
   }
 
   const defaultStreamingProps = {
-    variant: variant === 'landing' ? 'mobile-player' : 'slim-player',
+    variant: variant === 'landing' ? 'mobile-player' : 'mini-player',
     artistName: 'Loading...',
     trackName: 'Fetching current track...',
     albumName: 'Album Name',
