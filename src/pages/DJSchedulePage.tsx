@@ -147,6 +147,15 @@ const DJSchedulePage: React.FC = () => {
     <div className="dj-schedule-page">
       <section className="page-container">
         <CrPageHeader title="DJ Schedule" showEyebrow={false} showActionButton={false} />
+        <p
+          style={{
+            fontSize: '0.875rem',
+            color: 'var(--color-text-secondary)',
+            marginTop: '0.5rem',
+          }}
+        >
+          * All times displayed in Central Time
+        </p>
       </section>
 
       <section className="page-container">
@@ -162,6 +171,16 @@ const DJSchedulePage: React.FC = () => {
             titleTag="h2"
             titleSize="lg"
           />
+          <p
+            style={{
+              fontSize: '0.875rem',
+              color: 'var(--color-text-secondary)',
+              marginTop: '-0.5rem',
+              marginBottom: '1rem',
+            }}
+          >
+            * All times displayed in Central Time
+          </p>
           <div className="grid-2col-equal">
             {randomDJs.map((dj) => (
               <CrDjOverview
