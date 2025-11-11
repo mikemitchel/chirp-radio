@@ -607,6 +607,16 @@ const LandingPage: React.FC = () => {
             actionButtonIcon={<PiVinylRecord />}
             onActionClick={() => navigate('/schedule')}
           />
+          <p
+            style={{
+              fontSize: '0.875rem',
+              color: 'var(--color-text-secondary)',
+              marginTop: '-1rem',
+              marginBottom: '1rem',
+            }}
+          >
+            * All times displayed in Central Time
+          </p>
           {randomDJs.map((dj, index) => (
             <CrDjOverview
               key={dj.slug || dj.id || `dj-${index}`}
