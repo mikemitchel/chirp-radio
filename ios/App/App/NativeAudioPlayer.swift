@@ -22,8 +22,6 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     private var currentStreamUrl: String?
     private var isPlaying = false
     private var itemObservers: [NSKeyValueObservation] = []
-    private var metadataEnforcementTimer: Timer?
-    private var lastMetadata: [String: Any] = [:]
 
     public override func load() {
         print("🎵 NativeAudioPlayer plugin loaded")
@@ -33,12 +31,6 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
 
         // Setup remote command handlers
         setupRemoteCommands()
-
-        // Start metadata enforcement timer (runs every 2 seconds to keep lock screen updated)
-        metadataEnforcementTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
-            self?.enforceMetadata()
-        }
-        print("✅ Metadata enforcement timer started")
 
         // Listen for audio session interruptions
         NotificationCenter.default.addObserver(
@@ -58,8 +50,6 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     }
 
     deinit {
-        metadataEnforcementTimer?.invalidate()
-        metadataEnforcementTimer = nil
         NotificationCenter.default.removeObserver(self)
         cleanupPlayerObservers()
     }
@@ -486,9 +476,6 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
 
-        // Store metadata for enforcement timer
-        lastMetadata = nowPlayingInfo
-
         // Load album art if provided
         if !albumArtUrl.isEmpty, let url = URL(string: albumArtUrl) {
             print("🖼️ Loading album art: \(albumArtUrl)")
@@ -505,8 +492,6 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
                     nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
 
                     DispatchQueue.main.async {
-                        // Store metadata with artwork for enforcement
-                        self?.lastMetadata = nowPlayingInfo
                         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
                         print("✅ Metadata set WITH artwork")
                         print("   Lock screen should now show: \(nowPlayingInfo[MPMediaItemPropertyTitle] as? String ?? "")")
@@ -531,56 +516,6 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         call.resolve()
     }
 
-    private func enforceMetadata() {
-        // Continuously enforce metadata to prevent iOS from clearing it
-        guard !lastMetadata.isEmpty else { return }
-
-        // Get current metadata
-        var currentInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [:]
-
-        // Check if metadata has been cleared or modified
-        let currentTitle = currentInfo[MPMediaItemPropertyTitle] as? String ?? ""
-        let expectedTitle = lastMetadata[MPMediaItemPropertyTitle] as? String ?? ""
-
-        // If metadata doesn't match or was cleared, re-apply from lastMetadata
-        if currentTitle != expectedTitle || currentInfo.isEmpty {
-            print("⚡ ENFORCEMENT: Reapplying metadata - iOS cleared or changed it")
-            print("   Expected: \(expectedTitle)")
-            print("   Got: \(currentTitle)")
-
-            // Use lastMetadata as base
-            var updatedInfo = lastMetadata
-            updatedInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
-            updatedInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
-
-            // Remove any duration or elapsed time that might have been added
-            updatedInfo.removeValue(forKey: MPNowPlayingInfoPropertyElapsedPlaybackTime)
-            updatedInfo.removeValue(forKey: MPMediaItemPropertyPlaybackDuration)
-
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = updatedInfo
-        } else {
-            // Metadata title matches - just ensure flags are correct without full replacement
-            currentInfo[MPNowPlayingInfoPropertyIsLiveStream] = true
-            currentInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
-
-            // Remove any duration or elapsed time that might have been added
-            var needsUpdate = false
-            if currentInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] != nil {
-                currentInfo.removeValue(forKey: MPNowPlayingInfoPropertyElapsedPlaybackTime)
-                needsUpdate = true
-            }
-            if currentInfo[MPMediaItemPropertyPlaybackDuration] != nil {
-                currentInfo.removeValue(forKey: MPMediaItemPropertyPlaybackDuration)
-                needsUpdate = true
-            }
-
-            // Only update if something changed to avoid unnecessary writes
-            if needsUpdate {
-                MPNowPlayingInfoCenter.default().nowPlayingInfo = currentInfo
-                print("⚡ ENFORCEMENT: Updated flags/removed duration")
-            }
-        }
-    }
 
     @objc func getPlaybackState(_ call: CAPPluginCall) {
         call.resolve([
