@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'com.ryanwilson.chirpradio',
+  appId: 'org.chicagoindependentradio.chirpradio-v1',
   appName: 'CHIRP Radio',
   webDir: 'dist',
   server: {

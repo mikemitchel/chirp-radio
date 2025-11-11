@@ -12,8 +12,13 @@ Non-profit low-band FM and streaming radio station web application
 
 ## Current Status: BETA PREPARATION
 
+**Latest Session (2025-01-08):** TikTok social platform integration complete and merged to main. iOS build synced and ready for TestFlight upload. Key fixes: (1) Social media system architecture - CrProfileEditForm now updates BOTH individual URL fields (`facebookUrl`, `tiktokUrl`, etc.) AND the `socialLinks` array simultaneously via `handleInputChange`; save functions only read `socialLinks` array. (2) Player fallback image URLs transformed from relative (`/api/player-fallback-images/file/...`) to absolute with CMS base URL via `transformMediaUrl()` helper in `utils/api.ts`. (3) Social icon sizes standardized to 40px (space-10) across profile view and edit form. Branch: `main`, dual-remote workflow (origin: callibrity, mitch: mikemitchel).
+
 ### Recently Completed
 
+- **TikTok social platform ✅** Icon, form fields, CMS backend integration complete (PR #89)
+- **Social media architecture fix ✅** Form now updates both URL fields AND socialLinks array; 40px icon standardization
+- **Player fallback image URLs ✅** Transformed relative paths to absolute with CMS base URL
 - **Sitemap redesign ✅** Tree layout, reorganized sections, removed visual clutter (PR #83)
 - **Sitemap ✅** Auto-generates from `src/config/routes.ts` (PR #60)
 - **Album art persistence ✅** Fixed reload on navigation
@@ -37,6 +42,7 @@ Non-profit low-band FM and streaming radio station web application
 **Frontend:**
 
 - CSS review and fixes for all pages (light and dark modes)
+- iPad responsive styling and layout optimization (app now supports iPhone + iPad)
 
 **CMS (chirp-cms repo):**
 
