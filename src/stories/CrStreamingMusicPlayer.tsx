@@ -563,6 +563,55 @@ const BackgroundImage = ({
   }, [])
 
   useEffect(() => {
+    // Fast path: If we have a valid URL from API, use it directly (same as AlbumArt)
+    if (src && src.startsWith('http')) {
+      log.log('🎨 [BackgroundImage] Using URL directly from API:', src)
+
+      // Update trackId even when using src directly
+      const trackId = `${artist || 'unknown'}|${track || 'unknown'}`
+      currentTrackId.current = trackId
+      lastForceRefreshCounter.current = forceRefreshCounter
+
+      // Check if this image is already displayed
+      const currentlyDisplayedSrc = frontIsVisible ? frontSrc : backSrc
+      if (currentlyDisplayedSrc === src) {
+        log.log('🎨 [BackgroundImage] Image already displayed, skipping')
+        return
+      }
+
+      // Set the image immediately
+      if (frontIsVisible) {
+        setBackSrc(src)
+        try {
+          const cache = sessionStorage.getItem('chirp-bg-cache')
+          if (cache) {
+            const parsed = JSON.parse(cache)
+            parsed.backSrc = src
+            parsed.frontIsVisible = false
+            sessionStorage.setItem('chirp-bg-cache', JSON.stringify(parsed))
+          }
+        } catch (_e) {
+          // Ignore
+        }
+        setFrontIsVisible(false)
+      } else {
+        setFrontSrc(src)
+        try {
+          const cache = sessionStorage.getItem('chirp-bg-cache')
+          if (cache) {
+            const parsed = JSON.parse(cache)
+            parsed.frontSrc = src
+            parsed.frontIsVisible = true
+            sessionStorage.setItem('chirp-bg-cache', JSON.stringify(parsed))
+          }
+        } catch (_e) {
+          // Ignore
+        }
+        setFrontIsVisible(true)
+      }
+      return
+    }
+
     // Use track ID to detect actual track changes
     const trackId = `${artist || 'unknown'}|${track || 'unknown'}`
 
