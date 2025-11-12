@@ -42,6 +42,9 @@ CREATE TABLE IF NOT EXISTS playlist_history (
   -- Raw API response (for debugging and future proofing)
   raw_data JSONB,
 
+  -- Capture source tracking (for distinguishing new vs imported data)
+  capture_source VARCHAR(50) DEFAULT 'cron' NOT NULL,
+
   -- System timestamps
   captured_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -73,3 +76,6 @@ CREATE INDEX IF NOT EXISTS idx_correction_detection ON playlist_history(artist, 
 -- Composite index for album art cache lookups
 CREATE INDEX IF NOT EXISTS idx_album_art_cache ON playlist_history(LOWER(artist), LOWER(release), captured_at DESC)
   WHERE album_art_enhanced IS NOT NULL AND is_superseded = false;
+
+-- Index for capture source filtering
+CREATE INDEX IF NOT EXISTS idx_capture_source ON playlist_history(capture_source);

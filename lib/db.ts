@@ -22,6 +22,7 @@ export interface PlaylistEntry {
   correction_of?: number | null
   is_superseded: boolean
   raw_data: any
+  capture_source?: 'cron' | 'import'
   captured_at?: Date
   updated_at?: Date
 }
@@ -39,14 +40,14 @@ export async function insertPlaylistEntry(
         chirp_id, artist, track, release, label, dj_name, notes,
         played_at_gmt, played_at_gmt_ts, played_at_local, played_at_local_ts,
         artist_is_local, album_art_small, album_art_medium, album_art_large,
-        album_art_enhanced, correction_of, is_superseded, raw_data
+        album_art_enhanced, correction_of, is_superseded, raw_data, capture_source
       ) VALUES (
         ${entry.chirp_id}, ${entry.artist}, ${entry.track}, ${entry.release}, ${entry.label},
         ${entry.dj_name}, ${entry.notes}, ${entry.played_at_gmt}, ${entry.played_at_gmt_ts},
         ${entry.played_at_local}, ${entry.played_at_local_ts}, ${entry.artist_is_local},
         ${entry.album_art_small}, ${entry.album_art_medium}, ${entry.album_art_large},
         ${entry.album_art_enhanced}, ${entry.correction_of}, ${entry.is_superseded},
-        ${JSON.stringify(entry.raw_data)}::jsonb
+        ${JSON.stringify(entry.raw_data)}::jsonb, ${entry.capture_source || 'cron'}
       )
       ON CONFLICT (chirp_id) DO NOTHING
       RETURNING id

@@ -198,6 +198,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
           correction_of: correction_of,
           is_superseded: false,
           raw_data: song,
+          capture_source: 'cron',
         })
 
         console.log(`✅ Captured: ${song.artist} - ${song.track}`)
