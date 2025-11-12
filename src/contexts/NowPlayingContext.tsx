@@ -312,6 +312,7 @@ export function NowPlayingProvider({
           title: data.track,
           album: data.album,
           albumArt: data.albumArt,
+          dj: data.dj || data.album || 'CHIRP Radio',
         })
 
         await NowPlayingPlugin.setPlaybackState({ isPlaying })
