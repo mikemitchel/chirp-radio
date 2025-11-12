@@ -2,6 +2,16 @@
 
 /* Component uses global form classes from index.css */
 
+/* Form Actions - Sticky buttons */
+.form-actions {
+  padding: var(--cr-space-4) 0;
+  position: sticky;
+  bottom: 0;
+  background-color: var(--cr-paper);
+  z-index: 10;
+  margin-top: var(--cr-space-6);
+}
+
 /* Image Cropper Integration - component-specific overrides only */
 .cr-image-cropper {
   width: 100%;

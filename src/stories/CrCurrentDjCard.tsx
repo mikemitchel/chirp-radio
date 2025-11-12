@@ -2,7 +2,7 @@
 import CrCurrentDj from './CrCurrentDj'
 import CrButton from './CrButton'
 import CrChip from './CrChip'
-import { PiMusicNote, PiHeart, PiHeartFill } from 'react-icons/pi'
+import { PiMusicNote, PiHeart, PiHeartFill, PiArrowRight } from 'react-icons/pi'
 import './CrCurrentDjCard.css'
 
 interface CrCurrentDjCardProps {
@@ -11,18 +11,18 @@ interface CrCurrentDjCardProps {
   djName?: string
   showName?: string
   isOnAir?: boolean
-  statusText?: string
-  header?: string
-  title?: string
-  metaText?: string
   description?: string
   requestButtonText?: string
-  _moreButtonText?: string
+  moreButtonText?: string
+  favoriteButtonText?: string
   onRequestClick?: () => void
-  _onMoreClick?: () => void
+  onMoreClick?: () => void
   onFavoriteClick?: () => void
   className?: string
   isFavorite?: boolean
+  showRequestButton?: boolean
+  showFavoriteButton?: boolean
+  showMoreButton?: boolean
 }
 
 export default function CrCurrentDjCard({
@@ -34,33 +34,28 @@ export default function CrCurrentDjCard({
   djName = 'DJ Current',
   showName = 'The Current Show',
   isOnAir = true,
-  statusText = 'On-Air',
 
   // Content
-  header = 'THE CURRENT SHOW',
-  title = 'DJ Current',
-  metaText = '',
   description = 'DJ Current is lorem ipsum dolor sit amet, c...',
 
   // Button props
-  requestButtonText = 'REQUEST',
-  _moreButtonText = 'MORE',
+  requestButtonText = 'Request Song',
+  moreButtonText = 'Profile',
+  favoriteButtonText = 'Favorite DJ',
   onRequestClick,
-  _onMoreClick,
+  onMoreClick,
   onFavoriteClick,
 
   className = '',
   isFavorite = false,
+  showRequestButton = true,
+  showFavoriteButton = true,
+  showMoreButton = true,
 }: CrCurrentDjCardProps) {
   return (
     <div className={`cr-current-dj-card ${className}`}>
       <div className="cr-current-dj-card__top">
-        <CrCurrentDj
-          djName={djName}
-          showName={showName}
-          isOnAir={isOnAir}
-          statusText={statusText}
-        />
+        <CrCurrentDj djName={djName} showName={showName} isOnAir={isOnAir} />
       </div>
 
       <div className="cr-current-dj-card__content">
@@ -76,38 +71,9 @@ export default function CrCurrentDjCard({
         </div>
 
         <div className="cr-current-dj-card__info">
-          <div className="cr-current-dj-card__header">{header}</div>
-
-          <h2 className="cr-current-dj-card__title">{title}</h2>
-
-          {metaText && <div className="cr-current-dj-card__meta">{metaText}</div>}
-
           <p className="cr-current-dj-card__description">{description}</p>
-
-          <div className="cr-current-dj-card__actions">
-            {onFavoriteClick && (
-              <CrButton
-                variant={isFavorite ? 'solid' : 'outline'}
-                color="default"
-                size="small"
-                leftIcon={isFavorite ? <PiHeartFill /> : <PiHeart />}
-                onClick={onFavoriteClick}
-              >
-                FAVORITE DJ
-              </CrButton>
-            )}
-
+          {showMoreButton && (
             <CrButton
-              variant="outline"
-              color="secondary"
-              size="small"
-              leftIcon={<PiMusicNote />}
-              onClick={onRequestClick}
-            >
-              {requestButtonText}
-            </CrButton>
-
-            {/* <CrButton
               variant="solid"
               color="default"
               size="small"
@@ -115,9 +81,35 @@ export default function CrCurrentDjCard({
               onClick={onMoreClick}
             >
               {moreButtonText}
-            </CrButton> */}
-          </div>
+            </CrButton>
+          )}
         </div>
+      </div>
+
+      <div className="cr-current-dj-card__actions">
+        {showFavoriteButton && onFavoriteClick && (
+          <CrButton
+            variant="text"
+            color="default"
+            size="xsmall"
+            leftIcon={isFavorite ? <PiHeartFill /> : <PiHeart />}
+            onClick={onFavoriteClick}
+          >
+            {favoriteButtonText}
+          </CrButton>
+        )}
+
+        {showRequestButton && (
+          <CrButton
+            variant="text"
+            color="secondary"
+            size="xsmall"
+            leftIcon={<PiMusicNote />}
+            onClick={onRequestClick}
+          >
+            {requestButtonText}
+          </CrButton>
+        )}
       </div>
     </div>
   )
