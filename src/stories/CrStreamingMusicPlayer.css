@@ -429,7 +429,7 @@ html.dark .cr-player__color-overlay {
   height: 40px;
   flex-shrink: 0;
   margin-left: var(--cr-space-2);
-  margin-right: 0;
+  margin-right: var(--cr-space-1);
 }
 
 /* Ensure proper flex behavior for artist container in mini player */
