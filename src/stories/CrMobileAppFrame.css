@@ -92,6 +92,12 @@
   box-sizing: border-box;
 }
 
+/* Android-only: Remove safe-area-inset-bottom from content padding
+   The footer player already handles the safe area, so content only needs player height */
+.platform-android .cr-mobile-frame--interior .cr-mobile-frame__content {
+  padding-bottom: 80px; /* Only slim player height, footer handles safe area */
+}
+
 .cr-mobile-frame--interior .cr-mobile-frame__footer-player {
   position: fixed;
   bottom: 0;
