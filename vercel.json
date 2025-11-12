@@ -8,7 +8,7 @@
   "crons": [
     {
       "path": "/api/cron/capture-playlist",
-      "schedule": "* * * * *"
+      "schedule": "0 6 * * *"
     }
   ]
 }
