@@ -10,6 +10,9 @@ import './styles/accessibility.css'
 const platform = Capacitor.getPlatform()
 
 if (platform === 'android') {
+  // Add platform class for Android-specific CSS
+  document.body.classList.add('platform-android')
+
   const setupSafeAreaInsets = async () => {
     try {
       const info = await StatusBar.getInfo()
