@@ -24,9 +24,9 @@ const config: CapacitorConfig = {
       overlay: true, // Make status bar transparent/overlay
     },
     SplashScreen: {
-      launchShowDuration: 0, // Don't auto-hide - let app control
-      launchAutoHide: false, // Manual control
-      launchFadeOutDuration: 300, // Fast 300ms fade
+      launchShowDuration: 3000, // Show for at least 3 seconds (app controls final hide)
+      launchAutoHide: false, // Manual control via SplashScreen.hide() in app
+      launchFadeOutDuration: 500, // Smooth 500ms fade when hiding
       backgroundColor: '#ea1c2c', // CHIRP red
       androidScaleType: 'CENTER_CROP',
       splashFullScreen: true,

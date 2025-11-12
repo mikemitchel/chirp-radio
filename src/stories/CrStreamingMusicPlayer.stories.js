@@ -18,7 +18,14 @@ export default {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['full-player', 'slim-player', 'mini-player', 'mobile-player', 'android-auto'],
+      options: [
+        'full-player',
+        'slim-player',
+        'mini-player',
+        'ios-mini-player',
+        'mobile-player',
+        'android-auto',
+      ],
       description: 'Player variant/size matching Figma design',
     },
     artistName: {
@@ -109,6 +116,28 @@ export const MiniPlayer = {
       description: {
         story:
           'Compact 60px height player with 40px play button - ideal for fixed bottom corner placement.',
+      },
+    },
+  },
+}
+
+// iOS Mini player variant - with built-in bottom safe area
+export const IOSMiniPlayer = {
+  args: {
+    variant: 'ios-mini-player',
+    artistName: 'Artist Name',
+    trackName: 'Song Name',
+    albumArt: 'https://e.snmc.io/i/300/w/edc39e408543b26904eb76748c2f1c4d/8819855',
+    autoFetch: false,
+    isTrackAdded: false,
+    isLocal: false,
+    streamUrl: null,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'iOS-specific mini player with built-in 34px bottom padding for safe area. Content sits higher to avoid clipping by iPhone rounded edges. Album art background extends through the padding area for a polished look.',
       },
     },
   },
