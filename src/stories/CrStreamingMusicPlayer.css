@@ -651,23 +651,28 @@ html.dark .cr-player__color-overlay {
 
 .cr-player--android-auto .cr-player__android-auto-logo {
   flex-shrink: 0;
-  height: 42px;
+  height: 32px; /* Reduced from 42px to give more space to DJ info */
+  max-width: 300px; /* Cap the width so it doesn't dominate */
 }
 
 .cr-player--android-auto .cr-player__android-auto-logo img,
 .cr-player--android-auto .cr-player__android-auto-logo svg {
-  height: 42px;
+  height: 32px;
   width: auto;
+  max-width: 100%;
 }
 
 .cr-player--android-auto .cr-player__android-auto-dj {
-  display: flex;
-  justify-content: center;
   flex: 1;
+  min-width: 0; /* Allow shrinking */
+  overflow: visible; /* Prevent clipping */
 }
 
 .cr-player--android-auto .cr-current-dj {
   transform: scale(1.25);
+  transform-origin: right center; /* Scale from the right edge so it grows leftward */
+  max-width: calc(100% / 1.25); /* Compensate for scale to prevent overflow */
+  margin-left: auto; /* Push to the right without flex alignment */
 }
 
 /* Row 2: Album Art + Track Info (side by side, centered) */
