@@ -10,6 +10,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print("🚀 [APP LAUNCH] didFinishLaunching called")
+        print("   Time: \(Date())")
+        print("   Launch options: \(launchOptions?.keys.map { $0.rawValue } ?? [])")
+
+        // Diagnostic: Check if LaunchScreen is configured
+        if let launchScreen = Bundle.main.object(forInfoDictionaryKey: "UILaunchStoryboardName") as? String {
+            print("🔍 [DEBUG] UILaunchStoryboardName: \(launchScreen)")
+        } else {
+            print("❌ [DEBUG] UILaunchStoryboardName NOT FOUND in Info.plist!")
+        }
+
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         // Configure WKWebView to disable automatic media controls
         configureWebViewMediaSettings()
@@ -19,6 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Set up remote command center (lock screen controls)
         setupRemoteCommandCenter()
+
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+        print("✅ [APP LAUNCH] didFinishLaunching completed")
+        print("   Native splash screen should be visible now")
+        print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         return true
     }

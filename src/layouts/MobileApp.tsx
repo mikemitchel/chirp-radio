@@ -1,5 +1,5 @@
 // src/layouts/MobileApp.tsx
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useLocation, Outlet } from 'react-router'
 import { Capacitor, CapacitorHttp } from '@capacitor/core'
 import { SplashScreen } from '@capacitor/splash-screen'
@@ -98,15 +98,17 @@ export default function MobileApp() {
   const navigate = useNavigate()
   const location = useLocation()
   const { switchProfile, signOut } = useAuth()
+  const [isInitialized, setIsInitialized] = useState(false)
 
   useEffect(() => {
-    console.log('[SPLASH] MobileApp mounted at', Date.now())
+    console.log('🚀 [SPLASH] MobileApp mounted')
 
     // Always navigate to Now Playing page on mount
     navigate('/app')
 
     // Check if splash has already been shown
     const hasShownSplash = sessionStorage.getItem('chirp-splash-shown') === 'true'
+    console.log('🔍 [SPLASH] Has shown splash this session:', hasShownSplash)
 
     // Start preloading data immediately
     const initializeApp = async () => {
@@ -115,29 +117,44 @@ export default function MobileApp() {
 
       // Wait for data to load (no minimum time on subsequent loads)
       if (hasShownSplash) {
+        console.log('⏭️ [SPLASH] Subsequent load - hide splash immediately after data')
         await preloadPromise
         if (Capacitor.isNativePlatform()) {
-          await SplashScreen.hide().catch((err) => console.warn('[SPLASH] Failed to hide:', err))
+          await SplashScreen.hide().catch((err) =>
+            console.warn('❌ [SPLASH] Failed to hide splash screen:', err)
+          )
         }
-        console.log('[SPLASH] Hidden (subsequent load) at', Date.now())
+        console.log('🏁 [SPLASH] Splash hidden')
       } else {
-        // First load - show splash for at least 1.8 seconds
-        await Promise.all([new Promise((resolve) => setTimeout(resolve, 1800)), preloadPromise])
+        // First load - show splash for at least 2 seconds
+        console.log('⏳ [SPLASH] First load - waiting 2s and for data preload...')
+        await Promise.all([new Promise((resolve) => setTimeout(resolve, 2000)), preloadPromise])
+        console.log('✅ [SPLASH] Wait complete, data preloaded')
 
         // Hide Capacitor splash with fade
         if (Capacitor.isNativePlatform()) {
-          await SplashScreen.hide().catch((err) => console.warn('[SPLASH] Failed to hide:', err))
+          console.log('🎬 [SPLASH] Hiding Capacitor splash with fade')
+          await SplashScreen.hide().catch((err) =>
+            console.warn('❌ [SPLASH] Failed to hide splash screen:', err)
+          )
+          console.log('✓ [SPLASH] Capacitor splash hidden')
         }
 
         // Mark splash as shown for this session
         sessionStorage.setItem('chirp-splash-shown', 'true')
-        console.log('[SPLASH] Hidden (first load) at', Date.now())
+        console.log('🏁 [SPLASH] All splash transitions complete')
       }
+
+      // Mark as initialized - this allows components to render
+      setIsInitialized(true)
     }
 
     initializeApp()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  // NOTE: Splash on app resume removed - users found it disruptive
+  // Splash only shows on initial app launch (controlled by native platform)
 
   // Listen for profile switch events from console (devTools)
   useEffect(() => {
@@ -214,42 +231,48 @@ export default function MobileApp() {
   const handleContactClick = () => handleExternalLink('https://chirpradio.org/contact')
   const handleBecomeVolunteerClick = () => handleExternalLink('https://chirpradio.org/volunteer')
 
+  // Block rendering until preload completes to prevent race condition
+  // This ensures sessionStorage cache is populated before NowPlayingContext reads it
   return (
     <NotificationProvider>
-      <AudioPlayerProvider autoFetch={true} streamUrl="https://peridot.streamguys1.com:5185/live">
-        {/* Always render the app frame so it's ready */}
-        <CrMobileAppFrame
-          variant={isLandingPage ? 'landing' : 'interior'}
-          pageTitle={getPageTitle()}
-          onLogoClick={handleHomeClick}
-          onHomeClick={handleHomeClick}
-          onNowPlayingClick={handleNowPlayingClick}
-          onRecentPlaylistClick={handleRecentlyPlayedClick}
-          onYourCollectionClick={handleYourCollectionClick}
-          onRequestClick={handleRequestClick}
-          onAccountSettingsClick={handleAccountSettingsClick}
-          onListenClick={handleListenClick}
-          onPlaylistClick={handlePlaylistClick}
-          onPodcastClick={handlePodcastClick}
-          onDjsClick={handleDjsClick}
-          onScheduleClick={handleScheduleClick}
-          onEventsClick={handleEventsClick}
-          onArticlesClick={handleArticlesClick}
-          onDonateClick={handleDonateClick}
-          onWaysToGiveClick={handleWaysToGiveClick}
-          onVinylCircleClick={handleVinylCircleClick}
-          onShopClick={handleShopClick}
-          onAboutClick={handleAboutClick}
-          onOtherWaysToListenClick={handleOtherWaysToListenClick}
-          onContactClick={handleContactClick}
-          onBecomeVolunteerClick={handleBecomeVolunteerClick}
-        >
-          <Outlet />
-        </CrMobileAppFrame>
+      {!isInitialized ? (
+        // Show CHIRP red background while preloading (splash screen will overlay this)
+        <div style={{ background: '#ea1c2c', width: '100vw', height: '100vh' }} />
+      ) : (
+        <AudioPlayerProvider autoFetch={true} streamUrl="https://peridot.streamguys1.com:5185/live">
+          <CrMobileAppFrame
+            variant={isLandingPage ? 'landing' : 'interior'}
+            pageTitle={getPageTitle()}
+            onLogoClick={handleHomeClick}
+            onHomeClick={handleHomeClick}
+            onNowPlayingClick={handleNowPlayingClick}
+            onRecentPlaylistClick={handleRecentlyPlayedClick}
+            onYourCollectionClick={handleYourCollectionClick}
+            onRequestClick={handleRequestClick}
+            onAccountSettingsClick={handleAccountSettingsClick}
+            onListenClick={handleListenClick}
+            onPlaylistClick={handlePlaylistClick}
+            onPodcastClick={handlePodcastClick}
+            onDjsClick={handleDjsClick}
+            onScheduleClick={handleScheduleClick}
+            onEventsClick={handleEventsClick}
+            onArticlesClick={handleArticlesClick}
+            onDonateClick={handleDonateClick}
+            onWaysToGiveClick={handleWaysToGiveClick}
+            onVinylCircleClick={handleVinylCircleClick}
+            onShopClick={handleShopClick}
+            onAboutClick={handleAboutClick}
+            onOtherWaysToListenClick={handleOtherWaysToListenClick}
+            onContactClick={handleContactClick}
+            onBecomeVolunteerClick={handleBecomeVolunteerClick}
+          >
+            <Outlet />
+          </CrMobileAppFrame>
 
-        {/* Global notifications (modal and toast) */}
-        <GlobalNotifications />
-      </AudioPlayerProvider>
+          {/* Global notifications (modal and toast) */}
+          <GlobalNotifications />
+        </AudioPlayerProvider>
+      )}
     </NotificationProvider>
   )
 }

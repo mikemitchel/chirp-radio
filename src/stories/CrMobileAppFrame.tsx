@@ -1,5 +1,6 @@
 // CrMobileAppFrame.tsx
 import React, { useState } from 'react'
+import { Capacitor } from '@capacitor/core'
 import CrMobileHeader from './CrMobileHeader'
 import CrStreamingMusicPlayer from './CrStreamingMusicPlayer'
 import CrSidebar from './CrSidebar'
@@ -83,8 +84,17 @@ export default function CrMobileAppFrame({
     setIsSidebarOpen(false)
   }
 
+  // Determine player variant based on layout and platform
+  const isIOS = Capacitor.getPlatform() === 'ios'
+  let playerVariant = 'mini-player'
+  if (variant === 'landing') {
+    playerVariant = 'mobile-player'
+  } else if (isIOS) {
+    playerVariant = 'ios-mini-player'
+  }
+
   const defaultStreamingProps = {
-    variant: variant === 'landing' ? 'mobile-player' : 'mini-player',
+    variant: playerVariant,
     artistName: 'Loading...',
     trackName: 'Fetching current track...',
     albumName: 'Album Name',
