@@ -2,6 +2,7 @@
 // Development tools for testing - attach functions to window object
 
 import type { UserRole } from '../hooks/useAuth'
+import { runAlbumArtStressTest } from './albumArtStressTest'
 
 // Define the devTools that will be available in the console
 export const devTools = {
@@ -123,16 +124,16 @@ Example usage:
 
     // Store interval ID for stopping
     interface WindowWithDevTools extends Window {
-      __apiSimulationInterval?: number;
+      __apiSimulationInterval?: number
     }
-    (window as WindowWithDevTools).__apiSimulationInterval = intervalId
+    ;(window as WindowWithDevTools).__apiSimulationInterval = intervalId
 
     return intervalId
   },
 
   stopAPIStream: () => {
     interface WindowWithDevTools extends Window {
-      __apiSimulationInterval?: number;
+      __apiSimulationInterval?: number
     }
     const intervalId = (window as WindowWithDevTools).__apiSimulationInterval
     if (intervalId) {
@@ -189,20 +190,26 @@ API Stream Simulation:
 
 Image Testing:
   testImageLoad(url)          - Test image loading performance
+
+Album Art Stability:
+  runAlbumArtStressTest(1000) - Run 1000 iterations to test stability
   `)
   },
+
+  runAlbumArtStressTest,
 }
 
 // Attach to window in development mode
 if (process.env.NODE_ENV === 'development') {
   interface WindowWithDevTools extends Window {
-    switchProfile: typeof devTools.switchProfile;
-    signOut: typeof devTools.signOut;
-    showProfiles: typeof devTools.showProfiles;
-    simulateAPIStream: typeof devTools.simulateAPIStream;
-    stopAPIStream: typeof devTools.stopAPIStream;
-    testImageLoad: typeof devTools.testImageLoad;
-    showHelp: typeof devTools.showHelp;
+    switchProfile: typeof devTools.switchProfile
+    signOut: typeof devTools.signOut
+    showProfiles: typeof devTools.showProfiles
+    simulateAPIStream: typeof devTools.simulateAPIStream
+    stopAPIStream: typeof devTools.stopAPIStream
+    testImageLoad: typeof devTools.testImageLoad
+    showHelp: typeof devTools.showHelp
+    runAlbumArtStressTest: typeof devTools.runAlbumArtStressTest
   }
   const w = window as unknown as WindowWithDevTools
   w.switchProfile = devTools.switchProfile
@@ -212,6 +219,7 @@ if (process.env.NODE_ENV === 'development') {
   w.stopAPIStream = devTools.stopAPIStream
   w.testImageLoad = devTools.testImageLoad
   w.showHelp = devTools.showHelp
+  w.runAlbumArtStressTest = devTools.runAlbumArtStressTest
 
   // Silent load - users can type showHelp() if they need the DevTools
 }
