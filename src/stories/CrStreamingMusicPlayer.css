@@ -633,6 +633,7 @@ html.dark .cr-player__color-overlay {
   width: 100vw;
   height: 100vh;
   padding: var(--cr-space-6);
+  padding-right: var(--cr-space-8); /* Extra right padding for Android Auto safe area */
   position: relative;
   z-index: 3;
   background-color: transparent;
@@ -647,32 +648,61 @@ html.dark .cr-player__color-overlay {
   flex-direction: row;
   align-items: center;
   width: 100%;
+  max-width: 100%; /* Ensure header doesn't overflow */
+  overflow: hidden; /* Clip any overflow */
 }
 
 .cr-player--android-auto .cr-player__android-auto-logo {
   flex-shrink: 0;
-  height: 32px; /* Reduced from 42px to give more space to DJ info */
-  max-width: 300px; /* Cap the width so it doesn't dominate */
+  height: 48px;
+  width: 280px;
+  max-width: 280px;
 }
 
 .cr-player--android-auto .cr-player__android-auto-logo img,
 .cr-player--android-auto .cr-player__android-auto-logo svg {
-  height: 32px;
+  height: 48px;
   width: auto;
   max-width: 100%;
+  object-fit: contain;
 }
 
 .cr-player--android-auto .cr-player__android-auto-dj {
   flex: 1;
-  min-width: 0; /* Allow shrinking */
-  overflow: visible; /* Prevent clipping */
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .cr-player--android-auto .cr-current-dj {
-  transform: scale(1.25);
-  transform-origin: right center; /* Scale from the right edge so it grows leftward */
-  max-width: calc(100% / 1.25); /* Compensate for scale to prevent overflow */
-  margin-left: auto; /* Push to the right without flex alignment */
+  /* No transform scaling - use larger font sizes instead */
+  text-align: right;
+}
+
+/* Override DJ name font size for Android Auto */
+.cr-player--android-auto .cr-current-dj__name {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+/* Override show name font size for Android Auto */
+.cr-player--android-auto .cr-current-dj__show {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* Override status badge for Android Auto - make it larger */
+.cr-player--android-auto .cr-current-dj__status {
+  flex-shrink: 0;
+}
+
+.cr-player--android-auto .cr-current-dj__status .cr-chip {
+  height: 28px;
+  padding: 0 var(--cr-space-3);
+  font-size: 16px;
 }
 
 /* Row 2: Album Art + Track Info (side by side, centered) */
@@ -681,12 +711,12 @@ html.dark .cr-player__color-overlay {
   flex-direction: row;
   gap: var(--cr-space-8); /* 32px */
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .cr-player--android-auto .cr-player__android-auto-album {
-  width: 180px;
-  height: 180px;
+  width: 25vw;
+  height: 25vw;
   flex-shrink: 0;
 }
 
@@ -700,7 +730,7 @@ html.dark .cr-player__color-overlay {
 .cr-player--android-auto .cr-player__android-auto-track {
   flex: 1;
   min-width: 0;
-  max-width: 600px;
+  max-width: 60vw;
 }
 
 .cr-player--android-auto .cr-track-info {
