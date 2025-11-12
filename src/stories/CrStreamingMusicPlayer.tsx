@@ -1129,7 +1129,7 @@ export default function CrStreamingMusicPlayer({
                 variant="stacked"
                 isLocal={displayData.isLocal}
                 isAdded={contextIsTrackAdded}
-                onToggleAdd={handleToggleAdd}
+                onToggleAdd={undefined} // No ADD button in Android Auto
                 className={isLoading ? 'cr-track-info--loading' : ''}
               />
             </div>

@@ -276,18 +276,20 @@ export default function CrTrackInfo({
             </div>
           )}
         </div>
-        {/* ADD button inline with artist name */}
-        <div className="cr-track-info__actions-inline">
-          <CrButton
-            variant="text"
-            size="xsmall"
-            color="secondary"
-            rightIcon={isAdded ? undefined : <PiPlusCircle className="w-4 h-4" />}
-            onClick={handleToggleAdd}
-          >
-            {isAdded ? 'REMOVE' : 'ADD'}
-          </CrButton>
-        </div>
+        {/* ADD button inline with artist name - only show if onToggleAdd is defined */}
+        {onToggleAdd !== undefined && (
+          <div className="cr-track-info__actions-inline">
+            <CrButton
+              variant="text"
+              size="xsmall"
+              color="secondary"
+              rightIcon={isAdded ? undefined : <PiPlusCircle className="w-4 h-4" />}
+              onClick={handleToggleAdd}
+            >
+              {isAdded ? 'REMOVE' : 'ADD'}
+            </CrButton>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -381,7 +383,8 @@ export default function CrTrackInfo({
           {renderContent()}
 
           {/* Only render button here for full/stacked variants - minimal has it inline */}
-          {variant !== 'minimal' && (
+          {/* Don't show button if onToggleAdd is explicitly undefined (e.g., Android Auto) */}
+          {variant !== 'minimal' && onToggleAdd !== undefined && (
             <div className="cr-track-info__actions">
               <CrButton
                 variant="text"

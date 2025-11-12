@@ -11,6 +11,11 @@
   background-color: var(--cr-paper);
 }
 
+/* Android-specific top spacing */
+.cr-mobile-header--android {
+  padding-top: var(--cr-space-2);
+}
+
 .cr-mobile-header--transparent {
   background-color: transparent;
 }

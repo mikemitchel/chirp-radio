@@ -73,6 +73,7 @@ function RootRedirect() {
 
   useEffect(() => {
     const checkPlatform = async () => {
+      console.log('[SPLASH] RootRedirect: Starting platform check at', Date.now())
       // If running in Capacitor (native mobile app)
       if (isNative) {
         const isAndroid = Capacitor.getPlatform() === 'android'
@@ -84,6 +85,7 @@ function RootRedirect() {
             const result = await NowPlayingPlugin.isAutomotive()
 
             if (result.isAutomotive) {
+              console.log('[SPLASH] RootRedirect: Navigating to Android Auto at', Date.now())
               navigate('/android-auto', { replace: true })
               return
             }
@@ -93,6 +95,7 @@ function RootRedirect() {
         }
 
         // Regular mobile app - navigate immediately
+        console.log('[SPLASH] RootRedirect: Navigating to /app at', Date.now())
         navigate('/app', { replace: true })
       }
     }

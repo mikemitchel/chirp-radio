@@ -97,6 +97,8 @@ class MediaSessionManager(private val context: Context) {
         currentAlbumArtUrl = albumArtUrl
         currentDj = dj
 
+        android.util.Log.d("MediaSessionManager", "updateNowPlaying called")
+
         // Build base metadata
         val metadataBuilder = MediaMetadataCompat.Builder()
             .putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
@@ -112,7 +114,7 @@ class MediaSessionManager(private val context: Context) {
             if (url.isNotEmpty()) {
                 CoroutineScope(Dispatchers.IO).launch {
                     val bitmap = loadAlbumArtWithRetry(url, maxRetries = 3)
-                    bitmap?.let {
+                    if (bitmap != null) {
                         withContext(Dispatchers.Main) {
                             // Update metadata with album art
                             val updatedMetadata = MediaMetadataCompat.Builder()
@@ -120,7 +122,7 @@ class MediaSessionManager(private val context: Context) {
                                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
                                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, "DJ: $dj")
                                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, -1)
-                                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, it)
+                                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
                                 .build()
                             mediaSession?.setMetadata(updatedMetadata)
                         }
@@ -160,7 +162,6 @@ class MediaSessionManager(private val context: Context) {
             connection.readTimeout = 10000
             BitmapFactory.decodeStream(connection.getInputStream())
         } catch (e: Exception) {
-            e.printStackTrace()
             null
         }
     }
