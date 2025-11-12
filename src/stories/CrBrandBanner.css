@@ -5,12 +5,13 @@
   position: relative;
   width: 100%;
   background-color: var(--cr-primary-500); /* Default: Red background */
-  border-bottom: 4px solid var(--cr-primary-500);
+  margin-bottom: calc(var(--cr-space-1) * -1);
 }
 
 /* Dark mode Component Support */
 [data-theme='dark'] .cr-logo-banner {
   background-color: var(--cr-default-300); /* Dark gray background */
+  border-bottom: var(--cr-space-1) solid var(--cr-primary-500);
 }
 
 /* Container layout - responsive by default */
@@ -18,7 +19,7 @@
   max-width: 1440px;
   margin: 0 auto;
   box-sizing: border-box;
-  padding: 0 var(--cr-space-6); /* 0 24px */
+  padding: 0 var(--cr-space-4); /* 0 16px */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,7 +31,7 @@
 /* Logo container */
 .cr-logo-banner__logo-container {
   flex: 0 0 auto;
-  height: 100px;
+  height: 100%;
   width: 400px;
   display: flex;
   align-items: center;

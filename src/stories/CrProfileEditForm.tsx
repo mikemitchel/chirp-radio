@@ -352,21 +352,17 @@ export default function CrProfileEditForm({
           {errors.email && <span className="form-error">{errors.email}</span>}
           {onForgotPassword && (
             <div style={{ marginTop: 'var(--cr-space-2)', textAlign: 'right' }}>
-              <a
-                href="#"
+              <CrButton
+                variant="outline"
+                color="primary"
+                size="small"
                 onClick={(e) => {
                   e.preventDefault()
                   onForgotPassword()
                 }}
-                style={{
-                  fontSize: '12px',
-                  color: 'var(--cr-primary-500)',
-                  textDecoration: 'none',
-                  cursor: 'pointer',
-                }}
               >
                 Reset Password
-              </a>
+              </CrButton>
             </div>
           )}
         </div>
