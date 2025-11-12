@@ -12,6 +12,8 @@ import { parseDjAndShowName } from '../utils/djNameParser'
 import { addRecentlyPlayed, updateRecentlyPlayedAlbumArt } from '../utils/recentlyPlayedDB'
 import { on, emit } from '../utils/eventBus'
 import { createLogger } from '../utils/logger'
+import { resolveAlbumArt } from '../utils/albumArtFallback'
+import { useCMS } from './CMSContext'
 import NowPlayingPlugin from '../plugins/NowPlayingPlugin'
 import NativeAudioPlayer from '../plugins/NativeAudioPlayer'
 import mockCurrentPlaylist from '../data/currentPlaylist.json'
@@ -59,6 +61,7 @@ export function NowPlayingProvider({
 }: NowPlayingProviderProps) {
   const networkInfo = useNetworkQuality()
   const isPlaying = isPlayingProp
+  const { data: cmsData } = useCMS()
 
   // Check for cached data
   const getCachedData = (): TrackData | null => {
@@ -169,18 +172,44 @@ export function NowPlayingProvider({
           // Get quality for image upgrade (fallback to 'low' if offline)
           const imageQuality = networkInfo.quality === 'offline' ? 'low' : networkInfo.quality
 
-          // Determine album art URL
+          // Determine album art URL using fallback chain (Last.fm → iTunes → MusicBrainz → CMS)
           let albumArtUrl = ''
+          const fallbackImages = cmsData.playerFallbackImages?.map((img) => img.url) || []
+
+          // First try direct albumArt if provided
           if (newData.albumArt) {
             albumArtUrl = upgradeImageQuality(newData.albumArt, imageQuality)
-          } else if (newData.lastfm_urls) {
-            // Handle API format with lastfm_urls
-            const bestImage =
-              newData.lastfm_urls.large_image ||
-              newData.lastfm_urls.med_image ||
-              newData.lastfm_urls.sm_image
-            if (bestImage) {
-              albumArtUrl = upgradeImageQuality(bestImage, imageQuality)
+            log.log('Album art from direct albumArt field')
+          } else {
+            // Check for Last.fm URLs
+            const lastFmUrl =
+              newData.lastfm_urls?.large_image ||
+              newData.lastfm_urls?.med_image ||
+              newData.lastfm_urls?.sm_image
+
+            if (lastFmUrl) {
+              // Use Last.fm URL directly (don't validate - avoid CORS issues)
+              albumArtUrl = upgradeImageQuality(lastFmUrl, imageQuality)
+              log.log('Album art from Last.fm URL')
+            } else {
+              // No Last.fm URL - try fallback chain (iTunes → MusicBrainz → CMS)
+              const isMobile = Capacitor.isNativePlatform()
+
+              try {
+                const resolved = await resolveAlbumArt(
+                  undefined, // No Last.fm URL
+                  newData.artist || '',
+                  newData.album || newData.release || '',
+                  fallbackImages,
+                  -1,
+                  isMobile
+                )
+                albumArtUrl = resolved.url
+                log.log(`Album art resolved from: ${resolved.source}`)
+              } catch (_error) {
+                log.log('Failed to resolve album art from fallbacks, using empty string')
+                albumArtUrl = ''
+              }
             }
           }
 

@@ -1,5 +1,6 @@
 // CrMobileHeader.tsx
 import React from 'react'
+import { Capacitor } from '@capacitor/core'
 import CrLogo from './CrLogo'
 import CrMenuButton from './CrMenuButton'
 import './CrMobileHeader.css'
@@ -19,7 +20,12 @@ export default function CrMobileHeader({
   variant = 'default',
   actionButton,
 }: CrMobileHeaderProps) {
-  const headerClasses = ['cr-mobile-header', `cr-mobile-header--${variant}`]
+  const isAndroid = Capacitor.getPlatform() === 'android'
+  const headerClasses = [
+    'cr-mobile-header',
+    `cr-mobile-header--${variant}`,
+    isAndroid ? 'cr-mobile-header--android' : '',
+  ]
     .filter(Boolean)
     .join(' ')
 

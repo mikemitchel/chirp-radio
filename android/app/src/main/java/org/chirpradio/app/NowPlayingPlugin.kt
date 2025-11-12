@@ -58,8 +58,15 @@ class NowPlayingPlugin : Plugin() {
             val title = call.getString("title") ?: ""
             val artist = call.getString("artist") ?: ""
             val album = call.getString("album") ?: ""
-            val albumArt = call.getString("albumArt")
+            var albumArt = call.getString("albumArt")
             val dj = call.getString("dj") ?: album
+
+            // Use CHIRP logo as fallback if no album art provided
+            val DEFAULT_ALBUM_ART = "https://chirpradio.org/m/images/CHIRP-Logo-500x500.png"
+            if (albumArt.isNullOrEmpty()) {
+                android.util.Log.d("NowPlayingPlugin", "No album art provided, using default CHIRP logo")
+                albumArt = DEFAULT_ALBUM_ART
+            }
 
             android.util.Log.d("NowPlayingPlugin", "updateNowPlaying called: title=$title, artist=$artist, album=$album, dj=$dj, albumArt=$albumArt")
 

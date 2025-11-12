@@ -64,15 +64,7 @@ const preloadNowPlayingData = async () => {
         const timestampedUrls = imageUrls.map((url) => `${url}?t=${Date.now()}`)
         albumArtUrl = await preloadFirstAvailable(timestampedUrls)
       } catch {
-        console.warn('⚠️ [Album Art - Splash] All image URLs failed to load, using fallback')
-        console.warn('API lastfm_urls:', nowPlaying.lastfm_urls)
-        console.warn('Attempted URLs:', imageUrls)
-      }
-    } else {
-      // No image URLs available at all
-      if (nowPlaying.lastfm_urls && nowPlaying.lastfm_urls !== null) {
-        console.warn('⚠️ [Album Art - Splash] No valid image URLs found, but lastfm_urls exists:')
-        console.warn('API lastfm_urls:', nowPlaying.lastfm_urls)
+        // Album art failed to load - will use fallback
       }
     }
 
@@ -108,51 +100,38 @@ export default function MobileApp() {
   const { switchProfile, signOut } = useAuth()
 
   useEffect(() => {
-    console.log('🚀 [SPLASH] MobileApp mounted at', new Date().toISOString())
+    console.log('[SPLASH] MobileApp mounted at', Date.now())
 
     // Always navigate to Now Playing page on mount
     navigate('/app')
 
     // Check if splash has already been shown
     const hasShownSplash = sessionStorage.getItem('chirp-splash-shown') === 'true'
-    console.log('🔍 [SPLASH] Has shown splash this session:', hasShownSplash)
 
     // Start preloading data immediately
     const initializeApp = async () => {
-      console.log('⏱️ [SPLASH] Starting app initialization at', new Date().toISOString())
-
       // Start preloading
       const preloadPromise = preloadNowPlayingData()
 
       // Wait for data to load (no minimum time on subsequent loads)
       if (hasShownSplash) {
-        console.log('⏭️ [SPLASH] Subsequent load - hide splash immediately after data')
         await preloadPromise
-        console.log('✅ [SPLASH] Data preloaded, hiding Capacitor splash')
         if (Capacitor.isNativePlatform()) {
-          await SplashScreen.hide().catch((err) =>
-            console.warn('❌ [SPLASH] Failed to hide splash screen:', err)
-          )
+          await SplashScreen.hide().catch((err) => console.warn('[SPLASH] Failed to hide:', err))
         }
-        console.log('🏁 [SPLASH] Splash hidden')
+        console.log('[SPLASH] Hidden (subsequent load) at', Date.now())
       } else {
-        // First load - show splash for at least 2 seconds
-        console.log('⏳ [SPLASH] First load - waiting 2s and for data preload...')
-        await Promise.all([new Promise((resolve) => setTimeout(resolve, 2000)), preloadPromise])
-        console.log('✅ [SPLASH] Wait complete, data preloaded at', new Date().toISOString())
+        // First load - show splash for at least 1.8 seconds
+        await Promise.all([new Promise((resolve) => setTimeout(resolve, 1800)), preloadPromise])
 
         // Hide Capacitor splash with fade
         if (Capacitor.isNativePlatform()) {
-          console.log('🎬 [SPLASH] Hiding Capacitor splash with fade')
-          await SplashScreen.hide().catch((err) =>
-            console.warn('❌ [SPLASH] Failed to hide splash screen:', err)
-          )
-          console.log('✓ [SPLASH] Capacitor splash hidden')
+          await SplashScreen.hide().catch((err) => console.warn('[SPLASH] Failed to hide:', err))
         }
 
         // Mark splash as shown for this session
         sessionStorage.setItem('chirp-splash-shown', 'true')
-        console.log('🏁 [SPLASH] All splash transitions complete')
+        console.log('[SPLASH] Hidden (first load) at', Date.now())
       }
     }
 
@@ -237,10 +216,7 @@ export default function MobileApp() {
 
   return (
     <NotificationProvider>
-      <AudioPlayerProvider
-        autoFetch={true}
-        streamUrl="https://peridot.streamguys1.com:5185/live"
-      >
+      <AudioPlayerProvider autoFetch={true} streamUrl="https://peridot.streamguys1.com:5185/live">
         {/* Always render the app frame so it's ready */}
         <CrMobileAppFrame
           variant={isLandingPage ? 'landing' : 'interior'}
