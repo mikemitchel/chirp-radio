@@ -1009,7 +1009,9 @@ export default function AccountSettings() {
           </div>
 
           {isLoggedIn && (
-            <div className="page-layout-main-sidebar__sidebar account-settings-page__sidebar">
+            <div
+              className={`page-layout-main-sidebar__sidebar account-settings-page__sidebar account-settings-page__history-tables ${profileState === 'editProfile' || profileState === 'editVolunteer' ? 'account-settings-page__history-tables--hidden-mobile' : ''}`}
+            >
               <CrTable
                 tableTitle="Donation History"
                 columns={donationColumns}
