@@ -1,16 +1,15 @@
 /**
  * Vercel Cron Function: Capture CHIRP Playlist
  *
- * This runs every 30-60 seconds to capture the current playlist from CHIRP Radio.
+ * This runs every 30 seconds to capture the current playlist from CHIRP Radio.
  * It processes all 6 songs (now_playing + recently_played) to ensure 100% capture rate.
  *
- * Configure in vercel.json:
- * {
- *   "crons": [{
- *     "path": "/api/cron/capture-playlist",
- *     "schedule": "* * * * *"  // Every minute
- *   }]
- * }
+ * Optimizations:
+ * - Caches album art by artist+album to avoid redundant API calls
+ * - Still validates Last.fm URLs (they can change over time)
+ * - Handles DJ batch submissions (multiple songs added at once)
+ *
+ * Configure in vercel.json with cron schedule to run every 30 seconds
  */
 
 import type { VercelRequest, VercelResponse } from '@vercel/node'
@@ -19,6 +18,7 @@ import {
   playlistEntryExists,
   findPotentialCorrections,
   markAsSuperseded,
+  getCachedAlbumArt,
 } from '../../lib/db'
 import {
   tryItunesAlbumArt,
@@ -56,13 +56,25 @@ interface ChirpPlaylistResponse {
 
 /**
  * Resolves enhanced album art with fallback chain
- * Priority: Last.fm → iTunes → MusicBrainz
+ * Priority: Cache → Last.fm → iTunes → MusicBrainz
+ *
+ * Cache: If we've already resolved album art for this artist+album combo, reuse it
+ * This saves API calls and speeds up processing for repeat albums
  */
 async function resolveEnhancedAlbumArt(song: ChirpSong): Promise<string | null> {
   const artist = song.artist
   const album = song.release || ''
 
-  // Try Last.fm large image first
+  // Step 1: Check cache first (if we have album info)
+  if (album && album.trim() !== '') {
+    const cachedUrl = await getCachedAlbumArt(artist, album)
+    if (cachedUrl) {
+      console.log(`💾 Using cached album art for ${artist} - ${album}`)
+      return cachedUrl
+    }
+  }
+
+  // Step 2: Try Last.fm large image (always validate, URLs can change)
   const lastFmUrl = song.lastfm_urls?.large_image
   if (lastFmUrl && lastFmUrl.trim() !== '') {
     const upgradedUrl = upgradeLastFmQuality(lastFmUrl, false)
@@ -73,7 +85,7 @@ async function resolveEnhancedAlbumArt(song: ChirpSong): Promise<string | null> 
     }
   }
 
-  // Only try iTunes/MusicBrainz if we have album name
+  // Step 3: Only try iTunes/MusicBrainz if we have album name
   if (album && album.trim() !== '') {
     // Try iTunes
     console.log(`Trying iTunes for ${artist} - ${album}...`)

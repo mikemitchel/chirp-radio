@@ -144,6 +144,39 @@ export async function getPlaylistHistory(
 }
 
 /**
+ * Get cached album art for artist+album combination
+ * Returns the most recent album_art_enhanced URL if we've seen this before
+ */
+export async function getCachedAlbumArt(
+  artist: string,
+  album: string | null | undefined
+): Promise<string | null> {
+  try {
+    // Only cache if we have both artist and album
+    if (!artist || !album) return null
+
+    const result = await sql`
+      SELECT album_art_enhanced FROM playlist_history
+      WHERE LOWER(artist) = LOWER(${artist})
+        AND LOWER(release) = LOWER(${album})
+        AND album_art_enhanced IS NOT NULL
+        AND is_superseded = false
+      ORDER BY captured_at DESC
+      LIMIT 1
+    `
+
+    if (result.rows.length > 0) {
+      return result.rows[0].album_art_enhanced
+    }
+
+    return null
+  } catch (error) {
+    console.error('[db] Error getting cached album art:', error)
+    return null
+  }
+}
+
+/**
  * Initialize the database schema (run this once on first deploy)
  */
 export async function initializeDatabase() {
