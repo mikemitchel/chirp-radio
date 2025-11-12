@@ -69,3 +69,7 @@ CREATE INDEX IF NOT EXISTS idx_correction_tracking ON playlist_history(correctio
 
 -- Composite index for correction detection window
 CREATE INDEX IF NOT EXISTS idx_correction_detection ON playlist_history(artist, track, played_at_gmt);
+
+-- Composite index for album art cache lookups
+CREATE INDEX IF NOT EXISTS idx_album_art_cache ON playlist_history(LOWER(artist), LOWER(release), captured_at DESC)
+  WHERE album_art_enhanced IS NOT NULL AND is_superseded = false;
