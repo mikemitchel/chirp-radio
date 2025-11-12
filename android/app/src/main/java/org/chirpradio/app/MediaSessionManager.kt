@@ -105,8 +105,9 @@ class MediaSessionManager(private val context: Context) {
             .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
             .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, "DJ: $dj")
             .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, -1) // Live stream
+            .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, null) // Clear previous album art
 
-        // Set metadata immediately without album art
+        // Set metadata immediately without album art (clears previous art)
         mediaSession?.setMetadata(metadataBuilder.build())
 
         // Load album art asynchronously with retry
