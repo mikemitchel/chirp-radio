@@ -619,7 +619,8 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
             print("🔄 Removed existing time observer from current player before creating new one")
         }
 
-        // Use AVPlayer's periodic time observer - this WILL work in background during playback
+        // CRITICAL: AVPlayer's periodic time observer ONLY fires when rate > 0 (playing)
+        // If the stream is paused, polling will STOP. We need a fallback timer.
         // Check every 1 second, but only poll API every 5 seconds
         let interval = CMTime(seconds: 1.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
 
@@ -637,6 +638,7 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
                 let timestamp = now.timeIntervalSince1970
                 print("⏰ [TIME OBSERVER FIRED] \(timestamp) - \(String(format: "%.1f", timeSinceLastPoll))s since last poll")
                 print("   Player time: \(time.seconds)s")
+                print("   Player rate: \(self.player?.rate ?? 0)")
                 print("   Thread: \(Thread.isMainThread ? "MAIN" : "BACKGROUND")")
 
                 // Get app state on main thread to avoid checker warning
@@ -651,7 +653,36 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         }
 
         print("✅ Time observer added to AVPlayer - will fire every 1s during playback")
+        print("   ⚠️ WARNING: Time observer ONLY fires when player.rate > 0 (playing)")
         print("   API polling will occur every 5s")
+
+        // CRITICAL FIX: Add backup timer that fires even when player is paused
+        // This ensures metadata updates continue even if user pauses the stream
+        print("🔧 Starting backup polling timer for when player is paused...")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            // Invalidate any existing timer
+            self.backgroundPollingTimer?.invalidate()
+
+            // Create a timer that fires every 5 seconds regardless of player state
+            self.backgroundPollingTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
+                guard let self = self else { return }
+
+                let now = Date()
+                let timeSinceLastPoll = now.timeIntervalSince(self.lastPollTime)
+
+                // Only poll if time observer hasn't already polled recently (avoid duplicate polls)
+                if timeSinceLastPoll >= 4.5 { // Slightly less than 5s to avoid race
+                    print("⏰ [BACKUP TIMER FIRED] Player might be paused - forcing poll")
+                    print("   Time since last poll: \(String(format: "%.1f", timeSinceLastPoll))s")
+                    print("   Player rate: \(self.player?.rate ?? 0)")
+                    self.lastPollTime = now
+                    self.pollNowPlayingAPI()
+                }
+            }
+            print("✅ Backup polling timer started - will poll every 5s even when paused")
+        }
     }
 
     @objc func startBackgroundPolling(_ call: CAPPluginCall) {
@@ -664,8 +695,11 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         isPollingActive = true
 
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-        print("📡 Starting background polling with AVPlayer time observer: \(apiUrl)")
+        print("📡 [START POLLING] Starting background polling with AVPlayer time observer")
+        print("   API URL: \(apiUrl)")
         print("   Player exists: \(player != nil)")
+        print("   Player is playing: \(isPlaying)")
+        print("   Player rate: \(player?.rate ?? 0)")
         print("   Audio session active: \(AVAudioSession.sharedInstance().isOtherAudioPlaying)")
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
@@ -786,14 +820,25 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
                             )
 
                             // Notify JavaScript layer about the track change
-                            print("📡 [MAIN THREAD] Notifying JavaScript listeners...")
-                            self.notifyListeners("trackChanged", data: [
+                            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+                            print("📡 [NOTIFY JS] Sending trackChanged event to JavaScript")
+                            print("   Artist: \(artist)")
+                            print("   Track: \(track)")
+                            print("   Album: \(album)")
+                            print("   Album Art: \(albumArtUrl.isEmpty ? "NONE" : albumArtUrl)")
+                            print("   Thread: \(Thread.isMainThread ? "MAIN" : "BACKGROUND")")
+
+                            let eventData: [String: Any] = [
                                 "artist": artist,
                                 "track": track,
                                 "album": album,
                                 "albumArt": albumArtUrl
-                            ])
-                            print("✅ [TRACK CHANGE COMPLETE]")
+                            ]
+
+                            self.notifyListeners("trackChanged", data: eventData)
+                            print("✅ [NOTIFY JS] notifyListeners() called successfully")
+                            print("   Event name: trackChanged")
+                            print("   Data sent: \(eventData)")
                             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                         }
                     } else {

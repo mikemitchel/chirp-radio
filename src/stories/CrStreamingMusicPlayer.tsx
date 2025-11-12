@@ -180,6 +180,8 @@ const AlbumArt = ({
   }, [])
 
   useEffect(() => {
+    let isCancelled = false // Track if this effect has been cleaned up
+
     // If we have a valid src URL from API, use it directly (like before)
     // But we'll monitor in the background for failures and trigger fallback chain
     if (src && src.startsWith('http')) {
@@ -197,7 +199,9 @@ const AlbumArt = ({
         const currentlyDisplayedSrc = frontIsVisible ? frontSrc : backSrc
         if (currentlyDisplayedSrc === src) {
           log.log('Image already displayed, skipping crossfade')
-          return
+          return () => {
+            isCancelled = true
+          }
         }
       }
 
@@ -236,7 +240,9 @@ const AlbumArt = ({
         setFrontIsVisible(true)
       }
       setFallbackSrc('')
-      return
+      return () => {
+        isCancelled = true
+      }
     }
 
     // Create track ID from artist + track
@@ -247,7 +253,9 @@ const AlbumArt = ({
       trackId === currentTrackId.current &&
       forceRefreshCounter === lastForceRefreshCounter.current
     ) {
-      return
+      return () => {
+        isCancelled = true
+      }
     }
 
     currentTrackId.current = trackId
@@ -315,6 +323,12 @@ const AlbumArt = ({
           )
 
           log.log('Album art resolved:', result.source)
+        }
+
+        // Check if this async operation was cancelled (component unmounted or new data arrived)
+        if (isCancelled) {
+          log.log('Album art resolution cancelled - stale data, ignoring result')
+          return
         }
 
         // Update lastFallbackIndex if we used a fallback
@@ -453,6 +467,11 @@ const AlbumArt = ({
     }
 
     resolveArt()
+
+    // Cleanup function - cancel async operation if component unmounts or deps change
+    return () => {
+      isCancelled = true
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [src, artist, track, album, fallbackLoading, forceRefreshCounter])
 
@@ -788,7 +807,13 @@ const BackgroundImage = ({
 }
 
 interface CrStreamingMusicPlayerProps {
-  variant?: 'full-player' | 'slim-player' | 'mini-player' | 'mobile-player' | 'android-auto'
+  variant?:
+    | 'full-player'
+    | 'slim-player'
+    | 'mini-player'
+    | 'ios-mini-player'
+    | 'mobile-player'
+    | 'android-auto'
   djName?: string
   showName?: string
   artistName?: string
@@ -808,7 +833,7 @@ interface CrStreamingMusicPlayerProps {
 }
 
 export default function CrStreamingMusicPlayer({
-  variant = 'full-player', // match Figma variants: 'full-player', 'slim-player', 'mini-player', 'mobile-player'
+  variant = 'full-player', // match Figma variants: 'full-player', 'slim-player', 'mini-player', 'ios-mini-player', 'mobile-player', 'android-auto'
   djName = 'DJ Current',
   showName = 'Current Show',
   artistName = 'Artist Name',
@@ -1150,6 +1175,7 @@ export default function CrStreamingMusicPlayer({
       case 'slim-player':
         return renderSlimPlayer()
       case 'mini-player':
+      case 'ios-mini-player':
         return renderMiniPlayer()
       case 'mobile-player':
         return renderMobilePlayer()
