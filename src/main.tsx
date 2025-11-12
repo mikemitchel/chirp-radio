@@ -17,14 +17,39 @@ if (platform === 'android') {
     try {
       const info = await StatusBar.getInfo()
       const statusBarHeight = info.height || 24
-      const ANDROID_NAV_BAR_HEIGHT = 48
+
+      // Detect navigation bar height by comparing screen height to window height
+      const detectNavBarHeight = () => {
+        // Get the actual screen height vs viewport height
+        const screenHeight = window.screen.height
+        const windowHeight = window.innerHeight
+        const statusBarPx = statusBarHeight
+
+        // Calculate the difference (this should be nav bar if present)
+        // Account for status bar and any other chrome
+        const diff = screenHeight - windowHeight - statusBarPx
+
+        // If difference is significant (>20px), there's likely a nav bar
+        // Typical nav bar heights: 48px (default), 56px (large), 0 (gesture nav)
+        const navBarHeight = diff > 20 ? diff : 0
+
+        console.log(
+          '[SafeArea] Screen:',
+          screenHeight,
+          'Window:',
+          windowHeight,
+          'StatusBar:',
+          statusBarPx,
+          'NavBar:',
+          navBarHeight
+        )
+        return navBarHeight
+      }
 
       const updateInsets = () => {
+        const navBarHeight = detectNavBarHeight()
         document.documentElement.style.setProperty('--safe-area-inset-top', `${statusBarHeight}px`)
-        document.documentElement.style.setProperty(
-          '--safe-area-inset-bottom',
-          `${ANDROID_NAV_BAR_HEIGHT}px`
-        )
+        document.documentElement.style.setProperty('--safe-area-inset-bottom', `${navBarHeight}px`)
         document.documentElement.style.setProperty('--safe-area-inset-left', '0px')
         document.documentElement.style.setProperty('--safe-area-inset-right', '0px')
       }
