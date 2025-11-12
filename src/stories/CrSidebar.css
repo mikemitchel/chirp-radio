@@ -311,7 +311,8 @@
 }
 
 .cr-sidebar--mobile .cr-sidebar__footer {
-  padding: 0 var(--cr-space-10) var(--cr-space-6);
+  padding: 0 var(--cr-space-10)
+    calc(var(--cr-space-6) + var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)));
 }
 
 /* Mobile footer - inline layout */
