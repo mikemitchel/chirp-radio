@@ -217,6 +217,46 @@ WHERE captured_at >= NOW() - INTERVAL '24 hours'
   AND album_art_enhanced IS NOT NULL;
 ```
 
+**Data source breakdown:**
+
+```sql
+SELECT
+  capture_source,
+  COUNT(*) as total_records,
+  MIN(played_at_gmt) as earliest_song,
+  MAX(played_at_gmt) as latest_song
+FROM playlist_history
+GROUP BY capture_source
+ORDER BY capture_source;
+```
+
+**Recent captures (automated only):**
+
+```sql
+SELECT artist, track, dj_name, captured_at
+FROM playlist_history
+WHERE capture_source = 'cron'
+ORDER BY captured_at DESC
+LIMIT 10;
+```
+
+---
+
+## Data Sources
+
+The `capture_source` column tracks where data came from:
+
+- **`cron`** - Automated captures from our 30-second polling system (starts from deployment date)
+- **`import`** - Historical data imported from the previous system
+
+This allows you to:
+
+- Filter queries to only show new automated captures: `WHERE capture_source = 'cron'`
+- Analyze historical data separately: `WHERE capture_source = 'import'`
+- Prevent new data from being overwritten during historical imports
+
+When importing historical data, use `capture_source = 'import'` in your import script.
+
 ---
 
 ## Troubleshooting
