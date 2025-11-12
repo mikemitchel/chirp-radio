@@ -8,6 +8,7 @@ import { on } from '../utils/eventBus'
 import { createLogger } from '../utils/logger'
 import NativeAudioPlayer from '../plugins/NativeAudioPlayer'
 import NativeAudioBridge from '../plugins/NativeAudioBridge'
+import NowPlayingPlugin from '../plugins/NowPlayingPlugin'
 
 const log = createLogger('AudioPlaybackContext')
 
@@ -115,16 +116,30 @@ export function AudioPlaybackProvider({
       }
     } else if (isAndroid) {
       // Listen for Android Auto / media session playback state changes
-      let listenerCleanup: (() => void) | undefined
+      let stateListenerCleanup: (() => void) | undefined
+      let commandListenerCleanup: (() => void) | undefined
 
       NativeAudioBridge.addListener('playbackStateChanged', handlePlaybackStateChange).then(
         (listener) => {
-          listenerCleanup = () => listener.remove()
+          stateListenerCleanup = () => listener.remove()
         }
       )
 
+      // Listen for media commands from lock screen/notification
+      NowPlayingPlugin.addListener('mediaCommand', (data: { command: string }) => {
+        log.log('🎮 Media command from lock screen:', data.command)
+        if (data.command === 'play') {
+          setIsPlaying(true)
+        } else if (data.command === 'pause') {
+          setIsPlaying(false)
+        }
+      }).then((listener) => {
+        commandListenerCleanup = () => listener.remove()
+      })
+
       return () => {
-        listenerCleanup?.()
+        stateListenerCleanup?.()
+        commandListenerCleanup?.()
       }
     }
   }, [])
