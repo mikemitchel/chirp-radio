@@ -1,5 +1,5 @@
 // Album Art Fallback Utility
-// Provides fallback chain for album art: Last.fm → iTunes → MusicBrainz → CMS Fallback Images
+// Provides fallback chain for album art: Last.fm → iTunes → MusicBrainz → CMS Fallback Images → Bundled Fallback
 
 import { createLogger } from './logger'
 
@@ -254,7 +254,7 @@ export const upgradeLastFmQuality = (url: string, isMobile: boolean = false): st
  */
 export interface AlbumArtFallbackResult {
   url: string
-  source: 'lastfm' | 'itunes' | 'musicbrainz' | 'fallback'
+  source: 'lastfm' | 'itunes' | 'musicbrainz' | 'fallback' | 'bundled-fallback'
   fallbackIndex?: number
 }
 
@@ -301,13 +301,14 @@ export const resolveAlbumArt = async (
     }
   }
 
-  // Step 4: Use random fallback image
-  if (fallbackImages.length === 0) {
-    log.log('All services failed and no CMS fallback images available')
-    throw new Error('No album art available from any source')
+  // Step 4: Use CMS fallback image if available
+  if (fallbackImages.length > 0) {
+    log.log('All services failed, using deterministic CMS fallback image')
+    const fallback = getRandomFallback(fallbackImages, lastFallbackIndex, artist, album)
+    return { url: fallback.url, source: 'fallback', fallbackIndex: fallback.index }
   }
 
-  log.log('All services failed, using deterministic fallback image')
-  const fallback = getRandomFallback(fallbackImages, lastFallbackIndex, artist, album)
-  return { url: fallback.url, source: 'fallback', fallbackIndex: fallback.index }
+  // Step 5: Use bundled fallback image as absolute last resort
+  log.log('All services failed, using bundled fallback image')
+  return { url: '/images/album-art-fallback.png', source: 'bundled-fallback', fallbackIndex: -1 }
 }

@@ -27,6 +27,17 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
   const handleSubmit = (data: any) => {
     console.log('Song request submitted:', data)
     // TODO: Send request to API
+
+    // Show success toast
+    const successMessage =
+      (pageContent as any)?.requestSuccessMessage ||
+      'Your song request has been sent! The DJ will see it shortly.'
+
+    showToast({
+      message: successMessage,
+      type: 'success',
+      duration: 5000,
+    })
   }
 
   const handleCancel = () => {
@@ -75,7 +86,9 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
   const loginButtonText = appSettings?.notLoggedInMessage?.loginButtonText || 'log in'
   const signupButtonText = appSettings?.notLoggedInMessage?.signupButtonText || 'sign up'
   const benefitsTitle = appSettings?.accountBenefitsTitle || 'Benefits of Creating an Account:'
-  const benefitsContent = appSettings?.accountBenefitsContent || `
+  const benefitsContent =
+    appSettings?.accountBenefitsContent ||
+    `
     <ul>
       <li>Save your favorite songs from our live stream to your personal collection</li>
       <li>Make song requests directly to our DJs during their shows</li>

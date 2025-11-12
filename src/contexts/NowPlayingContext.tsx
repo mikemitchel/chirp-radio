@@ -9,7 +9,7 @@ import { App } from '@capacitor/app'
 import { useNetworkQuality } from '../hooks/useNetworkQuality'
 import { upgradeImageQuality } from '../utils/imageOptimizer'
 import { parseDjAndShowName } from '../utils/djNameParser'
-import { addRecentlyPlayed, updateRecentlyPlayedAlbumArt } from '../utils/recentlyPlayedDB'
+import { addRecentlyPlayed } from '../utils/recentlyPlayedDB'
 import { on, emit } from '../utils/eventBus'
 import { createLogger } from '../utils/logger'
 import { resolveAlbumArt } from '../utils/albumArtFallback'
@@ -93,8 +93,30 @@ export function NowPlayingProvider({
     isLocal: false,
   }
 
+  log.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+  log.log('🏁 [NowPlayingContext] Component MOUNTING')
+  log.log('   autoFetch:', autoFetch)
+  log.log('   hasCache:', !!cachedData)
+  log.log('   Platform:', Capacitor.getPlatform())
+  if (cachedData) {
+    log.log('   Cached Artist:', initialData.artist)
+    log.log('   Cached Track:', initialData.track)
+    log.log('   Cached Album Art:', initialData.albumArt ? 'HAS URL' : 'EMPTY')
+  } else {
+    log.log('   Using placeholder data')
+  }
+  log.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+
   const [currentData, setCurrentData] = useState<TrackData>(initialData)
   const [isLoading, setIsLoading] = useState(autoFetch && !cachedData)
+
+  log.log('📊 [NowPlayingContext] State initialized:', {
+    currentData: {
+      artist: currentData.artist,
+      track: currentData.track,
+    },
+    isLoading,
+  })
 
   const lastSongRef = useRef(
     cachedData ? `${cachedData.artist} - ${cachedData.track}`.toLowerCase().trim() : ''
@@ -105,7 +127,8 @@ export function NowPlayingProvider({
   const lastUpdateTimeRef = useRef<Date>(new Date())
   const albumArtRetryCountRef = useRef(0)
   const lastAlbumArtUrlRef = useRef(cachedData?.albumArt || '')
-  const albumArtResolvedRef = useRef(false) // Always allow validation on page load, even with cached data
+  // Mark as resolved if cached data has album art to prevent unnecessary retries
+  const albumArtResolvedRef = useRef(!!cachedData?.albumArt)
 
   // Fetch now playing data
   const fetchNowPlaying = async () => {
@@ -176,10 +199,18 @@ export function NowPlayingProvider({
           let albumArtUrl = ''
           const fallbackImages = cmsData.playerFallbackImages?.map((img) => img.url) || []
 
+          // Debug: Log what we're receiving
+          log.log('🔍 Checking album art sources:', {
+            hasDirectAlbumArt: !!newData.albumArt,
+            albumArt: newData.albumArt,
+            hasLastfmUrls: !!newData.lastfm_urls,
+            lastfm_urls: newData.lastfm_urls,
+          })
+
           // First try direct albumArt if provided
           if (newData.albumArt) {
             albumArtUrl = upgradeImageQuality(newData.albumArt, imageQuality)
-            log.log('Album art from direct albumArt field')
+            log.log('✅ Album art from direct albumArt field:', albumArtUrl)
           } else {
             // Check for Last.fm URLs
             const lastFmUrl =
@@ -190,8 +221,9 @@ export function NowPlayingProvider({
             if (lastFmUrl) {
               // Use Last.fm URL directly (don't validate - avoid CORS issues)
               albumArtUrl = upgradeImageQuality(lastFmUrl, imageQuality)
-              log.log('Album art from Last.fm URL')
+              log.log('✅ Album art from Last.fm URL:', albumArtUrl)
             } else {
+              log.log('❌ No Last.fm URLs found, trying fallback chain')
               // No Last.fm URL - try fallback chain (iTunes → MusicBrainz → CMS)
               const isMobile = Capacitor.isNativePlatform()
 
@@ -226,6 +258,12 @@ export function NowPlayingProvider({
             detailsUpdatedAt: newData.detailsUpdatedAt,
           }
 
+          log.log('📝 [setCurrentData] Setting track data:', {
+            artist: trackData.artist,
+            track: trackData.track,
+            albumArt: trackData.albumArt ? 'HAS URL' : 'EMPTY',
+            source: 'fetchNowPlaying',
+          })
           setCurrentData(trackData)
           lastAlbumArtUrlRef.current = albumArtUrl
           albumArtRetryCountRef.current = 0
@@ -267,42 +305,8 @@ export function NowPlayingProvider({
           )
           log.log('Current track:', currentData.track, 'by', currentData.artist)
 
-          // Retry album art if not yet resolved for this track (validates cached URLs too)
-          const hasAlbumArtSource = newData.albumArt || newData.lastfm_urls
-          if (
-            !albumArtResolvedRef.current &&
-            hasAlbumArtSource &&
-            albumArtRetryCountRef.current < 5
-          ) {
-            const retryImageQuality =
-              networkInfo.quality === 'offline' ? 'low' : networkInfo.quality
-            let retryAlbumArt = ''
-            if (newData.albumArt) {
-              retryAlbumArt = upgradeImageQuality(newData.albumArt, retryImageQuality)
-            } else if (newData.lastfm_urls) {
-              const bestImage =
-                newData.lastfm_urls.large_image ||
-                newData.lastfm_urls.med_image ||
-                newData.lastfm_urls.sm_image
-              if (bestImage) {
-                retryAlbumArt = upgradeImageQuality(bestImage, retryImageQuality)
-              }
-            }
-
-            if (retryAlbumArt && retryAlbumArt !== lastAlbumArtUrlRef.current) {
-              log.log('Retrying album art:', retryAlbumArt)
-              setCurrentData((prev) => ({ ...prev, albumArt: retryAlbumArt }))
-              lastAlbumArtUrlRef.current = retryAlbumArt
-              albumArtRetryCountRef.current++
-              // Mark as resolved once we successfully get album art
-              albumArtResolvedRef.current = true
-
-              updateRecentlyPlayedAlbumArt(currentData.artist, currentData.track, retryAlbumArt)
-              updateNativeMetadata({ ...currentData, albumArt: retryAlbumArt })
-            }
-          } else if (albumArtResolvedRef.current) {
-            log.log('Album art already resolved for this track, skipping retry')
-          }
+          // REMOVED: Album art retry mechanism that was causing art to flip back and forth
+          // Album art is now resolved once when track changes and not retried
 
           console.groupEnd()
         }
@@ -353,38 +357,67 @@ export function NowPlayingProvider({
 
   // Start polling when mounted
   useEffect(() => {
-    if (!autoFetch) return
+    // CRITICAL: Use console.log directly - logger is stripped in production builds
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+    console.log('🔄 [NOW PLAYING POLLING] useEffect triggered')
+    console.log('   autoFetch:', autoFetch)
+    console.log('   Platform:', Capacitor.getPlatform())
+    console.log('   Platform check result:', Capacitor.getPlatform() === 'ios')
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+
+    if (!autoFetch) {
+      console.log('⚠️ [NOW PLAYING POLLING] autoFetch is false, skipping polling setup')
+      return
+    }
 
     const isIOS = Capacitor.getPlatform() === 'ios'
+    console.log('🔍 [NOW PLAYING POLLING] Platform detection:', {
+      platform: Capacitor.getPlatform(),
+      isIOS: isIOS,
+    })
 
     if (isIOS) {
       // Use native background polling on iOS (avoids JavaScript timer throttling)
-      log.log('Starting native background polling for iOS')
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+      console.log('📱 [IOS SETUP] Starting native background polling for iOS')
+      console.log('   API URL:', apiUrl)
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+
+      // CRITICAL: Add listener BEFORE starting polling to ensure we don't miss events
+      console.log('📡 [IOS SETUP] Adding trackChanged event listener...')
+      NativeAudioPlayer.addListener('trackChanged', (data) => {
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+        console.log('🎵 [JS EVENT RECEIVED] Track changed event from native!')
+        console.log('   Artist:', data.artist)
+        console.log('   Track:', data.track)
+        console.log('   Album:', data.album)
+        console.log('   Album Art:', data.albumArt ? 'HAS URL' : 'EMPTY')
+        console.log('   Timestamp:', new Date().toISOString())
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
+
+        // Preserve existing DJ/show/label data instead of replacing with placeholders
+        setCurrentData((prev) => ({
+          ...prev, // Keep existing DJ, show, label, isLocal
+          artist: data.artist,
+          track: data.track,
+          album: data.album,
+          albumArt: data.albumArt,
+        }))
+        setIsLoading(false)
+        console.log('✅ [JS STATE UPDATED] currentData state updated with new track')
+      }).then(() => {
+        console.log('✅ [IOS SETUP] Event listener registered successfully')
+      })
+
       NativeAudioPlayer.startBackgroundPolling({ apiUrl })
         .then(() => {
-          log.log('✅ Native polling started')
-
-          // Listen for track changes from native layer
-          NativeAudioPlayer.addListener('trackChanged', (data) => {
-            log.log('🎵 Track changed (from native):', data.artist, '-', data.track)
-
-            const trackData: TrackData = {
-              artist: data.artist,
-              track: data.track,
-              album: data.album,
-              albumArt: data.albumArt,
-              dj: 'DJ Current', // Native polling doesn't parse DJ names yet
-              show: 'Current Show',
-              label: 'Unknown Label',
-              isLocal: false,
-            }
-
-            setCurrentData(trackData)
-            setIsLoading(false)
-          })
+          console.log('✅ [IOS SETUP] Native polling started successfully')
         })
         .catch((error) => {
-          log.log('❌ Failed to start native polling, falling back to JavaScript:', error)
+          console.log(
+            '❌ [IOS SETUP] Failed to start native polling, falling back to JavaScript:',
+            error
+          )
           fetchNowPlaying() // Fallback to JavaScript polling
         })
     } else {
@@ -394,8 +427,10 @@ export function NowPlayingProvider({
     }
 
     return () => {
+      log.log('🧹 [CLEANUP] Cleaning up native polling and listeners')
       if (isIOS) {
         NativeAudioPlayer.stopBackgroundPolling().catch(console.error)
+        // Note: Capacitor listeners auto-cleanup when component unmounts
       }
       if (pollTimeoutRef.current) {
         clearTimeout(pollTimeoutRef.current)
@@ -437,27 +472,17 @@ export function NowPlayingProvider({
 
     App.addListener('appStateChange', ({ isActive }) => {
       if (isActive) {
-        log.log('App became active - clearing caches and refreshing metadata')
+        log.log('App became active - refreshing metadata')
 
-        // Clear album art caches to force refresh with latest data
-        try {
-          sessionStorage.removeItem('chirp-album-art-cache')
-          sessionStorage.removeItem('chirp-bg-cache')
-          sessionStorage.removeItem('chirp-fallback-index')
-          log.log('✅ Album art caches cleared')
-        } catch (e) {
-          log.log('Failed to clear caches:', e)
-        }
+        // DON'T clear album art caches - this was causing art to disappear
+        // The cache should only be cleared on force refresh or track change
 
         // Clear any pending poll timeout
         if (pollTimeoutRef.current) {
           clearTimeout(pollTimeoutRef.current)
         }
 
-        // Reset resolved flag to allow album art to be revalidated
-        albumArtResolvedRef.current = false
-
-        // Immediately fetch latest track data
+        // Immediately fetch latest track data (will update if track changed)
         fetchNowPlaying()
       }
     }).then((listener) => {
