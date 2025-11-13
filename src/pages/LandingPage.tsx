@@ -615,7 +615,7 @@ const LandingPage: React.FC = () => {
               textLayout="stacked"
               bannerHeight="tall"
               imageAspectRatio="16:9"
-              bannerBackgroundColor="none"
+              bannerBackgroundColor="textured"
               backgroundImage={
                 typeof article.featuredImage === 'string'
                   ? article.featuredImage

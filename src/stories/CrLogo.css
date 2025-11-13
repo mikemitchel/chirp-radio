@@ -8,6 +8,7 @@
 .cr-logo__image {
   width: 100%;
   height: 100%;
+  margin-bottom: calc(var(--cr-space-1) * -1);
   display: block;
   object-fit: contain;
 }
@@ -24,13 +25,13 @@
 
 /* Variant-specific styling if needed */
 .cr-logo--horizontal {
-  width: 400px;
-  height: 100px;
+  width: 430px;
+  height: 100%;
 }
 
 .cr-logo--horizontal-reversed {
-  width: 400px;
-  height: 100px;
+  width: 430px;
+  height: 100%;
 }
 
 .cr-logo--vertical .cr-logo__image {

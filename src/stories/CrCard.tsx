@@ -248,29 +248,29 @@ export default function CrCard({
     [metaContent, timeSlot]
   )
 
-  const ImageWithCaption = React.useCallback(
-    () => {
-      const displayCaption = showPhotoCredit && photographerName
+  const ImageWithCaption = React.useCallback(() => {
+    const displayCaption =
+      showPhotoCredit && photographerName
         ? `Photo credit - ${photographerName}`
-        : (showPhotoCredit ? imageCaption : imageCaption)
+        : showPhotoCredit
+          ? imageCaption
+          : imageCaption
 
-      return (
-        <div className="cr-card__image-wrapper">
-          <div className="cr-card__image" style={{ backgroundImage: `url(${backgroundImage})` }}>
-            {captionPosition === 'overlay' && showPhotoCredit && displayCaption && (
-              <div className="cr-card__image-caption cr-card__image-caption--overlay">
-                {displayCaption}
-              </div>
-            )}
-          </div>
-          {captionPosition === 'bottom' && showPhotoCredit && displayCaption && (
-            <div className="cr-card__image-caption">{displayCaption}</div>
+    return (
+      <div className="cr-card__image-wrapper">
+        <div className="cr-card__image" style={{ backgroundImage: `url(${backgroundImage})` }}>
+          {captionPosition === 'overlay' && showPhotoCredit && displayCaption && (
+            <div className="cr-card__image-caption cr-card__image-caption--overlay">
+              {displayCaption}
+            </div>
           )}
         </div>
-      )
-    },
-    [backgroundImage, captionPosition, imageCaption, showPhotoCredit, photographerName]
-  )
+        {captionPosition === 'bottom' && showPhotoCredit && displayCaption && (
+          <div className="cr-card__image-caption">{displayCaption}</div>
+        )}
+      </div>
+    )
+  }, [backgroundImage, captionPosition, imageCaption, showPhotoCredit, photographerName])
 
   // Optimized render logic with early returns
   const renderContent = () => {
@@ -576,7 +576,7 @@ export default function CrCard({
                 titleSize={titleSize}
                 height={bannerHeight}
                 textLayout={textLayout}
-                backgroundColor="none"
+                backgroundColor={bannerBackgroundColor}
                 showTicketButton={false}
                 showShareButton={true}
                 shareButtonText={shareButtonText}
@@ -609,7 +609,7 @@ export default function CrCard({
                 authorBy={authorBy}
                 eventDate={eventDate}
                 tags={tags}
-                showShareButton={showShareButton}
+                showShareButton={false}
                 onVenueClick={onVenueClick}
                 onShareClick={onShareClick}
               />

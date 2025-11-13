@@ -117,6 +117,10 @@
   flex-wrap: wrap;
 }
 
+.cr-announcement__content p {
+  margin-bottom: 0;
+}
+
 .cr-announcement__headline {
   font: var(--cr-title-lg);
   font-family: var(--cr-font-antonio), serif;
@@ -127,11 +131,10 @@
 .cr-announcement__body {
   font: var(--cr-body-reg);
   color: var(--cr-ink);
-  margin-bottom: var(--cr-space-4);
+  margin-bottom: var(--cr-space-3);
 }
 
 .cr-announcement__link-wrapper {
-  margin-bottom: var(--cr-space-6);
 }
 
 /* ============================================ */
