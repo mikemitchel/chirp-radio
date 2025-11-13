@@ -9,6 +9,7 @@
   overflow: hidden;
   background-color: var(--cr-paper);
   position: relative;
+  padding: var(--cr-space-2) 0 var(--cr-space-1);
 }
 
 .cr-avatar--logged-out {
@@ -16,7 +17,13 @@
   background-color: var(--cr-default-100);
 }
 
+.cr-avatar__logo {
+  width: 24px;
+  height: 24px;
+}
+
 .cr-avatar--logged-in {
+  padding: unset;
   border: 2px solid var(--cr-default-300); /* Changed from --cr-border to --cr-default-300 for better dark mode support */
 }
 
