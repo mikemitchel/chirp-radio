@@ -13,11 +13,7 @@ import { Share } from '@capacitor/share'
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
 import { Capacitor } from '@capacitor/core'
 import LoginRequiredModal from '../components/LoginRequiredModal'
-import {
-  getCollection,
-  removeFromCollection,
-  type CollectionTrack,
-} from '../utils/collectionDB'
+import { getCollection, removeFromCollection, type CollectionTrack } from '../utils/collectionDB'
 import './YourCollection.css'
 
 export default function YourCollection() {
@@ -34,12 +30,28 @@ export default function YourCollection() {
   const notLoggedInDescription =
     pageContent?.customNotLoggedInMessage ||
     'A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!'
-  const actionButtonText = (pageContent && 'actionButtonText' in pageContent ? (pageContent as Record<string, unknown>).actionButtonText as string : undefined) || 'Share Collection'
-  const loginButtonText = (pageContent && 'loginButtonText' in pageContent ? (pageContent as Record<string, unknown>).loginButtonText as string : undefined) || 'Log In'
-  const signupButtonText = (pageContent && 'signupButtonText' in pageContent ? (pageContent as Record<string, unknown>).signupButtonText as string : undefined) || 'Sign Up'
+  const actionButtonText =
+    (pageContent && 'actionButtonText' in pageContent
+      ? ((pageContent as Record<string, unknown>).actionButtonText as string)
+      : undefined) || 'Share Collection'
+  const loginButtonText =
+    (pageContent && 'loginButtonText' in pageContent
+      ? ((pageContent as Record<string, unknown>).loginButtonText as string)
+      : undefined) || 'Log In'
+  const signupButtonText =
+    (pageContent && 'signupButtonText' in pageContent
+      ? ((pageContent as Record<string, unknown>).signupButtonText as string)
+      : undefined) || 'Sign Up'
 
-  const benefitsTitle = (appSettings && 'accountBenefitsTitle' in appSettings ? (appSettings as Record<string, unknown>).accountBenefitsTitle as string : undefined) || 'Benefits of Creating an Account:'
-  const benefitsContent = (appSettings && 'accountBenefitsContent' in appSettings ? (appSettings as Record<string, unknown>).accountBenefitsContent as string : undefined) || `
+  const benefitsTitle =
+    (appSettings && 'accountBenefitsTitle' in appSettings
+      ? ((appSettings as Record<string, unknown>).accountBenefitsTitle as string)
+      : undefined) || 'Benefits of Creating an Account:'
+  const benefitsContent =
+    (appSettings && 'accountBenefitsContent' in appSettings
+      ? ((appSettings as Record<string, unknown>).accountBenefitsContent as string)
+      : undefined) ||
+    `
     <ul>
       <li>Save your favorite songs from our live stream to your personal collection</li>
       <li>Make song requests directly to our DJs during their shows</li>
@@ -52,7 +64,10 @@ export default function YourCollection() {
   `
 
   // Get the announcement from CMS (now populated and transformed with depth: 1)
-  const announcementValue = pageContent && 'announcement' in pageContent ? (pageContent as Record<string, unknown>).announcement : undefined
+  const announcementValue =
+    pageContent && 'announcement' in pageContent
+      ? (pageContent as Record<string, unknown>).announcement
+      : undefined
   const selectedAnnouncement =
     typeof announcementValue === 'object' && announcementValue !== null ? announcementValue : null
 
@@ -229,7 +244,7 @@ export default function YourCollection() {
           />
 
           <div className="cr-profile-card__not-logged-in-actions">
-            <CrButton variant="outline" color="default" size="medium" onClick={handleLoginClick}>
+            <CrButton variant="text" color="default" size="medium" onClick={handleLoginClick}>
               {loginButtonText}
             </CrButton>
             <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUpClick}>
@@ -288,7 +303,9 @@ export default function YourCollection() {
       {selectedAnnouncement && (
         <CrAnnouncement
           variant={(selectedAnnouncement as Record<string, unknown>).variant as string}
-          textureBackground={(selectedAnnouncement as Record<string, unknown>).textureBackground as string}
+          textureBackground={
+            (selectedAnnouncement as Record<string, unknown>).textureBackground as string
+          }
           headlineText={(selectedAnnouncement as Record<string, unknown>).headlineText as string}
           bodyText={(selectedAnnouncement as Record<string, unknown>).bodyText as string}
           showLink={(selectedAnnouncement as Record<string, unknown>).showLink as boolean}

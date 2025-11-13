@@ -269,7 +269,7 @@
   }
 
   .cr-modal__content {
-    padding: 0 cr-modal__content;
+    padding: 0;
   }
 
   .cr-modal__body {
