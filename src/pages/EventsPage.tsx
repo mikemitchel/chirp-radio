@@ -2,6 +2,7 @@
 import React from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import CrPageHeader from '../stories/CrPageHeader'
+import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
@@ -13,7 +14,11 @@ const ITEMS_PER_PAGE = 11
 
 // Helper functions for type conversions
 const getEventImageUrl = (event: Event): string | undefined => {
-  if (typeof event.featuredImage === 'object' && event.featuredImage && 'url' in event.featuredImage) {
+  if (
+    typeof event.featuredImage === 'object' &&
+    event.featuredImage &&
+    'url' in event.featuredImage
+  ) {
     return event.featuredImage.url
   }
   if (typeof event.featuredImage === 'string') {
@@ -58,6 +63,9 @@ const EventsPage: React.FC = () => {
   // Get current page from URL, default to 0
   const currentPage = parseInt(searchParams.get('page') || '0', 10)
 
+  // Create page title with page number
+  const pageTitle = currentPage > 0 ? `Events - Page ${currentPage + 1}` : 'Events'
+
   const totalPages = allEvents ? Math.ceil(allEvents.length / ITEMS_PER_PAGE) : 0
   const startIndex = currentPage * ITEMS_PER_PAGE
   const events = allEvents?.slice(startIndex, startIndex + ITEMS_PER_PAGE)
@@ -67,21 +75,23 @@ const EventsPage: React.FC = () => {
   }
 
   const handlePageChange = (page: number) => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
     if (page === 0) {
       setSearchParams({})
     } else {
       setSearchParams({ page: String(page) })
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   // Get sidebar content from Site Settings
   const sidebarAnnouncementId =
     typeof siteSettings?.eventsSidebarAnnouncement === 'string'
       ? siteSettings.eventsSidebarAnnouncement
-      : typeof siteSettings?.eventsSidebarAnnouncement === 'object' && siteSettings.eventsSidebarAnnouncement && 'id' in siteSettings.eventsSidebarAnnouncement
-      ? siteSettings.eventsSidebarAnnouncement.id
-      : undefined
+      : typeof siteSettings?.eventsSidebarAnnouncement === 'object' &&
+          siteSettings.eventsSidebarAnnouncement &&
+          'id' in siteSettings.eventsSidebarAnnouncement
+        ? siteSettings.eventsSidebarAnnouncement.id
+        : undefined
 
   const sidebarAnnouncement = sidebarAnnouncementId
     ? announcements?.find((a) => String(a.id) === String(sidebarAnnouncementId))
@@ -93,18 +103,33 @@ const EventsPage: React.FC = () => {
   const fullWidthAnnouncementId =
     typeof siteSettings?.eventsFullWidthAnnouncement === 'string'
       ? siteSettings.eventsFullWidthAnnouncement
-      : typeof siteSettings?.eventsFullWidthAnnouncement === 'object' && siteSettings.eventsFullWidthAnnouncement && 'id' in siteSettings.eventsFullWidthAnnouncement
-      ? siteSettings.eventsFullWidthAnnouncement.id
-      : undefined
+      : typeof siteSettings?.eventsFullWidthAnnouncement === 'object' &&
+          siteSettings.eventsFullWidthAnnouncement &&
+          'id' in siteSettings.eventsFullWidthAnnouncement
+        ? siteSettings.eventsFullWidthAnnouncement.id
+        : undefined
 
   const fullWidthAnnouncement = fullWidthAnnouncementId
     ? announcements?.find((a) => String(a.id) === String(fullWidthAnnouncementId))
     : announcements?.[4] // fallback
 
+  // Create breadcrumb items with page number
+  const breadcrumbItems =
+    currentPage > 0
+      ? [
+          { label: 'Events', isClickable: true, onClick: () => navigate('/events') },
+          { label: `Page ${currentPage + 1}`, isClickable: false },
+        ]
+      : [{ label: 'Events', isClickable: false }]
+
   return (
     <div className="events-page">
       <section className="page-container">
-        <CrPageHeader title="Events" showEyebrow={false} showActionButton={false} />
+        <CrBreadcrumb items={breadcrumbItems} />
+      </section>
+
+      <section className="page-container">
+        <CrPageHeader title={pageTitle} showEyebrow={false} showActionButton={false} />
       </section>
 
       {/* 2/3 + 1/3 Layout - Featured Event */}
@@ -141,7 +166,11 @@ const EventsPage: React.FC = () => {
               widthVariant="third"
               textureBackground={sidebarAnnouncement.textureBackground}
               headlineText={sidebarAnnouncement.headlineText}
-              bodyText={typeof sidebarAnnouncement.bodyText === 'string' ? sidebarAnnouncement.bodyText : undefined}
+              bodyText={
+                typeof sidebarAnnouncement.bodyText === 'string'
+                  ? sidebarAnnouncement.bodyText
+                  : undefined
+              }
               showLink={sidebarAnnouncement.showLink}
               linkText={sidebarAnnouncement.linkText}
               linkUrl={sidebarAnnouncement.linkUrl}
@@ -154,22 +183,78 @@ const EventsPage: React.FC = () => {
               targetAmount={sidebarAnnouncement.targetAmount}
             />
           )}
-          {(sidebarAdvertisement && typeof sidebarAdvertisement === 'object' && (
-            <CrAdSpace
-                size={'size' in sidebarAdvertisement ? sidebarAdvertisement.size as string : 'large-rectangle'}
-                customWidth={'customWidth' in sidebarAdvertisement ? sidebarAdvertisement.customWidth as number : undefined}
-                customHeight={'customHeight' in sidebarAdvertisement ? sidebarAdvertisement.customHeight as number : undefined}
-                contentType={'contentType' in sidebarAdvertisement ? sidebarAdvertisement.contentType as string : undefined}
-                src={'imageUrl' in sidebarAdvertisement ? sidebarAdvertisement.imageUrl as string : 'image' in sidebarAdvertisement && typeof sidebarAdvertisement.image === 'object' && sidebarAdvertisement.image && 'url' in sidebarAdvertisement.image ? sidebarAdvertisement.image.url as string : undefined}
-                alt={'alt' in sidebarAdvertisement ? sidebarAdvertisement.alt as string : undefined}
-                htmlContent={'htmlContent' in sidebarAdvertisement ? sidebarAdvertisement.htmlContent as string : undefined}
-                videoSrc={'videoUrl' in sidebarAdvertisement ? sidebarAdvertisement.videoUrl as string : 'video' in sidebarAdvertisement && typeof sidebarAdvertisement.video === 'object' && sidebarAdvertisement.video && 'url' in sidebarAdvertisement.video ? sidebarAdvertisement.video.url as string : undefined}
-                embedCode={'embedCode' in sidebarAdvertisement ? sidebarAdvertisement.embedCode as string : undefined}
-                href={'href' in sidebarAdvertisement ? sidebarAdvertisement.href as string : undefined}
-                target={'target' in sidebarAdvertisement ? sidebarAdvertisement.target as string : undefined}
-                showLabel={'showLabel' in sidebarAdvertisement ? sidebarAdvertisement.showLabel as boolean : undefined}
+          {
+            (sidebarAdvertisement && typeof sidebarAdvertisement === 'object' && (
+              <CrAdSpace
+                size={
+                  'size' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.size as string)
+                    : 'large-rectangle'
+                }
+                customWidth={
+                  'customWidth' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.customWidth as number)
+                    : undefined
+                }
+                customHeight={
+                  'customHeight' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.customHeight as number)
+                    : undefined
+                }
+                contentType={
+                  'contentType' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.contentType as string)
+                    : undefined
+                }
+                src={
+                  'imageUrl' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.imageUrl as string)
+                    : 'image' in sidebarAdvertisement &&
+                        typeof sidebarAdvertisement.image === 'object' &&
+                        sidebarAdvertisement.image &&
+                        'url' in sidebarAdvertisement.image
+                      ? (sidebarAdvertisement.image.url as string)
+                      : undefined
+                }
+                alt={
+                  'alt' in sidebarAdvertisement ? (sidebarAdvertisement.alt as string) : undefined
+                }
+                htmlContent={
+                  'htmlContent' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.htmlContent as string)
+                    : undefined
+                }
+                videoSrc={
+                  'videoUrl' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.videoUrl as string)
+                    : 'video' in sidebarAdvertisement &&
+                        typeof sidebarAdvertisement.video === 'object' &&
+                        sidebarAdvertisement.video &&
+                        'url' in sidebarAdvertisement.video
+                      ? (sidebarAdvertisement.video.url as string)
+                      : undefined
+                }
+                embedCode={
+                  'embedCode' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.embedCode as string)
+                    : undefined
+                }
+                href={
+                  'href' in sidebarAdvertisement ? (sidebarAdvertisement.href as string) : undefined
+                }
+                target={
+                  'target' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.target as string)
+                    : undefined
+                }
+                showLabel={
+                  'showLabel' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.showLabel as boolean)
+                    : undefined
+                }
               />
-          )) as React.ReactNode}
+            )) as React.ReactNode
+          }
         </div>
       </div>
 
@@ -281,7 +366,11 @@ const EventsPage: React.FC = () => {
               variant={fullWidthAnnouncement.variant}
               textureBackground={fullWidthAnnouncement.textureBackground}
               headlineText={fullWidthAnnouncement.headlineText}
-              bodyText={typeof fullWidthAnnouncement.bodyText === 'string' ? fullWidthAnnouncement.bodyText : undefined}
+              bodyText={
+                typeof fullWidthAnnouncement.bodyText === 'string'
+                  ? fullWidthAnnouncement.bodyText
+                  : undefined
+              }
               showLink={fullWidthAnnouncement.showLink}
               linkText={fullWidthAnnouncement.linkText}
               linkUrl={fullWidthAnnouncement.linkUrl}
