@@ -145,7 +145,11 @@
   right: 0;
   height: 100%;
   width: 40px;
-  background: linear-gradient(to right, transparent, var(--cr-default-100));
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--cr-ink) 50%, transparent)
+  );
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -160,7 +164,11 @@
   left: 0;
   height: 100%;
   width: 40px;
-  background: linear-gradient(to left, transparent, var(--cr-default-100));
+  background: linear-gradient(
+    to left,
+    transparent,
+    color-mix(in srgb, var(--cr-ink) 50%, transparent)
+  );
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -184,6 +192,7 @@
   overflow-x: auto;
   overflow-y: hidden;
   width: 100%;
+  cursor: grab;
   /* Hide scrollbar but keep functionality */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */

@@ -107,6 +107,37 @@ export default function CrCardDetails({
                     // Observe size changes
                     const observer = new ResizeObserver(checkOverflow)
                     observer.observe(el)
+
+                    // Add drag-to-scroll functionality
+                    let isDragging = false
+                    let startX = 0
+                    let scrollLeft = 0
+
+                    scrollContainer.addEventListener('mousedown', (e) => {
+                      isDragging = true
+                      startX = e.pageX - scrollContainer.offsetLeft
+                      scrollLeft = scrollContainer.scrollLeft
+                      scrollContainer.style.cursor = 'grabbing'
+                      scrollContainer.style.userSelect = 'none'
+                    })
+
+                    scrollContainer.addEventListener('mouseleave', () => {
+                      isDragging = false
+                      scrollContainer.style.cursor = 'grab'
+                    })
+
+                    scrollContainer.addEventListener('mouseup', () => {
+                      isDragging = false
+                      scrollContainer.style.cursor = 'grab'
+                    })
+
+                    scrollContainer.addEventListener('mousemove', (e) => {
+                      if (!isDragging) return
+                      e.preventDefault()
+                      const x = e.pageX - scrollContainer.offsetLeft
+                      const walk = (x - startX) * 2 // Scroll speed multiplier
+                      scrollContainer.scrollLeft = scrollLeft - walk
+                    })
                   }
                 }}
               >
