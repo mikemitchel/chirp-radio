@@ -72,7 +72,7 @@
 
   .cr-logo-banner__logo-vertical {
     display: block;
-    margin-top: var(--cr-space-2);
+    margin-top: var(--cr-space-1);
   }
 
   .cr-logo-banner__player-container {
