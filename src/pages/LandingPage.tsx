@@ -661,41 +661,44 @@ const LandingPage: React.FC = () => {
           >
             * All times displayed in Central Time
           </p>
-          {randomDJs.map((dj, index) => (
-            <CrDjOverview
-              key={dj.slug || dj.id || `dj-${index}`}
-              size="medium"
-              djName={dj.djName}
-              showTime={formatShowTime(dj.showTime)}
-              showTimes={prepareShowTimes(dj.showTime, dj.djName, dj.showName, (_error) => {
-                showToast({
-                  message: 'Unable to create calendar event. Please check the show time format.',
-                  type: 'error',
-                  duration: 5000,
-                })
-              })}
-              showContent={false}
-              buttonText="Profile"
-              imageSrc={dj.imageSrc}
-              isFavorite={loggedInUser?.favoriteDJs?.includes(dj.id)}
-              onMoreClick={() => navigate(`/djs/${dj.slug}`)}
-              onAddToCalendarClick={() => {
-                try {
-                  downloadDJShowCalendar({
-                    djName: dj.djName,
-                    showName: dj.showName,
-                    showTime: dj.showTime,
-                  })
-                } catch (_error) {
+          <div className="cr-dj-overview-wrapper">
+            {randomDJs.map((dj, index) => (
+              <CrDjOverview
+                key={dj.slug || dj.id || `dj-${index}`}
+                size="medium"
+                djName={dj.djName}
+                showTime={formatShowTime(dj.showTime)}
+                showTimes={prepareShowTimes(dj.showTime, dj.djName, dj.showName, (_error) => {
                   showToast({
                     message: 'Unable to create calendar event. Please check the show time format.',
                     type: 'error',
                     duration: 5000,
                   })
-                }
-              }}
-            />
-          ))}
+                })}
+                showContent={false}
+                buttonText="Profile"
+                imageSrc={dj.imageSrc}
+                isFavorite={loggedInUser?.favoriteDJs?.includes(dj.id)}
+                onMoreClick={() => navigate(`/djs/${dj.slug}`)}
+                onAddToCalendarClick={() => {
+                  try {
+                    downloadDJShowCalendar({
+                      djName: dj.djName,
+                      showName: dj.showName,
+                      showTime: dj.showTime,
+                    })
+                  } catch (_error) {
+                    showToast({
+                      message:
+                        'Unable to create calendar event. Please check the show time format.',
+                      type: 'error',
+                      duration: 5000,
+                    })
+                  }
+                }}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
