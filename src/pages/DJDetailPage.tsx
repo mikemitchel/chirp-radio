@@ -305,6 +305,7 @@ const DJDetailPage: React.FC = () => {
             titleSize="xl"
             bannerHeight="tall"
             textLayout="stacked"
+            bannerBackgroundColor="textured"
             showName={dj.showName}
             scheduleInfo={
               (djSchedules.length > 0 || dj.showTime) && (
@@ -493,7 +494,7 @@ const DJDetailPage: React.FC = () => {
                   variant="small"
                   bannerHeight="tall"
                   textLayout="stacked"
-                  bannerBackgroundColor="none"
+                  bannerBackgroundColor="textured"
                   title={item.title}
                   contentSummary={item.excerpt}
                   backgroundImage={typeof item.image === 'string' ? item.image : item.image?.url}

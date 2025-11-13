@@ -107,9 +107,7 @@
 }
 
 .cr-dj-schedule-search__timezone {
-  font: var(--cr-body-xs);
-  color: var(--cr-ink);
-  margin-left: auto;
+  margin-bottom: 0;
 }
 
 @media (max-width: 768px) {
@@ -121,10 +119,5 @@
 
   .cr-dj-schedule-search__wrapper {
     max-width: none;
-  }
-
-  .cr-dj-schedule-search__timezone {
-    text-align: center;
-    margin-left: 0;
   }
 }

@@ -256,7 +256,8 @@ p a:visited {
 }
 
 /* === GLOBAL LIST STYLES === */
-ul, ol {
+ul,
+ol {
   margin: var(--cr-space-4) 0;
   padding-left: var(--cr-space-8);
 }
@@ -275,16 +276,19 @@ li {
 }
 
 /* Nested lists */
-ul ul, ol ul {
+ul ul,
+ol ul {
   list-style-type: circle;
   margin: var(--cr-space-2) 0;
 }
 
-ul ul ul, ol ul ul {
+ul ul ul,
+ol ul ul {
   list-style-type: square;
 }
 
-ol ol, ul ol {
+ol ol,
+ul ol {
   list-style-type: lower-alpha;
   margin: var(--cr-space-2) 0;
 }
@@ -547,6 +551,7 @@ ol ol, ul ol {
 
 .cr-bg-natural-light {
   background-color: var(--cr-paper);
+  box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
 .cr-bg-natural-light::before {

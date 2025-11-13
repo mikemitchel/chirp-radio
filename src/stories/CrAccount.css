@@ -57,6 +57,7 @@
 /* Remove box-shadow from outline buttons in user dropdown wrapper */
 .cr-account__dropdown-wrapper .cr-btn--outline {
   box-shadow: none !important;
+  padding-left: 0;
 }
 
 .cr-account__dropdown-wrapper .cr-btn--outline:hover {

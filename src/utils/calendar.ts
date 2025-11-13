@@ -175,3 +175,64 @@ export function downloadDJShowCalendar(djInfo: DJShowInfo): void {
   document.body.removeChild(link)
   URL.revokeObjectURL(url)
 }
+
+interface EventInfo {
+  title: string
+  date: string // ISO date string
+  venue?: string
+  venueAddress?: string
+  description?: string
+}
+
+/**
+ * Generate ICS file content for an event
+ */
+export function generateEventICS(eventInfo: EventInfo): string {
+  const { title, date, venue, venueAddress, description } = eventInfo
+
+  const startDate = new Date(date)
+  // Default to 2 hour duration if no end time specified
+  const endDate = new Date(startDate.getTime() + 2 * 60 * 60 * 1000)
+
+  const location =
+    venue && venueAddress ? `${venue}, ${venueAddress}` : venue || 'CHIRP Radio Event'
+
+  const icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//CHIRP Radio//Event Calendar//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${Date.now()}-${title.replace(/\s+/g, '-')}@chirpradio.org`,
+    `DTSTAMP:${formatICSDate(new Date())}`,
+    `DTSTART:${formatICSDate(startDate)}`,
+    `DTEND:${formatICSDate(endDate)}`,
+    `SUMMARY:${title}`,
+    description ? `DESCRIPTION:${description}` : '',
+    `LOCATION:${location}`,
+    'STATUS:CONFIRMED',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ]
+    .filter(Boolean)
+    .join('\r\n')
+
+  return icsContent
+}
+
+/**
+ * Download ICS file for an event
+ */
+export function downloadEventCalendar(eventInfo: EventInfo): void {
+  const icsContent = generateEventICS(eventInfo)
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `chirp-event-${eventInfo.title.replace(/\s+/g, '-').toLowerCase()}.ics`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+}
