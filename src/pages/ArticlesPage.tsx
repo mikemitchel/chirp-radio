@@ -2,6 +2,7 @@
 import React from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import CrPageHeader from '../stories/CrPageHeader'
+import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
@@ -13,7 +14,11 @@ const ITEMS_PER_PAGE = 8
 
 // Helper functions for type conversions
 const getImageUrl = (article: Article): string | undefined => {
-  if (typeof article.featuredImage === 'object' && article.featuredImage && 'url' in article.featuredImage) {
+  if (
+    typeof article.featuredImage === 'object' &&
+    article.featuredImage &&
+    'url' in article.featuredImage
+  ) {
     return article.featuredImage.url
   }
   if (typeof article.featuredImage === 'string') {
@@ -30,18 +35,24 @@ const getCategoryName = (article: Article): string | undefined => {
 }
 
 const getTags = (article: Article): string[] | undefined => {
-  if (Array.isArray(article.tags) && article.tags.length > 0 && typeof article.tags[0] === 'object') {
-    return (article.tags as Array<{ tag: string }>).map(t => t.tag)
+  if (
+    Array.isArray(article.tags) &&
+    article.tags.length > 0 &&
+    typeof article.tags[0] === 'object'
+  ) {
+    return (article.tags as Array<{ tag: string }>).map((t) => t.tag)
   }
   return article.tags as string[] | undefined
 }
 
 const getPublishedDate = (article: Article): string | undefined => {
-  return article.publishedDate ? new Date(article.publishedDate).toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  }) : undefined
+  return article.publishedDate
+    ? new Date(article.publishedDate).toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })
+    : undefined
 }
 
 const ArticlesPage: React.FC = () => {
@@ -54,6 +65,9 @@ const ArticlesPage: React.FC = () => {
   // Get current page from URL, default to 0
   const currentPage = parseInt(searchParams.get('page') || '0', 10)
 
+  // Create page title with page number
+  const pageTitle = currentPage > 0 ? `Articles - Page ${currentPage + 1}` : 'Articles'
+
   const totalPages = allArticles ? Math.ceil(allArticles.length / ITEMS_PER_PAGE) : 0
   const startIndex = currentPage * ITEMS_PER_PAGE
   const articles = allArticles?.slice(startIndex, startIndex + ITEMS_PER_PAGE)
@@ -63,21 +77,23 @@ const ArticlesPage: React.FC = () => {
   }
 
   const handlePageChange = (page: number) => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
     if (page === 0) {
       setSearchParams({})
     } else {
       setSearchParams({ page: String(page) })
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   // Get sidebar content from Site Settings
   const sidebarAnnouncementId =
     typeof siteSettings?.articlesSidebarAnnouncement === 'string'
       ? siteSettings.articlesSidebarAnnouncement
-      : typeof siteSettings?.articlesSidebarAnnouncement === 'object' && siteSettings.articlesSidebarAnnouncement && 'id' in siteSettings.articlesSidebarAnnouncement
-      ? siteSettings.articlesSidebarAnnouncement.id
-      : undefined
+      : typeof siteSettings?.articlesSidebarAnnouncement === 'object' &&
+          siteSettings.articlesSidebarAnnouncement &&
+          'id' in siteSettings.articlesSidebarAnnouncement
+        ? siteSettings.articlesSidebarAnnouncement.id
+        : undefined
 
   const sidebarAnnouncement = sidebarAnnouncementId
     ? announcements?.find((a) => String(a.id) === String(sidebarAnnouncementId))
@@ -86,9 +102,11 @@ const ArticlesPage: React.FC = () => {
   const fullWidthAnnouncementId =
     typeof siteSettings?.articlesFullWidthAnnouncement === 'string'
       ? siteSettings.articlesFullWidthAnnouncement
-      : typeof siteSettings?.articlesFullWidthAnnouncement === 'object' && siteSettings.articlesFullWidthAnnouncement && 'id' in siteSettings.articlesFullWidthAnnouncement
-      ? siteSettings.articlesFullWidthAnnouncement.id
-      : undefined
+      : typeof siteSettings?.articlesFullWidthAnnouncement === 'object' &&
+          siteSettings.articlesFullWidthAnnouncement &&
+          'id' in siteSettings.articlesFullWidthAnnouncement
+        ? siteSettings.articlesFullWidthAnnouncement.id
+        : undefined
 
   const fullWidthAnnouncement = fullWidthAnnouncementId
     ? announcements?.find((a) => String(a.id) === String(fullWidthAnnouncementId))
@@ -96,10 +114,23 @@ const ArticlesPage: React.FC = () => {
 
   const sidebarAdvertisement = siteSettings?.articlesSidebarAdvertisement
 
+  // Create breadcrumb items with page number
+  const breadcrumbItems =
+    currentPage > 0
+      ? [
+          { label: 'Articles', isClickable: true, onClick: () => navigate('/articles') },
+          { label: `Page ${currentPage + 1}`, isClickable: false },
+        ]
+      : [{ label: 'Articles', isClickable: false }]
+
   return (
     <div className="articles-page">
       <section className="page-container">
-        <CrPageHeader title="Articles" showEyebrow={false} showActionButton={false} />
+        <CrBreadcrumb items={breadcrumbItems} />
+      </section>
+
+      <section className="page-container">
+        <CrPageHeader title={pageTitle} showEyebrow={false} showActionButton={false} />
       </section>
 
       {/* 2/3 + 1/3 Layout - Featured Article */}
@@ -131,7 +162,11 @@ const ArticlesPage: React.FC = () => {
               widthVariant="third"
               textureBackground={sidebarAnnouncement.textureBackground}
               headlineText={sidebarAnnouncement.headlineText}
-              bodyText={typeof sidebarAnnouncement.bodyText === 'string' ? sidebarAnnouncement.bodyText : undefined}
+              bodyText={
+                typeof sidebarAnnouncement.bodyText === 'string'
+                  ? sidebarAnnouncement.bodyText
+                  : undefined
+              }
               showLink={sidebarAnnouncement.showLink}
               linkText={sidebarAnnouncement.linkText}
               linkUrl={sidebarAnnouncement.linkUrl}
@@ -144,22 +179,78 @@ const ArticlesPage: React.FC = () => {
               targetAmount={sidebarAnnouncement.targetAmount}
             />
           )}
-          {(sidebarAdvertisement && typeof sidebarAdvertisement === 'object' && (
-            <CrAdSpace
-                size={'size' in sidebarAdvertisement ? sidebarAdvertisement.size as string : 'large-rectangle'}
-                customWidth={'customWidth' in sidebarAdvertisement ? sidebarAdvertisement.customWidth as number : undefined}
-                customHeight={'customHeight' in sidebarAdvertisement ? sidebarAdvertisement.customHeight as number : undefined}
-                contentType={'contentType' in sidebarAdvertisement ? sidebarAdvertisement.contentType as string : undefined}
-                src={'imageUrl' in sidebarAdvertisement ? sidebarAdvertisement.imageUrl as string : 'image' in sidebarAdvertisement && typeof sidebarAdvertisement.image === 'object' && sidebarAdvertisement.image && 'url' in sidebarAdvertisement.image ? sidebarAdvertisement.image.url as string : undefined}
-                alt={'alt' in sidebarAdvertisement ? sidebarAdvertisement.alt as string : undefined}
-                htmlContent={'htmlContent' in sidebarAdvertisement ? sidebarAdvertisement.htmlContent as string : undefined}
-                videoSrc={'videoUrl' in sidebarAdvertisement ? sidebarAdvertisement.videoUrl as string : 'video' in sidebarAdvertisement && typeof sidebarAdvertisement.video === 'object' && sidebarAdvertisement.video && 'url' in sidebarAdvertisement.video ? sidebarAdvertisement.video.url as string : undefined}
-                embedCode={'embedCode' in sidebarAdvertisement ? sidebarAdvertisement.embedCode as string : undefined}
-                href={'href' in sidebarAdvertisement ? sidebarAdvertisement.href as string : undefined}
-                target={'target' in sidebarAdvertisement ? sidebarAdvertisement.target as string : undefined}
-                showLabel={'showLabel' in sidebarAdvertisement ? sidebarAdvertisement.showLabel as boolean : undefined}
+          {
+            (sidebarAdvertisement && typeof sidebarAdvertisement === 'object' && (
+              <CrAdSpace
+                size={
+                  'size' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.size as string)
+                    : 'large-rectangle'
+                }
+                customWidth={
+                  'customWidth' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.customWidth as number)
+                    : undefined
+                }
+                customHeight={
+                  'customHeight' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.customHeight as number)
+                    : undefined
+                }
+                contentType={
+                  'contentType' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.contentType as string)
+                    : undefined
+                }
+                src={
+                  'imageUrl' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.imageUrl as string)
+                    : 'image' in sidebarAdvertisement &&
+                        typeof sidebarAdvertisement.image === 'object' &&
+                        sidebarAdvertisement.image &&
+                        'url' in sidebarAdvertisement.image
+                      ? (sidebarAdvertisement.image.url as string)
+                      : undefined
+                }
+                alt={
+                  'alt' in sidebarAdvertisement ? (sidebarAdvertisement.alt as string) : undefined
+                }
+                htmlContent={
+                  'htmlContent' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.htmlContent as string)
+                    : undefined
+                }
+                videoSrc={
+                  'videoUrl' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.videoUrl as string)
+                    : 'video' in sidebarAdvertisement &&
+                        typeof sidebarAdvertisement.video === 'object' &&
+                        sidebarAdvertisement.video &&
+                        'url' in sidebarAdvertisement.video
+                      ? (sidebarAdvertisement.video.url as string)
+                      : undefined
+                }
+                embedCode={
+                  'embedCode' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.embedCode as string)
+                    : undefined
+                }
+                href={
+                  'href' in sidebarAdvertisement ? (sidebarAdvertisement.href as string) : undefined
+                }
+                target={
+                  'target' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.target as string)
+                    : undefined
+                }
+                showLabel={
+                  'showLabel' in sidebarAdvertisement
+                    ? (sidebarAdvertisement.showLabel as boolean)
+                    : undefined
+                }
               />
-          )) as React.ReactNode}
+            )) as React.ReactNode
+          }
         </div>
       </div>
 
@@ -247,7 +338,11 @@ const ArticlesPage: React.FC = () => {
               variant={fullWidthAnnouncement.variant}
               textureBackground={fullWidthAnnouncement.textureBackground}
               headlineText={fullWidthAnnouncement.headlineText}
-              bodyText={typeof fullWidthAnnouncement.bodyText === 'string' ? fullWidthAnnouncement.bodyText : undefined}
+              bodyText={
+                typeof fullWidthAnnouncement.bodyText === 'string'
+                  ? fullWidthAnnouncement.bodyText
+                  : undefined
+              }
               showLink={fullWidthAnnouncement.showLink}
               linkText={fullWidthAnnouncement.linkText}
               linkUrl={fullWidthAnnouncement.linkUrl}
