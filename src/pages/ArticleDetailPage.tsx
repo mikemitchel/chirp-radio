@@ -1,5 +1,5 @@
 // src/pages/ArticleDetailPage.tsx
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrPageHeader from '../stories/CrPageHeader'
@@ -16,8 +16,10 @@ const ArticleDetailPage: React.FC = () => {
   const { data: allArticles, loading: isLoading } = useArticles()
   const { data: announcements } = useAnnouncements()
 
-  // Find article by slug from URL
-  const initialArticle = allArticles?.find((a) => a.slug === slug)
+  // Find article by slug from URL - recalculates when slug or allArticles changes
+  const initialArticle = React.useMemo(() => {
+    return allArticles?.find((a) => a.slug === slug)
+  }, [allArticles, slug])
 
   // Use live preview with fallback to initial article
   const liveArticle = useLivePreview<Article | undefined>({ initialData: initialArticle })
@@ -26,6 +28,11 @@ const ArticleDetailPage: React.FC = () => {
 
   // Get 3 most recent articles excluding the current one
   const recentArticles = allArticles?.filter((a) => a.id !== article?.id).slice(0, 3) || []
+
+  // Scroll to top when article changes
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [slug])
 
   const handleArticleClick = (clickedArticle: Article) => {
     navigate(`/articles/${clickedArticle.slug}`)
@@ -69,6 +76,7 @@ const ArticleDetailPage: React.FC = () => {
             type="article"
             bannerHeight="tall"
             textLayout="stacked"
+            bannerBackgroundColor="textured"
             titleTag="h1"
             titleSize="xl"
             imagePosition="right"
@@ -183,7 +191,7 @@ const ArticleDetailPage: React.FC = () => {
               type="article"
               bannerHeight="tall"
               textLayout="stacked"
-              bannerBackgroundColor="none"
+              bannerBackgroundColor="textured"
               titleTag="h3"
               titleSize="sm"
               backgroundImage={

@@ -71,6 +71,7 @@ const PodcastDetailPage: React.FC = () => {
             type="article"
             bannerHeight="tall"
             textLayout="stacked"
+            bannerBackgroundColor="textured"
             titleTag="h1"
             titleSize="xl"
             imagePosition="right"
@@ -314,7 +315,7 @@ const PodcastDetailPage: React.FC = () => {
               type="article"
               bannerHeight="tall"
               textLayout="stacked"
-              bannerBackgroundColor="none"
+              bannerBackgroundColor="textured"
               titleTag="h3"
               titleSize="sm"
               backgroundImage={recentPodcast.coverArt}

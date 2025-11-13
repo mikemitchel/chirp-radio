@@ -23,6 +23,7 @@ import {
   getEventVenuePhone,
   getEventAgeRestriction,
 } from '../utils/typeHelpers'
+import { downloadEventCalendar } from '../utils/calendar'
 
 const EventDetailPage: React.FC = () => {
   const navigate = useNavigate()
@@ -92,6 +93,7 @@ const EventDetailPage: React.FC = () => {
             type="event"
             bannerHeight="tall"
             textLayout="stacked"
+            bannerBackgroundColor="textured"
             titleTag="h1"
             titleSize="xl"
             imagePosition="right"
@@ -152,8 +154,13 @@ const EventDetailPage: React.FC = () => {
                 color="default"
                 leftIcon={<PiCalendarPlus />}
                 onClick={() => {
-                  // Add to calendar functionality
-                  console.log('Add to calendar clicked')
+                  downloadEventCalendar({
+                    title: event.title,
+                    date: event.date,
+                    venue: getEventVenueName(event),
+                    venueAddress: getEventVenueAddress(event),
+                    description: event.excerpt || event.title,
+                  })
                 }}
               >
                 Add to Calendar
@@ -287,7 +294,7 @@ const EventDetailPage: React.FC = () => {
               variant="small"
               bannerHeight="tall"
               textLayout="stacked"
-              bannerBackgroundColor="none"
+              bannerBackgroundColor="textured"
               titleTag="h3"
               titleSize="sm"
               backgroundImage={getEventImageUrl(recentEvent)}
