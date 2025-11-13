@@ -11,6 +11,11 @@
   flex-wrap: nowrap;
 }
 
+/* Sidebar-specific spacing */
+.page-layout-main-sidebar__sidebar .cr-page-header {
+  margin-bottom: var(--cr-space-4);
+}
+
 .cr-page-header__text {
   display: flex;
   flex-direction: column;

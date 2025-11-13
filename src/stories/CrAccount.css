@@ -7,24 +7,6 @@
   flex-direction: row;
 }
 
-.cr-account__login-button {
-  background: transparent;
-  border: none;
-  color: var(--cr-ink);
-  font: var(--cr-nav-support);
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-position: from-font;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  gap: var(--cr-space-1);
-}
-
-.cr-account__login-button:hover {
-  color: var(--cr-primary-700);
-}
-
 .cr-account__dropdown-wrapper {
   position: relative;
 }

@@ -123,8 +123,8 @@
 
 .cr-announcement__headline {
   font: var(--cr-title-lg);
-  font-family: var(--cr-font-antonio), serif;
   color: var(--cr-ink);
+  line-height: 1;
   margin: 0;
 }
 

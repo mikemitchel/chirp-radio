@@ -1,4 +1,5 @@
 // CrButtonGroup.tsx - Use CrButton for all states
+import { useState, useEffect } from 'react'
 import CrButton from './CrButton'
 import './CrButtonGroup.css'
 
@@ -32,6 +33,19 @@ export default function CrButtonGroup({
   size = 'small',
   className = '',
 }: CrButtonGroupProps) {
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1200
+  )
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   // Handle legacy DJ schedule usage (backward compatible)
   if (day && !options.length) {
     return renderScheduleTab()
@@ -43,10 +57,9 @@ export default function CrButtonGroup({
   // Legacy DJ schedule tab rendering (unchanged)
   function renderScheduleTab() {
     const getTabLabel = () => {
-      const width = typeof window !== 'undefined' ? window.innerWidth : 1200
-      if (width < 540) {
+      if (windowWidth < 540) {
         return day?.slice(0, 1).toUpperCase()
-      } else if (width < 820) {
+      } else if (windowWidth <= 768) {
         return day?.slice(0, 3).toUpperCase()
       } else {
         return day
