@@ -9,11 +9,7 @@ interface CrAvatarProps {
   fallbackText?: string
 }
 
-export default function CrAvatar({
-  src,
-  alt = 'User avatar',
-  isLoggedIn = false,
-}: CrAvatarProps) {
+export default function CrAvatar({ src, alt = 'User avatar', isLoggedIn = false }: CrAvatarProps) {
   // Generic user icon SVG
   const UserIcon = () => (
     <svg width="28" height="26" viewBox="0 0 28 26" className="cr-avatar__icon">
@@ -27,7 +23,7 @@ export default function CrAvatar({
   if (!isLoggedIn) {
     return (
       <div className={avatarClass}>
-        <div style={{ width: '28px', height: '28px' }}>
+        <div className="cr-avatar__logo">
           <CrLogo variant="bird" />
         </div>
       </div>
@@ -43,8 +39,10 @@ export default function CrAvatar({
           alt={alt}
           className="cr-avatar__image"
           onError={(e) => {
-            (e.target as HTMLElement).style.display = 'none'
-            const iconContainer = (e.target as HTMLElement).parentNode?.querySelector('.cr-avatar__fallback') as HTMLElement
+            ;(e.target as HTMLElement).style.display = 'none'
+            const iconContainer = (e.target as HTMLElement).parentNode?.querySelector(
+              '.cr-avatar__fallback'
+            ) as HTMLElement
             if (iconContainer) {
               iconContainer.style.display = 'flex'
             }
