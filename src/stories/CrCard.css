@@ -435,6 +435,77 @@
   padding: var(--cr-card-padding);
 }
 
+/* Tags container with horizontal scroll */
+/* Wrapper to contain scroll container and gradient */
+.cr-card__tags-wrapper {
+  position: relative;
+  flex: 0 0 33%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* When there's a share button (showMetaTop), tags should take more space */
+.cr-card__narrow-age-share-content:has(.cr-btn) .cr-card__tags-wrapper {
+  flex: 0 0 50%;
+}
+
+/* Right gradient hint for overflow - shows when not scrolled to end */
+.cr-card__tags-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 40px;
+  background: linear-gradient(to right, transparent, var(--cr-default-100));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+/* Left gradient hint for overflow - shows when scrolled past start */
+.cr-card__tags-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 40px;
+  background: linear-gradient(to left, transparent, var(--cr-default-100));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+/* Show right gradient when content overflows and not at end */
+.cr-card__tags-wrapper[data-overflow-right='true']::after {
+  opacity: 1;
+}
+
+/* Show left gradient when scrolled past start */
+.cr-card__tags-wrapper[data-overflow-left='true']::before {
+  opacity: 1;
+}
+
+/* Scrolling container for tags */
+.cr-card__tags-scroll-container {
+  display: flex;
+  gap: var(--cr-space-2);
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  /* Hide scrollbar but keep functionality */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.cr-card__tags-scroll-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 .cr-card--narrow .cr-card__narrow-datetime,
 .cr-card--narrow .cr-card__narrow-venue {
   display: flex;

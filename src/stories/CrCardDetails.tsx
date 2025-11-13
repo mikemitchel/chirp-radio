@@ -74,13 +74,51 @@ export default function CrCardDetails({
               <span className="cr-card-details__date">{eventDate}</span>
             </div>
 
-            <div className="cr-card-details__tags">
-              {tags.map((tag, index) => (
-                <CrChip key={index} variant="secondary" size="medium">
-                  {typeof tag === 'string' ? tag : (tag as { tag: string }).tag}
-                </CrChip>
-              ))}
-            </div>
+            {tags && tags.length > 0 && (
+              <div
+                className="cr-card-details__tags-wrapper"
+                onClick={(e) => e.stopPropagation()}
+                ref={(el) => {
+                  if (el) {
+                    const scrollContainer = el.querySelector(
+                      '.cr-card-details__tags'
+                    ) as HTMLElement
+                    if (!scrollContainer) return
+
+                    const checkOverflow = () => {
+                      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer
+                      const hasOverflow = scrollWidth > clientWidth
+                      const isAtStart = scrollLeft <= 5
+                      const isAtEnd = scrollLeft + clientWidth >= scrollWidth - 5
+
+                      // Show right gradient if has overflow and not at end
+                      el.setAttribute('data-overflow-right', String(hasOverflow && !isAtEnd))
+                      // Show left gradient if has overflow and not at start
+                      el.setAttribute('data-overflow-left', String(hasOverflow && !isAtStart))
+                    }
+
+                    // Check immediately and after layout
+                    checkOverflow()
+                    setTimeout(checkOverflow, 0)
+
+                    // Listen to scroll events
+                    scrollContainer.addEventListener('scroll', checkOverflow)
+
+                    // Observe size changes
+                    const observer = new ResizeObserver(checkOverflow)
+                    observer.observe(el)
+                  }
+                }}
+              >
+                <div className="cr-card-details__tags">
+                  {tags.map((tag, index) => (
+                    <CrChip key={index} variant="secondary" size="medium">
+                      {typeof tag === 'string' ? tag : (tag as { tag: string }).tag}
+                    </CrChip>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -91,7 +129,10 @@ export default function CrCardDetails({
               variant="outline"
               color="secondary"
               leftIcon={<PiArrowSquareUp />}
-              onClick={onShareClick}
+              onClick={(e) => {
+                e.stopPropagation()
+                onShareClick?.(e)
+              }}
             >
               Share
             </CrButton>

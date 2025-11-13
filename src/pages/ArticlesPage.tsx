@@ -76,6 +76,23 @@ const ArticlesPage: React.FC = () => {
     navigate(`/articles/${article.slug}`)
   }
 
+  const handleShareClick = (article: Article) => {
+    const url = `${window.location.origin}/articles/${article.slug}`
+    if (navigator.share) {
+      navigator
+        .share({
+          title: article.title,
+          url: url,
+        })
+        .catch(() => {
+          // If share fails, copy to clipboard
+          navigator.clipboard.writeText(url)
+        })
+    } else {
+      navigator.clipboard.writeText(url)
+    }
+  }
+
   const handlePageChange = (page: number) => {
     window.scrollTo({ top: 0, behavior: 'instant' })
     if (page === 0) {
@@ -125,9 +142,11 @@ const ArticlesPage: React.FC = () => {
 
   return (
     <div className="articles-page">
-      <section className="page-container">
-        <CrBreadcrumb items={breadcrumbItems} />
-      </section>
+      {currentPage > 0 && (
+        <section className="page-container">
+          <CrBreadcrumb items={breadcrumbItems} />
+        </section>
+      )}
 
       <section className="page-container">
         <CrPageHeader title={pageTitle} showEyebrow={false} showActionButton={false} />
@@ -150,6 +169,7 @@ const ArticlesPage: React.FC = () => {
               eventDate={getPublishedDate(articles[0])}
               tags={getTags(articles[0])}
               showTicketButton={false}
+              onBannerShareClick={() => handleShareClick(articles[0])}
               onClick={() => handleArticleClick(articles[0])}
             />
           )}
@@ -271,6 +291,7 @@ const ArticlesPage: React.FC = () => {
               tags={getTags(articles[1])}
               contentSummary={articles[1].excerpt}
               showTicketButton={false}
+              onBannerShareClick={() => handleShareClick(articles[1])}
               onClick={() => handleArticleClick(articles[1])}
             />
           )}
@@ -288,6 +309,7 @@ const ArticlesPage: React.FC = () => {
               tags={getTags(articles[2])}
               contentSummary={articles[2].excerpt}
               showTicketButton={false}
+              onBannerShareClick={() => handleShareClick(articles[2])}
               onClick={() => handleArticleClick(articles[2])}
             />
           )}
@@ -307,6 +329,7 @@ const ArticlesPage: React.FC = () => {
               tags={getTags(articles[3])}
               contentSummary={articles[3].excerpt}
               showTicketButton={false}
+              onBannerShareClick={() => handleShareClick(articles[3])}
               onClick={() => handleArticleClick(articles[3])}
             />
           )}
@@ -324,6 +347,7 @@ const ArticlesPage: React.FC = () => {
               tags={getTags(articles[4])}
               contentSummary={articles[4].excerpt}
               showTicketButton={false}
+              onBannerShareClick={() => handleShareClick(articles[4])}
               onClick={() => handleArticleClick(articles[4])}
             />
           )}
@@ -376,6 +400,7 @@ const ArticlesPage: React.FC = () => {
               tags={getTags(articles[5])}
               contentSummary={articles[5].excerpt}
               showTicketButton={false}
+              onShareClick={() => handleShareClick(articles[5])}
               onClick={() => handleArticleClick(articles[5])}
             />
           )}
@@ -396,6 +421,7 @@ const ArticlesPage: React.FC = () => {
               tags={getTags(articles[6])}
               contentSummary={articles[6].excerpt}
               showTicketButton={false}
+              onShareClick={() => handleShareClick(articles[6])}
               onClick={() => handleArticleClick(articles[6])}
             />
           )}
@@ -416,6 +442,7 @@ const ArticlesPage: React.FC = () => {
               tags={getTags(articles[7])}
               contentSummary={articles[7].excerpt}
               showTicketButton={false}
+              onShareClick={() => handleShareClick(articles[7])}
               onClick={() => handleArticleClick(articles[7])}
             />
           )}

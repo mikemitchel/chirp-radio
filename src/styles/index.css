@@ -13,13 +13,13 @@
   --cr-font-roboto-serif: 'Roboto Serif', serif;
 
   /* Titles - Antonio Font Family */
-  --cr-title-2xl: 100 38px/1 var(--cr-font-antonio); /* Thin */
-  --cr-title-xl: 400 33px/1 var(--cr-font-antonio); /* Bold */
-  --cr-title-lg: 600 28px/1 var(--cr-font-antonio); /* Bold */
-  --cr-title-md: 700 24px/1 var(--cr-font-antonio); /* Bold */
-  --cr-title-sm: 600 21px/1 var(--cr-font-antonio); /* Bold */
-  --cr-title-xs: 600 18px/1 var(--cr-font-antonio); /* Bold */
-  --cr-title-2xs: 700 16px/1 var(--cr-font-antonio); /* Bold */
+  --cr-title-2xl: 100 38px/1.6 var(--cr-font-antonio); /* Thin */
+  --cr-title-xl: 400 33px/1.6 var(--cr-font-antonio); /* Bold */
+  --cr-title-lg: 600 28px/1.6 var(--cr-font-antonio); /* Bold */
+  --cr-title-md: 700 24px/1.6 var(--cr-font-antonio); /* Bold */
+  --cr-title-sm: 600 21px/1.4 var(--cr-font-antonio); /* Bold */
+  --cr-title-xs: 600 18px/1.4 var(--cr-font-antonio); /* Bold */
+  --cr-title-2xs: 700 16px/1.4 var(--cr-font-antonio); /* Bold */
   --cr-title-eyebrow: 300 16px/1 var(--cr-font-antonio); /* Light */
 
   /* Body Text - Roboto Serif */

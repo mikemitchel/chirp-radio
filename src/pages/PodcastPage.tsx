@@ -122,9 +122,11 @@ const PodcastPage: React.FC = () => {
 
   return (
     <div className="podcast-page">
-      <section className="page-container">
-        <CrBreadcrumb items={breadcrumbItems} />
-      </section>
+      {currentPage > 0 && (
+        <section className="page-container">
+          <CrBreadcrumb items={breadcrumbItems} />
+        </section>
+      )}
 
       <section className="page-container">
         <CrPageHeader title={pageTitle} showEyebrow={false} showActionButton={false} />
