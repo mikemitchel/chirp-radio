@@ -230,7 +230,7 @@
   .cr-main-nav__container {
     flex-direction: column;
     align-items: stretch;
-    gap: var(--cr-space-4);
+    gap: var(--cr-space-1);
   }
 
   .cr-main-nav__left,
