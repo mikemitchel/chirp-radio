@@ -23,51 +23,64 @@ const PlaylistPage: React.FC = () => {
   // Get current page from URL, default to 0
   const currentPage = parseInt(searchParams.get('page') || '0', 10)
 
+  // Create page title with page number
+  const pageTitle = currentPage > 0 ? `Playlist - Page ${currentPage + 1}` : 'Playlist'
+
   // Select random announcement on mount
   const randomAnnouncement = useMemo(() => {
-    const activeAnnouncements = announcementsData.announcements.filter((a: Announcement) => 'isActive' in a && (a as Record<string, unknown>).isActive)
+    const activeAnnouncements = announcementsData.announcements.filter(
+      (a: Announcement) => 'isActive' in a && (a as Record<string, unknown>).isActive
+    )
     if (activeAnnouncements.length === 0) return announcementsData.announcements[0] as Announcement
-    return activeAnnouncements[Math.floor(Math.random() * activeAnnouncements.length)] as Announcement
+    return activeAnnouncements[
+      Math.floor(Math.random() * activeAnnouncements.length)
+    ] as Announcement
   }, [])
 
   // Format tracks with hour data for grouping
-  const formattedTracks = useMemo(() =>
-    tracks?.map((track) => {
-      // Parse the hourKey to determine start/end times
-      const hourMatch = track.hourKey?.match(/(\d+)(am|pm)/i)
-      let startTime = '12:00am'
-      let endTime = '1:00am'
+  const formattedTracks = useMemo(
+    () =>
+      tracks?.map((track) => {
+        // Parse the hourKey to determine start/end times
+        const hourMatch = track.hourKey?.match(/(\d+)(am|pm)/i)
+        let startTime = '12:00am'
+        let endTime = '1:00am'
 
-      if (hourMatch) {
-        const hour = parseInt(hourMatch[1])
-        const period = hourMatch[2].toLowerCase()
-        startTime = `${hour}:00${period}`
+        if (hourMatch) {
+          const hour = parseInt(hourMatch[1])
+          const period = hourMatch[2].toLowerCase()
+          startTime = `${hour}:00${period}`
 
-        // Calculate end time (next hour)
-        if (hour === 12) {
-          endTime = period === 'am' ? '1:00am' : '1:00pm'
-        } else if (hour === 11) {
-          endTime = period === 'am' ? '12:00pm' : '12:00am'
-        } else {
-          endTime = `${hour + 1}:00${period}`
+          // Calculate end time (next hour)
+          if (hour === 12) {
+            endTime = period === 'am' ? '1:00am' : '1:00pm'
+          } else if (hour === 11) {
+            endTime = period === 'am' ? '12:00pm' : '12:00am'
+          } else {
+            endTime = `${hour + 1}:00${period}`
+          }
         }
-      }
 
-      return {
-        ...track,
-        timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
-          hour: 'numeric',
-          minute: '2-digit',
-        }),
-        hourData: {
-          startTime,
-          endTime,
-          djName: track.djName || 'Unknown DJ',
-          djProfileUrl: 'djImage' in track ? (track as Record<string, unknown>).djImage as string | undefined : undefined,
-          showName: track.showName || 'Unknown Show',
-        },
-      }
-    }) || [], [tracks])
+        return {
+          ...track,
+          timeAgo: new Date(track.playedAt).toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+          }),
+          hourData: {
+            startTime,
+            endTime,
+            djName: track.djName || 'Unknown DJ',
+            djProfileUrl:
+              'djImage' in track
+                ? ((track as Record<string, unknown>).djImage as string | undefined)
+                : undefined,
+            showName: track.showName || 'Unknown Show',
+          },
+        }
+      }) || [],
+    [tracks]
+  )
 
   // Group tracks by hour and paginate - split into first 2 hours and last 2 hours
   const { firstTwoHours, lastTwoHours, totalPages } = useMemo(() => {
@@ -120,41 +133,41 @@ const PlaylistPage: React.FC = () => {
   }
 
   const handlePageChange = (page: number) => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
     if (page === 0) {
       setSearchParams({})
     } else {
       setSearchParams({ page: String(page) })
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  // Create breadcrumb items with page number
+  const breadcrumbItems =
+    currentPage > 0
+      ? [
+          { label: 'Listen', isClickable: true, onClick: () => navigate('/listen') },
+          { label: 'Playlist', isClickable: true, onClick: () => navigate('/playlist') },
+          { label: `Page ${currentPage + 1}`, isClickable: false },
+        ]
+      : [
+          { label: 'Listen', isClickable: true, onClick: () => navigate('/listen') },
+          { label: 'Playlist', isClickable: false },
+        ]
 
   return (
     <div className="playlist-page">
       <section className="page-container">
-        <CrBreadcrumb
-          items={[
-            { label: 'Listen', isClickable: true, onClick: () => navigate('/listen') },
-            { label: 'Playlist', isClickable: false }
-          ]}
-        />
+        <CrBreadcrumb items={breadcrumbItems} />
       </section>
 
       <section className="page-container">
-        <CrPageHeader
-          title="Playlist"
-          showEyebrow={false}
-          showActionButton={false}
-        />
+        <CrPageHeader title={pageTitle} showEyebrow={false} showActionButton={false} />
       </section>
 
       {/* First 2 hours */}
       {firstTwoHours.length > 0 && (
         <section className="page-container">
-          <CrPlaylistTable
-            items={firstTwoHours}
-            showHeader={true}
-            groupByHour={true}
-          />
+          <CrPlaylistTable items={firstTwoHours} showHeader={true} groupByHour={true} />
         </section>
       )}
 
@@ -163,12 +176,37 @@ const PlaylistPage: React.FC = () => {
         <div className="page-container">
           <CrAnnouncement
             variant="motivation"
-            textureBackground={'backgroundColor' in randomAnnouncement ? (randomAnnouncement as Record<string, unknown>).backgroundColor as string : "cr-bg-natural-d100"}
-            headlineText={'title' in randomAnnouncement ? (randomAnnouncement as Record<string, unknown>).title as string : randomAnnouncement.headlineText}
-            bodyText={'message' in randomAnnouncement ? (randomAnnouncement as Record<string, unknown>).message as string : typeof randomAnnouncement.bodyText === 'string' ? randomAnnouncement.bodyText : undefined}
-            showLink={'ctaText' in randomAnnouncement && !!(randomAnnouncement as Record<string, unknown>).ctaText}
-            linkText={'ctaText' in randomAnnouncement ? (randomAnnouncement as Record<string, unknown>).ctaText as string | undefined : undefined}
-            linkUrl={'ctaUrl' in randomAnnouncement ? (randomAnnouncement as Record<string, unknown>).ctaUrl as string | undefined : undefined}
+            textureBackground={
+              'backgroundColor' in randomAnnouncement
+                ? ((randomAnnouncement as Record<string, unknown>).backgroundColor as string)
+                : 'cr-bg-natural-d100'
+            }
+            headlineText={
+              'title' in randomAnnouncement
+                ? ((randomAnnouncement as Record<string, unknown>).title as string)
+                : randomAnnouncement.headlineText
+            }
+            bodyText={
+              'message' in randomAnnouncement
+                ? ((randomAnnouncement as Record<string, unknown>).message as string)
+                : typeof randomAnnouncement.bodyText === 'string'
+                  ? randomAnnouncement.bodyText
+                  : undefined
+            }
+            showLink={
+              'ctaText' in randomAnnouncement &&
+              !!(randomAnnouncement as Record<string, unknown>).ctaText
+            }
+            linkText={
+              'ctaText' in randomAnnouncement
+                ? ((randomAnnouncement as Record<string, unknown>).ctaText as string | undefined)
+                : undefined
+            }
+            linkUrl={
+              'ctaUrl' in randomAnnouncement
+                ? ((randomAnnouncement as Record<string, unknown>).ctaUrl as string | undefined)
+                : undefined
+            }
             buttonCount="none"
           />
         </div>
@@ -177,11 +215,7 @@ const PlaylistPage: React.FC = () => {
       {/* Last 2 hours */}
       {lastTwoHours.length > 0 && (
         <section className="page-container">
-          <CrPlaylistTable
-            items={lastTwoHours}
-            showHeader={false}
-            groupByHour={true}
-          />
+          <CrPlaylistTable items={lastTwoHours} showHeader={false} groupByHour={true} />
         </section>
       )}
 
@@ -220,11 +254,14 @@ const PlaylistPage: React.FC = () => {
               preheader={getArticleCategoryName(articles[0])}
               title={articles[0].title}
               authorBy={`by ${articles[0].author}`}
-              eventDate={new Date(articles[0].publishedDate || Date.now()).toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
+              eventDate={new Date(articles[0].publishedDate || Date.now()).toLocaleDateString(
+                'en-US',
+                {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                }
+              )}
               tags={getArticleTags(articles[0])}
               onClick={() => handleArticleClick(articles[0])}
             />
@@ -241,11 +278,14 @@ const PlaylistPage: React.FC = () => {
               preheader={getArticleCategoryName(articles[1])}
               title={articles[1].title}
               authorBy={`by ${articles[1].author}`}
-              eventDate={new Date(articles[1].publishedDate || Date.now()).toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
+              eventDate={new Date(articles[1].publishedDate || Date.now()).toLocaleDateString(
+                'en-US',
+                {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                }
+              )}
               tags={getArticleTags(articles[1])}
               onClick={() => handleArticleClick(articles[1])}
             />
@@ -262,11 +302,14 @@ const PlaylistPage: React.FC = () => {
               preheader={getArticleCategoryName(articles[2])}
               title={articles[2].title}
               authorBy={`by ${articles[2].author}`}
-              eventDate={new Date(articles[2].publishedDate || Date.now()).toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
+              eventDate={new Date(articles[2].publishedDate || Date.now()).toLocaleDateString(
+                'en-US',
+                {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                }
+              )}
               tags={getArticleTags(articles[2])}
               onClick={() => handleArticleClick(articles[2])}
             />
