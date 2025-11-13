@@ -49,8 +49,7 @@ export default function CrCardBanner({
   className = '',
   isFavorite = false,
 }: CrCardBannerProps) {
-  // Force inline layout for narrow height
-  const actualTextLayout = height === 'narrow' ? 'inline' : textLayout
+  const actualTextLayout = textLayout
 
   // Click handlers that use URL or callback
   const handleTicketClick = () => {
@@ -82,12 +81,23 @@ export default function CrCardBanner({
     }
   }
 
+  // Generate a stable random offset class based on title (so same card always gets same offset)
+  const getTextureOffsetClass = (): string => {
+    if (backgroundColor !== 'textured') return ''
+    // Use title to generate a consistent "random" number between 1-8
+    const hash = title.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    const offsetIndex = (hash % 8) + 1
+    return `cr-texture-offset-${offsetIndex}`
+  }
+
   // Build component classes
   const componentClasses = [
     'cr-card-title-banner',
     `cr-card-title-banner--${height}`,
     `cr-card-title-banner--${actualTextLayout}`,
-    backgroundColor === 'textured' ? 'cr-bg-textured cr-bg-natural-light' : '',
+    backgroundColor === 'textured'
+      ? `cr-bg-textured cr-bg-natural-light ${getTextureOffsetClass()}`
+      : '',
     backgroundColor === 'light' ? 'cr-bg-light' : '',
     className,
   ]

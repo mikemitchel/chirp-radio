@@ -6,7 +6,7 @@
 
 .cr-store-item {
   /* Layout properties from Figma */
-  --cr-store-item-gap: var(--cr-space-12);
+  --cr-store-item-gap: var(--cr-space-6);
   --cr-store-item-details-gap: var(--cr-space-6);
   --cr-store-item-header-gap: var(--cr-space-3);
 
@@ -35,9 +35,9 @@
 /* ============================================ */
 
 .cr-store-item__image-container {
-  flex: 0 0 480px;
-  width: 480px;
-  height: 887px;
+  flex: 0 0 360px;
+  width: 360px;
+  height: 640px;
   position: relative;
   overflow: hidden;
   border-radius: 0;
@@ -192,13 +192,13 @@
 
 @media (max-width: 1024px) {
   .cr-store-item {
-    --cr-store-item-gap: var(--cr-space-8);
+    --cr-store-item-gap: var(--cr-space-6);
   }
 
   .cr-store-item__image-container {
-    flex: 0 0 400px;
-    width: 400px;
-    height: 600px;
+    flex: 0 0 320px;
+    width: 320px;
+    height: 569px;
   }
 }
 

@@ -68,68 +68,82 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
   }
 
   return (
-    <CrModal isOpen={isOpen} onClose={handleClose} scrimOnClick={handleClose} title="Reset Password" size="small">
-      <div className="login-modal">
-        {!submitted ? (
-          <>
-            <div className="login-modal__message">
-              Enter your email address and we'll send you a link to reset your password.
-            </div>
-
-            <form onSubmit={handleSubmit} className="login-modal__form">
-              <div className="login-modal__field">
-                <label htmlFor="forgot-email" className="login-modal__label">
-                  Email <span className="login-modal__required">*</span>
-                </label>
-                <input
-                  type="email"
-                  id="forgot-email"
-                  className={`login-modal__input ${errors.email ? 'login-modal__input--error' : ''}`}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  disabled={isSubmitting}
-                />
-                {errors.email && <span className="login-modal__error">{errors.email}</span>}
+    <CrModal
+      isOpen={isOpen}
+      onClose={handleClose}
+      scrimOnClick={handleClose}
+      title="Reset Password"
+      size="small"
+    >
+      <div className="cr-modal__body">
+        <div className="login-modal">
+          {!submitted ? (
+            <>
+              <div className="login-modal__message">
+                Enter your email address and we'll send you a link to reset your password.
               </div>
 
-              <div className="cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap">
+              <form onSubmit={handleSubmit} className="login-modal__form">
+                <div className="login-modal__field">
+                  <label htmlFor="forgot-email" className="login-modal__label">
+                    Email <span className="login-modal__required">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="forgot-email"
+                    className={`login-modal__input ${errors.email ? 'login-modal__input--error' : ''}`}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    disabled={isSubmitting}
+                  />
+                  {errors.email && <span className="login-modal__error">{errors.email}</span>}
+                </div>
+
+                <div className="cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap">
+                  <CrButton
+                    type="button"
+                    variant="outline"
+                    color="default"
+                    size="medium"
+                    onClick={handleClose}
+                    disabled={isSubmitting}
+                  >
+                    Cancel
+                  </CrButton>
+                  <CrButton
+                    type="submit"
+                    variant="solid"
+                    color="secondary"
+                    size="medium"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Sending...' : 'Send Reset Link'}
+                  </CrButton>
+                </div>
+              </form>
+            </>
+          ) : (
+            <>
+              <div className="login-modal__message">
+                If an account exists with that email address, we've sent you a password reset link.
+                Please check your inbox and spam folder.
+              </div>
+
+              <div className="cr-modal__actions">
                 <CrButton
                   type="button"
-                  variant="outline"
-                  color="default"
-                  size="medium"
-                  onClick={handleClose}
-                  disabled={isSubmitting}
-                >
-                  Cancel
-                </CrButton>
-                <CrButton
-                  type="submit"
                   variant="solid"
                   color="secondary"
                   size="medium"
-                  disabled={isSubmitting}
+                  onClick={handleClose}
                 >
-                  {isSubmitting ? 'Sending...' : 'Send Reset Link'}
+                  Close
                 </CrButton>
               </div>
-            </form>
-          </>
-        ) : (
-          <>
-            <div className="login-modal__message">
-              If an account exists with that email address, we've sent you a password reset link. Please check your
-              inbox and spam folder.
-            </div>
-
-            <div className="cr-modal__actions">
-              <CrButton type="button" variant="solid" color="secondary" size="medium" onClick={handleClose}>
-                Close
-              </CrButton>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </CrModal>
   )

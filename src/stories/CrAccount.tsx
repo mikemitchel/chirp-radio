@@ -117,9 +117,9 @@ export default function CrAccount({
       <>
         <div className="cr-account">
           <CrAvatar isLoggedIn={false} />
-          <button className="cr-account__login-button" onClick={handleLoginButtonClick}>
+          <CrButton size="xsmall" variant="text" color="default" onClick={handleLoginButtonClick}>
             Log In
-          </button>
+          </CrButton>
         </div>
 
         <LoginRequiredModal
@@ -184,7 +184,6 @@ export default function CrAccount({
     },
   ]
 
-   
   const handleUserMenuSelect = (option: any) => {
     if (option.onClick) {
       option.onClick()
@@ -192,7 +191,6 @@ export default function CrAccount({
     setUserMenuOpen(false)
   }
 
-   
   const handleVolunteerMenuSelect = (option: any) => {
     if (option.onClick) {
       option.onClick()

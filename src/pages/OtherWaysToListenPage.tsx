@@ -109,7 +109,7 @@ const OtherWaysToListenPage: React.FC = () => {
                     titleSize="xl"
                     bannerHeight="tall"
                     textLayout="stacked"
-                    bannerBackgroundColor="textured"
+                    bannerBackgroundColor="none"
                     showTicketButton={false}
                     showShareButton={false}
                     content={contentBlocks[0].content as string | undefined}
@@ -204,7 +204,7 @@ const OtherWaysToListenPage: React.FC = () => {
                   titleSize="xl"
                   bannerHeight="tall"
                   textLayout="stacked"
-                  bannerBackgroundColor="textured"
+                  bannerBackgroundColor="none"
                   showTicketButton={false}
                   showShareButton={false}
                   contentSummary={waysToListenData.introText.join('\n\n')}
