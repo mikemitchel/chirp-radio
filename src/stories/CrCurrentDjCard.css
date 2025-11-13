@@ -10,7 +10,7 @@
 
 /* Top section with CrCurrentDj */
 .cr-current-dj-card__top {
-  padding: var(--cr-space-4) var(--cr-space-4);
+  padding: var(--cr-space-4) var(--cr-space-4) var(--cr-space-2);
 }
 
 /* Content section */
@@ -91,10 +91,10 @@
 
 .cr-current-dj-card__actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   align-items: center;
   gap: var(--cr-space-3);
-  padding: var(--cr-space-2) var(--cr-space-4);
+  padding: var(--cr-space-3) var(--cr-space-4) var(--cr-space-4);
   width: 100%;
   flex-wrap: wrap;
 }

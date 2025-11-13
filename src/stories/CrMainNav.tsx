@@ -69,16 +69,38 @@ export default function CrMainNav({
   const { results, isSearching } = useSearch(searchQuery)
 
   const waysToGiveOptions = [
-    { label: 'Donate', value: 'donate', route: '/donate', isActive: location?.pathname === '/donate' },
-    { label: 'Vinyl Circle', value: 'vinyl-circle', route: '/vinyl-circle', isActive: location?.pathname === '/vinyl-circle' },
-    { label: 'Vehicle Donation', value: 'car-donation', route: '/car-donation', isActive: location?.pathname === '/car-donation' },
-    { label: 'Other Ways to Give', value: 'other-ways-to-give', route: '/other-ways-to-give', isActive: location?.pathname === '/other-ways-to-give' },
+    {
+      label: 'Donate',
+      value: 'donate',
+      route: '/donate',
+      isActive: location?.pathname === '/donate',
+    },
+    {
+      label: 'Vinyl Circle',
+      value: 'vinyl-circle',
+      route: '/vinyl-circle',
+      isActive: location?.pathname === '/vinyl-circle',
+    },
+    {
+      label: 'Vehicle Donation',
+      value: 'car-donation',
+      route: '/car-donation',
+      isActive: location?.pathname === '/car-donation',
+    },
+    {
+      label: 'Other Ways to Give',
+      value: 'other-ways-to-give',
+      route: '/other-ways-to-give',
+      isActive: location?.pathname === '/other-ways-to-give',
+    },
   ]
 
   const isWaysToGiveActive =
-    location && waysToGiveOptions.some((option) => location.pathname === option.route)
+    location &&
+    waysToGiveOptions.some(
+      (option) => option.route !== '/donate' && location.pathname === option.route
+    )
 
-   
   const handleWaysToGiveSelect = (option: any) => {
     if (option.route && navigate) {
       navigate(option.route)
@@ -88,7 +110,6 @@ export default function CrMainNav({
     setShowWaysToGive(false)
   }
 
-   
   // const handleNavClick = (path: string, callback?: () => void) => {
   //   if (navigate) {
   //     navigate(path)
@@ -314,12 +335,12 @@ export default function CrMainNav({
           {/* Donate button */}
           {navigate ? (
             <Link to="/donate">
-              <CrButton variant="solid" color="primary" size="small">
+              <CrButton variant="solid" color="primary" size="medium">
                 Donate
               </CrButton>
             </Link>
           ) : (
-            <CrButton variant="solid" color="primary" size="small" onClick={onDonateClick}>
+            <CrButton variant="solid" color="primary" size="medium" onClick={onDonateClick}>
               Donate
             </CrButton>
           )}
