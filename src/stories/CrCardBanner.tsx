@@ -124,7 +124,10 @@ export default function CrCardBanner({
               variant={ticketButtonVariant}
               color="secondary"
               rightIcon={ticketButtonIcon || <PiTicket />}
-              onClick={handleTicketClick}
+              onClick={(e) => {
+                e.stopPropagation()
+                handleTicketClick()
+              }}
             >
               {ticketButtonText}
             </CrButton>
@@ -136,7 +139,10 @@ export default function CrCardBanner({
               variant="outline"
               color="secondary"
               rightIcon={<PiArrowSquareUp />}
-              onClick={handleShareClick}
+              onClick={(e) => {
+                e.stopPropagation()
+                handleShareClick()
+              }}
             >
               {shareButtonText}
             </CrButton>
