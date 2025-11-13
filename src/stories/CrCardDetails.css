@@ -148,7 +148,7 @@
   background: linear-gradient(
     to right,
     transparent,
-    color-mix(in srgb, var(--cr-ink) 50%, transparent)
+    color-mix(in srgb, var(--cr-paper) 65%, transparent)
   );
   pointer-events: none;
   opacity: 0;
@@ -167,7 +167,7 @@
   background: linear-gradient(
     to left,
     transparent,
-    color-mix(in srgb, var(--cr-ink) 50%, transparent)
+    color-mix(in srgb, var(--cr-paper) 65%, transparent)
   );
   pointer-events: none;
   opacity: 0;

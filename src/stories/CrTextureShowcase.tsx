@@ -338,7 +338,7 @@ export default function CrTextureShowcase() {
     ]),
 
     // Usage Example
-    React.createElement('div', { key: 'usage', className: 'sg-card' }, [
+    React.createElement('div', { key: 'usage', className: 'sg-card sg-margin-bottom-lg' }, [
       React.createElement('h3', { key: 'usage-title' }, 'Implementation Example'),
       React.createElement('div', { key: 'usage-content', className: 'sg-card-content' }, [
         React.createElement(
@@ -356,6 +356,77 @@ export default function CrTextureShowcase() {
         React.createElement('p', { key: 'production-note', className: 'cr-body-sm text-muted' }, [
           React.createElement('strong', { key: 'note-strong' }, 'Production Note:'),
           ' Replace the CSS texture URLs with actual exported texture images from Figma for the final implementation.',
+        ]),
+      ]),
+    ]),
+
+    // Texture Randomness
+    React.createElement('div', { key: 'randomness', className: 'sg-card' }, [
+      React.createElement('h3', { key: 'randomness-title' }, 'Texture Randomness'),
+      React.createElement('div', { key: 'randomness-content', className: 'sg-card-content' }, [
+        React.createElement(
+          'p',
+          { key: 'randomness-intro', className: 'cr-body-reg sg-margin-bottom' },
+          'To prevent repetitive patterns when multiple textured elements appear side-by-side, use texture offset utility classes. These shift the texture position to create visual variety.'
+        ),
+        React.createElement(
+          'h4',
+          { key: 'randomness-classes-title', className: 'cr-nav-support sg-margin-bottom' },
+          'Available Offset Classes:'
+        ),
+        React.createElement(
+          'div',
+          { key: 'randomness-list', className: 'cr-body-sm sg-margin-bottom' },
+          [
+            React.createElement('div', { key: 'offset-classes', className: 'sg-code-example' }, [
+              React.createElement('pre', { key: 'pre' }, [
+                'cr-texture-offset-1  →  X: 15px,  Y: 23px',
+                React.createElement('br', { key: 'br1' }),
+                'cr-texture-offset-2  →  X: -27px, Y: 41px',
+                React.createElement('br', { key: 'br2' }),
+                'cr-texture-offset-3  →  X: 53px,  Y: -19px',
+                React.createElement('br', { key: 'br3' }),
+                'cr-texture-offset-4  →  X: -38px, Y: -62px',
+                React.createElement('br', { key: 'br4' }),
+                'cr-texture-offset-5  →  X: 71px,  Y: 8px',
+                React.createElement('br', { key: 'br5' }),
+                'cr-texture-offset-6  →  X: -12px, Y: 94px',
+                React.createElement('br', { key: 'br6' }),
+                'cr-texture-offset-7  →  X: 46px,  Y: -35px',
+                React.createElement('br', { key: 'br7' }),
+                'cr-texture-offset-8  →  X: -65px, Y: 17px',
+              ]),
+            ]),
+          ]
+        ),
+        React.createElement(
+          'h4',
+          { key: 'randomness-usage-title', className: 'cr-nav-support sg-margin-bottom' },
+          'Usage:'
+        ),
+        React.createElement(
+          'div',
+          { key: 'randomness-code', className: 'sg-code-box sg-margin-bottom' },
+          [
+            '<div class="cr-bg-textured cr-bg-natural-light cr-texture-offset-1">',
+            React.createElement('br', { key: 'br1' }),
+            '  <h3>Card 1</h3>',
+            React.createElement('br', { key: 'br2' }),
+            '</div>',
+            React.createElement('br', { key: 'br3' }),
+            React.createElement('br', { key: 'br4' }),
+            '<div class="cr-bg-textured cr-bg-natural-light cr-texture-offset-2">',
+            React.createElement('br', { key: 'br5' }),
+            '  <h3>Card 2</h3>',
+            React.createElement('br', { key: 'br6' }),
+            '</div>',
+          ]
+        ),
+        React.createElement('div', { key: 'randomness-tip', className: 'sg-tip-box' }, [
+          React.createElement('div', { key: 'tip-text', className: 'cr-body-sm sg-tip-text' }, [
+            React.createElement('strong', { key: 'tip-strong' }, 'Automatic Randomness:'),
+            ' The CrCardBanner and CrAnnouncement components automatically apply a random offset class based on the title/headline text. This ensures consistent but varied texture positioning across cards.',
+          ]),
         ]),
       ]),
     ]),

@@ -33,7 +33,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
           imagePosition={block.imagePosition || 'none'}
           articleImageAspectRatio="16:9"
           backgroundImage={imageUrl}
-          bannerBackgroundColor="none"
+          bannerBackgroundColor={index === 0 ? 'none' : 'textured'}
           preheader={block.preheader || ''}
           title={block.title}
           titleTag={block.titleTag || 'h2'}
