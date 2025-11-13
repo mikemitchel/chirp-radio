@@ -103,12 +103,21 @@ export default function CrAnnouncement({
   onDonateClick,
   className = '',
 }: CrAnnouncementProps) {
+  // Generate a stable random offset class based on headline text
+  const getTextureOffsetClass = (): string => {
+    // Use headline to generate a consistent "random" number between 1-8
+    const hash = headlineText.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    const offsetIndex = (hash % 8) + 1
+    return `cr-texture-offset-${offsetIndex}`
+  }
+
   const componentClasses = [
     'cr-announcement',
     `cr-announcement--${variant}`,
     `cr-announcement--${widthVariant}`,
     'cr-bg-textured',
     textureBackground,
+    getTextureOffsetClass(),
     className,
   ]
     .filter(Boolean)

@@ -114,119 +114,126 @@ export default function LoginRequiredModal({
         title={mode === 'login' ? 'Log In' : 'Sign Up'}
         size="small"
       >
-        <div className="login-modal">
-          <div
-            className="login-modal__message"
-            dangerouslySetInnerHTML={{
-              __html: mode === 'login' ? loginMessage : signupMessage,
-            }}
-          />
-
-          <div className="login-modal__mode-toggle">
-            <CrButtonGroup
-              options={[
-                { label: 'Log In', value: 'login' },
-                { label: 'Sign Up', value: 'signup' },
-              ]}
-              selectedValue={mode}
-              onSelectionChange={handleModeChange}
-              layout="horizontal"
-              variant="schedule"
-              size="medium"
+        <div className="cr-modal__body">
+          <div className="login-modal">
+            <div
+              className="login-modal__message"
+              dangerouslySetInnerHTML={{
+                __html: mode === 'login' ? loginMessage : signupMessage,
+              }}
             />
-          </div>
 
-          <form onSubmit={handleSubmit} className="login-modal__form">
-            {/* Email Input */}
-            <div className="login-modal__field">
-              <label htmlFor="email" className="login-modal__label">
-                Email <span className="login-modal__required">*</span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                className={`login-modal__input ${errors.email ? 'login-modal__input--error' : ''}`}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+            <div className="login-modal__mode-toggle">
+              <CrButtonGroup
+                options={[
+                  { label: 'Log In', value: 'login' },
+                  { label: 'Sign Up', value: 'signup' },
+                ]}
+                selectedValue={mode}
+                onSelectionChange={handleModeChange}
+                layout="horizontal"
+                variant="schedule"
+                size="medium"
               />
-              {errors.email && <span className="login-modal__error">{errors.email}</span>}
             </div>
 
-            {/* Password Input */}
-            <div className="login-modal__field">
-              <label htmlFor="password" className="login-modal__label">
-                Password <span className="login-modal__required">*</span>
-              </label>
-              <input
-                type="password"
-                id="password"
-                className={`login-modal__input ${errors.password ? 'login-modal__input--error' : ''}`}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder={
-                  mode === 'login' ? 'Enter your password' : 'Create a password (min 8 characters)'
-                }
-              />
-              {errors.password && <span className="login-modal__error">{errors.password}</span>}
-            </div>
-
-            {/* Confirm Password Input - Only for Sign Up */}
-            {mode === 'signup' && (
+            <form onSubmit={handleSubmit} className="login-modal__form">
+              {/* Email Input */}
               <div className="login-modal__field">
-                <label htmlFor="confirmPassword" className="login-modal__label">
-                  Confirm Password <span className="login-modal__required">*</span>
+                <label htmlFor="email" className="login-modal__label">
+                  Email <span className="login-modal__required">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  className={`login-modal__input ${errors.email ? 'login-modal__input--error' : ''}`}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                />
+                {errors.email && <span className="login-modal__error">{errors.email}</span>}
+              </div>
+
+              {/* Password Input */}
+              <div className="login-modal__field">
+                <label htmlFor="password" className="login-modal__label">
+                  Password <span className="login-modal__required">*</span>
                 </label>
                 <input
                   type="password"
-                  id="confirmPassword"
-                  className={`login-modal__input ${errors.confirmPassword ? 'login-modal__input--error' : ''}`}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Re-enter your password"
+                  id="password"
+                  className={`login-modal__input ${errors.password ? 'login-modal__input--error' : ''}`}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder={
+                    mode === 'login'
+                      ? 'Enter your password'
+                      : 'Create a password (min 8 characters)'
+                  }
                 />
-                {errors.confirmPassword && (
-                  <span className="login-modal__error">{errors.confirmPassword}</span>
-                )}
+                {errors.password && <span className="login-modal__error">{errors.password}</span>}
               </div>
-            )}
 
-            {/* Forgot Password Link */}
-            {mode === 'login' && (
-              <div className="login-modal__forgot-password">
-                <a
-                  href="#"
-                  className="login-modal__forgot-link"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    setShowForgotPassword(true)
-                  }}
+              {/* Confirm Password Input - Only for Sign Up */}
+              {mode === 'signup' && (
+                <div className="login-modal__field">
+                  <label htmlFor="confirmPassword" className="login-modal__label">
+                    Confirm Password <span className="login-modal__required">*</span>
+                  </label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    className={`login-modal__input ${errors.confirmPassword ? 'login-modal__input--error' : ''}`}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Re-enter your password"
+                  />
+                  {errors.confirmPassword && (
+                    <span className="login-modal__error">{errors.confirmPassword}</span>
+                  )}
+                </div>
+              )}
+
+              {/* Forgot Password Link */}
+              {mode === 'login' && (
+                <div className="login-modal__forgot-password">
+                  <a
+                    href="#"
+                    className="login-modal__forgot-link"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setShowForgotPassword(true)
+                    }}
+                  >
+                    Forgot password?
+                  </a>
+                </div>
+              )}
+
+              {/* Form Actions */}
+              <div className="cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap">
+                <CrButton
+                  type="button"
+                  variant="outline"
+                  color="default"
+                  size="medium"
+                  onClick={handleCancel}
                 >
-                  Forgot password?
-                </a>
+                  Cancel
+                </CrButton>
+                <CrButton type="submit" variant="solid" color="secondary" size="medium">
+                  {mode === 'login' ? 'Log In' : 'Sign Up'}
+                </CrButton>
               </div>
-            )}
-
-            {/* Form Actions */}
-            <div className="cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap">
-              <CrButton
-                type="button"
-                variant="outline"
-                color="default"
-                size="medium"
-                onClick={handleCancel}
-              >
-                Cancel
-              </CrButton>
-              <CrButton type="submit" variant="solid" color="secondary" size="medium">
-                {mode === 'login' ? 'Log In' : 'Sign Up'}
-              </CrButton>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </CrModal>
 
-      <ForgotPasswordModal isOpen={showForgotPassword} onClose={() => setShowForgotPassword(false)} />
+      <ForgotPasswordModal
+        isOpen={showForgotPassword}
+        onClose={() => setShowForgotPassword(false)}
+      />
     </>
   )
 }

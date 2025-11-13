@@ -495,6 +495,33 @@ export function NowPlayingProvider({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoFetch])
 
+  // Listen for CarPlay connection
+  useEffect(() => {
+    const isNative = Capacitor.getPlatform() !== 'web'
+    if (!isNative || !autoFetch) return
+
+    let listenerCleanup: (() => void) | undefined
+
+    NativeAudioPlayer.addListener('carPlayConnected', () => {
+      log.log('🚗 CarPlay connected - refreshing metadata')
+
+      // Clear any pending poll timeout
+      if (pollTimeoutRef.current) {
+        clearTimeout(pollTimeoutRef.current)
+      }
+
+      // Immediately fetch latest track data
+      fetchNowPlaying()
+    }).then((listener) => {
+      listenerCleanup = () => listener.remove()
+    })
+
+    return () => {
+      listenerCleanup?.()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoFetch])
+
   // Update metadata when track information changes
   useEffect(() => {
     if (currentData.track && currentData.artist) {

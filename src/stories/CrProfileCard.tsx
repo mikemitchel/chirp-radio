@@ -174,7 +174,7 @@ export default function CrProfileCard({
             </p>
 
             <div className="cr-profile-card__not-logged-in-actions">
-              <CrButton variant="outline" color="default" size="medium" onClick={onLogin}>
+              <CrButton variant="text" color="default" size="medium" onClick={onLogin}>
                 log in
               </CrButton>
               <CrButton variant="solid" color="secondary" size="medium" onClick={onSignUp}>

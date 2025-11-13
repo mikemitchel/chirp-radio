@@ -447,7 +447,7 @@
   }
 } */
 
-@media (max-width: 968px) {
+@media (max-width: 768px) {
   .grid-2col-content,
   .grid-2col-equal {
     grid-template-columns: 1fr;
