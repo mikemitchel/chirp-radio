@@ -92,6 +92,6 @@
 /* Responsive */
 @media (max-width: 480px) {
   .login-modal {
-    padding: 0;
+    padding: 0 var(--cr-space-4);
   }
 }

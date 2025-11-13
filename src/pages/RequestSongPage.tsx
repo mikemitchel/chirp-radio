@@ -11,7 +11,14 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import CrButton from '../stories/CrButton'
 import { useAuth } from '../hooks/useAuth'
-import { usePageBySlug, useAnnouncements, useArticles, useEvents, usePodcasts, useCurrentShow } from '../hooks/useData'
+import {
+  usePageBySlug,
+  useAnnouncements,
+  useArticles,
+  useEvents,
+  usePodcasts,
+  useCurrentShow,
+} from '../hooks/useData'
 import { getAdvertisementProps } from '../utils/categoryHelpers'
 import requestSongData from '../data/requestSong.json'
 
@@ -61,7 +68,13 @@ const RequestSongPage: React.FC = () => {
   }
 
   // Get the announcement specified in CMS or fallback to index 2
-  const selectedAnnouncement = typeof pageConfig?.sidebarAnnouncement === 'object' ? pageConfig.sidebarAnnouncement : typeof pageConfig?.sidebarAnnouncement === 'string' || typeof pageConfig?.sidebarAnnouncement === 'number' ? announcements?.find(a => String(a.id) === String(pageConfig.sidebarAnnouncement)) : announcements?.[2]
+  const selectedAnnouncement =
+    typeof pageConfig?.sidebarAnnouncement === 'object'
+      ? pageConfig.sidebarAnnouncement
+      : typeof pageConfig?.sidebarAnnouncement === 'string' ||
+          typeof pageConfig?.sidebarAnnouncement === 'number'
+        ? announcements?.find((a) => String(a.id) === String(pageConfig.sidebarAnnouncement))
+        : announcements?.[2]
 
   // Get the content type specified in CMS or fallback to 'events'
   const sidebarContentType = pageConfig?.sidebarContentType || 'events'
@@ -110,15 +123,21 @@ const RequestSongPage: React.FC = () => {
               variant="article"
               type="page"
               imagePosition="none"
-              backgroundImage={pageConfig?.layout?.[0]?.backgroundImageUrl as string || requestSongData.heroImage}
-              bannerBackgroundColor="none"
-              title={pageConfig?.layout?.[0]?.title as string || 'Request a Song'}
+              backgroundImage={
+                (pageConfig?.layout?.[0]?.backgroundImageUrl as string) || requestSongData.heroImage
+              }
+              bannerBackgroundColor="textured"
+              title={(pageConfig?.layout?.[0]?.title as string) || 'Request a Song'}
               titleTag="h1"
               titleSize="xl"
               textLayout="stacked"
               bannerHeight="tall"
               content={pageConfig?.layout?.[0]?.content}
-              contentSummary={!pageConfig?.layout?.[0]?.content ? requestSongData.introText.join('\n\n') : undefined}
+              contentSummary={
+                !pageConfig?.layout?.[0]?.content
+                  ? requestSongData.introText.join('\n\n')
+                  : undefined
+              }
               showTicketButton={false}
               showShareButton={false}
             />
@@ -198,7 +217,7 @@ const RequestSongPage: React.FC = () => {
                   title={method.title}
                   bannerHeight="tall"
                   textLayout="stacked"
-                  bannerBackgroundColor="none"
+                  bannerBackgroundColor="textured"
                   showTicketButton={false}
                   showShareButton={false}
                   content={method.content}
@@ -213,9 +232,9 @@ const RequestSongPage: React.FC = () => {
               <CrCard
                 variant="article"
                 type="page"
-                imagePosition={pageConfig.layout[5].imagePosition as string || 'none'}
+                imagePosition={(pageConfig.layout[5].imagePosition as string) || 'none'}
                 backgroundImage={pageConfig.layout[5].backgroundImageUrl as string}
-                bannerBackgroundColor="none"
+                bannerBackgroundColor="textured"
                 title={pageConfig.layout[5].title as string}
                 titleTag="h2"
                 textLayout="stacked"
@@ -233,7 +252,7 @@ const RequestSongPage: React.FC = () => {
                 titleTag="h2"
                 textLayout="stacked"
                 bannerHeight="tall"
-                contentSummary={`${requestSongData.tips.description}\n\n${requestSongData.tips.items.map(item => `• ${item}`).join('\n')}`}
+                contentSummary={`${requestSongData.tips.description}\n\n${requestSongData.tips.items.map((item) => `• ${item}`).join('\n')}`}
                 showTicketButton={false}
                 showShareButton={false}
               />
@@ -244,9 +263,9 @@ const RequestSongPage: React.FC = () => {
               <CrCard
                 variant="article"
                 type="page"
-                imagePosition={pageConfig.layout[6].imagePosition as string || 'right'}
+                imagePosition={(pageConfig.layout[6].imagePosition as string) || 'right'}
                 backgroundImage={pageConfig.layout[6].backgroundImageUrl as string}
-                bannerBackgroundColor="none"
+                bannerBackgroundColor="textured"
                 title={pageConfig.layout[6].title as string}
                 titleTag="h2"
                 textLayout="stacked"
@@ -261,7 +280,7 @@ const RequestSongPage: React.FC = () => {
                 type="page"
                 imagePosition="right"
                 backgroundImage={requestSongData.note.image}
-                bannerBackgroundColor="none"
+                bannerBackgroundColor="textured"
                 title={requestSongData.note.title}
                 titleTag="h2"
                 textLayout="stacked"
@@ -278,12 +297,37 @@ const RequestSongPage: React.FC = () => {
               <CrAnnouncement
                 variant="motivation"
                 widthVariant="third"
-                textureBackground={'backgroundColor' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).backgroundColor as string : undefined}
-                headlineText={'title' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).title as string : selectedAnnouncement.headlineText}
-                bodyText={'message' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).message as string : typeof selectedAnnouncement.bodyText === 'string' ? selectedAnnouncement.bodyText : undefined}
-                showLink={'ctaText' in selectedAnnouncement && !!(selectedAnnouncement as Record<string, unknown>).ctaText}
-                linkText={'ctaText' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).ctaText as string : undefined}
-                linkUrl={'ctaUrl' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).ctaUrl as string : undefined}
+                textureBackground={
+                  'backgroundColor' in selectedAnnouncement
+                    ? ((selectedAnnouncement as Record<string, unknown>).backgroundColor as string)
+                    : undefined
+                }
+                headlineText={
+                  'title' in selectedAnnouncement
+                    ? ((selectedAnnouncement as Record<string, unknown>).title as string)
+                    : selectedAnnouncement.headlineText
+                }
+                bodyText={
+                  'message' in selectedAnnouncement
+                    ? ((selectedAnnouncement as Record<string, unknown>).message as string)
+                    : typeof selectedAnnouncement.bodyText === 'string'
+                      ? selectedAnnouncement.bodyText
+                      : undefined
+                }
+                showLink={
+                  'ctaText' in selectedAnnouncement &&
+                  !!(selectedAnnouncement as Record<string, unknown>).ctaText
+                }
+                linkText={
+                  'ctaText' in selectedAnnouncement
+                    ? ((selectedAnnouncement as Record<string, unknown>).ctaText as string)
+                    : undefined
+                }
+                linkUrl={
+                  'ctaUrl' in selectedAnnouncement
+                    ? ((selectedAnnouncement as Record<string, unknown>).ctaUrl as string)
+                    : undefined
+                }
                 buttonCount="none"
               />
             )}
@@ -298,7 +342,9 @@ const RequestSongPage: React.FC = () => {
                   showEyebrow={false}
                   showActionButton={true}
                   actionButtonText={sidebarActionText}
-                  actionButtonIcon={sidebarContentType === 'events' ? <PiCalendarDots /> : <PiReadCvLogo />}
+                  actionButtonIcon={
+                    sidebarContentType === 'events' ? <PiCalendarDots /> : <PiReadCvLogo />
+                  }
                   actionButtonSize="small"
                   onActionClick={() => navigate(sidebarActionPath)}
                 />
@@ -314,29 +360,41 @@ const RequestSongPage: React.FC = () => {
                       type={isArticle ? 'article' : isPodcast ? 'podcast' : undefined}
                       bannerHeight="short"
                       textLayout="stacked"
-                      bannerBackgroundColor="none"
+                      bannerBackgroundColor="textured"
                       backgroundImage={item.featuredImage || item.featuredImageUrl || item.coverArt}
-                      preheader={typeof item.category === 'string' ? item.category : item.category?.name}
+                      preheader={
+                        typeof item.category === 'string' ? item.category : item.category?.name
+                      }
                       title={item.title}
                       contentSummary={item.excerpt}
-                      dateTime={isEvent ? new Date(item.date).toLocaleString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                        hour: 'numeric',
-                        minute: '2-digit',
-                      }) : undefined}
+                      dateTime={
+                        isEvent
+                          ? new Date(item.date).toLocaleString('en-US', {
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric',
+                              hour: 'numeric',
+                              minute: '2-digit',
+                            })
+                          : undefined
+                      }
                       venue={isEvent ? item.venue?.name : undefined}
                       authorBy={isArticle ? `by ${item.author}` : undefined}
-                      eventDate={isArticle ? new Date(item.publishedDate).toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                        year: 'numeric',
-                      }) : isPodcast && item.createdAt ? new Date(item.createdAt).toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                        year: 'numeric',
-                      }) : undefined}
+                      eventDate={
+                        isArticle
+                          ? new Date(item.publishedDate).toLocaleDateString('en-US', {
+                              month: 'long',
+                              day: 'numeric',
+                              year: 'numeric',
+                            })
+                          : isPodcast && item.createdAt
+                            ? new Date(item.createdAt).toLocaleDateString('en-US', {
+                                month: 'long',
+                                day: 'numeric',
+                                year: 'numeric',
+                              })
+                            : undefined
+                      }
                       showTicketButton={false}
                       onClick={() => handleSidebarClick?.(item)}
                     />

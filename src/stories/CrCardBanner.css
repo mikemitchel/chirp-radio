@@ -3,7 +3,6 @@
 .cr-card-title-banner {
   position: relative;
   width: 100%;
-  padding: var(--cr-space-4) var(--cr-space-4);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -17,6 +16,7 @@
   justify-content: space-between;
   gap: var(--cr-space-2xl);
   width: 100%;
+  padding-right: var(--cr-space-4);
 }
 
 /* Height variants */
@@ -40,7 +40,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--cr-space-1);
-  padding: var(--cr-space-4) 0;
+  padding: var(--cr-space-4);
 }
 
 /* Inline layout */
@@ -116,10 +116,6 @@
 
 /* Responsive */
 @media (max-width: 640px) {
-  .cr-card-title-banner {
-    padding: var(--cr-space-3) var(--cr-space-4);
-  }
-
   .cr-card-title-banner--narrow {
     height: auto;
     min-height: 60px;

@@ -7,7 +7,7 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  background-color: var(--cr-default-100);
+  background-color: var(--cr-default-300);
 }
 
 .cr-card-details__container {
@@ -33,6 +33,12 @@
   align-items: center;
   gap: var(--cr-space-3);
   flex-wrap: wrap;
+}
+
+/* Only use space-between when no share button is shown */
+.cr-card-details__container:not(:has(.cr-card-details__actions)) .cr-card-details__event-row {
+  justify-content: space-between;
+  width: 100%;
 }
 
 .cr-card-details__author-date {
