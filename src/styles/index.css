@@ -183,8 +183,8 @@
 
   /* === TEXTURE SYSTEM === */
   /* Real texture images */
-  --cr-texture-natural-url: url('../assets/textures/natural-paper.png');
-  --cr-texture-rice-url: url('../assets/textures/rice-paper-2.png');
+  --cr-texture-natural-url: url('../assets/textures/paper-3.png');
+  --cr-texture-rice-url: url('../assets/textures/cardboard-flat.png');
   --cr-texture-dust-url: url('../assets/textures/green-dust-and-scratches.png');
 }
 
@@ -482,6 +482,8 @@ ul ol {
   background-size: 200px;
   background-repeat: repeat;
   opacity: 0.65;
+  /* Add randomness to texture positioning - different offsets for variety */
+  background-position: var(--texture-offset-x, 0px) var(--texture-offset-y, 0px);
 }
 
 /* Light theme texture backgrounds */
@@ -551,11 +553,11 @@ ul ol {
 
 .cr-bg-natural-light {
   background-color: var(--cr-paper);
-  box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
 }
 
 .cr-bg-natural-light::before {
   background-image: var(--cr-texture-natural-url);
+  opacity: 0.85; /* Increased opacity for better visibility */
 }
 
 .cr-bg-natural-dark {
@@ -600,10 +602,12 @@ ul ol {
 
 .cr-bg-dust-light {
   background-color: var(--cr-paper);
+  box-shadow: inset 0px 0px 40px 4px rgba(0, 0, 0, 0.2);
 }
 
 .cr-bg-dust-light::before {
   background-image: var(--cr-texture-dust-url);
+  opacity: 0.85; /* Increased opacity for better visibility */
 }
 
 .cr-bg-dust-dark {
@@ -620,6 +624,51 @@ ul ol {
 
 .cr-bg-dust-d300::before {
   background-image: var(--cr-texture-dust-url);
+  background-position-y: 107px;
+}
+
+/* === TEXTURE RANDOMNESS UTILITIES === */
+/* Apply these alongside textured backgrounds to add variety and prevent repetitive patterns */
+/* Usage: <div class="cr-bg-textured cr-bg-natural-light cr-texture-offset-1"> */
+
+.cr-texture-offset-1 {
+  --texture-offset-x: 15px;
+  --texture-offset-y: 23px;
+}
+
+.cr-texture-offset-2 {
+  --texture-offset-x: -27px;
+  --texture-offset-y: 41px;
+}
+
+.cr-texture-offset-3 {
+  --texture-offset-x: 53px;
+  --texture-offset-y: -19px;
+}
+
+.cr-texture-offset-4 {
+  --texture-offset-x: -38px;
+  --texture-offset-y: -62px;
+}
+
+.cr-texture-offset-5 {
+  --texture-offset-x: 71px;
+  --texture-offset-y: 8px;
+}
+
+.cr-texture-offset-6 {
+  --texture-offset-x: -12px;
+  --texture-offset-y: 94px;
+}
+
+.cr-texture-offset-7 {
+  --texture-offset-x: 46px;
+  --texture-offset-y: -35px;
+}
+
+.cr-texture-offset-8 {
+  --texture-offset-x: -65px;
+  --texture-offset-y: 17px;
 }
 
 /* === BUTTON SYSTEM === */
