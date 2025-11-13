@@ -2,6 +2,7 @@
 import React from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import CrPageHeader from '../stories/CrPageHeader'
+import CrBreadcrumb from '../stories/CrBreadcrumb'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
@@ -15,7 +16,9 @@ const ITEMS_PER_PAGE = 11
 // Helper functions for type conversions
 const getCategoryName = (podcast: Podcast): string | undefined => {
   if (typeof podcast.category === 'object' && podcast.category && 'name' in podcast.category) {
-    return (typeof podcast.category === 'object' && podcast.category && 'name' in podcast.category ? podcast.category.name as string : undefined)
+    return typeof podcast.category === 'object' && podcast.category && 'name' in podcast.category
+      ? (podcast.category.name as string)
+      : undefined
   }
   if (typeof podcast.category === 'string') {
     return podcast.category
@@ -24,8 +27,12 @@ const getCategoryName = (podcast: Podcast): string | undefined => {
 }
 
 const getTags = (podcast: Podcast): string[] | undefined => {
-  if (Array.isArray(podcast.tags) && podcast.tags.length > 0 && typeof podcast.tags[0] === 'object') {
-    return (podcast.tags as Array<{ tag: string }>).map(t => t.tag)
+  if (
+    Array.isArray(podcast.tags) &&
+    podcast.tags.length > 0 &&
+    typeof podcast.tags[0] === 'object'
+  ) {
+    return (podcast.tags as Array<{ tag: string }>).map((t) => t.tag)
   }
   if (Array.isArray(podcast.tags)) {
     return podcast.tags as string[]
@@ -61,21 +68,23 @@ const PodcastPage: React.FC = () => {
   }
 
   const handlePageChange = (page: number) => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
     if (page === 0) {
       setSearchParams({})
     } else {
       setSearchParams({ page: String(page) })
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   // Get sidebar content from Site Settings
   const sidebarAnnouncementId =
     typeof siteSettings?.podcastsSidebarAnnouncement === 'string'
       ? siteSettings.podcastsSidebarAnnouncement
-      : typeof siteSettings?.podcastsSidebarAnnouncement === 'object' && siteSettings.podcastsSidebarAnnouncement && 'id' in siteSettings.podcastsSidebarAnnouncement
-      ? siteSettings.podcastsSidebarAnnouncement.id
-      : undefined
+      : typeof siteSettings?.podcastsSidebarAnnouncement === 'object' &&
+          siteSettings.podcastsSidebarAnnouncement &&
+          'id' in siteSettings.podcastsSidebarAnnouncement
+        ? siteSettings.podcastsSidebarAnnouncement.id
+        : undefined
 
   const sidebarAnnouncement = sidebarAnnouncementId
     ? announcements?.find((a) => String(a.id) === String(sidebarAnnouncementId))
@@ -87,9 +96,11 @@ const PodcastPage: React.FC = () => {
   const fullWidthAnnouncementId =
     typeof siteSettings?.podcastsFullWidthAnnouncement === 'string'
       ? siteSettings.podcastsFullWidthAnnouncement
-      : typeof siteSettings?.podcastsFullWidthAnnouncement === 'object' && siteSettings.podcastsFullWidthAnnouncement && 'id' in siteSettings.podcastsFullWidthAnnouncement
-      ? siteSettings.podcastsFullWidthAnnouncement.id
-      : undefined
+      : typeof siteSettings?.podcastsFullWidthAnnouncement === 'object' &&
+          siteSettings.podcastsFullWidthAnnouncement &&
+          'id' in siteSettings.podcastsFullWidthAnnouncement
+        ? siteSettings.podcastsFullWidthAnnouncement.id
+        : undefined
 
   const fullWidthAnnouncement = fullWidthAnnouncementId
     ? announcements?.find((a) => String(a.id) === String(fullWidthAnnouncementId))
@@ -97,10 +108,24 @@ const PodcastPage: React.FC = () => {
 
   const adProps = getAdvertisementProps(sidebarAdvertisement)
 
-  const pageTitle = siteSettings?.podcastsPageTitle || 'Podcasts'
+  const basePageTitle = siteSettings?.podcastsPageTitle || 'Podcasts'
+  const pageTitle = currentPage > 0 ? `${basePageTitle} - Page ${currentPage + 1}` : basePageTitle
+
+  // Create breadcrumb items with page number
+  const breadcrumbItems =
+    currentPage > 0
+      ? [
+          { label: 'Podcasts', isClickable: true, onClick: () => navigate('/podcasts') },
+          { label: `Page ${currentPage + 1}`, isClickable: false },
+        ]
+      : [{ label: 'Podcasts', isClickable: false }]
 
   return (
     <div className="podcast-page">
+      <section className="page-container">
+        <CrBreadcrumb items={breadcrumbItems} />
+      </section>
+
       <section className="page-container">
         <CrPageHeader title={pageTitle} showEyebrow={false} showActionButton={false} />
       </section>
@@ -134,16 +159,18 @@ const PodcastPage: React.FC = () => {
               widthVariant="third"
               textureBackground={sidebarAnnouncement.textureBackground}
               headlineText={sidebarAnnouncement.headlineText}
-              bodyText={typeof sidebarAnnouncement.bodyText === 'string' ? sidebarAnnouncement.bodyText : undefined}
+              bodyText={
+                typeof sidebarAnnouncement.bodyText === 'string'
+                  ? sidebarAnnouncement.bodyText
+                  : undefined
+              }
               showLink={sidebarAnnouncement.showLink}
               linkText={sidebarAnnouncement.linkText}
               linkUrl={sidebarAnnouncement.linkUrl}
               buttonCount={sidebarAnnouncement.buttonCount}
             />
           )}
-          {adProps && (
-            <CrAdSpace {...adProps} />
-          )}
+          {adProps && <CrAdSpace {...adProps} />}
         </div>
       </div>
 
@@ -239,7 +266,11 @@ const PodcastPage: React.FC = () => {
               variant={fullWidthAnnouncement.variant}
               textureBackground={fullWidthAnnouncement.textureBackground}
               headlineText={fullWidthAnnouncement.headlineText}
-              bodyText={typeof fullWidthAnnouncement.bodyText === 'string' ? fullWidthAnnouncement.bodyText : undefined}
+              bodyText={
+                typeof fullWidthAnnouncement.bodyText === 'string'
+                  ? fullWidthAnnouncement.bodyText
+                  : undefined
+              }
               showLink={fullWidthAnnouncement.showLink}
               linkText={fullWidthAnnouncement.linkText}
               linkUrl={fullWidthAnnouncement.linkUrl}
