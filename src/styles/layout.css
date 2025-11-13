@@ -101,7 +101,6 @@
 
 .page-layout-main-sidebar__main {
   min-width: 0;
-  padding-left: var(--cr-space-2);
 }
 
 .page-layout-main-sidebar__sidebar {
@@ -221,10 +220,6 @@
     gap: var(--cr-space-4);
     padding: var(--cr-space-4);
   }
-
-  .page-layout-main-sidebar__sidebar {
-    padding-top: var(--cr-space-6) !important;
-  }
 }
 
 /* Desktop: 1200px */
@@ -235,6 +230,24 @@
 
   .page-layout-masonry {
     column-count: 2;
+  }
+
+  /* DJ Schedule column breaks out to full width */
+  .landing-page .page-layout-3col {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Third column (DJ Schedule) spans full width */
+  .landing-page .page-layout-3col__column:nth-child(3) {
+    grid-column: 1 / -1;
+    padding: 0 var(--cr-space-4);
+  }
+
+  /* DJ Schedule items in responsive grid - 3 columns that wraps to 2, then 1 */
+  .landing-page .page-layout-3col__column:nth-child(3) .cr-dj-overview-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--cr-space-4);
   }
 }
 
@@ -258,6 +271,20 @@
 
   .page-layout-single {
     padding: var(--cr-space-6) var(--cr-space-3);
+  }
+
+  /* Landing page specific - maintain DJ Schedule full width layout */
+  .landing-page .page-layout-3col {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-page .page-layout-3col__column:nth-child(3) {
+    grid-column: 1;
+    padding: 0;
+  }
+
+  .landing-page .page-layout-3col__column:nth-child(3) .cr-dj-overview-wrapper {
+    grid-template-columns: 1fr;
   }
 }
 
