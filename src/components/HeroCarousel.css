@@ -139,17 +139,20 @@
 }
 
 /* Mobile adjustments */
-@media (max-width: 1280px) and (min-width: 969px) {
-  /* Change card image aspect ratio to 4:3 */
-  .hero-carousel .cr-card--default {
-    aspect-ratio: 4/3;
-  }
-}
-
 @media (max-width: 640px) {
-  /* Change card image aspect ratio to 4:3 */
   .hero-carousel .cr-card--default {
-    aspect-ratio: 4/3;
+    min-height: unset;
+    aspect-ratio: 4 / 3;
+  }
+
+  /* Hide button text on mobile, show icon only */
+  .hero-carousel .cr-card--default .cr-btn__text {
+    display: none;
+  }
+
+  .hero-carousel .cr-card--default .cr-btn {
+    padding: var(--cr-space-1);
+    min-width: 0;
   }
 }
 
