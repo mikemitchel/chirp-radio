@@ -23,7 +23,7 @@
   flex-direction: row;
   gap: var(--cr-space-4);
   align-items: center;
-  margin-bottom: var(--cr-space-4);
+  margin: var(--cr-space-4) 0 0;
 }
 
 .cr-profile-card__name-section {
@@ -374,7 +374,8 @@
 }
 
 .cr-profile-card__not-logged-in-description {
-  font: var(--cr-body-lg);
+  font: var(--cr-body-md);
+  line-height: 1.6;
   color: var(--cr-ink);
   margin: 0 0 var(--cr-space-6) 0;
 }

@@ -62,7 +62,7 @@
   flex: 1;
   min-width: 0;
   min-height: var(--cr-space-11);
-  padding: var(--cr-space-4) 0;
+  padding: 0 0 var(--cr-space-4) 0;
 }
 
 .cr-modal__title-section {
@@ -122,13 +122,12 @@
   overflow-y: auto;
   flex: 1;
   min-height: 0;
-  padding: 0 var(--cr-space-6);
+  padding: 0 0 var(--cr-space-6) 0;
 }
 
 /* Content body - standard padding for content */
 .cr-modal__body {
-  padding: var(--cr-space-6);
-  padding-top: 0;
+  padding: 0 var(--cr-space-6);
 }
 
 /* Modal actions container */
@@ -270,11 +269,10 @@
   }
 
   .cr-modal__content {
-    padding: 0 var(--cr-space-4) var(--cr-space-6);
+    padding: 0 cr-modal__content;
   }
 
   .cr-modal__body {
-    padding: var(--cr-space-4);
-    padding-top: 0;
+    padding: 0 var(--cr-space-4) var(--cr-space-4);
   }
 }
