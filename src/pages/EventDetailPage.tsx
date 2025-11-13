@@ -7,10 +7,11 @@ import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrChip from '../stories/CrChip'
 import CrButton from '../stories/CrButton'
-import { PiCalendarPlus } from 'react-icons/pi'
+import { PiCalendarPlus, PiMapPinLine } from 'react-icons/pi'
 import { useEvents, useAnnouncements } from '../hooks/useData'
 import { useLivePreview } from '../hooks/useLivePreview'
 import type { Event } from '../types/cms'
+import './EventDetailPage.css'
 
 // Import helper functions
 import {
@@ -69,14 +70,6 @@ const EventDetailPage: React.FC = () => {
 
   return (
     <div className="event-detail-page">
-      <style>{`
-        @media (max-width: 520px) {
-          .event-details-grid {
-            grid-template-columns: 1fr !important;
-            gap: var(--cr-space-4) !important;
-          }
-        }
-      `}</style>
       <section className="page-container">
         <CrBreadcrumb
           items={[
@@ -121,33 +114,9 @@ const EventDetailPage: React.FC = () => {
           />
 
           {/* Event Details Section */}
-          <div
-            style={{
-              marginTop: 'var(--cr-space-8)',
-              maxWidth: '1000px',
-              padding: 'var(--cr-space-6)',
-              backgroundColor: 'var(--cr-paper)',
-              border: '1px solid var(--cr-default-300)',
-              borderRadius: 'var(--cr-space-2)',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: 'var(--cr-space-4)',
-              }}
-            >
-              <h2
-                style={{
-                  font: 'var(--cr-title-sm)',
-                  color: 'var(--cr-ink)',
-                  margin: 0,
-                }}
-              >
-                Event Details
-              </h2>
+          <div className="event-detail-page__details">
+            <div className="event-detail-page__details-header">
+              <h2 className="event-detail-page__details-title">Event Details</h2>
               <CrButton
                 size="small"
                 variant="outline"
@@ -167,42 +136,38 @@ const EventDetailPage: React.FC = () => {
               </CrButton>
             </div>
 
-            <div
-              className="event-details-grid"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: 'var(--cr-space-6)',
-              }}
-            >
+            <div className="event-detail-page__details-grid">
               {/* Left Column - Date & Time */}
               <div>
-                <div
-                  style={{
-                    font: 'var(--cr-body-xs)',
-                    color: 'var(--cr-default-700)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    marginBottom: 'var(--cr-space-1)',
-                  }}
-                >
-                  Date & Time
-                </div>
-                <div
-                  style={{
-                    font: 'var(--cr-body-reg)',
-                    color: 'var(--cr-ink)',
-                    marginBottom: 'var(--cr-space-3)',
-                  }}
-                >
-                  {new Date(event.date).toLocaleString('en-US', {
-                    weekday: 'long',
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                    hour: 'numeric',
-                    minute: '2-digit',
-                  })}
+                <div className="event-detail-page__details-label">Date & Time</div>
+                <div className="event-detail-page__details-datetime-row">
+                  <div className="event-detail-page__details-value--spaced">
+                    {new Date(event.date).toLocaleString('en-US', {
+                      weekday: 'long',
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric',
+                      hour: 'numeric',
+                      minute: '2-digit',
+                    })}
+                  </div>
+                  <CrButton
+                    size="small"
+                    variant="ghost"
+                    color="secondary"
+                    leftIcon={<PiCalendarPlus />}
+                    onClick={() => {
+                      downloadEventCalendar({
+                        title: event.title,
+                        date: event.date,
+                        venue: getEventVenueName(event),
+                        venueAddress: getEventVenueAddress(event),
+                        description: event.excerpt || event.title,
+                      })
+                    }}
+                  >
+                    Add
+                  </CrButton>
                 </div>
 
                 {/* Age Restriction Chip */}
@@ -213,35 +178,29 @@ const EventDetailPage: React.FC = () => {
 
               {/* Right Column - Venue */}
               <div>
-                <div
-                  style={{
-                    font: 'var(--cr-body-xs)',
-                    color: 'var(--cr-default-700)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
-                    marginBottom: 'var(--cr-space-1)',
-                  }}
-                >
-                  Venue
-                </div>
-                <div
-                  style={{
-                    font: 'var(--cr-body-reg)',
-                    color: 'var(--cr-ink)',
-                  }}
-                >
-                  {getEventVenueName(event)}
+                <div className="event-detail-page__details-label">Venue</div>
+                <div className="event-detail-page__details-venue-row">
+                  <div className="event-detail-page__details-value">{getEventVenueName(event)}</div>
+                  {getEventVenueAddress(event) && (
+                    <CrButton
+                      size="small"
+                      variant="ghost"
+                      color="secondary"
+                      leftIcon={<PiMapPinLine />}
+                      onClick={() => {
+                        const address = `${getEventVenueName(event)}, ${getEventVenueAddress(event)}, ${getEventVenueCity(event)}, ${getEventVenueState(event)}`
+                        const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+                        window.open(googleMapsUrl, '_blank')
+                      }}
+                    >
+                      Map
+                    </CrButton>
+                  )}
                 </div>
 
                 {/* Address (no label) */}
                 {getEventVenueAddress(event) && (
-                  <div
-                    style={{
-                      font: 'var(--cr-body-reg)',
-                      color: 'var(--cr-ink)',
-                      marginTop: 'var(--cr-space-2)',
-                    }}
-                  >
+                  <div className="event-detail-page__details-address">
                     {getEventVenueAddress(event)}
                     {getEventVenueCity(event) && getEventVenueState(event) && (
                       <>
@@ -257,18 +216,10 @@ const EventDetailPage: React.FC = () => {
 
                 {/* Phone (no label) */}
                 {getEventVenuePhone(event) && (
-                  <div
-                    style={{
-                      font: 'var(--cr-body-reg)',
-                      marginTop: 'var(--cr-space-2)',
-                    }}
-                  >
+                  <div className="event-detail-page__details-phone">
                     <a
                       href={`tel:${getEventVenuePhone(event)}`}
-                      style={{
-                        color: 'var(--cr-secondary-700)',
-                        textDecoration: 'none',
-                      }}
+                      className="event-detail-page__details-phone-link"
                     >
                       {getEventVenuePhone(event)}
                     </a>

@@ -118,7 +118,7 @@ export default function MakeRequest({ testDjName, testShowName }: MakeRequestPro
           />
 
           <div className="cr-profile-card__not-logged-in-actions">
-            <CrButton variant="outline" color="default" size="medium" onClick={handleLoginClick}>
+            <CrButton variant="text" color="default" size="medium" onClick={handleLoginClick}>
               {loginButtonText}
             </CrButton>
             <CrButton variant="solid" color="secondary" size="medium" onClick={handleSignUpClick}>

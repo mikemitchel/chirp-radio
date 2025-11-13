@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import {
   // Navigation & Actions
+  PiArrowClockwise,
   PiArrowRight,
   PiArrowSquareUp,
   PiCaretLeft,
@@ -15,6 +16,7 @@ import {
   PiDotsThreeOutlineVerticalFill,
   PiPlus,
   PiMinus,
+  PiMinusSquare,
 
   // Calendar & Events
   PiCalendarBlank,
@@ -43,6 +45,7 @@ import {
   PiChatCircleText,
   PiChatCircleTextLight,
   PiSignIn,
+  PiShare,
 
   // Content & Documents
   PiReadCvLogo,
@@ -50,6 +53,7 @@ import {
   PiPaperclip,
   PiNewspaper,
   PiMapTrifold,
+  PiMapPinLine,
 
   // Communication
   PiPaperPlaneRight,
@@ -58,11 +62,13 @@ import {
   // Settings & Tools
   PiGear,
   PiFloppyDisk,
+  PiFloppyDiskLight,
   PiPencilSimple,
   PiUploadSimple,
 
   // Shopping & Commerce
   PiShoppingBag,
+  PiStorefront,
 
   // Visibility & Display
   PiEye,
@@ -74,6 +80,11 @@ import {
   // Collection & Add
   PiPlusCircle,
   PiPlusSquare,
+  PiCheckSquare,
+
+  // Alerts & Status
+  PiInfo,
+  PiWarningCircle,
 } from 'react-icons/pi'
 import { FaFacebookSquare, FaInstagram, FaTwitterSquare, FaLinkedin } from 'react-icons/fa'
 import { SiBluesky } from 'react-icons/si'
@@ -85,6 +96,12 @@ export default function CrIconsShowcase() {
   // All React Icons used in CHIRP components
   const icons = [
     // Navigation & Actions
+    {
+      name: 'PiArrowClockwise',
+      component: PiArrowClockwise,
+      usage: 'Refresh/retry action on error pages',
+      components: ['ServerErrorPage'],
+    },
     {
       name: 'PiArrowRight',
       component: PiArrowRight,
@@ -162,6 +179,12 @@ export default function CrIconsShowcase() {
       component: PiMinus,
       usage: 'Remove or minimize actions',
       components: ['CrProfileCard'],
+    },
+    {
+      name: 'PiMinusSquare',
+      component: PiMinusSquare,
+      usage: 'Remove item action with square styling',
+      components: ['Generic'],
     },
 
     // Calendar & Events
@@ -299,7 +322,13 @@ export default function CrIconsShowcase() {
       name: 'PiSignIn',
       component: PiSignIn,
       usage: 'Sign in prompt on request song page',
-      components: ['RequestSongPage'],
+      components: ['RequestSongPage', 'ForbiddenPage'],
+    },
+    {
+      name: 'PiShare',
+      component: PiShare,
+      usage: 'Share action in collection pages',
+      components: ['YourCollection'],
     },
 
     // Content & Documents
@@ -333,6 +362,12 @@ export default function CrIconsShowcase() {
       usage: 'Venue location icon in card details',
       components: ['CrCardDetails', 'CrCard'],
     },
+    {
+      name: 'PiMapPinLine',
+      component: PiMapPinLine,
+      usage: 'Map pin for opening venue address in Google Maps',
+      components: ['EventDetailPage'],
+    },
 
     // Communication
     {
@@ -362,6 +397,12 @@ export default function CrIconsShowcase() {
       components: ['CrVolunteerEditForm', 'CrProfileEditForm', 'CrFormsShowcase'],
     },
     {
+      name: 'PiFloppyDiskLight',
+      component: PiFloppyDiskLight,
+      usage: 'Light variant of save icon',
+      components: ['Generic'],
+    },
+    {
       name: 'PiPencilSimple',
       component: PiPencilSimple,
       usage: 'Edit actions in profile cards and image cropper',
@@ -379,7 +420,13 @@ export default function CrIconsShowcase() {
       name: 'PiShoppingBag',
       component: PiShoppingBag,
       usage: 'Shopping cart and store navigation',
-      components: ['CrMainNav'],
+      components: ['CrMainNav', 'NotFoundPage'],
+    },
+    {
+      name: 'PiStorefront',
+      component: PiStorefront,
+      usage: 'Store/merch section in account settings',
+      components: ['AccountSettings'],
     },
 
     // Visibility & Display
@@ -404,8 +451,8 @@ export default function CrIconsShowcase() {
     {
       name: 'PiDownloadSimple',
       component: PiDownloadSimple,
-      usage: 'Simple download icon variant in tables',
-      components: ['CrTable'],
+      usage: 'Simple download icon variant in tables and account settings',
+      components: ['CrTable', 'AccountSettings'],
     },
     {
       name: 'PiExport',
@@ -426,6 +473,26 @@ export default function CrIconsShowcase() {
       component: PiPlusSquare,
       usage: 'Add item action in list items',
       components: ['CrListItem'],
+    },
+    {
+      name: 'PiCheckSquare',
+      component: PiCheckSquare,
+      usage: 'Checkbox or completed state indicator',
+      components: ['Generic'],
+    },
+
+    // Alerts & Status
+    {
+      name: 'PiInfo',
+      component: PiInfo,
+      usage: 'Information and help indicators in toasts',
+      components: ['CrToast'],
+    },
+    {
+      name: 'PiWarningCircle',
+      component: PiWarningCircle,
+      usage: 'Warning and error state indicators in toasts',
+      components: ['CrToast'],
     },
   ]
 

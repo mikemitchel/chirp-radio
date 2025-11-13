@@ -184,73 +184,75 @@ export default function OnboardingTour({ isOpen, onComplete }: OnboardingTourPro
       size="default"
       showCloseButton={!loading}
     >
-      <div className="onboarding-tour">
-        {loading && (
-          <div className="onboarding-tour__loading">
-            <p>Loading your tour...</p>
-          </div>
-        )}
-
-        {error && (
-          <div className="onboarding-tour__error">
-            <p>{error}</p>
-            <CrButton variant="solid" color="secondary" onClick={handleSkip}>
-              Continue
-            </CrButton>
-          </div>
-        )}
-
-        {!loading && !error && currentStep && (
-          <>
-            {/* Progress Indicator */}
-            <div className="onboarding-tour__progress">
-              <div className="onboarding-tour__progress-bar">
-                <div
-                  className="onboarding-tour__progress-fill"
-                  style={{ width: `${((currentStepIndex + 1) / steps.length) * 100}%` }}
-                />
-              </div>
-              <p className="onboarding-tour__progress-text">
-                Step {currentStepIndex + 1} of {steps.length}
-              </p>
+      <div className="cr-modal__body">
+        <div className="onboarding-tour">
+          {loading && (
+            <div className="onboarding-tour__loading">
+              <p>Loading your tour...</p>
             </div>
+          )}
 
-            {/* Step Media */}
-            {currentStep.media && (
-              <div className="onboarding-tour__media">
-                <img
-                  src={currentStep.media.url}
-                  alt={currentStep.media.alt || currentStep.title}
-                  className="onboarding-tour__image"
-                />
-              </div>
-            )}
-
-            {/* Step Content */}
-            <div className="onboarding-tour__content">
-              {renderDescription(currentStep.description)}
+          {error && (
+            <div className="onboarding-tour__error">
+              <p>{error}</p>
+              <CrButton variant="solid" color="secondary" onClick={handleSkip}>
+                Continue
+              </CrButton>
             </div>
+          )}
 
-            {/* Navigation Actions */}
-            <div className="onboarding-tour__actions">
-              <div className="onboarding-tour__actions-left">
-                {!isFirstStep && (
-                  <CrButton variant="outline" color="default" onClick={handlePrevious}>
-                    Previous
+          {!loading && !error && currentStep && (
+            <>
+              {/* Progress Indicator */}
+              <div className="onboarding-tour__progress">
+                <div className="onboarding-tour__progress-bar">
+                  <div
+                    className="onboarding-tour__progress-fill"
+                    style={{ width: `${((currentStepIndex + 1) / steps.length) * 100}%` }}
+                  />
+                </div>
+                <p className="onboarding-tour__progress-text">
+                  Step {currentStepIndex + 1} of {steps.length}
+                </p>
+              </div>
+
+              {/* Step Media */}
+              {currentStep.media && (
+                <div className="onboarding-tour__media">
+                  <img
+                    src={currentStep.media.url}
+                    alt={currentStep.media.alt || currentStep.title}
+                    className="onboarding-tour__image"
+                  />
+                </div>
+              )}
+
+              {/* Step Content */}
+              <div className="onboarding-tour__content">
+                {renderDescription(currentStep.description)}
+              </div>
+
+              {/* Navigation Actions */}
+              <div className="onboarding-tour__actions">
+                <div className="onboarding-tour__actions-left">
+                  {!isFirstStep && (
+                    <CrButton variant="outline" color="default" onClick={handlePrevious}>
+                      Previous
+                    </CrButton>
+                  )}
+                </div>
+                <div className="onboarding-tour__actions-right">
+                  <CrButton variant="ghost" color="default" onClick={handleSkip}>
+                    Skip Tour
                   </CrButton>
-                )}
+                  <CrButton variant="solid" color="secondary" onClick={handleNext}>
+                    {currentStep.ctaText || (isLastStep ? 'Get Started' : 'Next')}
+                  </CrButton>
+                </div>
               </div>
-              <div className="onboarding-tour__actions-right">
-                <CrButton variant="ghost" color="default" onClick={handleSkip}>
-                  Skip Tour
-                </CrButton>
-                <CrButton variant="solid" color="secondary" onClick={handleNext}>
-                  {currentStep.ctaText || (isLastStep ? 'Get Started' : 'Next')}
-                </CrButton>
-              </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </CrModal>
   )

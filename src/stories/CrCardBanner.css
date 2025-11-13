@@ -21,7 +21,8 @@
 
 /* Height variants */
 .cr-card-title-banner--narrow {
-  height: 60px;
+  min-height: 60px;
+  height: auto;
 }
 
 .cr-card-title-banner--tall {
@@ -48,6 +49,7 @@
   flex-direction: row;
   align-items: center;
   gap: var(--cr-space-md);
+  padding: var(--cr-space-1) var(--cr-space-4);
 }
 
 /* Text Elements */

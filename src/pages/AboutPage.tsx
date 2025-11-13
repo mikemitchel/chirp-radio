@@ -20,7 +20,7 @@ const AboutPage: React.FC = () => {
         titleSize="md"
         titleTag="h3"
       />
-      {boardMembers?.map((member) => {
+      {boardMembers?.map((member, index) => {
         const displayName =
           `${member.firstName || ''} ${member.lastName || ''}`.trim() ||
           member.username ||
@@ -38,6 +38,7 @@ const AboutPage: React.FC = () => {
           <CrDjOverview
             key={member.id}
             size="large"
+            className={index === 0 ? 'cr-dj-overview--force-stacked' : ''}
             djName={displayName}
             title={member.boardPosition}
             showTime={member.djName && member.showTime ? formatShowTime(member.showTime) : ''}
