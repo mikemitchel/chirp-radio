@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import { Capacitor } from '@capacitor/core'
-import { StatusBar } from '@capacitor/status-bar'
+import { StatusBar, type StatusBarInfo } from '@capacitor/status-bar'
 import App from './App.tsx'
 import './styles/index.css'
 import './styles/accessibility.css'
@@ -16,7 +16,8 @@ if (platform === 'android') {
   const setupSafeAreaInsets = async () => {
     try {
       const info = await StatusBar.getInfo()
-      const statusBarHeight = info.height || 24
+      // StatusBarInfo type doesn't include height, but Android API returns it
+      const statusBarHeight = (info as StatusBarInfo & { height?: number }).height ?? 24
 
       // Detect navigation bar height by comparing screen height to window height
       const detectNavBarHeight = () => {

@@ -57,6 +57,22 @@ export interface NativeAudioPlayerPlugin {
     eventName: 'trackChanged',
     listenerFunc: (data: { artist: string; track: string; album: string; albumArt: string }) => void
   ): Promise<{ remove: () => void }>
+
+  /**
+   * Listen for playback state changes (play/pause events)
+   */
+  addListener(
+    eventName: 'playbackStateChanged',
+    listenerFunc: (data: { isPlaying: boolean }) => void
+  ): Promise<{ remove: () => void }>
+
+  /**
+   * Listen for CarPlay connection events
+   */
+  addListener(
+    eventName: 'carPlayConnected',
+    listenerFunc: () => void
+  ): Promise<{ remove: () => void }>
 }
 
 const NativeAudioPlayer = registerPlugin<NativeAudioPlayerPlugin>('NativeAudioPlayer')

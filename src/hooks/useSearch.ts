@@ -59,7 +59,10 @@ export function useSearch(query: string) {
           title: article.title,
           subtitle: authorName || categoryName,
           description: article.excerpt,
-          image: extractImageUrl(article.featuredImage) || extractImageUrl(article.coverImage),
+          image:
+            extractImageUrl(article.featuredImage) ||
+            extractImageUrl(article.coverImage) ||
+            undefined,
           url: `/articles/${article.slug}`,
           data: article,
         })
@@ -89,7 +92,7 @@ export function useSearch(query: string) {
           title: event.title,
           subtitle: venueName,
           description: event.description,
-          image: extractImageUrl(event.featuredImage) || extractImageUrl(event.image),
+          image: extractImageUrl(event.featuredImage) || extractImageUrl(event.image) || undefined,
           url: `/events/${event.slug || event.id}`,
           data: event,
         })
@@ -118,7 +121,7 @@ export function useSearch(query: string) {
           title: djName,
           subtitle: dj.showName || dj.showTime,
           description: dj.excerpt || dj.description,
-          image: extractImageUrl(dj.profileImage) || extractImageUrl(dj.imageSrc),
+          image: extractImageUrl(dj.profileImage) || extractImageUrl(dj.imageSrc) || undefined,
           url: `/djs/${dj.slug || dj.id}`,
           data: dj,
         })
@@ -139,7 +142,8 @@ export function useSearch(query: string) {
           title: podcast.title,
           subtitle: podcast.host,
           description: podcast.description,
-          image: extractImageUrl(podcast.coverArt) || extractImageUrl(podcast.coverImage),
+          image:
+            extractImageUrl(podcast.coverArt) || extractImageUrl(podcast.coverImage) || undefined,
           url: `/podcasts/${podcast.slug || podcast.id}`,
           data: podcast,
         })
@@ -161,9 +165,10 @@ export function useSearch(query: string) {
           title: item.name,
           subtitle: !isNaN(price) ? `$${price.toFixed(2)}` : item.category,
           description: item.description,
-          image: Array.isArray(item.images)
-            ? extractImageUrl(item.images[0])
-            : extractImageUrl(item.image),
+          image:
+            (Array.isArray(item.images)
+              ? extractImageUrl(item.images[0])
+              : extractImageUrl(item.image)) || undefined,
           url: `/shop/${item.slug || item.id}`,
           data: item,
         })

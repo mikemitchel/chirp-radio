@@ -159,7 +159,18 @@ export default function MobileApp() {
   // Listen for profile switch events from console (devTools)
   useEffect(() => {
     const handleProfileSwitch = (event: CustomEvent<UserRole>) => {
-      switchProfile(event.detail)
+      // Map UserRole to switchProfile parameter type
+      const roleMap: Record<
+        UserRole,
+        'listener' | 'volunteer' | 'regular-dj' | 'substitute-dj' | 'board-member'
+      > = {
+        Listener: 'listener',
+        Volunteer: 'volunteer',
+        'Regular DJ': 'regular-dj',
+        'Substitute DJ': 'substitute-dj',
+        'Board Member': 'board-member',
+      }
+      switchProfile(roleMap[event.detail])
       sessionStorage.setItem('chirp-show-login-toast', 'true')
       window.location.reload()
     }

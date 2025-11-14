@@ -613,7 +613,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
                       ? 'Music'
                       : item.itemType || 'Other',
         }
-      }) as ShopItem[]
+      }) as unknown as ShopItem[]
 
       // Sort by itemType (category), then by name
       const sortedDocs = mappedDocs.sort((a, b) => {
@@ -1039,7 +1039,7 @@ export function CMSProvider({ children }: CMSProviderProps) {
 
     try {
       const docs = await fetchFromCMS<Record<string, unknown>>('player-fallback-images', {
-        where: { isActive: { equals: true } },
+        where: JSON.stringify({ isActive: { equals: true } }),
       })
 
       const mappedDocs = docs.map((image) => ({

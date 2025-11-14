@@ -10,7 +10,7 @@ interface CrButtonProps {
   disabled?: boolean
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
-  onClick?: () => void
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void
   type?: 'button' | 'submit' | 'reset'
 }
 
