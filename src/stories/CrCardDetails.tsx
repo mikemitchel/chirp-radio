@@ -1,8 +1,92 @@
 // CrCardDetails.tsx
+import { useEffect, useRef } from 'react'
 import { PiCalendarDots, PiMapTrifold, PiArrowSquareUp } from 'react-icons/pi'
 import CrChip from './CrChip'
 import CrButton from './CrButton'
 import './CrCardDetails.css'
+
+// Custom hook for tags scroll container with drag functionality
+function useTagsScroll(enabled: boolean) {
+  const wrapperRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!enabled) return
+
+    const wrapper = wrapperRef.current
+    if (!wrapper) return
+
+    const scrollContainer = wrapper.querySelector('.cr-card-details__tags') as HTMLElement
+    if (!scrollContainer) return
+
+    const checkOverflow = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer
+      const hasOverflow = scrollWidth > clientWidth
+      const isAtStart = scrollLeft <= 5
+      const isAtEnd = scrollLeft + clientWidth >= scrollWidth - 5
+
+      wrapper.setAttribute('data-overflow-right', String(hasOverflow && !isAtEnd))
+      wrapper.setAttribute('data-overflow-left', String(hasOverflow && !isAtStart))
+    }
+
+    // Drag functionality variables
+    let isDragging = false
+    let startX = 0
+    let scrollLeft = 0
+
+    const handleMouseDown = (e: MouseEvent) => {
+      isDragging = true
+      startX = e.pageX - scrollContainer.offsetLeft
+      scrollLeft = scrollContainer.scrollLeft
+      scrollContainer.style.cursor = 'grabbing'
+      scrollContainer.style.userSelect = 'none'
+    }
+
+    const handleMouseLeave = () => {
+      isDragging = false
+      scrollContainer.style.cursor = 'grab'
+    }
+
+    const handleMouseUp = () => {
+      isDragging = false
+      scrollContainer.style.cursor = 'grab'
+    }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return
+      e.preventDefault()
+      const x = e.pageX - scrollContainer.offsetLeft
+      const walk = (x - startX) * 2
+      scrollContainer.scrollLeft = scrollLeft - walk
+    }
+
+    // Add event listeners
+    scrollContainer.addEventListener('scroll', checkOverflow)
+    scrollContainer.addEventListener('mousedown', handleMouseDown)
+    scrollContainer.addEventListener('mouseleave', handleMouseLeave)
+    scrollContainer.addEventListener('mouseup', handleMouseUp)
+    scrollContainer.addEventListener('mousemove', handleMouseMove)
+
+    // Create ResizeObserver
+    const observer = new ResizeObserver(checkOverflow)
+    observer.observe(wrapper)
+
+    // Initial check
+    checkOverflow()
+    setTimeout(checkOverflow, 0)
+
+    // Cleanup function
+    return () => {
+      scrollContainer.removeEventListener('scroll', checkOverflow)
+      scrollContainer.removeEventListener('mousedown', handleMouseDown)
+      scrollContainer.removeEventListener('mouseleave', handleMouseLeave)
+      scrollContainer.removeEventListener('mouseup', handleMouseUp)
+      scrollContainer.removeEventListener('mousemove', handleMouseMove)
+      observer.disconnect()
+    }
+  }, [enabled])
+
+  return wrapperRef
+}
 
 interface CrCardDetailsProps {
   dateTime?: string
@@ -31,6 +115,9 @@ export default function CrCardDetails({
   onVenueClick,
   onShareClick,
 }: CrCardDetailsProps) {
+  // Use tags scroll hook when tags exist
+  const tagsWrapperRef = useTagsScroll(tags && tags.length > 0)
+
   const componentClasses = [
     'cr-card-details',
     `cr-card-details--${device}`,
@@ -78,68 +165,7 @@ export default function CrCardDetails({
               <div
                 className="cr-card-details__tags-wrapper"
                 onClick={(e) => e.stopPropagation()}
-                ref={(el) => {
-                  if (el) {
-                    const scrollContainer = el.querySelector(
-                      '.cr-card-details__tags'
-                    ) as HTMLElement
-                    if (!scrollContainer) return
-
-                    const checkOverflow = () => {
-                      const { scrollLeft, scrollWidth, clientWidth } = scrollContainer
-                      const hasOverflow = scrollWidth > clientWidth
-                      const isAtStart = scrollLeft <= 5
-                      const isAtEnd = scrollLeft + clientWidth >= scrollWidth - 5
-
-                      // Show right gradient if has overflow and not at end
-                      el.setAttribute('data-overflow-right', String(hasOverflow && !isAtEnd))
-                      // Show left gradient if has overflow and not at start
-                      el.setAttribute('data-overflow-left', String(hasOverflow && !isAtStart))
-                    }
-
-                    // Check immediately and after layout
-                    checkOverflow()
-                    setTimeout(checkOverflow, 0)
-
-                    // Listen to scroll events
-                    scrollContainer.addEventListener('scroll', checkOverflow)
-
-                    // Observe size changes
-                    const observer = new ResizeObserver(checkOverflow)
-                    observer.observe(el)
-
-                    // Add drag-to-scroll functionality
-                    let isDragging = false
-                    let startX = 0
-                    let scrollLeft = 0
-
-                    scrollContainer.addEventListener('mousedown', (e) => {
-                      isDragging = true
-                      startX = e.pageX - scrollContainer.offsetLeft
-                      scrollLeft = scrollContainer.scrollLeft
-                      scrollContainer.style.cursor = 'grabbing'
-                      scrollContainer.style.userSelect = 'none'
-                    })
-
-                    scrollContainer.addEventListener('mouseleave', () => {
-                      isDragging = false
-                      scrollContainer.style.cursor = 'grab'
-                    })
-
-                    scrollContainer.addEventListener('mouseup', () => {
-                      isDragging = false
-                      scrollContainer.style.cursor = 'grab'
-                    })
-
-                    scrollContainer.addEventListener('mousemove', (e) => {
-                      if (!isDragging) return
-                      e.preventDefault()
-                      const x = e.pageX - scrollContainer.offsetLeft
-                      const walk = (x - startX) * 2 // Scroll speed multiplier
-                      scrollContainer.scrollLeft = scrollLeft - walk
-                    })
-                  }
-                }}
+                ref={tagsWrapperRef}
               >
                 <div className="cr-card-details__tags">
                   {tags.map((tag, index) => (
