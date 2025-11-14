@@ -14,7 +14,7 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
 import { Capacitor } from '@capacitor/core'
 import LoginRequiredModal from '../components/LoginRequiredModal'
 import { getCollection, removeFromCollection, type CollectionTrack } from '../utils/collectionDB'
-import { lexicalToPlainText } from '../utils/lexicalHelpers'
+import { lexicalToPlainText } from '../utils/lexicalSerializer'
 import './YourCollection.css'
 
 export default function YourCollection() {
