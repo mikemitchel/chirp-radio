@@ -1,9 +1,13 @@
 // src/contexts/AuthContext.tsx
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 import { useUsers } from './UserContext'
-import type { User, UserRole } from '../types/user'
+import type { User } from '../types/user'
+import type { UserRole } from '../types/user'
 import { loadCollectionFromUser } from '../utils/collectionDB'
 import { on } from '../utils/eventBus'
+
+// Re-export UserRole for backward compatibility
+export type { UserRole }
 
 // Legacy role type for backward compatibility
 export type LegacyUserRole = 'listener' | 'volunteer' | 'dj'
@@ -115,11 +119,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('chirp-logged-in', String(isLoggedIn))
   }, [isLoggedIn])
 
-  const login = (email: string, name?: string, role?: UserRole, avatar?: string) => {
+  const login = (email: string, name?: string, role?: LegacyUserRole, avatar?: string) => {
+    const roleMap: Record<LegacyUserRole, UserRole> = {
+      listener: 'Listener',
+      volunteer: 'Volunteer',
+      dj: 'Regular DJ',
+    }
     const mockUser: User = {
+      id: `user-${Date.now()}`,
       email,
-      name: name || email.split('@')[0],
-      role: role || 'listener',
+      firstName: name || email.split('@')[0],
+      roles: [role ? roleMap[role] : 'Listener'],
+      collection: [],
+      favoriteDJs: [],
+      preferences: {
+        emailNotifications: true,
+        showNotifications: true,
+        darkMode: 'dark',
+        autoPlay: true,
+      },
       avatar,
     }
     localStorage.setItem('chirp-user', JSON.stringify(mockUser))
@@ -136,11 +154,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('chirp-logged-in')
   }
 
-  const signup = (email: string, name?: string, role?: UserRole) => {
+  const signup = (email: string, name?: string, role?: LegacyUserRole) => {
+    const roleMap: Record<LegacyUserRole, UserRole> = {
+      listener: 'Listener',
+      volunteer: 'Volunteer',
+      dj: 'Regular DJ',
+    }
     const mockUser: User = {
+      id: `user-${Date.now()}`,
       email,
-      name: name || email.split('@')[0],
-      role: role || 'listener',
+      firstName: name || email.split('@')[0],
+      roles: [role ? roleMap[role] : 'Listener'],
+      collection: [],
+      favoriteDJs: [],
+      preferences: {
+        emailNotifications: true,
+        showNotifications: true,
+        darkMode: 'dark',
+        autoPlay: true,
+      },
     }
     localStorage.setItem('chirp-user', JSON.stringify(mockUser))
     if (mockUser.id) {

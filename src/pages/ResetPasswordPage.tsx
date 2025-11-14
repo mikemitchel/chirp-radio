@@ -13,7 +13,11 @@ const ResetPasswordPage: React.FC = () => {
 
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [errors, setErrors] = useState<{ password?: string; confirmPassword?: string; general?: string }>({})
+  const [errors, setErrors] = useState<{
+    password?: string
+    confirmPassword?: string
+    general?: string
+  }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [resetSuccess, setResetSuccess] = useState(false)
 
@@ -71,7 +75,8 @@ const ResetPasswordPage: React.FC = () => {
         const errorData = await response.json()
         setErrors({
           general:
-            errorData.message || 'Failed to reset password. The link may have expired or is invalid.',
+            errorData.message ||
+            'Failed to reset password. The link may have expired or is invalid.',
         })
       }
     } catch (error) {
@@ -170,7 +175,9 @@ const ResetPasswordPage: React.FC = () => {
                       placeholder="Enter new password (min 8 characters)"
                       disabled={isSubmitting}
                     />
-                    {errors.password && <span className="login-modal__error">{errors.password}</span>}
+                    {errors.password && (
+                      <span className="login-modal__error">{errors.password}</span>
+                    )}
                   </div>
 
                   {/* Confirm Password Input */}
@@ -193,7 +200,13 @@ const ResetPasswordPage: React.FC = () => {
                   </div>
 
                   {/* Form Actions */}
-                  <div style={{ display: 'flex', gap: 'var(--cr-space-4)', marginTop: 'var(--cr-space-6)' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: 'var(--cr-space-4)',
+                      marginTop: 'var(--cr-space-6)',
+                    }}
+                  >
                     <CrButton
                       type="button"
                       variant="outline"
@@ -201,7 +214,6 @@ const ResetPasswordPage: React.FC = () => {
                       size="medium"
                       onClick={() => navigate('/')}
                       disabled={isSubmitting}
-                      style={{ flex: 1 }}
                     >
                       Cancel
                     </CrButton>
@@ -211,7 +223,6 @@ const ResetPasswordPage: React.FC = () => {
                       color="secondary"
                       size="medium"
                       disabled={isSubmitting}
-                      style={{ flex: 1 }}
                     >
                       {isSubmitting ? 'Resetting...' : 'Reset Password'}
                     </CrButton>

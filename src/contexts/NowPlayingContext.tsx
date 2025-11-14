@@ -197,7 +197,10 @@ export function NowPlayingProvider({
 
           // Determine album art URL using fallback chain (Last.fm → iTunes → MusicBrainz → CMS)
           let albumArtUrl = ''
-          const fallbackImages = cmsData.playerFallbackImages?.map((img) => img.url) || []
+          const fallbackImages =
+            cmsData.playerFallbackImages
+              ?.map((img) => img.url)
+              .filter((url): url is string => !!url) || []
 
           // Debug: Log what we're receiving
           log.log('🔍 Checking album art sources:', {

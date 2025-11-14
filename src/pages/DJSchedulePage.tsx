@@ -116,13 +116,13 @@ const DJSchedulePage: React.FC = () => {
           djName =
             typeof dj === 'object' && dj !== null ? dj.djName || dj.firstName || 'CHIRP' : 'CHIRP'
 
-          showName = typeof dj === 'object' && dj !== null ? dj.showName : null
+          showName = typeof dj === 'object' && dj !== null ? dj.showName || null : null
         }
 
         grouped[dayName].push({
           slug: createSlug(showName || djName || 'show'),
           dj: [djName],
-          title: showName || null,
+          title: showName ?? null,
           start: start24,
           end: end24,
           timeOfDay: getTimeOfDay(start24),
@@ -187,7 +187,7 @@ const DJSchedulePage: React.FC = () => {
                     duration: 5000,
                   })
                 })}
-                description={dj.description}
+                description={typeof dj.description === 'string' ? dj.description : undefined}
                 imageSrc={dj.imageSrc}
                 isFavorite={currentUser?.favoriteDJs?.includes(dj.id)}
                 onAddToCalendarClick={() => {
@@ -218,35 +218,57 @@ const DJSchedulePage: React.FC = () => {
               variant="motivation"
               widthVariant="third"
               textureBackground={
+                typeof siteSettings.scheduleSidebarAnnouncement === 'object' &&
+                siteSettings.scheduleSidebarAnnouncement !== null &&
                 'backgroundColor' in siteSettings.scheduleSidebarAnnouncement
                   ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
                       .backgroundColor as string)
                   : undefined
               }
               headlineText={
+                typeof siteSettings.scheduleSidebarAnnouncement === 'object' &&
+                siteSettings.scheduleSidebarAnnouncement !== null &&
                 'title' in siteSettings.scheduleSidebarAnnouncement
                   ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
                       .title as string)
-                  : ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
-                      .headlineText as string)
+                  : typeof siteSettings.scheduleSidebarAnnouncement === 'object' &&
+                      siteSettings.scheduleSidebarAnnouncement !== null &&
+                      'headlineText' in siteSettings.scheduleSidebarAnnouncement
+                    ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
+                        .headlineText as string)
+                    : ''
               }
               bodyText={
+                typeof siteSettings.scheduleSidebarAnnouncement === 'object' &&
+                siteSettings.scheduleSidebarAnnouncement !== null &&
                 'message' in siteSettings.scheduleSidebarAnnouncement
                   ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
                       .message as string)
-                  : ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
-                      .bodyText as string)
+                  : typeof siteSettings.scheduleSidebarAnnouncement === 'object' &&
+                      siteSettings.scheduleSidebarAnnouncement !== null &&
+                      'bodyText' in siteSettings.scheduleSidebarAnnouncement
+                    ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
+                        .bodyText as string)
+                    : ''
               }
               showLink={
-                !!(siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).ctaText
+                !!(
+                  typeof siteSettings.scheduleSidebarAnnouncement === 'object' &&
+                  siteSettings.scheduleSidebarAnnouncement !== null &&
+                  (siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>).ctaText
+                )
               }
               linkText={
+                typeof siteSettings.scheduleSidebarAnnouncement === 'object' &&
+                siteSettings.scheduleSidebarAnnouncement !== null &&
                 'ctaText' in siteSettings.scheduleSidebarAnnouncement
                   ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
                       .ctaText as string)
                   : undefined
               }
               linkUrl={
+                typeof siteSettings.scheduleSidebarAnnouncement === 'object' &&
+                siteSettings.scheduleSidebarAnnouncement !== null &&
                 'ctaUrl' in siteSettings.scheduleSidebarAnnouncement
                   ? ((siteSettings.scheduleSidebarAnnouncement as Record<string, unknown>)
                       .ctaUrl as string)
@@ -261,7 +283,7 @@ const DJSchedulePage: React.FC = () => {
             siteSettings.scheduleSidebarContentType !== 'none' &&
             (() => {
               const contentType = siteSettings.scheduleSidebarContentType
-              const count = parseInt(siteSettings.scheduleSidebarContentCount || '3')
+              const count = parseInt((siteSettings.scheduleSidebarContentCount as string) || '3')
               let contentItems: any[] = []
 
               if (contentType === 'articles') {
@@ -293,9 +315,7 @@ const DJSchedulePage: React.FC = () => {
             })()}
 
           {/* Advertisement from CMS */}
-          {siteSettings?.scheduleSidebarAdvertisement && (
-            <CrAdSpace size="large-rectangle" adData={siteSettings.scheduleSidebarAdvertisement} />
-          )}
+          {siteSettings?.scheduleSidebarAdvertisement && <CrAdSpace size="large-rectangle" />}
         </div>
       </div>
     </div>

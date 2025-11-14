@@ -37,7 +37,7 @@ const EventDetailPage: React.FC = () => {
   const initialEvent = allEvents?.find((e) => e.slug === slug)
 
   // Use live preview with fallback to initial event
-  const liveEvent = useLivePreview<Event | undefined>({ initialData: initialEvent })
+  const liveEvent = useLivePreview<Event>({ initialData: initialEvent as Event })
   const event = liveEvent || initialEvent
   const eventTitle = event?.title || 'Event Details'
 
