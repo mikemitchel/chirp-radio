@@ -33,6 +33,8 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     private var isPollingActive: Bool = false
     private var albumArtCache: [String: UIImage] = [:] // Cache album art by URL
     private let cacheQueue = DispatchQueue(label: "com.chirpradio.albumArtCache", qos: .userInitiated) // Serial queue for thread-safe cache access
+    private var pauseTimestamp: Date?
+    private let pauseThreshold: TimeInterval = 5 * 60 // 5 minutes in seconds
 
     public override func load() {
         print("🎵 NativeAudioPlayer plugin loaded")
@@ -465,6 +467,20 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
             return
         }
 
+        // Check if paused for too long - reinitialize to get live edge
+        if let pauseTime = pauseTimestamp {
+            let pauseDuration = Date().timeIntervalSince(pauseTime)
+            if pauseDuration > pauseThreshold {
+                print("🔄 Paused for \(Int(pauseDuration))s (> \(Int(pauseThreshold))s) - recreating player to seek to live edge")
+                recreatePlayerItem()
+                pauseTimestamp = nil
+                return
+            }
+        }
+
+        // Clear pause timestamp
+        pauseTimestamp = nil
+
         // Check if player item has failed or become stale
         if playerItem.status == .failed {
             print("❌ Player item has FAILED status - recreating")
@@ -492,7 +508,8 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     private func pauseAudio() {
         player?.pause()
         isPlaying = false
-        print("✅ Native playback paused")
+        pauseTimestamp = Date()
+        print("✅ Native playback paused at \(pauseTimestamp!)")
     }
 
     @objc func stop(_ call: CAPPluginCall) {
