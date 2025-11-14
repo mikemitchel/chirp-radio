@@ -574,6 +574,8 @@ export interface SiteSettings {
     showLabel?: boolean
     [key: string]: unknown
   }
+  // Collection Page settings
+  collectionPageContent?: ContentField // Message explaining Your Collection feature
   [key: string]: unknown
 }
 
