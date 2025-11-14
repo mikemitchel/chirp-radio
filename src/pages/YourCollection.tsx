@@ -14,7 +14,7 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
 import { Capacitor } from '@capacitor/core'
 import LoginRequiredModal from '../components/LoginRequiredModal'
 import { getCollection, removeFromCollection, type CollectionTrack } from '../utils/collectionDB'
-import { lexicalToPlainText } from '../utils/lexicalSerializer'
+import { lexicalToHtml } from '../utils/lexicalSerializer'
 import './YourCollection.css'
 
 export default function YourCollection() {
@@ -33,7 +33,7 @@ export default function YourCollection() {
     pageContent?.customNotLoggedInMessage ||
     'A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!'
   const collectionPageContent = siteSettings?.collectionPageContent
-    ? lexicalToPlainText(siteSettings.collectionPageContent)
+    ? lexicalToHtml(siteSettings.collectionPageContent)
     : null
   const isNativePlatform = Capacitor.isNativePlatform()
   const hasCollectionItems = collection.length > 0
@@ -295,9 +295,10 @@ export default function YourCollection() {
       {/* Collection Page Content - Show based on platform and collection state */}
       {collectionPageContent &&
         (!isNativePlatform || (isNativePlatform && !hasCollectionItems)) && (
-          <div className="collection-page-content">
-            <p>{collectionPageContent}</p>
-          </div>
+          <div
+            className="collection-page-content"
+            dangerouslySetInnerHTML={{ __html: collectionPageContent }}
+          />
         )}
 
       <CrPlaylistTable
