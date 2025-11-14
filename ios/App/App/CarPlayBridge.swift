@@ -56,6 +56,10 @@ class CarPlayBridge: UIResponder, CPTemplateApplicationSceneDelegate {
         print("🚗 CarPlay interface configuration complete")
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
+        // Trigger immediate metadata poll when CarPlay connects
+        NotificationCenter.default.post(name: Notification.Name("CarPlayConnected"), object: nil)
+        print("🚗 Posted CarPlayConnected notification to trigger metadata poll")
+
         // Debug current state
         debugNowPlayingInfo()
         debugRemoteCommands()
