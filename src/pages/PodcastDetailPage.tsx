@@ -22,7 +22,7 @@ const PodcastDetailPage: React.FC = () => {
   const initialPodcast = allPodcasts?.find((p) => p.slug === slug)
 
   // Use live preview with fallback to initial podcast
-  const livePodcast = useLivePreview<Podcast | undefined>({ initialData: initialPodcast })
+  const livePodcast = useLivePreview<Podcast>({ initialData: initialPodcast as Podcast })
   const podcast = livePodcast || initialPodcast
   const podcastTitle = podcast?.title || 'Podcast Details'
 

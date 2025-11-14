@@ -158,7 +158,7 @@ export default function CrCurrentDj({
         <div className="cr-current-dj__status">
           <CrChip
             variant="primary"
-            aria-hidden="true"
+            aria-hidden={true}
             style={{ textShadow: '0px 0px 1px rgba(0,0,0,0.5)' }}
           >
             {statusText}

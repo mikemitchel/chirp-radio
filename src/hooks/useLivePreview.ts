@@ -7,7 +7,13 @@ const PAYLOAD_SERVER_URL = 'http://localhost:3000'
  * Wrapper hook for PayloadCMS live preview
  * Returns the live-updated data when editing in the CMS admin panel
  */
-export function useLivePreview<T>({ initialData, depth = 2 }: { initialData: T; depth?: number }) {
+export function useLivePreview<T extends Record<string, unknown>>({
+  initialData,
+  depth = 2,
+}: {
+  initialData: T
+  depth?: number
+}) {
   const { data } = usePayloadLivePreview<T>({
     initialData,
     serverURL: PAYLOAD_SERVER_URL,

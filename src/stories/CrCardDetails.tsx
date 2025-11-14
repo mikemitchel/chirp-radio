@@ -99,7 +99,7 @@ interface CrCardDetailsProps {
   type?: string
   showShareButton?: boolean
   onVenueClick?: () => void
-  onShareClick?: () => void
+  onShareClick?: (e?: React.MouseEvent) => void
 }
 
 export default function CrCardDetails({
@@ -186,9 +186,9 @@ export default function CrCardDetails({
               variant="outline"
               color="secondary"
               leftIcon={<PiArrowSquareUp />}
-              onClick={(e) => {
-                e.stopPropagation()
-                onShareClick?.(e)
+              onClick={(e?: React.MouseEvent<HTMLButtonElement>) => {
+                e?.stopPropagation()
+                onShareClick?.()
               }}
             >
               Share

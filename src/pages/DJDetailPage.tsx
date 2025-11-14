@@ -93,13 +93,14 @@ const DJDetailPage: React.FC = () => {
     const schedules = showSchedules.filter((schedule) => {
       if (!schedule.isActive) return false
       const scheduleDj = schedule.dj as Member
-      return scheduleDj && scheduleDj.id?.toString() === dj.id
+      return scheduleDj && scheduleDj.id?.toString() === dj?.id
     })
 
     return schedules
   }, [dj, showSchedules])
 
-  // Format schedule info for display
+  // Format schedule info for display (unused but kept for future reference)
+  // @ts-expect-error - Kept for future reference
   const _djScheduleInfo = useMemo(() => {
     if (!dj) return ''
 
@@ -170,8 +171,7 @@ const DJDetailPage: React.FC = () => {
       excerpt: loggedInUser.djExcerpt || dj.excerpt,
       description: loggedInUser.djBio || dj.description,
       donationLink: loggedInUser.djDonationLink || dj.donationLink,
-      imageSrc: loggedInUser.avatar || dj.imageSrc,
-      fullProfileImage: loggedInUser.fullProfileImage || loggedInUser.avatar || dj.fullProfileImage,
+      imageSrc: (loggedInUser.avatar as string | undefined) || dj.imageSrc,
       profileImageOrientation: loggedInUser.profileImageOrientation || 'square',
     }
   }
@@ -296,7 +296,7 @@ const DJDetailPage: React.FC = () => {
             type="dj"
             imagePosition="left"
             imageSize="large"
-            backgroundImage={dj.fullProfileImage || dj.imageSrc}
+            backgroundImage={dj.imageSrc}
             articleImageAspectRatio={imageAspectRatio}
             captionPosition="none"
             preheader="DJ Profile"
@@ -308,107 +308,124 @@ const DJDetailPage: React.FC = () => {
             bannerBackgroundColor="textured"
             showName={dj.showName}
             scheduleInfo={
-              (djSchedules.length > 0 || dj.showTime) && (
-                <div
-                  style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}
-                >
-                  {djSchedules.length > 0
-                    ? djSchedules.map((schedule, index) => {
-                        const dayNames: Record<string, string> = {
-                          monday: 'Mon',
-                          tuesday: 'Tue',
-                          wednesday: 'Wed',
-                          thursday: 'Thu',
-                          friday: 'Fri',
-                          saturday: 'Sat',
-                          sunday: 'Sun',
-                        }
-                        const day = dayNames[schedule.dayOfWeek] || schedule.dayOfWeek
-                        // Convert ISO timestamps to "HH:MM AM/PM" format if needed
-                        const startTimeStr = schedule.startTime.includes('T')
-                          ? convertISOToTimeString(schedule.startTime)
-                          : schedule.startTime
-                        const endTimeStr = schedule.endTime.includes('T')
-                          ? convertISOToTimeString(schedule.endTime)
-                          : schedule.endTime
-                        const startTime = formatTime(startTimeStr)
-                        const endTime = formatTime(endTimeStr)
-                        const showTimeFormatted = `${day} ${startTime} - ${endTime}`
-                        const originalFormat = `${day} ${startTimeStr} - ${endTimeStr}`
+              (djSchedules.length > 0 || dj.showTime
+                ? ((
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '0.5rem',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {djSchedules.length > 0
+                        ? djSchedules.map((schedule, index) => {
+                            const dayNames: Record<string, string> = {
+                              monday: 'Mon',
+                              tuesday: 'Tue',
+                              wednesday: 'Wed',
+                              thursday: 'Thu',
+                              friday: 'Fri',
+                              saturday: 'Sat',
+                              sunday: 'Sun',
+                            }
+                            const day = dayNames[schedule.dayOfWeek] || schedule.dayOfWeek
+                            // Convert ISO timestamps to "HH:MM AM/PM" format if needed
+                            const startTimeStr = schedule.startTime.includes('T')
+                              ? convertISOToTimeString(schedule.startTime)
+                              : schedule.startTime
+                            const endTimeStr = schedule.endTime.includes('T')
+                              ? convertISOToTimeString(schedule.endTime)
+                              : schedule.endTime
+                            const startTime = formatTime(startTimeStr)
+                            const endTime = formatTime(endTimeStr)
+                            const showTimeFormatted = `${day} ${startTime} - ${endTime}`
+                            const originalFormat = `${day} ${startTimeStr} - ${endTimeStr}`
 
-                        return (
-                          <div
-                            key={index}
-                            style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
-                          >
-                            <span style={{ fontSize: '1rem', fontWeight: '500' }}>
-                              {showTimeFormatted}
-                            </span>
-                            <button
-                              onClick={() => handleAddToCalendar(originalFormat)}
-                              aria-label={`Add ${showTimeFormatted} to calendar`}
-                              style={{
-                                background: 'none',
-                                border: 'none',
-                                cursor: 'pointer',
-                                padding: '0.25rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                fontSize: '1.25rem',
-                                color: 'var(--cr-color-primary)',
-                              }}
-                            >
-                              <PiCalendarPlus />
-                            </button>
-                          </div>
-                        )
-                      })
-                    : // Handle legacy format with multiple shows from users.json
-                      dj.showTime?.split(',').map((time, index) => {
-                        const trimmedTime = time.trim()
-                        const match = trimmedTime.match(
-                          /(\w{3,})\s+(\d{1,2}):?(\d{2})?\s*(AM|PM)\s*-\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)/i
-                        )
+                            return (
+                              <div
+                                key={index}
+                                style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+                              >
+                                <span style={{ fontSize: '1rem', fontWeight: '500' }}>
+                                  {showTimeFormatted}
+                                </span>
+                                <button
+                                  onClick={() => handleAddToCalendar(originalFormat)}
+                                  aria-label={`Add ${showTimeFormatted} to calendar`}
+                                  style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    padding: '0.25rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    fontSize: '1.25rem',
+                                    color: 'var(--cr-color-primary)',
+                                  }}
+                                >
+                                  <PiCalendarPlus />
+                                </button>
+                              </div>
+                            )
+                          })
+                        : // Handle legacy format with multiple shows from users.json
+                          dj.showTime?.split(',').map((time, index) => {
+                            const trimmedTime = time.trim()
+                            const match = trimmedTime.match(
+                              /(\w{3,})\s+(\d{1,2}):?(\d{2})?\s*(AM|PM)\s*-\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)/i
+                            )
 
-                        if (!match) return null
+                            if (!match) return null
 
-                        const day = match[1].substring(0, 3)
-                        const startTime = formatTime(`${match[2]}:${match[3] || '00'} ${match[4]}`)
-                        const endTime = formatTime(`${match[5]}:${match[6] || '00'} ${match[7]}`)
-                        const showTimeFormatted = `${day} ${startTime} - ${endTime}`
+                            const day = match[1].substring(0, 3)
+                            const startTime = formatTime(
+                              `${match[2]}:${match[3] || '00'} ${match[4]}`
+                            )
+                            const endTime = formatTime(
+                              `${match[5]}:${match[6] || '00'} ${match[7]}`
+                            )
+                            const showTimeFormatted = `${day} ${startTime} - ${endTime}`
 
-                        return (
-                          <div
-                            key={index}
-                            style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
-                          >
-                            <span style={{ fontSize: '1rem', fontWeight: '500' }}>
-                              {showTimeFormatted}
-                            </span>
-                            <button
-                              onClick={() => handleAddToCalendar(trimmedTime)}
-                              aria-label={`Add ${showTimeFormatted} to calendar`}
-                              style={{
-                                background: 'none',
-                                border: 'none',
-                                cursor: 'pointer',
-                                padding: '0.25rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                fontSize: '1.25rem',
-                                color: 'var(--cr-color-primary)',
-                              }}
-                            >
-                              <PiCalendarPlus />
-                            </button>
-                          </div>
-                        )
-                      })}
-                </div>
-              )
+                            return (
+                              <div
+                                key={index}
+                                style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+                              >
+                                <span style={{ fontSize: '1rem', fontWeight: '500' }}>
+                                  {showTimeFormatted}
+                                </span>
+                                <button
+                                  onClick={() => handleAddToCalendar(trimmedTime)}
+                                  aria-label={`Add ${showTimeFormatted} to calendar`}
+                                  style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    padding: '0.25rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    fontSize: '1.25rem',
+                                    color: 'var(--cr-color-primary)',
+                                  }}
+                                >
+                                  <PiCalendarPlus />
+                                </button>
+                              </div>
+                            )
+                          })}
+                    </div>
+                  ) as unknown as string)
+                : undefined) as string | undefined
             }
-            content={dj.description}
-            excerpt={dj.excerpt || dj.description}
+            content={typeof dj.description === 'string' ? dj.description : undefined}
+            excerpt={
+              typeof dj.excerpt === 'string'
+                ? dj.excerpt
+                : typeof dj.description === 'string'
+                  ? dj.description
+                  : undefined
+            }
             showTicketButton={true}
             showShareButton={true}
             bannerButtonText="Favorite DJ"
@@ -424,7 +441,7 @@ const DJDetailPage: React.FC = () => {
             donationLink={dj.donationLink}
             onDonateClick={handleDonateClick}
           />
-          {!dj.isSubstitute && <CrPreviousShows />}
+          {!('isSubstitute' in dj && dj.isSubstitute) && <CrPreviousShows />}
         </div>
 
         <div className="page-layout-main-sidebar__sidebar">
@@ -434,35 +451,57 @@ const DJDetailPage: React.FC = () => {
               variant="motivation"
               widthVariant="third"
               textureBackground={
+                typeof siteSettings.djDetailSidebarAnnouncement === 'object' &&
+                siteSettings.djDetailSidebarAnnouncement !== null &&
                 'backgroundColor' in siteSettings.djDetailSidebarAnnouncement
                   ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
                       .backgroundColor as string)
                   : undefined
               }
               headlineText={
+                typeof siteSettings.djDetailSidebarAnnouncement === 'object' &&
+                siteSettings.djDetailSidebarAnnouncement !== null &&
                 'title' in siteSettings.djDetailSidebarAnnouncement
                   ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
                       .title as string)
-                  : ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
-                      .headlineText as string)
+                  : typeof siteSettings.djDetailSidebarAnnouncement === 'object' &&
+                      siteSettings.djDetailSidebarAnnouncement !== null &&
+                      'headlineText' in siteSettings.djDetailSidebarAnnouncement
+                    ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
+                        .headlineText as string)
+                    : ''
               }
               bodyText={
+                typeof siteSettings.djDetailSidebarAnnouncement === 'object' &&
+                siteSettings.djDetailSidebarAnnouncement !== null &&
                 'message' in siteSettings.djDetailSidebarAnnouncement
                   ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
                       .message as string)
-                  : ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
-                      .bodyText as string)
+                  : typeof siteSettings.djDetailSidebarAnnouncement === 'object' &&
+                      siteSettings.djDetailSidebarAnnouncement !== null &&
+                      'bodyText' in siteSettings.djDetailSidebarAnnouncement
+                    ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
+                        .bodyText as string)
+                    : ''
               }
               showLink={
-                !!(siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).ctaText
+                !!(
+                  typeof siteSettings.djDetailSidebarAnnouncement === 'object' &&
+                  siteSettings.djDetailSidebarAnnouncement !== null &&
+                  (siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>).ctaText
+                )
               }
               linkText={
+                typeof siteSettings.djDetailSidebarAnnouncement === 'object' &&
+                siteSettings.djDetailSidebarAnnouncement !== null &&
                 'ctaText' in siteSettings.djDetailSidebarAnnouncement
                   ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
                       .ctaText as string)
                   : undefined
               }
               linkUrl={
+                typeof siteSettings.djDetailSidebarAnnouncement === 'object' &&
+                siteSettings.djDetailSidebarAnnouncement !== null &&
                 'ctaUrl' in siteSettings.djDetailSidebarAnnouncement
                   ? ((siteSettings.djDetailSidebarAnnouncement as Record<string, unknown>)
                       .ctaUrl as string)
@@ -477,7 +516,7 @@ const DJDetailPage: React.FC = () => {
             siteSettings.djDetailSidebarContentType !== 'none' &&
             (() => {
               const contentType = siteSettings.djDetailSidebarContentType
-              const count = parseInt(siteSettings.djDetailSidebarContentCount || '3')
+              const count = parseInt((siteSettings.djDetailSidebarContentCount as string) || '3')
               let contentItems: any[] = []
 
               if (contentType === 'articles') {
@@ -509,9 +548,7 @@ const DJDetailPage: React.FC = () => {
             })()}
 
           {/* Advertisement from CMS */}
-          {siteSettings?.djDetailSidebarAdvertisement && (
-            <CrAdSpace size="large-rectangle" adData={siteSettings.djDetailSidebarAdvertisement} />
-          )}
+          {siteSettings?.djDetailSidebarAdvertisement && <CrAdSpace size="large-rectangle" />}
         </div>
       </div>
 

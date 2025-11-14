@@ -19,7 +19,7 @@ interface CrProfileEditFormProps {
   onImageChange?: (images: { fullImage?: string; croppedImage?: string }) => void
   onSave?: () => void
   onCancel?: () => void
-  onForgotPassword?: () => void
+  onForgotPassword?: (e?: React.MouseEvent) => void
   originalFullImage?: string
 }
 
@@ -356,8 +356,8 @@ export default function CrProfileEditForm({
                 variant="outline"
                 color="primary"
                 size="small"
-                onClick={(e) => {
-                  e.preventDefault()
+                onClick={(e?: React.MouseEvent<HTMLButtonElement>) => {
+                  e?.preventDefault()
                   onForgotPassword()
                 }}
               >
