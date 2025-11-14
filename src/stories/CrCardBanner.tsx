@@ -22,7 +22,7 @@ interface CrCardBannerProps {
   ticketUrl?: string
   shareUrl?: string
   onTicketClick?: () => void
-  onShareClick?: () => void
+  onShareClick?: (e?: React.MouseEvent) => void
   className?: string
   isFavorite?: boolean
 }
@@ -134,8 +134,8 @@ export default function CrCardBanner({
               variant={ticketButtonVariant}
               color="secondary"
               rightIcon={ticketButtonIcon || <PiTicket />}
-              onClick={(e) => {
-                e.stopPropagation()
+              onClick={(e?: React.MouseEvent<HTMLButtonElement>) => {
+                e?.stopPropagation()
                 handleTicketClick()
               }}
             >
@@ -149,8 +149,8 @@ export default function CrCardBanner({
               variant="outline"
               color="secondary"
               rightIcon={<PiArrowSquareUp />}
-              onClick={(e) => {
-                e.stopPropagation()
+              onClick={(e?: React.MouseEvent<HTMLButtonElement>) => {
+                e?.stopPropagation()
                 handleShareClick()
               }}
             >

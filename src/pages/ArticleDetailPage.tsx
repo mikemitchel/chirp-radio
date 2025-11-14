@@ -22,8 +22,9 @@ const ArticleDetailPage: React.FC = () => {
   }, [allArticles, slug])
 
   // Use live preview with fallback to initial article
-  const liveArticle = useLivePreview<Article | undefined>({ initialData: initialArticle })
-  const article = liveArticle || initialArticle
+  // useLivePreview must be called unconditionally per Rules of Hooks
+  const liveArticle = useLivePreview<Article>({ initialData: initialArticle || ({} as Article) })
+  const article = initialArticle ? liveArticle : initialArticle
   const articleTitle = article?.title || 'Article Details'
 
   // Get 3 most recent articles excluding the current one
