@@ -32,10 +32,15 @@ class NativeAudioPlayer(private val context: Context) {
     private var audioFocusRequest: AudioFocusRequest? = null
     private var wakeLock: PowerManager.WakeLock? = null
     private val mainHandler = Handler(Looper.getMainLooper())
+    private var pauseTimestamp: Long? = null
 
     // Callbacks
     var onPlaybackStateChanged: ((isPlaying: Boolean, isBuffering: Boolean) -> Unit)? = null
     var onError: ((error: String) -> Unit)? = null
+
+    companion object {
+        private const val PAUSE_THRESHOLD_MS = 5 * 60 * 1000L // 5 minutes
+    }
 
     init {
         initializePlayer()
@@ -177,6 +182,23 @@ class NativeAudioPlayer(private val context: Context) {
                 return@post
             }
 
+            // Check if paused for too long - reinitialize to get live edge
+            val pauseDuration = pauseTimestamp?.let { System.currentTimeMillis() - it }
+            if (pauseDuration != null && pauseDuration > PAUSE_THRESHOLD_MS) {
+                android.util.Log.d("NativeAudioPlayer", "Paused for ${pauseDuration / 1000}s (> ${PAUSE_THRESHOLD_MS / 1000}s) - reinitializing player to seek to live edge")
+
+                // Release old player
+                player?.release()
+                isInitialized = false
+
+                // Reinitialize to force reconnection to live stream
+                initializePlayer()
+                streamUrl?.let { setStreamUrl(it) }
+            }
+
+            // Clear pause timestamp
+            pauseTimestamp = null
+
             // Request audio focus before playing
             if (requestAudioFocus()) {
                 player?.play()
@@ -189,6 +211,8 @@ class NativeAudioPlayer(private val context: Context) {
     fun pause() {
         mainHandler.post {
             player?.pause()
+            pauseTimestamp = System.currentTimeMillis()
+            android.util.Log.d("NativeAudioPlayer", "Paused at timestamp: $pauseTimestamp")
         }
     }
 
