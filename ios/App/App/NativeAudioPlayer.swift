@@ -58,6 +58,14 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
             name: AVAudioSession.routeChangeNotification,
             object: nil
         )
+
+        // Listen for CarPlay connection
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleCarPlayConnected),
+            name: Notification.Name("carPlayConnected"),
+            object: nil
+        )
     }
 
     deinit {
@@ -125,6 +133,11 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
             pauseAudio()
             notifyJavaScriptStateChange(isPlaying: false)
         }
+    }
+
+    @objc private func handleCarPlayConnected() {
+        print("🚗 NativeAudioPlayer: CarPlay connected - notifying JavaScript to poll metadata")
+        notifyEvent("carPlayConnected", data: [:])
     }
 
     private func cleanupPlayerObservers() {

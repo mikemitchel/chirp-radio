@@ -24,6 +24,24 @@ class WebAudioBridge: NSObject {
         super.init()
         setupRemoteControls()
         setupAudioSession()
+        setupCarPlayListener()
+    }
+
+    private func setupCarPlayListener() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleCarPlayConnected),
+            name: Notification.Name("CarPlayConnected"),
+            object: nil
+        )
+    }
+
+    @objc private func handleCarPlayConnected() {
+        print("🚗 WebAudioBridge received CarPlayConnected - posting to webview")
+        NotificationCenter.default.post(
+            name: Notification.Name("carPlayConnected"),
+            object: nil
+        )
     }
 
     // MARK: - Setup
