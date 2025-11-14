@@ -18,13 +18,13 @@ import type { Article, Event, Podcast } from '../types/cms'
 const PageDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
-  const { data: pageConfig, loading, error } = usePageBySlug(slug || '')
+  const { data: pageConfig, isLoading, error } = usePageBySlug(slug || '')
   const { data: articles } = useArticles()
   const { data: events } = useEvents()
   const { data: podcasts } = usePodcasts()
   const { data: announcements } = useAnnouncements()
 
-  if (loading) {
+  if (isLoading) {
     return <div>Loading page...</div>
   }
 
@@ -88,7 +88,7 @@ const PageDetailPage: React.FC = () => {
       }
 
       items.forEach((item) => {
-        const imageUrl =
+        const imageUrl = (
           typeof item.featuredImage === 'object' &&
           item.featuredImage &&
           'url' in item.featuredImage
@@ -98,6 +98,7 @@ const PageDetailPage: React.FC = () => {
               : 'featuredImageUrl' in item
                 ? item.featuredImageUrl
                 : undefined
+        ) as string | undefined
 
         elements.push(
           <CrCard
@@ -128,36 +129,7 @@ const PageDetailPage: React.FC = () => {
 
     // Add advertisement if configured
     if (pageConfig.sidebarAdvertisement && typeof pageConfig.sidebarAdvertisement === 'object') {
-      const ad = pageConfig.sidebarAdvertisement
-      elements.push(
-        <CrAdSpace
-          key="sidebar-ad"
-          size={'size' in ad ? (ad.size as string) : 'large-rectangle'}
-          customWidth={'customWidth' in ad ? (ad.customWidth as number) : undefined}
-          customHeight={'customHeight' in ad ? (ad.customHeight as number) : undefined}
-          contentType={'contentType' in ad ? (ad.contentType as string) : undefined}
-          src={
-            'imageUrl' in ad
-              ? (ad.imageUrl as string)
-              : 'image' in ad && typeof ad.image === 'object' && ad.image && 'url' in ad.image
-                ? (ad.image.url as string)
-                : undefined
-          }
-          alt={'alt' in ad ? (ad.alt as string) : undefined}
-          htmlContent={'htmlContent' in ad ? (ad.htmlContent as string) : undefined}
-          videoSrc={
-            'videoUrl' in ad
-              ? (ad.videoUrl as string)
-              : 'video' in ad && typeof ad.video === 'object' && ad.video && 'url' in ad.video
-                ? (ad.video.url as string)
-                : undefined
-          }
-          embedCode={'embedCode' in ad ? (ad.embedCode as string) : undefined}
-          href={'href' in ad ? (ad.href as string) : undefined}
-          target={'target' in ad ? (ad.target as string) : undefined}
-          showLabel={'showLabel' in ad ? (ad.showLabel as boolean) : undefined}
-        />
-      )
+      elements.push(<CrAdSpace key="sidebar-ad" size="large-rectangle" />)
     }
 
     return elements.length > 0 ? <>{elements}</> : undefined

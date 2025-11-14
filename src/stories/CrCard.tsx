@@ -123,9 +123,9 @@ interface CrCardProps {
   ticketUrl?: string
   shareUrl?: string
   onBannerTicketClick?: () => void
-  onBannerShareClick?: () => void
+  onBannerShareClick?: (e?: React.MouseEvent) => void
   onVenueClick?: () => void
-  onShareClick?: () => void
+  onShareClick?: (e?: React.MouseEvent) => void
   onContinueClick?: () => void
   onClick?: () => void
   variant?: string
@@ -505,9 +505,9 @@ export default function CrCard({
                 variant="text"
                 color="secondary"
                 rightIcon={<PiArrowRight />}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onContinueClick?.(e)
+                onClick={(e?: React.MouseEvent<HTMLButtonElement>) => {
+                  e?.stopPropagation()
+                  onContinueClick?.()
                 }}
               >
                 {continueButtonText}
@@ -626,8 +626,8 @@ export default function CrCard({
                         variant="outline"
                         color="secondary"
                         leftIcon={<PiArrowSquareUp />}
-                        onClick={(e) => {
-                          e.stopPropagation()
+                        onClick={(e?: React.MouseEvent<HTMLButtonElement>) => {
+                          e?.stopPropagation()
                           onShareClick?.(e)
                         }}
                       >
@@ -648,8 +648,8 @@ export default function CrCard({
                       variant="outline"
                       color="secondary"
                       leftIcon={<PiArrowSquareUp />}
-                      onClick={(e) => {
-                        e.stopPropagation()
+                      onClick={(e?: React.MouseEvent<HTMLButtonElement>) => {
+                        e?.stopPropagation()
                         onShareClick?.(e)
                       }}
                     >

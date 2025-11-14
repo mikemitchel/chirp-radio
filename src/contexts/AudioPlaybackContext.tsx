@@ -133,7 +133,7 @@ export function AudioPlaybackProvider({
         } else if (data.command === 'pause') {
           setIsPlaying(false)
         }
-      }).then((listener) => {
+      }).then((listener: { remove: () => void }) => {
         commandListenerCleanup = () => listener.remove()
       })
 
