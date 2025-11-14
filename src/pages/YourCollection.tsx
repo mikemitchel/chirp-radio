@@ -6,7 +6,7 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 import CrButton from '../stories/CrButton'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
-import { useMobileAppSettings, useMobilePageByIdentifier } from '../hooks/useData'
+import { useMobileAppSettings, useMobilePageByIdentifier, useSiteSettings } from '../hooks/useData'
 import { PiShare } from 'react-icons/pi'
 import { tracksToCSV } from '../utils/csvExport'
 import { Share } from '@capacitor/share'
@@ -14,6 +14,7 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem'
 import { Capacitor } from '@capacitor/core'
 import LoginRequiredModal from '../components/LoginRequiredModal'
 import { getCollection, removeFromCollection, type CollectionTrack } from '../utils/collectionDB'
+import { lexicalToPlainText } from '../utils/lexicalHelpers'
 import './YourCollection.css'
 
 export default function YourCollection() {
@@ -21,6 +22,7 @@ export default function YourCollection() {
   const { showModal, showToast } = useNotification()
   const { data: appSettings } = useMobileAppSettings()
   const { data: pageContent } = useMobilePageByIdentifier('my-collection')
+  const { data: siteSettings } = useSiteSettings()
   const [collection, setCollection] = useState<CollectionTrack[]>([])
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [loginModalMode, setLoginModalMode] = useState<'login' | 'signup'>('login')
@@ -30,6 +32,11 @@ export default function YourCollection() {
   const notLoggedInDescription =
     pageContent?.customNotLoggedInMessage ||
     'A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!'
+  const collectionPageContent = siteSettings?.collectionPageContent
+    ? lexicalToPlainText(siteSettings.collectionPageContent)
+    : null
+  const isNativePlatform = Capacitor.isNativePlatform()
+  const hasCollectionItems = collection.length > 0
   const actionButtonText =
     (pageContent && 'actionButtonText' in pageContent
       ? ((pageContent as Record<string, unknown>).actionButtonText as string)
@@ -284,6 +291,14 @@ export default function YourCollection() {
         titleSize="xl"
         titleTag="h1"
       />
+
+      {/* Collection Page Content - Show based on platform and collection state */}
+      {collectionPageContent &&
+        (!isNativePlatform || (isNativePlatform && !hasCollectionItems)) && (
+          <div className="collection-page-content">
+            <p>{collectionPageContent}</p>
+          </div>
+        )}
 
       <CrPlaylistTable
         items={collection.map((track) => ({

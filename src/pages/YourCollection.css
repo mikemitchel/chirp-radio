@@ -2,3 +2,19 @@
   font: var(--cr-title-md);
   margin-bottom: var(--cr-space-4);
 }
+
+/* Collection Page Content messaging */
+.collection-page-content {
+  margin-bottom: var(--cr-space-6);
+  padding: var(--cr-space-4);
+  background-color: var(--cr-paper);
+  border: 1px solid var(--cr-border);
+  border-radius: var(--cr-radius-md);
+}
+
+.collection-page-content p {
+  margin: 0;
+  font: var(--cr-body-md);
+  color: var(--cr-ink);
+  line-height: 1.6;
+}
