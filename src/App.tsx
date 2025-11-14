@@ -310,7 +310,7 @@ function App() {
                         <Route
                           path="volunteer-directory"
                           element={
-                            <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
+                            <ProtectedRoute requiredRoles={['Volunteer', 'Regular DJ']}>
                               <VolunteerDirectoryPage />
                             </ProtectedRoute>
                           }
@@ -318,7 +318,7 @@ function App() {
                         <Route
                           path="volunteer-calendar"
                           element={
-                            <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
+                            <ProtectedRoute requiredRoles={['Volunteer', 'Regular DJ']}>
                               <VolunteerCalendarPage />
                             </ProtectedRoute>
                           }
@@ -326,7 +326,7 @@ function App() {
                         <Route
                           path="leadership-directory"
                           element={
-                            <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
+                            <ProtectedRoute requiredRoles={['Volunteer', 'Regular DJ']}>
                               <LeadershipDirectoryPage />
                             </ProtectedRoute>
                           }
@@ -334,7 +334,7 @@ function App() {
                         <Route
                           path="websites-to-remember"
                           element={
-                            <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
+                            <ProtectedRoute requiredRoles={['Volunteer', 'Regular DJ']}>
                               <WebsitesToRememberPage />
                             </ProtectedRoute>
                           }
@@ -342,7 +342,7 @@ function App() {
                         <Route
                           path="volunteer-downloads"
                           element={
-                            <ProtectedRoute requiredRoles={['volunteer', 'dj']}>
+                            <ProtectedRoute requiredRoles={['Volunteer', 'Regular DJ']}>
                               <VolunteerDownloadsPage />
                             </ProtectedRoute>
                           }

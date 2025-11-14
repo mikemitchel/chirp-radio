@@ -29,6 +29,7 @@ import {
   getEventVenueName,
   getEventAgeRestriction,
 } from '../utils/typeHelpers'
+import type { Member } from '../types/cms'
 import { useAuth } from '../hooks/useAuth'
 import { useLoginRequired } from '../hooks/useLoginRequired'
 import { downloadDJShowCalendar } from '../utils/calendar'
@@ -422,8 +423,11 @@ const LandingPage: React.FC = () => {
                     ? currentDJMember.profileImage.url
                     : undefined // Return undefined if no profile image, let component handle fallback
 
-              const description =
+              const descriptionRaw =
                 currentDJMember?.djExcerpt || currentDJMember?.djBio || currentShow.description
+
+              // Convert LexicalEditorState to string if needed
+              const description = typeof descriptionRaw === 'string' ? descriptionRaw : undefined
 
               // Create slug from DJ name for member profile link
               const djSlug =
@@ -458,10 +462,7 @@ const LandingPage: React.FC = () => {
                 <CrCurrentDjCard
                   djName={nowPlayingData.dj || currentShow.djName}
                   showName={nowPlayingData.show || currentShow.showName}
-                  statusText="On-Air"
                   isOnAir={true}
-                  header={nowPlayingData.show || currentShow.showName}
-                  title={nowPlayingData.dj || currentShow.djName}
                   djImage={djImage}
                   description={description}
                   onRequestClick={() => navigate('/request-song')}

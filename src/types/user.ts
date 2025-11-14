@@ -19,6 +19,7 @@ export interface DonationHistory {
   date: string // ISO date string or formatted date
   type: string // e.g., "One-time", "Monthly", "Annual"
   amount: number
+  status?: string // e.g., "Active", "Completed", "Pending"
   receiptUrl?: string
 }
 
@@ -27,6 +28,7 @@ export interface PurchaseHistory {
   date: string // ISO date string or formatted date
   item: string
   amount: number
+  status?: string // e.g., "Completed", "Pending", "Shipped"
 }
 
 export interface UserPreferences {

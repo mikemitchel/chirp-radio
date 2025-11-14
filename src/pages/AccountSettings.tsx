@@ -467,8 +467,10 @@ export default function AccountSettings() {
       }
 
       setFormData({
-        firstName: user.firstName || user.name?.split(' ')[0] || '',
-        lastName: user.lastName || user.name?.split(' ')[1] || '',
+        firstName:
+          user.firstName || (typeof user.name === 'string' ? user.name.split(' ')[0] : '') || '',
+        lastName:
+          user.lastName || (typeof user.name === 'string' ? user.name.split(' ')[1] : '') || '',
         location: user.location || 'Chicago, Illinois',
         email: user.email || '',
         avatarSrc: user.profileImage || '',
@@ -734,7 +736,7 @@ export default function AccountSettings() {
   const handleVerifyEmailChange = () => {
     if (!user?.pendingEmailToken) return
 
-    const success = verifyEmailChange(user.pendingEmailToken)
+    const success = verifyEmailChange(user.pendingEmailToken as string)
 
     if (success) {
       showToast({
@@ -866,62 +868,64 @@ export default function AccountSettings() {
   return (
     <div className={containerClass}>
       {/* Password Confirmation Modal */}
-      <CrModal
-        isOpen={showPasswordModal}
-        title="Confirm Password"
-        size="small"
-        onClose={handleCancelPasswordModal}
-        scrimOnClick={handleCancelPasswordModal}
-      >
-        <div className="cr-modal__body">
-          <div className="cr-modal-form">
-            <p className="cr-modal-form__description">
-              To change your email address, please confirm your password.
-            </p>
+      {showPasswordModal && (
+        <CrModal
+          isOpen={showPasswordModal}
+          title="Confirm Password"
+          size="small"
+          onClose={handleCancelPasswordModal}
+          scrimOnClick={handleCancelPasswordModal}
+        >
+          <div className="cr-modal__body">
+            <div className="cr-modal-form">
+              <p className="cr-modal-form__description">
+                To change your email address, please confirm your password.
+              </p>
 
-            <div className="email-change-info">
-              <div className="email-change-info__row">
-                <strong>Current:</strong> {user?.email}
+              <div className="email-change-info">
+                <div className="email-change-info__row">
+                  <strong>Current:</strong> {user?.email}
+                </div>
+                <div className="email-change-info__row">
+                  <strong>New:</strong> {pendingNewEmail}
+                </div>
               </div>
-              <div className="email-change-info__row">
-                <strong>New:</strong> {pendingNewEmail}
+
+              <div className="form-group">
+                <label htmlFor="password-input" className="form-label">
+                  Password
+                </label>
+                <input
+                  id="password-input"
+                  type="password"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handlePasswordConfirm()
+                    } else if (e.key === 'Escape') {
+                      handleCancelPasswordModal()
+                    }
+                  }}
+                  placeholder="Enter your password"
+                  className="form-input"
+                  autoFocus
+                />
+                {emailChangeError && <p className="form-error">{emailChangeError}</p>}
               </div>
-            </div>
 
-            <div className="form-group">
-              <label htmlFor="password-input" className="form-label">
-                Password
-              </label>
-              <input
-                id="password-input"
-                type="password"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handlePasswordConfirm()
-                  } else if (e.key === 'Escape') {
-                    handleCancelPasswordModal()
-                  }
-                }}
-                placeholder="Enter your password"
-                className="form-input"
-                autoFocus
-              />
-              {emailChangeError && <p className="form-error">{emailChangeError}</p>}
-            </div>
-
-            <div className="cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap">
-              <CrButton variant="text" color="default" onClick={handleCancelPasswordModal}>
-                Cancel
-              </CrButton>
-              <CrButton variant="filled" color="primary" onClick={handlePasswordConfirm}>
-                Confirm
-              </CrButton>
+              <div className="cr-modal__actions cr-modal__actions--space-between cr-modal__actions--gap">
+                <CrButton variant="text" color="default" onClick={handleCancelPasswordModal}>
+                  Cancel
+                </CrButton>
+                <CrButton variant="filled" color="primary" onClick={handlePasswordConfirm}>
+                  Confirm
+                </CrButton>
+              </div>
             </div>
           </div>
-        </div>
-      </CrModal>
+        </CrModal>
+      )}
 
       {/* Email Verification Pending Banner */}
       {user?.pendingEmail && (

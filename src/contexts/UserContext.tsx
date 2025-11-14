@@ -142,7 +142,12 @@ export function UserProvider({ children }: UserProviderProps) {
       // First update in CMS
       try {
         console.log('[UserContext] Saving to CMS...', { userId, cmsFavoriteDJs })
-        const result = await updateMember(userId, { favoriteDJs: cmsFavoriteDJs })
+        // CMS expects favoriteDJs as { djId: string }[] but User type uses string[]
+        // We need to bypass the type check here because updateMember uses Partial<User>
+        // but the CMS API expects a different format for this field
+        const result = await updateMember(userId, {
+          favoriteDJs: cmsFavoriteDJs,
+        } as unknown as Partial<User>)
         console.log('[UserContext] ✅ CMS save successful:', result)
       } catch (error) {
         console.error('[UserContext] ❌ Failed to save favoriteDJs to CMS:', error)

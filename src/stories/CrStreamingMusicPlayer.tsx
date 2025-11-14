@@ -96,7 +96,7 @@ const AlbumArt = ({
   album?: string
   className: any
   style?: any
-  _isLarge?: boolean
+  isLarge?: boolean
 }) => {
   const { data: fallbackImages, loading: fallbackLoading } = usePlayerFallbackImages()
 
