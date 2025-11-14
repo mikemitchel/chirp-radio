@@ -137,7 +137,9 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
 
     @objc private func handleCarPlayConnected() {
         print("🚗 NativeAudioPlayer: CarPlay connected - notifying JavaScript to poll metadata")
-        notifyEvent("carPlayConnected", data: [:])
+        DispatchQueue.main.async {
+            self.notifyListeners("carPlayConnected", data: [:])
+        }
     }
 
     private func cleanupPlayerObservers() {
