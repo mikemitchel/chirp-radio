@@ -1,5 +1,5 @@
 // CrMobileAppFrame.tsx
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Capacitor } from '@capacitor/core'
 import CrMobileHeader from './CrMobileHeader'
 import CrStreamingMusicPlayer from './CrStreamingMusicPlayer'
@@ -73,6 +73,8 @@ export default function CrMobileAppFrame({
   onAccountSettingsClick,
 }: CrMobileAppFrameProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const footerRef = useRef<HTMLDivElement>(null)
+  const isAndroid = Capacitor.getPlatform() === 'android'
 
   const handleMenuClick = () => {
     // Clear any visible toasts when opening menu
@@ -83,6 +85,22 @@ export default function CrMobileAppFrame({
   const handleSidebarClose = () => {
     setIsSidebarOpen(false)
   }
+
+  // Force layout recalculation on Android to ensure safe area insets are applied
+  useEffect(() => {
+    if (isAndroid && variant === 'interior' && footerRef.current) {
+      // Wait for WebView to fully calculate safe area insets
+      const timer = setTimeout(() => {
+        // Force a reflow by reading offsetHeight, then updating a CSS variable
+        if (footerRef.current) {
+          const _ = footerRef.current.offsetHeight // Force reflow
+          footerRef.current.style.setProperty('--safe-area-applied', '1')
+        }
+      }, 100)
+
+      return () => clearTimeout(timer)
+    }
+  }, [isAndroid, variant])
 
   // Determine player variant based on layout and platform
   const isIOS = Capacitor.getPlatform() === 'ios'
@@ -190,7 +208,7 @@ export default function CrMobileAppFrame({
       </div>
 
       {/* Slim player fixed at bottom like a footer */}
-      <div className="cr-mobile-frame__footer-player">
+      <div className="cr-mobile-frame__footer-player" ref={footerRef}>
         <CrStreamingMusicPlayer {...defaultStreamingProps} />
       </div>
     </div>
