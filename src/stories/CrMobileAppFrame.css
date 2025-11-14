@@ -92,10 +92,11 @@
   box-sizing: border-box;
 }
 
-/* Android-only: Remove safe-area-inset-bottom from content padding
-   The footer player already handles the safe area, so content only needs player height */
+/* Android-only: Account for mini-player height + footer padding + safe area */
 .platform-android .cr-mobile-frame--interior .cr-mobile-frame__content {
-  padding-bottom: 68px; /* Mini-player 60px + footer padding 8px (4px top + 4px bottom) */
+  padding-bottom: calc(
+    68px + var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px))
+  ); /* Mini-player 60px + footer padding 8px + safe area */
 }
 
 .cr-mobile-frame--interior .cr-mobile-frame__footer-player {
@@ -125,10 +126,12 @@
   padding-bottom: var(--cr-space-1);
 }
 
-/* Android: Remove safe area padding from footer since Android doesn't need it */
+/* Android: Ensure safe area padding for navigation bar */
 .platform-android .cr-mobile-frame--interior .cr-mobile-frame__footer-player {
   padding: var(--cr-space-1);
-  padding-bottom: var(--cr-space-1);
+  padding-bottom: calc(
+    var(--cr-space-1) + var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px))
+  );
 }
 
 /* === DEFAULT CONTENT STYLES === */
