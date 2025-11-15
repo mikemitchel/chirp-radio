@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import { usePageBySlug } from '../hooks/useData'
-import { lexicalToHtml } from '../utils/lexicalSerializer'
+import { extractHtmlContent } from '../utils/lexicalSerializer'
 
 const websiteSections = [
   {
@@ -172,7 +172,7 @@ export default function WebsitesToRememberPage() {
                 <div
                   style={{ marginBottom: 'var(--cr-space-8)' }}
                   dangerouslySetInnerHTML={{
-                    __html: lexicalToHtml(headerBlock.content),
+                    __html: extractHtmlContent(headerBlock.content),
                   }}
                 />
               )}
