@@ -37,6 +37,25 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     private let pauseThreshold: TimeInterval = 5 * 60 // 5 minutes in seconds
     private var wasIntentionallyStopped = false // Track if user explicitly stopped playback
 
+    // Lazy-loaded fallback album art from bundled image
+    private lazy var fallbackAlbumArt: MPMediaItemArtwork? = {
+        // Try to load from public/images directory first
+        if let imagePath = Bundle.main.path(forResource: "public/images/album-art-fallback", ofType: "png"),
+           let image = UIImage(contentsOfFile: imagePath) {
+            print("📷 Loaded fallback album art from public/images/album-art-fallback.png")
+            return MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+        }
+
+        // Fallback to Splash image from Assets if public image not found
+        if let image = UIImage(named: "Splash") {
+            print("📷 Loaded fallback album art from Splash asset")
+            return MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+        }
+
+        print("⚠️ No fallback album art available")
+        return nil
+    }()
+
     public override func load() {
         print("🎵 NativeAudioPlayer plugin loaded")
 
@@ -587,10 +606,14 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
 
                 if let error = error {
                     print("❌ Error loading album art: \(error.localizedDescription)")
-                    // Set metadata without artwork after timeout
+                    // Set metadata with fallback CHIRP logo
+                    if let fallback = self.fallbackAlbumArt {
+                        nowPlayingInfo[MPMediaItemPropertyArtwork] = fallback
+                        print("🎨 Using fallback CHIRP logo for album art")
+                    }
                     DispatchQueue.main.async {
                         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                        print("✅ Set metadata without artwork (load failed)")
+                        print("✅ Set metadata with fallback artwork (load failed)")
                         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                     }
                     return
@@ -615,19 +638,27 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
                     }
                 } else {
                     print("⚠️ Failed to create UIImage from album art data")
-                    // Set metadata without artwork
+                    // Set metadata with fallback CHIRP logo
+                    if let fallback = self.fallbackAlbumArt {
+                        nowPlayingInfo[MPMediaItemPropertyArtwork] = fallback
+                        print("🎨 Using fallback CHIRP logo for album art")
+                    }
                     DispatchQueue.main.async {
                         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                        print("✅ Set metadata without artwork (image creation failed)")
+                        print("✅ Set metadata with fallback artwork (image creation failed)")
                         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                     }
                 }
             }.resume()
         } else {
-            // No artwork URL - set metadata immediately
+            // No artwork URL - use fallback CHIRP logo
+            if let fallback = fallbackAlbumArt {
+                nowPlayingInfo[MPMediaItemPropertyArtwork] = fallback
+                print("🎨 Using fallback CHIRP logo (no URL provided)")
+            }
             DispatchQueue.main.async {
                 MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                print("✅ Metadata set (no artwork URL provided)")
+                print("✅ Metadata set with fallback artwork (no URL provided)")
                 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
             }
         }
@@ -965,10 +996,14 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
                 if let error = error {
                     print("❌ [LOCK SCREEN] Error loading album art: \(error.localizedDescription)")
                     print("   Error code: \((error as NSError).code)")
-                    // Set metadata without artwork after timeout
+                    // Set metadata with fallback CHIRP logo
+                    if let fallback = self.fallbackAlbumArt {
+                        nowPlayingInfo[MPMediaItemPropertyArtwork] = fallback
+                        print("🎨 [LOCK SCREEN] Using fallback CHIRP logo for album art")
+                    }
                     DispatchQueue.main.async {
                         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                        print("✅ [LOCK SCREEN] Set metadata without artwork (load failed)")
+                        print("✅ [LOCK SCREEN] Set metadata with fallback artwork (load failed)")
                         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                     }
                     return
@@ -997,21 +1032,29 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
                     print("⚠️ [LOCK SCREEN] Failed to create UIImage from data")
                     print("   Data size: \(data?.count ?? 0) bytes")
                     print("   Response: \(response.debugDescription)")
-                    // Set metadata without artwork
+                    // Set metadata with fallback CHIRP logo
+                    if let fallback = self.fallbackAlbumArt {
+                        nowPlayingInfo[MPMediaItemPropertyArtwork] = fallback
+                        print("🎨 [LOCK SCREEN] Using fallback CHIRP logo for album art")
+                    }
                     DispatchQueue.main.async {
                         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                        print("✅ [LOCK SCREEN] Set metadata without artwork (image creation failed)")
+                        print("✅ [LOCK SCREEN] Set metadata with fallback artwork (image creation failed)")
                         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                     }
                 }
             }.resume()
         } else {
-            // No album art URL - set metadata immediately
+            // No album art URL - use fallback CHIRP logo
+            if let fallback = fallbackAlbumArt {
+                nowPlayingInfo[MPMediaItemPropertyArtwork] = fallback
+                print("🎨 [LOCK SCREEN] Using fallback CHIRP logo (no URL provided)")
+            }
             DispatchQueue.main.async {
-                print("📱 [LOCK SCREEN] Setting metadata (no artwork URL)")
+                print("📱 [LOCK SCREEN] Setting metadata with fallback artwork (no URL)")
                 print("   App state: \(UIApplication.shared.applicationState.rawValue)")
                 MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-                print("✅ [LOCK SCREEN] Set metadata without artwork")
+                print("✅ [LOCK SCREEN] Set metadata with fallback artwork")
                 print("   Verify: \(MPNowPlayingInfoCenter.default().nowPlayingInfo?[MPMediaItemPropertyTitle] as? String ?? "NIL")")
                 print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
             }
