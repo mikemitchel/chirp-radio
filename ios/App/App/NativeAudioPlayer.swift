@@ -35,6 +35,7 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     private let cacheQueue = DispatchQueue(label: "com.chirpradio.albumArtCache", qos: .userInitiated) // Serial queue for thread-safe cache access
     private var pauseTimestamp: Date?
     private let pauseThreshold: TimeInterval = 5 * 60 // 5 minutes in seconds
+    private var wasIntentionallyStopped = false // Track if user explicitly stopped playback
 
     public override func load() {
         print("🎵 NativeAudioPlayer plugin loaded")
@@ -174,6 +175,14 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
 
     private func handleRemotePlay() {
         print("🎵 NativeAudioPlayer.handleRemotePlay() called")
+
+        // Prevent auto-resume if user explicitly stopped playback
+        if wasIntentionallyStopped {
+            print("⚠️ Ignoring remote play command - user intentionally stopped playback")
+            print("💡 User must manually press play to resume")
+            return
+        }
+
         playAudio()
         updateNowPlayingPlaybackState()
         notifyJavaScriptStateChange(isPlaying: true)
@@ -481,6 +490,9 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
         // Clear pause timestamp
         pauseTimestamp = nil
 
+        // Clear intentional stop flag - user is now playing
+        wasIntentionallyStopped = false
+
         // Check if player item has failed or become stale
         if playerItem.status == .failed {
             print("❌ Player item has FAILED status - recreating")
@@ -513,10 +525,11 @@ public class NativeAudioPlayer: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func stop(_ call: CAPPluginCall) {
-        print("⏹️ Stop called")
+        print("⏹️ Stop called - setting intentional stop flag")
         player?.pause()
         player?.seek(to: .zero)
         isPlaying = false
+        wasIntentionallyStopped = true // User explicitly stopped playback
         call.resolve()
     }
 
