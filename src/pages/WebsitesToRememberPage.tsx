@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import { usePageBySlug } from '../hooks/useData'
+import { lexicalToHtml } from '../utils/lexicalSerializer'
 
 const websiteSections = [
   {
@@ -162,7 +163,7 @@ export default function WebsitesToRememberPage() {
               <CrPageHeader
                 eyebrowText="CHIRP RADIO - VOLUNTEERS"
                 title={headerBlock.title as string}
-                titleTag={(headerBlock.titleTag as "h1" | "h2" | "h3" | "h4" | "h5" | "h6") || 'h1'}
+                titleTag={(headerBlock.titleTag as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6') || 'h1'}
                 titleSize="xl"
                 showEyebrow={true}
                 showActionButton={false}
@@ -171,15 +172,7 @@ export default function WebsitesToRememberPage() {
                 <div
                   style={{ marginBottom: 'var(--cr-space-8)' }}
                   dangerouslySetInnerHTML={{
-                    __html: (() => {
-                      const root = typeof headerBlock.content === 'object' && headerBlock.content && 'root' in headerBlock.content ? (headerBlock.content as Record<string, unknown>).root : null
-                      if (root && typeof root === 'object' && 'children' in root) {
-                        return (root as { children: Array<{ children: Array<{ text: string }> }> }).children.map((child) =>
-                          `<p>${child.children.map((c) => c.text).join('')}</p>`
-                        ).join('')
-                      }
-                      return ''
-                    })()
+                    __html: lexicalToHtml(headerBlock.content),
                   }}
                 />
               )}
@@ -195,48 +188,50 @@ export default function WebsitesToRememberPage() {
                 showActionButton={false}
               />
               <p style={{ marginBottom: 'var(--cr-space-8)' }}>
-                Welcome to your volunteer resource hub! This page contains essential links and tools you'll need as a CHIRP volunteer. From logging your hours to booking the production studio, accessing DJ resources, and joining mailing lists — everything you need is organized here for easy reference. Bookmark this page and check back regularly for updates.
+                Welcome to your volunteer resource hub! This page contains essential links and tools
+                you'll need as a CHIRP volunteer. From logging your hours to booking the production
+                studio, accessing DJ resources, and joining mailing lists — everything you need is
+                organized here for easy reference. Bookmark this page and check back regularly for
+                updates.
               </p>
             </>
           )}
         </section>
 
         <section className="page-layout-masonry">
-          {sectionBlocks.length > 0 ? (
-            sectionBlocks.map((block: any, index: number) => (
-              <div key={index}>
-                <CrCard
-                  variant="article"
-                  imagePosition="none"
-                  title={block.title}
-                  titleSize="sm"
-                  content={block.content}
-                  showTicketButton={false}
-                  showShareButton={false}
-                  showCardDetails={false}
-                  showEyebrow={false}
-                  bannerBackgroundColor="light"
-                />
-              </div>
-            ))
-          ) : (
-            websiteSections.map((section) => (
-              <div key={section.id}>
-                <CrCard
-                  variant="article"
-                  imagePosition="none"
-                  title={section.title}
-                  titleSize="sm"
-                  content={`<p>${section.description}</p>${section.links.length > 0 ? renderLinksContent(section.links) : ''}`}
-                  showTicketButton={false}
-                  showShareButton={false}
-                  showCardDetails={false}
-                  showEyebrow={false}
-                  bannerBackgroundColor="light"
-                />
-              </div>
-            ))
-          )}
+          {sectionBlocks.length > 0
+            ? sectionBlocks.map((block: any, index: number) => (
+                <div key={index}>
+                  <CrCard
+                    variant="article"
+                    imagePosition="none"
+                    title={block.title}
+                    titleSize="sm"
+                    content={block.content}
+                    showTicketButton={false}
+                    showShareButton={false}
+                    showCardDetails={false}
+                    showEyebrow={false}
+                    bannerBackgroundColor="light"
+                  />
+                </div>
+              ))
+            : websiteSections.map((section) => (
+                <div key={section.id}>
+                  <CrCard
+                    variant="article"
+                    imagePosition="none"
+                    title={section.title}
+                    titleSize="sm"
+                    content={`<p>${section.description}</p>${section.links.length > 0 ? renderLinksContent(section.links) : ''}`}
+                    showTicketButton={false}
+                    showShareButton={false}
+                    showCardDetails={false}
+                    showEyebrow={false}
+                    bannerBackgroundColor="light"
+                  />
+                </div>
+              ))}
         </section>
       </div>
     </>
