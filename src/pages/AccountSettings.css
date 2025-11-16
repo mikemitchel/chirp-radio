@@ -95,3 +95,15 @@
     flex-direction: column;
   }
 }
+
+/* Version Number */
+.account-settings-version {
+  margin-top: var(--cr-space-8);
+  padding-top: var(--cr-space-6);
+  border-top: 1px solid var(--cr-default-200);
+  text-align: center;
+}
+
+[data-theme='dark'] .account-settings-version {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
