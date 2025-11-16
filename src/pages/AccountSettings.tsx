@@ -19,6 +19,7 @@ import { formatShowTime } from '../utils/formatShowTime'
 import { updateInCMS } from '../utils/api'
 import { fetchMemberById } from '../utils/cmsMembers'
 import type { Member } from '../types/member'
+import VersionNumber from '../components/VersionNumber'
 import './AccountSettings.css'
 
 export default function AccountSettings() {
@@ -1083,6 +1084,10 @@ export default function AccountSettings() {
         isOpen={showForgotPasswordModal}
         onClose={() => setShowForgotPasswordModal(false)}
       />
+
+      <div className="account-settings-version">
+        <VersionNumber version="3.0.0" />
+      </div>
     </div>
   )
 }
