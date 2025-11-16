@@ -34,6 +34,20 @@ class MediaSessionManager(private val context: Context) {
     var isPlaying: Boolean = false
         private set
 
+    // Lazy-loaded fallback album art
+    private val fallbackAlbumArt: Bitmap? by lazy {
+        try {
+            val inputStream = context.assets.open("public/images/album-art-fallback.png")
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            inputStream.close()
+            android.util.Log.d("MediaSessionManager", "📷 Loaded fallback album art from assets")
+            bitmap
+        } catch (e: Exception) {
+            android.util.Log.w("MediaSessionManager", "⚠️ Failed to load fallback album art: ${e.message}")
+            null
+        }
+    }
+
     interface MediaSessionCallback {
         fun onPlay()
         fun onPause()
@@ -115,20 +129,51 @@ class MediaSessionManager(private val context: Context) {
             if (url.isNotEmpty()) {
                 CoroutineScope(Dispatchers.IO).launch {
                     val bitmap = loadAlbumArtWithRetry(url, maxRetries = 3)
-                    if (bitmap != null) {
-                        withContext(Dispatchers.Main) {
-                            // Update metadata with album art
+                    withContext(Dispatchers.Main) {
+                        // Update metadata with album art (use fallback if loading failed)
+                        val artworkBitmap = bitmap ?: fallbackAlbumArt
+                        if (artworkBitmap != null) {
                             val updatedMetadata = MediaMetadataCompat.Builder()
                                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
                                 .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
                                 .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, "DJ: $dj")
                                 .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, -1)
-                                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, bitmap)
+                                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, artworkBitmap)
                                 .build()
                             mediaSession?.setMetadata(updatedMetadata)
+
+                            if (bitmap == null) {
+                                android.util.Log.d("MediaSessionManager", "🎨 Using fallback CHIRP logo (URL load failed)")
+                            }
                         }
                     }
                 }
+            } else {
+                // Empty URL - use fallback immediately
+                fallbackAlbumArt?.let { fallback ->
+                    val updatedMetadata = MediaMetadataCompat.Builder()
+                        .putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
+                        .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
+                        .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, "DJ: $dj")
+                        .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, -1)
+                        .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, fallback)
+                        .build()
+                    mediaSession?.setMetadata(updatedMetadata)
+                    android.util.Log.d("MediaSessionManager", "🎨 Using fallback CHIRP logo (empty URL)")
+                }
+            }
+        } ?: run {
+            // Null URL - use fallback immediately
+            fallbackAlbumArt?.let { fallback ->
+                val updatedMetadata = MediaMetadataCompat.Builder()
+                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
+                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
+                    .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, "DJ: $dj")
+                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, -1)
+                    .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, fallback)
+                    .build()
+                mediaSession?.setMetadata(updatedMetadata)
+                android.util.Log.d("MediaSessionManager", "🎨 Using fallback CHIRP logo (null URL)")
             }
         }
     }
