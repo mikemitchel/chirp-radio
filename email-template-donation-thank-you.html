@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="supported-color-schemes" content="light dark">
+    <title>Thank You - CHIRP Radio</title>
+    <style>
+        /* CSS Reset for Email Clients */
+        body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+
+        /* Base Styles */
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            font-family: 'Roboto Serif', Georgia, serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Light Mode (Default) */
+        :root {
+            color-scheme: light dark;
+            supported-color-schemes: light dark;
+        }
+
+        body, .email-container {
+            background-color: #f4f4f5 !important;
+        }
+
+        .email-wrapper {
+            background-color: #fafafa !important;
+        }
+
+        .text-body {
+            color: #18181b !important;
+        }
+
+        .text-secondary {
+            color: #4d4d56 !important;
+        }
+
+        .text-muted {
+            color: #d4d4d8 !important;
+        }
+
+        .divider {
+            border-top: 1px solid #d4d4d8 !important;
+        }
+
+        .footer-text {
+            color: #7b7b84 !important;
+        }
+
+        .footer-bg {
+            background-color: #f4f4f5 !important;
+        }
+
+        .link {
+            color: #ea1c2c !important;
+            text-decoration: none;
+        }
+
+        .button {
+            background-color: #ea1c2c !important;
+            color: #fafafa !important;
+        }
+
+        .button:hover {
+            background-color: #a20c1d !important;
+        }
+
+        /* Dark Mode */
+        @media (prefers-color-scheme: dark) {
+            body, .email-container {
+                background-color: #18181b !important;
+            }
+
+            .email-wrapper {
+                background-color: #3f3f46 !important;
+            }
+
+            .text-body {
+                color: #fafafa !important;
+            }
+
+            .text-secondary {
+                color: #d4d4d8 !important;
+            }
+
+            .text-muted {
+                color: #7b7b84 !important;
+            }
+
+            .divider {
+                border-top: 1px solid #4d4d56 !important;
+            }
+
+            .footer-text {
+                color: #7b7b84 !important;
+            }
+
+            .footer-bg {
+                background-color: #18181b !important;
+            }
+        }
+
+        /* Typography */
+        .heading {
+            font-family: 'Antonio', Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.6;
+            margin: 0 0 16px 0;
+        }
+
+        .body-text {
+            font-family: 'Roboto Serif', Georgia, serif;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0 0 16px 0;
+        }
+
+        .small-text {
+            font-family: 'Roboto Serif', Georgia, serif;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .xs-text {
+            font-family: 'Roboto Serif', Georgia, serif;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .signature {
+            font-family: 'Roboto Serif', Georgia, serif;
+            font-size: 16px;
+            line-height: 1.4;
+            margin: 4px 0;
+        }
+
+        /* Button */
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #ea1c2c;
+            color: #fafafa !important;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: 'Antonio', Arial, sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        /* Social Icons */
+        .social-icon {
+            display: inline-block;
+            margin: 0 8px;
+            width: 32px;
+            height: 32px;
+        }
+
+        .social-icon img {
+            width: 32px;
+            height: 32px;
+            display: block;
+        }
+
+        /* Responsive */
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .content-padding {
+                padding: 24px 16px !important;
+            }
+
+            .heading {
+                font-size: 21px;
+            }
+
+            .body-text {
+                font-size: 16px;
+            }
+
+            .small-text {
+                font-size: 14px;
+            }
+
+            .xs-text {
+                font-size: 12px;
+            }
+        }
+
+        /* Outlook-specific styles */
+        <!--[if mso]>
+        <style type="text/css">
+            .body-text, .signature, .footer-text, .small-text, .xs-text {
+                font-family: Georgia, serif !important;
+            }
+            .heading, .button {
+                font-family: Arial, sans-serif !important;
+            }
+        </style>
+        <![endif]-->
+    </style>
+</head>
+<body style="margin: 0; padding: 0;">
+    <table role="presentation" class="email-container" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 600px; margin: 0 auto; background-color: #f4f4f5;">
+        <tr>
+            <td style="padding: 24px 16px;">
+                <!-- Email Wrapper -->
+                <table role="presentation" class="email-wrapper" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #fafafa; border-radius: 8px; overflow: hidden;">
+
+                    <!-- Header with Logo -->
+                    <tr>
+                        <td style="padding: 40px 32px 32px 32px; text-align: center;">
+                            <img src="https://chirpradio.org/images/chirp-logos/CHIRP_Logo_FM URL_horizontal.svg" alt="CHIRP Radio" width="280" style="max-width: 280px; height: auto;">
+                        </td>
+                    </tr>
+
+                    <!-- Main Content -->
+                    <tr>
+                        <td class="content-padding" style="padding: 0 32px;">
+
+                            <!-- Greeting -->
+                            <p class="body-text text-body" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0; color: #18181b;">
+                                Dear &lt;&lt;First Name&gt;&gt;,
+                            </p>
+
+                            <!-- Thank You Message -->
+                            <p class="body-text text-body" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0; color: #18181b;">
+                                Thank you so much for your generous sustaining gift of <strong>&lt;&lt;Amount&gt;&gt;</strong> in support of CHIRP Radio! Your recurring contribution helps keep the station going strong.
+                            </p>
+
+                            <p class="body-text text-body" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0; color: #18181b;">
+                                CHIRP is an independent, listener-supported radio station, and your contributions make everything we do possible. We are true believers in the power of radio to connect us, and we are proud to have you as a partner in our efforts.
+                            </p>
+
+                            <p class="body-text text-body" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 16px; line-height: 1.6; margin: 0 0 16px 0; color: #18181b;">
+                                We're happy to be able to deliver live, local radio to you every single day with passionate, curious DJs who love sharing their musical discoveries — always commercial-free — and we appreciate it when you share the word of CHIRP with other independent music and media fans. If you'd like to say hello to us in person, you can see when we'll be out and about on our <a href="https://chirpradio.org/events" class="link" style="color: #ea1c2c; text-decoration: none;">events page</a>.
+                            </p>
+
+                            <p class="body-text text-body" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0; color: #18181b;">
+                                Thank you once again for your generosity and your belief in our work. If you ever have questions or comments about the station, please don't hesitate to reach out to me.
+                            </p>
+
+                            <!-- Signature -->
+                            <p class="signature text-body" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 16px; line-height: 1.4; margin: 4px 0; color: #18181b;">
+                                With gratitude,
+                            </p>
+                            <p class="signature text-body" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 16px; line-height: 1.4; margin: 4px 0; color: #18181b;">
+                                <strong>Shawn Campbell</strong><br>
+                                Founder and General Manager<br>
+                                CHIRP Radio 107.1FM<br>
+                                <a href="https://chirpradio.org" class="link" style="color: #ea1c2c; text-decoration: none;">chirpradio.org</a>
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <!-- Divider -->
+                    <tr>
+                        <td style="padding: 0 32px;">
+                            <div class="divider" style="border-top: 1px solid #d4d4d8; margin: 16px 0;"></div>
+                        </td>
+                    </tr>
+
+                    <!-- Donation Details -->
+                    <tr>
+                        <td class="content-padding" style="padding: 0 32px;">
+                            <p class="small-text text-secondary italic" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 14px; line-height: 1.6; margin: 0 0 12px 0; color: #4d4d56; font-style: italic;">
+                                Your recurring contribution of <strong>&lt;&lt;Amount&gt;&gt;</strong> was received on <strong>&lt;&lt;Transaction Date&gt;&gt;</strong> and will continue to be processed regularly at the frequency you selected on the same date from when your first donation was made. By becoming a CHIRP Radio sustaining member, please note that you are making a pledge that will be deducted from your account in monthly, quarterly or annual installments in perpetuity unless you set an end date.
+                            </p>
+
+                            <p class="small-text text-secondary italic" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 14px; line-height: 1.6; margin: 0; color: #4d4d56; font-style: italic;">
+                                You may cancel or make changes to your membership plan at any time by <a href="https://chirpradio.app.neoncrm.com/login" class="link" style="color: #ea1c2c; text-decoration: none;">logging into your account</a> or by contacting <a href="mailto:development@chirpradio.org" class="link" style="color: #ea1c2c; text-decoration: none;">development@chirpradio.org</a>.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Divider -->
+                    <tr>
+                        <td style="padding: 0 32px;">
+                            <div class="divider" style="border-top: 1px solid #d4d4d8; margin: 16px 0;"></div>
+                        </td>
+                    </tr>
+
+                    <!-- Tax Information -->
+                    <tr>
+                        <td class="content-padding" style="padding: 0 32px 32px 32px;">
+                            <p class="xs-text" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 12px; line-height: 1.6; margin: 0; color: #3f3f46;">
+                                The Chicago Independent Radio Project (EIN # 26-1547241) is a non-profit 501(c)3 organization funded primarily through individual giving, special events, and grant support. Your donation is tax deductible to the extent allowed by U.S. law, minus the fair market value of any thank you gifts requested. You may save or print this receipt for your financial records, as it may be useful to you when completing your tax return.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td class="footer-bg" style="padding: 24px 32px; text-align: center; background-color: #f4f4f5;">
+                            <!-- Social Icons -->
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin: 0 auto 16px auto;">
+                                <tr>
+                                    <td class="social-icon" style="padding: 0 4px;">
+                                        <a href="https://facebook.com/chirpradio" style="text-decoration: none;">
+                                            <img src="https://chirpradio.org/images/social-icons/facebook.png" alt="Facebook" width="32" height="32" style="display: block; width: 32px; height: 32px;">
+                                        </a>
+                                    </td>
+                                    <td class="social-icon" style="padding: 0 4px;">
+                                        <a href="https://twitter.com/chirpradio" style="text-decoration: none;">
+                                            <img src="https://chirpradio.org/images/social-icons/twitter.png" alt="Twitter" width="32" height="32" style="display: block; width: 32px; height: 32px;">
+                                        </a>
+                                    </td>
+                                    <td class="social-icon" style="padding: 0 4px;">
+                                        <a href="https://instagram.com/chirpradio" style="text-decoration: none;">
+                                            <img src="https://chirpradio.org/images/social-icons/instagram.png" alt="Instagram" width="32" height="32" style="display: block; width: 32px; height: 32px;">
+                                        </a>
+                                    </td>
+                                    <td class="social-icon" style="padding: 0 4px;">
+                                        <a href="https://www.youtube.com/chirpradio" style="text-decoration: none;">
+                                            <img src="https://chirpradio.org/images/social-icons/youtube.png" alt="YouTube" width="32" height="32" style="display: block; width: 32px; height: 32px;">
+                                        </a>
+                                    </td>
+                                    <td class="social-icon" style="padding: 0 4px;">
+                                        <a href="https://www.linkedin.com/company/chirpradio" style="text-decoration: none;">
+                                            <img src="https://chirpradio.org/images/social-icons/linkedin.png" alt="LinkedIn" width="32" height="32" style="display: block; width: 32px; height: 32px;">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Contact Info -->
+                            <p class="footer-text" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 14px; line-height: 1.6; margin: 0 0 8px 0; color: #7b7b84;">
+                                <strong>107.1FM CHIRP Radio</strong><br>
+                                Chicago Independent Radio Project<br>
+                                4045 North Rockwell Street<br>
+                                Chicago, IL 60618
+                            </p>
+                            <p class="footer-text" style="font-family: 'Roboto Serif', Georgia, serif; font-size: 14px; line-height: 1.6; margin: 8px 0 0 0; color: #7b7b84;">
+                                <a href="https://chirpradio.org" class="link" style="color: #ea1c2c; text-decoration: none;">chirpradio.org</a>
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
