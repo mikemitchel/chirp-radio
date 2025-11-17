@@ -23,7 +23,7 @@ interface UserProviderProps {
 export function UserProvider({ children }: UserProviderProps) {
   // Initialize users as empty - will load from CMS
   const [users, setUsers] = useState<User[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading] = useState<boolean>(false) // Start false - load in background
   const [error, setError] = useState<Error | null>(null)
   const [currentUserId, setCurrentUserId] = useState<string | null>(() => {
     // Try to get current user from localStorage
@@ -39,22 +39,20 @@ export function UserProvider({ children }: UserProviderProps) {
     return null
   })
 
-  // Always fetch users from CMS
+  // Always fetch users from CMS (in background, non-blocking)
   useEffect(() => {
-    console.log('[UserContext] Fetching users from CMS API...')
-    setLoading(true)
+    console.log('[UserContext] Fetching users from CMS API (background)...')
     setError(null)
 
     fetchAllMembers()
       .then((cmsUsers) => {
         console.log('[UserContext] Loaded users from CMS:', cmsUsers.length)
         setUsers(cmsUsers)
-        setLoading(false)
+        // Don't set loading to false - keeps it non-blocking
       })
       .catch((err) => {
         console.error('[UserContext] Failed to load users from CMS:', err)
         setError(err)
-        setLoading(false)
       })
   }, [])
 

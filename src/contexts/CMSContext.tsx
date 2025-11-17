@@ -1246,11 +1246,12 @@ export function CMSProvider({ children }: CMSProviderProps) {
 
   // Initial fetch on mount
   useEffect(() => {
-    const initializeData = async () => {
+    const initializeData = () => {
       console.log('[CMSContext] Initializing CMS data...', { USE_CMS_API })
-      await refresh()
+      // Don't await - let it load in background while app renders
+      refresh()
       setIsInitialized(true)
-      console.log('[CMSContext] CMS data initialized')
+      console.log('[CMSContext] CMS data initialized (background loading)')
     }
 
     initializeData()
