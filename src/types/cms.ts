@@ -300,6 +300,9 @@ export interface Page {
   sidebarContentType?: string
   sidebarContentCount?: number
   sidebarAdvertisement?: unknown
+  // Song Request page specific fields
+  songRequestCooldownMinutes?: number
+  songRequestCooldownMessage?: string
   createdAt?: string
   updatedAt?: string
 }
