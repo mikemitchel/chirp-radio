@@ -9,6 +9,8 @@ interface CrSongRequestFormProps {
   bodyContent?: string
   hintText?: string
   maxMessageLength?: number
+  cooldownMinutesRemaining?: number
+  cooldownMessage?: string
   onCancel?: () => void
   onSubmit?: (data: { artist: string; songTitle: string; message?: string }) => void
   className?: string
@@ -19,6 +21,8 @@ export default function CrSongRequestForm({
   bodyContent = 'Request a song for the DJ to play during their show.',
   hintText = 'Keep it friendly and respectful',
   maxMessageLength = 200,
+  cooldownMinutesRemaining = 0,
+  cooldownMessage = '',
   onCancel,
   onSubmit,
   className = '',
@@ -83,6 +87,24 @@ export default function CrSongRequestForm({
 
       {bodyContent && <p className="cr-song-request-form__body">{bodyContent}</p>}
 
+      {/* Cooldown Message */}
+      {cooldownMinutesRemaining > 0 && (
+        <div
+          className="cr-song-request-form__cooldown"
+          style={{
+            padding: 'var(--cr-space-3)',
+            backgroundColor: 'var(--cr-danger-100)',
+            border: '1px solid var(--cr-danger-300)',
+            borderRadius: 'var(--cr-space-1)',
+            marginBottom: 'var(--cr-space-4)',
+            color: 'var(--cr-danger-700)',
+            font: 'var(--cr-body-md)',
+          }}
+        >
+          {cooldownMessage}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="cr-song-request-form__form">
         {/* Artist Input */}
         <div className="cr-song-request-form__field">
@@ -96,6 +118,7 @@ export default function CrSongRequestForm({
             value={artist}
             onChange={(e) => setArtist(e.target.value)}
             placeholder="Enter artist name"
+            disabled={cooldownMinutesRemaining > 0}
           />
           {errors.artist && <span className="cr-song-request-form__error">{errors.artist}</span>}
         </div>
@@ -112,6 +135,7 @@ export default function CrSongRequestForm({
             value={songTitle}
             onChange={(e) => setSongTitle(e.target.value)}
             placeholder="Enter song title"
+            disabled={cooldownMinutesRemaining > 0}
           />
           {errors.songTitle && (
             <span className="cr-song-request-form__error">{errors.songTitle}</span>
@@ -130,13 +154,10 @@ export default function CrSongRequestForm({
             onChange={handleMessageChange}
             placeholder="Add a message or dedication"
             rows={4}
+            disabled={cooldownMinutesRemaining > 0}
           />
           <div className="cr-song-request-form__helper-row">
-            {hintText && (
-              <span className="cr-song-request-form__helper-text">
-                {hintText}
-              </span>
-            )}
+            {hintText && <span className="cr-song-request-form__helper-text">{hintText}</span>}
             <span className="cr-song-request-form__char-count">
               {message.length}/{maxMessageLength}
             </span>
@@ -160,6 +181,7 @@ export default function CrSongRequestForm({
             color="secondary"
             size="medium"
             leftIcon={<PiPaperPlaneTilt />}
+            disabled={cooldownMinutesRemaining > 0}
           >
             Send Request
           </CrButton>
