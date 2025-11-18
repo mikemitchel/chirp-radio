@@ -71,7 +71,11 @@ export default function CrTrackInfo({
 
   // Check if text overflows and add scrolling class
   useEffect(() => {
-    const checkOverflow = (element: HTMLElement | null, container: HTMLElement | null) => {
+    const checkOverflow = (
+      element: HTMLElement | null,
+      container: HTMLElement | null,
+      label?: string
+    ) => {
       if (element && container) {
         // Force a reflow to ensure accurate measurements
         void container.offsetWidth
@@ -80,6 +84,12 @@ export default function CrTrackInfo({
         // Add a small buffer to prevent unnecessary scrolling for minor differences
         const buffer = 5
         const isOverflowing = element.scrollWidth > container.clientWidth + buffer
+
+        console.log(`[CrTrackInfo] Overflow check ${label || 'unknown'}:`, {
+          scrollWidth: element.scrollWidth,
+          clientWidth: container.clientWidth,
+          isOverflowing,
+        })
 
         if (isOverflowing) {
           // Calculate how far to scroll to show the hidden text
@@ -93,6 +103,9 @@ export default function CrTrackInfo({
           element.style.setProperty('--animation-duration', `${duration}s`)
 
           element.classList.add('has-overflow')
+          console.log(
+            `[CrTrackInfo] Added overflow animation to ${label || 'unknown'}: distance=${scrollDistance}px, duration=${duration}s`
+          )
         } else {
           element.classList.remove('has-overflow')
           element.style.removeProperty('--scroll-distance')
@@ -101,16 +114,46 @@ export default function CrTrackInfo({
       }
     }
 
-    // Add a longer delay to ensure layout is completely settled
-    const timeoutId = setTimeout(() => {
-      checkOverflow(trackRef.current, trackContainerRef.current)
-      checkOverflow(artistRef.current, artistContainerRef.current)
-      checkOverflow(albumRef.current, albumContainerRef.current)
-      checkOverflow(labelRef.current, labelContainerRef.current)
-      checkOverflow(detailsRef.current, detailsContainerRef.current)
-    }, 400)
+    const checkAllOverflows = () => {
+      checkOverflow(trackRef.current, trackContainerRef.current, 'track')
+      checkOverflow(artistRef.current, artistContainerRef.current, 'artist')
+      checkOverflow(albumRef.current, albumContainerRef.current, 'album')
+      checkOverflow(labelRef.current, labelContainerRef.current, 'label')
+      checkOverflow(detailsRef.current, detailsContainerRef.current, 'details')
+    }
 
-    return () => clearTimeout(timeoutId)
+    // Check after initial delay for fonts to load
+    const timeoutId = setTimeout(checkAllOverflows, 800)
+
+    // Also check when fonts finish loading (for mobile where fonts may load slower)
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(checkAllOverflows)
+    }
+
+    // Set up ResizeObserver to recheck when container size changes
+    const resizeObserver = new ResizeObserver(() => {
+      checkAllOverflows()
+    })
+
+    // Observe all container elements
+    const containers = [
+      trackContainerRef.current,
+      artistContainerRef.current,
+      albumContainerRef.current,
+      labelContainerRef.current,
+      detailsContainerRef.current,
+    ]
+
+    containers.forEach((container) => {
+      if (container) {
+        resizeObserver.observe(container)
+      }
+    })
+
+    return () => {
+      clearTimeout(timeoutId)
+      resizeObserver.disconnect()
+    }
   }, [trackName, artistName, albumName, labelName, variant, isLocal])
 
   const handleToggleAdd = () => {
@@ -344,21 +387,64 @@ export default function CrTrackInfo({
         </div>
       </div>
 
-      {/* Album - wider width */}
-      {albumName && (
-        <div className="cr-track-info__details-container" ref={albumContainerRef}>
-          <div className="cr-track-info__details-scrolling" ref={albumRef}>
-            <span className="cr-track-info__album">{albumName}</span>
-          </div>
-        </div>
-      )}
+      {/* Album/Label + ADD button - flex layout like artist line */}
+      {(albumName || labelName) && (
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            minWidth: 0,
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              minWidth: 0,
+              flex: 1,
+            }}
+          >
+            {/* Album */}
+            {albumName && (
+              <div className="cr-track-info__details-container" ref={albumContainerRef}>
+                <div className="cr-track-info__details-scrolling" ref={albumRef}>
+                  <span className="cr-track-info__album">{albumName}</span>
+                </div>
+              </div>
+            )}
 
-      {/* Label - wider width */}
-      {labelName && (
-        <div className="cr-track-info__details-container" ref={labelContainerRef}>
-          <div className="cr-track-info__details-scrolling" ref={labelRef}>
-            <span className="cr-track-info__label">{labelName}</span>
+            {/* Label */}
+            {labelName && (
+              <div className="cr-track-info__details-container" ref={labelContainerRef}>
+                <div className="cr-track-info__details-scrolling" ref={labelRef}>
+                  <span className="cr-track-info__label">{labelName}</span>
+                </div>
+              </div>
+            )}
           </div>
+
+          {/* ADD button - floats to the right like LOCAL chip */}
+          {onToggleAdd !== undefined && (
+            <div
+              style={{
+                flexShrink: 0,
+                marginLeft: '8px',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <CrButton
+                variant="text"
+                size="xsmall"
+                color="secondary"
+                rightIcon={isAdded ? undefined : <PiPlusCircle className="w-4 h-4" />}
+                onClick={handleToggleAdd}
+              >
+                {isAdded ? 'REMOVE' : 'ADD'}
+              </CrButton>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -382,9 +468,9 @@ export default function CrTrackInfo({
         <div className="cr-track-info__content">
           {renderContent()}
 
-          {/* Only render button here for full/stacked variants - minimal has it inline */}
+          {/* Only render button here for full variant - minimal and stacked have it inline */}
           {/* Don't show button if onToggleAdd is explicitly undefined (e.g., Android Auto) */}
-          {variant !== 'minimal' && onToggleAdd !== undefined && (
+          {variant === 'full' && onToggleAdd !== undefined && (
             <div className="cr-track-info__actions">
               <CrButton
                 variant="text"
