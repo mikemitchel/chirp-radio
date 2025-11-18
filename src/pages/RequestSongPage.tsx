@@ -1,5 +1,5 @@
 // src/pages/RequestSongPage.tsx
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { Helmet } from 'react-helmet-async'
 import { PiCalendarDots, PiReadCvLogo } from 'react-icons/pi'
@@ -10,6 +10,7 @@ import CrSongRequestForm from '../stories/CrSongRequestForm'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
 import CrButton from '../stories/CrButton'
+import CrModal from '../stories/CrModal'
 import { useAuth } from '../hooks/useAuth'
 import {
   usePageBySlug,
@@ -22,6 +23,8 @@ import {
 import { getAdvertisementProps } from '../utils/categoryHelpers'
 import requestSongData from '../data/requestSong.json'
 
+const COOLDOWN_STORAGE_KEY = 'chirp-song-request-last-submitted'
+
 const RequestSongPage: React.FC = () => {
   const navigate = useNavigate()
   const { isLoggedIn, login } = useAuth()
@@ -31,14 +34,71 @@ const RequestSongPage: React.FC = () => {
   const { data: events } = useEvents()
   const { data: podcasts } = usePodcasts()
   const { data: currentShow } = useCurrentShow()
+  const [cooldownMinutesRemaining, setCooldownMinutesRemaining] = useState<number>(0)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [submittedRequest, setSubmittedRequest] = useState<{
+    artist: string
+    songTitle: string
+    message?: string
+  } | null>(null)
+
+  // Get cooldown settings from page config (default to 5 minutes if not set)
+  const cooldownMinutes = pageConfig?.songRequestCooldownMinutes ?? 5
+  const cooldownMessage =
+    pageConfig?.songRequestCooldownMessage || 'You can submit another request in {minutes} minutes.'
+
+  // Check cooldown status on mount and set up timer
+  useEffect(() => {
+    const checkCooldown = () => {
+      const lastSubmitted = localStorage.getItem(COOLDOWN_STORAGE_KEY)
+      if (!lastSubmitted || cooldownMinutes === 0) {
+        setCooldownMinutesRemaining(0)
+        return
+      }
+
+      const lastSubmittedTime = parseInt(lastSubmitted, 10)
+      const now = Date.now()
+      const elapsedMinutes = (now - lastSubmittedTime) / 1000 / 60
+      const remainingMinutes = Math.ceil(cooldownMinutes - elapsedMinutes)
+
+      if (remainingMinutes > 0) {
+        setCooldownMinutesRemaining(remainingMinutes)
+      } else {
+        setCooldownMinutesRemaining(0)
+      }
+    }
+
+    checkCooldown()
+
+    // Check every minute to update countdown
+    const interval = setInterval(checkCooldown, 60000)
+    return () => clearInterval(interval)
+  }, [cooldownMinutes])
 
   const handleSubmit = (data: any) => {
     console.log('Song request submitted:', data)
+
+    // Store submission timestamp
+    localStorage.setItem(COOLDOWN_STORAGE_KEY, Date.now().toString())
+    setCooldownMinutesRemaining(cooldownMinutes)
+
+    // Store request data and show success modal
+    setSubmittedRequest({ artist: data.artist, songTitle: data.songTitle, message: data.message })
+    setShowSuccessModal(true)
+
     // TODO: Send request to API
-    alert(
-      `Request submitted!\n\nSong: ${data.songTitle}\nArtist: ${data.artistName}\n\nThank you for your request!`
-    )
   }
+
+  // Development helper: show modal on mount
+  React.useEffect(() => {
+    console.log('=== DEVELOPMENT: Auto-showing success modal ===')
+    setSubmittedRequest({
+      artist: 'The Beatles',
+      songTitle: 'Hey Jude',
+      message: 'This song reminds me of my childhood. Would love to hear it on your show!',
+    })
+    setShowSuccessModal(true)
+  }, [])
 
   const handleCancel = () => {
     console.log('Song request cancelled')
@@ -162,7 +222,16 @@ const RequestSongPage: React.FC = () => {
                     statusText="On-Air"
                   />
                 </div>
-                <CrSongRequestForm title="" onSubmit={handleSubmit} onCancel={handleCancel} />
+                <CrSongRequestForm
+                  title=""
+                  onSubmit={handleSubmit}
+                  onCancel={handleCancel}
+                  cooldownMinutesRemaining={cooldownMinutesRemaining}
+                  cooldownMessage={cooldownMessage.replace(
+                    '{minutes}',
+                    cooldownMinutesRemaining.toString()
+                  )}
+                />
               </>
             ) : (
               <div
@@ -411,6 +480,37 @@ const RequestSongPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      <CrModal
+        isOpen={showSuccessModal}
+        title="Request Submitted!"
+        size="small"
+        onClose={() => setShowSuccessModal(false)}
+        scrimOnClick={() => setShowSuccessModal(false)}
+      >
+        <div className="cr-modal__success-content">
+          <p className="cr-modal__text cr-modal__text--large">Thank you for your song request!</p>
+          {submittedRequest && (
+            <div className="cr-modal__request-details">
+              <p>
+                <strong>Song:</strong> {submittedRequest.songTitle}
+              </p>
+              <p>
+                <strong>Artist:</strong> {submittedRequest.artist}
+              </p>
+              {submittedRequest.message && (
+                <p>
+                  <strong>Message:</strong> {submittedRequest.message}
+                </p>
+              )}
+            </div>
+          )}
+          <p className="cr-modal__text cr-modal__text--light">
+            The DJ will consider your request for their show.
+          </p>
+        </div>
+      </CrModal>
     </>
   )
 }
