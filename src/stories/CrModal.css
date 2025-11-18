@@ -161,6 +161,37 @@
   text-align: center;
 }
 
+.cr-modal__text--large {
+  font: var(--cr-body-lg);
+}
+
+.cr-modal__text--light {
+  color: var(--cr-ink-light);
+}
+
+/* Success modal specific styles */
+.cr-modal__success-content {
+  text-align: left;
+  margin: var(--cr-space-4);
+}
+
+.cr-modal__request-details {
+  padding: var(--cr-space-4);
+  background-color: var(--cr-default-100);
+  border-radius: var(--cr-space-2);
+  margin-bottom: var(--cr-space-4);
+}
+
+.cr-modal__request-details p {
+  font: var(--cr-body-md);
+  color: var(--cr-ink);
+  margin: 0;
+}
+
+.cr-modal__request-details p + p {
+  margin-top: var(--cr-space-2);
+}
+
 /* Modal icon container */
 .cr-modal__icon {
   text-align: center;
