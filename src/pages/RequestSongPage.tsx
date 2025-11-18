@@ -89,17 +89,6 @@ const RequestSongPage: React.FC = () => {
     // TODO: Send request to API
   }
 
-  // Development helper: show modal on mount
-  React.useEffect(() => {
-    console.log('=== DEVELOPMENT: Auto-showing success modal ===')
-    setSubmittedRequest({
-      artist: 'The Beatles',
-      songTitle: 'Hey Jude',
-      message: 'This song reminds me of my childhood. Would love to hear it on your show!',
-    })
-    setShowSuccessModal(true)
-  }, [])
-
   const handleCancel = () => {
     console.log('Song request cancelled')
     // TODO: Handle cancel action (e.g., navigate back)
@@ -215,12 +204,14 @@ const RequestSongPage: React.FC = () => {
                   >
                     Submit Your Request
                   </h2>
-                  <CrCurrentDj
-                    djName={currentShow?.djName || 'Current DJ'}
-                    showName={currentShow?.showName || 'Current Show'}
-                    isOnAir={true}
-                    statusText="On-Air"
-                  />
+                  {currentShow?.djName && (
+                    <CrCurrentDj
+                      djName={currentShow.djName}
+                      showName={currentShow.showName}
+                      isOnAir={true}
+                      statusText="On-Air"
+                    />
+                  )}
                 </div>
                 <CrSongRequestForm
                   title=""
