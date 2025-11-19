@@ -12,8 +12,8 @@ import { useNotification } from '../contexts/NotificationContext'
 import { isDJ, isVolunteer } from '../types/user'
 import { Capacitor } from '@capacitor/core'
 import AppIconPlugin from '../plugins/AppIconPlugin'
-import LoginRequiredModal from '../components/LoginRequiredModal'
-import ForgotPasswordModal from '../components/ForgotPasswordModal'
+import CrLoginRequiredModal from '../stories/CrLoginRequiredModal'
+import CrForgotPasswordModal from '../stories/CrForgotPasswordModal'
 import { emit } from '../utils/eventBus'
 import { formatShowTime } from '../utils/formatShowTime'
 import { updateInCMS } from '../utils/api'
@@ -531,6 +531,7 @@ export default function AccountSettings() {
         lastName: formData.lastName,
         location: formData.location,
         profileImage: formData.avatarSrc,
+        fullProfileImage: formData.fullProfileImage,
         profileImageOrientation: formData.profileImageOrientation,
         djName: formData.djName,
         showName: formData.showName,
@@ -556,6 +557,7 @@ export default function AccountSettings() {
         name: `${formData.firstName} ${formData.lastName}`,
         location: formData.location,
         profileImage: formData.avatarSrc,
+        fullProfileImage: formData.fullProfileImage,
         profileImageOrientation: formData.profileImageOrientation,
         djName: formData.djName,
         showName: formData.showName,
@@ -652,6 +654,7 @@ export default function AccountSettings() {
         name: `${formData.firstName} ${formData.lastName}`,
         location: formData.location,
         profileImage: formData.avatarSrc,
+        fullProfileImage: formData.fullProfileImage,
         profileImageOrientation: formData.profileImageOrientation,
         djName: formData.djName,
         showName: formData.showName,
@@ -1072,7 +1075,7 @@ export default function AccountSettings() {
         />
       )}
 
-      <LoginRequiredModal
+      <CrLoginRequiredModal
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         onLogin={handleLogin}
@@ -1080,7 +1083,7 @@ export default function AccountSettings() {
         initialMode={loginModalMode}
       />
 
-      <ForgotPasswordModal
+      <CrForgotPasswordModal
         isOpen={showForgotPasswordModal}
         onClose={() => setShowForgotPasswordModal(false)}
       />

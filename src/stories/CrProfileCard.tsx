@@ -133,12 +133,12 @@ export default function CrProfileCard({
   className = '',
 }: CrProfileCardProps) {
   // Track the original full image separately from the cropped avatar
-  const [originalFullImage, setOriginalFullImage] = useState(fullProfileImage || avatarSrc)
+  const [originalFullImage, setOriginalFullImage] = useState(fullProfileImage || null)
 
   // Update originalFullImage when props change (for profile switching)
   useEffect(() => {
-    setOriginalFullImage(fullProfileImage || avatarSrc)
-  }, [fullProfileImage, avatarSrc])
+    setOriginalFullImage(fullProfileImage || null)
+  }, [fullProfileImage])
 
   const componentClasses = ['cr-profile-card', `cr-profile-card--${state}`, className]
     .filter(Boolean)
