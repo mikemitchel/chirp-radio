@@ -4,7 +4,8 @@ import { useNavigate, useSearchParams } from 'react-router'
 import { Helmet } from 'react-helmet-async'
 import CrButton from '../stories/CrButton'
 import CrCard from '../stories/CrCard'
-import '../components/LoginRequiredModal.css'
+import '../stories/CrLoginRequiredModal.css'
+import './ResetPasswordPage.css'
 
 const ResetPasswordPage: React.FC = () => {
   const navigate = useNavigate()
@@ -98,13 +99,7 @@ const ResetPasswordPage: React.FC = () => {
       </Helmet>
       <div className="reset-password-page">
         <div className="page-layout-single">
-          <div
-            style={{
-              maxWidth: '500px',
-              margin: '0 auto',
-              padding: 'var(--cr-space-12) var(--cr-space-4)',
-            }}
-          >
+          <div className="reset-password-container">
             {resetSuccess ? (
               <CrCard
                 variant="article"
@@ -122,43 +117,11 @@ const ResetPasswordPage: React.FC = () => {
               />
             ) : (
               <>
-                <h1
-                  style={{
-                    font: 'var(--cr-title-xl)',
-                    color: 'var(--cr-ink)',
-                    marginBottom: 'var(--cr-space-4)',
-                    textAlign: 'center',
-                  }}
-                >
-                  Reset Your Password
-                </h1>
+                <h1 className="reset-password-title">Reset Your Password</h1>
 
-                <p
-                  style={{
-                    fontSize: 'var(--cr-body-md)',
-                    color: 'var(--cr-default-700)',
-                    marginBottom: 'var(--cr-space-8)',
-                    textAlign: 'center',
-                  }}
-                >
-                  Enter your new password below
-                </p>
+                <p className="reset-password-description">Enter your new password below</p>
 
-                {errors.general && (
-                  <div
-                    style={{
-                      padding: 'var(--cr-space-4)',
-                      backgroundColor: 'var(--cr-error-100)',
-                      border: '1px solid var(--cr-error-500)',
-                      borderRadius: 'var(--cr-radius-sm)',
-                      marginBottom: 'var(--cr-space-6)',
-                      color: 'var(--cr-error-700)',
-                      textAlign: 'center',
-                    }}
-                  >
-                    {errors.general}
-                  </div>
-                )}
+                {errors.general && <div className="reset-password-error">{errors.general}</div>}
 
                 <form onSubmit={handleSubmit} className="login-modal__form">
                   {/* Password Input */}
@@ -200,13 +163,7 @@ const ResetPasswordPage: React.FC = () => {
                   </div>
 
                   {/* Form Actions */}
-                  <div
-                    style={{
-                      display: 'flex',
-                      gap: 'var(--cr-space-4)',
-                      marginTop: 'var(--cr-space-6)',
-                    }}
-                  >
+                  <div className="reset-password-actions">
                     <CrButton
                       type="button"
                       variant="outline"

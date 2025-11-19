@@ -9,7 +9,7 @@ import CrDjOverview from '../stories/CrDjOverview'
 import CrPageHeader from '../stories/CrPageHeader'
 import CrCard from '../stories/CrCard'
 import HeroCarousel from '../components/HeroCarousel'
-import CrRecentlyPlayed from '../components/CrRecentlyPlayed'
+import CrRecentlyPlayed from '../stories/CrRecentlyPlayed'
 import {
   useFeaturedAnnouncement,
   useAnnouncements,
@@ -35,7 +35,7 @@ import { useLoginRequired } from '../hooks/useLoginRequired'
 import { downloadDJShowCalendar } from '../utils/calendar'
 import { formatShowTime, prepareShowTimes } from '../utils/formatShowTime'
 import { useNotification } from '../contexts/NotificationContext'
-import LoginRequiredModal from '../components/LoginRequiredModal'
+import LoginRequiredModal from '../stories/CrLoginRequiredModal'
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate()

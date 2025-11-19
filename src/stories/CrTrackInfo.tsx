@@ -5,7 +5,7 @@ import CrButton from './CrButton'
 import CrChip from './CrChip'
 import './CrTrackInfo.css'
 import { useLoginRequired } from '../hooks/useLoginRequired'
-import LoginRequiredModal from '../components/LoginRequiredModal'
+import LoginRequiredModal from '../stories/CrLoginRequiredModal'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
 
 interface CrTrackInfoProps {

@@ -5,7 +5,7 @@ import CrAvatar from './CrAvatar'
 import CrChip from './CrChip'
 import CrButton from './CrButton'
 import CrSelect from './CrSelect'
-import LoginRequiredModal from '../components/LoginRequiredModal'
+import LoginRequiredModal from '../stories/CrLoginRequiredModal'
 import './CrAccount.css'
 
 interface CrAccountProps {

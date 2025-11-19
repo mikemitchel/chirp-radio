@@ -10,7 +10,7 @@ import { on } from './utils/eventBus'
 import ScrollToTop from './components/ScrollToTop'
 import RedirectChecker from './components/RedirectChecker'
 import ProtectedRoute from './components/ProtectedRoute'
-import OnboardingTour from './components/OnboardingTour'
+import OnboardingTour from './stories/CrOnboardingTour'
 import './utils/devTools' // Load development tools
 import './utils/debugAlbumArt' // Load album art debug utilities
 import MobileApp from './layouts/MobileApp'

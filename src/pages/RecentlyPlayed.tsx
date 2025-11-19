@@ -6,7 +6,7 @@ import CrAnnouncement from '../stories/CrAnnouncement'
 import { useNotification } from '../contexts/NotificationContext'
 import { useAuth } from '../hooks/useAuth'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
-import LoginRequiredModal from '../components/LoginRequiredModal'
+import LoginRequiredModal from '../stories/CrLoginRequiredModal'
 import { useMobilePageByIdentifier, useTracks, useSiteSettings } from '../hooks/useData'
 
 export default function RecentlyPlayed() {
@@ -19,12 +19,20 @@ export default function RecentlyPlayed() {
 
   // Get page header content from CMS with fallbacks
   const pageTitle = pageContent?.pageTitle || 'Recently Played'
-  const actionButtonText = (pageContent && 'actionButtonText' in pageContent ? (pageContent as Record<string, unknown>).actionButtonText as string : undefined) || 'Complete Playlist'
+  const actionButtonText =
+    (pageContent && 'actionButtonText' in pageContent
+      ? ((pageContent as Record<string, unknown>).actionButtonText as string)
+      : undefined) || 'Complete Playlist'
   const completePlaylistUrl =
-    (siteSettings && 'completePlaylistUrl' in siteSettings ? (siteSettings as Record<string, unknown>).completePlaylistUrl as string : undefined) || 'https://chirpradio.org/playlists'
+    (siteSettings && 'completePlaylistUrl' in siteSettings
+      ? ((siteSettings as Record<string, unknown>).completePlaylistUrl as string)
+      : undefined) || 'https://chirpradio.org/playlists'
 
   // Get the announcement from CMS (now populated and transformed with depth: 1)
-  const announcementValue = pageContent && 'announcement' in pageContent ? (pageContent as Record<string, unknown>).announcement : undefined
+  const announcementValue =
+    pageContent && 'announcement' in pageContent
+      ? (pageContent as Record<string, unknown>).announcement
+      : undefined
   const selectedAnnouncement =
     typeof announcementValue === 'object' && announcementValue !== null ? announcementValue : null
 
@@ -84,7 +92,10 @@ export default function RecentlyPlayed() {
           startTime,
           endTime,
           djName: track.djName || 'Unknown DJ',
-          djProfileUrl: ('djImage' in track ? (track as Record<string, unknown>).djImage as string | undefined : undefined),
+          djProfileUrl:
+            'djImage' in track
+              ? ((track as Record<string, unknown>).djImage as string | undefined)
+              : undefined,
           showName: track.showName || 'Unknown Show',
         },
         isAdded: isInCollection(track.artistName, track.trackName),
@@ -193,7 +204,9 @@ export default function RecentlyPlayed() {
       {selectedAnnouncement && (
         <CrAnnouncement
           variant={(selectedAnnouncement as Record<string, unknown>).variant as string}
-          textureBackground={(selectedAnnouncement as Record<string, unknown>).textureBackground as string}
+          textureBackground={
+            (selectedAnnouncement as Record<string, unknown>).textureBackground as string
+          }
           headlineText={(selectedAnnouncement as Record<string, unknown>).headlineText as string}
           bodyText={(selectedAnnouncement as Record<string, unknown>).bodyText as string}
           showLink={(selectedAnnouncement as Record<string, unknown>).showLink as boolean}

@@ -4,8 +4,8 @@ import CrModal from '../stories/CrModal'
 import CrButton from '../stories/CrButton'
 import CrButtonGroup from '../stories/CrButtonGroup'
 import { useMobileAppSettings } from '../hooks/useData'
-import ForgotPasswordModal from './ForgotPasswordModal'
-import './LoginRequiredModal.css'
+import CrForgotPasswordModal from './CrForgotPasswordModal'
+import './CrLoginRequiredModal.css'
 
 interface LoginRequiredModalProps {
   isOpen: boolean
@@ -230,7 +230,7 @@ export default function LoginRequiredModal({
         </div>
       </CrModal>
 
-      <ForgotPasswordModal
+      <CrForgotPasswordModal
         isOpen={showForgotPassword}
         onClose={() => setShowForgotPassword(false)}
       />

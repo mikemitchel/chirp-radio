@@ -6,7 +6,7 @@ import CrChip from './CrChip'
 import './CrPlaylistItem.css'
 import CrTrackInfo from './CrTrackInfo'
 import { useLoginRequired } from '../hooks/useLoginRequired'
-import LoginRequiredModal from '../components/LoginRequiredModal'
+import LoginRequiredModal from '../stories/CrLoginRequiredModal'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
 
 interface CrPlaylistItemProps {
