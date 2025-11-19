@@ -5,7 +5,7 @@ import CrPlaylistItem from './CrPlaylistItem'
 import './CrPlaylistTable.css'
 import CrPlaylistTableHeader from './CrPlaylistTableHeader'
 import { useLoginRequired } from '../hooks/useLoginRequired'
-import LoginRequiredModal from '../components/LoginRequiredModal'
+import LoginRequiredModal from '../stories/CrLoginRequiredModal'
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
 
 interface CrPlaylistTableProps {
@@ -178,12 +178,13 @@ export default function CrPlaylistTable({
                   style={{
                     maxHeight: isCollapsed
                       ? '0px'
-                      : (contentRefs.current as Record<string, HTMLDivElement | null>)[hourKey]?.scrollHeight + 'px' || '5000px',
+                      : (contentRefs.current as Record<string, HTMLDivElement | null>)[hourKey]
+                          ?.scrollHeight + 'px' || '5000px',
                   }}
                 >
                   <div
                     ref={(el) => {
-                      (contentRefs.current as Record<string, HTMLDivElement | null>)[hourKey] = el
+                      ;(contentRefs.current as Record<string, HTMLDivElement | null>)[hourKey] = el
                     }}
                     className="cr-playlist-table__hour-items-inner"
                   >

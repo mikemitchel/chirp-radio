@@ -6,7 +6,7 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from '
 import { addToCollection, removeFromCollection, isInCollection } from '../utils/collectionDB'
 import { useAuth } from '../hooks/useAuth'
 import { emit, on } from '../utils/eventBus'
-import LoginRequiredModal from '../components/LoginRequiredModal'
+import LoginRequiredModal from '../stories/CrLoginRequiredModal'
 
 export interface Track {
   artist: string

@@ -4,7 +4,7 @@ import CrModal from '../stories/CrModal'
 import CrButton from '../stories/CrButton'
 import { useAuth } from '../contexts/AuthContext'
 import { Capacitor } from '@capacitor/core'
-import './OnboardingTour.css'
+import './CrOnboardingTour.css'
 
 interface OnboardingStep {
   id: string

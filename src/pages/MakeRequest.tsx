@@ -8,7 +8,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useAudioPlayer } from '../contexts/AudioPlayerContext'
 import { useNotification } from '../contexts/NotificationContext'
 import { useMobilePageByIdentifier, useMobileAppSettings } from '../hooks/useData'
-import LoginRequiredModal from '../components/LoginRequiredModal'
+import LoginRequiredModal from '../stories/CrLoginRequiredModal'
 
 interface MakeRequestProps {
   testDjName?: string

@@ -43,17 +43,13 @@ export default function UserTypeSwitcher() {
 
   const currentProfile = getCurrentProfile()
 
-  const handleProfileSwitch = (profileId: typeof profiles[number]['id']) => {
+  const handleProfileSwitch = (profileId: (typeof profiles)[number]['id']) => {
     switchProfile(profileId)
   }
 
   return (
     <div className={`user-type-switcher ${isExpanded ? 'user-type-switcher--expanded' : ''}`}>
-      <div
-        className="user-type-switcher__header"
-        onClick={() => setIsExpanded(!isExpanded)}
-        style={{ cursor: 'pointer' }}
-      >
+      <div className="user-type-switcher__header" onClick={() => setIsExpanded(!isExpanded)}>
         <span className="user-type-switcher__label">Dev Tools</span>
         <span className="user-type-switcher__toggle">{isExpanded ? '▼' : '▶'}</span>
       </div>
