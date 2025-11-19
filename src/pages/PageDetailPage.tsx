@@ -6,6 +6,7 @@ import PageLayout from '../components/PageLayout'
 import CrCard from '../stories/CrCard'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
+import NotFoundPage from './NotFoundPage'
 import {
   usePageBySlug,
   useArticles,
@@ -29,7 +30,7 @@ const PageDetailPage: React.FC = () => {
   }
 
   if (error || !pageConfig) {
-    return <div>Page not found</div>
+    return <NotFoundPage />
   }
 
   // Build sidebar content based on configuration
