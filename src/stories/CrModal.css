@@ -44,6 +44,12 @@
   max-width: 720px;
 }
 
+/* Modal variants */
+.cr-modal--cropper {
+  width: unset;
+  max-width: unset;
+}
+
 /* Header section */
 .cr-modal__header {
   display: flex;
@@ -291,7 +297,6 @@
 /* Responsive behavior */
 @media (max-width: 768px) {
   .cr-modal {
-    max-width: calc(100vw - var(--cr-space-8));
     max-height: calc(100vh - var(--cr-space-8));
   }
 

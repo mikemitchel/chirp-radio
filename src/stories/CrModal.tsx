@@ -15,6 +15,7 @@ interface CrModalProps {
   statusText?: string
   className?: string
   size?: string
+  variant?: string
   onClose?: () => void
   showCloseButton?: boolean
   scrimOpacity?: number
@@ -32,13 +33,21 @@ export default function CrModal({
   statusText = 'On-Air',
   className = '',
   size = 'default', // default, small, large
+  variant,
   onClose,
   showCloseButton = true,
   scrimOpacity = 0.75,
   scrimOnClick,
   isOpen = false,
 }: CrModalProps) {
-  const modalClasses = ['cr-modal', `cr-modal--${size}`, className].filter(Boolean).join(' ')
+  const modalClasses = [
+    'cr-modal',
+    `cr-modal--${size}`,
+    variant ? `cr-modal--${variant}` : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   if (!isOpen) return null
 
