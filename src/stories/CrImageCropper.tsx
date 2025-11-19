@@ -160,10 +160,14 @@ export default function CrImageCropper({
             resetCropperState()
             setIsModalOpen(true)
 
-            // Create initial avatar immediately
-            setTimeout(() => {
-              createInitialAvatar(img, result)
-            }, 200)
+            // Immediately notify parent of the full image (but not cropped yet)
+            if (onImageChange) {
+              onImageChange({
+                fullImage: result,
+                croppedImage: images.cropped || undefined,
+                orientation: orientation,
+              })
+            }
           }
         }
         img.onerror = (error) => {
@@ -360,58 +364,6 @@ export default function CrImageCropper({
     setCropperState((prev) => ({ ...prev, isDragging: false }))
   }, [])
 
-  const createInitialAvatar = useCallback(
-    (img: HTMLImageElement, imageSrc: string) => {
-      if (!outputCanvasRef.current) return
-
-      const canvas = outputCanvasRef.current
-      const ctx = canvas.getContext('2d')
-      if (!ctx) return
-      canvas.width = outputSize
-      canvas.height = outputSize
-      ctx.clearRect(0, 0, outputSize, outputSize)
-
-      const imageAspect = img.width / img.height
-      let cropSize, sourceX, sourceY
-
-      if (imageAspect >= 1) {
-        cropSize = img.height
-        sourceX = (img.width - cropSize) / 2
-        sourceY = 0
-      } else {
-        cropSize = img.width
-        sourceX = 0
-        sourceY = (img.height - cropSize) / 2
-      }
-
-      ctx.save()
-      ctx.beginPath()
-      ctx.arc(outputSize / 2, outputSize / 2, outputSize / 2, 0, Math.PI * 2)
-      ctx.clip()
-
-      ctx.drawImage(img, sourceX, sourceY, cropSize, cropSize, 0, 0, outputSize, outputSize)
-      ctx.restore()
-
-      const initialCroppedDataURL = canvas.toDataURL('image/png')
-
-      // Update local state
-      setImages((prev) => ({
-        ...prev,
-        cropped: initialCroppedDataURL,
-      }))
-
-      // Notify parent component
-      if (onImageChange) {
-        onImageChange({
-          fullImage: imageSrc,
-          croppedImage: initialCroppedDataURL,
-          orientation: orientation,
-        })
-      }
-    },
-    [outputSize, onImageChange, orientation]
-  )
-
   const handleApplyCrop = useCallback(() => {
     if (!currentImage || !outputCanvasRef.current) {
       return
@@ -548,41 +500,11 @@ export default function CrImageCropper({
                   src={images.full}
                   alt="Full profile"
                   className="cr-image-cropper__image cr-image-cropper__image--full"
-                  style={{
-                    width:
-                      orientation === 'landscape'
-                        ? '400px'
-                        : orientation === 'portrait'
-                          ? '225px'
-                          : '400px',
-                    height:
-                      orientation === 'landscape'
-                        ? '225px'
-                        : orientation === 'portrait'
-                          ? '400px'
-                          : '400px',
-                    objectFit: 'cover',
-                  }}
+                  data-orientation={orientation}
                 />
               </div>
             ) : (
-              <div
-                className="cr-image-cropper__placeholder-initial"
-                style={{
-                  width:
-                    orientation === 'landscape'
-                      ? '400px'
-                      : orientation === 'portrait'
-                        ? '225px'
-                        : '400px',
-                  height:
-                    orientation === 'landscape'
-                      ? '225px'
-                      : orientation === 'portrait'
-                        ? '400px'
-                        : '400px',
-                }}
-              >
+              <div className="cr-image-cropper__placeholder-initial" data-orientation={orientation}>
                 No image uploaded yet
               </div>
             )}
@@ -716,64 +638,76 @@ export default function CrImageCropper({
         onClose={handleCancelCrop}
         title="Crop Profile Picture"
         showDjInfo={false}
+        variant="cropper"
       >
-        <div className="cr-image-cropper__crop-modal">
-          <div className="cr-image-cropper__crop-container">
-            <div
-              ref={cropContainerRef}
-              className="cr-image-cropper__crop-area"
-              onMouseDown={startDrag}
-              onTouchStart={startDrag}
-              style={{
-                width: containerSize,
-                height: containerSize,
-                cursor: cropperState.isDragging ? 'grabbing' : 'grab',
-              }}
-            >
-              {images.full && (
-                <img
-                  ref={imageElementRef}
-                  src={images.full}
-                  alt="Crop preview"
-                  className="cr-image-cropper__crop-image"
-                  draggable={false}
+        <div className="cr-modal__body cr-image-cropper__crop-modal-wrapper">
+          <div className="cr-image-cropper__crop-modal">
+            {/* Left side: Crop area and zoom */}
+            <div className="cr-image-cropper__crop-container">
+              <div
+                ref={cropContainerRef}
+                className="cr-image-cropper__crop-area"
+                onMouseDown={startDrag}
+                onTouchStart={startDrag}
+                style={{
+                  width: containerSize,
+                  height: containerSize,
+                  cursor: cropperState.isDragging ? 'grabbing' : 'grab',
+                }}
+              >
+                {images.full && (
+                  <img
+                    ref={imageElementRef}
+                    src={images.full}
+                    alt="Crop preview"
+                    className="cr-image-cropper__crop-image"
+                    draggable={false}
+                  />
+                )}
+                <div className="cr-image-cropper__crop-overlay" />
+              </div>
+
+              <div className="cr-image-cropper__zoom-control">
+                <label>Zoom:</label>
+                <input
+                  type="range"
+                  min="0.5"
+                  max="3"
+                  step="0.01"
+                  value={cropperState.scale}
+                  onChange={handleZoomChange}
+                  className="cr-image-cropper__zoom-slider"
                 />
-              )}
-              <div className="cr-image-cropper__crop-overlay" />
+                <span>{cropperState.scale.toFixed(1)}</span>
+              </div>
             </div>
 
-            <div className="cr-image-cropper__zoom-control">
-              <label>Zoom:</label>
-              <input
-                type="range"
-                min="0.5"
-                max="3"
-                step="0.01"
-                value={cropperState.scale}
-                onChange={handleZoomChange}
-                className="cr-image-cropper__zoom-slider"
-              />
-              <span>{cropperState.scale.toFixed(1)}</span>
+            {/* Right side: Preview and actions */}
+            <div className="cr-image-cropper__crop-controls">
+              <div className="cr-image-cropper__preview-section">
+                <h4>Avatar Preview:</h4>
+                <canvas
+                  ref={previewCanvasRef}
+                  width={outputSize}
+                  height={outputSize}
+                  className="cr-image-cropper__preview-canvas"
+                />
+              </div>
+
+              <div className="cr-modal__actions cr-modal__actions--gap">
+                <CrButton
+                  type="button"
+                  variant="outline"
+                  color="default"
+                  onClick={handleCancelCrop}
+                >
+                  Cancel
+                </CrButton>
+                <CrButton type="button" variant="solid" color="secondary" onClick={handleApplyCrop}>
+                  Apply Crop
+                </CrButton>
+              </div>
             </div>
-          </div>
-
-          <div className="cr-image-cropper__preview-section">
-            <h4>Avatar Preview:</h4>
-            <canvas
-              ref={previewCanvasRef}
-              width={outputSize}
-              height={outputSize}
-              className="cr-image-cropper__preview-canvas"
-            />
-          </div>
-
-          <div className="cr-image-cropper__modal-actions">
-            <CrButton type="button" variant="outline" color="default" onClick={handleCancelCrop}>
-              Cancel
-            </CrButton>
-            <CrButton type="button" variant="solid" color="primary" onClick={handleApplyCrop}>
-              Apply Crop
-            </CrButton>
           </div>
         </div>
       </CrModal>
