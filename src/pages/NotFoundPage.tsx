@@ -19,51 +19,24 @@ const NotFoundPage: React.FC = () => {
   return (
     <div className="not-found-page">
       <div className="page-layout-single">
-        <div style={{ textAlign: 'center', padding: 'var(--cr-space-12) 0' }}>
+        <div className="error-page-container">
           <div className="error-page-number">
             4<PiVinylRecord />4
           </div>
 
-          <h1
-            style={{
-              font: 'var(--cr-title-xl)',
-              color: 'var(--cr-ink)',
-              marginBottom: 'var(--cr-space-4)',
-            }}
-          >
-            Page Not Found
-          </h1>
+          <h1 className="error-page-title">Page Not Found</h1>
 
-          <p
-            style={{
-              fontSize: 'var(--cr-body-lg)',
-              color: 'var(--cr-default-700)',
-              marginTop: 'var(--cr-space-6)',
-              marginBottom: 'var(--cr-space-8)',
-              maxWidth: '600px',
-              margin: '0 auto',
-              padding: 'var(--cr-space-6) 0',
-            }}
-          >
+          <p className="error-page-description">
             Sorry, we couldn't find the page you're looking for. It may have been moved, deleted, or
             never existed in the first place.
           </p>
 
-          <div
-            style={{
-              display: 'flex',
-              gap: 'var(--cr-space-12)',
-              justifyContent: 'center',
-              marginBottom: 'var(--cr-space-12)',
-            }}
-          >
+          <div className="error-page-actions">
             <CrButton
               size="large"
               variant="outline"
               color="default"
-              leftIcon={
-                <img src={chirpBirdLogo} alt="CHIRP" style={{ width: '24px', height: '24px' }} />
-              }
+              leftIcon={<img src={chirpBirdLogo} alt="CHIRP" className="icon-md" />}
               onClick={() => navigate('/')}
             >
               Home
@@ -73,25 +46,15 @@ const NotFoundPage: React.FC = () => {
             </CrButton>
           </div>
 
-          <div style={{ marginTop: 'var(--cr-space-12)' }}>
-            <h2
-              style={{
-                fontSize: 'var(--cr-title-md)',
-                marginBottom: 'var(--cr-space-6)',
-                color: 'var(--cr-ink)',
-              }}
-            >
-              Try These Instead
-            </h2>
+          <div className="mt-12">
+            <h2 className="error-page-subtitle">Try These Instead</h2>
 
             <CrButtonGroup
               options={[
                 {
                   label: 'Home',
                   value: 'home',
-                  rightIcon: (
-                    <img src={chirpBirdLogo} alt="" style={{ width: '20px', height: '20px' }} />
-                  ),
+                  rightIcon: <img src={chirpBirdLogo} alt="" className="icon-sm" />,
                 },
                 {
                   label: 'Listen',
