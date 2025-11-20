@@ -93,7 +93,8 @@ export default function CrMobileAppFrame({
       const timer = setTimeout(() => {
         // Force a reflow by reading offsetHeight, then updating a CSS variable
         if (footerRef.current) {
-          const _ = footerRef.current.offsetHeight // Force reflow
+          // Force reflow by reading offsetHeight
+          void footerRef.current.offsetHeight
           footerRef.current.style.setProperty('--safe-area-applied', '1')
         }
       }, 100)
