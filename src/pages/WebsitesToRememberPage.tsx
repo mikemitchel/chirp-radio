@@ -170,7 +170,7 @@ export default function WebsitesToRememberPage() {
               />
               {headerBlock.content && (
                 <div
-                  style={{ marginBottom: 'var(--cr-space-8)' }}
+                  className="mb-8"
                   dangerouslySetInnerHTML={{
                     __html: extractHtmlContent(headerBlock.content),
                   }}
@@ -187,7 +187,7 @@ export default function WebsitesToRememberPage() {
                 showEyebrow={true}
                 showActionButton={false}
               />
-              <p style={{ marginBottom: 'var(--cr-space-8)' }}>
+              <p className="mb-8">
                 Welcome to your volunteer resource hub! This page contains essential links and tools
                 you'll need as a CHIRP volunteer. From logging your hours to booking the production
                 studio, accessing DJ resources, and joining mailing lists — everything you need is

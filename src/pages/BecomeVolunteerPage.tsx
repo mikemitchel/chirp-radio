@@ -276,7 +276,7 @@ const BecomeVolunteerPage: React.FC = () => {
 
             {/* Dynamic Content Section */}
             {sidebarContentType !== 'none' && sidebarContent.length > 0 && (
-              <div style={{ marginTop: 'var(--cr-space-6)' }}>
+              <div className="mt-6">
                 <CrPageHeader
                   title={sidebarTitle}
                   titleTag="h3"
@@ -345,7 +345,7 @@ const BecomeVolunteerPage: React.FC = () => {
             )}
 
             {adProps && (
-              <div style={{ marginTop: 'var(--cr-space-6)' }}>
+              <div className="mt-6">
                 <CrAdSpace {...adProps} />
               </div>
             )}

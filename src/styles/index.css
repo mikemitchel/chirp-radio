@@ -1018,6 +1018,12 @@ select.form-input--error:focus {
   gap: var(--cr-space-3);
 }
 
+.form-group-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
 .form-section {
   display: flex;
   flex-direction: column;
