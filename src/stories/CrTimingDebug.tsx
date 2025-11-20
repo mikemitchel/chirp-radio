@@ -197,15 +197,7 @@ export default function CrTimingDebug({
               : 'N/A'}
           </span>
         </div>
-        <div
-          className="cr-timing-debug__debug-info"
-          style={{
-            marginTop: 'var(--cr-space-2)',
-            fontSize: '10px',
-            color: 'var(--cr-default-600)',
-            fontFamily: 'monospace',
-          }}
-        >
+        <div className="cr-timing-debug__debug-info">
           <div>Raw playedAtGmt: {playedAtGmt || 'N/A'}</div>
           <div>Raw detailsUpdatedAt: {detailsUpdatedAt || 'N/A'}</div>
           {playedAtGmt &&
