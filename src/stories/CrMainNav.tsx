@@ -251,25 +251,25 @@ export default function CrMainNav({
           )}
 
           {/* Search button - moved from center */}
-          <button
-            className="cr-main-nav__search-button"
+          <CrMenuButton
+            variant="dots"
+            layout="icon-only"
+            icon={<PiMagnifyingGlass />}
             onClick={handleSearchOpen}
-            aria-label="Search"
-          >
-            <PiMagnifyingGlass />
-          </button>
+            className="cr-main-nav__search-button"
+          />
         </div>
 
         {/* Right navigation items */}
         <div className="cr-main-nav__right">
           {/* Search button for responsive - hidden on desktop */}
-          <button
-            className="cr-main-nav__search-button cr-main-nav__search-button--responsive"
+          <CrMenuButton
+            variant="dots"
+            layout="icon-only"
+            icon={<PiMagnifyingGlass />}
             onClick={handleSearchOpen}
-            aria-label="Search"
-          >
-            <PiMagnifyingGlass />
-          </button>
+            className="cr-main-nav__search-button cr-main-nav__search-button--responsive"
+          />
 
           {/* Store with cart icon */}
           {navigate ? (

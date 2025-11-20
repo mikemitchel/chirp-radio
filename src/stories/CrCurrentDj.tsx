@@ -156,11 +156,7 @@ export default function CrCurrentDj({
 
       {isOnAir && (
         <div className="cr-current-dj__status">
-          <CrChip
-            variant="primary"
-            aria-hidden={true}
-            style={{ textShadow: '0px 0px 1px rgba(0,0,0,0.5)' }}
-          >
+          <CrChip variant="primary" aria-hidden={true}>
             {statusText}
           </CrChip>
         </div>

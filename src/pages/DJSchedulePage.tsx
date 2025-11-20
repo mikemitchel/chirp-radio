@@ -162,16 +162,7 @@ const DJSchedulePage: React.FC = () => {
             titleTag="h2"
             titleSize="lg"
           />
-          <p
-            style={{
-              fontSize: '0.875rem',
-              color: 'var(--color-text-secondary)',
-              marginTop: '-0.5rem',
-              marginBottom: '1rem',
-            }}
-          >
-            * All times displayed in Central Time
-          </p>
+          <p className="schedule-note">* All times displayed in Central Time</p>
           <div className="grid-2col-equal">
             {randomDJs.map((dj) => (
               <CrDjOverview

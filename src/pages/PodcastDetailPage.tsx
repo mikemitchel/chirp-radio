@@ -123,25 +123,9 @@ const PodcastDetailPage: React.FC = () => {
           {
             (podcast.additionalInfo && (
               <div className="info-box">
-                <div
-                  style={{
-                    font: 'var(--cr-body-reg)',
-                    color: 'var(--cr-ink)',
-                    lineHeight: 1.6,
-                    whiteSpace: 'pre-line',
-                  }}
-                >
-                  {String(podcast.additionalInfo)}
-                </div>
+                <div className="info-box__content">{String(podcast.additionalInfo)}</div>
                 {'transcriptUrl' in podcast && podcast.transcriptUrl ? (
-                  <p
-                    style={{
-                      font: 'var(--cr-body-reg)',
-                      color: 'var(--cr-ink)',
-                      marginTop: 'var(--cr-space-4)',
-                      marginBottom: 0,
-                    }}
-                  >
+                  <p className="info-box__text">
                     <a
                       href={(podcast as Record<string, unknown>).transcriptUrl as string}
                       target="_blank"
@@ -159,23 +143,8 @@ const PodcastDetailPage: React.FC = () => {
           {
             (podcast.soundCloudEmbedUrl && (
               <div className="info-box mt-8">
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: 'var(--cr-space-4)',
-                  }}
-                >
-                  <h2
-                    style={{
-                      font: 'var(--cr-title-sm)',
-                      color: 'var(--cr-ink)',
-                      margin: 0,
-                    }}
-                  >
-                    Listen to the Episode
-                  </h2>
+                <div className="info-box__title-row">
+                  <h2 className="info-box__title">Listen to the Episode</h2>
                   <CrButton
                     size="small"
                     variant="outline"
@@ -205,10 +174,7 @@ const PodcastDetailPage: React.FC = () => {
                   allow="autoplay"
                   src={`${'soundCloudEmbedUrl' in podcast ? String((podcast as Record<string, unknown>).soundCloudEmbedUrl).replace('color=ff5500', 'color=ea1c2c') : ''}&theme_color=18181b&visual=false&show_artwork=true&buying=false&liking=false&download=false&sharing=false&show_comments=false&show_playcount=false`}
                   title={`${podcast.title} SoundCloud Player`}
-                  style={{
-                    borderRadius: 'var(--cr-space-1)',
-                    marginBottom: 'var(--cr-space-2)',
-                  }}
+                  className="info-box__embed"
                 />
                 <div className="embed-caption">
                   <a
