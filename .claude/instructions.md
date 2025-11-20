@@ -11,7 +11,7 @@
 7. For documentation-only changes in .claude/, still create a branch (no exceptions)
 8. After branching, verify you're not on main before committing (git branch --show-current)
 9. Please do not add "🤖 Generated with [Claude Code](https://claude.com/claude-code)" to your commit messages
-10. Origin and mitch remotes may be out of sync - origin is the source of truth. Always push to origin first, then to mitch. Don't worry about syncing mitch manually - it will catch up through normal workflow.
+10. Origin and mitch will have different merge commit SHAs when PRs are merged separately on GitHub. This is normal - the file contents remain identical. Don't force push to sync them.
 
 ## Project Overview
 
@@ -26,6 +26,8 @@ Non-profit low-band FM and streaming radio station web application
 **Platform Integration:** PLATFORM_INTEGRATION.md
 
 **QA Checklist:** QA_CHECKLIST.md
+
+**Android Firebase Build Instructions:** firebase-testing.md
 
 ---
 
@@ -224,6 +226,47 @@ All stories wrapped with providers in `.storybook/preview.ts`:
 
 - [ ] App works as expected
 - [ ] Play/Pause in sync from phone to CarPlay (and vice versa)
+
+---
+
+## Beta Testing & Distribution Strategy
+
+### Firebase App Distribution (Current)
+
+**Use for internal testing:**
+
+- Debug APKs (unsigned, fast iteration)
+- No Google Play review delays
+- Easy distribution to small tester groups
+- Good for catching bugs before wider release
+
+**Build process:** See `firebase-testing.md`
+
+### Google Play Console (Future Beta)
+
+**Move to Google Play when:**
+
+- Internal Firebase testing is stable
+- Ready for broader audience
+- Need feedback from real Google Play infrastructure
+- Preparing for production launch
+
+**Testing tracks available:**
+
+- **Internal testing:** Up to 100 testers, no review required
+- **Closed testing:** Unlimited testers, requires review
+- **Open testing:** Public beta, requires review
+
+**Before moving to Google Play:**
+
+1. **Switch from APK to AAB** - Google Play requires Android App Bundles
+2. **Set up signing** - Need release keystore (not debug key)
+3. **Configure app signing** - Google Play can manage signing keys
+4. **Fill out store listing** - Screenshots, descriptions, privacy policy
+5. **Complete content rating questionnaire**
+6. **Set up pricing & distribution**
+
+**Key difference:** Firebase uses debug APKs for speed; Google Play requires signed release AABs and goes through review process.
 
 ---
 
