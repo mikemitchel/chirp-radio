@@ -75,6 +75,42 @@
   border-radius: var(--cr-space-2);
 }
 
+.info-box__title {
+  font: var(--cr-title-sm);
+  color: var(--cr-ink);
+  margin: 0 0 var(--cr-space-4) 0;
+}
+
+.info-box__title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--cr-space-4);
+}
+
+.info-box__title-row .info-box__title {
+  margin: 0;
+}
+
+.info-box__content {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.info-box__text {
+  font: var(--cr-body-reg);
+  color: var(--cr-ink);
+  margin-top: var(--cr-space-4);
+  margin-bottom: 0;
+}
+
+.info-box__embed {
+  border-radius: var(--cr-space-1);
+  margin-bottom: var(--cr-space-2);
+}
+
 .pull-quote-container {
   margin-top: var(--cr-space-8);
   max-width: 1000px;
@@ -104,6 +140,33 @@
   font-size: 0.875rem;
   color: var(--cr-default-700);
   margin-top: 0.5rem;
+}
+
+.schedule-note {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+.landing-note {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
+/* Section Headers */
+.section-title {
+  font: var(--cr-title-lg);
+  color: var(--cr-ink);
+  margin-bottom: var(--cr-space-4);
+}
+
+.section-text {
+  font: var(--cr-body-lg);
+  color: var(--cr-ink);
+  margin-bottom: var(--cr-space-4);
 }
 
 /* Schedule Times Container */

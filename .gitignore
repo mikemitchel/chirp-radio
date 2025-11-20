@@ -45,3 +45,13 @@ e2e/**/*-snapshots/
 
 # AI configs
 **/.claude/settings.local.json
+
+# iOS build artifacts
+ios/build/
+*.xcarchive
+
+# Android build artifacts
+android/app/google-services.json
+
+# Firebase
+.firebase/

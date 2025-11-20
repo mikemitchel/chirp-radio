@@ -49,6 +49,10 @@
   flex-shrink: 0;
 }
 
+.cr-current-dj__status .cr-chip {
+  text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.5);
+}
+
 /* Scrolling animations for overflow text */
 .cr-current-dj__name.has-overflow,
 .cr-current-dj__show.has-overflow {
