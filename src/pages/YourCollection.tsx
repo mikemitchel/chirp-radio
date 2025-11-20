@@ -32,9 +32,10 @@ export default function YourCollection() {
   const notLoggedInDescription =
     pageContent?.customNotLoggedInMessage ||
     'A profile allows you to interact with the site in all sorts of helpful ways. Create your profile today, and start getting the maximum benefit from CHIRPradio.org!'
-  const collectionPageContent = siteSettings?.collectionPageContent
-    ? lexicalToHtml(siteSettings.collectionPageContent)
-    : null
+  const collectionPageContent =
+    siteSettings?.collectionPageContent && typeof siteSettings.collectionPageContent !== 'string'
+      ? lexicalToHtml(siteSettings.collectionPageContent as any)
+      : null
   const isNativePlatform = Capacitor.isNativePlatform()
   const hasCollectionItems = collection.length > 0
   const actionButtonText =
