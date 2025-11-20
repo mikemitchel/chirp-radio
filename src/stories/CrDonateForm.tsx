@@ -109,7 +109,8 @@ export default function CrDonateForm({
 
     const formData: DonationFormData = {
       frequency: selectedFrequency,
-      amount: selectedAmount === 'other' ? parseFloat(customAmount) : (selectedAmount ?? 0) as number,
+      amount:
+        selectedAmount === 'other' ? parseFloat(customAmount) : ((selectedAmount ?? 0) as number),
       isDedicated,
       dedicationName: isDedicated ? dedicationName : '',
       employerName,
@@ -164,7 +165,13 @@ export default function CrDonateForm({
             onAmountChange={(amount: number | string) => setSelectedAmount(amount)}
             customAmount={customAmount}
             onCustomAmountChange={setCustomAmount}
-            amounts={(isVinylCircle ? content.amounts.map((item) => typeof item === 'object' && 'amount' in item ? item.amount : item) : content.amounts) as number[]}
+            amounts={
+              (isVinylCircle
+                ? content.amounts.map((item) =>
+                    typeof item === 'object' && 'amount' in item ? item.amount : item
+                  )
+                : content.amounts) as number[]
+            }
             amountLabels={isVinylCircle ? content.amounts : null}
           />
         </div>
@@ -182,7 +189,7 @@ export default function CrDonateForm({
             </label>
 
             {isDedicated && (
-              <div className="form-group" style={{ marginTop: 'var(--cr-space-3)' }}>
+              <div className="form-group mt-3">
                 <label htmlFor="dedication-name" className="form-label">
                   Name for dedication
                 </label>

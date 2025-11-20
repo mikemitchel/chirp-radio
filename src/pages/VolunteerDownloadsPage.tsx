@@ -145,7 +145,7 @@ export default function VolunteerDownloadsPage() {
               />
               {headerBlock.content && (
                 <div
-                  style={{ marginBottom: 'var(--cr-space-8)' }}
+                  className="mb-8"
                   dangerouslySetInnerHTML={{
                     __html: extractHtmlContent(headerBlock.content),
                   }}
@@ -162,7 +162,7 @@ export default function VolunteerDownloadsPage() {
                 showEyebrow={true}
                 showActionButton={false}
               />
-              <p style={{ marginBottom: 'var(--cr-space-8)' }}>
+              <p className="mb-8">
                 Access essential documents, forms, guides, and resources for CHIRP volunteers. From
                 production guides to marketing materials, DJ forms to legal documents — everything
                 you need to support your volunteer work is here.

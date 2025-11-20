@@ -76,9 +76,9 @@ export default function CrDjOverview({
         <div className="cr-dj-overview__description">{description}</div>
         <div className="cr-dj-overview__show-time-wrapper">
           {showTimes && showTimes.length > 0 ? (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
+            <div className="schedule-times-container">
               {showTimes.map((timeDetail, index) => (
-                <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                <div key={index} className="schedule-time-item">
                   <div className="cr-dj-overview__show-time">{timeDetail.displayTime}</div>
                   <button
                     className="cr-dj-overview__add-calendar-btn"
@@ -148,9 +148,9 @@ export default function CrDjOverview({
         {showContent && <div className="cr-dj-overview__content-text">{content}</div>}
         <div className="cr-dj-overview__show-time-wrapper">
           {showTimes && showTimes.length > 0 ? (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
+            <div className="schedule-times-container">
               {showTimes.map((timeDetail, index) => (
-                <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                <div key={index} className="schedule-time-item">
                   <div className="cr-dj-overview__show-time">{timeDetail.displayTime}</div>
                   <button
                     className="cr-dj-overview__add-calendar-btn"

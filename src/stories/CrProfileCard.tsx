@@ -235,7 +235,7 @@ export default function CrProfileCard({
               </h2>
 
               {isDJ && onViewDJProfile && (
-                <div style={{ marginTop: 'var(--cr-space-2)' }}>
+                <div className="mt-2">
                   <CrButton
                     variant="outline"
                     size="small"

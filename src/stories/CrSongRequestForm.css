@@ -108,6 +108,17 @@
   white-space: nowrap;
 }
 
+/* Cooldown Alert */
+.cr-song-request-form__cooldown {
+  padding: var(--cr-space-3);
+  background-color: var(--cr-danger-100);
+  border: 1px solid var(--cr-danger-300);
+  border-radius: var(--cr-space-1);
+  margin-bottom: var(--cr-space-4);
+  color: var(--cr-danger-700);
+  font: var(--cr-body-md);
+}
+
 /* Form Actions */
 .cr-song-request-form__actions {
   display: flex;

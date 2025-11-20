@@ -55,8 +55,9 @@
 /* Loading & Empty States */
 .loading-message,
 .empty-state {
-  padding: var(--cr-space-6);
+  padding: var(--cr-space-8);
   text-align: center;
+  color: var(--cr-default-500);
 }
 
 .empty-state p {
@@ -96,6 +97,27 @@
   color: var(--cr-default-700);
   margin-top: var(--cr-space-3);
   margin-bottom: 0;
+}
+
+/* Timestamp/Note Text */
+.timestamp-note {
+  font-size: 0.875rem;
+  color: var(--cr-default-700);
+  margin-top: 0.5rem;
+}
+
+/* Schedule Times Container */
+.schedule-times-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.schedule-time-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 /* Media Embeds */

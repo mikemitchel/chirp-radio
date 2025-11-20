@@ -116,7 +116,7 @@ export default function CrCardBanner({
           {showPreheader && preheader && (
             <div className="cr-card-title-banner__preheader">{preheader}</div>
           )}
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 'var(--cr-space-1)' }}>
+          <div className="flex-align-end">
             <TitleTag className={titleClasses}>{title}</TitleTag>
             {isFavorite && (
               <CrChip variant="secondary-light" size="small" squared>

@@ -23,15 +23,7 @@ const DJPage: React.FC = () => {
     <div className="dj-page">
       <section className="page-container">
         <CrPageHeader title="DJs" showEyebrow={false} showActionButton={false} />
-        <p
-          style={{
-            fontSize: '0.875rem',
-            color: 'var(--color-text-secondary)',
-            marginTop: '0.5rem',
-          }}
-        >
-          * All times displayed in Central Time
-        </p>
+        <p className="timestamp-note">* All times displayed in Central Time</p>
       </section>
 
       <div className="page-layout-main-sidebar">
@@ -128,14 +120,7 @@ const DJPage: React.FC = () => {
         {!substituteDJsLoading && (!substituteDJs || substituteDJs.length === 0) && (
           <div className="empty-state">No Substitute DJs found in CMS</div>
         )}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-            gap: 'var(--cr-space-4)',
-            marginTop: 'var(--cr-space-4)',
-          }}
-        >
+        <div className="grid-auto-fill mt-4">
           {substituteDJs?.map((dj) => (
             <div key={dj.id} onClick={() => navigate(`/djs/${dj.slug}`)} className="clickable">
               <CrDjOverview

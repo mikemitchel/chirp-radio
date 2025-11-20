@@ -28,6 +28,18 @@
   justify-content: flex-end;
 }
 
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-align-end {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--cr-space-1);
+}
+
 .button-group {
   display: flex;
   gap: var(--cr-space-3);
@@ -43,6 +55,10 @@
 /* Spacing Utilities */
 .mt-2 {
   margin-top: var(--cr-space-2);
+}
+
+.mt-3 {
+  margin-top: var(--cr-space-3);
 }
 
 .mt-4 {
@@ -90,4 +106,11 @@
 .icon-md {
   width: 24px;
   height: 24px;
+}
+
+/* Grid Utilities */
+.grid-auto-fill {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--cr-space-4);
 }
