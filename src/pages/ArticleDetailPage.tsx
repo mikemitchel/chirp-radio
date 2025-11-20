@@ -127,16 +127,7 @@ const ArticleDetailPage: React.FC = () => {
 
           {/* YouTube Video Embed */}
           {article.youtubeVideoId && (
-            <div
-              style={{
-                marginTop: 'var(--cr-space-8)',
-                maxWidth: '1000px',
-                padding: 'var(--cr-space-6)',
-                backgroundColor: 'var(--cr-paper)',
-                border: '1px solid var(--cr-default-300)',
-                borderRadius: 'var(--cr-space-2)',
-              }}
-            >
+            <div className="info-box mt-8">
               <h2
                 style={{
                   font: 'var(--cr-title-sm)',
@@ -146,23 +137,8 @@ const ArticleDetailPage: React.FC = () => {
               >
                 {article.videoTitle || 'Watch the Video'}
               </h2>
-              <div
-                style={{
-                  position: 'relative',
-                  paddingBottom: '56.25%', // 16:9 aspect ratio
-                  height: 0,
-                  overflow: 'hidden',
-                  borderRadius: 'var(--cr-space-1)',
-                }}
-              >
+              <div className="aspect-ratio-16-9">
                 <iframe
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                  }}
                   src={`https://www.youtube.com/embed/${article.youtubeVideoId}`}
                   title="YouTube video player"
                   frameBorder="0"
