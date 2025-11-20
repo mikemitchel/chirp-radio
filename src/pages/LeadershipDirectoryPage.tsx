@@ -20,8 +20,8 @@ const LeadershipDirectoryPage: React.FC = () => {
         // Combine first and last name
         const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'N/A'
         // Filter out "Listener" and "Volunteer" - only show Board Member and DJ roles
-        const displayRoles = (user.roles || []).filter(role =>
-          role !== 'Listener' && role !== 'Volunteer'
+        const displayRoles = (user.roles || []).filter(
+          (role) => role !== 'Listener' && role !== 'Volunteer'
         )
 
         return {
@@ -56,9 +56,14 @@ const LeadershipDirectoryPage: React.FC = () => {
     }
 
     return (
-      <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+      <div className="role-chips-container">
         {roles.map((role, index) => (
-          <CrChip key={index} variant="light" size="small" style={{ backgroundColor: getRoleColor(role) }}>
+          <CrChip
+            key={index}
+            variant="light"
+            size="small"
+            style={{ backgroundColor: getRoleColor(role) }}
+          >
             {role}
           </CrChip>
         ))}
@@ -69,10 +74,7 @@ const LeadershipDirectoryPage: React.FC = () => {
   // Render email as mailto link
   const renderEmail = (email: string) => {
     return (
-      <a
-        href={`mailto:${email}`}
-        style={{ color: 'var(--cr-primary-500)', textDecoration: 'underline' }}
-      >
+      <a href={`mailto:${email}`} className="email-link">
         {email}
       </a>
     )
@@ -80,7 +82,13 @@ const LeadershipDirectoryPage: React.FC = () => {
 
   const columns = [
     { key: 'name', title: 'Name', sortable: true, width: 'medium' },
-    { key: 'boardPosition', title: 'Board Position', sortable: true, width: 'medium', render: renderBoardPosition },
+    {
+      key: 'boardPosition',
+      title: 'Board Position',
+      sortable: true,
+      width: 'medium',
+      render: renderBoardPosition,
+    },
     { key: 'roles', title: 'Roles', sortable: false, width: 'medium', render: renderRoles },
     { key: 'email', title: 'Email', sortable: true, width: 'wide', render: renderEmail },
     { key: 'phone', title: 'Primary Phone', sortable: true, width: 'medium' },

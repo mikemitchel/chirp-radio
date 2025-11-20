@@ -218,38 +218,15 @@ export default function CrTrackInfo({
       </div>
 
       {/* Artist + LOCAL - full width with LOCAL floating behavior */}
-      <div
-        style={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          minWidth: 0,
-        }}
-      >
-        <div
-          className="cr-track-info__artist-container"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            minWidth: 0,
-            flex: 1,
-          }}
-        >
+      <div className="cr-track-info__row">
+        <div className="cr-track-info__artist-container">
           <div className="cr-track-info__artist-scroll-container" ref={artistContainerRef}>
             <div className="cr-track-info__artist-scrolling" ref={artistRef}>
               {artistName}
             </div>
           </div>
           {isLocal && (
-            <div
-              style={{
-                flexShrink: 0,
-                marginLeft: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                height: '22px',
-              }}
-            >
+            <div className="cr-track-info__chip-container">
               <CrChip variant="primary" size="small" squared>
                 LOCAL
               </CrChip>
@@ -281,38 +258,15 @@ export default function CrTrackInfo({
       </div>
 
       {/* Artist + LOCAL + ADD button - all inline */}
-      <div
-        style={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          minWidth: 0,
-        }}
-      >
-        <div
-          className="cr-track-info__artist-container"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            minWidth: 0,
-            flex: 1,
-          }}
-        >
+      <div className="cr-track-info__row">
+        <div className="cr-track-info__artist-container">
           <div className="cr-track-info__artist-scroll-container" ref={artistContainerRef}>
             <div className="cr-track-info__artist-scrolling" ref={artistRef}>
               {artistName}
             </div>
           </div>
           {isLocal && (
-            <div
-              style={{
-                flexShrink: 0,
-                marginLeft: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                height: '22px',
-              }}
-            >
+            <div className="cr-track-info__chip-container">
               <CrChip variant="primary" size="small" squared>
                 LOCAL
               </CrChip>
@@ -347,38 +301,15 @@ export default function CrTrackInfo({
       </div>
 
       {/* Artist + LOCAL - full width with LOCAL floating behavior */}
-      <div
-        style={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          minWidth: 0,
-        }}
-      >
-        <div
-          className="cr-track-info__artist-container"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            minWidth: 0,
-            flex: 1,
-          }}
-        >
+      <div className="cr-track-info__row">
+        <div className="cr-track-info__artist-container">
           <div className="cr-track-info__artist-scroll-container" ref={artistContainerRef}>
             <div className="cr-track-info__artist-scrolling" ref={artistRef}>
               {artistName}
             </div>
           </div>
           {isLocal && (
-            <div
-              style={{
-                flexShrink: 0,
-                marginLeft: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                height: '22px',
-              }}
-            >
+            <div className="cr-track-info__chip-container">
               <CrChip variant="primary" size="small" squared>
                 LOCAL
               </CrChip>
@@ -389,22 +320,8 @@ export default function CrTrackInfo({
 
       {/* Album/Label + ADD button - flex layout like artist line */}
       {(albumName || labelName) && (
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            minWidth: 0,
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              minWidth: 0,
-              flex: 1,
-            }}
-          >
+        <div className="cr-track-info__row">
+          <div className="cr-track-info__details-stacked">
             {/* Album */}
             {albumName && (
               <div className="cr-track-info__details-container" ref={albumContainerRef}>
@@ -426,14 +343,7 @@ export default function CrTrackInfo({
 
           {/* ADD button - floats to the right like LOCAL chip */}
           {onToggleAdd !== undefined && (
-            <div
-              style={{
-                flexShrink: 0,
-                marginLeft: '8px',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
+            <div className="cr-track-info__action-container">
               <CrButton
                 variant="text"
                 size="xsmall"

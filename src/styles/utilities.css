@@ -65,6 +65,10 @@
   margin-bottom: var(--cr-space-2);
 }
 
+.mb-3 {
+  margin-bottom: var(--cr-space-3);
+}
+
 .mb-4 {
   margin-bottom: var(--cr-space-4);
 }
