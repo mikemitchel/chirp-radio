@@ -225,15 +225,7 @@ const RequestSongPage: React.FC = () => {
                 />
               </>
             ) : (
-              <div
-                style={{
-                  padding: 'var(--cr-space-6)',
-                  backgroundColor: 'var(--cr-paper)',
-                  border: '1px solid var(--cr-default-300)',
-                  borderRadius: 'var(--cr-space-2)',
-                  marginTop: 'var(--cr-space-4)',
-                }}
-              >
+              <div className="info-box mt-4">
                 <h2
                   style={{
                     font: 'var(--cr-title-lg)',
@@ -255,7 +247,7 @@ const RequestSongPage: React.FC = () => {
                   phone, or social media using the methods below!
                 </p>
 
-                <div style={{ display: 'flex', gap: 'var(--cr-space-3)' }}>
+                <div className="button-group">
                   <CrButton variant="outline" color="default" size="medium" onClick={handleLogin}>
                     log in
                   </CrButton>

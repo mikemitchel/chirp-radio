@@ -117,18 +117,14 @@
 
 .embed-caption {
   font-size: 10px;
-  color: #cccccc;
+  color: var(--cr-default-500);
   line-break: anywhere;
   word-break: normal;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-family:
-    Interstate,
-    Lucida Grande,
-    Arial,
-    sans-serif;
-  font-weight: 100;
+  font-family: var(--cr-font-roboto-serif);
+  font-weight: 400;
 }
 
 /* Links */
