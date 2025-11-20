@@ -195,15 +195,7 @@ const RequestSongPage: React.FC = () => {
             {isLoggedIn ? (
               <>
                 <div className="mt-4">
-                  <h2
-                    style={{
-                      font: 'var(--cr-title-lg)',
-                      marginBottom: 'var(--cr-space-4)',
-                      color: 'var(--cr-ink)',
-                    }}
-                  >
-                    Submit Your Request
-                  </h2>
+                  <h2 className="section-title">Submit Your Request</h2>
                   {currentShow?.djName && (
                     <CrCurrentDj
                       djName={currentShow.djName}
@@ -226,22 +218,8 @@ const RequestSongPage: React.FC = () => {
               </>
             ) : (
               <div className="info-box mt-4">
-                <h2
-                  style={{
-                    font: 'var(--cr-title-lg)',
-                    marginBottom: 'var(--cr-space-4)',
-                    color: 'var(--cr-ink)',
-                  }}
-                >
-                  Login to Submit a Request
-                </h2>
-                <p
-                  style={{
-                    marginBottom: 'var(--cr-space-4)',
-                    font: 'var(--cr-body-lg)',
-                    color: 'var(--cr-ink)',
-                  }}
-                >
+                <h2 className="section-title">Login to Submit a Request</h2>
+                <p className="section-text">
                   To submit a song request through our online form, please log in to your CHIRP
                   listener account. Don't have an account? You can still request songs via email,
                   phone, or social media using the methods below!

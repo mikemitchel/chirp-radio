@@ -128,15 +128,7 @@ const ArticleDetailPage: React.FC = () => {
           {/* YouTube Video Embed */}
           {article.youtubeVideoId && (
             <div className="info-box mt-8">
-              <h2
-                style={{
-                  font: 'var(--cr-title-sm)',
-                  color: 'var(--cr-ink)',
-                  marginBottom: 'var(--cr-space-4)',
-                }}
-              >
-                {article.videoTitle || 'Watch the Video'}
-              </h2>
+              <h2 className="info-box__title">{article.videoTitle || 'Watch the Video'}</h2>
               <div className="aspect-ratio-16-9">
                 <iframe
                   src={`https://www.youtube.com/embed/${article.youtubeVideoId}`}
