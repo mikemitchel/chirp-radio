@@ -872,7 +872,7 @@ export default function AccountSettings() {
   return (
     <div className={containerClass}>
       {/* Password Confirmation Modal */}
-      {showPasswordModal && (
+      {showPasswordModal ? (
         <CrModal
           isOpen={showPasswordModal}
           title="Confirm Password"
@@ -929,15 +929,16 @@ export default function AccountSettings() {
             </div>
           </div>
         </CrModal>
-      )}
+      ) : null}
 
       {/* Email Verification Pending Banner */}
-      {user?.pendingEmail && (
+      {user?.pendingEmail ? (
         <div className="email-verification-banner">
           <div className="email-verification-banner__content">
             <p>
               <strong>Email verification pending:</strong> We've sent a verification link to{' '}
-              <strong>{user.pendingEmail}</strong>. Your email won't change until you verify.
+              <strong>{String(user.pendingEmail)}</strong>. Your email won't change until you
+              verify.
             </p>
             <div className="email-verification-banner__actions">
               <CrButton
@@ -959,7 +960,7 @@ export default function AccountSettings() {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
 
       {isLoggedIn ? (
         <div className="page-layout-main-sidebar">
