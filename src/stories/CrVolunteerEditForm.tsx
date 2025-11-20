@@ -98,7 +98,8 @@ export default function CrVolunteerEditForm({
   const radioExperienceLabel =
     formSettings?.radioExperienceQuestion?.label || 'Have you worked with a radio station before? *'
   const radioStationsFollowUpLabel =
-    formSettings?.radioExperienceQuestion?.followUpLabel || 'What radio stations have you worked with?'
+    formSettings?.radioExperienceQuestion?.followUpLabel ||
+    'What radio stations have you worked with?'
   const radioStationsPlaceholder =
     formSettings?.radioExperienceQuestion?.followUpPlaceholder || 'WLUW'
 
@@ -107,7 +108,8 @@ export default function CrVolunteerEditForm({
   const specialSkillsOptions =
     formSettings?.specialSkillsQuestion?.options?.map((opt) => opt.value) || FALLBACK_SPECIAL_SKILLS
 
-  const hearAboutLabel = formSettings?.hearAboutChirpQuestion?.label || 'How did you hear about CHIRP?'
+  const hearAboutLabel =
+    formSettings?.hearAboutChirpQuestion?.label || 'How did you hear about CHIRP?'
   const hearAboutOptions =
     formSettings?.hearAboutChirpQuestion?.options?.map((opt) => opt.value) || FALLBACK_HEAR_ABOUT
 
@@ -177,13 +179,7 @@ export default function CrVolunteerEditForm({
         {/* Volunteer Organizations */}
         <div className="form-group">
           <label className="form-label">{volunteerOrgsLabel}</label>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--cr-space-4)',
-            }}
-          >
+          <div className="form-group-column">
             {(formData.volunteerOrgs || ['']).map((org: any, index: any) => (
               <div key={index}>
                 <input
@@ -198,7 +194,7 @@ export default function CrVolunteerEditForm({
                 />
               </div>
             ))}
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div className="flex-end">
               <CrButton
                 size="small"
                 variant="outline"

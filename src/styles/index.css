@@ -3,6 +3,10 @@
 /* Browser Normalization */
 @import 'normalize.css';
 
+/* Utilities & Common Components */
+@import 'utilities.css';
+@import 'components-common.css';
+
 /* Fonts are preloaded in index.html for better performance */
 
 :root {
@@ -1012,6 +1016,12 @@ select.form-input--error:focus {
   display: flex;
   flex-direction: column;
   gap: var(--cr-space-3);
+}
+
+.form-group-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
 }
 
 .form-section {

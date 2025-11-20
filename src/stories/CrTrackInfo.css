@@ -6,6 +6,39 @@
   width: 100%;
 }
 
+/* Row container for artist/track info */
+.cr-track-info__row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+/* Chip container (for LOCAL badge) */
+.cr-track-info__chip-container {
+  flex-shrink: 0;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  height: 22px;
+}
+
+/* Stacked details layout */
+.cr-track-info__details-stacked {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+/* Action button container */
+.cr-track-info__action-container {
+  flex-shrink: 0;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+}
+
 /* Update the track info content to ensure ADD button stays inline */
 .cr-track-info__content {
   display: flex;

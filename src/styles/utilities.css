@@ -1,0 +1,116 @@
+/* utilities.css - Reusable utility classes */
+
+/* Layout Utilities */
+.clickable {
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Flexbox Utilities */
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-align-end {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--cr-space-1);
+}
+
+.button-group {
+  display: flex;
+  gap: var(--cr-space-3);
+}
+
+.button-group-centered {
+  display: flex;
+  gap: var(--cr-space-12);
+  justify-content: center;
+  margin-bottom: var(--cr-space-12);
+}
+
+/* Spacing Utilities */
+.mt-2 {
+  margin-top: var(--cr-space-2);
+}
+
+.mt-3 {
+  margin-top: var(--cr-space-3);
+}
+
+.mt-4 {
+  margin-top: var(--cr-space-4);
+}
+
+.mt-6 {
+  margin-top: var(--cr-space-6);
+}
+
+.mt-8 {
+  margin-top: var(--cr-space-8);
+}
+
+.mt-12 {
+  margin-top: var(--cr-space-12);
+}
+
+.mb-2 {
+  margin-bottom: var(--cr-space-2);
+}
+
+.mb-3 {
+  margin-bottom: var(--cr-space-3);
+}
+
+.mb-4 {
+  margin-bottom: var(--cr-space-4);
+}
+
+.mb-6 {
+  margin-bottom: var(--cr-space-6);
+}
+
+.mb-8 {
+  margin-bottom: var(--cr-space-8);
+}
+
+/* Icon Sizes */
+.icon-sm {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-md {
+  width: 24px;
+  height: 24px;
+}
+
+/* Grid Utilities */
+.grid-auto-fill {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--cr-space-4);
+}

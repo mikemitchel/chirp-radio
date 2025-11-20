@@ -25,7 +25,7 @@ const VolunteerDirectoryPage: React.FC = () => {
         // Combine first and last name
         const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'N/A'
         // Filter out "Listener" role since it's implied
-        const displayRoles = (user.roles || []).filter(role => role !== 'Listener')
+        const displayRoles = (user.roles || []).filter((role) => role !== 'Listener')
 
         return {
           id: user.id,
@@ -48,9 +48,14 @@ const VolunteerDirectoryPage: React.FC = () => {
     }
 
     return (
-      <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+      <div className="role-chips-container">
         {roles.map((role, index) => (
-          <CrChip key={index} variant="light" size="small" style={{ backgroundColor: getRoleColor(role) }}>
+          <CrChip
+            key={index}
+            variant="light"
+            size="small"
+            style={{ backgroundColor: getRoleColor(role) }}
+          >
             {role}
           </CrChip>
         ))}
@@ -61,10 +66,7 @@ const VolunteerDirectoryPage: React.FC = () => {
   // Render email as mailto link
   const renderEmail = (email: string) => {
     return (
-      <a
-        href={`mailto:${email}`}
-        style={{ color: 'var(--cr-primary-500)', textDecoration: 'underline' }}
-      >
+      <a href={`mailto:${email}`} className="email-link">
         {email}
       </a>
     )

@@ -2,12 +2,18 @@
 
 .cr-previous-shows {
   width: 100%;
+  margin-top: var(--cr-space-8);
+  max-width: 1000px;
+  padding: var(--cr-space-6);
+  background-color: var(--cr-paper);
+  border: 1px solid var(--cr-default-300);
+  border-radius: var(--cr-space-2);
 }
 
 .cr-previous-shows__title {
-  font: var(--cr-title-lg);
+  font: var(--cr-title-sm);
   color: var(--cr-ink);
-  margin-bottom: var(--cr-space-4);
+  margin: 0 0 var(--cr-space-4) 0;
 }
 
 .cr-previous-shows__players {

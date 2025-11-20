@@ -151,7 +151,11 @@ export default function CrDjSchedule({
   // Organize shows by time bucket
   const organizedShows = useMemo(() => {
     const shows = scheduleData && scheduleData[activeDay] ? scheduleData[activeDay] : []
-    const columns: { Early: any[]; Daytime: any[]; Evening: any[] } = { Early: [], Daytime: [], Evening: [] }
+    const columns: { Early: any[]; Daytime: any[]; Evening: any[] } = {
+      Early: [],
+      Daytime: [],
+      Evening: [],
+    }
 
     if (Array.isArray(shows)) {
       shows.forEach((show) => {
@@ -168,15 +172,7 @@ export default function CrDjSchedule({
   if (!scheduleData || typeof scheduleData !== 'object' || days.length === 0) {
     return (
       <div className={`cr-dj-schedule ${className}`}>
-        <div
-          style={{
-            textAlign: 'center',
-            padding: 'var(--cr-space-8)',
-            color: 'var(--cr-default-500)',
-          }}
-        >
-          No schedule data available
-        </div>
+        <div className="empty-state">No schedule data available</div>
       </div>
     )
   }

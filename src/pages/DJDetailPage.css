@@ -1,0 +1,38 @@
+/* DJDetailPage.css */
+
+.schedule-times-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.schedule-time-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.show-time-text {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.calendar-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  color: var(--cr-color-primary);
+}
+
+.calendar-button:hover {
+  opacity: 0.7;
+}
+
+.calendar-button:active {
+  transform: scale(0.95);
+}
