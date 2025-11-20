@@ -21,8 +21,9 @@ import { useLoginRequired } from '../hooks/useLoginRequired'
 import { useAuth } from '../hooks/useAuth'
 import { useNotification } from '../contexts/NotificationContext'
 import { downloadDJShowCalendar } from '../utils/calendar'
-import LoginRequiredModal from '../components/LoginRequiredModal'
+import LoginRequiredModal from '../stories/CrLoginRequiredModal'
 import { useMemo } from 'react'
+import './DJDetailPage.css'
 import type { Member } from '../types/cms'
 
 const DJDetailPage: React.FC = () => {
@@ -310,14 +311,7 @@ const DJDetailPage: React.FC = () => {
             scheduleInfo={
               (djSchedules.length > 0 || dj.showTime
                 ? ((
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: '0.5rem',
-                        alignItems: 'center',
-                      }}
-                    >
+                    <div className="schedule-times-container">
                       {djSchedules.length > 0
                         ? djSchedules.map((schedule, index) => {
                             const dayNames: Record<string, string> = {
@@ -343,26 +337,12 @@ const DJDetailPage: React.FC = () => {
                             const originalFormat = `${day} ${startTimeStr} - ${endTimeStr}`
 
                             return (
-                              <div
-                                key={index}
-                                style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
-                              >
-                                <span style={{ fontSize: '1rem', fontWeight: '500' }}>
-                                  {showTimeFormatted}
-                                </span>
+                              <div key={index} className="schedule-time-row">
+                                <span className="show-time-text">{showTimeFormatted}</span>
                                 <button
                                   onClick={() => handleAddToCalendar(originalFormat)}
                                   aria-label={`Add ${showTimeFormatted} to calendar`}
-                                  style={{
-                                    background: 'none',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    padding: '0.25rem',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    fontSize: '1.25rem',
-                                    color: 'var(--cr-color-primary)',
-                                  }}
+                                  className="calendar-button"
                                 >
                                   <PiCalendarPlus />
                                 </button>
@@ -388,26 +368,12 @@ const DJDetailPage: React.FC = () => {
                             const showTimeFormatted = `${day} ${startTime} - ${endTime}`
 
                             return (
-                              <div
-                                key={index}
-                                style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
-                              >
-                                <span style={{ fontSize: '1rem', fontWeight: '500' }}>
-                                  {showTimeFormatted}
-                                </span>
+                              <div key={index} className="schedule-time-row">
+                                <span className="show-time-text">{showTimeFormatted}</span>
                                 <button
                                   onClick={() => handleAddToCalendar(trimmedTime)}
                                   aria-label={`Add ${showTimeFormatted} to calendar`}
-                                  style={{
-                                    background: 'none',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    padding: '0.25rem',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    fontSize: '1.25rem',
-                                    color: 'var(--cr-color-primary)',
-                                  }}
+                                  className="calendar-button"
                                 >
                                   <PiCalendarPlus />
                                 </button>

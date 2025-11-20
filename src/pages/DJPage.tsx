@@ -23,24 +23,14 @@ const DJPage: React.FC = () => {
     <div className="dj-page">
       <section className="page-container">
         <CrPageHeader title="DJs" showEyebrow={false} showActionButton={false} />
-        <p
-          style={{
-            fontSize: '0.875rem',
-            color: 'var(--color-text-secondary)',
-            marginTop: '0.5rem',
-          }}
-        >
-          * All times displayed in Central Time
-        </p>
+        <p className="timestamp-note">* All times displayed in Central Time</p>
       </section>
 
       <div className="page-layout-main-sidebar">
         <div className="page-layout-main-sidebar__main">
-          {regularDJsLoading && (
-            <div style={{ padding: '2rem', textAlign: 'center' }}>Loading DJs from CMS...</div>
-          )}
+          {regularDJsLoading && <div className="loading-message">Loading DJs from CMS...</div>}
           {!regularDJsLoading && (!regularDJs || regularDJs.length === 0) && (
-            <div style={{ padding: '2rem', textAlign: 'center' }}>No Regular DJs found in CMS</div>
+            <div className="empty-state">No Regular DJs found in CMS</div>
           )}
           <div className="grid-2col-equal">
             {regularDJs?.map((dj) => (
@@ -122,30 +112,17 @@ const DJPage: React.FC = () => {
         </div>
       </div>
 
-      <section className="page-container" style={{ marginTop: 'var(--cr-space-8)' }}>
+      <section className="page-container mt-8">
         <CrPageHeader title="Substitute DJs" showEyebrow={false} showActionButton={false} />
         {substituteDJsLoading && (
-          <div style={{ padding: '2rem', textAlign: 'center' }}>
-            Loading Substitute DJs from CMS...
-          </div>
+          <div className="loading-message">Loading Substitute DJs from CMS...</div>
         )}
         {!substituteDJsLoading && (!substituteDJs || substituteDJs.length === 0) && (
-          <div style={{ padding: '2rem', textAlign: 'center' }}>No Substitute DJs found in CMS</div>
+          <div className="empty-state">No Substitute DJs found in CMS</div>
         )}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-            gap: 'var(--cr-space-4)',
-            marginTop: 'var(--cr-space-4)',
-          }}
-        >
+        <div className="grid-auto-fill mt-4">
           {substituteDJs?.map((dj) => (
-            <div
-              key={dj.id}
-              onClick={() => navigate(`/djs/${dj.slug}`)}
-              style={{ cursor: 'pointer' }}
-            >
+            <div key={dj.id} onClick={() => navigate(`/djs/${dj.slug}`)} className="clickable">
               <CrDjOverview
                 size="small"
                 djName={dj.djName}

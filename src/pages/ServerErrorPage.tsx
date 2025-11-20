@@ -15,52 +15,25 @@ const ServerErrorPage: React.FC = () => {
   return (
     <div className="server-error-page">
       <div className="page-layout-single">
-        <div style={{ textAlign: 'center', padding: 'var(--cr-space-12) 0' }}>
+        <div className="error-page-container">
           <div className="error-page-number">
             5<PiVinylRecord />
             <PiVinylRecord />
           </div>
 
-          <h1
-            style={{
-              font: 'var(--cr-title-xl)',
-              color: 'var(--cr-ink)',
-              marginBottom: 'var(--cr-space-4)',
-            }}
-          >
-            Internal Server Error
-          </h1>
+          <h1 className="error-page-title">Internal Server Error</h1>
 
-          <p
-            style={{
-              fontSize: 'var(--cr-body-lg)',
-              color: 'var(--cr-default-700)',
-              marginTop: 'var(--cr-space-6)',
-              marginBottom: 'var(--cr-space-8)',
-              maxWidth: '600px',
-              margin: '0 auto',
-              padding: 'var(--cr-space-6) 0',
-            }}
-          >
+          <p className="error-page-description">
             Oops! Something went wrong on our end. We're working to fix the issue. Please try
             refreshing the page or come back later.
           </p>
 
-          <div
-            style={{
-              display: 'flex',
-              gap: 'var(--cr-space-12)',
-              justifyContent: 'center',
-              marginBottom: 'var(--cr-space-12)',
-            }}
-          >
+          <div className="error-page-actions">
             <CrButton
               size="large"
               variant="outline"
               color="default"
-              leftIcon={
-                <img src={chirpBirdLogo} alt="CHIRP" style={{ width: '24px', height: '24px' }} />
-              }
+              leftIcon={<img src={chirpBirdLogo} alt="CHIRP" className="icon-md" />}
               onClick={() => navigate('/')}
             >
               Home
@@ -76,31 +49,10 @@ const ServerErrorPage: React.FC = () => {
             </CrButton>
           </div>
 
-          <div
-            style={{
-              marginTop: 'var(--cr-space-12)',
-              padding: 'var(--cr-space-6)',
-              backgroundColor: 'var(--cr-default-100)',
-              borderRadius: 'var(--cr-radius-md)',
-              maxWidth: '600px',
-              margin: 'var(--cr-space-12) auto 0',
-            }}
-          >
-            <p
-              style={{
-                fontSize: 'var(--cr-body-sm)',
-                color: 'var(--cr-default-700)',
-                margin: 0,
-              }}
-            >
+          <div className="error-page-support-box">
+            <p>
               If this problem persists, please contact us at{' '}
-              <a
-                href="mailto:support@chirpradio.org"
-                style={{
-                  color: 'var(--cr-primary-500)',
-                  textDecoration: 'underline',
-                }}
-              >
+              <a href="mailto:support@chirpradio.org" className="email-link">
                 support@chirpradio.org
               </a>
             </p>

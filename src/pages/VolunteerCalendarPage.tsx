@@ -7,7 +7,14 @@ import CrCard from '../stories/CrCard'
 import CrCalendarEvent from '../stories/CrCalendarEvent'
 import CrAnnouncement from '../stories/CrAnnouncement'
 import CrAdSpace from '../stories/CrAdSpace'
-import { useEvents, useVolunteerCalendar, useAnnouncements, useArticles, usePodcasts, usePageBySlug } from '../hooks/useData'
+import {
+  useEvents,
+  useVolunteerCalendar,
+  useAnnouncements,
+  useArticles,
+  usePodcasts,
+  usePageBySlug,
+} from '../hooks/useData'
 import { getAdvertisementProps } from '../utils/categoryHelpers'
 
 const VolunteerCalendarPage: React.FC = () => {
@@ -47,7 +54,13 @@ const VolunteerCalendarPage: React.FC = () => {
   }
 
   // Get the announcement specified in CMS or fallback to index 0
-  const selectedAnnouncement = typeof pageConfig?.sidebarAnnouncement === 'object' ? pageConfig.sidebarAnnouncement : typeof pageConfig?.sidebarAnnouncement === 'string' || typeof pageConfig?.sidebarAnnouncement === 'number' ? announcements?.find(a => String(a.id) === String(pageConfig.sidebarAnnouncement)) : announcements?.[0]
+  const selectedAnnouncement =
+    typeof pageConfig?.sidebarAnnouncement === 'object'
+      ? pageConfig.sidebarAnnouncement
+      : typeof pageConfig?.sidebarAnnouncement === 'string' ||
+          typeof pageConfig?.sidebarAnnouncement === 'number'
+        ? announcements?.find((a) => String(a.id) === String(pageConfig.sidebarAnnouncement))
+        : announcements?.[0]
 
   // Get the content type specified in CMS or fallback to 'events'
   const sidebarContentType = pageConfig?.sidebarContentType || 'events'
@@ -99,10 +112,8 @@ const VolunteerCalendarPage: React.FC = () => {
                 onAddToCalendarClick={handleAddToCalendarClick}
               />
             ) : (
-              <div style={{ padding: 'var(--cr-space-6)', textAlign: 'center' }}>
-                <p style={{ fontSize: 'var(--cr-font-size-lg)', color: 'var(--cr-color-text-secondary)' }}>
-                  No upcoming volunteer events at this time. Check back soon!
-                </p>
+              <div className="empty-state">
+                <p>No upcoming volunteer events at this time. Check back soon!</p>
               </div>
             )}
           </div>
@@ -112,11 +123,31 @@ const VolunteerCalendarPage: React.FC = () => {
               <CrAnnouncement
                 variant="motivation"
                 widthVariant="third"
-                headlineText={('title' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).title as string : selectedAnnouncement.headlineText)}
-                bodyText={('description' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).description as string : undefined)}
-                showLink={!!('actionText' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).actionText as string : undefined)}
-                linkText={('actionText' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).actionText as string : undefined)}
-                linkUrl={('actionUrl' in selectedAnnouncement ? (selectedAnnouncement as Record<string, unknown>).actionUrl as string : undefined)}
+                headlineText={
+                  'title' in selectedAnnouncement
+                    ? ((selectedAnnouncement as Record<string, unknown>).title as string)
+                    : selectedAnnouncement.headlineText
+                }
+                bodyText={
+                  'description' in selectedAnnouncement
+                    ? ((selectedAnnouncement as Record<string, unknown>).description as string)
+                    : undefined
+                }
+                showLink={
+                  !!('actionText' in selectedAnnouncement
+                    ? ((selectedAnnouncement as Record<string, unknown>).actionText as string)
+                    : undefined)
+                }
+                linkText={
+                  'actionText' in selectedAnnouncement
+                    ? ((selectedAnnouncement as Record<string, unknown>).actionText as string)
+                    : undefined
+                }
+                linkUrl={
+                  'actionUrl' in selectedAnnouncement
+                    ? ((selectedAnnouncement as Record<string, unknown>).actionUrl as string)
+                    : undefined
+                }
                 buttonCount="none"
               />
             )}

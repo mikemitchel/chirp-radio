@@ -194,7 +194,7 @@ const RequestSongPage: React.FC = () => {
             {/* Request Form or Login Gate */}
             {isLoggedIn ? (
               <>
-                <div style={{ marginTop: 'var(--cr-space-4)' }}>
+                <div className="mt-4">
                   <h2
                     style={{
                       font: 'var(--cr-title-lg)',
@@ -225,15 +225,7 @@ const RequestSongPage: React.FC = () => {
                 />
               </>
             ) : (
-              <div
-                style={{
-                  padding: 'var(--cr-space-6)',
-                  backgroundColor: 'var(--cr-paper)',
-                  border: '1px solid var(--cr-default-300)',
-                  borderRadius: 'var(--cr-space-2)',
-                  marginTop: 'var(--cr-space-4)',
-                }}
-              >
+              <div className="info-box mt-4">
                 <h2
                   style={{
                     font: 'var(--cr-title-lg)',
@@ -255,7 +247,7 @@ const RequestSongPage: React.FC = () => {
                   phone, or social media using the methods below!
                 </p>
 
-                <div style={{ display: 'flex', gap: 'var(--cr-space-3)' }}>
+                <div className="button-group">
                   <CrButton variant="outline" color="default" size="medium" onClick={handleLogin}>
                     log in
                   </CrButton>
@@ -267,7 +259,7 @@ const RequestSongPage: React.FC = () => {
             )}
 
             {/* 2-Column Grid: Request Methods */}
-            <div className="page-layout-2col" style={{ marginTop: 'var(--cr-space-8)' }}>
+            <div className="page-layout-2col mt-8">
               {requestSongData.requestMethods.map((method) => (
                 <CrCard
                   key={method.id}
@@ -394,7 +386,7 @@ const RequestSongPage: React.FC = () => {
 
             {/* Dynamic Content Section */}
             {sidebarContentType !== 'none' && sidebarContent.length > 0 && (
-              <div style={{ marginTop: 'var(--cr-space-6)' }}>
+              <div className="mt-6">
                 <CrPageHeader
                   title={sidebarTitle}
                   titleTag="h3"
@@ -464,7 +456,7 @@ const RequestSongPage: React.FC = () => {
             )}
 
             {adProps && (
-              <div style={{ marginTop: 'var(--cr-space-6)' }}>
+              <div className="mt-6">
                 <CrAdSpace {...adProps} />
               </div>
             )}

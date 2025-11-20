@@ -351,7 +351,7 @@ export default function CrProfileEditForm({
           />
           {errors.email && <span className="form-error">{errors.email}</span>}
           {onForgotPassword && (
-            <div style={{ marginTop: 'var(--cr-space-2)', textAlign: 'right' }}>
+            <div className="mt-2 text-right">
               <CrButton
                 variant="outline"
                 color="primary"
@@ -398,9 +398,7 @@ export default function CrProfileEditForm({
                 maxLength={180}
                 required
               />
-              <div
-                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-              >
+              <div className="flex-space-between">
                 {errors.djExcerpt && <span className="form-error">{errors.djExcerpt}</span>}
                 <span
                   className="form-character-count"
@@ -426,9 +424,7 @@ export default function CrProfileEditForm({
                 maxLength={1000}
                 required
               />
-              <div
-                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-              >
+              <div className="flex-space-between">
                 {errors.djBio && <span className="form-error">{errors.djBio}</span>}
                 <span
                   className="form-character-count"
@@ -526,7 +522,7 @@ export default function CrProfileEditForm({
 
             {/* City, State, ZIP on one line */}
             <div className="form-row">
-              <div className="form-group" style={{ flex: 2 }}>
+              <div className="form-group form-group--flex-2">
                 <label className="form-label">City</label>
                 <input
                   type="text"

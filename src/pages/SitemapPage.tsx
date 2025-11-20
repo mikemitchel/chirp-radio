@@ -33,32 +33,11 @@ export default function SitemapPage() {
 
       <section className="page-container">
         <div>
-          <div style={{ marginBottom: 'var(--cr-space-8)' }}>
-            <h2 className="cr-title-lg" style={{ marginBottom: 'var(--cr-space-3)' }}>
-              Home
-            </h2>
-            <ul
-              style={{
-                listStyle: 'none',
-                padding: 0,
-                margin: 0,
-                marginLeft: 'var(--cr-space-4)',
-              }}
-            >
-              <li style={{ marginBottom: 'var(--cr-space-2)' }}>
-                <button
-                  onClick={() => handleLinkClick('/')}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    padding: 0,
-                    font: 'var(--cr-body-md)',
-                    color: 'var(--cr-primary-500)',
-                    cursor: 'pointer',
-                    textDecoration: 'underline',
-                    textAlign: 'left',
-                  }}
-                >
+          <div className="sitemap-section">
+            <h2 className="cr-title-lg mb-3">Home</h2>
+            <ul className="sitemap-list">
+              <li>
+                <button onClick={() => handleLinkClick('/')} className="link-button">
                   • Landing Page
                 </button>
               </li>
@@ -66,33 +45,12 @@ export default function SitemapPage() {
           </div>
 
           {visibleSections.map((section, index) => (
-            <div key={index} style={{ marginBottom: 'var(--cr-space-8)' }}>
-              <h2 className="cr-title-lg" style={{ marginBottom: 'var(--cr-space-3)' }}>
-                {section.title}
-              </h2>
-              <ul
-                style={{
-                  listStyle: 'none',
-                  padding: 0,
-                  margin: 0,
-                  marginLeft: 'var(--cr-space-4)',
-                }}
-              >
+            <div key={index} className="sitemap-section">
+              <h2 className="cr-title-lg mb-3">{section.title}</h2>
+              <ul className="sitemap-list">
                 {section.routes.map((route, routeIndex) => (
-                  <li key={routeIndex} style={{ marginBottom: 'var(--cr-space-2)' }}>
-                    <button
-                      onClick={() => handleLinkClick(route.path)}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        padding: 0,
-                        font: 'var(--cr-body-md)',
-                        color: 'var(--cr-primary-500)',
-                        cursor: 'pointer',
-                        textDecoration: 'underline',
-                        textAlign: 'left',
-                      }}
-                    >
+                  <li key={routeIndex}>
+                    <button onClick={() => handleLinkClick(route.path)} className="link-button">
                       • {route.label}
                       {route.protected && ' 🔒'}
                     </button>

@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import CrModal from '../stories/CrModal'
 import CrButton from '../stories/CrButton'
-import './LoginRequiredModal.css' // Reuse the same styles
+import './CrLoginRequiredModal.css' // Reuse the same styles
 
 interface ForgotPasswordModalProps {
   isOpen: boolean

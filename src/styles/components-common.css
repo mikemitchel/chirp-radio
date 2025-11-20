@@ -1,0 +1,234 @@
+/* components-common.css - Common reusable component patterns */
+
+/* Error Pages */
+.error-page-container {
+  text-align: center;
+  padding: var(--cr-space-12) 0;
+}
+
+.error-page-title {
+  font: var(--cr-title-xl);
+  color: var(--cr-ink);
+  margin-bottom: var(--cr-space-4);
+}
+
+.error-page-subtitle {
+  font-size: var(--cr-title-md);
+  margin-bottom: var(--cr-space-6);
+  color: var(--cr-ink);
+}
+
+.error-page-description {
+  font-size: var(--cr-body-lg);
+  color: var(--cr-default-700);
+  margin-top: var(--cr-space-6);
+  margin-bottom: var(--cr-space-8);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: var(--cr-space-6) 0;
+}
+
+.error-page-actions {
+  display: flex;
+  gap: var(--cr-space-12);
+  justify-content: center;
+  margin-bottom: var(--cr-space-12);
+}
+
+.error-page-support-box {
+  margin-top: var(--cr-space-12);
+  padding: var(--cr-space-6);
+  background-color: var(--cr-default-100);
+  border-radius: var(--cr-radius-md);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.error-page-support-box p {
+  font-size: var(--cr-body-sm);
+  color: var(--cr-default-700);
+  margin: 0;
+}
+
+/* Loading & Empty States */
+.loading-message,
+.empty-state {
+  padding: var(--cr-space-8);
+  text-align: center;
+  color: var(--cr-default-500);
+}
+
+.empty-state p {
+  font-size: var(--cr-font-size-lg);
+  color: var(--cr-color-text-secondary);
+}
+
+/* Content Boxes */
+.info-box {
+  margin-top: var(--cr-space-6);
+  max-width: 1000px;
+  padding: var(--cr-space-6);
+  background-color: var(--cr-paper);
+  border: 1px solid var(--cr-default-300);
+  border-radius: var(--cr-space-2);
+}
+
+.pull-quote-container {
+  margin-top: var(--cr-space-8);
+  max-width: 1000px;
+  padding: var(--cr-space-8);
+  background-color: var(--cr-default-100);
+  border-left: 4px solid var(--cr-primary-500);
+  border-radius: var(--cr-space-1);
+}
+
+.pull-quote-text {
+  font: var(--cr-body-lg);
+  color: var(--cr-ink);
+  margin: 0;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.pull-quote-attribution {
+  font: var(--cr-body-sm);
+  color: var(--cr-default-700);
+  margin-top: var(--cr-space-3);
+  margin-bottom: 0;
+}
+
+/* Timestamp/Note Text */
+.timestamp-note {
+  font-size: 0.875rem;
+  color: var(--cr-default-700);
+  margin-top: 0.5rem;
+}
+
+/* Schedule Times Container */
+.schedule-times-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.schedule-time-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Media Embeds */
+.aspect-ratio-16-9 {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: var(--cr-space-1);
+}
+
+.aspect-ratio-16-9 iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.embed-caption {
+  font-size: 10px;
+  color: var(--cr-default-500);
+  line-break: anywhere;
+  word-break: normal;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: var(--cr-font-roboto-serif);
+  font-weight: 400;
+}
+
+/* Links */
+.email-link {
+  color: var(--cr-primary-500);
+  text-decoration: underline;
+}
+
+.secondary-link {
+  color: var(--cr-secondary-700);
+  text-decoration: underline;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: var(--cr-body-md);
+  color: var(--cr-primary-500);
+  cursor: pointer;
+  text-decoration: underline;
+  text-align: left;
+}
+
+.link-subtle {
+  color: var(--cr-secondary-700);
+  text-decoration: none;
+}
+
+/* Alerts */
+.alert-error {
+  padding: var(--cr-space-4);
+  background-color: var(--cr-error-100);
+  border: 1px solid var(--cr-error-500);
+  border-radius: var(--cr-radius-sm);
+  margin-bottom: var(--cr-space-6);
+  color: var(--cr-error-700);
+  text-align: center;
+}
+
+/* Forms */
+.form-container-centered {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: var(--cr-space-12) var(--cr-space-4);
+}
+
+.form-row-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cr-space-4);
+}
+
+.form-group--flex-2 {
+  flex: 2;
+}
+
+/* Role Chips (directory pages) */
+.role-chips-container {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+/* Sitemap */
+.sitemap-section {
+  margin-bottom: var(--cr-space-8);
+}
+
+.sitemap-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-left: var(--cr-space-4);
+}
+
+.sitemap-list li {
+  margin-bottom: var(--cr-space-2);
+}

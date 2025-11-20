@@ -109,36 +109,10 @@ const PodcastDetailPage: React.FC = () => {
 
           {
             (podcast.pullQuote && (
-              <div
-                style={{
-                  marginTop: 'var(--cr-space-8)',
-                  maxWidth: '1000px',
-                  padding: 'var(--cr-space-8)',
-                  backgroundColor: 'var(--cr-default-100)',
-                  borderLeft: '4px solid var(--cr-primary-500)',
-                  borderRadius: 'var(--cr-space-1)',
-                }}
-              >
-                <blockquote
-                  style={{
-                    font: 'var(--cr-body-lg)',
-                    color: 'var(--cr-ink)',
-                    margin: 0,
-                    fontStyle: 'italic',
-                    lineHeight: 1.6,
-                  }}
-                >
-                  {String(podcast.pullQuote)}
-                </blockquote>
+              <div className="pull-quote-container">
+                <blockquote className="pull-quote-text">{String(podcast.pullQuote)}</blockquote>
                 {'pullQuoteAttribution' in podcast && podcast.pullQuoteAttribution ? (
-                  <p
-                    style={{
-                      font: 'var(--cr-body-sm)',
-                      color: 'var(--cr-default-700)',
-                      marginTop: 'var(--cr-space-3)',
-                      marginBottom: 0,
-                    }}
-                  >
+                  <p className="pull-quote-attribution">
                     {String((podcast as Record<string, unknown>).pullQuoteAttribution)}
                   </p>
                 ) : null}
@@ -148,16 +122,7 @@ const PodcastDetailPage: React.FC = () => {
 
           {
             (podcast.additionalInfo && (
-              <div
-                style={{
-                  marginTop: 'var(--cr-space-6)',
-                  maxWidth: '1000px',
-                  padding: 'var(--cr-space-6)',
-                  backgroundColor: 'var(--cr-paper)',
-                  border: '1px solid var(--cr-default-300)',
-                  borderRadius: 'var(--cr-space-2)',
-                }}
-              >
+              <div className="info-box">
                 <div
                   style={{
                     font: 'var(--cr-body-reg)',
@@ -181,10 +146,7 @@ const PodcastDetailPage: React.FC = () => {
                       href={(podcast as Record<string, unknown>).transcriptUrl as string}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{
-                        color: 'var(--cr-secondary-700)',
-                        textDecoration: 'underline',
-                      }}
+                      className="secondary-link"
                     >
                       Read a transcript of the interview here.
                     </a>
@@ -196,18 +158,7 @@ const PodcastDetailPage: React.FC = () => {
 
           {
             (podcast.soundCloudEmbedUrl && (
-              <div
-                style={
-                  {
-                    marginTop: 'var(--cr-space-8)',
-                    maxWidth: '1000px',
-                    padding: 'var(--cr-space-6)',
-                    backgroundColor: 'var(--cr-paper)',
-                    border: '1px solid var(--cr-default-300)',
-                    borderRadius: 'var(--cr-space-2)',
-                  } as React.CSSProperties
-                }
-              >
+              <div className="info-box mt-8">
                 <div
                   style={{
                     display: 'flex',
@@ -259,25 +210,13 @@ const PodcastDetailPage: React.FC = () => {
                     marginBottom: 'var(--cr-space-2)',
                   }}
                 />
-                <div
-                  style={{
-                    fontSize: '10px',
-                    color: 'var(--cr-default-500)',
-                    lineBreak: 'anywhere',
-                    wordBreak: 'normal',
-                    overflow: 'hidden',
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'ellipsis',
-                    fontFamily: 'var(--cr-font-roboto-serif)',
-                    fontWeight: 400,
-                  }}
-                >
+                <div className="embed-caption">
                   <a
                     href="https://soundcloud.com/chirpradio"
                     title="CHIRP Radio"
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ color: 'var(--cr-secondary-700)', textDecoration: 'none' }}
+                    className="link-subtle"
                   >
                     CHIRP Radio
                   </a>{' '}
@@ -287,7 +226,7 @@ const PodcastDetailPage: React.FC = () => {
                     title="Mac Sabbath Interview"
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ color: 'var(--cr-secondary-700)', textDecoration: 'none' }}
+                    className="link-subtle"
                   >
                     Mac Sabbath Interview
                   </a>

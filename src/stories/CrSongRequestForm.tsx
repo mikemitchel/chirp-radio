@@ -89,20 +89,7 @@ export default function CrSongRequestForm({
 
       {/* Cooldown Message */}
       {cooldownMinutesRemaining > 0 && (
-        <div
-          className="cr-song-request-form__cooldown"
-          style={{
-            padding: 'var(--cr-space-3)',
-            backgroundColor: 'var(--cr-danger-100)',
-            border: '1px solid var(--cr-danger-300)',
-            borderRadius: 'var(--cr-space-1)',
-            marginBottom: 'var(--cr-space-4)',
-            color: 'var(--cr-danger-700)',
-            font: 'var(--cr-body-md)',
-          }}
-        >
-          {cooldownMessage}
-        </div>
+        <div className="cr-song-request-form__cooldown">{cooldownMessage}</div>
       )}
 
       <form onSubmit={handleSubmit} className="cr-song-request-form__form">
