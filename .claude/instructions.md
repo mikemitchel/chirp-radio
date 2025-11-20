@@ -1,5 +1,16 @@
 # CHIRP Radio Project - Claude Instructions
 
+## Important rules
+
+1. Never commit to main - always branch before committing
+2. Always commit to origin and mitch
+3. Make clear, detailed commit messages to both repos
+4. Do NOT commit until changes have been tested first
+5. Always ask before committing - confirm with user first
+6. When creating branches, use descriptive names (feat/, fix/, docs/, etc.)
+7. For documentation-only changes in .claude/, still create a branch (no exceptions)
+8. After branching, verify you're not on main before committing (git branch --show-current)
+
 ## Project Overview
 
 Non-profit low-band FM and streaming radio station web application
@@ -8,65 +19,11 @@ Non-profit low-band FM and streaming radio station web application
 
 **Value:** One codebase for web, iOS, and Android
 
----
+**Remaining Tasks / To Do List:** remaining-tasks.md
 
-## Current Status: BETA PREPARATION
+**Platform Integration:** PLATFORM_INTEGRATION.md
 
-**Latest Session (2025-01-08):** TikTok social platform integration complete and merged to main. iOS build synced and ready for TestFlight upload. Key fixes: (1) Social media system architecture - CrProfileEditForm now updates BOTH individual URL fields (`facebookUrl`, `tiktokUrl`, etc.) AND the `socialLinks` array simultaneously via `handleInputChange`; save functions only read `socialLinks` array. (2) Player fallback image URLs transformed from relative (`/api/player-fallback-images/file/...`) to absolute with CMS base URL via `transformMediaUrl()` helper in `utils/api.ts`. (3) Social icon sizes standardized to 40px (space-10) across profile view and edit form. Branch: `main`, dual-remote workflow (origin: callibrity, mitch: mikemitchel).
-
-### Recently Completed
-
-- **TikTok social platform ✅** Icon, form fields, CMS backend integration complete (PR #89)
-- **Social media architecture fix ✅** Form now updates both URL fields AND socialLinks array; 40px icon standardization
-- **Player fallback image URLs ✅** Transformed relative paths to absolute with CMS base URL
-- **Sitemap redesign ✅** Tree layout, reorganized sections, removed visual clutter (PR #83)
-- **Sitemap ✅** Auto-generates from `src/config/routes.ts` (PR #60)
-- **Album art persistence ✅** Fixed reload on navigation
-- **iOS CMS URL fix ✅** Smart fallback logic, awaiting CMS deployment
-- **Listen Page CMS Integration ✅** Tested and verified
-- **Mobile CMS Integration ✅** All static/fake data removed, CMS-driven with fallbacks
-- **Volunteer Details Form CMS Integration ✅** Created VolunteerFormSettings global, all form fields CMS-driven with fallbacks
-- **CMS webhook for content updates ✅** Event-based refresh system via 'cms-data-updated' event
-- **Cached API content strategy ✅** Stale-while-revalidate with localStorage, 24hr TTL, all 14 collections
-- **Album art accuracy ✅** Retry logic (up to 5 attempts), quality upgrades, fallback system (known issue: occasional flashes)
-- **Recently Played persistence ✅** 6-month history API integration complete
-
-### Waiting for External Dependencies
-
-- **CarPlay** - Code complete, waiting for Apple entitlement approval (see PLATFORM_INTEGRATION.md)
-- **Android Auto** - Code complete, tested in emulator, needs physical device testing (see PLATFORM_INTEGRATION.md)
-- **iOS Production CMS** - Needs CMS deployed, then update `VITE_CMS_API_URL` in `.env.production`
-
-### Active Development (TODO)
-
-**Frontend:**
-
-- CSS review and fixes for all pages (light and dark modes)
-- iPad responsive styling and layout optimization (app now supports iPhone + iPad)
-
-**CMS (chirp-cms repo):**
-
-- CMS admin UI styling and accessibility improvements
-- Previous shows data - code complete, waiting for Google collection info
-
-### Future Work
-
-See `.claude/instructions.md` in previous versions for detailed prelaunch checklist including:
-
-- Authentication & user management
-- CMS features (audit logs, publishing workflow, content preview)
-- Deployment & infrastructure
-- Integrations (PayPal, Neon, analytics, HotJar, email)
-- Content & data migration
-- Quality & documentation
-- Beta rollout
-
-**Post-Launch Features:**
-
-- Navigation control via CMS
-- Collection grouping (folders/tags)
-- DJ notification emails
-- Get alt tag generator working
+**QA Checklist:** QA_CHECKLIST.md
 
 ---
 
