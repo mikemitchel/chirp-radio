@@ -164,7 +164,7 @@ export default function CrImageCropper({
             if (onImageChange) {
               onImageChange({
                 fullImage: result,
-                croppedImage: images.cropped || undefined,
+                croppedImage: images.cropped || '',
                 orientation: orientation,
               })
             }

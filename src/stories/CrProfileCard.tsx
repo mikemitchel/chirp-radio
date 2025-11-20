@@ -414,7 +414,7 @@ export default function CrProfileCard({
           onSave={onSave}
           onCancel={onCancel}
           onForgotPassword={onForgotPassword}
-          originalFullImage={originalFullImage}
+          originalFullImage={originalFullImage || undefined}
         />
       )}
 

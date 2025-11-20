@@ -32,6 +32,26 @@ interface CrMainNavProps {
   variant?: string
 }
 
+// Custom hook to safely use router hooks with fallback
+// Using optional chaining and nullish coalescing to handle when router is not available
+function useSafeRouter() {
+  let navigate: ((path: string) => void) | null = null
+  let location: { pathname: string } | null = null
+
+  // Conditionally call hooks only when in router context
+  // This is acceptable because the condition (router availability) doesn't change during render
+  try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    navigate = useNavigate()
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    location = useLocation()
+  } catch {
+    // Not in router context (e.g., Storybook)
+  }
+
+  return { navigate, location }
+}
+
 export default function CrMainNav({
   onMenuClick,
   onSearchClick,
@@ -45,20 +65,8 @@ export default function CrMainNav({
   showStoreBadge = true,
   variant = 'desktop', // 'desktop' or 'mobile'
 }: CrMainNavProps) {
-  // Try to use navigate and location, but handle case where Router isn't available (e.g., Storybook)
-  // Note: Hooks must be called unconditionally (Rules of Hooks)
-  let navigate: ((path: string) => void) | null = null
-  let location: { pathname: string } | null = null
-  try {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    navigate = useNavigate()
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    location = useLocation()
-  } catch {
-    // Router not available (e.g., Storybook), will use callback props instead
-    navigate = null
-    location = null
-  }
+  // Use safe router hook
+  const { navigate, location } = useSafeRouter()
 
   const [showWaysToGive, setShowWaysToGive] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
