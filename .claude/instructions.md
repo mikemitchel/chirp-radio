@@ -10,6 +10,8 @@
 6. When creating branches, use descriptive names (feat/, fix/, docs/, etc.)
 7. For documentation-only changes in .claude/, still create a branch (no exceptions)
 8. After branching, verify you're not on main before committing (git branch --show-current)
+9. Please do not add "🤖 Generated with [Claude Code](https://claude.com/claude-code)" to your commit messages
+10. Origin and mitch remotes may be out of sync - origin is the source of truth. Always push to origin first, then to mitch. Don't worry about syncing mitch manually - it will catch up through normal workflow.
 
 ## Project Overview
 
