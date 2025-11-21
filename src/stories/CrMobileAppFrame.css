@@ -113,15 +113,15 @@
   box-sizing: border-box;
 }
 
-/* Android-only: Account for mini-player height + footer padding + nav bar */
+/* Android-only: Account for mini-player height + footer padding + nav bar + spacing */
 .platform-android .cr-mobile-frame--interior .cr-mobile-frame__content {
-  /* Mini-player (60px) + footer padding (8px) */
-  padding-bottom: 68px;
+  /* Mini-player (60px) + footer padding (16px) + extra spacing (16px) = 92px */
+  padding-bottom: 92px;
 }
 
 /* Android three-button mode: Add extra 48px for nav buttons */
 .platform-android.nav-three-button .cr-mobile-frame--interior .cr-mobile-frame__content {
-  padding-bottom: calc(68px + 48px);
+  padding-bottom: calc(92px + 48px);
 }
 
 .cr-mobile-frame--interior .cr-mobile-frame__footer-player {
