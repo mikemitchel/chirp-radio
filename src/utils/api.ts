@@ -5,11 +5,9 @@ const getApiBaseUrl = () => {
     return import.meta.env.VITE_CMS_API_URL
   }
 
-  // In production builds, require the environment variable to be set
+  // In production builds (Docker/nginx), use relative path that nginx will proxy
   if (import.meta.env.PROD) {
-    console.error('VITE_CMS_API_URL is not set in production build. CMS features will not work.')
-    // Return a non-functional URL that will fail loudly rather than silently
-    return 'https://CONFIGURE_VITE_CMS_API_URL_IN_ENV/api'
+    return '/api'
   }
 
   // Development fallback to localhost
@@ -21,7 +19,14 @@ const API_BASE_URL = getApiBaseUrl()
 // Get the CMS server base URL (without /api suffix) for media files
 export const getCMSMediaBaseUrl = (): string => {
   // Remove the /api suffix to get the server base URL
-  return API_BASE_URL.replace(/\/api$/, '')
+  const baseWithoutApi = API_BASE_URL.replace(/\/api$/, '')
+
+  // If it's a relative path, prepend the origin
+  if (!baseWithoutApi.startsWith('http')) {
+    return window.location.origin + baseWithoutApi
+  }
+
+  return baseWithoutApi
 }
 
 // Transform relative media URLs to absolute URLs
@@ -56,7 +61,12 @@ export async function fetchFromCMS<T>(
   endpoint: string,
   params?: Record<string, string | number>
 ): Promise<T[]> {
-  const url = new URL(`${API_BASE_URL}/${endpoint}`)
+  // Build URL - handle both absolute URLs (dev) and relative paths (production)
+  const baseUrl = API_BASE_URL.startsWith('http')
+    ? `${API_BASE_URL}/${endpoint}`
+    : `${window.location.origin}${API_BASE_URL}/${endpoint}`
+
+  const url = new URL(baseUrl)
 
   // Add default limit if not specified
   if (params) {
@@ -78,7 +88,10 @@ export async function fetchFromCMS<T>(
 }
 
 export async function fetchFromCMSById<T>(endpoint: string, id: string): Promise<T | null> {
-  const url = `${API_BASE_URL}/${endpoint}/${id}`
+  // Build URL - handle both absolute URLs (dev) and relative paths (production)
+  const url = API_BASE_URL.startsWith('http')
+    ? `${API_BASE_URL}/${endpoint}/${id}`
+    : `${window.location.origin}${API_BASE_URL}/${endpoint}/${id}`
 
   const response = await fetch(url)
 
@@ -97,7 +110,10 @@ export async function updateInCMS<T>(
   id: string | number,
   data: Partial<T>
 ): Promise<T> {
-  const url = `${API_BASE_URL}/${endpoint}/${id}`
+  // Build URL - handle both absolute URLs (dev) and relative paths (production)
+  const url = API_BASE_URL.startsWith('http')
+    ? `${API_BASE_URL}/${endpoint}/${id}`
+    : `${window.location.origin}${API_BASE_URL}/${endpoint}/${id}`
 
   const response = await fetch(url, {
     method: 'PATCH',
