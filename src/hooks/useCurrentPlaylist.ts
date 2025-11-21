@@ -78,9 +78,8 @@ export function useCurrentPlaylist(): UseCurrentPlaylistReturn {
       setIsLoading(true)
       setError(null)
 
-      const apiUrl = import.meta.env.DEV
-        ? '/api/current_playlist' // Use Vite proxy in dev
-        : 'https://chirpradio.appspot.com/api/current_playlist'
+      // Always use relative path - Vite proxy in dev, nginx proxy in production
+      const apiUrl = '/api/current_playlist'
 
       let responseData: ChirpPlaylistResponse
 

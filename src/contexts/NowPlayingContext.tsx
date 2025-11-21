@@ -54,9 +54,8 @@ interface NowPlayingProviderProps {
 export function NowPlayingProvider({
   children,
   autoFetch = false,
-  apiUrl = import.meta.env.DEV
-    ? '/api/current_playlist' // Use Vite proxy in dev to avoid CORS
-    : 'https://chirpradio.appspot.com/api/current_playlist', // Direct in production/native
+  // Always use relative path - Vite proxy in dev, nginx proxy in production
+  apiUrl = '/api/current_playlist',
   isPlayingProp = false,
 }: NowPlayingProviderProps) {
   const networkInfo = useNetworkQuality()
