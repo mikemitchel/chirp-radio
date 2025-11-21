@@ -40,9 +40,8 @@ export function AudioPlayerProvider({
   children,
   streamUrl = 'https://peridot.streamguys1.com:5185/live',
   autoFetch = false,
-  apiUrl = import.meta.env.DEV
-    ? '/api/current_playlist' // Use Vite proxy in dev to avoid CORS
-    : 'https://chirpradio.appspot.com/api/current_playlist', // Direct in production/native
+  // Always use relative path - Vite proxy in dev, nginx proxy in production
+  apiUrl = '/api/current_playlist',
 }: AudioPlayerProviderProps) {
   return (
     <AudioPlaybackProvider defaultStreamUrl={streamUrl}>
