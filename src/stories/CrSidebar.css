@@ -47,6 +47,8 @@
   top: 0;
   left: 0;
   transform: none;
+  padding-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  box-sizing: border-box;
 }
 
 .cr-sidebar--mobile.cr-sidebar--open {
@@ -80,7 +82,9 @@
 }
 
 .cr-sidebar--mobile .cr-sidebar__close-button {
-  top: calc(env(safe-area-inset-top) + 15px); /* Safe area + additional spacing */
+  top: calc(
+    var(--safe-area-inset-top, env(safe-area-inset-top, 0px)) + 15px
+  ); /* Safe area + spacing */
   right: -10px; /* Extend beyond edge to cover background menu button */
 }
 
@@ -109,7 +113,7 @@
 
 .cr-sidebar--mobile .cr-sidebar__logo-section {
   height: 60px;
-  margin-top: calc(env(safe-area-inset-top) + 60px); /* Safe area + spacing */
+  margin-top: 60px; /* Additional spacing below close button */
 }
 
 .cr-sidebar__home-text {
@@ -311,8 +315,33 @@
 }
 
 .cr-sidebar--mobile .cr-sidebar__footer {
-  padding: 0 var(--cr-space-10)
-    calc(var(--cr-space-6) + var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)));
+  padding: 0 var(--cr-space-10);
+  padding-bottom: var(--cr-space-6);
+}
+
+/* Android three-button mode: Add 48px bottom padding for nav buttons */
+.platform-android.nav-three-button .cr-sidebar--mobile .cr-sidebar__footer {
+  padding-bottom: calc(var(--cr-space-6) + 48px);
+}
+
+/* Android: Draw dark background behind transparent navigation bar in sidebar */
+/* Only show in three-button mode (gestural mode has no background) */
+/* Fixed 48px height - just behind the three button icons */
+.platform-android.nav-three-button .cr-sidebar--mobile::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background-color: #1a1a1a;
+  z-index: 999;
+  pointer-events: none;
+}
+
+/* Android dark mode: light background behind navigation bar */
+[data-theme='dark'] .platform-android.nav-three-button .cr-sidebar--mobile::after {
+  background-color: #f5f5f5;
 }
 
 /* Mobile footer - inline layout */

@@ -49,6 +49,8 @@
     "@capacitor/status-bar": "^7.0.3",
     "@payloadcms/live-preview": "^3.61.1",
     "@payloadcms/live-preview-react": "^3.62.1",
+    "@squareetlabs/capacitor-navigation-bar": "^1.1.2",
+    "@vercel/postgres": "^0.10.0",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "react": "^19.1.1",
