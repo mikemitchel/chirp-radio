@@ -1,0 +1,50 @@
+services:
+  chirp-radio-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_USE_CMS_API: "true"
+        # Use relative path - nginx proxies to CMS
+        VITE_CMS_API_URL: "${VITE_CMS_API_URL:-/api}"
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+    extra_hosts:
+      # Allow nginx to proxy to CMS on host
+      - "host.docker.internal:host-gateway"
+    networks:
+      - chirp-network
+    # Uncomment if running chirp-cms in this docker-compose
+    # depends_on:
+    #   - chirp-cms
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Reference to the existing chirp-cms container
+  # Uncomment this if chirp-cms is NOT already running separately
+  # chirp-cms:
+  #   container_name: chirp-cms
+  #   image: chirp-cms:latest
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - chirp-network
+  #   environment:
+  #     - NODE_ENV=production
+  #     - DATABASE_URI=mongodb://host.docker.internal:27017/chirp-cms
+  #   extra_hosts:
+  #     - "host.docker.internal:host-gateway"
+  #   restart: unless-stopped
+
+# Network configuration
+networks:
+  chirp-network:
+    external: true
+    name: chirp-network
