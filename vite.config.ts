@@ -20,6 +20,9 @@ export default defineConfig({
       logo: './public/images/chirp-logos/CHIRP-bird.svg', // or use an SVG file
       inject: true, // Injects the necessary HTML links and metadata
       outputPath: 'assets', // Optional: specify output path relative to Vite's assets directory
+      favicons: {
+        theme_color: '#1a1a1a', // Dark navigation bar for light mode
+      },
     }),
     // Add webhook middleware
     {
@@ -38,10 +41,10 @@ export default defineConfig({
         configure: (proxy, _options) => {
           proxy.on('proxyRes', (proxyRes) => {
             // Disable all caching on proxied responses
-            proxyRes.headers['cache-control'] = 'no-cache, no-store, must-revalidate';
-            proxyRes.headers['pragma'] = 'no-cache';
-            proxyRes.headers['expires'] = '0';
-          });
+            proxyRes.headers['cache-control'] = 'no-cache, no-store, must-revalidate'
+            proxyRes.headers['pragma'] = 'no-cache'
+            proxyRes.headers['expires'] = '0'
+          })
         },
         // Don't proxy webhook endpoint
         bypass: (req) => {

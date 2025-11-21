@@ -16,7 +16,6 @@ import './utils/debugAlbumArt' // Load album art debug utilities
 import MobileApp from './layouts/MobileApp'
 import WebLayout from './layouts/WebLayout'
 import { Capacitor } from '@capacitor/core'
-import { StatusBar, Style } from '@capacitor/status-bar'
 import NowPlaying from './pages/NowPlaying'
 import RecentlyPlayed from './pages/RecentlyPlayed'
 import YourCollection from './pages/YourCollection'
@@ -160,19 +159,12 @@ function App() {
         document.documentElement.removeAttribute('data-theme')
       }
 
-      // Update status bar for native apps based on calculated isDark value
-      // Android interprets these opposite to iOS:
-      // Style.Dark = light status bar text (for dark app backgrounds)
-      // Style.Light = dark status bar text (for light app backgrounds)
+      // DISABLED all status bar and navigation bar plugins - let MainActivity.java handle everything
+      // Both StatusBar and NavigationBar plugins were interfering with MainActivity.java settings
       if (Capacitor.isNativePlatform()) {
-        const targetStyle = isDark ? Style.Dark : Style.Light
-        console.log('[App.tsx] Setting status bar style to:', targetStyle, '(isDark:', isDark, ')')
-        try {
-          await StatusBar.setStyle({ style: targetStyle })
-          console.log('[App.tsx] Status bar style set successfully')
-        } catch (error) {
-          console.warn('Failed to update status bar style:', error)
-        }
+        console.log(
+          '[App.tsx] Skipping StatusBar/NavigationBar plugin calls - MainActivity.java handles it'
+        )
       }
     }
 

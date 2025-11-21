@@ -40,6 +40,27 @@
   padding-top: 100px; /* Account for fixed header height */
 }
 
+/* Android: Draw dark background behind transparent navigation bar on landing page */
+/* Only show in three-button mode (gestural mode has no background) */
+/* Fixed 48px height - just behind the three button icons */
+.platform-android.nav-three-button .cr-mobile-frame--landing::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background-color: #1a1a1a;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Android dark mode: light background behind navigation bar on landing page */
+/* Only show in three-button mode (gestural mode has no background) */
+[data-theme='dark'] .platform-android.nav-three-button .cr-mobile-frame--landing::after {
+  background-color: #f5f5f5;
+}
+
 /* === INTERIOR LAYOUT === */
 .cr-mobile-frame--interior {
   min-height: 100vh;
@@ -92,13 +113,15 @@
   box-sizing: border-box;
 }
 
-/* Android-only: Account for mini-player height + footer padding + safe area */
+/* Android-only: Account for mini-player height + footer padding + nav bar */
 .platform-android .cr-mobile-frame--interior .cr-mobile-frame__content {
-  /* Use max() to ensure minimum clearance even if safe-area-inset is 0 initially */
-  padding-bottom: max(
-    108px,
-    calc(68px + var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)))
-  ); /* Mini-player 60px + footer padding 8px (or 48px fallback) + safe area */
+  /* Mini-player (60px) + footer padding (8px) */
+  padding-bottom: 68px;
+}
+
+/* Android three-button mode: Add extra 48px for nav buttons */
+.platform-android.nav-three-button .cr-mobile-frame--interior .cr-mobile-frame__content {
+  padding-bottom: calc(68px + 48px);
 }
 
 .cr-mobile-frame--interior .cr-mobile-frame__footer-player {
@@ -128,14 +151,41 @@
   padding-bottom: var(--cr-space-1);
 }
 
-/* Android: Ensure safe area padding for navigation bar */
+/* Android: Ensure safe area padding for navigation bar with edge-to-edge support */
 .platform-android .cr-mobile-frame--interior .cr-mobile-frame__footer-player {
   padding: var(--cr-space-1);
-  /* Use max() to guarantee minimum 48px padding even if safe-area-inset is 0 initially */
-  padding-bottom: max(
-    48px,
-    calc(var(--cr-space-1) + var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)))
-  );
+  /* Gestural mode: just var(--cr-space-1) padding */
+  padding-bottom: var(--cr-space-1);
+}
+
+/* Android three-button mode: Add 48px padding for the nav buttons */
+.platform-android.nav-three-button .cr-mobile-frame--interior .cr-mobile-frame__footer-player {
+  padding-bottom: calc(var(--cr-space-1) + 48px);
+}
+
+/* Android light mode: Draw solid background color behind transparent navigation bar */
+/* Only show in three-button mode (gestural mode has no background) */
+/* Fixed 48px height - just behind the three button icons */
+.platform-android.nav-three-button
+  .cr-mobile-frame--interior
+  .cr-mobile-frame__footer-player::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background-color: #1a1a1a;
+  z-index: -1;
+}
+
+/* Android dark mode: Draw light background color behind transparent navigation bar */
+/* Only show in three-button mode (gestural mode has no background) */
+[data-theme='dark']
+  .platform-android.nav-three-button
+  .cr-mobile-frame--interior
+  .cr-mobile-frame__footer-player::after {
+  background-color: #f5f5f5;
 }
 
 /* === DEFAULT CONTENT STYLES === */
