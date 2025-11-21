@@ -1,6 +1,5 @@
-package org.chirpradio.app;
+package org.chirp_radio.mobile;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -26,6 +25,7 @@ public class MainActivity extends BridgeActivity {
         // Register custom plugins before calling super.onCreate()
         registerPlugin(NowPlayingPlugin.class);
         registerPlugin(NativeAudioBridgePlugin.class);
+        registerPlugin(ChirpMediaPlugin.class);
         registerPlugin(NavigationBarPlugin.class);
 
         super.onCreate(savedInstanceState);
@@ -66,13 +66,14 @@ public class MainActivity extends BridgeActivity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
 
-        // Start the Media Service when the app opens
-        Intent intent = new Intent(this, ChirpMediaService.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent);
-        } else {
-            startService(intent);
-        }
+        // Start the Media Service when the app opens (for Android Auto support)
+        // Note: Service is started automatically by ChirpMediaPlugin when audio is initialized
+        // Intent intent = new Intent(this, ChirpMediaService.class);
+        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        //     startForegroundService(intent);
+        // } else {
+        //     startService(intent);
+        // }
     }
 
 
@@ -80,8 +81,7 @@ public class MainActivity extends BridgeActivity {
     public void onDestroy() {
         super.onDestroy();
 
-        // Stop the Media Service when the app is closed
-        Intent intent = new Intent(this, ChirpMediaService.class);
-        stopService(intent);
+        // Service is managed automatically by ChirpMediaPlugin
+        // It stays running for background audio playback
     }
 }

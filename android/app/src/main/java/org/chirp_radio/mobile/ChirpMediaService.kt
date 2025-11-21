@@ -1,4 +1,4 @@
-package org.chirpradio.app
+package org.chirp_radio.mobile
 
 import android.app.Notification
 import android.app.NotificationChannel
