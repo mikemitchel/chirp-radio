@@ -39,9 +39,9 @@ if (platform === 'android') {
         document.documentElement.style.setProperty('--safe-area-inset-right', '0px')
 
         // Add class to body based on navigation mode
-        // Three-button mode: navBarHeight > 20px (typically 48px or more)
-        // Gestural mode: navBarHeight <= 20px (small gesture bar or none)
-        if (navBarHeight > 20) {
+        // Three-button mode: navBarHeight > 100px (typically 126px on high-density screens)
+        // Gestural mode: navBarHeight <= 100px (small gesture bar ~42-63px on high-density screens)
+        if (navBarHeight > 100) {
           document.body.classList.add('nav-three-button')
           document.body.classList.remove('nav-gestural')
           console.log('[CHIRP_3BTN] ✓ THREE-BUTTON MODE DETECTED')
