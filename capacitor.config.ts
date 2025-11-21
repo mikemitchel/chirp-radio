@@ -19,10 +19,8 @@ const config: CapacitorConfig = {
     contentInset: 'never',
   },
   plugins: {
-    StatusBar: {
-      style: 'dark', // Dark content = dark text/icons (for light mode app)
-      overlay: true, // Make status bar transparent/overlay
-    },
+    // StatusBar: Removed - let native MainActivity.java handle it completely
+    // The Capacitor StatusBar plugin was overriding our native navigation bar settings
     SplashScreen: {
       launchShowDuration: 3000, // Show for at least 3 seconds (app controls final hide)
       launchAutoHide: false, // Manual control via SplashScreen.hide() in app
