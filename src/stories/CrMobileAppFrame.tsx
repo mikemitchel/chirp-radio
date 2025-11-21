@@ -96,6 +96,25 @@ export default function CrMobileAppFrame({
           // Force reflow by reading offsetHeight
           void footerRef.current.offsetHeight
           footerRef.current.style.setProperty('--safe-area-applied', '1')
+
+          // Log computed CSS values
+          const computedStyles = window.getComputedStyle(footerRef.current)
+          const safeAreaBottom = getComputedStyle(document.documentElement).getPropertyValue(
+            '--safe-area-inset-bottom'
+          )
+          console.log(
+            '[CHIRP_NAV_BAR] Footer player computed paddingBottom:',
+            computedStyles.paddingBottom
+          )
+          console.log('[CHIRP_NAV_BAR] CSS variable --safe-area-inset-bottom:', safeAreaBottom)
+          console.log(
+            '[CHIRP_NAV_BAR] env(safe-area-inset-bottom):',
+            getComputedStyle(footerRef.current).getPropertyValue('padding-bottom')
+          )
+
+          // Check the ::after pseudo-element height
+          const afterElement = window.getComputedStyle(footerRef.current, '::after')
+          console.log('[CHIRP_NAV_BAR] ::after element height:', afterElement.height)
         }
       }, 100)
 

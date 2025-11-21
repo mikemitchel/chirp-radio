@@ -14,9 +14,12 @@
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
         <item name="android:windowLightStatusBar">true</item>
-        <!-- Navigation bar styling -->
+        <!-- Navigation bar: dark background with light buttons for light mode -->
         <item name="android:navigationBarColor">#1a1a1a</item>
         <item name="android:windowLightNavigationBar">false</item>
+        <!-- Android 15: Force navigation bar contrast -->
+        <item name="android:enforceNavigationBarContrast">false</item>
+        <item name="android:navigationBarDividerColor">#1a1a1a</item>
     </style>
 
 
@@ -26,5 +29,11 @@
         <!-- Android 12+ splash screen -->
         <item name="android:windowSplashScreenBackground">#EA1C2C</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_icon_centered</item>
+        <!-- Navigation bar: dark background with light buttons -->
+        <item name="android:navigationBarColor">#1a1a1a</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <!-- Android 15: Force navigation bar contrast -->
+        <item name="android:enforceNavigationBarContrast">false</item>
+        <item name="android:navigationBarDividerColor">#1a1a1a</item>
     </style>
 </resources>
