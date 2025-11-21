@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "864618990995",
+    "project_id": "chirp-radio---testing",
+    "storage_bucket": "chirp-radio---testing.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864618990995:android:478d2b0020b7f159e1ec66",
+        "android_client_info": {
+          "package_name": "org.chirpradio.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQi0Ds_YlkIPqh2QX-MdfInmoWu55A1tg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

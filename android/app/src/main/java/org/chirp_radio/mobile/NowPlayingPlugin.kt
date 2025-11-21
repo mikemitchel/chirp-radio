@@ -1,4 +1,4 @@
-package org.chirpradio.app
+package org.chirp_radio.mobile
 
 import android.content.Intent
 import android.content.pm.PackageManager
