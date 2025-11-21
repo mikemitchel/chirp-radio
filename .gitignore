@@ -55,3 +55,5 @@ android/app/google-services.json
 
 # Firebase
 .firebase/
+firebase/*firebase-adminsdk*.json
+firebase/service-account*.json
